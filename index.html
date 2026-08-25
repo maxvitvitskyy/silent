@@ -1,0 +1,2005 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SILENT — тиша, світло і три хвилі музики · Київ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --night: #05070d;
+    --night-2: #0b1020;
+    --night-3: #080b14;
+    --ink-inv: #ffffff;
+    --muted: rgba(255,255,255,0.62);
+    --muted-2: rgba(255,255,255,0.40);
+    --line: rgba(255,255,255,0.08);
+    --line-soft: rgba(255,255,255,0.05);
+    --lime: #c6ff00;
+    --lime-glow: rgba(198,255,0,0.35);
+    --glass: rgba(255,255,255,0.03);
+    --glass-2: rgba(255,255,255,0.05);
+
+    /* matte glass depth system — fill gradients + edge highlights per elevation.
+       Neutral, clearer frosted glass: near-neutral highlight (little blue),
+       lower-opacity floor so it reads as real glass, with the blur doing the work. */
+    --glass-fill-1: linear-gradient(158deg, rgba(226,230,238,0.10), rgba(210,216,228,0.035) 48%, rgba(210,216,228,0.02)), rgba(20,24,32,0.30);
+    --glass-fill-2: linear-gradient(158deg, rgba(230,234,242,0.13), rgba(214,220,232,0.05) 48%, rgba(214,220,232,0.03)), rgba(24,28,38,0.36);
+    --glass-edge: rgba(255,255,255,0.24);
+    --glass-shadow-1: 0 20px 50px -28px rgba(0,0,0,0.7);
+    --glass-shadow-2: 0 30px 70px -30px rgba(0,0,0,0.8);
+
+    /* unified vertical rhythm between sections */
+    --sec-pad: 72px;
+
+    /* fixed RGB identity — the three headphone channels */
+    --red: #ff4757;
+    --green: #2ed573;
+    --blue: #3da8ff;
+
+    /* channel colors — driven by JS (defaults to red) */
+    --ch: #ff4757;
+    --ch-soft: rgba(255,71,87,0.14);
+    --ch-glow: rgba(255,71,87,0.45);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Manrope', sans-serif;
+    background: var(--night);
+    color: var(--ink-inv);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.8s ease;
+  }
+  h1,h2,h3,.display { font-family: 'Unbounded', sans-serif; letter-spacing: -0.02em; }
+  .em { font-family: 'Lora', serif; font-style: italic; }
+  a { color: inherit; text-decoration: none; }
+
+  /* Visible keyboard focus — lime ring, only for keyboard users. */
+  a:focus-visible, button:focus-visible, .ch-btn:focus-visible,
+  .faq-q:focus-visible, [tabindex]:focus-visible, input:focus-visible,
+  select:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--lime);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  /* Ambient atmosphere: a soft channel-tinted glow fixed behind all content,
+     so the dark sections read as one continuous space, not stacked boxes.
+     Shifts color with the active channel. */
+  body::before {
+    content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(60% 45% at 82% 8%, var(--ch-soft), transparent 60%),
+      radial-gradient(50% 40% at 12% 92%, var(--ch-soft), transparent 62%);
+    opacity: 0.6;
+    transition: background 0.8s ease;
+  }
+  nav, .hero, section, footer { position: relative; z-index: 1; }
+
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+  section { position: relative; }
+  section[id] { scroll-margin-top: 96px; }
+
+  /* ---------- NAV ---------- */
+  nav {
+    position: fixed; top: 18px; left: 18px; right: 18px; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 24px;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    background: rgba(10,12,20,0.45);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 999px;
+    max-width: 1200px;
+    margin: 0 auto;
+    box-shadow: 0 8px 32px -12px rgba(0,0,0,0.5);
+  }
+  .logo { font-family: 'Unbounded'; font-weight: 700; font-size: 17px; letter-spacing: 0.02em; display: flex; align-items: center; }
+  .logo b { color: var(--ch); transition: color 0.6s ease; }
+  .nav-links { display: flex; gap: 26px; align-items: center; font-size: 13.5px; font-weight: 500; }
+  .nav-links a { color: var(--muted); transition: color 0.25s; }
+  .nav-links a:hover { color: #fff; }
+  .nav-links a.nav-cta,
+  .nav-cta {
+    background: var(--lime); color: #12100a !important;
+    padding: 10px 20px; border-radius: 999px;
+    font-weight: 700; font-size: 13px;
+    box-shadow: 0 6px 20px -6px var(--lime-glow);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 26px -4px var(--lime-glow); color: #12100a !important; }
+  @media (max-width: 720px){ .nav-links a:not(.nav-cta){ display:none; } }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    min-height: auto;
+    display: flex; flex-direction: column; justify-content: flex-start;
+    padding: 132px 0 96px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-photo {
+    position: absolute; left: 0; right: 0; top: -15%; height: 145%; z-index: 0;
+    background-size: cover;
+    /* Focal point on the dancer (right side of the frame), so as the viewport
+       narrows toward mobile the crop keeps her face in view. */
+    background-position: 68% 28%;
+    opacity: 0; transition: opacity 1.1s ease;
+    filter: saturate(1.08) contrast(1.04);
+    will-change: transform;
+  }
+  .hero-photo.active { opacity: 0.5; }
+  .hero-photo::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 15% 55%, var(--ch-glow), transparent 40%);
+    mix-blend-mode: color;
+    opacity: 0.22;
+  }
+  .hero-photo::after {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(5,7,13,0.55) 0%, transparent 18%, transparent 62%, var(--night) 100%),
+      linear-gradient(90deg, var(--night) 0%, rgba(5,7,13,0.72) 22%, rgba(5,7,13,0.25) 42%, transparent 56%);
+  }
+  .glow {
+    position: absolute; border-radius: 50%;
+    filter: blur(90px); pointer-events: none;
+    transition: background 0.8s ease, opacity 0.8s ease;
+    z-index: 1;
+  }
+  .glow-1 { width: 520px; height: 520px; background: var(--ch-glow); top: -120px; right: -100px; opacity: 0.5; }
+  .glow-2 { width: 400px; height: 400px; background: var(--ch-glow); bottom: -140px; left: -120px; opacity: 0.28; }
+  .hero .wrap { position: relative; z-index: 2; }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 7px;
+    border: 1px solid rgba(200,243,29,0.35);
+    background: var(--lime-glow);
+    background: rgba(200,243,29,0.1);
+    color: var(--lime);
+    padding: 8px 16px; border-radius: 999px;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.3px;
+    margin-bottom: 20px;
+    opacity: 0; animation: rise 0.7s 0.02s forwards;
+  }
+  .hero-eyebrow {
+    font-family: 'Lora', serif; font-style: italic;
+    color: var(--lime); font-size: 16px; font-weight: 600; margin-bottom: 16px;
+    opacity: 0; animation: rise 0.7s 0.1s forwards;
+  }
+  .hero h1 {
+    font-size: clamp(30px, 4.2vw, 52px);
+    line-height: 1.08; font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .hero h1 .thin { font-weight: 400; color: var(--muted); }
+  .hero h1 .accent { color: var(--ch); transition: color 0.6s ease; }
+  .hero-lines > span { display: block; opacity: 0; animation: rise 0.8s forwards; }
+  /* Each of the three headline lines stays on a single row — no internal wrap,
+     so "в одному вечорі" never breaks onto a third line. Inner accent spans
+     must stay inline (not inherit the block rule) or a word drops to its own line. */
+  .hero-lines > span { white-space: nowrap; }
+  .hero-lines > span > span { display: inline; white-space: nowrap; }
+  .hero-lines span:nth-child(1){ animation-delay: 0.18s; }
+  .hero-lines span:nth-child(2){ animation-delay: 0.30s; }
+  .hero-lines span:nth-child(3){ animation-delay: 0.42s; }
+  .accent-lime { color: var(--lime); }
+  .hero-sub {
+    font-size: clamp(15px, 2vw, 19px); color: var(--muted);
+    max-width: 56ch; margin-bottom: 40px; font-weight: 400;
+    opacity: 0; animation: rise 0.8s 0.55s forwards;
+  }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; align-items: center;
+    opacity: 0; animation: rise 0.8s 0.68s forwards; }
+  .btn-primary {
+    background: var(--lime); color: #12100a;
+    padding: 12px 24px; border-radius: 999px;
+    font-weight: 600; font-size: 14px;
+    box-shadow: 0 0 0 0 transparent, 0 8px 28px -6px var(--lime-glow);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 38px -4px var(--lime-glow); }
+  .btn-ghost {
+    padding: 12px 22px; border-radius: 999px;
+    border: 1px solid var(--line); color: #fff;
+    font-weight: 500; font-size: 14px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.04); }
+
+  @keyframes rise { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: none; } }
+
+  /* Channel-driven hero text swap: a two-phase crossfade. On switch the current
+     copy first eases up and out (swap-out), then the new copy rises back in
+     (swap-in) — softer than replacing text mid-rise. Driven by setChannel(). */
+  @keyframes fadeOutUp { from { opacity:1; transform: none; } to { opacity:0; transform: translateY(-14px); } }
+
+  .hero-eyebrow.swap-out,
+  .hero-sub.swap-out,
+  .hero-lines > span.swap-out { animation: fadeOutUp 0.32s cubic-bezier(.4,0,.2,1) forwards; }
+
+  .hero-eyebrow.swap-in { animation: rise 0.6s 0s cubic-bezier(.16,.84,.44,1) forwards; }
+  .hero-sub.swap-in { animation: rise 0.62s 0.22s cubic-bezier(.16,.84,.44,1) forwards; }
+  .hero-lines > span.swap-in { animation: rise 0.6s cubic-bezier(.16,.84,.44,1) forwards; }
+  .hero-lines > span.swap-in:nth-child(1){ animation-delay: 0.06s; }
+  .hero-lines > span.swap-in:nth-child(2){ animation-delay: 0.15s; }
+  .hero-lines > span.swap-in:nth-child(3){ animation-delay: 0.24s; }
+
+  /* ---------- CHANNEL SWITCHER (signature) ---------- */
+  .channels {
+    margin-top: 64px;
+    opacity: 0; animation: rise 0.8s 0.8s forwards;
+  }
+  .ch-label {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--muted-2); margin-bottom: 16px; font-weight: 700;
+  }
+  .ch-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .ch-btn {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 20px 14px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,0.02);
+    cursor: pointer;
+    transition: all 0.35s ease;
+    min-width: 200px;
+    position: relative;
+    overflow: hidden;
+  }
+  .ch-btn .dot {
+    width: 34px; height: 34px; border-radius: 50%;
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    font-family: 'Unbounded'; font-weight: 700; font-size: 14px; color: #fff;
+  }
+  
+
+  /* equalizer bars */
+  .hero-fade {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    height: clamp(240px, 32vh, 400px);
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(5,7,13,0.28) 34%,
+      rgba(5,7,13,0.7) 66%,
+      var(--night) 92%,
+      var(--night) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .eq { display: flex; align-items: flex-end; gap: 3px; height: 100%; width: 100%; padding: 0 4px; }
+  .eq span {
+    flex: 1; min-width: 2px; border-radius: 3px 3px 0 0;
+    background: var(--ch);
+    transition: background 0.6s ease;
+    animation: bounce 1s ease-in-out infinite;
+  }
+  @keyframes bounce {
+    0%,100% { height: 6px; } 50% { height: 56px; }
+  }
+  .paused .eq span { animation-play-state: paused; }
+  .ch-audio-hint {
+    margin-top: 16px;
+    font-size: 11.5px; color: var(--muted-2);
+    letter-spacing: 0.2px;
+  }
+
+  /* ---------- STRIP ---------- */
+  .strip {
+    border-radius: 24px;
+    padding: 30px 24px;
+    display: flex; gap: 20px; justify-content: space-around; flex-wrap: wrap;
+    font-size: 13px; color: var(--muted); font-weight: 500;
+  }
+  .hero-strip {
+    position: relative;
+    overflow: hidden;
+    margin-top: 40px;
+    border-radius: 24px;
+    padding: 28px 32px;
+    width: 100%;
+    opacity: 0; animation: rise 0.8s 0.9s forwards;
+  }
+  .ch-strip-glow-blob {
+    position: absolute; z-index: 0;
+    bottom: -40%; left: 0;
+    width: 300px; height: 200%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center,
+      color-mix(in srgb, var(--glow-color, var(--red)) 55%, transparent) 0%,
+      color-mix(in srgb, var(--glow-color, var(--red)) 25%, transparent) 40%,
+      transparent 72%);
+    filter: blur(18px);
+    opacity: 0;
+    pointer-events: none;
+    transition: left 0.55s cubic-bezier(.4,0,.2,1), width 0.55s cubic-bezier(.4,0,.2,1),
+                top 0.55s cubic-bezier(.4,0,.2,1), bottom 0.55s cubic-bezier(.4,0,.2,1),
+                height 0.55s cubic-bezier(.4,0,.2,1),
+                background 0.5s ease, opacity 0.35s ease;
+  }
+  .ch-strip-glow-blob.on { opacity: 1; }
+  .ch-toggle-row { position: relative; z-index: 1; display: flex; gap: 16px; flex-wrap: wrap; }
+  .ch-strip-head {
+    position: relative; z-index: 1;
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 18px;
+  }
+  .ch-strip-title {
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    font-weight: 700; color: var(--muted-2);
+  }
+  .ch-mute {
+    display: flex; align-items: center; gap: 7px;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,0.03);
+    color: var(--muted);
+    padding: 7px 13px;
+    border-radius: 999px;
+    font-size: 11.5px; font-weight: 600;
+    cursor: pointer;
+    transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
+  }
+  .ch-mute:hover { border-color: rgba(255,255,255,0.28); background: rgba(255,255,255,0.06); }
+  .ch-mute .ic-mute { display: none; }
+  .ch-mute[aria-pressed="true"] .ic-sound { display: none; }
+  .ch-mute[aria-pressed="true"] .ic-mute { display: block; }
+  .ch-mute[aria-pressed="true"] { border-color: rgba(255,90,90,0.4); color: #ff8a8a; background: rgba(255,60,60,0.08); }
+  .ch-toggle {
+    position: relative;
+    display: flex; flex-direction: column; gap: 14px;
+    flex: 1; min-width: 200px;
+    padding: 16px 18px;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .ch-toggle-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .ch-toggle-label { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .ch-toggle-name {
+    font-family: 'Unbounded'; font-weight: 800; font-size: 20px;
+    letter-spacing: 0.04em; line-height: 1;
+    text-shadow: 0 0 0 transparent; transition: text-shadow 0.35s ease;
+  }
+  .ch-toggle.active .ch-toggle-name { text-shadow: 0 0 18px currentColor; }
+  .ch-toggle-desc { font-size: 11.5px; color: var(--muted-2); line-height: 1.35; }
+  .ch-switch {
+    position: relative; width: 46px; height: 26px; border-radius: 999px;
+    border: none; cursor: pointer; flex-shrink: 0;
+    background: rgba(255,255,255,0.12);
+    transition: background 0.3s ease;
+  }
+  .ch-switch-knob {
+    position: absolute; top: 3px; left: 3px;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    transition: transform 0.3s cubic-bezier(.4,0,.2,1), background 0.3s ease;
+  }
+  .ch-toggle.active .ch-switch { background: var(--sw-color); box-shadow: 0 0 12px 0 var(--sw-color); }
+  .ch-toggle.active .ch-switch-knob { transform: translateX(20px); }
+
+  .ch-outline-eq {
+    position: absolute; z-index: 1; bottom: 2px; left: 0;
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 2px;
+    height: 18px; width: 0;
+    padding: 0 6%;
+    opacity: 0; pointer-events: none;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
+    transition: left 0.5s cubic-bezier(.4,0,.2,1), width 0.5s cubic-bezier(.4,0,.2,1),
+                bottom 0.5s cubic-bezier(.4,0,.2,1), opacity 0.3s ease;
+  }
+  .ch-outline-eq.on { opacity: 0.8; }
+  .ch-outline-eq span {
+    flex: 1; max-width: 3px; border-radius: 1.5px 1.5px 0 0;
+    background: var(--glow-color, var(--red));
+    height: 10%;
+    animation-play-state: running;
+  }
+  .ch-outline-eq span:nth-child(1){ animation: miniEqBar1 0.8s ease-in-out infinite; animation-delay: 0s; }
+  .ch-outline-eq span:nth-child(2){ animation: miniEqBar2 1.3s ease-in-out infinite; animation-delay: 0.18s; }
+  .ch-outline-eq span:nth-child(3){ animation: miniEqBar3 0.65s ease-in-out infinite; animation-delay: 0.35s; }
+  .ch-outline-eq span:nth-child(4){ animation: miniEqBar1 1.1s ease-in-out infinite; animation-delay: 0.05s; }
+  .ch-outline-eq span:nth-child(5){ animation: miniEqBar2 0.75s ease-in-out infinite; animation-delay: 0.42s; }
+  .ch-outline-eq span:nth-child(6){ animation: miniEqBar3 1.4s ease-in-out infinite; animation-delay: 0.1s; }
+  .ch-outline-eq span:nth-child(7){ animation: miniEqBar1 0.55s ease-in-out infinite; animation-delay: 0.28s; }
+  .ch-outline-eq span:nth-child(8){ animation: miniEqBar2 1s ease-in-out infinite; animation-delay: 0.5s; }
+  .ch-outline-eq span:nth-child(9){ animation: miniEqBar3 0.9s ease-in-out infinite; animation-delay: 0.15s; }
+  .ch-outline-eq span:nth-child(10){ animation: miniEqBar1 1.2s ease-in-out infinite; animation-delay: 0.38s; }
+  .ch-outline-eq span:nth-child(11){ animation: miniEqBar2 0.7s ease-in-out infinite; animation-delay: 0.02s; }
+  .ch-outline-eq span:nth-child(12){ animation: miniEqBar3 1.05s ease-in-out infinite; animation-delay: 0.22s; }
+  .ch-outline-eq span:nth-child(13){ animation: miniEqBar1 0.95s ease-in-out infinite; animation-delay: 0.12s; }
+  .ch-outline-eq span:nth-child(14){ animation: miniEqBar2 0.6s ease-in-out infinite; animation-delay: 0.45s; }
+  .ch-outline-eq span:nth-child(15){ animation: miniEqBar3 1.25s ease-in-out infinite; animation-delay: 0.03s; }
+  .ch-outline-eq span:nth-child(16){ animation: miniEqBar1 0.7s ease-in-out infinite; animation-delay: 0.33s; }
+  .ch-outline-eq span:nth-child(17){ animation: miniEqBar2 1.15s ease-in-out infinite; animation-delay: 0.2s; }
+  .ch-outline-eq span:nth-child(18){ animation: miniEqBar3 0.85s ease-in-out infinite; animation-delay: 0.4s; }@keyframes miniEqBar1 {
+    0%   { height: 10%; }
+    30%  { height: 85%; }
+    55%  { height: 25%; }
+    80%  { height: 65%; }
+    100% { height: 10%; }
+  }
+  @keyframes miniEqBar2 {
+    0%   { height: 15%; }
+    25%  { height: 45%; }
+    50%  { height: 95%; }
+    75%  { height: 30%; }
+    100% { height: 15%; }
+  }
+  @keyframes miniEqBar3 {
+    0%   { height: 8%; }
+    40%  { height: 70%; }
+    60%  { height: 20%; }
+    90%  { height: 55%; }
+    100% { height: 8%; }
+  }
+  .ch-toggle-top { position: relative; z-index: 1; position: relative; z-index: 1; }
+  @media (max-width: 640px){
+    .ch-toggle-row { flex-direction: column; gap: 12px; }
+    .ch-toggle { min-width: 0; }
+  }
+  .strip-item { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; min-width: 100px; }
+  .strip-icon {
+    font-size: 15px; margin-bottom: 8px;
+  }
+  .strip b { color: #fff; font-family:'Unbounded'; font-weight:600; font-size: 13px; }
+
+  /* ---------- GENERIC SECTION ---------- */
+  .block { padding: var(--sec-pad) 0; }
+  @media (max-width: 640px){ :root { --sec-pad: 56px; } }
+  .eyebrow {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--ch); font-weight: 700; margin-bottom: 18px;
+    transition: color 0.6s ease;
+  }
+  .h2 { font-size: clamp(24px, 3vw, 34px); line-height: 1.15; font-weight: 700; margin-bottom: 16px; text-wrap: balance; }
+  .section-lead { font-size: 17px; color: var(--muted); max-width: none; text-wrap: pretty; }
+
+  /* problem→shift */
+  .shift-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; }
+  @media (max-width: 760px){ .shift-grid { grid-template-columns: 1fr; } }
+  .shift-card {
+    position: relative;
+    border: 1px solid var(--line); border-top-color: var(--glass-edge);
+    border-radius: 22px; padding: 30px;
+    background: var(--glass-fill-1);
+    backdrop-filter: blur(16px) saturate(1.1);
+    -webkit-backdrop-filter: blur(16px) saturate(1.1);
+    box-shadow: var(--glass-shadow-1), inset 0 1px 0 rgba(255,255,255,0.07);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  .shift-card .tag { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; margin-bottom: 14px; }
+  .shift-card.old .tag { color: var(--muted-2); }
+  .shift-card.new .tag { color: var(--lime); }
+  .shift-card h3 { font-size: 21px; font-weight: 600; margin-bottom: 12px; line-height: 1.15; }
+  .shift-card p { color: var(--muted); font-size: 14.5px; }
+  .shift-card.new { border-color: rgba(198,255,0,0.28); box-shadow: 0 0 32px -18px var(--lime-glow); }
+
+  /* value stack */
+  .stack { margin-top: 40px; display: flex; flex-direction: column; gap: 2px; }
+  .stack-row {
+    display: flex; align-items: flex-start; gap: 22px;
+    padding: 24px 4px;
+    border-bottom: 1px solid var(--line);
+    transition: padding-left 0.3s ease, background 0.3s ease;
+  }
+  .stack-row:hover { padding-left: 16px; background: rgba(255,255,255,0.02); }
+  .stack-mark {
+    font-family:'Unbounded'; font-weight: 700; font-size: 15px;
+    color: var(--ch); flex-shrink: 0; width: 30px; padding-top: 2px;
+    transition: color 0.6s ease;
+  }
+  .stack-content { flex: 1; }
+  .stack-content h3 { font-size: 19px; font-weight: 600; margin-bottom: 5px; }
+  .stack-content p { color: var(--muted); font-size: 14.5px; max-width: 60ch; }
+  .stack-core { color: var(--lime); }
+
+  /* how it works steps */
+  .how-panel {
+    border-radius: 28px;
+    padding: 48px 40px 44px;
+    overflow: hidden;
+    margin-top: 40px;
+    position: relative;
+  }
+  /* Bottom RGB neon edge: the panel's own border glows, but only along the
+     bottom and around the two bottom corners, fading softly up the sides.
+     A gradient is masked to a thin ring (border only), then intersected with a
+     vertical reveal so only the lower portion shows. */
+  .how-panel::after {
+    content: ''; position: absolute; inset: 0; z-index: 2;
+    border-radius: 28px;
+    padding: 1.8px;                     /* stroke thickness */
+    background: linear-gradient(90deg,
+      var(--red) 0%, var(--green) 36%, var(--blue) 68%, var(--lime) 100%);
+    -webkit-mask:
+      linear-gradient(180deg, transparent 52%, #000 86%),
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: source-in, xor;
+    mask:
+      linear-gradient(180deg, transparent 52%, #000 86%),
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: intersect, exclude;
+    filter:
+      saturate(1.25)
+      drop-shadow(0 0 4px rgba(255,71,87,0.75))
+      drop-shadow(0 0 10px rgba(255,71,87,0.5))
+      drop-shadow(0 0 16px rgba(61,168,255,0.6))
+      drop-shadow(0 0 30px rgba(46,213,115,0.4))
+      drop-shadow(0 0 40px rgba(198,255,0,0.3));
+    opacity: 0;
+    transition: opacity 0.8s ease 0.15s;
+    pointer-events: none;
+  }
+  .how-panel.in::after { opacity: 1; }
+  .steps {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
+    position: relative;
+  }
+  @media (max-width: 860px){ .steps { grid-template-columns: 1fr 1fr; gap: 28px 24px; } }
+  @media (max-width: 480px){ .steps { grid-template-columns: 1fr; } }
+  .step-card {
+    text-align: center;
+    position: relative; z-index: 1;
+    transition: transform 0.3s ease;
+  }
+  .step-card:hover { transform: translateY(-3px); }
+  .step-circle {
+    width: 56px; height: 56px;
+    margin: 0 auto 18px;
+  }
+  .step-circle svg { width: 32px; height: 32px; }
+  .how-panel .step-circle {
+    width: 80px; height: 80px;
+    margin: 0 auto 20px;
+    border-width: 1.5px;
+    background: rgba(10,13,22,0.55);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  }
+  /* Icons sit larger inside the ring and emit a soft neon glow of their own,
+     matching the thin-stroke neon reference. */
+  .how-panel .step-circle svg { width: 40px; height: 40px; }
+  .how-panel .step-circle.tok-red   svg { filter: drop-shadow(0 0 5px rgba(255,71,87,0.9))  drop-shadow(0 0 12px rgba(255,71,87,0.5)); }
+  .how-panel .step-circle.tok-green svg { filter: drop-shadow(0 0 5px rgba(46,213,115,0.9)) drop-shadow(0 0 12px rgba(46,213,115,0.5)); }
+  .how-panel .step-circle.tok-blue  svg { filter: drop-shadow(0 0 5px rgba(61,168,255,0.9)) drop-shadow(0 0 12px rgba(61,168,255,0.5)); }
+  .how-panel .step-circle.tok-lime  svg { filter: drop-shadow(0 0 5px rgba(198,255,0,0.85)) drop-shadow(0 0 12px rgba(198,255,0,0.45)); }
+  .how-panel .rgb-divider.glow { height: 3px; opacity: 1; box-shadow: 0 0 22px 1px rgba(120,180,255,0.28); }
+  .how-panel .step-circle.tok-red   { border-color: rgba(255,71,87,0.5);  box-shadow: 0 0 22px -4px rgba(255,71,87,0.6),  inset 0 0 12px -6px rgba(255,71,87,0.5); }
+  .how-panel .step-circle.tok-green { border-color: rgba(46,213,115,0.5); box-shadow: 0 0 22px -4px rgba(46,213,115,0.6), inset 0 0 12px -6px rgba(46,213,115,0.5); }
+  .how-panel .step-circle.tok-blue  { border-color: rgba(61,168,255,0.5); box-shadow: 0 0 22px -4px rgba(61,168,255,0.6), inset 0 0 12px -6px rgba(61,168,255,0.5); }
+  .how-panel .step-circle.tok-lime  { border-color: rgba(198,255,0,0.5);  box-shadow: 0 0 22px -4px rgba(198,255,0,0.55), inset 0 0 12px -6px rgba(198,255,0,0.45); }
+  .step-num {
+    font-family:'Unbounded'; font-weight: 700; font-size: 12px;
+    letter-spacing: 1px; color: var(--muted-2); margin-right: 7px;
+  }
+  .step-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+  .step-card p { font-size: 13px; color: var(--muted); max-width: 30ch; margin: 0 auto; }
+
+  /* guarantee band */
+  .band {
+    margin: 0 auto; max-width: 1120px;
+    border-radius: 28px;
+    background: radial-gradient(circle at 30% 0%, rgba(198,255,0,0.08), transparent 60%), var(--glass);
+    border: 1px solid rgba(198,255,0,0.25);
+    box-shadow: 0 0 60px -20px rgba(198,255,0,0.15);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 54px 48px;
+    text-align: center;
+    transition: border-color 0.8s ease;
+  }
+  .band .g-tag { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; opacity: 0.85; font-weight: 700; margin-bottom: 18px; color: var(--lime); }
+  .band h2 { font-size: clamp(24px, 3.6vw, 38px); font-weight: 600; line-height: 1.15; max-width: none; margin: 0 auto 16px; color: #fff; text-wrap: balance; }
+  .band p { font-size: 15px; color: var(--muted); max-width: 46ch; margin: 0 auto; }
+
+  /* who it's for */
+  .audience { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 40px; }
+  .aud-pill {
+    border: 1px solid var(--line); border-radius: 40px;
+    padding: 11px 22px; font-size: 14px; color: var(--muted);
+    transition: border-color 0.3s, color 0.3s;
+  }
+  .aud-pill:hover { border-color: var(--ch); color: #fff; }
+  .aud-pill.active {
+    background: var(--lime); border-color: var(--lime); color: #12100a; font-weight: 700;
+    box-shadow: 0 6px 20px -6px var(--lime-glow);
+  }
+  .aud-pill.active:hover { color: #12100a; }
+
+  /* ---------- GALLERY ---------- */
+  .gallery { padding: var(--sec-pad) 0; }
+  .gallery-grid {
+    display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 16px;
+    margin-top: 40px;
+  }
+  @media (max-width: 760px){ .gallery-grid { grid-template-columns: 1fr; } }
+  .gallery-item {
+    position: relative; border-radius: 22px; overflow: hidden;
+    height: 340px; border: 1px solid var(--line);
+    transition: border-color 0.3s ease;
+  }
+  .gallery-item:hover { border-color: rgba(255,255,255,0.25); }
+  .gallery-item:first-child { height: 480px; }
+  @media (max-width: 760px){ .gallery-item, .gallery-item:first-child { height: 300px; } }
+  .gallery-item img {
+    width: 100%; height: 100%; object-fit: cover;
+    display: block;
+    filter: saturate(1.1) contrast(1.05);
+    transition: transform 0.6s ease;
+  }
+  .gallery-item:hover img { transform: scale(1.05); }
+  .gallery-tint {
+    position: absolute; inset: 0;
+    mix-blend-mode: multiply;
+    opacity: 0.55;
+    transition: background 0.6s ease;
+  }
+  .gallery-tint.t1 { background: linear-gradient(160deg, #ff5d57, transparent 70%); }
+  .gallery-tint.t2 { background: linear-gradient(160deg, #4a8dff, transparent 70%); }
+  .gallery-tint.t3 { background: linear-gradient(160deg, #2edb8f, transparent 70%); }
+  .gallery-scrim {
+    position: absolute; inset: 0;
+    background: linear-gradient(0deg, rgba(0,0,0,0.72) 0%, transparent 45%);
+  }
+  .gallery-label {
+    position: absolute; left: 20px; bottom: 18px; z-index: 2;
+    font-size: 13px; font-weight: 700; color: #fff;
+  }
+  .gallery-label span {
+    display: block; font-size: 10.5px; font-weight: 500;
+    color: rgba(255,255,255,0.7); margin-top: 2px;
+  }
+  .photo-credit {
+    font-size: 10.5px; color: var(--muted-2); margin-top: 14px; text-align: right;
+  }
+  .photo-credit a { color: var(--muted); text-decoration: underline; text-underline-offset: 2px; }
+
+  /* ---------- FAQ ---------- */
+  .faq { padding: var(--sec-pad) 0; }
+  .faq-list { margin-top: 40px; width: 100%; }
+  .faq-item {
+    border-bottom: 1px solid var(--line);
+    width: 100%;
+  }
+  .faq-q {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 20px; padding: 22px 4px;
+    cursor: pointer; user-select: none;
+    width: 100%;
+  }
+  .faq-q h3 { font-size: 15.5px; font-weight: 600; line-height: 1.4; flex: 1; }
+  .faq-icon {
+    flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%;
+    border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Unbounded'; font-size: 14px; font-weight: 400;
+    color: var(--ch); transition: transform 0.35s ease, color 0.6s ease, border-color 0.3s ease;
+  }
+  .faq-item.open .faq-icon { transform: rotate(45deg); border-color: var(--ch); }
+  .faq-a {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.3s ease;
+    opacity: 0;
+  }
+  .faq-item.open .faq-a { opacity: 1; }
+  .faq-a p { font-size: 13.5px; color: var(--muted); padding: 0 4px 22px; max-width: 72ch; }
+  .faq-a p strong { color: rgba(255,255,255,0.88); }
+
+  /* ---------- CALCULATOR ---------- */
+  .calculator { padding: var(--sec-pad) 0; }
+  .calc-card {
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.10);
+    border-top-color: var(--glass-edge);
+    border-radius: 28px;
+    background:
+      radial-gradient(circle at 78% 0%, var(--ch-soft), transparent 40%),
+      var(--glass-fill-2);
+    backdrop-filter: blur(24px) saturate(1.15);
+    -webkit-backdrop-filter: blur(24px) saturate(1.15);
+    box-shadow: var(--glass-shadow-2), inset 0 1px 0 rgba(255,255,255,0.1);
+    padding: 42px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+    gap: 36px;
+  }
+  .calc-copy h2 { font-size: clamp(22px, 3vw, 30px); line-height: 1.15; margin-bottom: 14px; font-weight: 700; }
+  .calc-copy p { color: var(--muted); font-size: 15px; max-width: 58ch; }
+  .calc-rules { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 26px; }
+  .calc-rule {
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 16px;
+    background: rgba(255,255,255,0.025);
+    transition: border-color 0.3s ease, background 0.3s ease;
+  }
+  .calc-rule:hover { border-color: rgba(255,255,255,0.22); background: rgba(255,255,255,0.045); }
+  .calc-rule b { display:block; font-family:'Unbounded'; font-size: 18px; line-height: 1.1; margin-bottom: 5px; }
+  .calc-rule span { color: var(--muted); font-size: 12.5px; }
+  .calc-panel {
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 22px;
+    background: rgba(8,7,14,0.68);
+    padding: 24px;
+  }
+  .calc-top { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom: 18px; }
+  .calc-top span { color: var(--muted-2); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 800; }
+  .calc-price { font-family:'Unbounded'; font-size: clamp(34px, 5vw, 54px); line-height: 1; color: #fff; }
+  .calc-price small { font-family:'Manrope'; color: var(--muted); font-size: 13px; font-weight: 600; }
+  .calc-slider { margin: 26px 0 20px; }
+  .calc-slider input[type="range"] {
+    width: 100%; accent-color: var(--ch); cursor: pointer;
+  }
+  .calc-labels { display:flex; justify-content:space-between; color: var(--muted-2); font-size: 11.5px; margin-top: 7px; }
+  .calc-row { display:flex; justify-content:space-between; gap:18px; padding: 13px 0; border-top: 1px solid var(--line); font-size: 13.5px; }
+  .calc-row span:first-child { color: var(--muted); }
+  .calc-row span:last-child { font-weight: 700; text-align: right; }
+  .calc-checks { display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0 20px; }
+  .calc-checks label {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 11px 14px;
+    color: var(--muted);
+    font-size: 12.5px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .calc-checks label:hover { border-color: rgba(255,255,255,0.28); background: rgba(255,255,255,0.03); }
+  .calc-checks input { accent-color: var(--ch); margin-right: 7px; }
+  .calc-hours {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 11px 14px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .calc-hours span:first-child { color: var(--muted); font-size: 12.5px; }
+  .hours-stepper { display: flex; align-items: center; gap: 8px; font-family:'Unbounded'; font-size: 14px; font-weight: 600; color: #fff; }
+  .hours-stepper small { color: var(--muted-2); font-family:'Manrope'; font-weight: 400; font-size: 11px; }
+  .hstep {
+    width: 24px; height: 24px; border-radius: 50%;
+    border: 1px solid var(--line); background: rgba(255,255,255,0.04);
+    color: #fff; font-size: 15px; line-height: 1;
+    cursor: pointer; transition: border-color 0.2s, background 0.2s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hstep:hover { border-color: var(--ch); background: var(--ch-soft); }
+  .hstep:disabled { opacity: 0.3; cursor: not-allowed; }
+  .calc-note { color: var(--muted-2); font-size: 12px; margin-top: 12px; line-height: 1.45; }
+
+  .quiet-band {
+    padding: var(--sec-pad) 0;
+    background:
+      linear-gradient(180deg, transparent, rgba(255,255,255,0.025), transparent);
+  }
+  .quiet-grid {
+    display:grid;
+    grid-template-columns: 0.62fr 1.38fr;
+    gap: 42px;
+    align-items:center;
+  }
+  .quiet-stat {
+    border-left: 2px solid var(--ch);
+    padding-left: 24px;
+  }
+  .quiet-stat .big { font-family:'Unbounded'; font-size: clamp(32px, 5vw, 52px); line-height: 1.05; color: var(--ch); font-weight: 700; }
+  .quiet-stat p { color: var(--muted); margin-top: 16px; max-width: 38ch; }
+
+  @media (max-width: 860px){
+    .calc-card, .quiet-grid { grid-template-columns: 1fr; }
+    .calc-card { padding: 30px; }
+  }
+  @media (max-width: 520px){
+    .calc-rules, .calc-checks { grid-template-columns: 1fr; }
+    .calc-card { padding: 24px; border-radius: 22px; }
+    .hero-photo { background-position: 70% 26%; }
+  }
+
+  /* ---------- FORM ---------- */
+  .form-section { padding: var(--sec-pad) 0 40px; }
+  .form-card {
+    border: 1px solid var(--line); border-radius: 28px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), transparent);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 48px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+  }
+  @media (max-width: 760px){ .form-card { grid-template-columns: 1fr; padding: 32px; } }
+  .form-left h2 { font-size: clamp(24px, 3vw, 32px); font-weight: 700; line-height: 1.15; margin-bottom: 14px; }
+  .form-left .em { color: var(--lime); }
+  .form-left p { color: var(--muted); font-size: 15px; margin-bottom: 26px; }
+  .form-assure { display: flex; flex-direction: column; gap: 12px; }
+  .form-assure div { display: flex; gap: 10px; align-items: center; font-size: 13.5px; color: var(--muted); }
+  .form-assure .ok { color: var(--lime); font-weight: 700; }
+
+  .field { margin-bottom: 16px; }
+  .field label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 7px; letter-spacing: 0.3px; }
+  .field input, .field select, .field textarea {
+    width: 100%; padding: 14px 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--line); border-radius: 12px;
+    color: #fff; font-family: inherit; font-size: 14.5px;
+    transition: border-color 0.2s, background 0.2s;
+    resize: vertical;
+  }
+  .field input::placeholder, .field textarea::placeholder { color: var(--muted-2); }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    outline: none; border-color: var(--ch);
+    background: rgba(255,255,255,0.06);
+  }
+  .field select option { background: var(--night-2); }
+  .calc-summary-note {
+    border: 1px solid var(--ch);
+    background: var(--ch-soft);
+    border-radius: 12px;
+    padding: 13px 16px;
+    margin-bottom: 20px;
+    font-size: 13px; line-height: 1.5;
+    color: rgba(255,255,255,0.92);
+    transition: background 0.6s ease, border-color 0.6s ease;
+  }
+  .calc-summary-note b { color: var(--ch); transition: color 0.6s ease; }
+  .form-submit {
+    width: 100%; margin-top: 6px;
+    background: var(--lime); color: #12100a;
+    padding: 16px; border-radius: 16px; border: none;
+    font-family: inherit; font-weight: 700; font-size: 15px; cursor: pointer;
+    box-shadow: 0 8px 26px -8px var(--lime-glow);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .form-submit:hover { transform: translateY(-2px); box-shadow: 0 14px 34px -6px var(--lime-glow); }
+  .form-note { font-size: 12px; color: var(--muted-2); margin-top: 14px; text-align: center; }
+  .form-success {
+    display: none; text-align: center; padding: 20px;
+  }
+  .form-success.show { display: block; }
+  .form-success .big { font-family:'Unbounded'; font-size: 22px; font-weight: 600; margin-bottom: 10px; color: var(--lime); }
+  .form-success p { color: var(--muted); font-size: 14px; }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 40px 0 60px;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;
+  }
+  footer .f-logo { font-family:'Unbounded'; font-weight: 700; font-size: 16px; }
+  footer .f-logo b { color: var(--ch); transition: color 0.6s ease; }
+  footer .f-meta { font-size: 13px; color: var(--muted-2); }
+  footer .f-social { display: flex; gap: 20px; font-size: 13.5px; }
+  footer .f-social a { color: var(--muted); transition: color 0.2s; }
+  footer .f-social a:hover { color: var(--lime); }
+
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1; transform: none; }
+    .how-panel::after { opacity: 1 !important; }
+  }
+  /* ---------- BENEFITS (pain-language) ---------- */
+  .benefits { padding: var(--sec-pad) 0; position: relative; overflow: hidden; isolation: isolate; }
+  /* fade scrim: photo emerges from and dissolves back into the page bg */
+  .benefits::before {
+    content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background: linear-gradient(180deg,
+      var(--night) 0%,
+      rgba(5,7,13,0.82) 8%,
+      rgba(5,7,13,0.20) 26%,
+      rgba(5,7,13,0.14) 50%,
+      rgba(5,7,13,0.24) 74%,
+      rgba(5,7,13,0.82) 92%,
+      var(--night) 100%);
+  }
+  /* Real SILENT crowd photo as the section backdrop. Brighter than before, and
+     it fades out of nothing at the top and back into nothing at the bottom so
+     there's no hard seam with the page background. */
+  .benefits-bg {
+    position: absolute; left: 0; right: 0; top: -14%; height: 128%; z-index: -2;
+    background-image: var(--benefits-photo, none);
+    background-size: cover;
+    background-position: center 42%;
+    background-repeat: no-repeat;
+    filter: brightness(1.4) saturate(1.08);
+    will-change: transform;
+  }
+  .benefits .wrap { position: relative; z-index: 1; }
+  .benefits-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    margin-top: 40px;
+  }
+  @media (max-width: 860px){ .benefits-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px){ .benefits-grid { grid-template-columns: 1fr; } }
+  .benefit-card {
+    position: relative;
+    border: 1px solid var(--line); border-top-color: var(--glass-edge);
+    border-radius: 22px;
+    padding: 26px 22px;
+    background: var(--glass-fill-1);
+    backdrop-filter: blur(16px) saturate(1.1);
+    -webkit-backdrop-filter: blur(16px) saturate(1.1);
+    box-shadow: var(--glass-shadow-1), inset 0 1px 0 rgba(255,255,255,0.07);
+    transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .benefit-card:hover { border-color: var(--ch); transform: translateY(-4px); box-shadow: var(--glass-shadow-2), 0 0 40px -22px var(--ch-glow), inset 0 1px 0 rgba(255,255,255,0.1); }
+  /* Over the photo backdrop: light, neutral frost so the crowd image reads
+     clearly through the glass. Lower floor opacity + moderate blur. */
+  .benefits .benefit-card {
+    background:
+      linear-gradient(158deg, rgba(230,234,242,0.12), rgba(214,220,232,0.04) 48%, rgba(214,220,232,0.025)),
+      rgba(12,16,26,0.20);
+    backdrop-filter: blur(18px) saturate(1.15);
+    -webkit-backdrop-filter: blur(18px) saturate(1.15);
+  }
+  .benefit-card .b-icon {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: var(--ch-soft); color: var(--ch);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Unbounded'; font-weight: 700; font-size: 16px;
+    margin-bottom: 16px; transition: background 0.6s ease, color 0.6s ease;
+  }
+  .benefit-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; line-height: 1.3; }
+  .benefit-card p { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+  /* ---------- USE CASES ---------- */
+  .usecases { padding: var(--sec-pad) 0; }
+  .uc-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+    margin-top: 40px;
+  }
+  @media (max-width: 900px){ .uc-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px){ .uc-grid { grid-template-columns: 1fr; } }
+  .uc-card {
+    position: relative;
+    border: 1px solid var(--line); border-top-color: var(--glass-edge);
+    border-radius: 20px;
+    padding: 20px 18px;
+    background: var(--glass-fill-1);
+    backdrop-filter: blur(14px) saturate(1.1);
+    -webkit-backdrop-filter: blur(14px) saturate(1.1);
+    box-shadow: var(--glass-shadow-1), inset 0 1px 0 rgba(255,255,255,0.06);
+    transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .uc-card:hover { border-color: var(--ch); transform: translateY(-3px); box-shadow: var(--glass-shadow-2), 0 0 34px -22px var(--ch-glow), inset 0 1px 0 rgba(255,255,255,0.09); }
+  .uc-emoji { font-size: 22px; margin-bottom: 12px; display: block; }
+  .uc-card h3 { font-size: 13.5px; font-weight: 700; margin-bottom: 6px; }
+  .uc-card p { font-size: 11.8px; color: var(--muted); line-height: 1.5; }
+
+  /* ---------- WHAT TO EXPECT ---------- */
+  .testimonials { padding: var(--sec-pad) 0; }
+  .tst-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    margin-top: 40px;
+  }
+  @media (max-width: 860px){ .tst-grid { grid-template-columns: 1fr; } }
+  .tst-card {
+    position: relative;
+    border: 1px solid var(--line); border-top-color: var(--glass-edge);
+    border-radius: 22px;
+    padding: 26px 24px;
+    background: var(--glass-fill-1);
+    backdrop-filter: blur(16px) saturate(1.1);
+    -webkit-backdrop-filter: blur(16px) saturate(1.1);
+    box-shadow: var(--glass-shadow-1), inset 0 1px 0 rgba(255,255,255,0.07);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  .tst-card:hover { border-color: rgba(46,213,115,0.4); transform: translateY(-3px); box-shadow: var(--glass-shadow-2), 0 0 44px -22px rgba(46,213,115,0.4), inset 0 1px 0 rgba(255,255,255,0.1); }
+  .tst-stars { color: var(--lime); font-size: 13px; letter-spacing: 2px; margin-bottom: 14px; }
+  .tst-card p.tst-quote {
+    font-family: 'Lora', serif; font-style: italic;
+    font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.88);
+    margin-bottom: 18px;
+  }
+  .tst-author { display: flex; align-items: center; gap: 10px; }
+  .tst-avatar {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: var(--ch-soft); color: var(--ch);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Unbounded'; font-weight: 700; font-size: 13px;
+    transition: background 0.6s ease, color 0.6s ease;
+  }
+  .tst-name { font-size: 12.5px; font-weight: 700; }
+  .tst-role { font-size: 11px; color: var(--muted-2); }
+
+  /* ==================================================================
+     NEW DESIGN SYSTEM UTILITIES — premium dark glass + RGB accents
+     ================================================================== */
+
+  /* RGB gradient divider — the signature accent line from reference 2.
+     Used sparingly: How It Works, Channels, CTA band. */
+  .rgb-divider {
+    height: 1px; width: 100%;
+    background: linear-gradient(90deg,
+      transparent, var(--red) 18%, var(--green) 50%, var(--blue) 82%, transparent);
+    opacity: 0.55;
+    border: none;
+  }
+  .rgb-divider.glow {
+    height: 2px;
+    box-shadow: 0 0 20px 1px rgba(198,255,0,0.12);
+  }
+
+  /* Gradient typography — for 1-3 key words only, never full headlines */
+  .grad-text {
+    background: linear-gradient(90deg, var(--red), var(--green), var(--blue));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
+  }
+  .grad-text.rg { background: linear-gradient(90deg, var(--red), var(--green)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .grad-text.gb { background: linear-gradient(90deg, var(--green), var(--blue)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .grad-text.lime-glow-text { color: var(--lime); }
+
+  /* Matte glass surface — the primary card treatment across the site.
+     Gradient fill + inset top-edge highlight sells the frosted look; the
+     backdrop blur alone was invisible on near-black. */
+  .glass-panel {
+    position: relative;
+    background: var(--glass-fill-1);
+    border: 1px solid var(--line);
+    border-top-color: var(--glass-edge);
+    backdrop-filter: blur(22px) saturate(1.15);
+    -webkit-backdrop-filter: blur(22px) saturate(1.15);
+    box-shadow: var(--glass-shadow-1), inset 0 1px 0 rgba(255,255,255,0.09);
+  }
+
+  /* Circular icon token with resting colored glow (ref 1: feature icons) */
+  .icon-token {
+    width: 44px; height: 44px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,0.03);
+    flex-shrink: 0;
+    transition: border-color 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+  }
+  .icon-token.tok-red   { color: var(--red);   box-shadow: 0 0 0 0 transparent; }
+  .icon-token.tok-green { color: var(--green); }
+  .icon-token.tok-blue  { color: var(--blue); }
+  .icon-token.tok-lime  { color: var(--lime); }
+  .icon-token.tok-red   { border-color: rgba(255,71,87,0.28);   background: rgba(255,71,87,0.06);   box-shadow: 0 0 18px -6px rgba(255,71,87,0.5); }
+  .icon-token.tok-green { border-color: rgba(46,213,115,0.28);  background: rgba(46,213,115,0.06);  box-shadow: 0 0 18px -6px rgba(46,213,115,0.5); }
+  .icon-token.tok-blue  { border-color: rgba(61,168,255,0.28);  background: rgba(61,168,255,0.06);  box-shadow: 0 0 18px -6px rgba(61,168,255,0.5); }
+  .icon-token.tok-lime  { border-color: rgba(198,255,0,0.3);    background: rgba(198,255,0,0.07);   box-shadow: 0 0 18px -6px rgba(198,255,0,0.45); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">SILENT<b>.</b></div>
+  <div class="nav-links">
+    <a href="#how">Як це працює</a>
+    <a href="#offer">Що входить</a>
+    <a href="#cases">Сценарії</a>
+    <a href="#price">Ціна</a>
+    <a href="#book" class="nav-cta">Перевірити дату</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-photo active" id="heroPhoto0" style="background-image:url('images/hero.jpg')"></div>
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+  <div class="wrap">
+    <div class="hero-eyebrow" id="heroEyebrow">Тиша ззовні. Драйв усередині.</div>
+    <h1 class="hero-lines" id="heroLines">
+      <span>Три хвилі музики</span>
+      <span>грають одночасно —</span>
+      <span>ви обираєте <span class="accent-lime">свою</span>.</span>
+    </h1>
+    <p class="hero-sub" id="heroSub">
+      Кожен гість чує музику у власних навушниках і сам вирішує, який із трьох каналів слухати — а зовні панує повна тиша. Перемикайтесь між ними будь-коли за вечір, скільки завгодно разів.
+    </p>
+    <div class="hero-actions">
+      <a href="#book" class="btn-primary">Перевірити доступність дати</a>
+      <a href="#how" class="btn-ghost">Як це працює</a>
+    </div>
+
+    <div class="hero-strip glass-panel" id="channels">
+      <div class="ch-strip-glow-blob" id="chGlowBlob"></div>
+      <div class="ch-outline-eq" id="chOutlineEq">
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="ch-strip-head">
+        <span class="ch-strip-title">Оберіть канал</span>
+        <button class="ch-mute" type="button" id="chMute" aria-pressed="false" title="Вимкнути звук">
+          <svg class="ic-sound" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+          <svg class="ic-mute" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+          <span class="ch-mute-label">Звук увімкнено</span>
+        </button>
+      </div>
+      <div class="ch-toggle-row">
+        <div class="ch-toggle active" data-ch="0" style="--sw-color:var(--red)">
+          <div class="ch-toggle-top">
+            <div class="ch-toggle-label">
+              <span class="ch-toggle-name" style="color:var(--red)">RED</span>
+              <span class="ch-toggle-desc">Deep &amp; Dance — електроніка, хаус, ритм</span>
+            </div>
+            <button class="ch-switch" type="button" aria-pressed="true" style="--sw-color:var(--red)"><span class="ch-switch-knob"></span></button>
+          </div>
+        </div>
+        <div class="ch-toggle" data-ch="1" style="--sw-color:var(--green)">
+          <div class="ch-toggle-top">
+            <div class="ch-toggle-label">
+              <span class="ch-toggle-name" style="color:var(--green)">GREEN</span>
+              <span class="ch-toggle-desc">Pop &amp; Throwback — хіти, під які всі знають слова</span>
+            </div>
+            <button class="ch-switch" type="button" aria-pressed="false" style="--sw-color:var(--green)"><span class="ch-switch-knob"></span></button>
+          </div>
+        </div>
+        <div class="ch-toggle" data-ch="2" style="--sw-color:var(--blue)">
+          <div class="ch-toggle-top">
+            <div class="ch-toggle-label">
+              <span class="ch-toggle-name" style="color:var(--blue)">BLUE</span>
+              <span class="ch-toggle-desc">Chill &amp; Soul — повільне, тепле, близьке</span>
+            </div>
+            <button class="ch-switch" type="button" aria-pressed="false" style="--sw-color:var(--blue)"><span class="ch-switch-knob"></span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-fade"></div>
+</section>
+
+<!-- PROBLEM → SHIFT -->
+<section class="block" id="idea">
+  <div class="wrap">
+    <div class="eyebrow reveal">Чому silent disco</div>
+    <h2 class="h2 reveal">Звичайна вечірка змушує обирати за всіх. Ця — дає обрати кожному.</h2>
+    <p class="section-lead reveal">Звичайні колонки нав'язують усім один плейлист і одну гучність, а після 23:00 починаються скарги. Silent disco прибирає цей компроміс: три канали, кожен регулює звук під себе, а ззовні лишається тиша.</p>
+
+    <div class="shift-grid">
+      <div class="shift-card old reveal">
+        <div class="tag">Як зазвичай</div>
+        <h3>Колонки на всю залу</h3>
+        <p>Один плейлист на всіх. Хтось нудьгує, комусь голосно. О 23:00 — сусіди, охорона, «зробіть тихіше». Фото виходять темні й однакові.</p>
+      </div>
+      <div class="shift-card new reveal">
+        <div class="tag">Із silent disco</div>
+        <h3>Вечір, який кожен збирає собі</h3>
+        <p>Три канали під різний настрій, гучність під себе, світло LED у кожному кадрі. Танці хоч до ранку — і повна тиша ззовні.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="block" id="how">
+  <div class="wrap">
+    <div class="eyebrow reveal">Як це працює</div>
+    <h2 class="h2 reveal">Від заявки до кінця вечора — технічну частину беремо на себе.</h2>
+    <div class="how-panel glass-panel reveal">
+      <div class="steps">
+        <div class="step-card">
+          <div class="step-circle icon-token tok-red"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 3v3M16 3v3"/></svg></div>
+          <h3><span class="step-num">01</span>Ви пишете нам</h3>
+          <p>Кажете дату, привід і скільки чекаєте гостей. Далі — наша турбота.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-circle icon-token tok-green"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 10.5h8M8 14h5"/><path d="M4 5.5h16v11H9l-4 3v-3H4z"/></svg></div>
+          <h3><span class="step-num">02</span>Складаємо вечір</h3>
+          <p>Підтверджуємо дату, дивимось на ваш простір і підбираємо канали під настрій події.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-circle icon-token tok-blue"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.5h11v9H3z"/><path d="M14 9.5h3.4L21 12.5v3h-7"/><circle cx="7" cy="17.5" r="1.7"/><circle cx="17" cy="17.5" r="1.7"/></svg></div>
+          <h3><span class="step-num">03</span>Вмикаємо простір</h3>
+          <p>Приїжджаємо заздалегідь, розставляємо світло й звук і ловимо чистий сигнал на всіх каналах.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-circle icon-token tok-lime"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9 2 9 2 15 6 15 11 19 11 5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a9 9 0 0 1 0 12"/></svg></div>
+          <h3><span class="step-num">04</span>І понеслося</h3>
+          <p>Гості вдягають навушники, ловлять свій канал — і зал оживає до ранку. Прибирання теж на нас.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS: pain-language -->
+<section class="benefits">
+  <div class="benefits-bg" aria-hidden="true" style="--benefits-photo:url('images/benefits-bg.jpg')"></div>
+  <div class="wrap">
+    <div class="eyebrow reveal">Досвід гостя</div>
+    <h2 class="h2 reveal">Що відчують ваші гості на танцполі.</h2>
+    <div class="benefits-grid">
+      <div class="benefit-card reveal">
+        <div class="b-icon">♪</div>
+        <h3>Три канали одночасно</h3>
+        <p>RED, GREEN, BLUE звучать паралельно. У кожного гостя — свій ефір, і всі танцюють в одному залі.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="b-icon">◈</div>
+        <h3>Кожен обирає свій настрій</h3>
+        <p>Драйв, хіти чи повільне — гість перемикає канал одним дотиком і залишається там, де йому добре.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="b-icon">–</div>
+        <h3>Особиста гучність</h3>
+        <p>Кожен виставляє звук під себе. Ніхто не виходить із дзвоном у вухах — комфортно й дітям, і старшим.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="b-icon">✎</div>
+        <h3>Можна нормально спілкуватися</h3>
+        <p>Навушники на шию — і розмова йде звичайним голосом. Без «що?» і «повтори!» крізь гуркіт колонок.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="b-icon">✦</div>
+        <h3>LED-візуал у кожному кадрі</h3>
+        <p>Підсвітка на кожному гості перетворює зал на готову картинку. Фото й відео виходять яскравими без окремого світлового обладнання.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="b-icon">✺</div>
+        <h3>Формат, якого ще не бачили</h3>
+        <p>Танці «в тиші» — незвичне відчуття вже з перших хвилин. Гості проводять час не так, як на звичайній вечірці.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUE STACK -->
+<section class="block" id="offer">
+  <div class="wrap">
+    <div class="eyebrow reveal">Що входить</div>
+    <h2 class="h2 reveal">Що саме ви отримуєте за свої гроші.</h2>
+    <p class="section-lead reveal">Silent disco під ключ — комплект обладнання, логістика й супровід у межах однієї послуги.</p>
+
+    <div class="stack">
+      <div class="stack-row reveal">
+        <div class="stack-mark">◆</div>
+        <div class="stack-content">
+          <h3 class="stack-core">Обладнання</h3>
+          <p>Від 40 LED-навушників, 3 канали, передавачі та запасні навушники в комплекті.</p>
+        </div>
+      </div>
+      <div class="stack-row reveal">
+        <div class="stack-mark">+</div>
+        <div class="stack-content">
+          <h3>Доставка й монтаж</h3>
+          <p>Привозимо, збираємо систему, налаштовуємо канали й тестуємо сигнал до старту.</p>
+        </div>
+      </div>
+      <div class="stack-row reveal">
+        <div class="stack-mark">+</div>
+        <div class="stack-content">
+          <h3>Підготовлені плейлисти</h3>
+          <p>Три канали, зібрані під ваш настрій і формат події — DJ не обов'язковий.</p>
+        </div>
+      </div>
+      <div class="stack-row reveal">
+        <div class="stack-mark">+</div>
+        <div class="stack-content">
+          <h3>Супровід і демонтаж</h3>
+          <p>Ведемо технічну частину протягом вечора, а після завершення забираємо все обладнання.</p>
+        </div>
+      </div>
+      <div class="stack-row reveal">
+        <div class="stack-mark">+</div>
+        <div class="stack-content">
+          <h3>Короткий reels — за бажанням</h3>
+          <p>Додаткова опція: ролик вашого вечора, готовий до сторіз і публікації.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery">
+  <div class="wrap">
+    <div class="eyebrow reveal">Атмосфера</div>
+    <h2 class="h2 reveal">Так відчувається вечір зсередини.</h2>
+    <div class="gallery-grid">
+      <div class="gallery-item reveal">
+        <img src="images/gallery-chill.jpg" alt="Ряди LED-навушників на столі перед подією">
+        <div class="gallery-tint t2"></div>
+        <div class="gallery-scrim"></div>
+        <div class="gallery-label">Chill &amp; Soul<span>повільне, тепле, близьке</span></div>
+      </div>
+      <div class="gallery-item reveal">
+        <img src="images/gallery-dance.jpg" alt="Дівчина танцює у навушниках із червоним підсвіченням">
+        <div class="gallery-tint t1"></div>
+        <div class="gallery-scrim"></div>
+        <div class="gallery-label">Deep &amp; Dance<span>електроніка, хаус, ритм</span></div>
+      </div>
+      <div class="gallery-item reveal">
+        <img src="images/gallery-guests.jpg" alt="Компанія гостей сміється у навушниках із зеленим підсвіченням">
+        <div class="gallery-tint t3"></div>
+        <div class="gallery-scrim"></div>
+        <div class="gallery-label">Pop &amp; Throwback<span>хіти, під які всі знають слова</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section class="usecases" id="cases">
+  <div class="wrap">
+    <div class="eyebrow reveal">Сценарії</div>
+    <h2 class="h2 reveal">Не тільки дискотека — формат змінюється під настрій вашої події.</h2>
+    <p class="section-lead reveal">Одне й те саме обладнання, різна подача — під те, що потрібно саме вам.</p>
+    <div class="uc-grid">
+      <div class="uc-card reveal">
+        <span class="uc-emoji">💍</span>
+        <h3>Весілля</h3>
+        <p>Танці до ранку без обмежень майданчика — і жодних скарг від сусідніх номерів готелю.</p>
+      </div>
+      <div class="uc-card reveal">
+        <span class="uc-emoji">🏢</span>
+        <h3>Корпоративи</h3>
+        <p>Формат, який запам'ятають — без узгоджень гучності з бізнес-центром чи офісним поверхом.</p>
+      </div>
+      <div class="uc-card reveal">
+        <span class="uc-emoji">🧘</span>
+        <h3>Йога та ecstatic dance</h3>
+        <p>Особиста гучність допомагає зануритись у практику — без гучних колонок, що збивають фокус.</p>
+      </div>
+      <div class="uc-card reveal">
+        <span class="uc-emoji">🎂</span>
+        <h3>Дні народження</h3>
+        <p>Від дитячого свята до дорослої вечірки — гучність під вік і настрій кожної компанії.</p>
+      </div>
+      <div class="uc-card reveal">
+        <span class="uc-emoji">🌳</span>
+        <h3>Вечірки на природі</h3>
+        <p>Парк, дах, подвір'я за містом — де завгодно, де традиційні колонки викликали б питання.</p>
+      </div>
+      <div class="uc-card reveal">
+        <span class="uc-emoji">🎬</span>
+        <h3>Кіно під відкритим небом</h3>
+        <p>Проєктор, екран і звук просто у навушниках — фільм для всіх, без гучного динаміка на подвір'ї.</p>
+      </div>
+      <div class="uc-card reveal">
+        <span class="uc-emoji">🎓</span>
+        <h3>Студентські події</h3>
+        <p>Випускний, посвята, вечірка гуртожитку — формат, який не заведе розмову з охороною.</p>
+      </div>
+      <div class="uc-card reveal">
+        <span class="uc-emoji">✦</span>
+        <h3>Приватні події</h3>
+        <p>Щось нестандартне на думці? Опишіть ідею — підберемо формат під неї.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section class="calculator" id="price">
+  <div class="wrap">
+    <div class="calc-card reveal">
+      <div class="calc-copy">
+        <div class="eyebrow">Калькулятор</div>
+        <h2>Порахуйте бюджет вечора до заявки.</h2>
+        <p>Мінімальне замовлення — 40 навушників на 4 години. Посуньте повзунок і додайте опції, щоб побачити орієнтовний бюджет для вашої події у Києві та області.</p>
+        <div class="calc-rules">
+          <div class="calc-rule"><b>40</b><span>мінімум навушників</span></div>
+          <div class="calc-rule"><b>4 год</b><span>базова тривалість</span></div>
+          <div class="calc-rule"><b>3</b><span>музичні канали</span></div>
+          <div class="calc-rule"><b>~30 хв</b><span>налаштування на місці</span></div>
+        </div>
+      </div>
+      <div class="calc-panel">
+        <div class="calc-top">
+          <div>
+            <span>Навушники</span>
+            <div class="calc-price"><strong id="calcHeadphones">40</strong> <small>шт.</small></div>
+          </div>
+          <div style="text-align:right;">
+            <span>Орієнтир</span>
+            <div class="calc-price" id="calcTotal">9 800 грн</div>
+          </div>
+        </div>
+        <div class="calc-slider">
+          <input type="range" id="headphoneRange" min="40" max="100" step="5" value="40" aria-label="Кількість навушників">
+          <div class="calc-labels"><span>40</span><span>60</span><span>80</span><span>100</span></div>
+        </div>
+        <div class="calc-checks">
+          <div class="calc-hours">
+            <span>Тривалість</span>
+            <div class="hours-stepper">
+              <button type="button" class="hstep" id="hourMinus" aria-label="Менше годин">−</button>
+              <span id="hoursValue">4</span> <small>год</small>
+              <button type="button" class="hstep" id="hourPlus" aria-label="Більше годин">+</button>
+            </div>
+          </div>
+          <label><input type="checkbox" id="outsideKyiv"> Київська область</label>
+          <label><input type="checkbox" id="contentReel"> короткий reels</label>
+          <label><input type="checkbox" id="hostSupport" checked> супровід на місці</label>
+        </div>
+        <div class="calc-row"><span>База 40 навушників / 4 години</span><span id="baseLine">9 800 грн</span></div>
+        <div class="calc-row"><span>Додаткові навушники</span><span id="extraLine">0 грн</span></div>
+        <div class="calc-row"><span>Додаткові години</span><span id="hoursLine">0 грн</span></div>
+        <div class="calc-row"><span>Опції</span><span id="optionsLine">0 грн</span></div>
+        <div class="calc-row"><span>Ціна за гостя</span><span id="perHeadLine">173 грн</span></div>
+        <a href="#book" class="btn-primary" id="calcSubmit" style="display:block;text-align:center;margin-top:20px;">Перевірити доступність дати</a>
+        <div class="calc-note">Це орієнтир. Фінальна ціна залежить від дати, локації, тривалості та формату — і не є публічною офертою.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GUARANTEE -->
+<section class="block">
+  <div class="band reveal">
+    <div class="g-tag">Наша гарантія</div>
+    <h2>Якщо в перші пів години гості не танцюють — знімаємо частину суми.</h2>
+    <p>Ми відповідаємо за результат вечора, тож фінансовий ризик беремо на себе.</p>
+  </div>
+</section>
+
+<!-- WHAT TO EXPECT -->
+<section class="testimonials">
+  <div class="wrap">
+    <div class="eyebrow reveal">Чого очікувати</div>
+    <h2 class="h2 reveal">Так це виглядає в перший раз.</h2>
+    <p class="section-lead reveal">Ми ще збираємо відгуки з перших київських подій — а поки чесно опишемо, що зазвичай відбувається на такому форматі.</p>
+    <div class="tst-grid">
+      <div class="tst-card reveal">
+        <p class="tst-quote">Перші 5–10 хвилин гості озираються одне на одного: незвично танцювати в тиші. Потім хтось перший заплющує очі й забуває про це.</p>
+        <div class="tst-author">
+          <div class="tst-avatar">01</div>
+          <div><div class="tst-name">Перші хвилини</div><div class="tst-role">як зазвичай починається вечір</div></div>
+        </div>
+      </div>
+      <div class="tst-card reveal">
+        <p class="tst-quote">Коли частина залу раптом сміється чи підспівує одне слово, а музику чути тільки їм, це стає кумедною грою для решти гостей.</p>
+        <div class="tst-author">
+          <div class="tst-avatar">02</div>
+          <div><div class="tst-name">Розпал</div><div class="tst-role">коли канали розходяться</div></div>
+        </div>
+      </div>
+      <div class="tst-card reveal">
+        <p class="tst-quote">О тій порі, коли звичайна вечірка вже стишується через скарги чи втому діджея, тут танцпол лише набирає обертів.</p>
+        <div class="tst-author">
+          <div class="tst-avatar">03</div>
+          <div><div class="tst-name">Пізній вечір</div><div class="tst-role">коли інші вже закінчують</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING FORM -->
+<!-- FAQ -->
+<section class="faq">
+  <div class="wrap">
+    <div class="eyebrow reveal">Питання наперед</div>
+    <h2 class="h2 reveal">Те, що зазвичай питають перед бронюванням.</h2>
+
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <div class="faq-q" role="button" tabindex="0"><h3>Скільки місця потрібно на танцполі?</h3><div class="faq-icon">+</div></div>
+        <div class="faq-a"><p>Орієнтовно <strong>1 м² на людину</strong> для активних танців, менше — якщо частина гостей сидітиме. Скажіть нам розмір залу й кількість гостей — порахуємо, чи вистачить простору, і порадимо оптимальну кількість навушників.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q" role="button" tabindex="0"><h3>Чи можна на вулиці?</h3><div class="faq-icon">+</div></div>
+        <div class="faq-a"><p>Так, але обладнання залежить від живлення і не любить вологу. У дощ або без розетки поруч потрібен запасний план — намет, навіс або перенесення в приміщення. Обговорюємо це заздалегідь, коли дізнаємось локацію.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q" role="button" tabindex="0"><h3>Наскільки довго тримає заряд?</h3><div class="faq-icon">+</div></div>
+        <div class="faq-a"><p>Навушники працюють <strong>10+ годин</strong> без підзарядки — вистачає на будь-який вечір з запасом. Приїжджаємо із зарядженим комплектом, тож про це можна не думати.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q" role="button" tabindex="0"><h3>Чи потрібен окремо DJ?</h3><div class="faq-icon">+</div></div>
+        <div class="faq-a"><p>Не обов'язково. Наймати живого DJ — це окрема стаття витрат, зазвичай суттєва сума за вечір. Ми наперед готуємо три плейлисти під ваш настрій, тож DJ потрібен, лише якщо хочете живий мікс саме на місці.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q" role="button" tabindex="0"><h3>Як повертаються навушники наприкінці?</h3><div class="faq-icon">+</div></div>
+        <div class="faq-a"><p>Ставимо один пункт видачі й повернення на вході, щоб нічого не губилося. При потребі використовуємо просту систему обліку, щоб наприкінці вечора точно знати, що все зібрано — без незручних питань до гостей.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q" role="button" tabindex="0"><h3>Чи підходить для дітей?</h3><div class="faq-icon">+</div></div>
+        <div class="faq-a"><p>Так. У кожного гостя — особиста гучність, тож дитячий слух легко вберегти від зайвого звуку. Для подій із малими дітьми радимо одразу обмежити гучність на нижчому рівні — про це подбаємо ще до початку.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q" role="button" tabindex="0"><h3>Що якщо навушники загубляться або пошкодяться?</h3><div class="faq-icon">+</div></div>
+        <div class="faq-a"><p>Таке трапляється на живих вечірках, тому ми закладаємо невеликий заставний внесок за комплект, який повертається одразу після того, як усе обладнання здано в цілості. Якщо один-два навушники не повернули чи пошкодили — покриваємо це із застави, без додаткових розбирань із вами. Про суму й умови домовляємось заздалегідь, до самого івенту.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="form-section" id="book">
+  <div class="wrap">
+    <div class="form-card reveal">
+      <div class="form-left">
+        <h2>Перевірте дату <span class="em">свого</span> вечора</h2>
+        <p>Залиште заявку — ми зв'яжемося, перевіримо, чи вільна дата, підберемо формат і підтвердимо бронь після узгодження.</p>
+        <div class="form-assure">
+          <div><span class="ok">✓</span> Відповідаємо протягом дня</div>
+          <div><span class="ok">✓</span> Один вечір — одна подія, тож дати розбирають наперед</div>
+          <div><span class="ok">✓</span> Заявка ні до чого не зобов'язує — це перевірка доступності</div>
+        </div>
+      </div>
+
+      <div class="form-right">
+        <div id="formFields">
+          <div class="calc-summary-note" id="calcSummaryNote" style="display:none;"></div>
+          <div class="field">
+            <label for="name">Як вас звати</label>
+            <input type="text" id="name" placeholder="Ім'я">
+          </div>
+          <div class="field">
+            <label for="contact">Телефон або Instagram</label>
+            <input type="text" id="contact" placeholder="+380… або @нік">
+          </div>
+          <div class="field">
+            <label for="type">Тип події</label>
+            <select id="type">
+              <option>Весілля</option>
+              <option>Корпоратив</option>
+              <option>День народження</option>
+              <option>Творча / танцювальна подія</option>
+              <option>Інше</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="guests">Скільки гостей орієнтовно</label>
+            <select id="guests">
+              <option>40–60</option>
+              <option>60–80</option>
+              <option>80–100</option>
+              <option>100+</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="date">Бажана дата</label>
+            <input type="date" id="date">
+          </div>
+          <div class="field">
+            <label for="comment">Коментар (необов'язково)</label>
+            <textarea id="comment" placeholder="Розкажіть більше про подію, побажання щодо локації, часу тощо" rows="3"></textarea>
+          </div>
+          <button class="form-submit" id="submitBtn">Надіслати заявку</button>
+          <div class="form-note">Натискаючи, ви погоджуєтесь, що ми зв'яжемося з вами щодо події.</div>
+        </div>
+        <div class="form-success" id="formSuccess">
+          <div class="big">Заявку прийнято ✦</div>
+          <p>Дякуємо! Ми зв'яжемося найближчим часом, щоб узгодити деталі й підтвердити дату вашого вечора.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; width:100%;">
+    <div class="f-logo">SILENT<b>.</b></div>
+    <div class="f-meta">Silent disco під ключ · Київ · 2026</div>
+    <div class="f-social">
+      <a href="#">Instagram</a>
+      <a href="#">TikTok</a>
+      <a href="#book">Перевірити дату</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ---- Parallax on background photos (hero + benefits) ----
+  // Each layer drifts vertically at a fraction of scroll speed. Layers are
+  // oversized in CSS so the translate never exposes an edge. Skipped entirely
+  // when the user prefers reduced motion.
+  (function(){
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;
+    const layers = [
+      { el: document.getElementById('heroPhoto0'), section: document.querySelector('.hero'), speed: 0.18 },
+      { el: document.querySelector('.benefits-bg'), section: document.querySelector('.benefits'), speed: 0.16 }
+    ].filter(l => l.el && l.section);
+    let ticking = false;
+    function update(){
+      const vh = window.innerHeight;
+      for (const l of layers){
+        const r = l.section.getBoundingClientRect();
+        // progress: how far the section center is from the viewport center
+        const sectionCenter = r.top + r.height / 2;
+        const delta = (sectionCenter - vh / 2) * -l.speed;
+        l.el.style.transform = 'translate3d(0,' + delta.toFixed(1) + 'px,0)';
+      }
+      ticking = false;
+    }
+    function onScroll(){
+      if (!ticking){ requestAnimationFrame(update); ticking = true; }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
+  })();
+</script>
+<script>
+  const channels = [
+    { color:'#ff4757', soft:'rgba(255,71,87,0.14)',  glow:'rgba(255,71,87,0.45)'  },
+    { color:'#2ed573', soft:'rgba(46,213,115,0.14)', glow:'rgba(46,213,115,0.45)' },
+    { color:'#3da8ff', soft:'rgba(61,168,255,0.14)', glow:'rgba(61,168,255,0.45)' }
+  ];
+  const root = document.documentElement;
+  const btns = Array.from(document.querySelectorAll('.ch-toggle'));
+  const photos = [
+    document.getElementById('heroPhoto0')
+  ];
+  // Background position is controlled by CSS (focal point on the dancer, with a
+  // mobile media-query variant) — do not override it here.
+
+  // Hero copy per channel — the toggles double as a content slider. Each slide
+  // has an eyebrow, three headline lines (one word optionally accented lime via
+  // {lime:'word'}), and a sub. RED is slide 0 / default.
+  const heroContent = [
+    {
+      eyebrow: 'Тиша ззовні. Драйв усередині.',
+      lines: ['Три хвилі музики', 'грають одночасно —', 'ви обираєте {свою}.'],
+      sub: 'Кожен гість чує музику у власних навушниках і сам вирішує, який із трьох каналів слухати — а зовні панує повна тиша. Перемикайтесь між ними будь-коли за вечір, скільки завгодно разів.'
+    },
+    {
+      eyebrow: 'Формат, що підходить будь-де',
+      lines: ['Дах, квартира, {офіс} —', 'місце більше', 'не обмеження.'],
+      sub: 'Навушники й три канали музики знімають потребу в спеціальній акустиці чи дозволі на гучний звук. Будь-який простір перетворюється на повноцінну вечірку.'
+    },
+    {
+      eyebrow: 'Вечірка без меж гучності',
+      lines: ['Танцюйте так,', 'ніби вас {ніхто}', 'не чує.'],
+      sub: 'Бо ніхто й не чує. Повна свобода без обмежень на гучність, час чи місце — танцюйте де завгодно і як завгодно довго.'
+    }
+  ];
+  const heroEyebrow = document.getElementById('heroEyebrow');
+  const heroLines = document.getElementById('heroLines');
+  const heroSub = document.getElementById('heroSub');
+
+  // Render a headline line, converting {word} into a lime accent span.
+  function renderLine(text){
+    return text.replace(/\{([^}]+)\}/g, '<span class="accent-lime">$1</span>');
+  }
+
+  // Reserve the sub's height for the tallest of the three slides at the current
+  // width. The subs wrap to a different number of lines (e.g. 3 vs 2 on desktop),
+  // so without this the whole hero shifts vertically on each switch. Measured
+  // synchronously (no paint between swaps) and re-run on resize / after fonts load.
+  function reserveHeroSubHeight(){
+    if (!heroSub) return;
+    const active = heroSub.textContent;
+    heroSub.style.minHeight = '0px';
+    let max = 0;
+    for (const c of heroContent){
+      heroSub.textContent = c.sub;
+      if (heroSub.offsetHeight > max) max = heroSub.offsetHeight;
+    }
+    heroSub.textContent = active;
+    heroSub.style.minHeight = max + 'px';
+  }
+  reserveHeroSubHeight();
+  if (document.fonts && document.fonts.ready){ document.fonts.ready.then(reserveHeroSubHeight); }
+  let heroSubResizeTimer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(heroSubResizeTimer);
+    heroSubResizeTimer = setTimeout(reserveHeroSubHeight, 150);
+  });
+  let heroInited = false;
+  let heroSwapTimer = null;
+  function updateHeroText(i){
+    const data = heroContent[i];
+    if (!data || !heroEyebrow || !heroLines || !heroSub) return;
+    // On the very first call, content already matches slide 0 (server-rendered)
+    // and the initial CSS rise animation is playing — don't replay it.
+    if (!heroInited){ heroInited = true; return; }
+
+    const spans = [...heroLines.querySelectorAll(':scope > span')];
+    const anim = [heroEyebrow, heroSub, ...spans];
+    const applyNew = () => {
+      heroEyebrow.textContent = data.eyebrow;
+      heroSub.textContent = data.sub;
+      data.lines.forEach((ln, idx) => { if (spans[idx]) spans[idx].innerHTML = renderLine(ln); });
+    };
+
+    // Reduced-motion / no-anim: swap instantly, no transition.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      anim.forEach(el => el.classList.remove('swap-out', 'swap-in'));
+      applyNew();
+      return;
+    }
+
+    // Phase 1: ease the current copy up and out.
+    anim.forEach(el => { el.classList.remove('swap-in'); el.classList.add('swap-out'); });
+
+    // Phase 2 (after the fade-out): swap the text, then rise the new copy in.
+    clearTimeout(heroSwapTimer);
+    heroSwapTimer = setTimeout(() => {
+      applyNew();
+      anim.forEach(el => el.classList.remove('swap-out'));
+      void heroLines.offsetWidth; // reflow so swap-in restarts cleanly
+      anim.forEach(el => el.classList.add('swap-in'));
+    }, 300);
+  }
+
+  function setChannel(i){
+    const c = channels[i];
+    root.style.setProperty('--ch', c.color);
+    root.style.setProperty('--ch-soft', c.soft);
+    root.style.setProperty('--ch-glow', c.glow);
+    btns.forEach((b, idx) => {
+      const isActive = idx === i;
+      b.classList.toggle('active', isActive);
+      const sw = b.querySelector('.ch-switch');
+      if (sw) sw.setAttribute('aria-pressed', String(isActive));
+      if (isActive){
+        b.style.setProperty('--active-color', c.color);
+        b.style.setProperty('--active-soft', c.soft);
+        b.style.setProperty('--active-glow', c.glow);
+      }
+    });
+    photos.forEach((p, idx) => { if (p) p.classList.toggle('active', idx === 0); });
+    updateHeroText(i);
+    litStrip(c.color, i);
+  }
+  const stripEl = document.getElementById('channels');
+  function litStrip(color, idx){
+    if (!stripEl || !glowBlob) return;
+    stripEl.style.setProperty('--glow-color', color);
+    glowBlob.classList.add('on');
+
+    const target = btns[idx];
+    if (!target) return;
+    const stripRect = stripEl.getBoundingClientRect();
+    const targetRect = target.getBoundingClientRect();
+
+    // Detect vertical stacking (mobile: toggles are stacked, so widths ~ full strip width)
+    const firstRect = btns[0].getBoundingClientRect();
+    const secondRect = btns[1] ? btns[1].getBoundingClientRect() : firstRect;
+    const isStacked = Math.abs(secondRect.top - firstRect.top) > firstRect.height * 0.5;
+
+    if (isStacked){
+      // Vertical mode: glow hugs the active toggle's row vertically, full width
+      const centerY = targetRect.top - stripRect.top + targetRect.height / 2;
+      const blobHeight = Math.max(targetRect.height * 1.4, 120);
+      glowBlob.style.top = (centerY - blobHeight / 2) + 'px';
+      glowBlob.style.bottom = 'auto';
+      glowBlob.style.left = '0';
+      glowBlob.style.width = '100%';
+      glowBlob.style.height = blobHeight + 'px';
+
+      if (outlineEq){
+        outlineEq.style.left = '0';
+        outlineEq.style.width = '100%';
+        outlineEq.style.bottom = (stripRect.height - (targetRect.bottom - stripRect.top)) + 'px';
+        outlineEq.style.setProperty('--glow-color', color);
+        outlineEq.classList.add('on');
+      }
+    } else {
+      // Horizontal mode (desktop): glow hugs the active toggle's column
+      const centerX = targetRect.left - stripRect.left + targetRect.width / 2;
+      const blobWidth = Math.max(targetRect.width * 1.5, 240);
+      glowBlob.style.left = (centerX - blobWidth / 2) + 'px';
+      glowBlob.style.width = blobWidth + 'px';
+      glowBlob.style.bottom = '-40%';
+      glowBlob.style.top = 'auto';
+      glowBlob.style.height = '200%';
+
+      if (outlineEq){
+        outlineEq.style.left = (targetRect.left - stripRect.left) + 'px';
+        outlineEq.style.width = targetRect.width + 'px';
+        outlineEq.style.bottom = '2px';
+        outlineEq.style.setProperty('--glow-color', color);
+        outlineEq.classList.add('on');
+      }
+    }
+  }
+  const glowBlob = document.getElementById('chGlowBlob');
+  const outlineEq = document.getElementById('chOutlineEq');
+  window.addEventListener('resize', () => {
+    const activeIdx = btns.findIndex(b => b.classList.contains('active'));
+    if (activeIdx !== -1) litStrip(channels[activeIdx].color, activeIdx);
+  });
+  btns.forEach((b, idx) => b.addEventListener('click', () => {
+    if (isMuted) setMuted(false);
+    setChannel(idx);
+  }));
+  setChannel(0);
+
+  // ---- Master mute ----
+  const muteBtn = document.getElementById('chMute');
+  const muteLabel = muteBtn?.querySelector('.ch-mute-label');
+  let lastChannel = 0;
+  let isMuted = false;
+  function setMuted(muted){
+    isMuted = muted;
+    if (muteBtn) muteBtn.setAttribute('aria-pressed', String(muted));
+    if (muteLabel) muteLabel.textContent = muted ? 'Звук вимкнено' : 'Звук увімкнено';
+    if (muted){
+      lastChannel = btns.findIndex(b => b.classList.contains('active'));
+      if (lastChannel === -1) lastChannel = 0;
+      btns.forEach(b => b.classList.remove('active'));
+      if (glowBlob) glowBlob.classList.remove('on');
+      if (outlineEq) outlineEq.classList.remove('on');
+    } else {
+      setChannel(lastChannel);
+    }
+  }
+  if (muteBtn) muteBtn.addEventListener('click', () => setMuted(!isMuted));
+
+  // ---- Auto-advance hero slider ----
+  // The channel toggles double as a content slider, so when nobody is
+  // interacting we cycle RED → GREEN → BLUE on a timer. 6.5s per slide gives
+  // time to read the ~2-sentence sub without feeling sluggish; the ~1s swap
+  // animation runs on top of that idle time. Any manual click resets the timer;
+  // it pauses while the panel is hovered, while muted, or when the tab is hidden.
+  (function(){
+    const AUTO_MS = 6500;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let autoTimer = null;
+    const current = () => btns.findIndex(b => b.classList.contains('active'));
+    function stop(){ clearTimeout(autoTimer); autoTimer = null; }
+    function start(){
+      if (reduceMotion || isMuted || document.hidden) return;
+      stop();
+      autoTimer = setTimeout(() => {
+        setChannel((current() + 1) % channels.length);
+        start();
+      }, AUTO_MS);
+    }
+    btns.forEach(b => b.addEventListener('click', () => { stop(); start(); }));
+    if (muteBtn) muteBtn.addEventListener('click', () => { isMuted ? stop() : start(); });
+    if (stripEl){
+      stripEl.addEventListener('mouseenter', stop);
+      stripEl.addEventListener('mouseleave', start);
+    }
+    document.addEventListener('visibilitychange', () => { document.hidden ? stop() : start(); });
+    start();
+  })();
+
+  // ---- Price calculator ----
+  const fmt = new Intl.NumberFormat('uk-UA');
+  const headphoneRange = document.getElementById('headphoneRange');
+  const calcHeadphones = document.getElementById('calcHeadphones');
+  const calcTotal = document.getElementById('calcTotal');
+  const baseLine = document.getElementById('baseLine');
+  const extraLine = document.getElementById('extraLine');
+  const hoursLine = document.getElementById('hoursLine');
+  const optionsLine = document.getElementById('optionsLine');
+  const perHeadLine = document.getElementById('perHeadLine');
+  const outsideKyiv = document.getElementById('outsideKyiv');
+  const contentReel = document.getElementById('contentReel');
+  const hostSupport = document.getElementById('hostSupport');
+  const guestsSelect = document.getElementById('guests');
+  const hoursValueEl = document.getElementById('hoursValue');
+  const hourMinus = document.getElementById('hourMinus');
+  const hourPlus = document.getElementById('hourPlus');
+  let hours = 4;
+  const MIN_HOURS = 4, MAX_HOURS = 8;
+  const HOUR_PRICE = 1200;
+
+  // База: 40 навушників / 4 год = 9 800 грн. Стеля: 100 навушників / 4 год = 22 000 грн.
+  function calcPrice(qty){
+    const base = 9800;
+    const extraQty = Math.max(0, qty - 40);
+    const extra = Math.round(extraQty * (12200 / 60));
+    const extraHours = Math.max(0, hours - MIN_HOURS);
+    const hoursCost = extraHours * HOUR_PRICE;
+    const options =
+      (outsideKyiv.checked ? 1500 : 0) +
+      (contentReel.checked ? 1800 : 0) +
+      (hostSupport.checked ? 0 : -900);
+    return { base, extra, hoursCost, options, total: Math.max(6900, base + extra + hoursCost + options) };
+  }
+
+  function syncGuestSelect(qty){
+    if (!guestsSelect) return;
+    if (qty <= 60) guestsSelect.value = '40–60';
+    else if (qty <= 80) guestsSelect.value = '60–80';
+    else if (qty <= 100) guestsSelect.value = '80–100';
+  }
+
+  function updateCalculator(){
+    if (!headphoneRange) return;
+    const qty = Number(headphoneRange.value);
+    const price = calcPrice(qty);
+    calcHeadphones.textContent = qty;
+    calcTotal.textContent = `${fmt.format(price.total)} грн`;
+    baseLine.textContent = `${fmt.format(price.base)} грн`;
+    extraLine.textContent = `${fmt.format(price.extra)} грн`;
+    hoursLine.textContent = `${fmt.format(price.hoursCost)} грн`;
+    optionsLine.textContent = `${fmt.format(price.options)} грн`;
+    perHeadLine.textContent = `${fmt.format(Math.round(price.total / qty))} грн`;
+    syncGuestSelect(qty);
+    hourMinus.disabled = hours <= MIN_HOURS;
+    hourPlus.disabled = hours >= MAX_HOURS;
+  }
+  [headphoneRange, outsideKyiv, contentReel, hostSupport].forEach((el) => {
+    if (el) el.addEventListener('input', updateCalculator);
+    if (el) el.addEventListener('change', updateCalculator);
+  });
+  hourMinus.addEventListener('click', () => {
+    if (hours > MIN_HOURS){ hours--; hoursValueEl.textContent = hours; updateCalculator(); }
+  });
+  hourPlus.addEventListener('click', () => {
+    if (hours < MAX_HOURS){ hours++; hoursValueEl.textContent = hours; updateCalculator(); }
+  });
+  updateCalculator();
+
+  // ---- Передаємо параметри калькулятора у форму бронювання ----
+  const calcSubmit = document.getElementById('calcSubmit');
+  const commentField = document.getElementById('comment');
+  const calcSummaryNote = document.getElementById('calcSummaryNote');
+  if (calcSubmit) {
+    calcSubmit.addEventListener('click', (e) => {
+      const qty = Number(headphoneRange.value);
+      const price = calcPrice(qty);
+      const opts = [];
+      if (outsideKyiv.checked) opts.push('виїзд за межі Києва');
+      if (contentReel.checked) opts.push('короткий reels');
+      if (!hostSupport.checked) opts.push('без супроводу на місці');
+      const optsText = opts.length ? `, опції: ${opts.join(', ')}` : '';
+      const summary = `Розрахунок із калькулятора: ${qty} навушників, ${hours} год${optsText}. Орієнтовний бюджет: ${fmt.format(price.total)} грн.`;
+
+      if (commentField) {
+        commentField.value = commentField.value
+          ? commentField.value + '\n\n' + summary
+          : summary;
+      }
+      syncGuestSelect(qty);
+
+      if (calcSummaryNote) {
+        calcSummaryNote.style.display = 'block';
+        calcSummaryNote.innerHTML = `✓ Підтягнули з калькулятора: <b>${qty} навушників, ${hours} год, ~${fmt.format(price.total)} грн</b>. Перевірте коментар нижче — можна доповнити.`;
+      }
+    });
+  }
+
+  // ---- respect reduced motion ----
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---- Scroll reveal ----
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transitionDelay = (Math.min(i%4,3)*0.06)+'s';
+    io.observe(el);
+  });
+
+  // ---- FAQ accordion ----
+  document.querySelectorAll('.faq-item').forEach(item => {
+    const q = item.querySelector('.faq-q');
+    const a = item.querySelector('.faq-a');
+    const toggle = () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(other => {
+        if (other !== item) {
+          other.classList.remove('open');
+          other.querySelector('.faq-a').style.maxHeight = null;
+        }
+      });
+      if (isOpen) {
+        item.classList.remove('open');
+        a.style.maxHeight = null;
+      } else {
+        item.classList.add('open');
+        a.style.maxHeight = a.scrollHeight + 'px';
+      }
+    };
+    q.addEventListener('click', toggle);
+    q.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+    });
+  });
+
+  // ---- Form (demo submit) ----
+  document.getElementById('submitBtn').addEventListener('click', () => {
+    const name = document.getElementById('name').value.trim();
+    const contact = document.getElementById('contact').value.trim();
+    if (!name || !contact){
+      alert('Будь ласка, вкажіть імʼя і контакт, щоб ми могли звʼязатися.');
+      return;
+    }
+    document.getElementById('formFields').style.display = 'none';
+    document.getElementById('formSuccess').classList.add('show');
+  });
+</script>
+</body>
+</html>
