@@ -1111,10 +1111,10 @@
       </div>
       <div class="ch-strip-head">
         <span class="ch-strip-title">Оберіть канал</span>
-        <button class="ch-mute" type="button" id="chMute" aria-pressed="false" title="Вимкнути звук">
+        <button class="ch-mute" type="button" id="chMute" aria-pressed="true" title="Увімкнути звук">
           <svg class="ic-sound" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
           <svg class="ic-mute" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
-          <span class="ch-mute-label">Звук увімкнено</span>
+          <span class="ch-mute-label">Увімкнути звук</span>
         </button>
       </div>
       <div class="ch-toggle-row">
@@ -1737,6 +1737,7 @@
     photos.forEach((p, idx) => { if (p) p.classList.toggle('active', idx === 0); });
     updateHeroText(i);
     litStrip(c.color, i);
+    playChannel(i);
   }
   const stripEl = document.getElementById('channels');
   function litStrip(color, idx){
@@ -1796,39 +1797,114 @@
     const activeIdx = btns.findIndex(b => b.classList.contains('active'));
     if (activeIdx !== -1) litStrip(channels[activeIdx].color, activeIdx);
   });
-  btns.forEach((b, idx) => b.addEventListener('click', () => {
-    if (isMuted) setMuted(false);
-    setChannel(idx);
-  }));
-  setChannel(0);
-
-  // ---- Master mute ----
   const muteBtn = document.getElementById('chMute');
   const muteLabel = muteBtn?.querySelector('.ch-mute-label');
   let lastChannel = 0;
   let isMuted = false;
+  function syncMuteBtn(){
+    if (muteBtn) muteBtn.setAttribute('aria-pressed', String(!soundOn));
+    if (muteLabel) muteLabel.textContent = soundOn ? 'Звук увімкнено' : 'Увімкнути звук';
+    if (muteBtn) muteBtn.title = soundOn ? 'Вимкнути звук' : 'Увімкнути звук';
+  }
+
+  // ---- Channel audio ----
+  // Each channel owns a looping track. Files are fetched only on demand
+  // (preload="none"), so a visitor who never turns sound on downloads nothing.
+  // Browsers block autoplay, so playback can only begin from a real gesture:
+  // clicking a channel toggle or the sound button.
+  const AUDIO_SRC = ['audio/red.mp3', 'audio/green.mp3', 'audio/blue.mp3'];
+  const AUDIO_VOL = 0.55;
+  const FADE_MS = 700;
+  const players = [];
+  let soundOn = false;
+  const activeIdx = () => { const i = btns.findIndex(b => b.classList.contains('active')); return i === -1 ? 0 : i; };
+
+  function player(i){
+    if (!players[i]){
+      const a = document.createElement('audio');
+      a.preload = 'none';
+      a.loop = true;
+      a.src = AUDIO_SRC[i];
+      a.volume = 0;
+      a.hidden = true;
+      a.setAttribute('data-channel', String(i));
+      document.body.appendChild(a);
+      players[i] = a;
+    }
+    return players[i];
+  }
+  // Ramp volume so channel switches crossfade instead of cutting.
+  function fade(a, to, ms){
+    if (a._fade) cancelAnimationFrame(a._fade);
+    const from = a.volume, t0 = performance.now();
+    return new Promise(res => {
+      (function step(now){
+        const p = ms <= 0 ? 1 : Math.min(1, (now - t0) / ms);
+        a.volume = Math.max(0, Math.min(1, from + (to - from) * p));
+        if (p < 1) a._fade = requestAnimationFrame(step);
+        else { a._fade = null; res(); }
+      })(t0);
+    });
+  }
+  function playChannel(i){
+    if (!soundOn) return;
+    players.forEach((pl, idx) => {
+      if (pl && idx !== i && !pl.paused) fade(pl, 0, FADE_MS).then(() => pl.pause());
+    });
+    const a = player(i);
+    a.volume = 0;
+    const started = a.play();
+    if (started && started.catch) started.catch(() => {});
+    fade(a, AUDIO_VOL, FADE_MS);
+  }
+  function stopAudio(){
+    players.forEach(pl => { if (pl && !pl.paused) fade(pl, 0, 350).then(() => pl.pause()); });
+  }
+  // Don't leave music running in a tab the visitor has switched away from.
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stopAudio();
+    else if (soundOn) playChannel(activeIdx());
+  });
+
+  btns.forEach((b, idx) => b.addEventListener('click', () => {
+    // Picking a channel is a deliberate gesture on a control labelled
+    // "Оберіть канал" — so it both selects and starts that channel's sound.
+    isMuted = false;
+    soundOn = true;
+    setChannel(idx);
+    syncMuteBtn();
+  }));
+  setChannel(0);
+  syncMuteBtn();
+
+  // ---- Master sound toggle ----
+  // On load the panel is lit but silent (no gesture yet), and the button reads
+  // "Увімкнути звук" to invite the first click. Muting still dims the glow and
+  // eq bars, so the panel visibly goes quiet along with the audio.
   function setMuted(muted){
     isMuted = muted;
-    if (muteBtn) muteBtn.setAttribute('aria-pressed', String(muted));
-    if (muteLabel) muteLabel.textContent = muted ? 'Звук вимкнено' : 'Звук увімкнено';
     if (muted){
-      lastChannel = btns.findIndex(b => b.classList.contains('active'));
-      if (lastChannel === -1) lastChannel = 0;
+      soundOn = false;
+      stopAudio();
+      lastChannel = activeIdx();
       btns.forEach(b => b.classList.remove('active'));
       if (glowBlob) glowBlob.classList.remove('on');
       if (outlineEq) outlineEq.classList.remove('on');
     } else {
+      soundOn = true;
       setChannel(lastChannel);
     }
+    syncMuteBtn();
   }
-  if (muteBtn) muteBtn.addEventListener('click', () => setMuted(!isMuted));
+  if (muteBtn) muteBtn.addEventListener('click', () => setMuted(soundOn));
 
   // ---- Auto-advance hero slider ----
   // The channel toggles double as a content slider, so when nobody is
   // interacting we cycle RED → GREEN → BLUE on a timer. 6.5s per slide gives
   // time to read the ~2-sentence sub without feeling sluggish; the ~1s swap
   // animation runs on top of that idle time. Any manual click resets the timer;
-  // it pauses while the panel is hovered, while muted, or when the tab is hidden.
+  // it pauses while the panel is hovered, while music is playing (a track
+  // shouldn't flip every 6.5s), while muted, or when the tab is hidden.
   (function(){
     const AUTO_MS = 6500;
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1836,7 +1912,7 @@
     const current = () => btns.findIndex(b => b.classList.contains('active'));
     function stop(){ clearTimeout(autoTimer); autoTimer = null; }
     function start(){
-      if (reduceMotion || isMuted || document.hidden) return;
+      if (reduceMotion || isMuted || soundOn || document.hidden) return;
       stop();
       autoTimer = setTimeout(() => {
         setChannel((current() + 1) % channels.length);
@@ -1844,7 +1920,7 @@
       }, AUTO_MS);
     }
     btns.forEach(b => b.addEventListener('click', () => { stop(); start(); }));
-    if (muteBtn) muteBtn.addEventListener('click', () => { isMuted ? stop() : start(); });
+    if (muteBtn) muteBtn.addEventListener('click', () => { stop(); start(); });
     if (stripEl){
       stripEl.addEventListener('mouseenter', stop);
       stripEl.addEventListener('mouseleave', start);
