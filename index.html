@@ -1841,7 +1841,11 @@
   // (preload="none"), so a visitor who never turns sound on downloads nothing.
   // Browsers block autoplay, so playback can only begin from a real gesture:
   // clicking a channel toggle or the sound button.
-  const AUDIO_SRC = ['audio/red.mp3', 'audio/green.mp3', 'audio/blue.mp3'];
+  // Bump AUDIO_VER whenever a track file is replaced. Without it browsers keep
+  // serving the previously cached mp3 and returning visitors hear the old track.
+  const AUDIO_VER = '2';
+  const AUDIO_SRC = ['audio/red.mp3', 'audio/green.mp3', 'audio/blue.mp3']
+    .map(src => src + '?v=' + AUDIO_VER);
   const AUDIO_VOL = 0.55;
   const FADE_MS = 700;
   const players = [];
