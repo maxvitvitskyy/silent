@@ -644,7 +644,7 @@
      the composition has to be cropped away. */
   .gallery-strip {
     position: relative; margin-top: 40px;
-    --g-col: 208px; --g-row: 164px; --g-gap: 12px;
+    --g-col: 280px; --g-row: 228px; --g-gap: 14px;
   }
   .gallery-grid {
     display: grid;
@@ -653,7 +653,10 @@
     grid-auto-columns: var(--g-col);
     gap: var(--g-gap);
     overflow-x: auto;
-    overscroll-behavior-x: contain;
+    overflow-y: hidden;
+    overscroll-behavior: auto;
+    touch-action: pan-x pan-y;
+    scroll-behavior: auto;
     padding: 4px 2px 16px;
     scrollbar-width: none;
     -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 58px, #000 calc(100% - 58px), transparent 100%);
@@ -711,7 +714,7 @@
   }
   @media (max-width: 640px){
     .gallery-strip {
-      --g-col: 150px; --g-row: 124px; --g-gap: 10px;
+      --g-col: 196px; --g-row: 162px; --g-gap: 10px;
       margin-inline: -28px;
     }
     .gal-nav { display: none; }
@@ -947,6 +950,22 @@
     transition: border-color 0.2s, background 0.2s;
     resize: vertical;
   }
+  /* Own chevron, drawn with room to breathe — the native one sat on the edge */
+  .field select {
+    -webkit-appearance: none; appearance: none;
+    padding-right: 44px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9' fill='none'%3E%3Cpath d='M1 1.5 7 7.5l6-6' stroke='rgba(255,255,255,0.6)' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 18px center;
+  }
+  .field select option { background: #10141c; color: #fff; }
+  /* the native date picker ships a black glyph, invisible on a dark field */
+  .field input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1) opacity(0.62);
+    cursor: pointer;
+    margin-right: 2px;
+  }
+  .field input[type="date"]::-webkit-calendar-picker-indicator:hover { filter: invert(1) opacity(1); }
   .field input::placeholder, .field textarea::placeholder { color: var(--muted-2); }
   .field input:focus, .field select:focus, .field textarea:focus {
     outline: none; border-color: var(--ch);
@@ -1077,7 +1096,7 @@
   .f-tagline { margin-top: 10px; font-size: 12.5px; color: rgba(255,255,255,0.7); line-height: 1.5; max-width: 30ch; }
   .f-cta { margin-top: 18px; display: inline-block; }
   /* .f-col a outranks .btn-primary, which turned the label white on lime */
-  .f-col a.f-cta { color: #12100a; }
+  .f-col a.f-cta, .f-col a.f-cta:hover { color: #12100a; }
   .f-col h4 {
     font-size: 10.5px; letter-spacing: 2px; text-transform: uppercase;
     color: rgba(255,255,255,0.58); font-weight: 800; margin-bottom: 13px;
@@ -1150,14 +1169,6 @@
 
   .field { margin-bottom: 16px; }
   .field label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 7px; letter-spacing: 0.3px; }
-  .field input, .field select, .field textarea {
-    width: 100%; padding: 14px 16px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid var(--line); border-radius: 12px;
-    color: #fff; font-family: inherit; font-size: 14.5px;
-    transition: border-color 0.2s, background 0.2s;
-    resize: vertical;
-  }
   .field input::placeholder, .field textarea::placeholder { color: var(--muted-2); }
   .field input:focus, .field select:focus, .field textarea:focus {
     outline: none; border-color: var(--ch);
@@ -1282,7 +1293,15 @@
   .uc-grid {
     display: flex; flex-direction: column; gap: var(--uc-gap);
     overflow-x: auto;
-    overscroll-behavior-x: contain;
+    /* overflow-y must be pinned: left to compute as auto the strip also captures
+       vertical wheel/touch, and the page stops scrolling over it. Chaining is
+       left on because an endless strip never reaches an edge to hand back at,
+       and scroll-behavior is forced to auto so the loop's corrections jump
+       instantly instead of animating against the user's gesture. */
+    overflow-y: hidden;
+    overscroll-behavior: auto;
+    touch-action: pan-x pan-y;
+    scroll-behavior: auto;
     /* room for the cards' own shadows, which the scroll box would otherwise clip
        into a hard edge at the top and bottom */
     padding: 16px 0 22px;
