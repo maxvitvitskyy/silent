@@ -75,11 +75,21 @@
     border-radius: 6px;
   }
 
-  /* Ambient atmosphere: a soft channel-tinted glow fixed behind all content,
-     so the dark sections read as one continuous space, not stacked boxes.
-     Shifts color with the active channel. */
+  /* Ambient atmosphere: м'яка підсвітка в кольорі каналу, зафіксована у вікні,
+     щоб темні секції читались як один простір, а не як складені коробки.
+
+     Раніше цей шар лежав ПІД контентом (z-index 0 проти 1 у секцій). Поки секція
+     прозора, підсвітка крізь неї видно; але будь-яке непрозоре фото її повністю
+     перекривало — і рівно по краю картинки підсвітка обривалась. Сам край фото
+     ставав видимою лінією, хоча жодної рамки там немає.
+
+     Тепер шар лежить ПОВЕРХ усього і змішується через screen: він однаково лягає
+     і на фон, і на фотографії, тож перекривати його нічим — дірок і країв немає.
+     screen на майже чорному тлі дає той самий результат, що й раніше, а на світлих
+     ділянках майже не працює, тож текст і лаймова кнопка лишаються чистими. */
   body::before {
-    content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    content: ''; position: fixed; inset: 0; z-index: 60; pointer-events: none;
+    mix-blend-mode: screen;
     background:
       radial-gradient(60% 45% at 82% 8%, var(--ch-soft), transparent 60%),
       radial-gradient(50% 40% at 12% 92%, var(--ch-soft), transparent 62%);
@@ -1586,8 +1596,23 @@
   .tst-next { right: -72px; }
   @media (max-width: 1230px){ .tst-prev { left: -6px; } .tst-next { right: -6px; } }
   @media (max-width: 720px){
-    .tst-strip > .tst-card { flex-basis: 78vw; }
-    .tst-strip { -webkit-mask-image: none; mask-image: none; padding-left: 0; }
+    /* Раніше стрічка впиралась у падінг .wrap і картка різалась вертикальною
+       лінією. Тепер стрічка на всю ширину екрана: перша картка стоїть рівно під
+       текстом, наступна визирає з-за краю, а зріз пом'якшений градієнтом. */
+    .testimonials { overflow-x: clip; }
+    .tst-wrap {
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+    }
+    .tst-strip {
+      padding: 4px 28px 16px;
+      scroll-padding-left: 28px;
+      scroll-snap-type: x mandatory;
+      -webkit-mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 40px), transparent 100%);
+      mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 40px), transparent 100%);
+    }
+    .tst-strip > .tst-card { flex-basis: calc(100vw - 84px); scroll-snap-align: start; }
     .tst-prev, .tst-next { display: none; }
   }
   .tst-card {
@@ -3065,6 +3090,35 @@
     });
   }
 
+  // ---- Стрічки: підвантаження картинок наперед ----
+  // Картки в стрічці стоять збоку, а не знизу, тож lazy-loading їх не бачить і
+  // тримає незавантаженими. Коли стрічку швидко гортають, порожні картки
+  // проскакують, а потім різко проявляються — це і є той ривок. Тому щойно
+  // секція наближається до екрана, знімаємо lazy з усіх її картинок і даємо
+  // браузеру декодувати їх заздалегідь. Клони мають той самий src, тож
+  // додаткових запитів це не створює.
+  function primeStripImages(section, done){
+    if (!section) return;
+    const load = () => {
+      const imgs = [...section.querySelectorAll('img')];
+      let left = imgs.length;
+      if (!left) { done && done(); return; }
+      imgs.forEach(img => {
+        img.loading = 'eager';
+        img.fetchPriority = 'low';
+        const tick = () => { if (--left === 0 && done) done(); };
+        if (img.complete && img.naturalWidth) tick();
+        else { img.addEventListener('load', tick, { once: true });
+               img.addEventListener('error', tick, { once: true }); }
+      });
+    };
+    if (!('IntersectionObserver' in window)) { load(); return; }
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some(e => e.isIntersecting)) { io.disconnect(); load(); }
+    }, { rootMargin: '900px 0px' });
+    io.observe(section);
+  }
+
   // ---- Atmosphere strip: endless loop + arrows ----
   // Та сама механіка, що й у стрічці сценаріїв: три копії набору, а scrollLeft
   // тримається всередині середньої. Кінця не існує, тож немає і жорсткого краю,
@@ -3113,10 +3167,16 @@
     grid.addEventListener('scroll', normalise, { passive: true });
     window.addEventListener('resize', () => { settling = 0; start(); }, { passive: true });
 
-    // зображення в клонах ще можуть довантажуватись і зсувати розкладку
+    // Позицію переставляємо лише поки користувач стрічки не торкався: інакше
+    // відкладений start() смикає її просто під пальцем.
+    let touched = false;
+    ['pointerdown','touchstart','wheel','keydown'].forEach(ev =>
+      grid.addEventListener(ev, () => { touched = true; }, { passive: true }));
+    const safeStart = () => { if (!touched) start(); };
+
     start();
-    window.addEventListener('load', start);
-    setTimeout(start, 400);
+    primeStripImages(document.getElementById('atmosphere'), safeStart);
+    window.addEventListener('load', safeStart);
   })();
 
   // ---- Scenario gallery: endless strip + "order this experience" ----
@@ -3159,6 +3219,11 @@
 
     view.addEventListener('scroll', normalise, { passive: true });
     window.addEventListener('resize', () => { settling = 0; start(); }, { passive: true });
+
+    let touched = false;
+    ['pointerdown','touchstart','wheel','keydown'].forEach(ev =>
+      view.addEventListener(ev, () => { touched = true; }, { passive: true }));
+    primeStripImages(document.getElementById('cases'), () => { if (!touched) start(); });
 
     function nudge(dir){
       const row = rows[0];
@@ -3218,8 +3283,9 @@
       drift();
     }
 
-    if (document.readyState === 'complete') start();
-    else window.addEventListener('load', start, { once: true });
+    // той самий запобіжник: пізній start() не має смикати стрічку під пальцем
+    const safeStart = () => { if (!touched) start(); };
+    if (document.readyState !== 'complete') window.addEventListener('load', safeStart, { once: true });
     start();
   })();
 
