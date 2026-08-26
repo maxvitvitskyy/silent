@@ -3119,6 +3119,37 @@
     io.observe(section);
   }
 
+  // ---- Нескінченні стрічки: перенос лише на спокої ----
+  // Раніше перенос усередину циклу робився на кожній події прокрутки. На дотику
+  // це й давало «стіну»: запис у scrollLeft посеред інерційного розгону скасовує
+  // саму інерцію, стрічка різко спиняється, і докрутити її можна лише наступним
+  // свайпом. Тому перенос тепер чекає, поки прокрутка вгамується, а щоб довгий
+  // кидок не встиг долетіти до справжнього краю, копій стало п'ять замість трьох.
+  // Інерцію рахує сам браузер — вона рідна для платформи й гальмує саме так, як
+  // очікує палець.
+  const STRIP_COPIES = 5;
+  function idleNormaliser(el, copyWidth, isBusy){
+    let t = 0;
+    // Аварійний перенос — тільки якщо кидок реально підходить до кінця стрічки;
+    // краще один рідкісний ривок, ніж глухий упор у справжній край.
+    const guard = () => {
+      const w = copyWidth();
+      if (!w) return;
+      const max = el.scrollWidth - el.clientWidth;
+      if (el.scrollLeft < w * 0.5) el.scrollLeft += w * 2;
+      else if (el.scrollLeft > max - w * 0.5) el.scrollLeft -= w * 2;
+    };
+    const settle = () => {
+      if (isBusy && isBusy()) return;
+      const w = copyWidth();
+      if (!w) return;
+      const mid = Math.round((STRIP_COPIES - 1) / 2) * w;
+      const drift = Math.round((el.scrollLeft - mid) / w);
+      if (drift) el.scrollLeft -= drift * w;
+    };
+    return () => { guard(); clearTimeout(t); t = setTimeout(settle, 140); };
+  }
+
   // ---- Atmosphere strip: endless loop + arrows ----
   // Та сама механіка, що й у стрічці сценаріїв: три копії набору, а scrollLeft
   // тримається всередині середньої. Кінця не існує, тож немає і жорсткого краю,
@@ -3130,7 +3161,7 @@
     const next = document.querySelector('.gal-next');
 
     const originals = [...grid.children];
-    for (let i = 0; i < 2; i++) originals.forEach(el => grid.appendChild(el.cloneNode(true)));
+    for (let i = 0; i < STRIP_COPIES - 1; i++) originals.forEach(el => grid.appendChild(el.cloneNode(true)));
 
     // Ширину однієї копії міряємо по факту: у grid із dense-упаковкою рахувати
     // її з розмірів карток ненадійно, а різниця позицій — точна.
@@ -3141,31 +3172,23 @@
       return second.getBoundingClientRect().left - first.getBoundingClientRect().left;
     };
 
-    let settling = 0;
-    function normalise(){
-      if (settling) return;
-      const w = copyWidth();
-      if (!w) return;
-      if (grid.scrollLeft < w * 0.5) grid.scrollLeft += w;
-      else if (grid.scrollLeft > w * 1.5) grid.scrollLeft -= w;
-    }
+    let held = 0;                       // палець на стрічці — переносити не можна
+    const normalise = idleNormaliser(grid, copyWidth, () => held);
     function start(){
       const w = copyWidth();
-      if (w) grid.scrollLeft = w;
+      if (w) grid.scrollLeft = w * Math.round((STRIP_COPIES - 1) / 2);
     }
 
     const step = () => Math.max(grid.clientWidth * 0.7, 260);
-    function nudge(dir){
-      settling = 1;
-      grid.scrollBy({ left: dir * step(), behavior: 'smooth' });
-      clearTimeout(nudge.t);
-      nudge.t = setTimeout(() => { settling = 0; normalise(); }, 520);
-    }
+    function nudge(dir){ grid.scrollBy({ left: dir * step(), behavior: 'smooth' }); }
     if (prev) prev.addEventListener('click', () => nudge(-1));
     if (next) next.addEventListener('click', () => nudge(1));
 
+    grid.addEventListener('pointerdown', () => { held = 1; }, { passive: true });
+    ['pointerup','pointercancel','touchend','touchcancel'].forEach(ev =>
+      window.addEventListener(ev, () => { held = 0; }, { passive: true }));
     grid.addEventListener('scroll', normalise, { passive: true });
-    window.addEventListener('resize', () => { settling = 0; start(); }, { passive: true });
+    window.addEventListener('resize', start, { passive: true });
 
     // Позицію переставляємо лише поки користувач стрічки не торкався: інакше
     // відкладений start() смикає її просто під пальцем.
@@ -3193,7 +3216,7 @@
     const counts = rows.map(r => r.children.length);
     rows.forEach(row => {
       const originals = [...row.children];
-      for (let i = 0; i < 2; i++) originals.forEach(c => row.appendChild(c.cloneNode(true)));
+      for (let i = 0; i < STRIP_COPIES - 1; i++) originals.forEach(c => row.appendChild(c.cloneNode(true)));
     });
 
     const setWidth = () => {
@@ -3204,21 +3227,18 @@
       return (card + gap) * counts[0];
     };
 
-    let settling = 0;
-    function normalise(){
-      if (settling) return;                 // don't fight an in-flight smooth scroll
-      const w = setWidth();
-      if (!w) return;
-      if (view.scrollLeft < w * 0.5) view.scrollLeft += w;
-      else if (view.scrollLeft > w * 1.5) view.scrollLeft -= w;
-    }
+    let held = 0;
+    const normalise = idleNormaliser(view, setWidth, () => held);
     function start(){
       const w = setWidth();
-      if (w) view.scrollLeft = w;           // begin inside the middle copy
+      if (w) view.scrollLeft = w * Math.round((STRIP_COPIES - 1) / 2);
     }
 
+    view.addEventListener('pointerdown', () => { held = 1; }, { passive: true });
+    ['pointerup','pointercancel','touchend','touchcancel'].forEach(ev =>
+      window.addEventListener(ev, () => { held = 0; }, { passive: true }));
     view.addEventListener('scroll', normalise, { passive: true });
-    window.addEventListener('resize', () => { settling = 0; start(); }, { passive: true });
+    window.addEventListener('resize', start, { passive: true });
 
     let touched = false;
     ['pointerdown','touchstart','wheel','keydown'].forEach(ev =>
@@ -3229,10 +3249,7 @@
       const row = rows[0];
       const card = row.children[0].getBoundingClientRect().width;
       const gap = parseFloat(getComputedStyle(row).columnGap) || 14;
-      settling = 1;
       view.scrollBy({ left: dir * (card + gap) * 2, behavior: 'smooth' });
-      clearTimeout(nudge._t);
-      nudge._t = setTimeout(() => { settling = 0; normalise(); }, 650);
     }
     if (prev) prev.addEventListener('click', () => nudge(-1));
     if (next) next.addEventListener('click', () => nudge(1));
