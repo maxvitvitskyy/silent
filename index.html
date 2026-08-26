@@ -28,6 +28,10 @@
     --glass-fill-1: linear-gradient(158deg, rgba(226,230,238,0.10), rgba(210,216,228,0.035) 48%, rgba(210,216,228,0.02)), rgba(20,24,32,0.30);
     --glass-fill-2: linear-gradient(158deg, rgba(230,234,242,0.13), rgba(214,220,232,0.05) 48%, rgba(214,220,232,0.03)), rgba(24,28,38,0.36);
     --glass-edge: rgba(255,255,255,0.24);
+    /* one frosted material for the whole page: same blur, same fill, so panels,
+       cards, buttons and the nav all read as the same pane of glass */
+    --glass-blur: blur(18px) saturate(1.15);
+    --glass-fill-soft: linear-gradient(158deg, rgba(226,230,238,0.09), rgba(210,216,228,0.035) 48%, rgba(210,216,228,0.02)), rgba(20,24,32,0.26);
     --glass-shadow-1: 0 20px 50px -28px rgba(0,0,0,0.7);
     --glass-shadow-2: 0 30px 70px -30px rgba(0,0,0,0.8);
 
@@ -91,10 +95,11 @@
     position: fixed; top: 18px; left: 18px; right: 18px; z-index: 50;
     display: flex; align-items: center; justify-content: space-between;
     padding: 14px 24px;
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    background: rgba(10,12,20,0.45);
-    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    background: var(--glass-fill-1);
+    border: 1px solid var(--line);
+    border-top-color: var(--glass-edge);
     border-radius: 999px;
     max-width: 1200px;
     margin: 0 auto;
@@ -338,8 +343,10 @@
   }
   .ch-mute {
     display: flex; align-items: center; gap: 7px;
-    border: 1px solid var(--line);
-    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--line); border-top-color: var(--glass-edge);
+    background: var(--glass-fill-soft);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
     color: var(--muted);
     padding: 7px 13px;
     border-radius: 999px;
@@ -482,8 +489,8 @@
     border: 1px solid var(--line); border-top-color: var(--glass-edge);
     border-radius: 22px; padding: 30px;
     background: var(--glass-fill-1);
-    backdrop-filter: blur(16px) saturate(1.1);
-    -webkit-backdrop-filter: blur(16px) saturate(1.1);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
     box-shadow: var(--glass-shadow-1), inset 0 1px 0 rgba(255,255,255,0.07);
     transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
   }
@@ -574,8 +581,10 @@
     width: 80px; height: 80px;
     margin: 0 auto 20px;
     border-width: 1.5px;
-    background: rgba(10,13,22,0.55);
-    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    background: var(--glass-fill-soft);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
   }
   /* Icons sit larger inside the ring and emit a soft neon glow of their own,
      matching the thin-stroke neon reference. */
@@ -603,8 +612,8 @@
     background: radial-gradient(circle at 30% 0%, rgba(198,255,0,0.08), transparent 60%), var(--glass);
     border: 1px solid rgba(198,255,0,0.25);
     box-shadow: 0 0 60px -20px rgba(198,255,0,0.15);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
     padding: 54px 48px;
     text-align: center;
     transition: border-color 0.8s ease;
@@ -716,8 +725,8 @@
     background:
       radial-gradient(circle at 78% 0%, var(--ch-soft), transparent 40%),
       var(--glass-fill-2);
-    backdrop-filter: blur(24px) saturate(1.15);
-    -webkit-backdrop-filter: blur(24px) saturate(1.15);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
     box-shadow: var(--glass-shadow-2), inset 0 1px 0 rgba(255,255,255,0.1);
     padding: 42px;
     display: grid;
@@ -748,10 +757,12 @@
   }
   .calc-rules { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 26px; }
   .calc-rule {
-    border: 1px solid var(--line);
+    border: 1px solid var(--line); border-top-color: var(--glass-edge);
     border-radius: 18px;
     padding: 16px;
-    background: rgba(255,255,255,0.025);
+    background: var(--glass-fill-soft);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
     transition: border-color 0.3s ease, background 0.3s ease;
   }
   .calc-rule:hover { border-color: rgba(255,255,255,0.22); background: rgba(255,255,255,0.045); }
@@ -760,9 +771,11 @@
      to a second line. 1.35 matches the channel-toggle captions. */
   .calc-rule span { color: var(--muted); font-size: 12.5px; line-height: 1.35; display: block; }
   .calc-panel {
-    border: 1px solid rgba(255,255,255,0.12);
+    border: 1px solid var(--line); border-top-color: var(--glass-edge);
     border-radius: 22px;
-    background: rgba(8,7,14,0.68);
+    background: var(--glass-fill-1);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
     padding: 24px;
   }
   .calc-top { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom: 18px; }
@@ -869,8 +882,8 @@
   .form-card {
     border: 1px solid var(--line); border-radius: 28px;
     background: linear-gradient(180deg, rgba(255,255,255,0.04), transparent);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
     padding: 48px;
     display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
   }
@@ -993,8 +1006,8 @@
     border-radius: 22px;
     padding: 26px 22px;
     background: var(--glass-fill-1);
-    backdrop-filter: blur(16px) saturate(1.1);
-    -webkit-backdrop-filter: blur(16px) saturate(1.1);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
     box-shadow: var(--glass-shadow-1), inset 0 1px 0 rgba(255,255,255,0.07);
     transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
   }
@@ -1005,8 +1018,8 @@
     background:
       linear-gradient(158deg, rgba(230,234,242,0.12), rgba(214,220,232,0.04) 48%, rgba(214,220,232,0.025)),
       rgba(12,16,26,0.20);
-    backdrop-filter: blur(18px) saturate(1.15);
-    -webkit-backdrop-filter: blur(18px) saturate(1.15);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
   }
   .benefit-card .b-icon {
     width: 42px; height: 42px; border-radius: 50%;
@@ -1021,46 +1034,38 @@
   /* ---------- USE CASES ---------- */
   .usecases { padding: var(--sec-pad) 0; }
 
-  /* Horizontal gallery: cards flow top-to-bottom in pairs, then scroll sideways.
-     Keeps 18 scenarios browsable without an eight-row wall of cards. */
-  .uc-gallery { position: relative; margin-top: 40px; }
+  /* Horizontal gallery: two rows that scroll together, the lower one offset by
+     half a card so the grid reads as a woven strip rather than a plain table.
+     Contents are cloned in JS so the strip loops endlessly in both directions. */
+  .uc-gallery { position: relative; margin-top: 40px; --uc-col: 272px; --uc-gap: 14px; }
   .uc-grid {
-    display: grid;
-    grid-auto-flow: column;
-    grid-template-rows: repeat(2, 1fr);
-    grid-auto-columns: 272px;
-    gap: 14px;
+    display: flex; flex-direction: column; gap: var(--uc-gap);
     overflow-x: auto;
     overscroll-behavior-x: contain;
-    scroll-snap-type: x proximity;
-    scroll-padding-left: 2px;
-    padding: 2px 2px 16px;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255,255,255,0.16) transparent;
+    /* room for the cards' own shadows, which the scroll box would otherwise clip
+       into a hard edge at the top and bottom */
+    padding: 16px 0 22px;
+    scrollbar-width: none;
+    /* fades the strip itself at both ends — no solid overlay, so nothing cuts
+       across the card shadows */
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 68px, #000 calc(100% - 68px), transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 68px, #000 calc(100% - 68px), transparent 100%);
   }
-  .uc-grid::-webkit-scrollbar { height: 6px; }
-  .uc-grid::-webkit-scrollbar-track { background: transparent; }
-  .uc-grid::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.16); border-radius: 99px; }
-  .uc-grid:focus-visible { outline: 2px solid var(--ch); outline-offset: 6px; border-radius: 22px; }
-  /* the row fades out at the edges so it reads as "there is more this way" */
-  .uc-gallery::before, .uc-gallery::after {
-    content: ''; position: absolute; top: 0; bottom: 16px; width: 46px;
-    pointer-events: none; z-index: 2;
-  }
-  .uc-gallery::before { left: -2px; background: linear-gradient(90deg, var(--night), transparent); }
-  .uc-gallery::after { right: -2px; background: linear-gradient(270deg, var(--night), transparent); }
+  .uc-grid::-webkit-scrollbar { display: none; }
+  .uc-row { display: flex; gap: var(--uc-gap); width: max-content; }
+  .uc-row[data-row="b"] { padding-left: calc(var(--uc-col) / 2 + var(--uc-gap) / 2); }
 
   .uc-card {
     position: relative;
-    scroll-snap-align: start;
+    flex: 0 0 var(--uc-col);
     display: flex; flex-direction: column;
     overflow: hidden;
     border: 1px solid var(--line); border-top-color: var(--glass-edge);
     border-radius: 20px;
     background: var(--glass-fill-1);
-    backdrop-filter: blur(14px) saturate(1.1);
-    -webkit-backdrop-filter: blur(14px) saturate(1.1);
-    box-shadow: var(--glass-shadow-1), inset 0 1px 0 rgba(255,255,255,0.06);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    box-shadow: var(--glass-shadow-1), inset 0 1px 0 rgba(255,255,255,0.07);
     transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
   }
   .uc-card:hover {
@@ -1080,11 +1085,7 @@
       linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
     overflow: hidden;
   }
-  .uc-media img {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%; object-fit: cover;
-  }
-  /* darkening so the title below always stays readable over any photo */
+  .uc-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .uc-media::after {
     content: ''; position: absolute; inset: 0;
     background: linear-gradient(180deg, rgba(5,7,13,0.30) 0%, rgba(5,7,13,0.55) 55%, rgba(5,7,13,0.88) 100%);
@@ -1095,42 +1096,59 @@
   .uc-card h3 { font-size: 14.5px; font-weight: 700; }
   .uc-card p { font-size: 12px; color: var(--muted); line-height: 1.45; }
   .uc-order {
-    margin-top: auto;
-    align-self: flex-start;
-    border: 1px solid var(--line);
-    background: rgba(255,255,255,0.03);
-    color: #fff;
-    border-radius: 999px;
-    padding: 8px 14px;
-    font-size: 11.5px; font-weight: 600;
+    margin-top: auto; align-self: flex-start;
+    border: 1px solid var(--line); border-top-color: var(--glass-edge);
+    background: var(--glass-fill-soft);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    color: #fff; border-radius: 999px;
+    padding: 8px 14px; font-size: 11.5px; font-weight: 600;
     cursor: pointer;
-    transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
+    transition: border-color 0.25s ease, background 0.25s ease;
   }
-  .uc-order:hover { border-color: var(--uc-accent, var(--ch)); background: rgba(255,255,255,0.07); }
+  .uc-order:hover { border-color: var(--uc-accent, var(--ch)); }
 
+  /* Arrows live outside the cards, out at the nav's width (nav is 1200px wide
+     against the 1120px content column, which leaves exactly this margin). */
   .uc-nav {
-    position: absolute; top: calc(50% - 8px); transform: translateY(-50%);
+    position: absolute; top: 50%; transform: translateY(-50%);
     z-index: 3;
-    width: 38px; height: 38px; border-radius: 50%;
+    width: 42px; height: 42px; border-radius: 50%;
     display: grid; place-items: center;
-    border: 1px solid var(--line);
-    background: rgba(8,7,14,0.78);
-    backdrop-filter: blur(10px);
+    border: 1px solid var(--line); border-top-color: var(--glass-edge);
+    background: var(--glass-fill-soft);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    box-shadow: var(--glass-shadow-1), inset 0 1px 0 rgba(255,255,255,0.08);
     color: #fff; font-size: 20px; line-height: 1;
     cursor: pointer;
-    transition: border-color 0.25s ease, background 0.25s ease, opacity 0.25s ease;
+    transition: border-color 0.25s ease, transform 0.2s ease;
   }
-  .uc-nav:hover { border-color: var(--ch); background: rgba(8,7,14,0.95); }
-  .uc-nav[disabled] { opacity: 0; pointer-events: none; }
-  .uc-prev { left: -6px; }
-  .uc-next { right: -6px; }
+  .uc-nav:hover { border-color: var(--ch); transform: translateY(-50%) scale(1.06); }
+  .uc-prev { left: -52px; }
+  .uc-next { right: -52px; }
   .uc-hint { margin-top: 12px; font-size: 11.5px; color: var(--muted-2); }
 
-  @media (max-width: 640px){
-    .uc-grid { grid-auto-columns: 232px; gap: 12px; }
-    .uc-nav { display: none; }
-    .uc-gallery::before, .uc-gallery::after { width: 26px; }
+  /* below ~1230px the arrows would collide with the cards, so tuck them inside */
+  @media (max-width: 1230px){
+    .uc-prev { left: -6px; }
+    .uc-next { right: -6px; }
   }
+  @media (max-width: 640px){
+    .uc-gallery {
+      --uc-col: 232px; --uc-gap: 12px;
+      /* run the strip to both screen edges: on a phone the fade ate width that
+         the cards need, so here they simply carry on past the edge instead */
+      margin-inline: -28px;
+    }
+    .uc-nav { display: none; }
+    .uc-grid {
+      padding: 12px 28px 18px;
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+  }
+
 
   /* ---------- WHAT TO EXPECT ---------- */
   .testimonials { padding: var(--sec-pad) 0; }
@@ -1145,8 +1163,8 @@
     border-radius: 22px;
     padding: 26px 24px;
     background: var(--glass-fill-1);
-    backdrop-filter: blur(16px) saturate(1.1);
-    -webkit-backdrop-filter: blur(16px) saturate(1.1);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
     box-shadow: var(--glass-shadow-1), inset 0 1px 0 rgba(255,255,255,0.07);
     transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
   }
@@ -1204,8 +1222,8 @@
     background: var(--glass-fill-1);
     border: 1px solid var(--line);
     border-top-color: var(--glass-edge);
-    backdrop-filter: blur(22px) saturate(1.15);
-    -webkit-backdrop-filter: blur(22px) saturate(1.15);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
     box-shadow: var(--glass-shadow-1), inset 0 1px 0 rgba(255,255,255,0.09);
   }
 
@@ -1213,8 +1231,10 @@
   .icon-token {
     width: 44px; height: 44px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    border: 1px solid var(--line);
-    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--line); border-top-color: var(--glass-edge);
+    background: var(--glass-fill-soft);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
     flex-shrink: 0;
     transition: border-color 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
   }
@@ -1485,7 +1505,8 @@
     <h2 class="h2 reveal">Silent disco — це лише один зі сценаріїв. Тихий звук працює всюди, де важливо чути.</h2>
     <p class="section-lead reveal">Один комплект обладнання відкриває десятки форматів — від весілля до екскурсії музеєм. Оберіть свій, і ми зберемо подію під нього.</p>
     <div class="uc-gallery reveal">
-      <div class="uc-grid" id="ucGrid" tabindex="0" role="region" aria-label="Сценарії подій, гортайте вбік">
+      <div class="uc-grid" id="ucGrid" role="region" aria-label="Сценарії подій, гортайте вбік">
+        <div class="uc-row" data-row="a">
       <article class="uc-card reveal" data-uc="Весілля" style="--uc-accent:var(--red)">
         <div class="uc-media">
           <span class="uc-emoji">💍</span>
@@ -1493,17 +1514,7 @@
         <div class="uc-body">
           <h3>Весілля</h3>
           <p>Гості самі обирають: танцювати чи говорити. Жодного гуркоту на всю залу — і жодних дзвінків від готелю о другій ночі.</p>
-          <button type="button" class="uc-order">Замовити цей сценарій</button>
-        </div>
-      </article>
-      <article class="uc-card reveal" data-uc="Корпоративи" style="--uc-accent:var(--green)">
-        <div class="uc-media">
-          <span class="uc-emoji">🏢</span>
-        </div>
-        <div class="uc-body">
-          <h3>Корпоративи</h3>
-          <p>Формат, у якому команда нарешті розкривається. Працює і в офісі, і в лофті — без узгодження гучності з орендодавцем.</p>
-          <button type="button" class="uc-order">Замовити цей сценарій</button>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
       <article class="uc-card reveal" data-uc="Конференції" style="--uc-accent:var(--blue)">
@@ -1513,17 +1524,7 @@
         <div class="uc-body">
           <h3>Конференції</h3>
           <p>Кілька сцен в одному залі й тихі обговорення в групах. Кожен чує свого спікера, не заважаючи сусідній секції.</p>
-          <button type="button" class="uc-order">Замовити цей сценарій</button>
-        </div>
-      </article>
-      <article class="uc-card reveal" data-uc="Фестивалі" style="--uc-accent:var(--red)">
-        <div class="uc-media">
-          <span class="uc-emoji">🎪</span>
-        </div>
-        <div class="uc-body">
-          <h3>Фестивалі</h3>
-          <p>Додаткова сцена, яка не конфліктує з головною і не впирається в комендантську годину.</p>
-          <button type="button" class="uc-order">Замовити цей сценарій</button>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
       <article class="uc-card reveal" data-uc="Кіно просто неба" style="--uc-accent:var(--green)">
@@ -1533,17 +1534,7 @@
         <div class="uc-body">
           <h3>Кіно просто неба</h3>
           <p>Двір, дах, парк — звук у навушниках, тиша навколо. Фільм до ночі без питань від сусідів.</p>
-          <button type="button" class="uc-order">Замовити цей сценарій</button>
-        </div>
-      </article>
-      <article class="uc-card reveal" data-uc="Йога та ecstatic dance" style="--uc-accent:var(--blue)">
-        <div class="uc-media">
-          <span class="uc-emoji">🧘</span>
-        </div>
-        <div class="uc-body">
-          <h3>Йога та ecstatic dance</h3>
-          <p>Голос інструктора просто у вусі, музика — на власній гучності. Ніщо не збиває з практики.</p>
-          <button type="button" class="uc-order">Замовити цей сценарій</button>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
       <article class="uc-card reveal" data-uc="Екскурсії" style="--uc-accent:var(--red)">
@@ -1553,17 +1544,7 @@
         <div class="uc-body">
           <h3>Екскурсії</h3>
           <p>Гід говорить упівголоса, а чути однаково добре і в першому ряду, і в останньому. Без крику й мегафона.</p>
-          <button type="button" class="uc-order">Замовити цей сценарій</button>
-        </div>
-      </article>
-      <article class="uc-card reveal" data-uc="Музеї та галереї" style="--uc-accent:var(--green)">
-        <div class="uc-media">
-          <span class="uc-emoji">🖼️</span>
-        </div>
-        <div class="uc-body">
-          <h3>Музеї та галереї</h3>
-          <p>Аудіосупровід, синхронізований із простором. Відвідувач занурюється, не порушуючи тиші зали.</p>
-          <button type="button" class="uc-order">Замовити цей сценарій</button>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
       <article class="uc-card reveal" data-uc="Студентські події" style="--uc-accent:var(--blue)">
@@ -1573,17 +1554,7 @@
         <div class="uc-body">
           <h3>Студентські події</h3>
           <p>Посвята, випускний, вечірка гуртожитку — гучно для своїх і тихо для адміністрації.</p>
-          <button type="button" class="uc-order">Замовити цей сценарій</button>
-        </div>
-      </article>
-      <article class="uc-card reveal" data-uc="Камерні концерти" style="--uc-accent:var(--red)">
-        <div class="uc-media">
-          <span class="uc-emoji">🎸</span>
-        </div>
-        <div class="uc-body">
-          <h3>Камерні концерти</h3>
-          <p>Прослуховування, де чути кожен нюанс виконання. Публіка максимально близько до звуку.</p>
-          <button type="button" class="uc-order">Замовити цей сценарій</button>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
       <article class="uc-card reveal" data-uc="Табори та молодіжні збори" style="--uc-accent:var(--green)">
@@ -1593,17 +1564,7 @@
         <div class="uc-body">
           <h3>Табори та молодіжні збори</h3>
           <p>Ранкові розминки, командні ігри, вечірня дискотека — один комплект на всі активності зміни.</p>
-          <button type="button" class="uc-order">Замовити цей сценарій</button>
-        </div>
-      </article>
-      <article class="uc-card reveal" data-uc="Благодійні гала" style="--uc-accent:var(--blue)">
-        <div class="uc-media">
-          <span class="uc-emoji">🥂</span>
-        </div>
-        <div class="uc-body">
-          <h3>Благодійні гала</h3>
-          <p>Аукціон і танці в одному залі. Гості чують ведучого, не борючись із фоновою музикою.</p>
-          <button type="button" class="uc-order">Замовити цей сценарій</button>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
       <article class="uc-card reveal" data-uc="Презентація релізу" style="--uc-accent:var(--red)">
@@ -1613,17 +1574,7 @@
         <div class="uc-body">
           <h3>Презентація релізу</h3>
           <p>Послухайте новий альбом у деталях — разом і водночас особисто. Камерний формат для перших слухачів.</p>
-          <button type="button" class="uc-order">Замовити цей сценарій</button>
-        </div>
-      </article>
-      <article class="uc-card reveal" data-uc="Інклюзивні події" style="--uc-accent:var(--green)">
-        <div class="uc-media">
-          <span class="uc-emoji">🤍</span>
-        </div>
-        <div class="uc-body">
-          <h3>Інклюзивні події</h3>
-          <p>Кожен регулює гучність під себе — подія стає доступною для гостей із сенсорною чутливістю.</p>
-          <button type="button" class="uc-order">Замовити цей сценарій</button>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
       <article class="uc-card reveal" data-uc="Діджей-сет наживо" style="--uc-accent:var(--blue)">
@@ -1633,17 +1584,7 @@
         <div class="uc-body">
           <h3>Діджей-сет наживо</h3>
           <p>Резидент або запрошений діджей мікшує просто у ваші навушники — з реакцією на зал.</p>
-          <button type="button" class="uc-order">Замовити цей сценарій</button>
-        </div>
-      </article>
-      <article class="uc-card reveal" data-uc="Шкільні свята" style="--uc-accent:var(--red)">
-        <div class="uc-media">
-          <span class="uc-emoji">🏫</span>
-        </div>
-        <div class="uc-body">
-          <h3>Шкільні свята</h3>
-          <p>Події та збори коштів, які діти чекають. Без перевантаження звуком у спортзалі.</p>
-          <button type="button" class="uc-order">Замовити цей сценарій</button>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
       <article class="uc-card reveal" data-uc="Драйв-ін формат" style="--uc-accent:var(--green)">
@@ -1653,7 +1594,109 @@
         <div class="uc-body">
           <h3>Драйв-ін формат</h3>
           <p>Майданчик, екран і звук у навушниках — подія там, де немає жодної звукової інфраструктури.</p>
-          <button type="button" class="uc-order">Замовити цей сценарій</button>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Церковні служби та зібрання" style="--uc-accent:var(--red)">
+        <div class="uc-media">
+          <span class="uc-emoji">⛪</span>
+        </div>
+        <div class="uc-body">
+          <h3>Церковні служби та зібрання</h3>
+          <p>Проповідь і музика звучать чітко для кожного — у залі, у дворі чи на виїзному служінні.</p>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Музичні коледжі" style="--uc-accent:var(--blue)">
+        <div class="uc-media">
+          <span class="uc-emoji">🎼</span>
+        </div>
+        <div class="uc-body">
+          <h3>Музичні коледжі</h3>
+          <p>Камерне прослуховування студентських програм: чути кожну партію без гучних моніторів у залі.</p>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
+        </div>
+      </article>
+        </div>
+        <div class="uc-row" data-row="b">
+      <article class="uc-card reveal" data-uc="Корпоративи" style="--uc-accent:var(--green)">
+        <div class="uc-media">
+          <span class="uc-emoji">🏢</span>
+        </div>
+        <div class="uc-body">
+          <h3>Корпоративи</h3>
+          <p>Формат, у якому команда нарешті розкривається. Працює і в офісі, і в лофті — без узгодження гучності з орендодавцем.</p>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Фестивалі" style="--uc-accent:var(--red)">
+        <div class="uc-media">
+          <span class="uc-emoji">🎪</span>
+        </div>
+        <div class="uc-body">
+          <h3>Фестивалі</h3>
+          <p>Додаткова сцена, яка не конфліктує з головною і не впирається в комендантську годину.</p>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Йога та ecstatic dance" style="--uc-accent:var(--blue)">
+        <div class="uc-media">
+          <span class="uc-emoji">🧘</span>
+        </div>
+        <div class="uc-body">
+          <h3>Йога та ecstatic dance</h3>
+          <p>Голос інструктора просто у вусі, музика — на власній гучності. Ніщо не збиває з практики.</p>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Музеї та галереї" style="--uc-accent:var(--green)">
+        <div class="uc-media">
+          <span class="uc-emoji">🖼️</span>
+        </div>
+        <div class="uc-body">
+          <h3>Музеї та галереї</h3>
+          <p>Аудіосупровід, синхронізований із простором. Відвідувач занурюється, не порушуючи тиші зали.</p>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Камерні концерти" style="--uc-accent:var(--red)">
+        <div class="uc-media">
+          <span class="uc-emoji">🎸</span>
+        </div>
+        <div class="uc-body">
+          <h3>Камерні концерти</h3>
+          <p>Прослуховування, де чути кожен нюанс виконання. Публіка максимально близько до звуку.</p>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Благодійні гала" style="--uc-accent:var(--blue)">
+        <div class="uc-media">
+          <span class="uc-emoji">🥂</span>
+        </div>
+        <div class="uc-body">
+          <h3>Благодійні гала</h3>
+          <p>Аукціон і танці в одному залі. Гості чують ведучого, не борючись із фоновою музикою.</p>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Інклюзивні події" style="--uc-accent:var(--green)">
+        <div class="uc-media">
+          <span class="uc-emoji">🤍</span>
+        </div>
+        <div class="uc-body">
+          <h3>Інклюзивні події</h3>
+          <p>Кожен регулює гучність під себе — подія стає доступною для гостей із сенсорною чутливістю.</p>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Шкільні свята" style="--uc-accent:var(--red)">
+        <div class="uc-media">
+          <span class="uc-emoji">🏫</span>
+        </div>
+        <div class="uc-body">
+          <h3>Шкільні свята</h3>
+          <p>Події та збори коштів, які діти чекають. Без перевантаження звуком у спортзалі.</p>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
       <article class="uc-card reveal" data-uc="Громадські зібрання" style="--uc-accent:var(--blue)">
@@ -1663,9 +1706,30 @@
         <div class="uc-body">
           <h3>Громадські зібрання</h3>
           <p>Лекції, покази, зустрічі спільноти — чути кожне слово навіть на відкритому майданчику.</p>
-          <button type="button" class="uc-order">Замовити цей сценарій</button>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
+      <article class="uc-card reveal" data-uc="Церковні та молодіжні табори" style="--uc-accent:var(--green)">
+        <div class="uc-media">
+          <span class="uc-emoji">🏕️</span>
+        </div>
+        <div class="uc-body">
+          <h3>Церковні та молодіжні табори</h3>
+          <p>Ранкові зібрання, тихі години роздумів і вечірні дискотеки — на одному комплекті обладнання.</p>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Ярмарки та маркети" style="--uc-accent:var(--red)">
+        <div class="uc-media">
+          <span class="uc-emoji">🛍️</span>
+        </div>
+        <div class="uc-body">
+          <h3>Ярмарки та маркети</h3>
+          <p>Музична зона просто серед рядів — гості танцюють, а торгівля поруч іде своїм ходом.</p>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
+        </div>
+      </article>
+        </div>
       </div>
       <button class="uc-nav uc-prev" type="button" aria-label="Попередні сценарії">‹</button>
       <button class="uc-nav uc-next" type="button" aria-label="Наступні сценарії">›</button>
@@ -2356,51 +2420,108 @@
     });
   }
 
-  // ---- Scenario gallery: arrows + "order this scenario" ----
+  // ---- Scenario gallery: endless strip + "order this experience" ----
   (function(){
-    const grid = document.getElementById('ucGrid');
-    if (!grid) return;
+    const view = document.getElementById('ucGrid');
+    if (!view) return;
+    const rows = [...view.querySelectorAll('.uc-row')];
     const prev = document.querySelector('.uc-prev');
     const next = document.querySelector('.uc-next');
-    // one "page" is a whole column pair, so arrows step in the same rhythm as a swipe
-    const step = () => {
-      const card = grid.querySelector('.uc-card');
-      const w = card ? card.getBoundingClientRect().width : 260;
-      const gap = parseFloat(getComputedStyle(grid).columnGap) || 14;
-      return Math.max(w + gap, grid.clientWidth * 0.8);
-    };
-    function syncArrows(){
-      const max = grid.scrollWidth - grid.clientWidth - 2;
-      if (prev) prev.disabled = grid.scrollLeft <= 2;
-      if (next) next.disabled = grid.scrollLeft >= max;
-    }
-    if (prev) prev.addEventListener('click', () => grid.scrollBy({ left: -step(), behavior: 'smooth' }));
-    if (next) next.addEventListener('click', () => grid.scrollBy({ left: step(), behavior: 'smooth' }));
-    grid.addEventListener('scroll', syncArrows, { passive: true });
-    window.addEventListener('resize', syncArrows, { passive: true });
-    syncArrows();
 
-    // Each card can seed the booking form, the same way the calculator does.
-    grid.querySelectorAll('.uc-order').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const card = btn.closest('.uc-card');
-        const name = card ? card.dataset.uc : '';
-        if (!name) return;
-        const line = `Цікавить сценарій: ${name}.`;
-        const field = document.getElementById('comment');
-        if (field && !field.value.includes(line)) {
-          field.value = field.value ? field.value + '\n' + line : line;
-        }
-        const note = document.getElementById('calcSummaryNote');
-        if (note) {
-          note.style.display = 'block';
-          note.innerHTML = `✓ Обраний сценарій: <b>${name}</b>. Він уже в коментарі нижче — можна доповнити деталями.`;
-        }
-        const form = document.getElementById('book');
-        if (form) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        setTimeout(() => { if (field) field.focus({ preventScroll: true }); }, 600);
-      });
+    // Clone each row twice so there is always a full set of cards to scroll into
+    // on either side; scrollLeft is then kept inside the middle copy, which makes
+    // the strip feel endless in both directions.
+    const counts = rows.map(r => r.children.length);
+    rows.forEach(row => {
+      const originals = [...row.children];
+      for (let i = 0; i < 2; i++) originals.forEach(c => row.appendChild(c.cloneNode(true)));
     });
+
+    const setWidth = () => {
+      const row = rows[0];
+      if (!row || !row.children.length) return 0;
+      const card = row.children[0].getBoundingClientRect().width;
+      const gap = parseFloat(getComputedStyle(row).columnGap) || 14;
+      return (card + gap) * counts[0];
+    };
+
+    let settling = 0;
+    function normalise(){
+      if (settling) return;                 // don't fight an in-flight smooth scroll
+      const w = setWidth();
+      if (!w) return;
+      if (view.scrollLeft < w * 0.5) view.scrollLeft += w;
+      else if (view.scrollLeft > w * 1.5) view.scrollLeft -= w;
+    }
+    function start(){
+      const w = setWidth();
+      if (w) view.scrollLeft = w;           // begin inside the middle copy
+    }
+
+    view.addEventListener('scroll', normalise, { passive: true });
+    window.addEventListener('resize', () => { settling = 0; start(); }, { passive: true });
+
+    function nudge(dir){
+      const row = rows[0];
+      const card = row.children[0].getBoundingClientRect().width;
+      const gap = parseFloat(getComputedStyle(row).columnGap) || 14;
+      settling = 1;
+      view.scrollBy({ left: dir * (card + gap) * 2, behavior: 'smooth' });
+      clearTimeout(nudge._t);
+      nudge._t = setTimeout(() => { settling = 0; normalise(); }, 650);
+    }
+    if (prev) prev.addEventListener('click', () => nudge(-1));
+    if (next) next.addEventListener('click', () => nudge(1));
+
+    // cards are cloned, so the order buttons are handled by delegation
+    view.addEventListener('click', (e) => {
+      const btn = e.target.closest('.uc-order');
+      if (!btn) return;
+      const card = btn.closest('.uc-card');
+      const name = card && card.dataset.uc;
+      if (!name) return;
+      const line = `Цікавить досвід: ${name}.`;
+      const field = document.getElementById('comment');
+      if (field && !field.value.includes(line)) {
+        field.value = field.value ? field.value + '\n' + line : line;
+      }
+      const note = document.getElementById('calcSummaryNote');
+      if (note) {
+        note.style.display = 'block';
+        note.innerHTML = `✓ Обраний досвід: <b>${name}</b>. Він уже в коментарі нижче — можна доповнити деталями.`;
+      }
+      const form = document.getElementById('book');
+      if (form) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(() => { if (field) field.focus({ preventScroll: true }); }, 600);
+    });
+
+    // ---- Parallax between the two rows ----
+    // As the section travels through the viewport the rows drift in opposite
+    // directions, so the strip feels layered rather than flat. Purely visual:
+    // transforms don't touch scrollLeft, so the looping maths is unaffected.
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce){
+      const DRIFT = 46;
+      let ticking = false;
+      function drift(){
+        const r = view.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > innerHeight){ ticking = false; return; }
+        // -1 when the strip is entering from below, +1 as it leaves upward
+        const p = 1 - (r.top + r.height / 2) / (innerHeight / 2 + r.height / 2);
+        const clamped = Math.max(-1, Math.min(1, p));
+        rows[0].style.transform = `translate3d(${(-clamped * DRIFT).toFixed(1)}px,0,0)`;
+        rows[1].style.transform = `translate3d(${(clamped * DRIFT).toFixed(1)}px,0,0)`;
+        ticking = false;
+      }
+      const onScroll = () => { if (!ticking){ ticking = true; requestAnimationFrame(drift); } };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      drift();
+    }
+
+    if (document.readyState === 'complete') start();
+    else window.addEventListener('load', start, { once: true });
+    start();
   })();
 
   // ---- respect reduced motion ----
