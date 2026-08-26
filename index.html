@@ -721,11 +721,31 @@
     box-shadow: var(--glass-shadow-2), inset 0 1px 0 rgba(255,255,255,0.1);
     padding: 42px;
     display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
     gap: 36px;
   }
+  /* Grid items default to min-width:auto and so refuse to shrink below their
+     content — that is what pushed the card past the screen on phones. */
+  .calc-card > * { min-width: 0; }
   .calc-copy h2 { font-size: clamp(22px, 3vw, 30px); line-height: 1.15; margin-bottom: 14px; font-weight: 700; }
   .calc-copy p { color: var(--muted); font-size: 15px; max-width: 58ch; }
+  /* The shot is a cut-out PNG, so it needs no frame — it floats on the card.
+     A soft three-colour backlight sits behind it, echoing the RED/GREEN/BLUE
+     channels the headphones themselves are lit in. */
+  .calc-photo { position: relative; margin-top: 22px; }
+  .calc-photo::before {
+    content: ''; position: absolute; inset: 12% 4% 16%;
+    z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 42% 58% at 20% 55%, rgba(46,213,115,0.34), transparent 72%),
+      radial-gradient(ellipse 42% 58% at 50% 50%, rgba(61,168,255,0.34), transparent 72%),
+      radial-gradient(ellipse 42% 58% at 80% 55%, rgba(255,71,87,0.34), transparent 72%);
+    filter: blur(34px);
+  }
+  .calc-photo img {
+    position: relative; z-index: 1;
+    display: block; width: 100%; height: auto;
+  }
   .calc-rules { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 26px; }
   .calc-rule {
     border: 1px solid var(--line);
@@ -736,7 +756,9 @@
   }
   .calc-rule:hover { border-color: rgba(255,255,255,0.22); background: rgba(255,255,255,0.045); }
   .calc-rule b { display:block; font-family:'Unbounded'; font-size: 18px; line-height: 1.1; margin-bottom: 5px; }
-  .calc-rule span { color: var(--muted); font-size: 12.5px; }
+  /* Inherited the global 1.6, which left a gap far too airy once a caption wraps
+     to a second line. 1.35 matches the channel-toggle captions. */
+  .calc-rule span { color: var(--muted); font-size: 12.5px; line-height: 1.35; display: block; }
   .calc-panel {
     border: 1px solid rgba(255,255,255,0.12);
     border-radius: 22px;
@@ -744,9 +766,27 @@
     padding: 24px;
   }
   .calc-top { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom: 18px; }
+  /* Fixed shares, so neither readout resizes as its number changes — that jitter
+     used to ripple out and shift the whole panel while dragging the slider. The
+     price gets the larger share because it is the longer value ("22 000"). */
+  .calc-top > div { min-width: 0; }
+  .calc-top > div:first-child { flex: 0 0 36%; }
+  .calc-top > div:last-child { flex: 1 1 0; }
   .calc-top span { color: var(--muted-2); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 800; }
-  .calc-price { font-family:'Unbounded'; font-size: clamp(34px, 5vw, 54px); line-height: 1; color: #fff; }
-  .calc-price small { font-family:'Manrope'; color: var(--muted); font-size: 13px; font-weight: 600; }
+  .calc-price {
+    font-family:'Unbounded'; font-size: clamp(26px, 6.2vw, 54px); line-height: 1; color: #fff;
+    /* fixed-width digits: 1 and 8 occupy the same space, so the readout can't
+       shift as the value changes */
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
+    white-space: nowrap;
+  }
+  /* The unit always sits on its own line, so it can never hop beside/below the
+     number depending on how wide that number happens to be. */
+  .calc-price small {
+    display: block; margin-top: 7px;
+    font-family:'Manrope'; color: var(--muted); font-size: 13px; font-weight: 600;
+  }
   .calc-slider { margin: 26px 0 20px; }
   .calc-slider input[type="range"] {
     width: 100%; accent-color: var(--ch); cursor: pointer;
@@ -754,7 +794,7 @@
   .calc-labels { display:flex; justify-content:space-between; color: var(--muted-2); font-size: 11.5px; margin-top: 7px; }
   .calc-row { display:flex; justify-content:space-between; gap:18px; padding: 13px 0; border-top: 1px solid var(--line); font-size: 13.5px; }
   .calc-row span:first-child { color: var(--muted); }
-  .calc-row span:last-child { font-weight: 700; text-align: right; }
+  .calc-row span:last-child { font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
   .calc-checks { display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0 20px; }
   .calc-checks label {
     border: 1px solid var(--line);
@@ -810,8 +850,17 @@
     .calc-card { padding: 30px; }
   }
   @media (max-width: 520px){
-    .calc-rules, .calc-checks { grid-template-columns: 1fr; }
-    .calc-card { padding: 24px; border-radius: 22px; }
+    /* .calc-rules deliberately stays 2x2 here — as four full-width rows the
+       stats read as a long list instead of a compact block. */
+    .calc-checks { grid-template-columns: 1fr; }
+    .calc-rule { padding: 13px 12px; border-radius: 15px; }
+    .calc-rule b { font-size: 16px; }
+    .calc-rule span { font-size: 11.5px; }
+    .calc-card { padding: 20px; border-radius: 22px; }
+    /* nested padding (page + card + panel) eats the width the readouts need,
+       so trim the innermost one rather than shrinking the numbers */
+    .calc-panel { padding: 18px 16px; }
+    .calc-top { gap: 10px; }
     .hero-photo { background-position: 70% 26%; }
   }
 
@@ -971,27 +1020,117 @@
 
   /* ---------- USE CASES ---------- */
   .usecases { padding: var(--sec-pad) 0; }
+
+  /* Horizontal gallery: cards flow top-to-bottom in pairs, then scroll sideways.
+     Keeps 18 scenarios browsable without an eight-row wall of cards. */
+  .uc-gallery { position: relative; margin-top: 40px; }
   .uc-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
-    margin-top: 40px;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(2, 1fr);
+    grid-auto-columns: 272px;
+    gap: 14px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scroll-padding-left: 2px;
+    padding: 2px 2px 16px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.16) transparent;
   }
-  @media (max-width: 900px){ .uc-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 520px){ .uc-grid { grid-template-columns: 1fr; } }
+  .uc-grid::-webkit-scrollbar { height: 6px; }
+  .uc-grid::-webkit-scrollbar-track { background: transparent; }
+  .uc-grid::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.16); border-radius: 99px; }
+  .uc-grid:focus-visible { outline: 2px solid var(--ch); outline-offset: 6px; border-radius: 22px; }
+  /* the row fades out at the edges so it reads as "there is more this way" */
+  .uc-gallery::before, .uc-gallery::after {
+    content: ''; position: absolute; top: 0; bottom: 16px; width: 46px;
+    pointer-events: none; z-index: 2;
+  }
+  .uc-gallery::before { left: -2px; background: linear-gradient(90deg, var(--night), transparent); }
+  .uc-gallery::after { right: -2px; background: linear-gradient(270deg, var(--night), transparent); }
+
   .uc-card {
     position: relative;
+    scroll-snap-align: start;
+    display: flex; flex-direction: column;
+    overflow: hidden;
     border: 1px solid var(--line); border-top-color: var(--glass-edge);
     border-radius: 20px;
-    padding: 20px 18px;
     background: var(--glass-fill-1);
     backdrop-filter: blur(14px) saturate(1.1);
     -webkit-backdrop-filter: blur(14px) saturate(1.1);
     box-shadow: var(--glass-shadow-1), inset 0 1px 0 rgba(255,255,255,0.06);
-    transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
   }
-  .uc-card:hover { border-color: var(--ch); transform: translateY(-3px); box-shadow: var(--glass-shadow-2), 0 0 34px -22px var(--ch-glow), inset 0 1px 0 rgba(255,255,255,0.09); }
-  .uc-emoji { font-size: 22px; margin-bottom: 12px; display: block; }
-  .uc-card h3 { font-size: 13.5px; font-weight: 700; margin-bottom: 6px; }
-  .uc-card p { font-size: 11.8px; color: var(--muted); line-height: 1.5; }
+  .uc-card:hover {
+    border-color: var(--uc-accent, var(--ch));
+    transform: translateY(-3px);
+    box-shadow: var(--glass-shadow-2), 0 0 34px -20px var(--uc-accent, var(--ch-glow)), inset 0 1px 0 rgba(255,255,255,0.09);
+  }
+
+  /* Photo header. The <img> is optional: until a shot is dropped in, the tinted
+     gradient below stands in, so the card never looks broken. */
+  .uc-media {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    display: grid; place-items: center;
+    background:
+      radial-gradient(ellipse at 50% 120%, color-mix(in srgb, var(--uc-accent, var(--ch)) 42%, transparent), transparent 70%),
+      linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+    overflow: hidden;
+  }
+  .uc-media img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; object-fit: cover;
+  }
+  /* darkening so the title below always stays readable over any photo */
+  .uc-media::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(5,7,13,0.30) 0%, rgba(5,7,13,0.55) 55%, rgba(5,7,13,0.88) 100%);
+  }
+  .uc-emoji { position: relative; z-index: 1; font-size: 30px; line-height: 1; }
+
+  .uc-body { display: flex; flex-direction: column; gap: 7px; padding: 14px 16px 16px; flex: 1; }
+  .uc-card h3 { font-size: 14.5px; font-weight: 700; }
+  .uc-card p { font-size: 12px; color: var(--muted); line-height: 1.45; }
+  .uc-order {
+    margin-top: auto;
+    align-self: flex-start;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,0.03);
+    color: #fff;
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-size: 11.5px; font-weight: 600;
+    cursor: pointer;
+    transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
+  }
+  .uc-order:hover { border-color: var(--uc-accent, var(--ch)); background: rgba(255,255,255,0.07); }
+
+  .uc-nav {
+    position: absolute; top: calc(50% - 8px); transform: translateY(-50%);
+    z-index: 3;
+    width: 38px; height: 38px; border-radius: 50%;
+    display: grid; place-items: center;
+    border: 1px solid var(--line);
+    background: rgba(8,7,14,0.78);
+    backdrop-filter: blur(10px);
+    color: #fff; font-size: 20px; line-height: 1;
+    cursor: pointer;
+    transition: border-color 0.25s ease, background 0.25s ease, opacity 0.25s ease;
+  }
+  .uc-nav:hover { border-color: var(--ch); background: rgba(8,7,14,0.95); }
+  .uc-nav[disabled] { opacity: 0; pointer-events: none; }
+  .uc-prev { left: -6px; }
+  .uc-next { right: -6px; }
+  .uc-hint { margin-top: 12px; font-size: 11.5px; color: var(--muted-2); }
+
+  @media (max-width: 640px){
+    .uc-grid { grid-auto-columns: 232px; gap: 12px; }
+    .uc-nav { display: none; }
+    .uc-gallery::before, .uc-gallery::after { width: 26px; }
+  }
 
   /* ---------- WHAT TO EXPECT ---------- */
   .testimonials { padding: var(--sec-pad) 0; }
@@ -1342,51 +1481,196 @@
 <!-- USE CASES -->
 <section class="usecases" id="cases">
   <div class="wrap">
-    <div class="eyebrow reveal">Сценарії</div>
-    <h2 class="h2 reveal">Не тільки дискотека — формат змінюється під настрій вашої події.</h2>
-    <p class="section-lead reveal">Одне й те саме обладнання, різна подача — під те, що потрібно саме вам.</p>
-    <div class="uc-grid">
-      <div class="uc-card reveal">
-        <span class="uc-emoji">💍</span>
-        <h3>Весілля</h3>
-        <p>Танці до ранку без обмежень майданчика — і жодних скарг від сусідніх номерів готелю.</p>
+    <div class="eyebrow reveal">Silent-досвіди</div>
+    <h2 class="h2 reveal">Silent disco — це лише один зі сценаріїв. Тихий звук працює всюди, де важливо чути.</h2>
+    <p class="section-lead reveal">Один комплект обладнання відкриває десятки форматів — від весілля до екскурсії музеєм. Оберіть свій, і ми зберемо подію під нього.</p>
+    <div class="uc-gallery reveal">
+      <div class="uc-grid" id="ucGrid" tabindex="0" role="region" aria-label="Сценарії подій, гортайте вбік">
+      <article class="uc-card reveal" data-uc="Весілля" style="--uc-accent:var(--red)">
+        <div class="uc-media">
+          <span class="uc-emoji">💍</span>
+        </div>
+        <div class="uc-body">
+          <h3>Весілля</h3>
+          <p>Гості самі обирають: танцювати чи говорити. Жодного гуркоту на всю залу — і жодних дзвінків від готелю о другій ночі.</p>
+          <button type="button" class="uc-order">Замовити цей сценарій</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Корпоративи" style="--uc-accent:var(--green)">
+        <div class="uc-media">
+          <span class="uc-emoji">🏢</span>
+        </div>
+        <div class="uc-body">
+          <h3>Корпоративи</h3>
+          <p>Формат, у якому команда нарешті розкривається. Працює і в офісі, і в лофті — без узгодження гучності з орендодавцем.</p>
+          <button type="button" class="uc-order">Замовити цей сценарій</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Конференції" style="--uc-accent:var(--blue)">
+        <div class="uc-media">
+          <span class="uc-emoji">🎤</span>
+        </div>
+        <div class="uc-body">
+          <h3>Конференції</h3>
+          <p>Кілька сцен в одному залі й тихі обговорення в групах. Кожен чує свого спікера, не заважаючи сусідній секції.</p>
+          <button type="button" class="uc-order">Замовити цей сценарій</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Фестивалі" style="--uc-accent:var(--red)">
+        <div class="uc-media">
+          <span class="uc-emoji">🎪</span>
+        </div>
+        <div class="uc-body">
+          <h3>Фестивалі</h3>
+          <p>Додаткова сцена, яка не конфліктує з головною і не впирається в комендантську годину.</p>
+          <button type="button" class="uc-order">Замовити цей сценарій</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Кіно просто неба" style="--uc-accent:var(--green)">
+        <div class="uc-media">
+          <span class="uc-emoji">🎬</span>
+        </div>
+        <div class="uc-body">
+          <h3>Кіно просто неба</h3>
+          <p>Двір, дах, парк — звук у навушниках, тиша навколо. Фільм до ночі без питань від сусідів.</p>
+          <button type="button" class="uc-order">Замовити цей сценарій</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Йога та ecstatic dance" style="--uc-accent:var(--blue)">
+        <div class="uc-media">
+          <span class="uc-emoji">🧘</span>
+        </div>
+        <div class="uc-body">
+          <h3>Йога та ecstatic dance</h3>
+          <p>Голос інструктора просто у вусі, музика — на власній гучності. Ніщо не збиває з практики.</p>
+          <button type="button" class="uc-order">Замовити цей сценарій</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Екскурсії" style="--uc-accent:var(--red)">
+        <div class="uc-media">
+          <span class="uc-emoji">🗺️</span>
+        </div>
+        <div class="uc-body">
+          <h3>Екскурсії</h3>
+          <p>Гід говорить упівголоса, а чути однаково добре і в першому ряду, і в останньому. Без крику й мегафона.</p>
+          <button type="button" class="uc-order">Замовити цей сценарій</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Музеї та галереї" style="--uc-accent:var(--green)">
+        <div class="uc-media">
+          <span class="uc-emoji">🖼️</span>
+        </div>
+        <div class="uc-body">
+          <h3>Музеї та галереї</h3>
+          <p>Аудіосупровід, синхронізований із простором. Відвідувач занурюється, не порушуючи тиші зали.</p>
+          <button type="button" class="uc-order">Замовити цей сценарій</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Студентські події" style="--uc-accent:var(--blue)">
+        <div class="uc-media">
+          <span class="uc-emoji">🎓</span>
+        </div>
+        <div class="uc-body">
+          <h3>Студентські події</h3>
+          <p>Посвята, випускний, вечірка гуртожитку — гучно для своїх і тихо для адміністрації.</p>
+          <button type="button" class="uc-order">Замовити цей сценарій</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Камерні концерти" style="--uc-accent:var(--red)">
+        <div class="uc-media">
+          <span class="uc-emoji">🎸</span>
+        </div>
+        <div class="uc-body">
+          <h3>Камерні концерти</h3>
+          <p>Прослуховування, де чути кожен нюанс виконання. Публіка максимально близько до звуку.</p>
+          <button type="button" class="uc-order">Замовити цей сценарій</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Табори та молодіжні збори" style="--uc-accent:var(--green)">
+        <div class="uc-media">
+          <span class="uc-emoji">⛺</span>
+        </div>
+        <div class="uc-body">
+          <h3>Табори та молодіжні збори</h3>
+          <p>Ранкові розминки, командні ігри, вечірня дискотека — один комплект на всі активності зміни.</p>
+          <button type="button" class="uc-order">Замовити цей сценарій</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Благодійні гала" style="--uc-accent:var(--blue)">
+        <div class="uc-media">
+          <span class="uc-emoji">🥂</span>
+        </div>
+        <div class="uc-body">
+          <h3>Благодійні гала</h3>
+          <p>Аукціон і танці в одному залі. Гості чують ведучого, не борючись із фоновою музикою.</p>
+          <button type="button" class="uc-order">Замовити цей сценарій</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Презентація релізу" style="--uc-accent:var(--red)">
+        <div class="uc-media">
+          <span class="uc-emoji">💿</span>
+        </div>
+        <div class="uc-body">
+          <h3>Презентація релізу</h3>
+          <p>Послухайте новий альбом у деталях — разом і водночас особисто. Камерний формат для перших слухачів.</p>
+          <button type="button" class="uc-order">Замовити цей сценарій</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Інклюзивні події" style="--uc-accent:var(--green)">
+        <div class="uc-media">
+          <span class="uc-emoji">🤍</span>
+        </div>
+        <div class="uc-body">
+          <h3>Інклюзивні події</h3>
+          <p>Кожен регулює гучність під себе — подія стає доступною для гостей із сенсорною чутливістю.</p>
+          <button type="button" class="uc-order">Замовити цей сценарій</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Діджей-сет наживо" style="--uc-accent:var(--blue)">
+        <div class="uc-media">
+          <span class="uc-emoji">🎧</span>
+        </div>
+        <div class="uc-body">
+          <h3>Діджей-сет наживо</h3>
+          <p>Резидент або запрошений діджей мікшує просто у ваші навушники — з реакцією на зал.</p>
+          <button type="button" class="uc-order">Замовити цей сценарій</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Шкільні свята" style="--uc-accent:var(--red)">
+        <div class="uc-media">
+          <span class="uc-emoji">🏫</span>
+        </div>
+        <div class="uc-body">
+          <h3>Шкільні свята</h3>
+          <p>Події та збори коштів, які діти чекають. Без перевантаження звуком у спортзалі.</p>
+          <button type="button" class="uc-order">Замовити цей сценарій</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Драйв-ін формат" style="--uc-accent:var(--green)">
+        <div class="uc-media">
+          <span class="uc-emoji">🚗</span>
+        </div>
+        <div class="uc-body">
+          <h3>Драйв-ін формат</h3>
+          <p>Майданчик, екран і звук у навушниках — подія там, де немає жодної звукової інфраструктури.</p>
+          <button type="button" class="uc-order">Замовити цей сценарій</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Громадські зібрання" style="--uc-accent:var(--blue)">
+        <div class="uc-media">
+          <span class="uc-emoji">🤝</span>
+        </div>
+        <div class="uc-body">
+          <h3>Громадські зібрання</h3>
+          <p>Лекції, покази, зустрічі спільноти — чути кожне слово навіть на відкритому майданчику.</p>
+          <button type="button" class="uc-order">Замовити цей сценарій</button>
+        </div>
+      </article>
       </div>
-      <div class="uc-card reveal">
-        <span class="uc-emoji">🏢</span>
-        <h3>Корпоративи</h3>
-        <p>Формат, який запам'ятають — без узгоджень гучності з бізнес-центром чи офісним поверхом.</p>
-      </div>
-      <div class="uc-card reveal">
-        <span class="uc-emoji">🧘</span>
-        <h3>Йога та ecstatic dance</h3>
-        <p>Особиста гучність допомагає зануритись у практику — без гучних колонок, що збивають фокус.</p>
-      </div>
-      <div class="uc-card reveal">
-        <span class="uc-emoji">🎂</span>
-        <h3>Дні народження</h3>
-        <p>Від дитячого свята до дорослої вечірки — гучність під вік і настрій кожної компанії.</p>
-      </div>
-      <div class="uc-card reveal">
-        <span class="uc-emoji">🌳</span>
-        <h3>Вечірки на природі</h3>
-        <p>Парк, дах, подвір'я за містом — де завгодно, де традиційні колонки викликали б питання.</p>
-      </div>
-      <div class="uc-card reveal">
-        <span class="uc-emoji">🎬</span>
-        <h3>Кіно під відкритим небом</h3>
-        <p>Проєктор, екран і звук просто у навушниках — фільм для всіх, без гучного динаміка на подвір'ї.</p>
-      </div>
-      <div class="uc-card reveal">
-        <span class="uc-emoji">🎓</span>
-        <h3>Студентські події</h3>
-        <p>Випускний, посвята, вечірка гуртожитку — формат, який не заведе розмову з охороною.</p>
-      </div>
-      <div class="uc-card reveal">
-        <span class="uc-emoji">✦</span>
-        <h3>Приватні події</h3>
-        <p>Щось нестандартне на думці? Опишіть ідею — підберемо формат під неї.</p>
-      </div>
+      <button class="uc-nav uc-prev" type="button" aria-label="Попередні сценарії">‹</button>
+      <button class="uc-nav uc-next" type="button" aria-label="Наступні сценарії">›</button>
     </div>
+    <p class="uc-hint">Гортайте вбік, щоб побачити всі формати</p>
   </div>
 </section>
 
@@ -1398,6 +1682,10 @@
         <div class="eyebrow">Калькулятор</div>
         <h2>Порахуйте бюджет вечора до заявки.</h2>
         <p>Мінімальне замовлення — 40 навушників на 4 години. Посуньте повзунок і додайте опції, щоб побачити орієнтовний бюджет для вашої події у Києві та області.</p>
+        <div class="calc-photo">
+          <img src="images/headphones.png" width="1100" height="734" loading="lazy" decoding="async"
+               alt="Навушники SILENT із підсвіткою трьох каналів — зеленого, синього та червоного">
+        </div>
         <div class="calc-rules">
           <div class="calc-rule"><b>40</b><span>мінімум навушників</span></div>
           <div class="calc-rule"><b>4 год</b><span>базова тривалість</span></div>
@@ -1413,12 +1701,13 @@
           </div>
           <div style="text-align:right;">
             <span>Орієнтир</span>
-            <div class="calc-price" id="calcTotal">9 800 грн</div>
+            <div class="calc-price"><strong id="calcTotal">9 800</strong> <small>грн</small></div>
           </div>
         </div>
         <div class="calc-slider">
-          <input type="range" id="headphoneRange" min="40" max="100" step="5" value="40" aria-label="Кількість навушників">
-          <div class="calc-labels"><span>40</span><span>60</span><span>80</span><span>100</span></div>
+          <input type="range" id="headphoneRange" min="40" max="90" step="5" value="40" aria-label="Кількість навушників">
+          <!-- three labels only: with space-between they land exactly on 40 / 65 / 90 -->
+          <div class="calc-labels"><span>40</span><span>65</span><span>90+</span></div>
         </div>
         <div class="calc-checks">
           <div class="calc-hours">
@@ -1986,11 +2275,12 @@
   const MIN_HOURS = 4, MAX_HOURS = 8;
   const HOUR_PRICE = 1200;
 
-  // База: 40 навушників / 4 год = 9 800 грн. Стеля: 100 навушників / 4 год = 22 000 грн.
+  // База: 40 навушників / 4 год = 9 800 грн. Стеля: 90 навушників / 4 год = 22 000 грн.
+  const MAX_QTY = 90;
   function calcPrice(qty){
     const base = 9800;
     const extraQty = Math.max(0, qty - 40);
-    const extra = Math.round(extraQty * (12200 / 60));
+    const extra = Math.round(extraQty * (12200 / (MAX_QTY - 40)));
     const extraHours = Math.max(0, hours - MIN_HOURS);
     const hoursCost = extraHours * HOUR_PRICE;
     const options =
@@ -2004,15 +2294,17 @@
     if (!guestsSelect) return;
     if (qty <= 60) guestsSelect.value = '40–60';
     else if (qty <= 80) guestsSelect.value = '60–80';
-    else if (qty <= 100) guestsSelect.value = '80–100';
+    else guestsSelect.value = '80–100';
   }
 
   function updateCalculator(){
     if (!headphoneRange) return;
     const qty = Number(headphoneRange.value);
     const price = calcPrice(qty);
-    calcHeadphones.textContent = qty;
-    calcTotal.textContent = `${fmt.format(price.total)} грн`;
+    // At the ceiling show "90+": the slider stops there, but larger events are
+    // still possible — it reads as "90 or more", not a hard limit.
+    calcHeadphones.textContent = qty >= MAX_QTY ? `${MAX_QTY}+` : qty;
+    calcTotal.textContent = fmt.format(price.total);
     baseLine.textContent = `${fmt.format(price.base)} грн`;
     extraLine.textContent = `${fmt.format(price.extra)} грн`;
     hoursLine.textContent = `${fmt.format(price.hoursCost)} грн`;
@@ -2047,7 +2339,8 @@
       if (contentReel.checked) opts.push('короткий reels');
       if (!hostSupport.checked) opts.push('без супроводу на місці');
       const optsText = opts.length ? `, опції: ${opts.join(', ')}` : '';
-      const summary = `Розрахунок із калькулятора: ${qty} навушників, ${hours} год${optsText}. Орієнтовний бюджет: ${fmt.format(price.total)} грн.`;
+      const qtyLabel = qty >= MAX_QTY ? `${MAX_QTY}+` : qty;
+      const summary = `Розрахунок із калькулятора: ${qtyLabel} навушників, ${hours} год${optsText}. Орієнтовний бюджет: ${fmt.format(price.total)} грн.`;
 
       if (commentField) {
         commentField.value = commentField.value
@@ -2058,10 +2351,57 @@
 
       if (calcSummaryNote) {
         calcSummaryNote.style.display = 'block';
-        calcSummaryNote.innerHTML = `✓ Підтягнули з калькулятора: <b>${qty} навушників, ${hours} год, ~${fmt.format(price.total)} грн</b>. Перевірте коментар нижче — можна доповнити.`;
+        calcSummaryNote.innerHTML = `✓ Підтягнули з калькулятора: <b>${qtyLabel} навушників, ${hours} год, ~${fmt.format(price.total)} грн</b>. Перевірте коментар нижче — можна доповнити.`;
       }
     });
   }
+
+  // ---- Scenario gallery: arrows + "order this scenario" ----
+  (function(){
+    const grid = document.getElementById('ucGrid');
+    if (!grid) return;
+    const prev = document.querySelector('.uc-prev');
+    const next = document.querySelector('.uc-next');
+    // one "page" is a whole column pair, so arrows step in the same rhythm as a swipe
+    const step = () => {
+      const card = grid.querySelector('.uc-card');
+      const w = card ? card.getBoundingClientRect().width : 260;
+      const gap = parseFloat(getComputedStyle(grid).columnGap) || 14;
+      return Math.max(w + gap, grid.clientWidth * 0.8);
+    };
+    function syncArrows(){
+      const max = grid.scrollWidth - grid.clientWidth - 2;
+      if (prev) prev.disabled = grid.scrollLeft <= 2;
+      if (next) next.disabled = grid.scrollLeft >= max;
+    }
+    if (prev) prev.addEventListener('click', () => grid.scrollBy({ left: -step(), behavior: 'smooth' }));
+    if (next) next.addEventListener('click', () => grid.scrollBy({ left: step(), behavior: 'smooth' }));
+    grid.addEventListener('scroll', syncArrows, { passive: true });
+    window.addEventListener('resize', syncArrows, { passive: true });
+    syncArrows();
+
+    // Each card can seed the booking form, the same way the calculator does.
+    grid.querySelectorAll('.uc-order').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const card = btn.closest('.uc-card');
+        const name = card ? card.dataset.uc : '';
+        if (!name) return;
+        const line = `Цікавить сценарій: ${name}.`;
+        const field = document.getElementById('comment');
+        if (field && !field.value.includes(line)) {
+          field.value = field.value ? field.value + '\n' + line : line;
+        }
+        const note = document.getElementById('calcSummaryNote');
+        if (note) {
+          note.style.display = 'block';
+          note.innerHTML = `✓ Обраний сценарій: <b>${name}</b>. Він уже в коментарі нижче — можна доповнити деталями.`;
+        }
+        const form = document.getElementById('book');
+        if (form) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        setTimeout(() => { if (field) field.focus({ preventScroll: true }); }, 600);
+      });
+    });
+  })();
 
   // ---- respect reduced motion ----
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
