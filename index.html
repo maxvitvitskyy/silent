@@ -132,7 +132,7 @@
     overflow: hidden;
   }
   .hero-photo {
-    position: absolute; left: 0; right: 0; top: -15%; height: 145%; z-index: 0;
+    position: absolute; left: 0; right: 0; top: -190px; height: calc(100% + 380px); z-index: 0;
     background-size: cover;
     /* Focal point on the dancer (right side of the frame), so as the viewport
        narrows toward mobile the crop keeps her face in view. */
@@ -484,7 +484,7 @@
   .section-lead { font-size: 17px; color: var(--muted); max-width: none; text-wrap: pretty; }
 
   /* problem→shift */
-  .shift-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; }
+  .shift-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 64px; }
   @media (max-width: 760px){ .shift-grid { grid-template-columns: 1fr; } }
   .shift-card {
     position: relative;
@@ -562,26 +562,88 @@
     pointer-events: none;
   }
   .how-panel.in::after { opacity: 1; }
+  /* Heading and copy share one compact row; the steps run full width beneath. */
+  .how-head {
+    display: grid;
+    grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+    gap: 20px 52px; align-items: start;
+    margin-top: 4px;
+  }
+  .how-head .h2 { margin-bottom: 0; }
+  .how-head-text p { color: var(--muted); font-size: 15px; line-height: 1.65; }
+  .how-head-text p + p { margin-top: 13px; }
+  @media (max-width: 900px){
+    .how-head { grid-template-columns: 1fr; gap: 16px; }
+  }
+
   .steps {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px 28px;
     position: relative;
   }
-  @media (max-width: 860px){ .steps { grid-template-columns: 1fr 1fr; gap: 28px 24px; } }
-  @media (max-width: 480px){ .steps { grid-template-columns: 1fr; } }
+  @media (max-width: 980px){ .steps { grid-template-columns: 1fr 1fr; gap: 30px 44px; } }
+  @media (max-width: 620px){ .steps { grid-template-columns: 1fr; gap: 26px; } }
+  @media (max-width: 420px){
+    .how-panel .step-circle { width: 44px; height: 44px; }
+    .how-panel .step-circle svg { width: 21px; height: 21px; }
+    .step-card { column-gap: 13px; }
+  }
+  /* Icon on the left, everything else on one shared left edge beside it —
+     label, title and bullets all line up, on desktop and on phones alike. */
+  /* Desktop keeps all four in one row, so the icon sits above its text with a
+     clear gap. Narrower screens have width to spare, so it moves beside the text
+     and the label, title and bullets share one left edge with it. */
   .step-card {
-    text-align: center;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 17px;
+    align-items: start;
+    /* Cards stretch to the tallest one in the row; without this the spare height
+       is shared out between the auto rows and the icons drift apart. */
+    align-content: start;
+    text-align: left;
     position: relative; z-index: 1;
     transition: transform 0.3s ease;
   }
+  @media (max-width: 980px){
+    .step-card {
+      grid-template-columns: auto minmax(0, 1fr);
+      column-gap: 16px; row-gap: 0;
+    }
+  }
+  /* Phones centre everything: with no icon column stealing width, the lines
+     break far less often. */
+  @media (max-width: 620px){
+    .step-card {
+      grid-template-columns: minmax(0, 1fr);
+      justify-items: center; text-align: center;
+      column-gap: 0; row-gap: 14px;
+    }
+    .step-body { padding-top: 0; }
+    .step-chip { justify-content: center; }
+    .step-list { align-items: center; }
+    .step-list li { justify-content: center; text-align: left; }
+  }
+  .step-body { min-width: 0; padding-top: 2px; }
+  .step-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family:'Unbounded'; font-weight: 600; font-size: 9px;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 7px;
+  }
+  .step-chip b { font-size: 10.5px; font-weight: 700; letter-spacing: 0.5px; }
+  .step-card:nth-child(1) .step-chip { color: var(--red); }
+  .step-card:nth-child(2) .step-chip { color: var(--green); }
+  .step-card:nth-child(3) .step-chip { color: var(--blue); }
+  .step-card:nth-child(4) .step-chip { color: var(--lime); }
   .step-card:hover { transform: translateY(-3px); }
   .step-circle {
     width: 56px; height: 56px;
-    margin: 0 auto 18px;
+    margin: 0 0 14px;
   }
   .step-circle svg { width: 32px; height: 32px; }
   .how-panel .step-circle {
-    width: 80px; height: 80px;
-    margin: 0 auto 20px;
+    width: 66px; height: 66px;
+    margin: 0;
     border-width: 1.5px;
     background: var(--glass-fill-soft);
     backdrop-filter: var(--glass-blur);
@@ -590,7 +652,16 @@
   }
   /* Icons sit larger inside the ring and emit a soft neon glow of their own,
      matching the thin-stroke neon reference. */
-  .how-panel .step-circle svg { width: 40px; height: 40px; }
+  .how-panel .step-circle svg { width: 31px; height: 31px; }
+  /* Sizes must sit after the base rule: same specificity, so order decides. */
+  @media (max-width: 980px){
+    .how-panel .step-circle { width: 52px; height: 52px; }
+    .how-panel .step-circle svg { width: 25px; height: 25px; }
+  }
+  @media (max-width: 620px){
+    .how-panel .step-circle { width: 60px; height: 60px; }
+    .how-panel .step-circle svg { width: 28px; height: 28px; }
+  }
   .how-panel .step-circle.tok-red   svg { filter: drop-shadow(0 0 5px rgba(255,71,87,0.9))  drop-shadow(0 0 12px rgba(255,71,87,0.5)); }
   .how-panel .step-circle.tok-green svg { filter: drop-shadow(0 0 5px rgba(46,213,115,0.9)) drop-shadow(0 0 12px rgba(46,213,115,0.5)); }
   .how-panel .step-circle.tok-blue  svg { filter: drop-shadow(0 0 5px rgba(61,168,255,0.9)) drop-shadow(0 0 12px rgba(61,168,255,0.5)); }
@@ -602,10 +673,20 @@
   .how-panel .step-circle.tok-lime  { border-color: rgba(198,255,0,0.5);  box-shadow: 0 0 22px -4px rgba(198,255,0,0.55), inset 0 0 12px -6px rgba(198,255,0,0.45); }
   .step-num {
     font-family:'Unbounded'; font-weight: 700; font-size: 12px;
-    letter-spacing: 1px; color: var(--muted-2); margin-right: 7px;
+    letter-spacing: 1px; margin-right: 9px;
   }
-  .step-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
-  .step-card p { font-size: 13px; color: var(--muted); max-width: 30ch; margin: 0 auto; }
+  .step-card:nth-child(1) .step-num { color: var(--red); }
+  .step-card:nth-child(2) .step-num { color: var(--green); }
+  .step-card:nth-child(3) .step-num { color: var(--blue); }
+  .step-card:nth-child(4) .step-num { color: var(--lime); }
+  .step-card h3 { font-size: 15px; font-weight: 700; line-height: 1.3; margin-bottom: 8px; }
+  .step-card p { font-size: 12.5px; color: var(--muted); line-height: 1.45; max-width: 26ch; }
+  .step-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .step-list li {
+    display: flex; align-items: flex-start; gap: 8px;
+    font-size: 12.5px; color: var(--muted); line-height: 1.45;
+  }
+  .step-list svg { flex-shrink: 0; margin-top: 3px; color: var(--lime); opacity: 0.8; }
 
   /* guarantee band */
   .band {
@@ -620,6 +701,13 @@
     text-align: center;
     transition: border-color 0.8s ease;
   }
+  /* Same centred typography as the guarantee band, without its panel. */
+  .band-bare {
+    background: none; border: none; box-shadow: none;
+    backdrop-filter: none; -webkit-backdrop-filter: none;
+    padding: 0;
+  }
+  .band-bare h2 { margin-bottom: 0; }
   .band .g-tag { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; opacity: 0.85; font-weight: 700; margin-bottom: 18px; color: var(--lime); }
   .band h2 { font-size: clamp(24px, 3.6vw, 38px); font-weight: 600; line-height: 1.15; max-width: none; margin: 0 auto 16px; color: #fff; text-wrap: balance; }
   .band p { font-size: 15px; color: var(--muted); max-width: 46ch; margin: 0 auto; }
@@ -697,17 +785,16 @@
   .gal-nav {
     position: absolute; top: 50%; transform: translateY(-50%);
     z-index: 3;
-    width: 42px; height: 42px; border-radius: 50%;
+    width: 64px; height: 96px;
     display: grid; place-items: center;
-    border: 1px solid var(--line); border-top-color: var(--glass-edge);
-    background: var(--glass-fill-soft);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    box-shadow: var(--glass-shadow-1), inset 0 1px 0 rgba(255,255,255,0.08);
-    color: #fff; font-size: 20px; line-height: 1; cursor: pointer;
-    transition: border-color 0.25s ease, transform 0.2s ease;
+    border: 0; background: none; padding: 0;
+    color: rgba(255,255,255,0.58);
+    font-family: 'Manrope', sans-serif; font-size: 52px; font-weight: 200; line-height: 1;
+    text-shadow: 0 2px 18px rgba(0,0,0,0.65);
+    cursor: pointer;
+    transition: color 0.22s ease, transform 0.22s ease;
   }
-  .gal-nav:hover { border-color: var(--ch); transform: translateY(-50%) scale(1.06); }
+  .gal-nav:hover { color: #fff; transform: translateY(-50%) scale(1.12); }
   .gal-prev { left: -52px; }
   .gal-next { right: -52px; }
   @media (max-width: 1230px){
@@ -1243,7 +1330,9 @@
      it fades out of nothing at the top and back into nothing at the bottom so
      there's no hard seam with the page background. */
   .benefits-bg {
-    position: absolute; left: 0; right: 0; top: -14%; height: 128%; z-index: -2;
+    /* Overhang has to exceed the parallax travel, otherwise the photo's own edge
+       slides into view and reads as a hard line before the scrim can fade it. */
+    position: absolute; left: 0; right: 0; top: -190px; height: calc(100% + 380px); z-index: -2;
     background-image: var(--benefits-photo, none);
     background-size: cover;
     background-position: center 42%;
@@ -1407,21 +1496,50 @@
   .uc-nav {
     position: absolute; top: 50%; transform: translateY(-50%);
     z-index: 3;
-    width: 42px; height: 42px; border-radius: 50%;
+    width: 64px; height: 96px;
     display: grid; place-items: center;
-    border: 1px solid var(--line); border-top-color: var(--glass-edge);
-    background: var(--glass-fill-soft);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    box-shadow: var(--glass-shadow-1), inset 0 1px 0 rgba(255,255,255,0.08);
-    color: #fff; font-size: 20px; line-height: 1;
+    border: 0; background: none; padding: 0;
+    color: rgba(255,255,255,0.58);
+    font-family: 'Manrope', sans-serif; font-size: 52px; font-weight: 200; line-height: 1;
+    text-shadow: 0 2px 18px rgba(0,0,0,0.65);
     cursor: pointer;
-    transition: border-color 0.25s ease, transform 0.2s ease;
+    transition: color 0.22s ease, transform 0.22s ease;
   }
-  .uc-nav:hover { border-color: var(--ch); transform: translateY(-50%) scale(1.06); }
+  .uc-nav:hover { color: #fff; transform: translateY(-50%) scale(1.12); }
   .uc-prev { left: -52px; }
   .uc-next { right: -52px; }
   .uc-hint { margin-top: 12px; font-size: 11.5px; color: var(--muted-2); }
+
+  /* ---------- FULL-BLEED STRIPS (desktop only) ----------
+     Обидві галереї виходять на всю ширину монітора, щоб на широких екранах
+     влазило більше карток. Але лівий край контенту лишається там, де він у
+     решти блоків: контейнер full-bleed, а внутрішній padding дорівнює
+     відступу .wrap. Маска гасить усе, що ліворуч від цієї лінії (нескінченна
+     стрічка сценаріїв стартує всередині середньої копії, тож картки там є),
+     і розмиває правий край об край екрана. */
+  @media (min-width: 1240px){
+    .usecases, .gallery { overflow-x: clip; }
+    .uc-gallery, .gallery-strip {
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+    }
+    /* Симетрично з обох боків: невеликий відступ, щоб картка не впиралась у край
+       монітора, і довгий однаковий градієнт, у який вона плавно заходить. */
+    .uc-grid, .gallery-grid {
+      padding-left: 24px;
+      padding-right: 24px;
+      -webkit-mask-image: linear-gradient(90deg,
+        transparent 0, #000 var(--fade), #000 calc(100% - var(--fade)), transparent 100%);
+      mask-image: linear-gradient(90deg,
+        transparent 0, #000 var(--fade), #000 calc(100% - var(--fade)), transparent 100%);
+    }
+    .uc-grid { --fade: 190px; }
+    .gallery-grid { --fade: 190px; }
+    .uc-prev, .gal-prev { left: 10px; }
+    .uc-next, .gal-next { right: 10px; }
+  }
+
 
   /* below ~1230px the arrows would collide with the cards, so tuck them inside */
   @media (max-width: 1230px){
@@ -1446,13 +1564,35 @@
 
   /* ---------- WHAT TO EXPECT ---------- */
   .testimonials { padding: var(--sec-pad) 0; }
-  .tst-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
-    margin-top: 40px;
+  .tst-wrap { position: relative; margin-top: 40px; }
+  /* Same scroll-container settings as the other strips: overflow-y hidden and
+     touch-action pan-x pan-y, or the strip swallows the page's vertical gesture. */
+  .tst-strip {
+    display: flex; align-items: stretch; gap: 16px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior: auto;
+    touch-action: pan-x pan-y;
+    scroll-behavior: auto;
+    scroll-snap-type: x proximity;
+    padding: 4px 2px 16px;
+    scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 58px, #000 calc(100% - 58px), transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 58px, #000 calc(100% - 58px), transparent 100%);
   }
-  @media (max-width: 860px){ .tst-grid { grid-template-columns: 1fr; } }
+  .tst-strip::-webkit-scrollbar { display: none; }
+  .tst-strip > .tst-card { flex: 0 0 340px; scroll-snap-align: center; }
+  .tst-prev { left: -72px; }
+  .tst-next { right: -72px; }
+  @media (max-width: 1230px){ .tst-prev { left: -6px; } .tst-next { right: -6px; } }
+  @media (max-width: 720px){
+    .tst-strip > .tst-card { flex-basis: 78vw; }
+    .tst-strip { -webkit-mask-image: none; mask-image: none; padding-left: 0; }
+    .tst-prev, .tst-next { display: none; }
+  }
   .tst-card {
     position: relative;
+    display: flex; flex-direction: column;
     border: 1px solid var(--line); border-top-color: var(--glass-edge);
     border-radius: 22px;
     padding: 26px 24px;
@@ -1462,6 +1602,7 @@
     box-shadow: var(--glass-shadow-1), inset 0 1px 0 rgba(255,255,255,0.07);
     transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
   }
+  .tst-card .tst-author { margin-top: auto; }
   .tst-card:hover { border-color: rgba(46,213,115,0.4); transform: translateY(-3px); box-shadow: var(--glass-shadow-2), 0 0 44px -22px rgba(46,213,115,0.4), inset 0 1px 0 rgba(255,255,255,0.1); }
   .tst-stars { color: var(--lime); font-size: 13px; letter-spacing: 2px; margin-bottom: 14px; }
   .tst-card p.tst-quote {
@@ -1625,9 +1766,10 @@
 <!-- PROBLEM → SHIFT -->
 <section class="block" id="idea">
   <div class="wrap">
-    <div class="eyebrow reveal">Чому silent disco</div>
-    <h2 class="h2 reveal">Звичайна вечірка змушує обирати за всіх. Ця — дає обрати кожному.</h2>
-    <p class="section-lead reveal">Звичайні колонки нав'язують усім один плейлист і одну гучність, а після 23:00 починаються скарги. Silent disco прибирає цей компроміс: три канали, кожен регулює звук під себе, а ззовні лишається тиша.</p>
+    <div class="band band-bare reveal">
+      <div class="g-tag">Чому silent disco</div>
+      <h2>Звичайна вечірка змушує обирати за всіх. Ця — дає обрати кожному.</h2>
+    </div>
 
     <div class="shift-grid">
       <div class="shift-card old reveal">
@@ -1647,29 +1789,61 @@
 <!-- HOW IT WORKS -->
 <section class="block" id="how">
   <div class="wrap">
-    <div class="eyebrow reveal">Як це працює</div>
-    <h2 class="h2 reveal">Від заявки до кінця вечора — технічну частину беремо на себе.</h2>
+    <div class="how-head">
+      <div>
+        <div class="eyebrow reveal">Як це працює</div>
+        <h2 class="h2 reveal">Як насправді влаштована тиха вечірка?</h2>
+      </div>
+      <div class="how-head-text reveal">
+        <p>Музика йде не з колонок, а одразу в навушники кожного гостя. Один передавач роздає три канали, і людина сама обирає, який слухати і на якій гучності. Колонок немає, тож ззовні залишається тиша: сусіди нічого не чують, а охорона не приходить о 23:00. Ми привозимо навушники із запасними комплектами, збираємо систему на місці й лишаємось на вечір. Від вас потрібні тільки дата й приблизна кількість гостей.</p>
+      </div>
+    </div>
+
     <div class="how-panel glass-panel reveal">
       <div class="steps">
         <div class="step-card">
           <div class="step-circle icon-token tok-red"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 3v3M16 3v3"/></svg></div>
-          <h3><span class="step-num">01</span>Ви пишете нам</h3>
-          <p>Кажете дату, привід і скільки чекаєте гостей. Далі — наша турбота.</p>
+          <div class="step-body">
+            <span class="step-chip"><b>01</b>ЗАЯВКА</span>
+            <h3>Дата, місце, гості</h3>
+            <ul class="step-list">
+              <li><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg>Форма займає хвилину</li>
+              <li><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg>Дзвонити не обов’язково</li>
+            </ul>
+          </div>
         </div>
         <div class="step-card">
           <div class="step-circle icon-token tok-green"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 10.5h8M8 14h5"/><path d="M4 5.5h16v11H9l-4 3v-3H4z"/></svg></div>
-          <h3><span class="step-num">02</span>Складаємо вечір</h3>
-          <p>Підтверджуємо дату, дивимось на ваш простір і підбираємо канали під настрій події.</p>
+          <div class="step-body">
+            <span class="step-chip"><b>02</b>РОЗРАХУНОК</span>
+            <h3>Рахуємо вартість</h3>
+            <ul class="step-list">
+              <li><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg>Відповідаємо протягом дня</li>
+              <li><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg>Ціна залежить від дати й тривалості</li>
+            </ul>
+          </div>
         </div>
         <div class="step-card">
           <div class="step-circle icon-token tok-blue"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.5h11v9H3z"/><path d="M14 9.5h3.4L21 12.5v3h-7"/><circle cx="7" cy="17.5" r="1.7"/><circle cx="17" cy="17.5" r="1.7"/></svg></div>
-          <h3><span class="step-num">03</span>Вмикаємо простір</h3>
-          <p>Приїжджаємо заздалегідь, розставляємо світло й звук і ловимо чистий сигнал на всіх каналах.</p>
+          <div class="step-body">
+            <span class="step-chip"><b>03</b>МОНТАЖ</span>
+            <h3>Готуємо зал на місці</h3>
+            <ul class="step-list">
+              <li><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg>Близько 30 хвилин до старту</li>
+              <li><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg>Показуємо, як перемикати канали</li>
+            </ul>
+          </div>
         </div>
         <div class="step-card">
           <div class="step-circle icon-token tok-lime"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9 2 9 2 15 6 15 11 19 11 5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a9 9 0 0 1 0 12"/></svg></div>
-          <h3><span class="step-num">04</span>І понеслося</h3>
-          <p>Гості вдягають навушники, ловлять свій канал — і зал оживає до ранку. Прибирання теж на нас.</p>
+          <div class="step-body">
+            <span class="step-chip"><b>04</b>ВЕЧІРКА</span>
+            <h3>Ви танцюєте</h3>
+            <ul class="step-list">
+              <li><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg>Гості перемикають канали самі</li>
+              <li><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg>Демонтаж і вивіз на нас</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -1835,16 +2009,6 @@
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
-      <article class="uc-card reveal" data-uc="Конференції" style="--uc-accent:var(--blue)">
-        <div class="uc-media">
-          <img src="images/uc/conference.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Конференції">
-        </div>
-        <div class="uc-body">
-          <h3>Конференції</h3>
-          <p>Кілька сцен в одному залі й тихі обговорення в групах. Кожен чує свого спікера, не заважаючи сусідній секції.</p>
-          <button type="button" class="uc-order">Замовити цей досвід</button>
-        </div>
-      </article>
       <article class="uc-card reveal" data-uc="Кіно просто неба" style="--uc-accent:var(--green)">
         <div class="uc-media">
           <img src="images/uc/cinema.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Кіно просто неба">
@@ -1852,16 +2016,6 @@
         <div class="uc-body">
           <h3>Кіно просто неба</h3>
           <p>Двір, дах, парк — звук у навушниках, тиша навколо. Фільм до ночі без питань від сусідів.</p>
-          <button type="button" class="uc-order">Замовити цей досвід</button>
-        </div>
-      </article>
-      <article class="uc-card reveal" data-uc="Екскурсії" style="--uc-accent:var(--red)">
-        <div class="uc-media">
-          <img src="images/uc/tour.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Екскурсії">
-        </div>
-        <div class="uc-body">
-          <h3>Екскурсії</h3>
-          <p>Гід говорить упівголоса, а чути однаково добре і в першому ряду, і в останньому. Без крику й мегафона.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -1875,16 +2029,6 @@
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
-      <article class="uc-card reveal" data-uc="Табори та молодіжні збори" style="--uc-accent:var(--green)">
-        <div class="uc-media">
-          <img src="images/uc/camp.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Табори та молодіжні збори">
-        </div>
-        <div class="uc-body">
-          <h3>Табори та молодіжні збори</h3>
-          <p>Ранкові розминки, командні ігри, вечірня дискотека — один комплект на всі активності зміни.</p>
-          <button type="button" class="uc-order">Замовити цей досвід</button>
-        </div>
-      </article>
       <article class="uc-card reveal" data-uc="Презентація релізу" style="--uc-accent:var(--red)">
         <div class="uc-media">
           <img src="images/uc/listening.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Презентація релізу">
@@ -1892,16 +2036,6 @@
         <div class="uc-body">
           <h3>Презентація релізу</h3>
           <p>Послухайте новий альбом у деталях — разом і водночас особисто. Камерний формат для перших слухачів.</p>
-          <button type="button" class="uc-order">Замовити цей досвід</button>
-        </div>
-      </article>
-      <article class="uc-card reveal" data-uc="Діджей-сет наживо" style="--uc-accent:var(--blue)">
-        <div class="uc-media">
-          <img src="images/uc/dj.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Діджей-сет наживо">
-        </div>
-        <div class="uc-body">
-          <h3>Діджей-сет наживо</h3>
-          <p>Резидент або запрошений діджей мікшує просто у ваші навушники — з реакцією на зал.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -1915,16 +2049,6 @@
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
-      <article class="uc-card reveal" data-uc="Церковні служби та зібрання" style="--uc-accent:var(--red)">
-        <div class="uc-media">
-          <img src="images/uc/church.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Церковні служби та зібрання">
-        </div>
-        <div class="uc-body">
-          <h3>Церковні служби та зібрання</h3>
-          <p>Проповідь і музика звучать чітко для кожного — у залі, у дворі чи на виїзному служінні.</p>
-          <button type="button" class="uc-order">Замовити цей досвід</button>
-        </div>
-      </article>
       <article class="uc-card reveal" data-uc="Музичні коледжі" style="--uc-accent:var(--blue)">
         <div class="uc-media">
           <img src="images/uc/musiccollege.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Музичні коледжі">
@@ -1932,18 +2056,6 @@
         <div class="uc-body">
           <h3>Музичні коледжі</h3>
           <p>Камерне прослуховування студентських програм: чути кожну партію без гучних моніторів у залі.</p>
-          <button type="button" class="uc-order">Замовити цей досвід</button>
-        </div>
-      </article>
-        </div>
-        <div class="uc-row" data-row="b">
-      <article class="uc-card reveal" data-uc="Корпоративи" style="--uc-accent:var(--green)">
-        <div class="uc-media">
-          <img src="images/uc/corporate.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Корпоративи">
-        </div>
-        <div class="uc-body">
-          <h3>Корпоративи</h3>
-          <p>Формат, у якому команда нарешті розкривається. Працює і в офісі, і в лофті — без узгодження гучності з орендодавцем.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -1957,16 +2069,6 @@
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
-      <article class="uc-card reveal" data-uc="Йога та ecstatic dance" style="--uc-accent:var(--blue)">
-        <div class="uc-media">
-          <img src="images/uc/yoga.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Йога та ecstatic dance">
-        </div>
-        <div class="uc-body">
-          <h3>Йога та ecstatic dance</h3>
-          <p>Голос інструктора просто у вусі, музика — на власній гучності. Ніщо не збиває з практики.</p>
-          <button type="button" class="uc-order">Замовити цей досвід</button>
-        </div>
-      </article>
       <article class="uc-card reveal" data-uc="Музеї та галереї" style="--uc-accent:var(--green)">
         <div class="uc-media">
           <img src="images/uc/museum.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Музеї та галереї">
@@ -1974,16 +2076,6 @@
         <div class="uc-body">
           <h3>Музеї та галереї</h3>
           <p>Аудіосупровід, синхронізований із простором. Відвідувач занурюється, не порушуючи тиші зали.</p>
-          <button type="button" class="uc-order">Замовити цей досвід</button>
-        </div>
-      </article>
-      <article class="uc-card reveal" data-uc="Камерні концерти" style="--uc-accent:var(--red)">
-        <div class="uc-media">
-          <img src="images/uc/showcase.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Камерні концерти">
-        </div>
-        <div class="uc-body">
-          <h3>Камерні концерти</h3>
-          <p>Прослуховування, де чути кожен нюанс виконання. Публіка максимально близько до звуку.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -1997,16 +2089,6 @@
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
-      <article class="uc-card reveal" data-uc="Інклюзивні події" style="--uc-accent:var(--green)">
-        <div class="uc-media">
-          <img src="images/uc/inclusive.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Інклюзивні події">
-        </div>
-        <div class="uc-body">
-          <h3>Інклюзивні події</h3>
-          <p>Кожен регулює гучність під себе — подія стає доступною для гостей із сенсорною чутливістю.</p>
-          <button type="button" class="uc-order">Замовити цей досвід</button>
-        </div>
-      </article>
       <article class="uc-card reveal" data-uc="Шкільні свята" style="--uc-accent:var(--red)">
         <div class="uc-media">
           <img src="images/uc/school.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Шкільні свята">
@@ -2014,16 +2096,6 @@
         <div class="uc-body">
           <h3>Шкільні свята</h3>
           <p>Події та збори коштів, які діти чекають. Без перевантаження звуком у спортзалі.</p>
-          <button type="button" class="uc-order">Замовити цей досвід</button>
-        </div>
-      </article>
-      <article class="uc-card reveal" data-uc="Громадські зібрання" style="--uc-accent:var(--blue)">
-        <div class="uc-media">
-          <img src="images/uc/community.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Громадські зібрання">
-        </div>
-        <div class="uc-body">
-          <h3>Громадські зібрання</h3>
-          <p>Лекції, покази, зустрічі спільноти — чути кожне слово навіть на відкритому майданчику.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -2037,6 +2109,128 @@
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
+      <article class="uc-card reveal" data-uc="Silent disco" style="--uc-accent:var(--green)">
+        <div class="uc-media">
+          <img src="images/uc/silentdisco.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Silent disco">
+        </div>
+        <div class="uc-body">
+          <h3>Silent disco</h3>
+          <p>Той самий формат у чистому вигляді: три канали, навушники й танцпол, який не заважає нікому навколо.</p>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Дні народження" style="--uc-accent:var(--red)">
+        <div class="uc-media">
+          <img src="images/uc/birthday.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Дні народження">
+        </div>
+        <div class="uc-body">
+          <h3>Дні народження</h3>
+          <p>Від дитячого свята до дорослої вечірки: гучність під вік і настрій кожної компанії.</p>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
+        </div>
+      </article>
+        </div>
+        <div class="uc-row" data-row="b">
+      <article class="uc-card reveal" data-uc="Конференції" style="--uc-accent:var(--blue)">
+        <div class="uc-media">
+          <img src="images/uc/conference.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Конференції">
+        </div>
+        <div class="uc-body">
+          <h3>Конференції</h3>
+          <p>Кілька сцен в одному залі й тихі обговорення в групах. Кожен чує свого спікера, не заважаючи сусідній секції.</p>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Екскурсії" style="--uc-accent:var(--red)">
+        <div class="uc-media">
+          <img src="images/uc/tour.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Екскурсії">
+        </div>
+        <div class="uc-body">
+          <h3>Екскурсії</h3>
+          <p>Гід говорить упівголоса, а чути однаково добре і в першому ряду, і в останньому. Без крику й мегафона.</p>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Табори та молодіжні збори" style="--uc-accent:var(--green)">
+        <div class="uc-media">
+          <img src="images/uc/camp.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Табори та молодіжні збори">
+        </div>
+        <div class="uc-body">
+          <h3>Табори та молодіжні збори</h3>
+          <p>Ранкові розминки, командні ігри, вечірня дискотека — один комплект на всі активності зміни.</p>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Діджей-сет наживо" style="--uc-accent:var(--blue)">
+        <div class="uc-media">
+          <img src="images/uc/dj.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Діджей-сет наживо">
+        </div>
+        <div class="uc-body">
+          <h3>Діджей-сет наживо</h3>
+          <p>Резидент або запрошений діджей мікшує просто у ваші навушники — з реакцією на зал.</p>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Церковні служби та зібрання" style="--uc-accent:var(--red)">
+        <div class="uc-media">
+          <img src="images/uc/church.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Церковні служби та зібрання">
+        </div>
+        <div class="uc-body">
+          <h3>Церковні служби та зібрання</h3>
+          <p>Проповідь і музика звучать чітко для кожного — у залі, у дворі чи на виїзному служінні.</p>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Корпоративи" style="--uc-accent:var(--green)">
+        <div class="uc-media">
+          <img src="images/uc/corporate.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Корпоративи">
+        </div>
+        <div class="uc-body">
+          <h3>Корпоративи</h3>
+          <p>Формат, у якому команда нарешті розкривається. Працює і в офісі, і в лофті — без узгодження гучності з орендодавцем.</p>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Йога та ecstatic dance" style="--uc-accent:var(--blue)">
+        <div class="uc-media">
+          <img src="images/uc/yoga.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Йога та ecstatic dance">
+        </div>
+        <div class="uc-body">
+          <h3>Йога та ecstatic dance</h3>
+          <p>Голос інструктора просто у вусі, музика — на власній гучності. Ніщо не збиває з практики.</p>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Камерні концерти" style="--uc-accent:var(--red)">
+        <div class="uc-media">
+          <img src="images/uc/showcase.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Камерні концерти">
+        </div>
+        <div class="uc-body">
+          <h3>Камерні концерти</h3>
+          <p>Прослуховування, де чути кожен нюанс виконання. Публіка максимально близько до звуку.</p>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Інклюзивні події" style="--uc-accent:var(--green)">
+        <div class="uc-media">
+          <img src="images/uc/inclusive.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Інклюзивні події">
+        </div>
+        <div class="uc-body">
+          <h3>Інклюзивні події</h3>
+          <p>Кожен регулює гучність під себе — подія стає доступною для гостей із сенсорною чутливістю.</p>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Громадські зібрання" style="--uc-accent:var(--blue)">
+        <div class="uc-media">
+          <img src="images/uc/community.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Громадські зібрання">
+        </div>
+        <div class="uc-body">
+          <h3>Громадські зібрання</h3>
+          <p>Лекції, покази, зустрічі спільноти — чути кожне слово навіть на відкритому майданчику.</p>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
+        </div>
+      </article>
       <article class="uc-card reveal" data-uc="Ярмарки та маркети" style="--uc-accent:var(--red)">
         <div class="uc-media">
           <img src="images/uc/markets.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Ярмарки та маркети">
@@ -2044,6 +2238,26 @@
         <div class="uc-body">
           <h3>Ярмарки та маркети</h3>
           <p>Музична зона просто серед рядів — гості танцюють, а торгівля поруч іде своїм ходом.</p>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Іммерсивні театри" style="--uc-accent:var(--blue)">
+        <div class="uc-media">
+          <img src="images/uc/theatre.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Іммерсивні театри">
+        </div>
+        <div class="uc-body">
+          <h3>Іммерсивні театри</h3>
+          <p>Голос акторів і саундтрек звучать просто у вусі глядача. Сцену можна розгорнути навіть просто неба.</p>
+          <button type="button" class="uc-order">Замовити цей досвід</button>
+        </div>
+      </article>
+      <article class="uc-card reveal" data-uc="Спортивні події" style="--uc-accent:var(--green)">
+        <div class="uc-media">
+          <img src="images/uc/sport.jpg" width="760" height="428" loading="lazy" decoding="async" alt="Спортивні події">
+        </div>
+        <div class="uc-body">
+          <h3>Спортивні події</h3>
+          <p>Забіги, тренування, розминки: команда чує тренера, а не вітер і вуличний шум.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -2063,7 +2277,7 @@
       <div class="calc-copy">
         <div class="eyebrow">Калькулятор</div>
         <h2>Порахуйте бюджет вечора до заявки.</h2>
-        <p>Мінімальне замовлення — 40 навушників на 4 години. Посуньте повзунок і додайте опції, щоб побачити орієнтовний бюджет для вашої події у Києві та області.</p>
+        <p>Мінімальне замовлення — 40 навушників на 4 години. Посуньте повзунок і додайте опції, щоб побачити орієнтовний бюджет для вашої події.</p>
         <div class="calc-photo">
           <img src="images/headphones.png" width="1100" height="734" loading="lazy" decoding="async"
                alt="Навушники SILENT із підсвіткою трьох каналів — зеленого, синього та червоного">
@@ -2100,9 +2314,9 @@
               <button type="button" class="hstep" id="hourPlus" aria-label="Більше годин">+</button>
             </div>
           </div>
-          <label><input type="checkbox" id="outsideKyiv"> Київська область</label>
+          <label><input type="checkbox" id="outsideKyiv"> виїзд по Україні</label>
           <label><input type="checkbox" id="contentReel"> короткий reels</label>
-          <label><input type="checkbox" id="hostSupport" checked> супровід на місці</label>
+          <label><input type="checkbox" id="smokeLight"> дим і світло</label>
         </div>
         <div class="calc-row"><span>База 40 навушників / 4 години</span><span id="baseLine">9 800 грн</span></div>
         <div class="calc-row"><span>Додаткові навушники</span><span id="extraLine">0 грн</span></div>
@@ -2128,32 +2342,84 @@
 <!-- WHAT TO EXPECT -->
 <section class="testimonials" id="expect">
   <div class="wrap">
-    <div class="eyebrow reveal">Чого очікувати</div>
-    <h2 class="h2 reveal">Так це виглядає в перший раз.</h2>
-    <p class="section-lead reveal">Ми ще збираємо відгуки з перших київських подій — а поки чесно опишемо, що зазвичай відбувається на такому форматі.</p>
-    <div class="tst-grid">
-      <div class="tst-card reveal">
-        <p class="tst-quote">Перші 5–10 хвилин гості озираються одне на одного: незвично танцювати в тиші. Потім хтось перший заплющує очі й забуває про це.</p>
-        <div class="tst-author">
-          <div class="tst-avatar">01</div>
-          <div><div class="tst-name">Перші хвилини</div><div class="tst-role">як зазвичай починається вечір</div></div>
-        </div>
+    <div class="eyebrow reveal">Відгуки</div>
+    <h2 class="h2 reveal">Що кажуть наступного дня.</h2>
+    <p class="section-lead reveal">Короткі враження гостей і організаторів після київських подій.</p>
+    <!-- ЗАГЛУШКА / DESIGN MOCKUP.
+         Ці вісім відгуків вигадані й потрібні лише щоб побачити верстку блоку.
+         НЕ ПУБЛІКУВАТИ як справжні. Перед запуском замінити на реальні цитати
+         з іменами, які надасть замовник, або прибрати секцію цілком. -->
+    <div class="tst-wrap" data-placeholder-content="true">
+      <div class="tst-strip" id="tstStrip">
+        <article class="tst-card reveal">
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">Боялася, що гості просто постоять із навушниками в руках і підуть. За півгодини танцювали всі, включно з моєю мамою. О другій ночі вимикали самі, бо ніхто не збирався додому.</p>
+          <div class="tst-author">
+            <div class="tst-avatar">ОК</div>
+            <div><div class="tst-name">Олена К.</div><div class="tst-role">весілля · Київ, вересень</div></div>
+          </div>
+        </article>
+        <article class="tst-card reveal">
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">Лофт із житловими апартаментами через стіну. Скарг нуль, а це для нас було головне питання. Приїхали за дві години до старту й підключили все без нашої участі.</p>
+          <div class="tst-author">
+            <div class="tst-avatar">ДП</div>
+            <div><div class="tst-name">Дмитро П.</div><div class="tst-role">корпоратив на 120 гостей</div></div>
+          </div>
+        </article>
+        <article class="tst-card reveal">
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">Три канали врятували вечір. Друзі слухають зовсім різне, і замість компромісного плейлиста кожен просто крутнув перемикач на своєму.</p>
+          <div class="tst-author">
+            <div class="tst-avatar">МЦ</div>
+            <div><div class="tst-name">Марина Ц.</div><div class="tst-role">день народження, 35</div></div>
+          </div>
+        </article>
+        <article class="tst-card reveal">
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">Найкраще навіть не музика. Ми з класним керівником спокійно розмовляли посеред танцполу, не зриваючи голос.</p>
+          <div class="tst-author">
+            <div class="tst-avatar">АВ</div>
+            <div><div class="tst-name">Артем В.</div><div class="tst-role">випускний на даху</div></div>
+          </div>
+        </article>
+        <article class="tst-card reveal">
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">Ранкова практика на 40 килимків просто неба. Голос інструктора чути навіть в останньому ряду. З колонками половина групи щоразу випадала.</p>
+          <div class="tst-author">
+            <div class="tst-avatar">СР</div>
+            <div><div class="tst-name">Софія Р.</div><div class="tst-role">йога-сет у парку</div></div>
+          </div>
+        </article>
+        <article class="tst-card reveal">
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">Показували фільм у внутрішньому дворі до одинадцятої вечора. Без навушників нас зупинили б на двадцятій хвилині.</p>
+          <div class="tst-author">
+            <div class="tst-avatar">ІМ</div>
+            <div><div class="tst-name">Ігор М.</div><div class="tst-role">кінопоказ у дворі</div></div>
+          </div>
+        </article>
+        <article class="tst-card reveal">
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">Нас було всього дванадцять, думала, на такий формат ніхто не візьметься. Взялися й привезли рівно стільки, скільки треба.</p>
+          <div class="tst-author">
+            <div class="tst-avatar">КЛ</div>
+            <div><div class="tst-name">Катерина Л.</div><div class="tst-role">дівич-вечір, 12 гостей</div></div>
+          </div>
+        </article>
+        <article class="tst-card reveal">
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">Брали як активність на виїзд. Ефект неочікуваний: люди, які на корпоративах зазвичай сидять у кутку, того вечора танцювали.</p>
+          <div class="tst-author">
+            <div class="tst-avatar">БШ</div>
+            <div><div class="tst-name">Богдан Ш.</div><div class="tst-role">тимбілдинг для команди</div></div>
+          </div>
+        </article>
       </div>
-      <div class="tst-card reveal">
-        <p class="tst-quote">Коли частина залу раптом сміється чи підспівує одне слово, а музику чути тільки їм, це стає кумедною грою для решти гостей.</p>
-        <div class="tst-author">
-          <div class="tst-avatar">02</div>
-          <div><div class="tst-name">Розпал</div><div class="tst-role">коли канали розходяться</div></div>
-        </div>
-      </div>
-      <div class="tst-card reveal">
-        <p class="tst-quote">О тій порі, коли звичайна вечірка вже стишується через скарги чи втому діджея, тут танцпол лише набирає обертів.</p>
-        <div class="tst-author">
-          <div class="tst-avatar">03</div>
-          <div><div class="tst-name">Пізній вечір</div><div class="tst-role">коли інші вже закінчують</div></div>
-        </div>
-      </div>
+      <button class="gal-nav tst-prev" type="button" aria-label="Попередні відгуки">‹</button>
+      <button class="gal-nav tst-next" type="button" aria-label="Наступні відгуки">›</button>
     </div>
+    <p class="uc-hint">Гортайте вбік, щоб побачити більше відгуків</p>
   </div>
 </section>
 
@@ -2273,7 +2539,7 @@
       <div class="footer-cols">
       <div class="f-col f-brand">
         <div class="f-logo">SILENT<b>.</b></div>
-        <p class="f-tagline">Тиша ззовні, драйв усередині. Silent disco під ключ у Києві та області.</p>
+        <p class="f-tagline">Тиша ззовні, драйв усередині. Silent disco під ключ у Києві та по Україні.</p>
         <a href="#book" class="btn-primary f-cta">Залишити заявку</a>
       </div>
       <nav class="f-col">
@@ -2345,7 +2611,10 @@
         const r = l.section.getBoundingClientRect();
         // progress: how far the section center is from the viewport center
         const sectionCenter = r.top + r.height / 2;
-        const delta = (sectionCenter - vh / 2) * -l.speed;
+        let delta = (sectionCenter - vh / 2) * -l.speed;
+        // never travel further than the overhang, or the photo's edge appears
+        const MAX = 150;
+        delta = Math.max(-MAX, Math.min(MAX, delta));
         l.el.style.transform = 'translate3d(0,' + delta.toFixed(1) + 'px,0)';
       }
       ticking = false;
@@ -2702,27 +2971,31 @@
   const perHeadLine = document.getElementById('perHeadLine');
   const outsideKyiv = document.getElementById('outsideKyiv');
   const contentReel = document.getElementById('contentReel');
-  const hostSupport = document.getElementById('hostSupport');
+  const smokeLight = document.getElementById('smokeLight');
   const guestsSelect = document.getElementById('guests');
   const hoursValueEl = document.getElementById('hoursValue');
   const hourMinus = document.getElementById('hourMinus');
   const hourPlus = document.getElementById('hourPlus');
   let hours = 4;
   const MIN_HOURS = 4, MAX_HOURS = 8;
-  const HOUR_PRICE = 1200;
 
   // База: 40 навушників / 4 год = 9 800 грн. Стеля: 90 навушників / 4 год = 22 000 грн.
+  // Максимальна конфігурація (90 навушників, 8 год, усі три опції) дає рівно
+  // 50 000 грн: 22 000 пакет + 22 000 за 4 додаткові години + 3 × 2 000 опції.
   const MAX_QTY = 90;
   function calcPrice(qty){
     const base = 9800;
     const extraQty = Math.max(0, qty - 40);
     const extra = Math.round(extraQty * (12200 / (MAX_QTY - 40)));
+    // Година рахується від самого пакета, а не фіксованою ставкою: базові
+    // 4 години коштують base + extra, тож одна година — рівно чверть від цього.
+    const hourPrice = Math.round((base + extra) / MIN_HOURS);
     const extraHours = Math.max(0, hours - MIN_HOURS);
-    const hoursCost = extraHours * HOUR_PRICE;
+    const hoursCost = extraHours * hourPrice;
     const options =
-      (outsideKyiv.checked ? 1500 : 0) +
-      (contentReel.checked ? 1800 : 0) +
-      (hostSupport.checked ? 0 : -900);
+      (outsideKyiv.checked ? 2000 : 0) +
+      (contentReel.checked ? 2000 : 0) +
+      (smokeLight.checked ? 2000 : 0);
     return { base, extra, hoursCost, options, total: Math.max(6900, base + extra + hoursCost + options) };
   }
 
@@ -2750,7 +3023,7 @@
     hourMinus.disabled = hours <= MIN_HOURS;
     hourPlus.disabled = hours >= MAX_HOURS;
   }
-  [headphoneRange, outsideKyiv, contentReel, hostSupport].forEach((el) => {
+  [headphoneRange, outsideKyiv, contentReel, smokeLight].forEach((el) => {
     if (el) el.addEventListener('input', updateCalculator);
     if (el) el.addEventListener('change', updateCalculator);
   });
@@ -2771,9 +3044,9 @@
       const qty = Number(headphoneRange.value);
       const price = calcPrice(qty);
       const opts = [];
-      if (outsideKyiv.checked) opts.push('виїзд за межі Києва');
+      if (outsideKyiv.checked) opts.push('виїзд по Україні');
       if (contentReel.checked) opts.push('короткий reels');
-      if (!hostSupport.checked) opts.push('без супроводу на місці');
+      if (smokeLight.checked) opts.push('дим і світло');
       const optsText = opts.length ? `, опції: ${opts.join(', ')}` : '';
       const qtyLabel = qty >= MAX_QTY ? `${MAX_QTY}+` : qty;
       const summary = `Розрахунок із калькулятора: ${qtyLabel} навушників, ${hours} год${optsText}. Орієнтовний бюджет: ${fmt.format(price.total)} грн.`;
@@ -2792,25 +3065,58 @@
     });
   }
 
-  // ---- Atmosphere strip: arrows ----
+  // ---- Atmosphere strip: endless loop + arrows ----
+  // Та сама механіка, що й у стрічці сценаріїв: три копії набору, а scrollLeft
+  // тримається всередині середньої. Кінця не існує, тож немає і жорсткого краю,
+  // об який раніше різко обривалася стрічка.
   (function(){
     const grid = document.getElementById('galGrid');
     if (!grid) return;
     const prev = document.querySelector('.gal-prev');
     const next = document.querySelector('.gal-next');
-    const step = () => Math.max(grid.clientWidth * 0.7, 260);
-    function sync(){
-      const max = grid.scrollWidth - grid.clientWidth - 2;
-      if (prev) prev.style.opacity = grid.scrollLeft <= 2 ? '0' : '1';
-      if (next) next.style.opacity = grid.scrollLeft >= max ? '0' : '1';
-      if (prev) prev.style.pointerEvents = grid.scrollLeft <= 2 ? 'none' : 'auto';
-      if (next) next.style.pointerEvents = grid.scrollLeft >= max ? 'none' : 'auto';
+
+    const originals = [...grid.children];
+    for (let i = 0; i < 2; i++) originals.forEach(el => grid.appendChild(el.cloneNode(true)));
+
+    // Ширину однієї копії міряємо по факту: у grid із dense-упаковкою рахувати
+    // її з розмірів карток ненадійно, а різниця позицій — точна.
+    const copyWidth = () => {
+      const n = originals.length;
+      const first = grid.children[0], second = grid.children[n];
+      if (!first || !second) return 0;
+      return second.getBoundingClientRect().left - first.getBoundingClientRect().left;
+    };
+
+    let settling = 0;
+    function normalise(){
+      if (settling) return;
+      const w = copyWidth();
+      if (!w) return;
+      if (grid.scrollLeft < w * 0.5) grid.scrollLeft += w;
+      else if (grid.scrollLeft > w * 1.5) grid.scrollLeft -= w;
     }
-    if (prev) prev.addEventListener('click', () => grid.scrollBy({ left: -step(), behavior: 'smooth' }));
-    if (next) next.addEventListener('click', () => grid.scrollBy({ left: step(), behavior: 'smooth' }));
-    grid.addEventListener('scroll', sync, { passive: true });
-    window.addEventListener('resize', sync, { passive: true });
-    sync();
+    function start(){
+      const w = copyWidth();
+      if (w) grid.scrollLeft = w;
+    }
+
+    const step = () => Math.max(grid.clientWidth * 0.7, 260);
+    function nudge(dir){
+      settling = 1;
+      grid.scrollBy({ left: dir * step(), behavior: 'smooth' });
+      clearTimeout(nudge.t);
+      nudge.t = setTimeout(() => { settling = 0; normalise(); }, 520);
+    }
+    if (prev) prev.addEventListener('click', () => nudge(-1));
+    if (next) next.addEventListener('click', () => nudge(1));
+
+    grid.addEventListener('scroll', normalise, { passive: true });
+    window.addEventListener('resize', () => { settling = 0; start(); }, { passive: true });
+
+    // зображення в клонах ще можуть довантажуватись і зсувати розкладку
+    start();
+    window.addEventListener('load', start);
+    setTimeout(start, 400);
   })();
 
   // ---- Scenario gallery: endless strip + "order this experience" ----
