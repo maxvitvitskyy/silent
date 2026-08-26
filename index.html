@@ -445,6 +445,14 @@
   @media (max-width: 640px){
     .ch-toggle-row { flex-direction: column; gap: 12px; }
     .ch-toggle { min-width: 0; }
+    /* Headline lines are nowrap on desktop so each stays on its own row. On a
+       phone a single line could end up wider than the screen, and because .hero
+       is a flex column that stretched .wrap past the viewport — dragging the
+       channel panel off-canvas with it. Let the lines wrap here instead. */
+    .hero-lines > span, .hero-lines > span > span { white-space: normal; }
+    .hero-lines > span { overflow-wrap: break-word; }
+    .hero .wrap { min-width: 0; }
+    .hero-strip { max-width: 100%; }
   }
   .strip-item { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; min-width: 100px; }
   .strip-icon {
@@ -886,6 +894,13 @@
     *, *::before, *::after { animation: none !important; transition: none !important; }
     .reveal { opacity: 1; transform: none; }
     .how-panel::after { opacity: 1 !important; }
+    /* These start at opacity:0 and reveal themselves through the `rise`
+       animation. With animations off they would stay invisible forever — the
+       entire hero (headline, sub, CTAs, channel panel) would never appear. */
+    .hero-badge, .hero-eyebrow, .hero-sub, .hero-actions,
+    .hero-lines > span, .channels, .hero-strip {
+      opacity: 1 !important; transform: none !important;
+    }
   }
   /* ---------- BENEFITS (pain-language) ---------- */
   .benefits { padding: var(--sec-pad) 0; position: relative; overflow: hidden; isolation: isolate; }
@@ -1658,21 +1673,29 @@
     return text.replace(/\{([^}]+)\}/g, '<span class="accent-lime">$1</span>');
   }
 
-  // Reserve the sub's height for the tallest of the three slides at the current
-  // width. The subs wrap to a different number of lines (e.g. 3 vs 2 on desktop),
-  // so without this the whole hero shifts vertically on each switch. Measured
+  // Reserve the headline and sub heights for the tallest of the three slides at
+  // the current width. Both wrap to a different number of lines per slide (and on
+  // phones the headline wraps too), so without this the hero shifts on each switch. Measured
   // synchronously (no paint between swaps) and re-run on resize / after fonts load.
   function reserveHeroSubHeight(){
-    if (!heroSub) return;
-    const active = heroSub.textContent;
+    if (!heroSub || !heroLines) return;
+    const spans = [...heroLines.querySelectorAll(':scope > span')];
+    const activeSub = heroSub.textContent;
+    const activeLines = spans.map(s => s.innerHTML);
+
     heroSub.style.minHeight = '0px';
-    let max = 0;
+    heroLines.style.minHeight = '0px';
+    let maxSub = 0, maxLines = 0;
     for (const c of heroContent){
       heroSub.textContent = c.sub;
-      if (heroSub.offsetHeight > max) max = heroSub.offsetHeight;
+      if (heroSub.offsetHeight > maxSub) maxSub = heroSub.offsetHeight;
+      c.lines.forEach((ln, i) => { if (spans[i]) spans[i].innerHTML = renderLine(ln); });
+      if (heroLines.offsetHeight > maxLines) maxLines = heroLines.offsetHeight;
     }
-    heroSub.textContent = active;
-    heroSub.style.minHeight = max + 'px';
+    heroSub.textContent = activeSub;
+    spans.forEach((sp, i) => { sp.innerHTML = activeLines[i]; });
+    heroSub.style.minHeight = maxSub + 'px';
+    heroLines.style.minHeight = maxLines + 'px';
   }
   reserveHeroSubHeight();
   if (document.fonts && document.fonts.ready){ document.fonts.ready.then(reserveHeroSubHeight); }
@@ -1768,7 +1791,13 @@
       if (outlineEq){
         outlineEq.style.left = '0';
         outlineEq.style.width = '100%';
-        outlineEq.style.bottom = (stripRect.height - (targetRect.bottom - stripRect.top)) + 'px';
+        // Sit in the middle of the gap below the active toggle rather than flush
+        // with its bottom edge, so the bars read as centred between the rows.
+        const row = target.parentElement;
+        const rowGap = parseFloat(getComputedStyle(row).rowGap) || 12;
+        const eqH = outlineEq.offsetHeight || 18;
+        const centreY = targetRect.bottom + rowGap / 2;
+        outlineEq.style.bottom = (stripRect.bottom - (centreY + eqH / 2)) + 'px';
         outlineEq.style.setProperty('--glow-color', color);
         outlineEq.classList.add('on');
       }
