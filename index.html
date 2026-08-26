@@ -326,7 +326,7 @@
                 background 0.5s ease, opacity 0.35s ease;
   }
   .ch-strip-glow-blob.on { opacity: 1; }
-  .ch-toggle-row { position: relative; z-index: 1; display: flex; gap: 16px; flex-wrap: wrap; }
+  .ch-toggle-row { position: relative; z-index: 1; display: flex; gap: 44px; flex-wrap: wrap; }
   .ch-strip-head {
     position: relative; z-index: 1;
     display: flex; align-items: center; justify-content: space-between;
@@ -356,9 +356,12 @@
     position: relative;
     display: flex; flex-direction: column; gap: 14px;
     flex: 1; min-width: 200px;
-    padding: 16px 18px;
-    border-radius: 16px;
-    overflow: hidden;
+    /* No side padding: the rows must line up with the panel header above them,
+       so their content sits flush against the strip's own padding. Nothing is
+       painted on this box, and clipping it would cut the halo that the channel
+       name (text-shadow) and the active switch (box-shadow) cast outwards —
+       which the side padding used to leave room for. */
+    padding: 16px 0;
   }
   .ch-toggle-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
   .ch-toggle-label { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
