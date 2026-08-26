@@ -32,6 +32,8 @@
        cards, buttons and the nav all read as the same pane of glass */
     --glass-blur: blur(18px) saturate(1.15);
     --glass-fill-soft: linear-gradient(158deg, rgba(226,230,238,0.09), rgba(210,216,228,0.035) 48%, rgba(210,216,228,0.02)), rgba(20,24,32,0.26);
+    /* darker pane: lets a bright backdrop read through while keeping text crisp */
+    --glass-fill-dark: linear-gradient(158deg, rgba(226,230,238,0.07), rgba(210,216,228,0.02) 48%, rgba(210,216,228,0.012)), rgba(9,12,18,0.58);
     --glass-shadow-1: 0 20px 50px -28px rgba(0,0,0,0.7);
     --glass-shadow-2: 0 30px 70px -30px rgba(0,0,0,0.8);
 
@@ -714,7 +716,7 @@
   }
   @media (max-width: 640px){
     .gallery-strip {
-      --g-col: 196px; --g-row: 162px; --g-gap: 10px;
+      --g-col: 244px; --g-row: 196px; --g-gap: 10px;
       margin-inline: -28px;
     }
     .gal-nav { display: none; }
@@ -1011,7 +1013,7 @@
   }
   /* Living mesh: slow blobs in the channel colours, brightest toward the bottom */
   .footer-aurora {
-    position: absolute; left: 0; right: 0; bottom: -120px; height: 1420px;
+    position: absolute; left: 0; right: 0; bottom: 0; height: 1360px;
     overflow: hidden;   /* keeps the blobs from widening the page */
     z-index: 0; pointer-events: none;
     filter: blur(96px) saturate(1.4);
@@ -1075,9 +1077,13 @@
   }
 
   /* keeps the links legible wherever the mesh happens to be bright */
+  /* Legibility scrim for the footer text. Ramped over a long distance and in
+     several steps, so it never shows an edge of its own against the mesh. */
   .site-footer::after {
-    content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 300px;
-    background: linear-gradient(0deg, rgba(5,7,13,0.62) 0%, rgba(5,7,13,0.22) 55%, transparent 100%);
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 460px;
+    background: linear-gradient(0deg,
+      rgba(5,7,13,0.66) 0%, rgba(5,7,13,0.52) 22%, rgba(5,7,13,0.34) 44%,
+      rgba(5,7,13,0.18) 64%, rgba(5,7,13,0.07) 82%, transparent 100%);
     z-index: 1; pointer-events: none;
   }
   .footer-inner {
@@ -1284,7 +1290,36 @@
   .benefit-card p { font-size: 13px; color: var(--muted); line-height: 1.55; }
 
   /* ---------- USE CASES ---------- */
-  .usecases { padding: var(--sec-pad) 0; }
+  .usecases { position: relative; padding: var(--sec-pad) 0; overflow: hidden; }
+  /* A slow, deliberately unsynchronised lime mesh drifting behind the whole
+     section — the cards are translucent, so it reads through them. */
+  .uc-aurora {
+    position: absolute; inset: -8% -6%;
+    z-index: 0; pointer-events: none;
+    filter: blur(110px) saturate(1.35);
+    opacity: 0.52;
+    /* eased in at the top so the heading keeps a clean ground, and out at the
+       bottom so the section doesn't end on a band of colour */
+    -webkit-mask-image: linear-gradient(180deg,
+      transparent 0%, rgba(0,0,0,0.10) 9%, rgba(0,0,0,0.34) 18%, rgba(0,0,0,0.68) 28%, #000 40%,
+      #000 58%, rgba(0,0,0,0.72) 72%, rgba(0,0,0,0.38) 84%, rgba(0,0,0,0.12) 93%, transparent 100%);
+    mask-image: linear-gradient(180deg,
+      transparent 0%, rgba(0,0,0,0.10) 9%, rgba(0,0,0,0.34) 18%, rgba(0,0,0,0.68) 28%, #000 40%,
+      #000 58%, rgba(0,0,0,0.72) 72%, rgba(0,0,0,0.38) 84%, rgba(0,0,0,0.12) 93%, transparent 100%);
+  }
+  .ua-blob { position: absolute; border-radius: 50%; transition: background 1.4s ease; }
+  .ua-blob.u1 { width: 60%; height: 58%; left: -10%; top: 26%;   background: radial-gradient(circle, rgba(198,255,0,0.62), transparent 66%); animation: uaDrift1 37s ease-in-out infinite; }
+  .ua-blob.u2 { width: 52%; height: 52%; left: 20%;  top: 44%;  background: radial-gradient(circle, rgba(198,255,0,0.46), transparent 66%); animation: uaDrift2 29s ease-in-out infinite; }
+  .ua-blob.u3 { width: 56%; height: 56%; left: 50%;  top: 22%;  background: radial-gradient(circle, rgba(198,255,0,0.54), transparent 66%); animation: uaDrift3 43s ease-in-out infinite; }
+  .ua-blob.u4 { width: 48%; height: 48%; left: 62%;  top: 48%;  background: radial-gradient(circle, var(--ch-glow), transparent 68%);       animation: uaDrift4 31s ease-in-out infinite; }
+  .ua-blob.u5 { width: 42%; height: 44%; left: 32%;  top: 32%;   background: radial-gradient(circle, var(--ch-glow), transparent 70%);       animation: uaDrift5 23s ease-in-out infinite; }
+  /* four-step paths at unrelated durations, so the pattern never visibly repeats */
+  @keyframes uaDrift1 { 0%{transform:translate(0,0) scale(1)} 27%{transform:translate(14%,9%) scale(1.14)} 58%{transform:translate(-6%,16%) scale(0.94)} 81%{transform:translate(9%,-7%) scale(1.08)} 100%{transform:translate(0,0) scale(1)} }
+  @keyframes uaDrift2 { 0%{transform:translate(0,0) scale(1.06)} 31%{transform:translate(-13%,-8%) scale(0.92)} 62%{transform:translate(11%,12%) scale(1.16)} 84%{transform:translate(-5%,5%) scale(1)} 100%{transform:translate(0,0) scale(1.06)} }
+  @keyframes uaDrift3 { 0%{transform:translate(0,0) scale(0.96)} 24%{transform:translate(-11%,13%) scale(1.12)} 55%{transform:translate(8%,-9%) scale(1.02)} 79%{transform:translate(-14%,-4%) scale(1.1)} 100%{transform:translate(0,0) scale(0.96)} }
+  @keyframes uaDrift4 { 0%{transform:translate(0,0) scale(1)} 29%{transform:translate(9%,-14%) scale(1.18)} 61%{transform:translate(-12%,6%) scale(0.9)} 86%{transform:translate(4%,11%) scale(1.06)} 100%{transform:translate(0,0) scale(1)} }
+  @keyframes uaDrift5 { 0%{transform:translate(0,0) scale(1.04)} 33%{transform:translate(16%,7%) scale(0.94)} 64%{transform:translate(-9%,-12%) scale(1.14)} 88%{transform:translate(6%,4%) scale(1)} 100%{transform:translate(0,0) scale(1.04)} }
+  .usecases > .wrap { position: relative; z-index: 1; }
 
   /* Horizontal gallery: two rows that scroll together, the lower one offset by
      half a card so the grid reads as a woven strip rather than a plain table.
@@ -1322,7 +1357,7 @@
     overflow: hidden;
     border: 1px solid var(--line); border-top-color: var(--glass-edge);
     border-radius: 20px;
-    background: var(--glass-fill-1);
+    background: var(--glass-fill-dark);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     box-shadow: var(--glass-shadow-1), inset 0 1px 0 rgba(255,255,255,0.07);
@@ -1356,16 +1391,16 @@
   .uc-card p { font-size: 12px; color: var(--muted); line-height: 1.45; }
   .uc-order {
     margin-top: auto; align-self: flex-start;
-    border: 1px solid var(--line); border-top-color: var(--glass-edge);
-    background: var(--glass-fill-soft);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    color: #fff; border-radius: 999px;
+    /* No dark pane of its own here: on an already-dark card it read as a hole.
+       A thin translucent wash sits lighter and calmer. */
+    border: 1px solid rgba(255,255,255,0.16);
+    background: rgba(255,255,255,0.075);
+    color: rgba(255,255,255,0.94); border-radius: 999px;
     padding: 8px 14px; font-size: 11.5px; font-weight: 600;
     cursor: pointer;
     transition: border-color 0.25s ease, background 0.25s ease;
   }
-  .uc-order:hover { border-color: var(--uc-accent, var(--ch)); }
+  .uc-order:hover { border-color: var(--uc-accent, var(--ch)); background: rgba(255,255,255,0.13); color: #fff; }
 
   /* Arrows live outside the cards, out at the nav's width (nav is 1200px wide
      against the 1120px content column, which leaves exactly this margin). */
@@ -1779,6 +1814,10 @@
 
 <!-- USE CASES -->
 <section class="usecases" id="cases">
+  <div class="uc-aurora" aria-hidden="true">
+    <span class="ua-blob u1"></span><span class="ua-blob u2"></span>
+    <span class="ua-blob u3"></span><span class="ua-blob u4"></span><span class="ua-blob u5"></span>
+  </div>
   <div class="wrap">
     <div class="eyebrow reveal">Silent-досвіди</div>
     <h2 class="h2 reveal">Silent disco — це лише один зі сценаріїв. Тихий звук працює всюди, де важливо чути.</h2>
