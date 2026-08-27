@@ -876,18 +876,19 @@
      і решта карток на сайті. Веселковий неоновий кант, який був у неї знизу,
      не повторювався ніде більше й вибивався з концепції; кольори каналів на
      кроках процесу теж нічого не означали — черговість несе номер. */
-  /* Текст ліворуч, кроки колонкою праворуч. Раніше кроки стояли в ряд і все в
-     них було центроване — через це рядки розходились, а галочки висіли окремо
-     від свого тексту. Тут усе вирівняне по лівому краю однією вертикаллю. */
-  .how-grid {
+  /* Три елементи, два рядки: eyebrow сам по собі згори, а заголовок і текст —
+     поруч в одному рядку. Тому текст починається на рівні заголовка, а не
+     піднімається до надпису над ним. Картки йдуть окремим рядом під ними. */
+  .how-head {
     display: grid;
-    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
-    gap: 20px 64px;
+    grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+    gap: 14px 52px;
     align-items: start;
     margin-top: 4px;
   }
-  .how-intro .h2 { margin-bottom: 18px; }
-  .how-lead { color: var(--muted); font-size: 15px; line-height: 1.65; }
+  .how-head .eyebrow { grid-column: 1; grid-row: 1; }
+  .how-head .h2 { grid-column: 1; grid-row: 2; margin-bottom: 0; }
+  .how-lead { grid-column: 2; grid-row: 2; color: var(--muted); font-size: 15px; line-height: 1.65; }
 
   /* Дві на дві. Іконка не лежить усередині картки — картка має справжній виріз
      під неї: маска з radial-gradient робить у верхньому краї півколо прозорим,
@@ -900,17 +901,17 @@
   .flow {
     list-style: none;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 52px 22px;
-    margin-top: 78px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 60px 18px;
+    margin-top: 92px;
   }
   .flow-step {
-    --notch-x: calc(100% - 62px);
+    --notch-x: calc(100% - 78px);
     position: relative;
   }
   .flow-card {
     position: relative;
-    padding: 30px 26px 30px;
+    padding: 34px 26px 30px;
     isolation: isolate;
   }
   /* Скло — окремим шаром під вмістом. Маска на самій картці згасила б і текст
@@ -927,10 +928,10 @@
     backdrop-filter: blur(22px) saturate(1.3);
     -webkit-backdrop-filter: blur(22px) saturate(1.3);
     -webkit-mask-image:
-      radial-gradient(circle at var(--notch-x) 0, transparent 37px, #000 38px),
+      radial-gradient(circle at var(--notch-x) 0, transparent 45px, #000 46px),
       linear-gradient(180deg, #000 46%, rgba(0,0,0,0.5) 80%, transparent 100%);
     mask-image:
-      radial-gradient(circle at var(--notch-x) 0, transparent 37px, #000 38px),
+      radial-gradient(circle at var(--notch-x) 0, transparent 45px, #000 46px),
       linear-gradient(180deg, #000 46%, rgba(0,0,0,0.5) 80%, transparent 100%);
     -webkit-mask-composite: source-in;
     mask-composite: intersect;
@@ -945,8 +946,8 @@
      а половина виступає над ним. */
   .flow-node {
     position: absolute; z-index: 2;
-    right: 31px; top: -31px;
-    width: 62px; height: 62px; border-radius: 50%;
+    right: 39px; top: -39px;
+    width: 78px; height: 78px; border-radius: 50%;
     display: grid; place-items: center;
     color: var(--lime);
     border: 1px solid rgba(198,255,0,0.34);
@@ -974,12 +975,16 @@
   }
   .flow-step h3 { font-size: 16px; font-weight: 700; line-height: 1.3; margin-bottom: 9px; }
 
-  @media (max-width: 640px){
-    .flow { grid-template-columns: 1fr; gap: 50px; }
+  @media (max-width: 1040px){
+    .flow { grid-template-columns: 1fr 1fr; gap: 60px 20px; }
+  }
+  @media (max-width: 620px){
+    .flow { grid-template-columns: 1fr; gap: 58px; }
   }
 
   @media (max-width: 900px){
-    .how-grid { grid-template-columns: 1fr; gap: 26px; }
+    .how-head { grid-template-columns: 1fr; gap: 16px; }
+    .how-head .eyebrow, .how-head .h2, .how-lead { grid-column: 1; grid-row: auto; }
   }
 
   .step-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
@@ -2445,16 +2450,15 @@
 <!-- HOW IT WORKS -->
 <section class="block" id="how">
   <div class="wrap">
-    <div class="how-grid">
-      <div class="how-intro">
-        <div class="eyebrow reveal">Як це працює</div>
-        <h2 class="h2 reveal">Як насправді влаштована тиха вечірка?</h2>
-        <p class="how-lead reveal">Музика йде не з колонок, а одразу в навушники кожного гостя. Один передавач роздає три канали, і людина сама обирає, який слухати і на якій гучності. Колонок немає, тож ззовні залишається тиша. Ми привозимо навушники із запасними комплектами, збираємо систему на місці й лишаємось на вечір. Від вас потрібні тільки дата й приблизна кількість гостей.</p>
-      </div>
+    <div class="how-head">
+      <div class="eyebrow reveal">Як це працює</div>
+      <h2 class="h2 reveal">Як насправді влаштована тиха вечірка?</h2>
+      <p class="how-lead reveal">Музика йде не з колонок, а одразу в навушники кожного гостя. Один передавач роздає три канали, і людина сама обирає, який слухати і на якій гучності. Колонок немає, тож ззовні залишається тиша. Ми привозимо навушники із запасними комплектами, збираємо систему на місці й лишаємось на вечір. Від вас потрібні тільки дата й приблизна кількість гостей.</p>
+    </div>
 
-      <ol class="flow reveal">
+    <ol class="flow reveal">
         <li class="flow-step">
-          <span class="flow-node" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 3v3M16 3v3"/></svg></span>
+          <span class="flow-node" aria-hidden="true"><svg viewBox="0 0 24 24" width="29" height="29" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 3v3M16 3v3"/></svg></span>
           <div class="flow-card">
             <span class="flow-chip"><b>01</b>Заявка</span>
             <h3>Дата, місце, гості</h3>
@@ -2465,7 +2469,7 @@
           </div>
         </li>
         <li class="flow-step">
-          <span class="flow-node" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 10.5h8M8 14h5"/><path d="M4 5.5h16v11H9l-4 3v-3H4z"/></svg></span>
+          <span class="flow-node" aria-hidden="true"><svg viewBox="0 0 24 24" width="29" height="29" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 10.5h8M8 14h5"/><path d="M4 5.5h16v11H9l-4 3v-3H4z"/></svg></span>
           <div class="flow-card">
             <span class="flow-chip"><b>02</b>Розрахунок</span>
             <h3>Рахуємо вартість</h3>
@@ -2476,7 +2480,7 @@
           </div>
         </li>
         <li class="flow-step">
-          <span class="flow-node" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.5h11v9H3z"/><path d="M14 9.5h3.4L21 12.5v3h-7"/><circle cx="7" cy="17.5" r="1.7"/><circle cx="17" cy="17.5" r="1.7"/></svg></span>
+          <span class="flow-node" aria-hidden="true"><svg viewBox="0 0 24 24" width="29" height="29" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.5h11v9H3z"/><path d="M14 9.5h3.4L21 12.5v3h-7"/><circle cx="7" cy="17.5" r="1.7"/><circle cx="17" cy="17.5" r="1.7"/></svg></span>
           <div class="flow-card">
             <span class="flow-chip"><b>03</b>Монтаж</span>
             <h3>Готуємо зал на місці</h3>
@@ -2487,7 +2491,7 @@
           </div>
         </li>
         <li class="flow-step">
-          <span class="flow-node" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9 2 9 2 15 6 15 11 19 11 5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a9 9 0 0 1 0 12"/></svg></span>
+          <span class="flow-node" aria-hidden="true"><svg viewBox="0 0 24 24" width="29" height="29" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9 2 9 2 15 6 15 11 19 11 5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a9 9 0 0 1 0 12"/></svg></span>
           <div class="flow-card">
             <span class="flow-chip"><b>04</b>Вечірка</span>
             <h3>Ви танцюєте</h3>
@@ -2497,8 +2501,7 @@
             </ul>
           </div>
         </li>
-      </ol>
-    </div>
+    </ol>
   </div>
 </section>
 
