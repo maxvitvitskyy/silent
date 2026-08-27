@@ -1243,12 +1243,93 @@
     display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
   }
   @media (max-width: 760px){ .form-card { grid-template-columns: 1fr; padding: 32px; } }
+  /* Колонка — колонка флексів, щоб календар можна було притиснути донизу:
+     тоді його нижній край збігається з низом правої колонки сам, без підгонки
+     відступів під поточну кількість полів. */
+  .form-left { display: flex; flex-direction: column; }
   .form-left h2 { font-size: clamp(24px, 3vw, 32px); font-weight: 700; line-height: 1.15; margin-bottom: 14px; }
   .form-left .em { color: var(--lime); }
   .form-left p { color: var(--muted); font-size: 15px; margin-bottom: 26px; }
   .form-assure { display: flex; flex-direction: column; gap: 12px; }
   .form-assure div { display: flex; gap: 10px; align-items: center; font-size: 13.5px; color: var(--muted); }
   .form-assure .ok { color: var(--lime); font-weight: 700; }
+
+  /* ---------- КАЛЕНДАР У ФОРМІ ---------- */
+  /* Займає порожнє місце під списком у лівій колонці. Те саме матове скло, що
+     й у полів форми, тільки панеллю. */
+  .cal {
+    margin-top: auto;           /* притискаємо до низу колонки */
+    /* Прив'язки дві: верх панелі лягає на верхній край поля «Скільки гостей»,
+       а нижній підпис — на рядок усередині кнопки. Обидві дає один відступ
+       знизу: висота панелі вже підібрана під цей проміжок висотою клітинок. */
+    margin-bottom: 5px;
+    border: 1px solid var(--line); border-top-color: var(--glass-edge);
+    border-radius: 18px;
+    background: rgba(255,255,255,0.035);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    padding: 18px 18px 16px;
+    width: 100%;                /* на всю ширину текстової колонки */
+  }
+  /* Стрілки тримаємо біля назви місяця, а не по краях панелі: розкидані по
+     кутах вони читались як щось стороннє, а не як керування цим заголовком. */
+  .cal-head { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 10px; }
+  /* Не Unbounded: його широкі геометричні цифри в дрібній сітці читаються
+     важко. Основний шрифт сайту тримає ту саму ієрархію вагою й розміром. */
+  .cal-title {
+    font-size: 15px; font-weight: 700; letter-spacing: 0.2px;
+    display: flex; align-items: baseline; gap: 6px;
+  }
+  .cal-title span { text-transform: capitalize; }
+  .cal-title b { color: var(--lime); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .cal-nav {
+    width: 28px; height: 28px; border-radius: 50%;
+    border: 1px solid var(--line); background: rgba(255,255,255,0.04);
+    color: rgba(255,255,255,0.7); cursor: pointer;
+    font-size: 15px; line-height: 1;
+    display: grid; place-items: center;
+    transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease;
+  }
+  .cal-nav:hover { border-color: rgba(198,255,0,0.5); color: var(--lime); background: rgba(198,255,0,0.09); }
+
+  .cal-week, .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  /* Дні тижня губились сірим на тлі цифр — тепер яскравіші, важчі й відділені
+     лінією, тож шапка сітки читається як шапка. */
+  .cal-week {
+    padding-bottom: 8px; margin-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+    font-size: 10.5px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    color: rgba(255,255,255,0.55); text-align: center;
+  }
+  .cal-day {
+    /* Не квадрат: на всю ширину колонки квадратні клітинки зробили б календар
+       удвічі вищим за решту колонки. Фіксована висота лишає його компактним,
+       а клітинки просто стають ширшими. Висота підібрана так, щоб панель
+       рівно вкладалась між рядком «Скільки гостей» і кнопкою праворуч. */
+    height: 32px;
+    display: grid; place-items: center;
+    border: 1px solid transparent; border-radius: 10px;
+    background: none; color: rgba(255,255,255,0.86);
+    font-size: 13.5px; font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+  .cal-day:hover { background: rgba(198,255,0,0.12); color: #fff; }
+  .cal-day.other { color: rgba(255,255,255,0.16); pointer-events: none; }
+  .cal-day.past { color: rgba(255,255,255,0.2); pointer-events: none; }
+  /* сьогодні — лише обведення, щоб не сперечалось із обраною датою */
+  .cal-day.today { border-color: rgba(198,255,0,0.45); }
+  .cal-day.sel {
+    background: var(--lime); color: #12100a; font-weight: 700;
+    border-color: var(--lime);
+    box-shadow: 0 0 22px -6px rgba(198,255,0,0.7);
+  }
+  .cal-foot { margin-top: 10px; font-size: 11.5px; color: var(--muted-2); text-align: center; }
+
+  /* Тільки для десктопа: у вузькій колонці сітка стає нечитабельною, а поле
+     «Бажана дата» й так відкриває рідний вибір дати на телефоні. */
+  @media (max-width: 860px){ .cal { display: none; } }
 
   .field { margin-bottom: 16px; }
   .field label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 7px; letter-spacing: 0.3px; }
@@ -1766,7 +1847,22 @@
   .uc-nav:hover { color: #fff; transform: translateY(-50%) scale(1.12); }
   .uc-prev { left: -52px; }
   .uc-next { right: -52px; }
-  .uc-hint { margin-top: 12px; font-size: 11.5px; color: var(--muted-2); }
+  /* Підказка про горизонтальний скрол закінчується лаймовою стрілкою, яка ледь
+     помітно ходить вправо: сам текст легко проґавити, а рух у бік прокрутки
+     показує напрямок без слів. Через ::after, тож у розмітку нічого не додається. */
+  .uc-hint {
+    margin-top: 12px; font-size: 11.5px; color: var(--muted-2);
+    display: inline-flex; align-items: center; gap: 7px;
+  }
+  .uc-hint::after {
+    content: '→';
+    color: var(--lime); font-size: 14px; line-height: 1;
+    animation: hintNudge 1.8s ease-in-out infinite;
+  }
+  @keyframes hintNudge {
+    0%, 100% { transform: translateX(0); }
+    50%      { transform: translateX(4px); }
+  }
 
   /* ---------- FULL-BLEED STRIPS (desktop only) ----------
      Обидві галереї виходять на всю ширину монітора, щоб на широких екранах
@@ -2822,6 +2918,19 @@
           <div><span class="ok">✓</span> Відповідаємо протягом дня</div>
           <div><span class="ok">✓</span> Один вечір — одна подія, тож дати розбирають наперед</div>
           <div><span class="ok">✓</span> Заявка ні до чого не зобов'язує — це перевірка доступності</div>
+        </div>
+
+        <!-- Календар — візуальна зручність поверх поля «Бажана дата», а не заміна
+             йому: саме поле лишається доступним із клавіатури й на мобільному. -->
+        <div class="cal" id="cal">
+          <div class="cal-head">
+            <button type="button" class="cal-nav" id="calPrev" aria-label="Попередній місяць">‹</button>
+            <div class="cal-title"><span id="calMonth"></span><b id="calYear"></b></div>
+            <button type="button" class="cal-nav" id="calNext" aria-label="Наступний місяць">›</button>
+          </div>
+          <div class="cal-week"><span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Нд</span></div>
+          <div class="cal-grid" id="calGrid"></div>
+          <p class="cal-foot" id="calFoot">Оберіть дату — вона підставиться у форму</p>
         </div>
       </div>
 
@@ -3984,6 +4093,92 @@
     el.style.transitionDelay = (Math.min(i%4,3)*0.06)+'s';
     io.observe(el);
   });
+
+  // ---- Календар у формі ----
+  // Підставляє дату в поле «Бажана дата» і читає його назад, тож обидва способи
+  // введення лишаються синхронними. Місяці й дні тижня рахуємо від понеділка,
+  // назви бере Intl — рік і назва місяця оновлюються самі.
+  (function(){
+    const cal = document.getElementById('cal');
+    const grid = document.getElementById('calGrid');
+    const input = document.getElementById('date');
+    if (!cal || !grid || !input) return;
+
+    const mLabel = document.getElementById('calMonth');
+    const yLabel = document.getElementById('calYear');
+    const foot = document.getElementById('calFoot');
+    const monthName = new Intl.DateTimeFormat('uk-UA', { month: 'long' });
+
+    const today = new Date(); today.setHours(0,0,0,0);
+    const iso = (d) => d.getFullYear() + '-' +
+      String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    const parse = (v) => {
+      const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v || '');
+      if (!m) return null;
+      const d = new Date(+m[1], +m[2]-1, +m[3]);
+      return isNaN(d) ? null : d;
+    };
+
+    let selected = parse(input.value);
+    let view = new Date((selected || today).getFullYear(), (selected || today).getMonth(), 1);
+
+    function render(){
+      mLabel.textContent = monthName.format(view);
+      yLabel.textContent = view.getFullYear();
+
+      // Понеділок — перший: getDay() дає 0 для неділі, тож зсуваємо.
+      const first = new Date(view.getFullYear(), view.getMonth(), 1);
+      const lead = (first.getDay() + 6) % 7;
+      const start = new Date(first); start.setDate(1 - lead);
+
+      grid.textContent = '';
+      const frag = document.createDocumentFragment();
+      for (let i = 0; i < 42; i++){
+        const d = new Date(start); d.setDate(start.getDate() + i);
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'cal-day';
+        b.tabIndex = -1;                    // клавіатурний шлях — саме поле дати
+        b.textContent = d.getDate();
+        if (d.getMonth() !== view.getMonth()) b.classList.add('other');
+        else if (d < today) b.classList.add('past');
+        if (+d === +today) b.classList.add('today');
+        if (selected && +d === +selected) b.classList.add('sel');
+        b.dataset.d = iso(d);
+        frag.appendChild(b);
+      }
+      grid.appendChild(frag);
+    }
+
+    grid.addEventListener('click', (e) => {
+      const b = e.target.closest('.cal-day');
+      if (!b || b.classList.contains('other') || b.classList.contains('past')) return;
+      selected = parse(b.dataset.d);
+      input.value = b.dataset.d;
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+      foot.textContent = 'Дата у формі: ' + new Intl.DateTimeFormat('uk-UA',
+        { day: 'numeric', month: 'long', year: 'numeric' }).format(selected);
+      render();
+    });
+
+    document.getElementById('calPrev').addEventListener('click', () => {
+      view = new Date(view.getFullYear(), view.getMonth() - 1, 1); render();
+    });
+    document.getElementById('calNext').addEventListener('click', () => {
+      view = new Date(view.getFullYear(), view.getMonth() + 1, 1); render();
+    });
+
+    // якщо дату ввели в саме поле — календар підхоплює її
+    input.addEventListener('change', () => {
+      const d = parse(input.value);
+      if (!d || (selected && +d === +selected)) return;
+      selected = d;
+      view = new Date(d.getFullYear(), d.getMonth(), 1);
+      render();
+    });
+
+    render();
+  })();
 
   // ---- FAQ accordion ----
   document.querySelectorAll('.faq-item').forEach(item => {
