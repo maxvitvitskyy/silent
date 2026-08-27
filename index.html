@@ -763,6 +763,9 @@
   }
   .gallery-item img {
     width: 100%; height: 100%; object-fit: cover; display: block;
+    /* Плитка поза вікном завантаження лишається без src, тож під нею має бути
+       хоч якийсь колір — той самий крихітний відбиток кадру, що й у картках. */
+    background-image: var(--lqip); background-size: cover; background-position: center;
     filter: saturate(1.08) contrast(1.04);
     transition: transform 0.7s cubic-bezier(.2,.7,.3,1);
   }
@@ -1979,35 +1982,35 @@
     <div class="gallery-strip reveal">
       <div class="gallery-grid" id="galGrid" role="region" aria-label="Атмосфера події, гортайте вбік">
       <figure class="gallery-item g-tall">
-        <img src="images/gal/dance.webp" loading="lazy" decoding="async" alt="Гості танцюють у навушниках із червоним підсвіченням">
+        <img src="images/gal/dance.webp" style="--lqip:url(data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAACwAwCdASoQABoAPu1kqU2ppaOiMAgBMB2JQAAj3VNFXPqpVMOxFAD+/kme0bGsBrjeuQRIVwq+o+/lfxsPgdGtpy7l9k/fPKSTT9PHdAvBH3tldaJFjd5GYMCtNqPMfkyHFSfsZcFgwgZcSH/AqgAA)" loading="lazy" decoding="async" alt="Гості танцюють у навушниках із червоним підсвіченням">
         <div class="gallery-scrim"></div>
       </figure>
       <figure class="gallery-item g-wide">
-        <img src="images/gal/headsets.webp" loading="lazy" decoding="async" alt="Ряди LED-навушників на столі перед подією">
+        <img src="images/gal/headsets.webp" style="--lqip:url(data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAACQAQCdASoQAAYAA4BaJZV2ARgAiwAA/vN7Z08/i76v7mIzwbUcldGyckGy3HwJYXagBIFAAAA=)" loading="lazy" decoding="async" alt="Ряди LED-навушників на столі перед подією">
         <div class="gallery-scrim"></div>
       </figure>
       <figure class="gallery-item g-wide">
-        <img src="images/gal/rooftop.webp" loading="lazy" decoding="async" alt="Вечірка на даху на тлі нічного міста">
+        <img src="images/gal/rooftop.webp" style="--lqip:url(data:image/webp;base64,UklGRkQAAABXRUJQVlA4IDgAAADQAQCdASoQAAYAA4BaJYwCdAEO9rlAYAD+8r8JuAkqnVIfQJjj0AwcuBMEJ4Zy2VFXGLdVEgAAAA==)" loading="lazy" decoding="async" alt="Вечірка на даху на тлі нічного міста">
         <div class="gallery-scrim"></div>
       </figure>
       <figure class="gallery-item g-tall">
-        <img src="images/gal/cinema.webp" loading="lazy" decoding="async" alt="Кіно просто неба: екран і гості в навушниках">
+        <img src="images/gal/cinema.webp" style="--lqip:url(data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAAAQBACdASoQABoAPu1iqk2ppaQiMAgBMB2JZQC7ACHf3IFlWOjdmbL0yAD+9B0G86ufrWLF0xmF2FqFhGiglV5Fb1DDnPYmXv6kDJJFaouAwlK9LjbENlHn4Cl8R1ua7jsho2PIMtpSsKSldEG+20fDqxIAAA==)" loading="lazy" decoding="async" alt="Кіно просто неба: екран і гості в навушниках">
         <div class="gallery-scrim"></div>
       </figure>
       <figure class="gallery-item g-sq">
-        <img src="images/gal/guests.webp" loading="lazy" decoding="async" alt="Компанія гостей сміється у навушниках">
+        <img src="images/gal/guests.webp" style="--lqip:url(data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAADQAQCdASoQAA0AA4BaJQBOgB0mhdJfgAD+9qyRhpiiACL11tVZQekEs5QN7g5S1FqCRvi5qWQDmHvzKm5ympXccjRfBnjVOTMl7sZldON2Q9E7v8hNygAA)" loading="lazy" decoding="async" alt="Компанія гостей сміється у навушниках">
         <div class="gallery-scrim"></div>
       </figure>
       <figure class="gallery-item g-sq">
-        <img src="images/gal/solo.webp" loading="lazy" decoding="async" alt="Дівчина танцює у навушниках із червоним підсвіченням">
+        <img src="images/gal/solo.webp" style="--lqip:url(data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAADwAQCdASoQAA0AA4BaJaACdAED/s3+7EAA/veyKFT1rJPQU1PIdxb/7brxNxg7Ygd/CtnHbZTIU8uSr/EbtKS0+waW51+dcDcUV62a0HoAAA==)" loading="lazy" decoding="async" alt="Дівчина танцює у навушниках із червоним підсвіченням">
         <div class="gallery-scrim"></div>
       </figure>
       <figure class="gallery-item g-tall">
-        <img src="images/gal/channels.webp" loading="lazy" decoding="async" alt="Діджей мікшує три канали одночасно">
+        <img src="images/gal/channels.webp" style="--lqip:url(data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAADwAwCdASoQABoAPu1iqk2ppaQiMAgBMB2JYwCdACHfwgPTaPvAyWJAAP7qUVS1TzLrpIAV3ylCZGzynGH2Jx2I0FTlK7qeQjimh4L3NcAlS38l/9XtrBkrSKA2gjQbOazUofgA)" loading="lazy" decoding="async" alt="Діджей мікшує три канали одночасно">
         <div class="gallery-scrim"></div>
       </figure>
       <figure class="gallery-item g-tall">
-        <img src="images/gal/crowd.webp" loading="lazy" decoding="async" alt="Великий натовп у навушниках на відкритому майданчику">
+        <img src="images/gal/crowd.webp" style="--lqip:url(data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAADQAwCdASoQABoAPu1kqU2ppaQiMAgBMB2JZgABHu0IQxb429l6kUAA/v4U73vsImFSYRfCvxoHQMWxAIdZAtT26O+CyZ1/qMUiop2bFLboZ/9laZ0bTQB/vX2xiFIFgCwbqYpYWTGk/NovW+HBfIoiGgAAAA==)" loading="lazy" decoding="async" alt="Великий натовп у навушниках на відкритому майданчику">
         <div class="gallery-scrim"></div>
       </figure>
       </div>
@@ -3098,64 +3101,93 @@
     });
   }
 
-  // ---- Стрічки: підвантаження картинок наперед ----
-  // Картки в стрічці стоять збоку, а не знизу, тож lazy-loading їх не бачить і
-  // тримає незавантаженими. Коли стрічку швидко гортають, порожні картки
-  // проскакують, а потім різко проявляються — це і є той ривок. Тому щойно
-  // секція наближається до екрана, знімаємо lazy з усіх її картинок і даємо
-  // браузеру декодувати їх заздалегідь. Клони мають той самий src, тож
-  // додаткових запитів це не створює.
-  function primeStripImages(section, done){
+  // ---- Стрічки: кеш наперед і вікно живих картинок ----
+  //
+  // Нескінченні стрічки тримають у DOM кілька копій набору: 130 карток сценаріїв
+  // і 72 плитки атмосфери. Якщо в кожної стоїть src, браузер тримає в пам'яті
+  // декодовані бітмапи всіх — це близько 223 МБ, і мобільний Safari просто вбиває
+  // вкладку («сталася повторна проблема», чорний екран).
+  //
+  // Тому картинка живе тільки поки вона поруч із видимою частиною стрічки. Адреса
+  // зберігається в data-src, а src ставиться й знімається на льоту. Під зображенням
+  // лишається його ж крихітний відбиток (--lqip), тож порожніх плям не видно.
+  // Файли при цьому вже лежать у HTTP-кеші — їх прогріває fetch, який нічого не
+  // декодує й не займає пам'яті під бітмапи.
+
+  function warmStripCache(section, done){
     if (!section) return;
-    // Двома хвилями. Спершу — те, що зараз у кадрі стрічки або поруч із ним, з
-    // високим пріоритетом: саме ці картки користувач бачить порожніми. Решта —
-    // одразу після них, з низьким, щоб не відбирати канал у видимих. Клони
-    // мають ті самі адреси, тож друга хвиля здебільшого дістає їх із кешу.
-    const load = () => {
-      const imgs = [...section.querySelectorAll('img')];
-      if (!imgs.length) { done && done(); return; }
-      const strip = section.querySelector('[id$="Grid"]');
-      const reach = strip ? strip.clientWidth * 2 : 2000;
-      const near = [], far = [];
-      imgs.forEach(img => {
-        const r = img.getBoundingClientRect();
-        (r.right > -reach && r.left < innerWidth + reach ? near : far).push(img);
-      });
-
-      let left = imgs.length;
+    const run = () => {
+      const urls = [...new Set([...section.querySelectorAll('img')]
+        .map(i => i.dataset.src || i.getAttribute('src'))
+        .filter(u => u && u.slice(0, 5) !== 'data:'))];
+      if (!urls.length) { done && done(); return; }
+      let left = urls.length;
       const tick = () => { if (--left === 0 && done) done(); };
-      const kick = (img, priority) => {
-        img.loading = 'eager';
-        img.fetchPriority = priority;
-        if (img.complete && img.naturalWidth) tick();
-        else { img.addEventListener('load', tick, { once: true });
-               img.addEventListener('error', tick, { once: true }); }
-      };
+      urls.forEach(u => fetch(u, { cache: 'force-cache', priority: 'low' })
+        .then(tick, tick));
+    };
+    if (!('IntersectionObserver' in window)) { run(); return; }
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some(e => e.isIntersecting)) { io.disconnect(); run(); }
+    }, { rootMargin: '2200px 0px' });   // почати задовго до того, як блок доїде
+    io.observe(section);
+  }
 
-      near.forEach(img => kick(img, 'high'));
-      let restDone = false;
-      const rest = () => {           // і лічильник, і таймер можуть покликати це
-        if (restDone) return;
-        restDone = true;
-        far.forEach(img => kick(img, 'low'));
-      };
-      if (!near.length) rest();
-      else {
-        let pending = near.length;
-        const step = () => { if (--pending === 0) rest(); };
-        near.forEach(img => {
-          if (img.complete && img.naturalWidth) step();
-          else { img.addEventListener('load', step, { once: true });
-                 img.addEventListener('error', step, { once: true }); }
-        });
-        setTimeout(rest, 1200);        // не чекати нескінченно на повільній мережі
+  // Прозорий піксель замість зняття src: <img> без адреси малює іконку
+  // «зображення не завантажилось» і текст alt, а з цим — нічого. Усі копії
+  // ділять один і той самий декодований піксель, тож пам'яті це не коштує.
+  const BLANK = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+
+  function makeImageWindow(strip){
+    const imgs = [...strip.querySelectorAll('img')];
+    imgs.forEach(img => {
+      const src = img.getAttribute('src');
+      if (src && src !== BLANK) { img.dataset.src = src; img.setAttribute('src', BLANK); }
+      img.loading = 'eager';
+    });
+
+    // Позиції міряємо один раз: під час прокрутки порівнюємо лише числа, інакше
+    // 200 викликів getBoundingClientRect на кожен кадр з'їдять увесь бюджет.
+    let pos = [];
+    const measure = () => {
+      // Координати рахуємо від початку вмісту стрічки, а не від краю екрана:
+      // до різниці з рамкою контейнера треба додати поточний scrollLeft, інакше
+      // scrollLeft скорочується і позиції виходять відносні — вікно порівнює
+      // їх не з тим і не вмикає жодної картинки.
+      const edge = strip.getBoundingClientRect().left;
+      const sl = strip.scrollLeft;
+      pos = imgs.map(img => {
+        const r = img.getBoundingClientRect();
+        return [r.left - edge + sl, r.right - edge + sl];
+      });
+    };
+
+    let queued = false;
+    const apply = () => {
+      queued = false;
+      if (!pos.length) return;
+      // Два екрани запасу в кожен бік: одного мало — при швидкому свайпі картка
+      // встигала в'їхати в кадр раніше, ніж її зображення декодувалось, і мигала
+      // розмитим відбитком. Живих картинок при цьому все одно двадцятки, а не
+      // дві сотні, тож пам'ять лишається в межах десятків мегабайтів.
+      // Стеля потрібна для широких моніторів: без неї запас росте разом із
+      // шириною стрічки, і на full-bleed десктопі живих картинок стає під сотню.
+      const reach = Math.min(strip.clientWidth * 2, 2400);
+      const from = strip.scrollLeft - reach;
+      const to = strip.scrollLeft + strip.clientWidth + reach;
+      for (let i = 0; i < imgs.length; i++) {
+        const img = imgs[i], p = pos[i];
+        const near = p[1] > from && p[0] < to;
+        const live = img.getAttribute('src') !== BLANK;
+        if (near) { if (!live) img.setAttribute('src', img.dataset.src); }
+        else if (live) img.setAttribute('src', BLANK);
       }
     };
-    if (!('IntersectionObserver' in window)) { load(); return; }
-    const io = new IntersectionObserver((entries) => {
-      if (entries.some(e => e.isIntersecting)) { io.disconnect(); load(); }
-    }, { rootMargin: '2200px 0px' });   // почати вантажити задовго до того, як блок доїде
-    io.observe(section);
+    const sync = () => { if (!queued) { queued = true; requestAnimationFrame(apply); } };
+
+    strip.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('resize', () => { measure(); sync(); }, { passive: true });
+    return { measure, sync };
   }
 
   // ---- Нескінченні стрічки: перенос лише на спокої ----
@@ -3251,9 +3283,12 @@
       grid.addEventListener(ev, () => { touched = true; }, { passive: true }));
     const safeStart = () => { if (!touched) start(); };
 
+    const win = makeImageWindow(grid);
     start();
-    primeStripImages(document.getElementById('atmosphere'), safeStart);
-    window.addEventListener('load', safeStart);
+    win.measure(); win.sync();
+    grid.addEventListener('scroll', win.sync, { passive: true });
+    warmStripCache(document.getElementById('atmosphere'), () => { safeStart(); win.sync(); });
+    window.addEventListener('load', () => { safeStart(); win.measure(); win.sync(); });
   })();
 
   // ---- Scenario gallery: endless strip + "order this experience" ----
@@ -3297,7 +3332,10 @@
     let touched = false;
     ['pointerdown','touchstart','wheel','keydown'].forEach(ev =>
       view.addEventListener(ev, () => { touched = true; }, { passive: true }));
-    primeStripImages(document.getElementById('cases'), () => { if (!touched) start(); });
+    const win = makeImageWindow(view);
+    win.measure(); win.sync();
+    view.addEventListener('scroll', win.sync, { passive: true });
+    warmStripCache(document.getElementById('cases'), () => { if (!touched) start(); win.sync(); });
 
     function nudge(dir){
       const row = rows[0];
@@ -3356,8 +3394,10 @@
 
     // той самий запобіжник: пізній start() не має смикати стрічку під пальцем
     const safeStart = () => { if (!touched) start(); };
-    if (document.readyState !== 'complete') window.addEventListener('load', safeStart, { once: true });
+    if (document.readyState !== 'complete')
+      window.addEventListener('load', () => { safeStart(); win.measure(); win.sync(); }, { once: true });
     start();
+    win.measure(); win.sync();
   })();
 
   // ---- respect reduced motion ----
