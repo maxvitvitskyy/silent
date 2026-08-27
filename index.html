@@ -172,7 +172,7 @@
        верх коробки, обривався різкою межею і "висів у повітрі" над плашкою, а
        маска танула вже в порожнечі під ним. Тепер низ фігури завжди всередині
        плашки, а маска завжди лягає на саму фігуру. */
-    right: 8%;
+    right: 12%;
     top: auto;
     bottom: 118px;
     /* Розмір диктує ВИСОТА: кадр тепер портретний (1385×2090), і прив'язка до
@@ -753,17 +753,15 @@
      плашки разом із тлом, рамкою й тінню, тож картка не має чіткого низу — вона
      сходить у темряву рівно там, де на неї лягає наступна. */
   .slab:not(:last-child) {
-    -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 72px), rgba(0,0,0,0.45) calc(100% - 26px), transparent 100%);
-    mask-image: linear-gradient(180deg, #000 calc(100% - 72px), rgba(0,0,0,0.45) calc(100% - 26px), transparent 100%);
-    transition: -webkit-mask-image 0.5s ease, mask-image 0.5s ease;
+    -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 56px), rgba(0,0,0,0.5) calc(100% - 20px), transparent 100%);
+    mask-image: linear-gradient(180deg, #000 calc(100% - 56px), rgba(0,0,0,0.5) calc(100% - 20px), transparent 100%);
   }
-  /* Активна плашка виходить зі стопки, але не цілком: замість зняття маски —
-     коротший спад, тож нижній край лишається трохи прихованим, як і має бути.
-     Повністю знята маска читалась як «картка від'їхала», а не «визирнула». */
-  .slab:hover, .slab:focus-within, .slab.is-lit {
-    -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 34px), rgba(0,0,0,0.62) 100%);
-    mask-image: linear-gradient(180deg, #000 calc(100% - 34px), rgba(0,0,0,0.62) 100%);
-  }
+  /* Маска при наведенні НЕ змінюється — і саме тому рух став плавним. Раніше
+     активна плашка отримувала іншу маску (з іншою кількістю зупинок градієнта),
+     а такі маски браузер не інтерполює: вона підмінялась миттєво, і картка
+     смикалась. Плавно піднімалась лише п'ята — у неї маски немає взагалі.
+     Тепер «трохи прихований край» дає сама постійна маска, а весь рух —
+     transform і прозорість затемнення, які анімуються надійно. */
   /* Низ плашки йде в темряву — рівно там, де на неї лягає наступна. У останньої
      цього немає: її ніщо не перекриває. */
   .slab:not(:last-child)::after {
@@ -874,70 +872,37 @@
   }
 
   /* how it works steps */
-  .how-panel {
-    border-radius: 28px;
-    padding: 48px 40px 44px;
-    overflow: hidden;
-    margin-top: 40px;
-    position: relative;
-  }
-  /* Bottom RGB neon edge: the panel's own border glows, but only along the
-     bottom and around the two bottom corners, fading softly up the sides.
-     A gradient is masked to a thin ring (border only), then intersected with a
-     vertical reveal so only the lower portion shows. */
-  .how-panel::after {
-    content: ''; position: absolute; inset: 0; z-index: 2;
-    border-radius: 28px;
-    padding: 1.8px;                     /* stroke thickness */
-    background: linear-gradient(90deg,
-      var(--red) 0%, var(--green) 36%, var(--blue) 68%, var(--lime) 100%);
-    -webkit-mask:
-      linear-gradient(180deg, transparent 52%, #000 86%),
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: source-in, xor;
-    mask:
-      linear-gradient(180deg, transparent 52%, #000 86%),
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    mask-composite: intersect, exclude;
-    filter:
-      saturate(1.6) brightness(1.12)
-      drop-shadow(0 0 5px rgba(var(--red-rgb), 0.95))
-      drop-shadow(0 0 14px rgba(var(--red-rgb), 0.65))
-      drop-shadow(0 0 20px rgba(var(--blue-rgb), 0.8))
-      drop-shadow(0 0 36px rgba(var(--green-rgb), 0.55))
-      drop-shadow(0 0 48px rgba(198,255,0,0.4));
-    opacity: 0;
-    transition: opacity 0.8s ease 0.15s;
-    pointer-events: none;
-  }
-  .how-panel.in::after { opacity: 1; }
+  /* Панелі-обгортки більше немає: чотири кроки стоять скляними картками, як
+     і решта карток на сайті. Веселковий неоновий кант, який був у неї знизу,
+     не повторювався ніде більше й вибивався з концепції; кольори каналів на
+     кроках процесу теж нічого не означали — черговість несе номер. */
   /* Heading and copy share one compact row; the steps run full width beneath. */
+  /* Три елементи, два рядки: eyebrow сам по собі згори, а заголовок і опис —
+     поруч в одному рядку. Тому опис починається на рівні заголовка, а не
+     піднімається до надпису над ним. */
   .how-head {
     display: grid;
     grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
-    gap: 20px 52px; align-items: start;
+    gap: 14px 52px; align-items: start;
     margin-top: 4px;
   }
-  .how-head .h2 { margin-bottom: 0; }
+  .how-head .eyebrow { grid-column: 1; grid-row: 1; }
+  .how-head .h2 { grid-column: 1; grid-row: 2; margin-bottom: 0; }
+  .how-head-text { grid-column: 2; grid-row: 2; }
   .how-head-text p { color: var(--muted); font-size: 15px; line-height: 1.65; }
   .how-head-text p + p { margin-top: 13px; }
   @media (max-width: 900px){
     .how-head { grid-template-columns: 1fr; gap: 16px; }
+    .how-head .eyebrow, .how-head .h2, .how-head-text { grid-column: 1; grid-row: auto; }
   }
 
   .steps {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px 28px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px;
     position: relative;
+    margin-top: 44px;
   }
   @media (max-width: 980px){ .steps { grid-template-columns: 1fr 1fr; gap: 30px 44px; } }
   @media (max-width: 620px){ .steps { grid-template-columns: 1fr; gap: 26px; } }
-  @media (max-width: 420px){
-    .how-panel .step-circle { width: 44px; height: 44px; }
-    .how-panel .step-circle svg { width: 21px; height: 21px; }
-    .step-card { column-gap: 13px; }
-  }
   /* Icon on the left, everything else on one shared left edge beside it —
      label, title and bullets all line up, on desktop and on phones alike. */
   /* Desktop keeps all four in one row, so the icon sits above its text with a
@@ -946,14 +911,21 @@
   .step-card {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    row-gap: 17px;
+    row-gap: 14px;
     align-items: start;
+    border: 1px solid var(--line); border-top-color: var(--glass-edge);
+    border-radius: 22px;
+    padding: 24px 22px 26px;
+    background: var(--glass-fill-1);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    box-shadow: var(--glass-shadow-1), inset 0 1px 0 rgba(255,255,255,0.07);
     /* Cards stretch to the tallest one in the row; without this the spare height
        is shared out between the auto rows and the icons drift apart. */
     align-content: start;
     text-align: left;
     position: relative; z-index: 1;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   }
   @media (max-width: 980px){
     .step-card {
@@ -983,55 +955,30 @@
   }
   .step-chip b { font-size: 10.5px; font-weight: 700; letter-spacing: 0.5px; }
   /* Підписи світяться власним кольором — той самий неон, що й у кільцях. */
-  .step-chip { text-shadow: 0 0 10px currentColor, 0 0 22px rgba(255,255,255,0.12); }
-  .step-card:nth-child(1) .step-chip { color: var(--red); }
-  .step-card:nth-child(2) .step-chip { color: var(--green); }
-  .step-card:nth-child(3) .step-chip { color: var(--blue); }
-  .step-card:nth-child(4) .step-chip { color: var(--lime); }
-  .step-card:hover { transform: translateY(-3px); }
-  .step-circle {
-    width: 56px; height: 56px;
-    margin: 0 0 14px;
+  .step-chip { color: var(--muted-2); }
+  .step-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(198,255,0,0.35);
+    box-shadow: var(--glass-shadow-1), 0 0 44px -26px rgba(198,255,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
   }
-  .step-circle svg { width: 32px; height: 32px; }
-  .how-panel .step-circle {
-    width: 66px; height: 66px;
-    margin: 0;
-    border-width: 1.5px;
-    background: var(--glass-fill-soft);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
-  }
-  /* Icons sit larger inside the ring and emit a soft neon glow of their own,
-     matching the thin-stroke neon reference. */
-  .how-panel .step-circle svg { width: 31px; height: 31px; }
-  /* Sizes must sit after the base rule: same specificity, so order decides. */
-  @media (max-width: 980px){
-    .how-panel .step-circle { width: 52px; height: 52px; }
-    .how-panel .step-circle svg { width: 25px; height: 25px; }
-  }
-  @media (max-width: 620px){
-    .how-panel .step-circle { width: 60px; height: 60px; }
-    .how-panel .step-circle svg { width: 28px; height: 28px; }
-  }
-  .how-panel .step-circle.tok-red   svg { filter: drop-shadow(0 0 5px rgba(var(--red-rgb), 0.9))  drop-shadow(0 0 12px rgba(var(--red-rgb), 0.5)); }
-  .how-panel .step-circle.tok-green svg { filter: drop-shadow(0 0 5px rgba(var(--green-rgb), 0.9)) drop-shadow(0 0 12px rgba(var(--green-rgb), 0.5)); }
-  .how-panel .step-circle.tok-blue  svg { filter: drop-shadow(0 0 5px rgba(var(--blue-rgb), 0.9)) drop-shadow(0 0 12px rgba(var(--blue-rgb), 0.5)); }
-  .how-panel .step-circle.tok-lime  svg { filter: drop-shadow(0 0 5px rgba(198,255,0,0.85)) drop-shadow(0 0 12px rgba(198,255,0,0.45)); }
-  .how-panel .rgb-divider.glow { height: 3px; opacity: 1; box-shadow: 0 0 22px 1px rgba(120,180,255,0.28); }
-  .how-panel .step-circle.tok-red   { border-color: rgba(var(--red-rgb), 0.5);  box-shadow: 0 0 22px -4px rgba(var(--red-rgb), 0.6),  inset 0 0 12px -6px rgba(var(--red-rgb), 0.5); }
-  .how-panel .step-circle.tok-green { border-color: rgba(var(--green-rgb), 0.5); box-shadow: 0 0 22px -4px rgba(var(--green-rgb), 0.6), inset 0 0 12px -6px rgba(var(--green-rgb), 0.5); }
-  .how-panel .step-circle.tok-blue  { border-color: rgba(var(--blue-rgb), 0.5); box-shadow: 0 0 22px -4px rgba(var(--blue-rgb), 0.6), inset 0 0 12px -6px rgba(var(--blue-rgb), 0.5); }
-  .how-panel .step-circle.tok-lime  { border-color: rgba(198,255,0,0.5);  box-shadow: 0 0 22px -4px rgba(198,255,0,0.55), inset 0 0 12px -6px rgba(198,255,0,0.45); }
+
+  /* Номер кроку — той самий обведений великий цифровий знак, що й у плашках
+     «Що входить»: обидві секції описують послідовність, тож і позначаються
+     однаково. Заливається лаймом при наведенні, як і там. */
   .step-num {
-    font-family:'Unbounded'; font-weight: 700; font-size: 12px;
-    letter-spacing: 1px; margin-right: 9px;
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 800; font-size: 46px; line-height: 0.8;
+    font-variant-numeric: tabular-nums;
+    color: transparent;
+    -webkit-text-stroke: 1.4px rgba(255,255,255,0.24);
+    transition: -webkit-text-stroke-color 0.4s ease, color 0.4s ease;
+    user-select: none;
   }
-  .step-card:nth-child(1) .step-num { color: var(--red); }
-  .step-card:nth-child(2) .step-num { color: var(--green); }
-  .step-card:nth-child(3) .step-num { color: var(--blue); }
-  .step-card:nth-child(4) .step-num { color: var(--lime); }
+  .step-card:hover .step-num,
+  .step-card:focus-within .step-num {
+    -webkit-text-stroke-color: var(--lime);
+    color: rgba(198,255,0,0.12);
+  }
   .step-card h3 { font-size: 15px; font-weight: 700; line-height: 1.3; margin-bottom: 8px; }
   .step-card p { font-size: 12.5px; color: var(--muted); line-height: 1.45; max-width: 26ch; }
   .step-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
@@ -1843,7 +1790,6 @@
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
     .reveal { opacity: 1; transform: none; }
-    .how-panel::after { opacity: 1 !important; }
     /* These start at opacity:0 and reveal themselves through the `rise`
        animation. With animations off they would stay invisible forever — the
        entire hero (headline, sub, CTAs, channel panel) would never appear. */
@@ -2497,62 +2443,58 @@
 <section class="block" id="how">
   <div class="wrap">
     <div class="how-head">
-      <div>
-        <div class="eyebrow reveal">Як це працює</div>
-        <h2 class="h2 reveal">Як насправді влаштована тиха вечірка?</h2>
-      </div>
+      <div class="eyebrow reveal">Як це працює</div>
+      <h2 class="h2 reveal">Як насправді влаштована тиха вечірка?</h2>
       <div class="how-head-text reveal">
-        <p>Музика йде не з колонок, а одразу в навушники кожного гостя. Один передавач роздає три канали, і людина сама обирає, який слухати і на якій гучності. Колонок немає, тож ззовні залишається тиша: сусіди нічого не чують, а охорона не приходить о 23:00. Ми привозимо навушники із запасними комплектами, збираємо систему на місці й лишаємось на вечір. Від вас потрібні тільки дата й приблизна кількість гостей.</p>
+        <p>Музика йде не з колонок, а одразу в навушники кожного гостя. Один передавач роздає три канали, і людина сама обирає, який слухати і на якій гучності. Колонок немає, тож ззовні залишається тиша. Ми привозимо навушники із запасними комплектами, збираємо систему на місці й лишаємось на вечір. Від вас потрібні тільки дата й приблизна кількість гостей.</p>
       </div>
     </div>
 
-    <div class="how-panel glass-panel reveal">
-      <div class="steps">
-        <div class="step-card">
-          <div class="step-circle icon-token tok-red"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 3v3M16 3v3"/></svg></div>
+    <div class="steps reveal">
+        <article class="step-card">
+          <span class="step-num" aria-hidden="true">01</span>
           <div class="step-body">
-            <span class="step-chip"><b>01</b>ЗАЯВКА</span>
+            <span class="step-chip">Заявка</span>
             <h3>Дата, місце, гості</h3>
             <ul class="step-list">
               <li><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg>Форма займає хвилину</li>
               <li><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg>Дзвонити не обов’язково</li>
             </ul>
           </div>
-        </div>
-        <div class="step-card">
-          <div class="step-circle icon-token tok-green"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 10.5h8M8 14h5"/><path d="M4 5.5h16v11H9l-4 3v-3H4z"/></svg></div>
+        </article>
+        <article class="step-card">
+          <span class="step-num" aria-hidden="true">02</span>
           <div class="step-body">
-            <span class="step-chip"><b>02</b>РОЗРАХУНОК</span>
+            <span class="step-chip">Розрахунок</span>
             <h3>Рахуємо вартість</h3>
             <ul class="step-list">
               <li><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg>Відповідаємо протягом дня</li>
               <li><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg>Ціна залежить від дати й тривалості</li>
             </ul>
           </div>
-        </div>
-        <div class="step-card">
-          <div class="step-circle icon-token tok-blue"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.5h11v9H3z"/><path d="M14 9.5h3.4L21 12.5v3h-7"/><circle cx="7" cy="17.5" r="1.7"/><circle cx="17" cy="17.5" r="1.7"/></svg></div>
+        </article>
+        <article class="step-card">
+          <span class="step-num" aria-hidden="true">03</span>
           <div class="step-body">
-            <span class="step-chip"><b>03</b>МОНТАЖ</span>
+            <span class="step-chip">Монтаж</span>
             <h3>Готуємо зал на місці</h3>
             <ul class="step-list">
               <li><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg>Близько 30 хвилин до старту</li>
               <li><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg>Показуємо, як перемикати канали</li>
             </ul>
           </div>
-        </div>
-        <div class="step-card">
-          <div class="step-circle icon-token tok-lime"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9 2 9 2 15 6 15 11 19 11 5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a9 9 0 0 1 0 12"/></svg></div>
+        </article>
+        <article class="step-card">
+          <span class="step-num" aria-hidden="true">04</span>
           <div class="step-body">
-            <span class="step-chip"><b>04</b>ВЕЧІРКА</span>
+            <span class="step-chip">Вечірка</span>
             <h3>Ви танцюєте</h3>
             <ul class="step-list">
               <li><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg>Гості перемикають канали самі</li>
               <li><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg>Демонтаж і вивіз на нас</li>
             </ul>
           </div>
-        </div>
-      </div>
+        </article>
     </div>
   </div>
 </section>
