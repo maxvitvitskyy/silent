@@ -1558,10 +1558,16 @@
     appearance: none;
     min-width: 0; max-width: 100%;
     text-align: left;
+    /* Поки поле порожнє, iOS не малює всередині нічого — рядок сходить у нуль, і
+       від поля лишається вузька смужка заввишки з самі падінги. Висоту задаємо
+       явно, рівно як у звичайних полів (14px падінга + рядок + рамка). */
+    line-height: 20px;
+    min-height: 50px;
   }
   .field input[type="date"]::-webkit-date-and-time-value {
     text-align: left;
     margin: 0;
+    min-height: 20px;
   }
   /* the native date picker ships a black glyph, invisible on a dark field */
   .field input[type="date"]::-webkit-calendar-picker-indicator {
@@ -1715,7 +1721,9 @@
   .f-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
   .f-col a { font-size: 12.5px; color: rgba(255,255,255,0.55); transition: color 0.2s ease; }
   .f-col a:hover { color: #fff; }
-  .f-socials { display: flex; gap: 18px; flex-wrap: wrap; align-items: center; }
+  /* Заголовка над іконками більше немає, тож ряд треба опустити самому —
+     інакше він висить вище за перші пункти сусідніх списків. */
+  .f-socials { display: flex; gap: 18px; flex-wrap: wrap; align-items: center; margin-top: 30px; }
   /* Без кружечків: сама іконка тонкою обводкою, лаймова і помітно більша.
      Селектор із .f-col навмисно: правило .f-col a вище задає колір посилань і
      за специфічністю перебивало б просто .f-soc — іконки лишались би сірими. */
@@ -1756,7 +1764,7 @@
     /* the contact column itself has to span both tracks, then the five icons
        divide that full width between them */
     .footer-cols > .f-col:last-child { grid-column: 1 / -1; }
-    .f-socials { display: flex; justify-content: flex-start; gap: 20px; }
+    .f-socials { display: flex; justify-content: center; gap: 22px; margin-top: 22px; }
     .f-soc { width: auto; height: auto; }
     .footer-inner { margin-top: 18px; padding-top: 22px; }
     .footer-legal { flex-direction: column; gap: 4px; margin-top: 20px; padding-top: 13px; }
