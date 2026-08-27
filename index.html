@@ -1705,28 +1705,33 @@
   .f-cta { margin-top: 18px; display: inline-block; }
   /* .f-col a outranks .btn-primary, which turned the label white on lime */
   .f-col a.f-cta, .f-col a.f-cta:hover { color: #12100a; }
+  /* Заголовок колонки був ТЬМЯНІШИЙ за свої ж посилання (0.58 проти 0.74) —
+     через це футер і читався однією сірою масою. Тепер навпаки: заголовок
+     майже білий, посилання приглушені. */
   .f-col h4 {
-    font-size: 10.5px; letter-spacing: 2px; text-transform: uppercase;
-    color: rgba(255,255,255,0.58); font-weight: 800; margin-bottom: 13px;
+    font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase;
+    color: rgba(255,255,255,0.95); font-weight: 700; margin-bottom: 15px;
   }
   .f-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-  .f-col a { font-size: 12.5px; color: rgba(255,255,255,0.74); transition: color 0.2s ease; }
+  .f-col a { font-size: 12.5px; color: rgba(255,255,255,0.55); transition: color 0.2s ease; }
   .f-col a:hover { color: #fff; }
-  .f-socials { display: flex; gap: 9px; flex-wrap: wrap; }
-  .f-soc {
-    width: 36px; height: 36px; border-radius: 50%;
+  .f-socials { display: flex; gap: 18px; flex-wrap: wrap; align-items: center; }
+  /* Без кружечків: сама іконка тонкою обводкою, лаймова і помітно більша.
+     Селектор із .f-col навмисно: правило .f-col a вище задає колір посилань і
+     за специфічністю перебивало б просто .f-soc — іконки лишались би сірими. */
+  .f-col a.f-soc, .f-soc {
     display: grid; place-items: center;
-    border: 1px solid var(--line); border-top-color: var(--glass-edge);
-    background: var(--glass-fill-soft);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    color: var(--muted);
-    transition: color 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+    color: rgba(198,255,0,0.72);
+    transition: color 0.25s ease, transform 0.2s ease, filter 0.25s ease;
   }
-  .f-soc:hover { color: var(--lime); border-color: var(--lime); box-shadow: 0 0 18px -6px var(--lime-glow); transform: translateY(-2px); }
+  .f-col a.f-soc:hover, .f-soc:hover {
+    color: var(--lime);
+    transform: translateY(-2px);
+    filter: drop-shadow(0 0 8px rgba(198,255,0,0.55));
+  }
   .f-note { margin-top: 14px; font-size: 11.5px; color: var(--muted-2); line-height: 1.5; max-width: 26ch; }
   .footer-legal {
-    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+    display: flex; flex-direction: column; align-items: center; text-align: center; gap: 5px;
     margin-top: 28px; padding-top: 16px;
     border-top: 1px solid rgba(255,255,255,0.08);
     font-size: 11px; color: var(--muted-2);
@@ -1745,14 +1750,14 @@
        carries a booking button, and "Залишити заявку" stays in the link list. */
     .f-tagline, .f-note, .f-cta { display: none; }
     .f-brand { margin-bottom: 2px; }
-    .f-col h4 { font-size: 9.5px; letter-spacing: 1.6px; margin-bottom: 9px; }
+    .f-col h4 { font-size: 10px; letter-spacing: 1.4px; margin-bottom: 9px; }
     .f-col ul { gap: 6px; }
     .f-col a { font-size: 12px; }
     /* the contact column itself has to span both tracks, then the five icons
        divide that full width between them */
     .footer-cols > .f-col:last-child { grid-column: 1 / -1; }
-    .f-socials { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
-    .f-soc { width: 100%; max-width: 52px; aspect-ratio: 1; height: auto; border-radius: 50%; margin: 0 auto; }
+    .f-socials { display: flex; justify-content: flex-start; gap: 20px; }
+    .f-soc { width: auto; height: auto; }
     .footer-inner { margin-top: 18px; padding-top: 22px; }
     .footer-legal { flex-direction: column; gap: 4px; margin-top: 20px; padding-top: 13px; }
   }
@@ -2255,9 +2260,15 @@
      Розмиття тут сильніше, ніж на десктопі: екран щільніший, і ті самі 9px
      читаються майже як чиста прозорість. */
   @media (max-width: 720px){
+    /* Самого розмиття тут було замало: тло картки лише на 20% непрозоре, тож
+       сусідня під нею проступала крізь тонування хоч скільки розмивай. На
+       телефоні заливка щільніша — і тоді матовість нарешті видно. */
     .tst-card {
-      backdrop-filter: blur(28px) saturate(1.3);
-      -webkit-backdrop-filter: blur(28px) saturate(1.3);
+      background:
+        radial-gradient(150% 125% at 12% -12%, rgba(198,255,0,0.20), rgba(198,255,0,0.06) 46%, transparent 100%),
+        rgba(9,12,18,0.66);
+      backdrop-filter: blur(30px) saturate(1.35);
+      -webkit-backdrop-filter: blur(30px) saturate(1.35);
     }
   }
   .tst-card .tst-author { margin-top: auto; }
@@ -2642,7 +2653,7 @@
     <div class="gallery-strip reveal">
       <div class="gallery-grid" id="galGrid" role="region" aria-label="Атмосфера події, гортайте вбік">
       <figure class="gallery-item g-tall">
-        <img src="images/gal/dance.webp" style="--lqip:url(data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAADwAwCdASoMABQAPwlysFArpySisAgBcCEJYwDKACHfF8VEw9xzv18MAP7wvy4VyFrjRhtGAxMQ+eBNt6vC/NZdtVZAZwfd/4DgIHAA)" loading="lazy" decoding="async" alt="Гості танцюють у навушниках у задимленому залі з колонами">
+        <img src="images/gal/cinema.webp" style="--lqip:url(data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAACQAwCdASoMABQAPwlur0+rpiQiMAgBcCEJZQAAW+l2eqblIb/AAP7w034HGbuvWay2bR5naVVXfmSeQuynP/YijNBNeuLCgAA=)" loading="lazy" decoding="async" alt="Кіно просто неба: екран, гірлянди і глядачі в навушниках">
         <div class="gallery-scrim"></div>
       </figure>
       <figure class="gallery-item g-wide">
@@ -2654,11 +2665,11 @@
         <div class="gallery-scrim"></div>
       </figure>
       <figure class="gallery-item g-tall">
-        <img src="images/gal/cinema.webp" style="--lqip:url(data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAACQAwCdASoMABQAPwlur0+rpiQiMAgBcCEJZQAAW+l2eqblIb/AAP7w034HGbuvWay2bR5naVVXfmSeQuynP/YijNBNeuLCgAA=)" loading="lazy" decoding="async" alt="Кіно просто неба: екран, гірлянди і глядачі в навушниках">
+        <img src="images/gal/wedding.webp" style="--lqip:url(data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAACwAwCdASoMABQAPwlurk+rpiQiMAgBcCEJQBYdhDjz8rHLAG+RgAD+6/elNoP9zBrduMccedWEX5ew25+TnsMlayHamMshhnYSKMfVI1gAC1GAUjX14HZDm/gNU2eGCoAAAA==)" loading="lazy" decoding="async" alt="Весільний танець у саду під гірляндами, гості в навушниках">
         <div class="gallery-scrim"></div>
       </figure>
       <figure class="gallery-item g-tall">
-        <img src="images/gal/wedding.webp" style="--lqip:url(data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAACwAwCdASoMABQAPwlurk+rpiQiMAgBcCEJQBYdhDjz8rHLAG+RgAD+6/elNoP9zBrduMccedWEX5ew25+TnsMlayHamMshhnYSKMfVI1gAC1GAUjX14HZDm/gNU2eGCoAAAA==)" loading="lazy" decoding="async" alt="Весільний танець у саду під гірляндами, гості в навушниках">
+        <img src="images/gal/dance.webp" style="--lqip:url(data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAADwAwCdASoMABQAPwlysFArpySisAgBcCEJYwDKACHfF8VEw9xzv18MAP7wvy4VyFrjRhtGAxMQ+eBNt6vC/NZdtVZAZwfd/4DgIHAA)" loading="lazy" decoding="async" alt="Гості танцюють у навушниках у задимленому залі з колонами">
         <div class="gallery-scrim"></div>
       </figure>
       <figure class="gallery-item g-tall">
@@ -3260,7 +3271,7 @@
         <a href="#book" class="btn-primary f-cta">Залишити заявку</a>
       </div>
       <nav class="f-col">
-        <h4>Розділи</h4>
+        <h4>Про формат</h4>
         <ul>
           <li><a href="#idea">Чому silent disco</a></li>
           <li><a href="#how">Як це працює</a></li>
@@ -3270,7 +3281,7 @@
         </ul>
       </nav>
       <nav class="f-col">
-        <h4>Далі</h4>
+        <h4>Перед замовленням</h4>
         <ul>
           <li><a href="#cases">Silent-досвіди</a></li>
           <li><a href="#price">Калькулятор</a></li>
@@ -3279,23 +3290,22 @@
           <li><a href="#book">Залишити заявку</a></li>
         </ul>
       </nav>
-      <div class="f-col">
-        <h4>Ми на зв'язку</h4>
+      <div class="f-col f-contact">
         <div class="f-socials">
         <a class="f-soc" href="#" aria-label="Instagram" title="Instagram">
-          <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.07 1.2.05 1.8.25 2.2.42.6.22 1 .48 1.4.9.44.43.7.83.92 1.4.17.44.37 1.05.42 2.24.06 1.28.07 1.66.07 4.88s0 3.6-.07 4.88c-.05 1.19-.25 1.8-.42 2.24-.22.57-.48.97-.92 1.4-.43.43-.83.69-1.4.91-.44.17-1.05.37-2.24.42-1.28.06-1.66.07-4.88.07s-3.6 0-4.88-.07c-1.19-.05-1.8-.25-2.24-.42a3.9 3.9 0 0 1-1.4-.91 3.9 3.9 0 0 1-.91-1.4c-.17-.44-.37-1.05-.42-2.24C2.21 15.6 2.2 15.22 2.2 12s0-3.6.07-4.88c.05-1.19.25-1.8.42-2.24.22-.57.48-.97.91-1.4.43-.43.83-.69 1.4-.91.44-.17 1.05-.37 2.24-.42C8.52 2.2 8.9 2.2 12 2.2Zm0 5.05a4.75 4.75 0 1 0 0 9.5 4.75 4.75 0 0 0 0-9.5Zm0 7.84a3.09 3.09 0 1 1 0-6.18 3.09 3.09 0 0 1 0 6.18Zm6.04-8.03a1.11 1.11 0 1 1-2.22 0 1.11 1.11 0 0 1 2.22 0Z"/></svg>
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.05" fill="currentColor" stroke="none"/></svg>
         </a>
         <a class="f-soc" href="#" aria-label="TikTok" title="TikTok">
-          <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.1v12.4a2.6 2.6 0 1 1-1.86-2.5V9.72a5.7 5.7 0 1 0 4.96 5.65V9.01a7.3 7.3 0 0 0 4.26 1.36V7.28a4.28 4.28 0 0 1-3.2-1.46Z"/></svg>
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.6 3.2v11.3a3.6 3.6 0 1 1-3.1-3.57"/><path d="M14.6 3.2a5 5 0 0 0 5 5"/></svg>
         </a>
         <a class="f-soc" href="#" aria-label="Telegram" title="Telegram">
-          <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 3.3 11.5c-1.1.45-1.1 1.1-.2 1.37l4.7 1.47 1.8 5.5c.22.6.4.83.83.83.42 0 .6-.19.83-.42l2.26-2.2 4.7 3.47c.86.48 1.48.23 1.7-.8l3.06-14.4c.31-1.27-.5-1.85-1.3-1.5Zm-13 9.86 10.2-6.44c.5-.3.96-.14.58.19l-8.73 7.88-.34 3.63-1.7-5.26Z"/></svg>
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.2 4.5 2.9 11.4a.5.5 0 0 0 .04.94l4.6 1.44 1.77 5.3a.5.5 0 0 0 .88.14l2.5-2.9 4.6 3.4a.5.5 0 0 0 .78-.3l3.05-14a.5.5 0 0 0-.66-.58Z"/><path d="m7.54 13.78 11.1-7.4-8.34 8.36-.36 3.9"/></svg>
         </a>
         <a class="f-soc" href="#" aria-label="YouTube" title="YouTube">
-          <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.77-1.77C18.25 5 12 5 12 5s-6.25 0-7.83.43A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.77 1.77C5.75 19 12 19 12 19s6.25 0 7.83-.43a2.5 2.5 0 0 0 1.77-1.77A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8ZM10 15.2V8.8l5.2 3.2-5.2 3.2Z"/></svg>
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="5.6" width="18.8" height="12.8" rx="4"/><path d="m10.2 9.4 5 2.6-5 2.6z"/></svg>
         </a>
         <a class="f-soc" href="mailto:" aria-label="Пошта" title="Пошта">
-          <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M3.5 5h17A1.5 1.5 0 0 1 22 6.5v11a1.5 1.5 0 0 1-1.5 1.5h-17A1.5 1.5 0 0 1 2 17.5v-11A1.5 1.5 0 0 1 3.5 5Zm.9 2 7.6 5.4L19.6 7H4.4Zm15.6 1.6-7.3 5.2a1.2 1.2 0 0 1-1.4 0L4 8.6V17h16V8.6Z"/></svg>
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="5.2" width="18.8" height="13.6" rx="2.6"/><path d="m3.4 7 8.05 5.6a1 1 0 0 0 1.1 0L20.6 7"/></svg>
         </a>
         </div>
         <p class="f-note">Пишіть у будь-який месенджер — відповідаємо швидко.</p>
