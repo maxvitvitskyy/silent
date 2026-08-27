@@ -697,16 +697,34 @@
   /* problem→shift */
   .shift-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 64px; }
   @media (max-width: 760px){ .shift-grid { grid-template-columns: 1fr; } }
+  /* Картка ділиться надвоє: кадр угорі, підписи під ним. Падінга в самої картки
+     немає — інакше знімок не дійшов би до країв. */
   .shift-card {
     position: relative;
+    overflow: hidden;
     border: 1px solid var(--line); border-top-color: var(--glass-edge);
-    border-radius: 22px; padding: 30px;
+    border-radius: 22px;
     background: var(--glass-fill-1);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     box-shadow: var(--glass-shadow-1), inset 0 1px 0 rgba(255,255,255,0.07);
     transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
   }
+  .shift-photo {
+    position: relative;
+    aspect-ratio: 1180 / 620;
+  }
+  .shift-photo img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    /* Низ кадру розчиняється, а не обрізається лінією: маска робить його
+       прозорим, тож крізь нього проступає тло самої картки й знімок переходить
+       у підписи без шва. */
+    -webkit-mask-image: linear-gradient(180deg, #000 52%, rgba(0,0,0,0.55) 78%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 52%, rgba(0,0,0,0.55) 78%, transparent 100%);
+  }
+  /* Підписи піднімаються під саме фото: там воно вже прозоре, тож текст лягає
+     на тло картки, а не на знімок. */
+  .shift-body { position: relative; padding: 0 30px 30px; margin-top: -46px; }
   .shift-card .tag { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; margin-bottom: 14px; }
   .shift-card.old .tag { color: var(--muted-2); }
   .shift-card.new .tag { color: var(--lime); }
@@ -2441,14 +2459,24 @@
 
   <div class="shift-grid">
     <div class="shift-card old reveal">
-      <div class="tag">Як зазвичай</div>
-      <h3>Колонки на всю залу</h3>
-      <p>Один плейлист на всіх. Хтось нудьгує, комусь голосно. О 23:00 — сусіди, охорона, «зробіть тихіше». Фото виходять темні й однакові.</p>
+      <div class="shift-photo">
+        <img src="images/shift-old.webp" loading="lazy" decoding="async" alt="Чорно-білий кадр: сцена з колонками і темна зала глядачів">
+      </div>
+      <div class="shift-body">
+        <div class="tag">Як зазвичай</div>
+        <h3>Колонки на всю залу</h3>
+        <p>Один плейлист на всіх. Хтось нудьгує, комусь голосно. О 23:00 — сусіди, охорона, «зробіть тихіше». Фото виходять темні й однакові.</p>
+      </div>
     </div>
     <div class="shift-card new reveal">
-      <div class="tag">Із silent disco</div>
-      <h3>Вечір, який кожен збирає собі</h3>
-      <p>Три канали під різний настрій, гучність під себе, світло LED у кожному кадрі. Танці хоч до ранку — і повна тиша ззовні.</p>
+      <div class="shift-photo">
+        <img src="images/shift-new.webp" loading="lazy" decoding="async" alt="Компанія друзів сміється у світних зелених навушниках">
+      </div>
+      <div class="shift-body">
+        <div class="tag">Із silent disco</div>
+        <h3>Вечір, який кожен збирає собі</h3>
+        <p>Три канали під різний настрій, гучність під себе, світло LED у кожному кадрі. Танці хоч до ранку — і повна тиша ззовні.</p>
+      </div>
     </div>
   </div>
 
@@ -2622,19 +2650,11 @@
         <div class="gallery-scrim"></div>
       </figure>
       <figure class="gallery-item g-wide">
-        <img src="images/gal/friends.webp" style="--lqip:url(data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAACwAwCdASoUAAgAPwlurk+rpiQiMAgBcCEJYwC06BtXnndOYClwQAD+7ChWmZ6fouIgxUlHMw3D+cifqdb6bF134+HJIHPljPZfOvH4UKSFGAAzlgA=)" loading="lazy" decoding="async" alt="Компанія друзів сміється і танцює у світних навушниках">
+        <img src="images/gal/couple.webp" style="--lqip:url(data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAAAwAwCdASoUAAgAPwlurk+rpiQiMAgBcCEJZQDCgC0Hl2QAAP7vhBWp7+/D8iTMOVbVnU9EUs4cdx+mqaW8gbgTVRNMeAAA)" loading="lazy" decoding="async" alt="Пара танцює в навушниках у синьому світлі">
         <div class="gallery-scrim"></div>
       </figure>
       <figure class="gallery-item g-tall">
         <img src="images/gal/cinema.webp" style="--lqip:url(data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAACQAwCdASoMABQAPwlur0+rpiQiMAgBcCEJZQAAW+l2eqblIb/AAP7w034HGbuvWay2bR5naVVXfmSeQuynP/YijNBNeuLCgAA=)" loading="lazy" decoding="async" alt="Кіно просто неба: екран, гірлянди і глядачі в навушниках">
-        <div class="gallery-scrim"></div>
-      </figure>
-      <figure class="gallery-item g-sq">
-        <img src="images/gal/dancer.webp" style="--lqip:url(data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAADwAwCdASoUABAAPwlur0+rpiQiMAgBcCEJZACuHB6QdsK5tPRkPDQAAP7u3r8yJMBGKNNMM+TslwSdRx6xEB9Etn255STOxTokYVL7h8Wk7VRhc7F2E0qYWMNBi+RJXMQAAA==)" loading="lazy" decoding="async" alt="Дівчина танцює з піднятими руками в навушниках із червоним світлом">
-        <div class="gallery-scrim"></div>
-      </figure>
-      <figure class="gallery-item g-sq">
-        <img src="images/gal/solo.webp" style="--lqip:url(data:image/webp;base64,UklGRpwAAABXRUJQVlA4IJAAAAAwBACdASoUABAAPwlur0+rpiQiMAgBcCEJbAC7MoBOACZ+aNzEgbrgfMAA/uUq1aDttPmgsbIYMAGSFifQxIBgexJs4ymeRtfRwhWIzENxweeUwFtm7QVMJkEHvDmW9Z6UEW/nOIGVkaxIwI7pZshfNU2w/pAUuZvLAlll7x/A+ootVf2mTTETx8souIIAAAA=)" loading="lazy" decoding="async" alt="Портрет дівчини в навушниках із синім підсвіченням">
         <div class="gallery-scrim"></div>
       </figure>
       <figure class="gallery-item g-tall">

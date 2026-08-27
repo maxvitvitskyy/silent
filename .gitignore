@@ -15,3 +15,7 @@ images/gal/*.jpg
 images/gal/*.jpeg
 # Джерело, з якого зібрано solo.webp; саме по собі на сайті не використовується.
 images/gal/silentparty-girl.webp
+
+# Вихідники для карток «як зазвичай» / «із silent disco»; на сайт іде експорт
+# images/shift-old.webp і shift-new.webp.
+images/old new/
