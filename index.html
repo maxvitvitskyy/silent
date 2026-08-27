@@ -172,7 +172,7 @@
        верх коробки, обривався різкою межею і "висів у повітрі" над плашкою, а
        маска танула вже в порожнечі під ним. Тепер низ фігури завжди всередині
        плашки, а маска завжди лягає на саму фігуру. */
-    right: 4%;
+    right: 8%;
     top: auto;
     bottom: 118px;
     /* Розмір диктує ВИСОТА: кадр тепер портретний (1385×2090), і прив'язка до
@@ -582,6 +582,12 @@
   }
   .ch-toggle.active .ch-switch { background: var(--sw-color); box-shadow: 0 0 12px 0 var(--sw-color); }
   .ch-toggle.active .ch-switch-knob { transform: translateX(20px); }
+  /* Заглушений вручну канал показує тумблер вимкненим: клікнути «вимкнути» і
+     далі бачити його увімкненим — суперечність. Вибір каналу при цьому не
+     губиться, лише гасне його підсвітка. */
+  .hero-strip.is-silent .ch-toggle.active .ch-switch { background: rgba(255,255,255,0.12); box-shadow: none; }
+  .hero-strip.is-silent .ch-toggle.active .ch-switch-knob { transform: none; }
+  .hero-strip.is-silent .ch-toggle.active .ch-toggle-name { text-shadow: 0 0 0 transparent; }
 
   .ch-outline-eq {
     position: absolute; z-index: 1; bottom: 2px; left: 0;
@@ -713,8 +719,11 @@
   /* Широкі плашки, що находять одна на одну: кожна наступна лягає поверх
      попередньої й трохи перекриває її низ. Не список і не сітка карток —
      одна стопка, яку читаєш зверху вниз за цифрами. */
-  .slabs { margin-top: 46px; }
-  @media (max-width: 760px){ .slabs { padding-bottom: 48px; } }
+  /* Запас під виїзд активної плашки: остання зсувається вниз і без нього
+     налізала б на підпис під стопкою. Мобільний зсув більший, тож і запас теж.
+     Обидва правила стоять тут разом, щоб медіазапит гарантовано йшов останнім. */
+  .slabs { margin-top: 46px; padding-bottom: 30px; }
+  @media (max-width: 760px){ .slabs { padding-bottom: 56px; } }
   .slab {
     position: relative;
     z-index: calc(var(--i) + 1);        /* наступна поверх попередньої */
@@ -748,9 +757,12 @@
     mask-image: linear-gradient(180deg, #000 calc(100% - 72px), rgba(0,0,0,0.45) calc(100% - 26px), transparent 100%);
     transition: -webkit-mask-image 0.5s ease, mask-image 0.5s ease;
   }
-  /* активна плашка виходить зі стопки цілком, тож маску знімаємо */
+  /* Активна плашка виходить зі стопки, але не цілком: замість зняття маски —
+     коротший спад, тож нижній край лишається трохи прихованим, як і має бути.
+     Повністю знята маска читалась як «картка від'їхала», а не «визирнула». */
   .slab:hover, .slab:focus-within, .slab.is-lit {
-    -webkit-mask-image: none; mask-image: none;
+    -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 34px), rgba(0,0,0,0.62) 100%);
+    mask-image: linear-gradient(180deg, #000 calc(100% - 34px), rgba(0,0,0,0.62) 100%);
   }
   /* Низ плашки йде в темряву — рівно там, де на неї лягає наступна. У останньої
      цього немає: її ніщо не перекриває. */
@@ -763,7 +775,8 @@
     transition: opacity 0.6s cubic-bezier(.22,1,.36,1);
   }
   /* активна плашка виходить із темряви — і опис стає читабельним повністю */
-  .slab:hover::after, .slab:focus-within::after, .slab.is-lit::after { opacity: 0.16; }
+  /* Затемнення не гасне повністю: плашка світлішає, але лишається в тіні. */
+  .slab:hover::after, .slab:focus-within::after, .slab.is-lit::after { opacity: 0.34; }
 
   /* цифра намальована обведенням, тож на темному тлі вона читається як контур,
      а при наведенні заливається лаймом */
@@ -805,7 +818,7 @@
 
   .slab:hover, .slab:focus-within, .slab.is-lit {
     z-index: 20;
-    transform: translateY(-10px);
+    transform: translateY(-16px);
     border-color: rgba(198,255,0,0.45);
     background:
       radial-gradient(90% 160% at 6% 50%, rgba(198,255,0,0.20), rgba(198,255,0,0.05) 48%, transparent 78%),
@@ -815,7 +828,14 @@
   .slab:hover .slab-num, .slab:focus-within .slab-num, .slab.is-lit .slab-num { -webkit-text-stroke-color: var(--lime); color: rgba(198,255,0,0.14); }
   .slab:hover .slab-meta, .slab:focus-within .slab-meta, .slab.is-lit .slab-meta { color: var(--lime); border-color: rgba(198,255,0,0.45); }
 
-  .slabs-foot { margin-top: 26px; font-size: 13px; color: var(--muted-2); }
+  /* Наступні плашки відступають рівно настільки, щоб активна встигла вилізти зі
+     свого гнізда. Transform, а не margin: розкладка не перераховується, і
+     сторінка не смикається. Перехід успадковується від .slab. */
+  .slab:hover ~ .slab,
+  .slab:focus-within ~ .slab,
+  .slab.is-lit ~ .slab { transform: translateY(22px); }
+
+  .slabs-foot { margin-top: 18px; font-size: 13px; color: var(--muted-2); }
 
   @media (max-width: 760px){
     .slab {
@@ -3321,8 +3341,15 @@
     // Фонові знімки hero їдуть разом: активний видно, решта прозорі.
     const heroPhotoEls = [].slice.call(document.querySelectorAll('.hero-photo'));
     let ticking = false;
+    // innerHeight на телефоні стрибає щоразу, коли ховається адресний рядок, а
+    // він входить у формулу зсуву — фігура через це смикалась на кожен дотик.
+    // Тому висота кешується й оновлюється лише разом із шириною.
+    let vhCache = window.innerHeight, wCache = window.innerWidth;
     function update(){
-      const vh = window.innerHeight;
+      if (window.innerWidth !== wCache){
+        wCache = window.innerWidth; vhCache = window.innerHeight;
+      }
+      const vh = vhCache;
       for (const l of layers){
         const r = l.section.getBoundingClientRect();
         // progress: how far the section center is from the viewport center
@@ -3471,7 +3498,13 @@
   reserveHeroSubHeight();
   if (document.fonts && document.fonts.ready){ document.fonts.ready.then(reserveHeroSubHeight); }
   let heroSubResizeTimer = null;
+  // Тільки на зміну ШИРИНИ. На телефоні поява й ховання адресного рядка під час
+  // звичайної прокрутки теж кидає resize, а перерахунок будує спани наново — і
+  // заголовок програвав анімацію появи щоразу, коли палець ледь торкався екрана.
+  let heroLastW = window.innerWidth;
   window.addEventListener('resize', () => {
+    if (window.innerWidth === heroLastW) return;
+    heroLastW = window.innerWidth;
     clearTimeout(heroSubResizeTimer);
     heroSubResizeTimer = setTimeout(reserveHeroSubHeight, 150);
   });
@@ -3617,6 +3650,10 @@
   let lastChannel = 0;
   let isMuted = false;
   function syncMuteBtn(){
+    // .is-silent лише після свідомого вимкнення: на завантаженні звуку теж немає
+    // (браузер не дає його без жесту), але панель там має світитись, а не
+    // виглядати вимкненою.
+    if (stripEl) stripEl.classList.toggle('is-silent', isMuted);
     if (muteBtn) muteBtn.setAttribute('aria-pressed', String(!soundOn));
     if (muteLabel) muteLabel.textContent = soundOn ? 'Звук увімкнено' : 'Увімкнути звук';
     if (muteBtn) muteBtn.title = soundOn ? 'Вимкнути звук' : 'Увімкнути звук';
@@ -3686,6 +3723,16 @@
   });
 
   btns.forEach((b, idx) => b.addEventListener('click', () => {
+    // Повторний клік по вже активному каналі глушить його: сам перемикач і є
+    // вимикачем, а не лише селектором. setChannel тут не викликаємо — канал
+    // лишається обраним, і заголовок не програє підміну заново.
+    if (b.classList.contains('active') && soundOn){
+      soundOn = false;
+      isMuted = true;
+      stopAudio();
+      syncMuteBtn();
+      return;
+    }
     // Picking a channel is a deliberate gesture on a control labelled
     // "Оберіть канал" — so it both selects and starts that channel's sound.
     isMuted = false;
