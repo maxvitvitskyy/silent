@@ -3378,7 +3378,7 @@
         for (let i = 0; i < poolSize; i++){
           const c = document.createElement('article');
           c.className = 'uc-card';
-          c.style.cssText = 'position:absolute;top:0;left:0;width:' + col + 'px;height:' + h + 'px';
+          c.style.cssText = 'position:absolute;top:0;width:' + col + 'px;height:' + h + 'px';
           r.el.appendChild(c);
           r.pool.push(c); r.slot.push(NaN);
         }
@@ -3404,7 +3404,12 @@
             const img = c.querySelector('img');
             if (img) img.loading = 'eager';   // картка вже поруч із кадром
           }
-          c.style.transform = 'translateX(' + ((s + r.offset) * step) + 'px)';
+          // Позиція саме через left, а не transform. У .uc-card є
+          // `transition: transform 0.3s`, тож переставлена картка не стрибала б
+          // на нове місце, а їхала б туди через півекрана — це і читалось як
+          // «картки вилітають ліворуч і перелітають вправо». Крім того, inline
+          // transform перебивав би `:hover { transform: translateY(-3px) }`.
+          c.style.left = ((s + r.offset) * step) + 'px';
         }
       }
     }
@@ -3473,14 +3478,22 @@
       drift();
     }
 
-    let rt = 0;
+    // Перебудовуємось лише коли змінилась ширина. На телефоні поява й ховання
+    // адресного рядка під час звичайної прокрутки сторінки міняє висоту і теж
+    // кидає `resize` — а перебудова скидає scrollLeft на середину, і стрічка
+    // на очах перескакувала на початок. Саме це й ловилось як «прокручую сайт
+    // далі, а слайдер стрибає назад».
+    let rt = 0, lastW = 0, lastCol = 0;
+    const remember = () => { lastW = view.clientWidth; lastCol = metrics()[0]; };
     window.addEventListener('resize', () => {
+      if (view.clientWidth === lastW && metrics()[0] === lastCol) return;
       clearTimeout(rt);
-      rt = setTimeout(() => { build(); start(); }, 200);
+      rt = setTimeout(() => { build(); start(); remember(); }, 200);
     }, { passive: true });
 
     build();
     start();
+    remember();
     warmStripCache(document.getElementById('cases'), urls, () => { if (!touched) start(); });
   })();
 
