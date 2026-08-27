@@ -1442,9 +1442,14 @@
     overflow: hidden;
     border: 1px solid var(--line); border-top-color: var(--glass-edge);
     border-radius: 20px;
+    /* Без backdrop-filter. Картка переставна: під час прокрутки їй міняють
+       позицію, а рухомий елемент із backdrop-filter змушує браузер щоразу
+       наново знімати й розмивати фон під собою. iOS цю роботу під час інерції
+       відкладає — і картка встигала намалювати лише власне тло, тобто той самий
+       «чорний напівпрозорий прямокутник», а вміст з'являвся аж після зупинки.
+       Візуально втрата мізерна: під карткою і так лежить м'який лаймовий
+       градієнт, розмивати його вдруге майже нема чого. */
     background: var(--glass-fill-dark);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
     box-shadow: var(--glass-shadow-1), inset 0 1px 0 rgba(255,255,255,0.07);
     transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
   }
@@ -1471,6 +1476,8 @@
        саме його нижній край і лишався тією чіткою лінією. Картинки є в усіх
        картках, тож підкладка тут не потрібна. */
   }
+  /* --lqip задається інлайном на <img>; ::after читає його з .uc-media, тож
+     успадковуємо змінну вгору по дереву. */
   .uc-media img {
     position: absolute; top: 0; left: 0; right: 0;
     /* Крихітна (24×14) розмита версія кадру як тло самої картинки: картка
@@ -1486,9 +1493,15 @@
     content: ''; position: absolute; left: 0; right: 0; top: 0;
     height: calc(100% + var(--uc-tail));
     pointer-events: none;
-    backdrop-filter: blur(9px) saturate(1.04);
-    -webkit-backdrop-filter: blur(9px) saturate(1.04);
-    background: linear-gradient(180deg, rgba(6,8,14,0) 0%, rgba(6,8,14,0.26) 62%, rgba(6,8,14,0.26) 100%);
+    /* Розмиття теж без backdrop-filter — з тієї ж причини. Замість знімати фон
+       беремо той самий кадр у версії 24×14 (--lqip): розтягнутий на всю ширину,
+       він і є розмитим варіантом цього ж фото. Виходить та сама послідовність
+       «різке → розмите → скло», але намальована один раз разом із карткою. */
+    background-image:
+      linear-gradient(180deg, rgba(6,8,14,0) 0%, rgba(6,8,14,0.30) 62%, rgba(6,8,14,0.34) 100%),
+      var(--lqip);
+    background-size: cover, cover;
+    background-position: center, center;
     /* Маска не лише вмикає розмиття внизу, а й гасить його назад до нуля перед
        самим краєм шару. Раніше вона лишалась щільною до кінця, і низ цього
        прямокутника читався як окремий темний шматок на кожній картці. */
@@ -3174,7 +3187,7 @@
       // дві сотні, тож пам'ять лишається в межах десятків мегабайтів.
       // Стеля потрібна для широких моніторів: без неї запас росте разом із
       // шириною стрічки, і на full-bleed десктопі живих картинок стає під сотню.
-      const reach = Math.min(strip.clientWidth * 2, 2400);
+      const reach = Math.min(strip.clientWidth * 3, 3200);
       const from = strip.scrollLeft - reach;
       const to = strip.scrollLeft + strip.clientWidth + reach;
       for (let i = 0; i < imgs.length; i++) {
@@ -3322,13 +3335,21 @@
     // сценарії навіть якщо скрипт не виконався.
     const rows = rowEls.map((el, ri) => ({
       el, ri,
+      // Розбираємо картку на поля, а не зберігаємо розмітку рядком: перестановка
+      // тоді оновлює три текстові вузли й одну адресу замість того, щоб щоразу
+      // будувати піддерево наново.
       items: [...el.querySelectorAll('.uc-card')].map(c => {
         const img = c.querySelector('img');
+        const h3 = c.querySelector('h3');
+        const par = c.querySelector('.uc-body p');
         return {
-          html: c.innerHTML,
           name: c.dataset.uc || '',
+          title: h3 ? h3.textContent : '',
+          text: par ? par.textContent : '',
           accent: c.style.getPropertyValue('--uc-accent'),
-          src: img ? img.getAttribute('src') : null
+          src: img ? img.getAttribute('src') : null,
+          lqip: img ? img.style.getPropertyValue('--lqip') : '',
+          alt: img ? img.getAttribute('alt') : ''
         };
       }),
       offset: ri === 1 ? 0.5 : 0,       // нижній ряд зсунутий на пів картки
@@ -3337,7 +3358,7 @@
     if (!rows.length) return;
 
     const urls = [...new Set(rows.flatMap(r => r.items.map(i => i.src)).filter(Boolean))];
-    let step = 0, period = 0, poolSize = 0;
+    let step = 0, period = 0, poolSize = 0, BUFFER = 12;
 
     function metrics(){
       const cs = getComputedStyle(view.closest('.uc-gallery') || view);
@@ -3347,13 +3368,33 @@
 
     // У потоці картки вирівнював flex-stretch по найвищій. В абсолютній розкладці
     // висоту треба знати наперед, тож міряємо найвищий варіант тексту один раз.
+    const SKELETON =
+      '<div class="uc-media"><img width="544" height="306" decoding="async" alt=""></div>' +
+      '<div class="uc-body"><h3></h3><p></p>' +
+      '<button type="button" class="uc-order">Замовити цей досвід</button></div>';
+
+    function makeCard(col, h){
+      const c = document.createElement('article');
+      c.className = 'uc-card';
+      c.style.cssText = 'position:absolute;top:0;width:' + col + 'px' + (h ? ';height:' + h + 'px' : '');
+      c.innerHTML = SKELETON;
+      c._img = c.querySelector('img');
+      c._h3 = c.querySelector('h3');
+      c._p = c.querySelector('.uc-body p');
+      c._media = c.querySelector('.uc-media');
+      return c;
+    }
+
     function tallest(r, col){
-      const probe = document.createElement('article');
-      probe.className = 'uc-card';
-      probe.style.cssText = 'position:absolute;visibility:hidden;pointer-events:none;left:0;top:0;width:' + col + 'px';
+      const probe = makeCard(col, 0);
+      probe.style.cssText += ';visibility:hidden;pointer-events:none;left:0';
       r.el.appendChild(probe);
       let h = 0;
-      r.items.forEach(it => { probe.innerHTML = it.html; h = Math.max(h, probe.offsetHeight); });
+      r.items.forEach(it => {
+        probe._h3.textContent = it.title;
+        probe._p.textContent = it.text;
+        h = Math.max(h, probe.offsetHeight);
+      });
       probe.remove();
       return h;
     }
@@ -3362,7 +3403,11 @@
       const [col, gap] = metrics();
       step = col + gap;
       period = rows[0].items.length * step;
-      poolSize = Math.ceil(view.clientWidth / step) + 6;
+      // Запас по 12 карток у кожен бік (≈2900px на телефоні) — більше, ніж
+      // проходить один сильний кидок пальцем. Тепер це по кишені: без
+      // backdrop-filter картка коштує звичайного малювання, а не знімка фону.
+      BUFFER = 12;
+      poolSize = Math.ceil(view.clientWidth / step) + BUFFER * 2;
       rows.forEach(r => {
         r.el.textContent = '';
         r.el.style.position = 'relative';
@@ -3376,9 +3421,7 @@
 
         r.pool = []; r.slot = [];
         for (let i = 0; i < poolSize; i++){
-          const c = document.createElement('article');
-          c.className = 'uc-card';
-          c.style.cssText = 'position:absolute;top:0;width:' + col + 'px;height:' + h + 'px';
+          const c = makeCard(col, h);
           r.el.appendChild(c);
           r.pool.push(c); r.slot.push(NaN);
         }
@@ -3386,7 +3429,7 @@
     }
 
     function fill(){
-      const from = Math.floor(view.scrollLeft / step) - 3;
+      const from = Math.floor(view.scrollLeft / step) - BUFFER;
       for (const r of rows){
         const n = r.items.length;
         for (let s = from; s < from + poolSize; s++){
@@ -3398,17 +3441,20 @@
           const it = r.items[((s % n) + n) % n];
           const c = r.pool[i];
           if (c.dataset.uc !== it.name){
-            c.innerHTML = it.html;
             c.dataset.uc = it.name;
+            c._h3.textContent = it.title;
+            c._p.textContent = it.text;
             if (it.accent) c.style.setProperty('--uc-accent', it.accent);
-            const img = c.querySelector('img');
-            if (img) img.loading = 'eager';   // картка вже поруч із кадром
+            // --lqip ставимо на .uc-media: звідти його бачить і сам <img>, і хвіст
+            // розмиття в ::after
+            if (it.lqip) c._media.style.setProperty('--lqip', it.lqip);
+            if (it.src && c._img.getAttribute('src') !== it.src){
+              c._img.setAttribute('src', it.src);
+              c._img.setAttribute('alt', it.alt || it.name);
+              c._img.loading = 'eager';
+              c._img.fetchPriority = 'high';
+            }
           }
-          // Позиція саме через left, а не transform. У .uc-card є
-          // `transition: transform 0.3s`, тож переставлена картка не стрибала б
-          // на нове місце, а їхала б туди через півекрана — це і читалось як
-          // «картки вилітають ліворуч і перелітають вправо». Крім того, inline
-          // transform перебивав би `:hover { transform: translateY(-3px) }`.
           c.style.left = ((s + r.offset) * step) + 'px';
         }
       }
