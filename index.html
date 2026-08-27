@@ -497,23 +497,134 @@
   .shift-card.new { border-color: rgba(198,255,0,0.28); box-shadow: 0 0 32px -18px var(--lime-glow); }
 
   /* value stack */
-  .stack { margin-top: 40px; display: flex; flex-direction: column; gap: 2px; }
-  .stack-row {
-    display: flex; align-items: flex-start; gap: 22px;
-    padding: 24px 4px;
-    border-bottom: 1px solid var(--line);
-    transition: padding-left 0.3s ease, background 0.3s ease;
+  /* ---------- ЩО ВХОДИТЬ ---------- */
+  /* Широкі плашки, що находять одна на одну: кожна наступна лягає поверх
+     попередньої й трохи перекриває її низ. Не список і не сітка карток —
+     одна стопка, яку читаєш зверху вниз за цифрами. */
+  .slabs { margin-top: 46px; }
+  .slab {
+    position: relative;
+    z-index: calc(var(--i) + 1);        /* наступна поверх попередньої */
+    margin-top: -34px;   /* перекриття помітне, але з'їдає лише падінг сусідньої */
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    /* Не center: у «Обладнання» опис в один рядок, у решти — у два, і при
+       центруванні кожен блок сідав на свою висоту, тож заголовки не збігались
+       між плашками. Від верху вони вирівняні однаково завжди. */
+    align-items: start;
+    gap: 30px;
+    padding: 30px 32px;
+    border: 1px solid var(--line); border-top-color: var(--glass-edge);
+    border-radius: 24px;
+    background: var(--glass-fill-dark);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    box-shadow: var(--glass-shadow-2), 0 22px 50px -30px rgba(0,0,0,0.95);
+    /* довший і м'якший перехід: підсвітка переповзає між плашками, а не клацає */
+    transition: transform 0.55s cubic-bezier(.22,1,.36,1),
+                border-color 0.55s cubic-bezier(.22,1,.36,1),
+                box-shadow 0.55s cubic-bezier(.22,1,.36,1),
+                background 0.55s cubic-bezier(.22,1,.36,1);
   }
-  .stack-row:hover { padding-left: 16px; background: rgba(255,255,255,0.02); }
-  .stack-mark {
-    font-family:'Unbounded'; font-weight: 700; font-size: 15px;
-    color: var(--ch); flex-shrink: 0; width: 30px; padding-top: 2px;
-    transition: color 0.6s ease;
+  .slab:first-child { margin-top: 0; }
+  /* Низ плашки йде в темряву — рівно там, де на неї лягає наступна. У останньої
+     цього немає: її ніщо не перекриває. */
+  .slab:not(:last-child)::after {
+    content: ''; position: absolute; inset: 0;
+    pointer-events: none; z-index: 2;
+    border-radius: 24px;
+    background: linear-gradient(180deg,
+      transparent 18%, rgba(3,5,9,0.26) 42%, rgba(3,5,9,0.68) 71%, rgba(3,5,9,0.94) 100%);
+    transition: opacity 0.6s cubic-bezier(.22,1,.36,1);
   }
-  .stack-content { flex: 1; }
-  .stack-content h3 { font-size: 19px; font-weight: 600; margin-bottom: 5px; }
-  .stack-content p { color: var(--muted); font-size: 14.5px; max-width: 60ch; }
-  .stack-core { color: var(--lime); }
+  /* активна плашка виходить із темряви — і опис стає читабельним повністю */
+  .slab:hover::after, .slab:focus-within::after, .slab.is-lit::after { opacity: 0.16; }
+
+  /* цифра намальована обведенням, тож на темному тлі вона читається як контур,
+     а при наведенні заливається лаймом */
+  .slab-num {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 78px; font-weight: 800; line-height: 0.78;
+    /* Рівна ширина цифр. «01» вужче за «02»: одиниця тонка, і колонка з цифрою
+       виходила на 20px вужчою — через це заголовок у першій плашці стояв ближче
+       до цифри, ніж у решти. З tabular-nums усі номери однакової ширини. */
+    font-variant-numeric: tabular-nums;
+    /* Верх цифри рівняємо з верхом заголовка. Геометричні краї елементів для
+       цього не годяться: у великого кегля з line-height 0.78 гліф займає майже
+       всю коробку, а в заголовка над літерами лишається піврядка інтерліньяжу.
+       Виміряно по фактичних чорнилах: заголовок нижчий на 15.4px. */
+    margin-top: 7px;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(255,255,255,0.26);
+    transition: -webkit-text-stroke-color 0.55s cubic-bezier(.22,1,.36,1), color 0.55s cubic-bezier(.22,1,.36,1);
+    user-select: none;
+  }
+  /* Текст лежить над затемненням: темніє поверхня плашки, а не написи на ній —
+     інакше бейдж унизу (а на телефоні він найнижчий) ішов би в темряву разом
+     із фоном і переставав читатись. */
+  .slab-num, .slab-body, .slab-meta { position: relative; z-index: 1; }
+  .slab-meta { align-self: start; }   /* угорі, щоб не тонув у затемненні */
+  .slab-body h3 { font-size: 20px; font-weight: 600; margin-bottom: 6px; }
+  /* Місце під два рядки резервуємо завжди: з прихованим описом плашки інакше
+     мали б різну висоту без видимої причини. */
+  .slab-body p { color: var(--muted); font-size: 14.5px; line-height: 1.5; max-width: 62ch; min-height: 44px; }
+  .slab-meta {
+    align-self: center;
+    white-space: nowrap;
+    font-size: 11.5px; letter-spacing: 1.2px; text-transform: uppercase;
+    color: var(--muted-2);
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: 7px 14px;
+    transition: color 0.55s cubic-bezier(.22,1,.36,1), border-color 0.55s cubic-bezier(.22,1,.36,1);
+  }
+
+  .slab:hover, .slab:focus-within, .slab.is-lit {
+    z-index: 20;
+    transform: translateY(-10px);
+    border-color: rgba(198,255,0,0.45);
+    background:
+      radial-gradient(90% 160% at 6% 50%, rgba(198,255,0,0.20), rgba(198,255,0,0.05) 48%, transparent 78%),
+      var(--glass-fill-dark);
+    box-shadow: var(--glass-shadow-2), 0 0 70px -28px rgba(198,255,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  .slab:hover .slab-num, .slab:focus-within .slab-num, .slab.is-lit .slab-num { -webkit-text-stroke-color: var(--lime); color: rgba(198,255,0,0.14); }
+  .slab:hover .slab-meta, .slab:focus-within .slab-meta, .slab.is-lit .slab-meta { color: var(--lime); border-color: rgba(198,255,0,0.45); }
+
+  .slabs-foot { margin-top: 26px; font-size: 13px; color: var(--muted-2); }
+
+  @media (max-width: 760px){
+    .slab {
+      /* Перша колонка фіксованої ширини: у ній і цифра, і підпис, а підписи
+         різної довжини («у базовій ціні» / «за бажанням»). При auto колонка
+         міряла б себе по вмісту й заголовок стартував би з різного місця. */
+      grid-template-columns: 96px 1fr;
+      grid-template-rows: auto auto;
+      align-items: start;
+      gap: 0 14px;
+      padding: 20px 18px 24px;
+      /* Перекриття більше за відстань від краю картки до заголовка (27px), тож
+         під наступну плашку йде нижній падінг і приблизно останній рядок опису.
+         Там і так затемнення 94%, тож візуально втрата мала — але текст справді
+         недоступний. Свідомий розмін заради компактності стопки. */
+      margin-top: -48px;
+      border-radius: 20px;
+    }
+    .slab-num { grid-column: 1; grid-row: 1; font-size: 48px; margin-top: 5px; }
+    /* Підсвічена плашка не виходить на верхній шар і не підіймається: при такому
+       перекритті вона накрила б заголовок сусідньої. Порядок нашарування лишається
+       природним, тож жоден заголовок ніколи не перекритий. */
+    .slab.is-lit { transform: none; z-index: calc(var(--i) + 1); }
+    /* Підпис — під цифру, а не під опис: унизу його накривала б наступна плашка. */
+    .slab-meta {
+      grid-column: 1; grid-row: 2;
+      justify-self: start; align-self: start;
+      margin: 12px 0 0;
+      padding: 4px 8px; font-size: 9px; letter-spacing: 0.6px;
+    }
+    .slab-body { grid-column: 2; grid-row: 1 / span 2; }
+    .slab-body h3 { font-size: 17.5px; }
+    .slab-body p { font-size: 13.5px; min-height: 0; }
+  }
 
   /* how it works steps */
   .how-panel {
@@ -740,7 +851,7 @@
     overscroll-behavior: auto;
     touch-action: pan-x pan-y;
     scroll-behavior: auto;
-    padding: 4px 2px 16px;
+    padding: 38px 2px 52px;   /* місце під нахил і тіні */
     scrollbar-width: none;
     -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 58px, #000 calc(100% - 58px), transparent 100%);
     mask-image: linear-gradient(90deg, transparent 0, #000 58px, #000 calc(100% - 58px), transparent 100%);
@@ -1459,12 +1570,11 @@
     box-shadow: var(--glass-shadow-2), 0 0 34px -20px var(--uc-accent, var(--ch-glow)), inset 0 1px 0 rgba(255,255,255,0.09);
   }
 
-  /* Photo header. The <img> is optional: until a shot is dropped in, the tinted
-     gradient below stands in, so the card never looks broken. */
   /* Кадр не обрізається рівною лінією, а сходить нанівець: сама картинка гасне
-     по альфі, а поверх неї той самий хвіст розмивається backdrop-фільтром. Виходить
-     послідовність «різке фото → розмите → матове скло картки». Хвіст виступає нижче
-     медіа-блока й заходить під заголовок, тож переходу немає де прочитатись як межа. */
+     по альфі, а поверх того ж хвоста лежить її ж версія 24×14 (--lqip), розтягнута
+     на всю ширину — тобто розмитий варіант цього ж фото. Виходить послідовність
+     «різке фото → розмите → скло картки». Хвіст виступає нижче медіа-блока й
+     заходить під заголовок, тож переходу немає де прочитатись як межа. */
   .uc-media {
     position: relative;
     aspect-ratio: 16 / 9;
@@ -1598,11 +1708,14 @@
 
   /* ---------- WHAT TO EXPECT ---------- */
   .testimonials { padding: var(--sec-pad) 0; }
-  .tst-wrap { position: relative; margin-top: 40px; }
+  /* Картки стоять на спільній похилій площині й находять одна на одну кутами.
+     perspective живе на контейнері, тож усі бачаться з однієї точки — інакше
+     кожна крутилась би сама по собі й ряд розсипався б. */
+  .tst-wrap { position: relative; margin-top: 40px; perspective: 1500px; }
   /* Same scroll-container settings as the other strips: overflow-y hidden and
      touch-action pan-x pan-y, or the strip swallows the page's vertical gesture. */
   .tst-strip {
-    display: flex; align-items: stretch; gap: 16px;
+    display: flex; align-items: stretch; gap: 0;
     overflow-x: auto;
     overflow-y: hidden;
     overscroll-behavior: auto;
@@ -1615,7 +1728,16 @@
     mask-image: linear-gradient(90deg, transparent 0, #000 58px, #000 calc(100% - 58px), transparent 100%);
   }
   .tst-strip::-webkit-scrollbar { display: none; }
-  .tst-strip > .tst-card { flex: 0 0 340px; scroll-snap-align: center; }
+  .tst-strip > .tst-card {
+    flex: 0 0 320px; scroll-snap-align: center;
+    transform: rotateY(-11deg) rotateZ(-2deg);
+  }
+  /* через одну — інший нахил і зсув униз, щоб ряд не читався як рівна гребінка */
+  .tst-strip > .tst-card:nth-child(even) {
+    transform: rotateY(-11deg) rotateZ(1.7deg) translateY(18px);
+  }
+  /* находять кутами: наступна картка лягає поверх попередньої */
+  .tst-strip > .tst-card + .tst-card { margin-left: -34px; }
   .tst-prev { left: -72px; }
   .tst-next { right: -72px; }
   @media (max-width: 1230px){ .tst-prev { left: -6px; } .tst-next { right: -6px; } }
@@ -1636,7 +1758,13 @@
       -webkit-mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 40px), transparent 100%);
       mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 40px), transparent 100%);
     }
-    .tst-strip > .tst-card { flex-basis: calc(100vw - 84px); scroll-snap-align: start; }
+    /* на телефоні нахил менший: картка ширша, і на великому куті дальній край
+       тексту помітно тікав би від читача */
+    .tst-strip > .tst-card { flex-basis: calc(100vw - 96px); scroll-snap-align: start; }
+    .tst-strip > .tst-card { transform: rotateY(-6deg) rotateZ(-1.2deg); }
+    .tst-strip > .tst-card:nth-child(even) { transform: rotateY(-6deg) rotateZ(1deg) translateY(12px); }
+    .tst-strip > .tst-card + .tst-card { margin-left: -20px; }
+    .tst-strip { padding: 26px 28px 40px; }
     .tst-prev, .tst-next { display: none; }
   }
   .tst-card {
@@ -1645,14 +1773,25 @@
     border: 1px solid var(--line); border-top-color: var(--glass-edge);
     border-radius: 22px;
     padding: 26px 24px;
-    background: var(--glass-fill-1);
+    /* лаймовий градієнт усередині матового скла: світло падає згори зліва
+       і сходить нанівець, щоб не заважати читати цитату */
+    background:
+      radial-gradient(150% 125% at 12% -12%, rgba(198,255,0,0.34), rgba(198,255,0,0.13) 46%, rgba(198,255,0,0.04) 76%, transparent 100%),
+      var(--glass-fill-dark);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    box-shadow: var(--glass-shadow-1), inset 0 1px 0 rgba(255,255,255,0.07);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    box-shadow: var(--glass-shadow-2), 0 26px 60px -34px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.09);
+    transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
   }
   .tst-card .tst-author { margin-top: auto; }
-  .tst-card:hover { border-color: rgba(46,213,115,0.4); transform: translateY(-3px); box-shadow: var(--glass-shadow-2), 0 0 44px -22px rgba(46,213,115,0.4), inset 0 1px 0 rgba(255,255,255,0.1); }
+  /* при наведенні картка вирівнюється до глядача й підіймається над сусідніми */
+  .tst-strip > .tst-card:hover,
+  .tst-strip > .tst-card:nth-child(even):hover {
+    z-index: 2;
+    transform: rotateY(-4deg) rotateZ(0deg) translateY(-8px);
+    border-color: rgba(198,255,0,0.45);
+    box-shadow: var(--glass-shadow-2), 0 0 60px -24px rgba(198,255,0,0.4), inset 0 1px 0 rgba(255,255,255,0.12);
+  }
   .tst-stars { color: var(--lime); font-size: 13px; letter-spacing: 2px; margin-bottom: 14px; }
   .tst-card p.tst-quote {
     font-family: 'Lora', serif; font-style: italic;
@@ -1947,43 +2086,49 @@
     <h2 class="h2 reveal">Що саме ви отримуєте за свої гроші.</h2>
     <p class="section-lead reveal">Silent disco під ключ — комплект обладнання, логістика й супровід у межах однієї послуги.</p>
 
-    <div class="stack">
-      <div class="stack-row reveal">
-        <div class="stack-mark">◆</div>
-        <div class="stack-content">
-          <h3 class="stack-core">Обладнання</h3>
+    <div class="slabs">
+      <article class="slab reveal" style="--i:0">
+        <span class="slab-num" aria-hidden="true">01</span>
+        <div class="slab-body">
+          <h3>Обладнання</h3>
           <p>Від 40 LED-навушників, 3 канали, передавачі та запасні навушники в комплекті.</p>
         </div>
-      </div>
-      <div class="stack-row reveal">
-        <div class="stack-mark">+</div>
-        <div class="stack-content">
+        <span class="slab-meta">у базовій ціні</span>
+      </article>
+      <article class="slab reveal" style="--i:1">
+        <span class="slab-num" aria-hidden="true">02</span>
+        <div class="slab-body">
           <h3>Доставка й монтаж</h3>
           <p>Привозимо, збираємо систему, налаштовуємо канали й тестуємо сигнал до старту.</p>
         </div>
-      </div>
-      <div class="stack-row reveal">
-        <div class="stack-mark">+</div>
-        <div class="stack-content">
+        <span class="slab-meta">у базовій ціні</span>
+      </article>
+      <article class="slab reveal" style="--i:2">
+        <span class="slab-num" aria-hidden="true">03</span>
+        <div class="slab-body">
           <h3>Підготовлені плейлисти</h3>
-          <p>Три канали, зібрані під ваш настрій і формат події — DJ не обов'язковий.</p>
+          <p>Три канали, зібрані під ваш настрій і формат події — діджей не обов'язковий.</p>
         </div>
-      </div>
-      <div class="stack-row reveal">
-        <div class="stack-mark">+</div>
-        <div class="stack-content">
+        <span class="slab-meta">у базовій ціні</span>
+      </article>
+      <article class="slab reveal" style="--i:3">
+        <span class="slab-num" aria-hidden="true">04</span>
+        <div class="slab-body">
           <h3>Супровід і демонтаж</h3>
           <p>Ведемо технічну частину протягом вечора, а після завершення забираємо все обладнання.</p>
         </div>
-      </div>
-      <div class="stack-row reveal">
-        <div class="stack-mark">+</div>
-        <div class="stack-content">
-          <h3>Короткий reels — за бажанням</h3>
-          <p>Додаткова опція: ролик вашого вечора, готовий до сторіз і публікації.</p>
+        <span class="slab-meta">у базовій ціні</span>
+      </article>
+      <article class="slab reveal" style="--i:4">
+        <span class="slab-num" aria-hidden="true">05</span>
+        <div class="slab-body">
+          <h3>Короткий reels</h3>
+          <p>Ролик вашого вечора, готовий до сторіз і публікації.</p>
         </div>
-      </div>
+        <span class="slab-meta">за бажанням</span>
+      </article>
     </div>
+    <p class="slabs-foot reveal">Колонки, підсилювачі та окремий звук орендувати не потрібно — комплект замінює всю звукову частину вечора.</p>
   </div>
 </section>
 
@@ -3541,6 +3686,53 @@
     start();
     remember();
     warmStripCache(document.getElementById('cases'), urls, () => { if (!touched) start(); });
+  })();
+
+  // ---- Плашки «Що входить»: підсвітка за прокруткою ----
+  // Активною стає плашка, найближча до середини екрана, і при прокрутці підсвітка
+  // переходить далі. Курсор має пріоритет: щойно миша заходить у поле блока,
+  // прокруткова підсвітка гасне й лишається тільки :hover — інакше світилися б
+  // дві плашки одночасно. Коли миша йде за межі блока, підсвітка вертається.
+  (function(){
+    const box = document.querySelector('.slabs');
+    if (!box) return;
+    const slabs = [...box.querySelectorAll('.slab')];
+    if (!slabs.length) return;
+
+    let ticking = false, lit = null, hovering = false;
+    const clear = () => { if (lit){ lit.classList.remove('is-lit'); lit = null; } };
+
+    function pick(){
+      ticking = false;
+      if (hovering) return;
+      const mid = innerHeight * 0.45;
+      let best = null, bestD = Infinity;
+      for (const s of slabs){
+        const r = s.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > innerHeight) continue;
+        const d = Math.abs(r.top + r.height / 2 - mid);
+        if (d < bestD){ bestD = d; best = s; }
+      }
+      if (best === lit) return;
+      if (lit) lit.classList.remove('is-lit');
+      if (best) best.classList.add('is-lit');
+      lit = best;
+    }
+    const onScroll = () => { if (!ticking){ ticking = true; requestAnimationFrame(pick); } };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+
+    // тільки миша: дотик не має вимикати прокруткову підсвітку
+    box.addEventListener('pointerenter', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      hovering = true; clear();
+    });
+    box.addEventListener('pointerleave', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      hovering = false; pick();
+    });
+
+    pick();
   })();
 
   // ---- respect reduced motion ----
