@@ -85,8 +85,8 @@
 
   /* Загальносайтової підсвітки більше немає: зафіксований у вікні шар тягнувся
      через усі секції до самого підвалу й міняв колір разом із каналом. Світло
-     лишилось тільки там, де воно й має бути — над hero (.glow-1 / .glow-2), і
-     воно прокручується разом із секцією, а не супроводжує всю сторінку. */
+     а з hero кольорові плями прибрані зовсім: вони лягали поверх знімка й
+     розмивали фігуру. */
   body > nav, .hero, section, footer { position: relative; z-index: 1; }
 
   .wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
@@ -128,28 +128,24 @@
   .hero {
     min-height: auto;
     display: flex; flex-direction: column; justify-content: flex-start;
-    padding: 132px 0 96px;
+    padding: 152px 0 118px;
     position: relative;
     overflow: hidden;
   }
   .hero-photo {
     position: absolute; left: 0; right: 0; top: -190px; height: calc(100% + 380px); z-index: 0;
     background-size: cover;
-    /* Focal point on the dancer (right side of the frame), so as the viewport
-       narrows toward mobile the crop keeps her face in view. */
-    background-position: 68% 28%;
+    /* Кадри обрізані до смуги, де густо світяться навушники, і без великих
+       передніх силуетів — саме вони раніше читались більшими за героїню.
+       Позиція тримає цю смугу на рівні її торса. */
+    background-position: 60% 62%;
     opacity: 0; transition: opacity 1.1s ease;
     filter: saturate(1.08) contrast(1.04);
     will-change: transform;
   }
   .hero-photo.active { opacity: 0.5; }
-  .hero-photo::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(circle at 15% 55%, var(--ch-glow), transparent 40%);
-    mix-blend-mode: color;
-    opacity: 0.22;
-  }
+  /* Кольорових плям і блендового шару тут навмисно немає: вони лягали поверх
+     знімка й розмивали фігуру. Кадр лишається таким, яким знятий. */
   .hero-photo::after {
     content: '';
     position: absolute; inset: 0;
@@ -157,15 +153,186 @@
       linear-gradient(180deg, rgba(5,7,13,0.55) 0%, transparent 18%, transparent 62%, var(--night) 100%),
       linear-gradient(90deg, var(--night) 0%, rgba(5,7,13,0.72) 22%, rgba(5,7,13,0.25) 42%, transparent 56%);
   }
-  .glow {
-    position: absolute; border-radius: 50%;
-    filter: blur(90px); pointer-events: none;
-    transition: background 0.8s ease, opacity 0.8s ease;
-    z-index: 1;
+  /* Танцівниця праворуч, із повітрям навколо: contain вписує кадр цілком, тож
+     ані голова, ані рука ніколи не зрізаються — на відміну від cover, який
+     кадрує під коробку. Ліворуч короткий перехід, щоб темне тло знімка
+     зливалося із залом позаду. */
+  .hero-dancer {
+    position: absolute; z-index: 1;
+    /* Висота підібрана так, щоб фігура закінчувалась там, де починається
+       панель каналів: на ескізі вони не накладаються, і саме це дає відчуття
+       простору навколо неї. */
+    /* Розмір диктує ширина, а не висота. contain вписує кадр за меншим із двох
+       масштабів, тож коробка мусить бути достатньо високою — інакше фігура
+       зменшується до висоти й виглядає дрібною, приліпленою до краю.
+       На ескізі вона займає близько 52% ширини екрана — сюди й цілимось. */
+    /* Прив'язка до НИЗУ, а не до верху, і коробка рівно за пропорцією кадру.
+       Раніше висота коробки була 88% від .hero, а розмір кадру диктувала ширина —
+       щойно hero ставав високим відносно своєї ширини (планшет), кадр займав лише
+       верх коробки, обривався різкою межею і "висів у повітрі" над плашкою, а
+       маска танула вже в порожнечі під ним. Тепер низ фігури завжди всередині
+       плашки, а маска завжди лягає на саму фігуру. */
+    right: 4%;
+    top: auto;
+    bottom: 118px;
+    /* Розмір диктує ВИСОТА: кадр тепер портретний (1385×2090), і прив'язка до
+       ширини робила фігуру півтора раза вищою за секцію — голова йшла за верхній
+       край. aspect-ratio лишає коробку рівною кадру, тож маска завжди лягає на
+       саму фігуру, а не в порожнечу під нею. */
+    height: min(76%, 720px);
+    width: auto;
+    aspect-ratio: 1385 / 1463;
+    /* Один шар і жодної заглушки під ним: знімок має альфа-канал, фігура вже
+       вирізана. Розмита мініатюра, яку я підкладав раніше, світилася крізь цю
+       прозорість і читалась як ореол — і обрізалась об край коробки над головою. */
+    background-image: url('images/hero-dancer.webp');
+    background-size: contain;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    /* Тільки нижній перехід. Бічної маски немає: у вирізаної фігури немає тла,
+       яке треба було б розчиняти, а маска лише з'їдала б їй руку. */
+    -webkit-mask-image: linear-gradient(180deg, #000 72%, rgba(0,0,0,0.45) 90%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 72%, rgba(0,0,0,0.45) 90%, transparent 100%);
+    opacity: 0; transition: opacity 1.2s ease 0.15s;
+    will-change: transform;
   }
-  .glow-1 { width: 520px; height: 520px; background: var(--ch-glow); top: -120px; right: -100px; opacity: 0.5; }
-  .glow-2 { width: 400px; height: 400px; background: var(--ch-glow); bottom: -140px; left: -120px; opacity: 0.28; }
-  .hero .wrap { position: relative; z-index: 2; }
+  .hero-dancer.active { opacity: 1; }
+
+  /* Планшет: hero тут високий відносно своєї ширини (текст складається в
+     стовпчик), і фігура на 56% ширини не дотягувалась до заголовка — між ними
+     зяяла порожнеча. Розмір диктує ширина, тож на цих ширинах вона більша. */
+  @media (min-width: 761px) and (max-width: 1100px){
+    .hero-dancer { height: min(76%, 640px); width: auto; right: 1%; }
+  }
+
+  /* ---- Мобільна композиція ---- */
+  /* Та сама схема, що й на десктопі, зведена на телефон: заголовок на всю
+     ширину, під ним ліворуч вузька колонка з поясненням і кнопками, фігура
+     праворуч під текстом, панель каналів накриває її по пояс. Порядок кнопок
+     тут зворотний до десктопного — зверху "Як це працює", під нею лаймова. */
+  @media (max-width: 760px){
+    .hero {
+      padding: 126px 0 0;
+      text-align: left;
+      position: relative;
+    }
+
+    /* Знімок → заголовок → фігура → колонка → панель. Фігура лежить ПОВЕРХ
+       фігури — її волосся заходить на кілька пікселів на кінці правих рядків.
+       Кнопки й панель лишаються над нею, тож вони ніколи не тонуть у знімку. */
+    .hero .wrap.hero-top { z-index: 1; }
+    .hero .hero-dancer { z-index: 2; }
+    .hero .wrap.hero-bottom { z-index: 3; }
+    .hero .wrap.hero-panel { z-index: 4; }
+
+    /* .hero на мобільному вищий за екран, а .hero-photo брав height у відсотках
+       від нього: cover тягнув кадр під вузьку високу коробку й показував не
+       знімок, а стиснуту колонку з усіма прожекторами разом. */
+    .hero .hero-photo {
+      top: -30px;
+      height: 700px;
+      background-position: 62% 66%;
+    }
+    .hero .hero-photo.active { opacity: 0.55; }
+
+    .hero .hero-eyebrow { font-size: 12px; margin-bottom: 12px; }
+
+    /* Рядки заголовка задає JS окремим набором на кожен канал (mLines): у
+       кожного слайда свій розподіл слів і свої зсуви. Тут лише геометрія. */
+    .hero .hero-lines {
+      font-size: clamp(26px, 8.2vw, 34px);
+      font-weight: 600;
+      line-height: 1.03;
+      letter-spacing: -0.035em;
+      margin-bottom: 0;
+    }
+    .hero .hero-lines > span {
+      display: block;
+      white-space: nowrap;
+    }
+    .hero .hero-lines > span::after { content: none; }
+    .hero .hero-lines > span.sr { text-align: right; }
+
+    /* Підзаголовок на телефоні — одне коротке речення (mSub у heroContent).
+       Довгий текст у вузькій колонці поруч із фігурою і був тим, через що
+       композиція розсипалась; одного рядка вистачає, і він не заважає. */
+    .hero .hero-sub {
+      font-size: 13px; line-height: 1.45;
+      color: var(--muted);
+      max-width: none; margin: 0;
+    }
+
+    /* Ліва колонка: коротке речення одразу під заголовком, на темному тлі, а не
+       на руці фігури. Кнопки відсуває вниз їхній власний відступ — спільний
+       тягнув би за собою й підзаголовок. */
+    .hero .wrap.hero-bottom {
+      margin-top: 14px;
+      padding-right: 46%;
+    }
+    .hero .hero-actions { margin-top: 64px; }
+    /* column-reverse, а не інший порядок у розмітці: на десктопі лаймова кнопка
+       має лишатись першою і за табуляцією, і за читанням. */
+    .hero .hero-actions {
+      flex-direction: column-reverse; align-items: flex-start;
+      gap: 10px; flex-wrap: nowrap;
+    }
+    .hero .hero-actions .btn-primary,
+    .hero .hero-actions .btn-ghost {
+      padding: 11px 16px; font-size: 12px;
+      max-width: 100%;
+      text-align: center; white-space: nowrap;
+    }
+    .hero .hero-actions .lbl-wide { display: none; }
+    .hero .hero-actions .lbl-tight { display: inline; }
+    /* Друга кнопка на знімку майже зникала: матове скло й світліша рамка
+       відділяють її від фігури позаду. */
+    .hero .hero-actions .btn-ghost {
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(22px) saturate(1.5);
+      -webkit-backdrop-filter: blur(22px) saturate(1.5);
+      border-color: rgba(255,255,255,0.24);
+      color: #fff;
+    }
+
+    /* Фігура праворуч і прив'язана до низу: її низ завжди всередині панелі, тож
+       між ними не може виникнути розриву на жодній ширині. Коробка рівно за
+       пропорцією кадру — інакше маска танула б у порожнечі під ним. */
+    .hero .hero-dancer {
+      position: absolute;
+      right: -24%;
+      bottom: 96px;
+      top: auto;
+      left: auto;
+      height: 52%;
+      width: auto;
+      aspect-ratio: 1385 / 1463;
+      background-size: contain;
+      background-position: right bottom;
+      /* Без розмиття: низ просто плавно згасає, і крізь нього проступає той
+         самий нічний фон, у який фігура й має піти. */
+      -webkit-mask-image: linear-gradient(180deg, #000 62%, rgba(0,0,0,0.55) 82%, transparent 97%);
+      mask-image: linear-gradient(180deg, #000 62%, rgba(0,0,0,0.55) 82%, transparent 97%);
+    }
+
+    .hero .wrap.hero-panel { margin-top: 22px; padding-bottom: 20px; }
+    /* Тільки тонування, без непрозорої заливки: backdrop-filter з .glass-panel
+       лишається чинним, тож скло матове й фігура крізь нього проступає. */
+    .hero .hero-strip { background: rgba(10,14,24,0.52); }
+    .hero-strip { margin-top: 0; }
+  }
+
+  /* Геометрія hero повторює меню, а не загальний контейнер сайту. Меню має
+     max-width 1200, відступ 18px від країв екрана і 24px падінга плюс 1px рамки
+     всередині — тож текст і кнопки стають рівно під логотипом, а панель каналів
+     під зовнішніми краями пігулки. width: calc(100% - 36px) відтворює ті самі
+     18px, коли меню впирається в краї екрана. */
+  .hero .wrap {
+    position: relative; z-index: 2;
+    width: calc(100% - 36px);
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 25px;
+  }
 
   .hero-badge {
     display: inline-flex; align-items: center; gap: 7px;
@@ -180,13 +347,17 @@
   }
   .hero-eyebrow {
     font-family: 'Lora', serif; font-style: italic;
-    color: var(--lime); font-size: 16px; font-weight: 600; margin-bottom: 16px;
+    color: var(--lime); font-size: 15px; font-weight: 500; margin-bottom: 20px;
     opacity: 0; animation: rise 0.7s 0.1s forwards;
   }
+  /* Тонше накреслення замість жирного: на ескізі заголовок помітно легший, і
+     це працює на бренд — SILENT не має кричати. 500 лишає його твердим, але
+     знімає ту вагу, через яку блок виглядав важким. */
   .hero h1 {
-    font-size: clamp(30px, 4.2vw, 52px);
-    line-height: 1.08; font-weight: 700;
-    margin-bottom: 20px;
+    font-size: clamp(30px, 4vw, 50px);
+    line-height: 1.12; font-weight: 500;
+    letter-spacing: -0.015em;
+    margin-bottom: 24px;
   }
   .hero h1 .thin { font-weight: 400; color: var(--muted); }
   .hero h1 .accent { color: var(--ch); transition: color 0.6s ease; }
@@ -196,13 +367,19 @@
      must stay inline (not inherit the block rule) or a word drops to its own line. */
   .hero-lines > span { white-space: nowrap; }
   .hero-lines > span > span { display: inline; white-space: nowrap; }
+  /* П'ять кроків, а не три: у мобільному наборі рядків більше, і без цих затримок
+     четвертий і п'ятий проявлялись би раніше за перший. */
   .hero-lines span:nth-child(1){ animation-delay: 0.18s; }
-  .hero-lines span:nth-child(2){ animation-delay: 0.30s; }
-  .hero-lines span:nth-child(3){ animation-delay: 0.42s; }
+  .hero-lines span:nth-child(2){ animation-delay: 0.27s; }
+  .hero-lines span:nth-child(3){ animation-delay: 0.36s; }
+  .hero-lines span:nth-child(4){ animation-delay: 0.45s; }
+  .hero-lines span:nth-child(5){ animation-delay: 0.54s; }
   .accent-lime { color: var(--lime); }
+  /* Вузька міра рядка: на ескізі підзаголовок стоїть колонкою в чотири рядки,
+     а не тягнеться на пів екрана. */
   .hero-sub {
-    font-size: clamp(15px, 2vw, 19px); color: var(--muted);
-    max-width: 56ch; margin-bottom: 40px; font-weight: 400;
+    font-size: 15.5px; line-height: 1.65; color: var(--muted);
+    max-width: 38ch; margin-bottom: 44px; font-weight: 400;
     opacity: 0; animation: rise 0.8s 0.55s forwards;
   }
   .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; align-items: center;
@@ -222,6 +399,7 @@
     transition: border-color 0.2s, background 0.2s;
   }
   .btn-ghost:hover { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.04); }
+  .lbl-tight { display: none; }
 
   @keyframes rise { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: none; } }
 
@@ -238,8 +416,10 @@
   .hero-sub.swap-in { animation: rise 0.62s 0.22s cubic-bezier(.16,.84,.44,1) forwards; }
   .hero-lines > span.swap-in { animation: rise 0.6s cubic-bezier(.16,.84,.44,1) forwards; }
   .hero-lines > span.swap-in:nth-child(1){ animation-delay: 0.06s; }
-  .hero-lines > span.swap-in:nth-child(2){ animation-delay: 0.15s; }
-  .hero-lines > span.swap-in:nth-child(3){ animation-delay: 0.24s; }
+  .hero-lines > span.swap-in:nth-child(2){ animation-delay: 0.13s; }
+  .hero-lines > span.swap-in:nth-child(3){ animation-delay: 0.20s; }
+  .hero-lines > span.swap-in:nth-child(4){ animation-delay: 0.27s; }
+  .hero-lines > span.swap-in:nth-child(5){ animation-delay: 0.34s; }
 
   /* ---------- CHANNEL SWITCHER (signature) ---------- */
   .channels {
@@ -310,10 +490,14 @@
   .hero-strip {
     position: relative;
     overflow: hidden;
-    margin-top: 40px;
+    /* На всю ширину меню: панель виходить за падінг контейнера рівно настільки,
+       щоб її краї стали під зовнішніми краями навігаційної пігулки. Висота
+       зменшена — раніше вона займала майже чверть екрана. */
+    margin-inline: -25px;
+    margin-top: 66px;
     border-radius: 24px;
-    padding: 28px 32px;
-    width: 100%;
+    padding: 22px 26px;
+    width: auto;
     opacity: 0; animation: rise 0.8s 0.9s forwards;
   }
   .ch-strip-glow-blob {
@@ -334,11 +518,11 @@
                 background 0.5s ease, opacity 0.35s ease;
   }
   .ch-strip-glow-blob.on { opacity: 1; }
-  .ch-toggle-row { position: relative; z-index: 1; display: flex; gap: 44px; flex-wrap: wrap; }
+  .ch-toggle-row { position: relative; z-index: 1; display: flex; gap: clamp(16px, 3.4vw, 44px); flex-wrap: nowrap; }
   .ch-strip-head {
     position: relative; z-index: 1;
     display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 18px;
+    margin-bottom: 10px;
   }
   .ch-strip-title {
     font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
@@ -364,14 +548,14 @@
   .ch-mute[aria-pressed="true"] { border-color: rgba(255,90,90,0.4); color: #ff8a8a; background: rgba(255,60,60,0.08); }
   .ch-toggle {
     position: relative;
-    display: flex; flex-direction: column; gap: 14px;
-    flex: 1; min-width: 200px;
+    display: flex; flex-direction: column; gap: 10px;
+    flex: 1 1 0; min-width: 0;
     /* No side padding: the rows must line up with the panel header above them,
        so their content sits flush against the strip's own padding. Nothing is
        painted on this box, and clipping it would cut the halo that the channel
        name (text-shadow) and the active switch (box-shadow) cast outwards —
        which the side padding used to leave room for. */
-    padding: 16px 0;
+    padding: 8px 0;
   }
   .ch-toggle-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
   .ch-toggle-label { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
@@ -401,31 +585,36 @@
 
   .ch-outline-eq {
     position: absolute; z-index: 1; bottom: 2px; left: 0;
-    display: flex; align-items: flex-end; justify-content: space-between; gap: 2px;
+    /* Крок фіксований, а стовпчиків із запасом: зайві обрізає overflow. Так
+       ритм лишається однаковим на будь-якій ширині, а смуга завжди доходить від
+       початку назви каналу до кінця його перемикача. При space-between вони
+       натомість збивалися в лівий бік і не діставали до краю. */
+    display: flex; align-items: flex-end; justify-content: flex-start; gap: 9px;
     height: 18px; width: 0;
-    padding: 0 6%;
+    padding: 0;
+    overflow: hidden;
     opacity: 0; pointer-events: none;
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
-    mask-image: linear-gradient(90deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 5%, #000 95%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 5%, #000 95%, transparent 100%);
     transition: left 0.5s cubic-bezier(.4,0,.2,1), width 0.5s cubic-bezier(.4,0,.2,1),
                 bottom 0.5s cubic-bezier(.4,0,.2,1), opacity 0.3s ease;
   }
   .ch-outline-eq.on { opacity: 0.8; }
   .ch-outline-eq span {
-    flex: 1; max-width: 3px; border-radius: 1.5px 1.5px 0 0;
+    flex: 0 0 3px; border-radius: 1.5px 1.5px 0 0;
     background: var(--glow-color, var(--red));
     height: 10%;
     animation-play-state: running;
   }
-  .ch-outline-eq span:nth-child(1){ animation: miniEqBar1 0.8s ease-in-out infinite; animation-delay: 0s; }
-  .ch-outline-eq span:nth-child(2){ animation: miniEqBar2 1.3s ease-in-out infinite; animation-delay: 0.18s; }
-  .ch-outline-eq span:nth-child(3){ animation: miniEqBar3 0.65s ease-in-out infinite; animation-delay: 0.35s; }
-  .ch-outline-eq span:nth-child(4){ animation: miniEqBar1 1.1s ease-in-out infinite; animation-delay: 0.05s; }
-  .ch-outline-eq span:nth-child(5){ animation: miniEqBar2 0.75s ease-in-out infinite; animation-delay: 0.42s; }
-  .ch-outline-eq span:nth-child(6){ animation: miniEqBar3 1.4s ease-in-out infinite; animation-delay: 0.1s; }
-  .ch-outline-eq span:nth-child(7){ animation: miniEqBar1 0.55s ease-in-out infinite; animation-delay: 0.28s; }
-  .ch-outline-eq span:nth-child(8){ animation: miniEqBar2 1s ease-in-out infinite; animation-delay: 0.5s; }
-  .ch-outline-eq span:nth-child(9){ animation: miniEqBar3 0.9s ease-in-out infinite; animation-delay: 0.15s; }
+  .ch-outline-eq span:nth-child(8n+1){ animation: miniEqBar1 0.8s ease-in-out infinite; animation-delay: 0s; }
+  .ch-outline-eq span:nth-child(8n+2){ animation: miniEqBar2 1.3s ease-in-out infinite; animation-delay: 0.18s; }
+  .ch-outline-eq span:nth-child(8n+3){ animation: miniEqBar3 0.65s ease-in-out infinite; animation-delay: 0.35s; }
+  .ch-outline-eq span:nth-child(8n+4){ animation: miniEqBar1 1.1s ease-in-out infinite; animation-delay: 0.05s; }
+  .ch-outline-eq span:nth-child(8n+5){ animation: miniEqBar2 0.75s ease-in-out infinite; animation-delay: 0.42s; }
+  .ch-outline-eq span:nth-child(8n+6){ animation: miniEqBar3 1.4s ease-in-out infinite; animation-delay: 0.1s; }
+  .ch-outline-eq span:nth-child(8n+7){ animation: miniEqBar1 0.55s ease-in-out infinite; animation-delay: 0.28s; }
+  .ch-outline-eq span:nth-child(8n){ animation: miniEqBar2 1s ease-in-out infinite; animation-delay: 0.5s; }
+  .ch-outline-eq span:nth-child(8n+9){ animation: miniEqBar3 0.9s ease-in-out infinite; animation-delay: 0.15s; }
   .ch-outline-eq span:nth-child(10){ animation: miniEqBar1 1.2s ease-in-out infinite; animation-delay: 0.38s; }
   .ch-outline-eq span:nth-child(11){ animation: miniEqBar2 0.7s ease-in-out infinite; animation-delay: 0.02s; }
   .ch-outline-eq span:nth-child(12){ animation: miniEqBar3 1.05s ease-in-out infinite; animation-delay: 0.22s; }
@@ -457,8 +646,20 @@
   }
   .ch-toggle-top { position: relative; z-index: 1; position: relative; z-index: 1; }
   @media (max-width: 640px){
-    .ch-toggle-row { flex-direction: column; gap: 12px; }
-    .ch-toggle { min-width: 0; }
+    /* Три канали в ряд, а не стовпчиком: у стовпчику панель займала пів екрана.
+       Перемикач переїжджає під назву, жанровий опис прибраний — на такій ширині
+       він однаково переносився на три рядки й з'їдав усе місце. Що саме грає на
+       кожному каналі, пояснює текст вище. */
+    .ch-toggle-row { flex-direction: row; gap: 6px; }
+    .ch-toggle {
+      flex: 1 1 0; min-width: 0;
+      align-items: center; text-align: center;
+      padding: 6px 0; gap: 10px;
+    }
+    .ch-toggle-top { flex-direction: column; align-items: center; gap: 10px; }
+    .ch-toggle-label { align-items: center; }
+    .ch-toggle-name { font-size: 16px; }
+    .ch-toggle-desc { display: none; }
     /* Headline lines are nowrap on desktop so each stays on its own row. On a
        phone a single line could end up wider than the screen, and because .hero
        is a flex column that stretched .wrap past the viewport — dragging the
@@ -466,7 +667,9 @@
     .hero-lines > span, .hero-lines > span > span { white-space: normal; }
     .hero-lines > span { overflow-wrap: break-word; }
     .hero .wrap { min-width: 0; }
-    .hero-strip { max-width: 100%; }
+    /* max-width не має обрізати від'ємні поля, якими панель дотягується до
+       країв меню */
+    .hero-strip { max-width: none; }
   }
   .strip-item { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; min-width: 100px; }
   .strip-icon {
@@ -1350,6 +1553,21 @@
     background-position: right 18px center;
   }
   .field select option { background: #10141c; color: #fff; }
+  /* iOS Safari дає date-полю власну внутрішню ширину, розраховану під найдовший
+     формат дати, і вона ігнорує width:100% — поле вилазить за контейнер. Знімаємо
+     системний вигляд і дозволяємо йому стискатись: min-width:0 потрібен окремо,
+     бо у флекс- і грид-контейнерах типове min-width:auto не дає полю звузитись.
+     Заразом вирівнюємо значення ліворуч — iOS центрує його всередині поля. */
+  .field input[type="date"] {
+    -webkit-appearance: none;
+    appearance: none;
+    min-width: 0; max-width: 100%;
+    text-align: left;
+  }
+  .field input[type="date"]::-webkit-date-and-time-value {
+    text-align: left;
+    margin: 0;
+  }
   /* the native date picker ships a black glyph, invisible on a dark field */
   .field input[type="date"]::-webkit-calendar-picker-indicator {
     filter: invert(1) opacity(0.62);
@@ -1639,7 +1857,11 @@
     background-size: cover;
     background-position: center 42%;
     background-repeat: no-repeat;
-    filter: brightness(1.4) saturate(1.08);
+    filter: brightness(1.12) saturate(1.05);
+    /* Власна маска на додачу до скриму секції: знімок з'являється з нічого і в
+       ніщо йде, тож у нього немає власного краю, який міг би читатись як лінія. */
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 78%, transparent 100%);
+    mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 78%, transparent 100%);
     will-change: transform;
   }
   .benefits .wrap { position: relative; z-index: 1; }
@@ -1687,8 +1909,15 @@
   .uc-aurora {
     position: absolute; inset: -8% -6%;
     z-index: 0; pointer-events: none;
-    filter: blur(110px) saturate(1.35);
-    opacity: 0.52;
+    /* Замість поля градієнтних плям — реальний кадр зі змазаними вогнями. Він
+       уже розмитий сам по собі, тож blur тут майже не потрібен; лишається
+       стільки, щоб не читались окремі деталі. */
+    background-image: url('images/bg-4.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(18px) saturate(1.2);
+    opacity: 0.45;
     /* eased in at the top so the heading keeps a clean ground, and out at the
        bottom so the section doesn't end on a band of colour */
     -webkit-mask-image: linear-gradient(180deg,
@@ -1698,7 +1927,8 @@
       transparent 0%, rgba(0,0,0,0.10) 9%, rgba(0,0,0,0.34) 18%, rgba(0,0,0,0.68) 28%, #000 40%,
       #000 58%, rgba(0,0,0,0.72) 72%, rgba(0,0,0,0.38) 84%, rgba(0,0,0,0.12) 93%, transparent 100%);
   }
-  .ua-blob { position: absolute; border-radius: 50%; transition: background 1.4s ease; }
+  /* Плями лишаються в розмітці, але сховані: їхню роль тепер грає сам знімок. */
+  .ua-blob { display: none; position: absolute; border-radius: 50%; transition: background 1.4s ease; }
   .ua-blob.u1 { width: 60%; height: 58%; left: -10%; top: 26%;   background: radial-gradient(circle, rgba(198,255,0,0.62), transparent 66%); animation: uaDrift1 37s ease-in-out infinite; }
   .ua-blob.u2 { width: 52%; height: 52%; left: 20%;  top: 44%;  background: radial-gradient(circle, rgba(198,255,0,0.46), transparent 66%); animation: uaDrift2 29s ease-in-out infinite; }
   .ua-blob.u3 { width: 56%; height: 56%; left: 50%;  top: 22%;  background: radial-gradient(circle, rgba(198,255,0,0.54), transparent 66%); animation: uaDrift3 43s ease-in-out infinite; }
@@ -2137,65 +2367,83 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-photo active" id="heroPhoto0" style="background-image:url('images/hero.jpg')"></div>
-  <div class="glow glow-1"></div>
-  <div class="glow glow-2"></div>
-  <div class="wrap">
+  <!-- Три знімки одним стосом: активний тримає .active, решта прозорі. Зміна
+       каналу перемикає клас, а перехід opacity у CSS дає плавний кросфейд. -->
+  <div class="hero-photo active" id="heroPhoto0" style="background-image:url('images/hero-crowd.webp')"></div>
+  <div class="hero-photo" id="heroPhoto1" style="background-image:url('images/bg-2.webp')"></div>
+  <div class="hero-photo" id="heroPhoto2" style="background-image:url('images/bg-3.webp')"></div>
+  <!-- Танцівниця окремим шаром і повністю в кадрі: background-size: contain не
+       може її обрізати за визначенням, тож голова й руки завжди на місці.
+       На десктопі фігура абсолютна й у потік не входить, тож порядок у розмітці
+       на неї не впливає. На телефоні вона в потоці, і порядок тут — той самий,
+       що й фінальна композиція: заголовок, підзаголовок, кнопки, фігура, потім
+       на неї знизу накладається панель каналів. -->
+  <div class="wrap hero-top">
     <div class="hero-eyebrow" id="heroEyebrow">Тиша ззовні. Драйв усередині.</div>
     <h1 class="hero-lines" id="heroLines">
       <span>Три хвилі музики</span>
       <span>грають одночасно —</span>
       <span>ви обираєте <span class="accent-lime">свою</span>.</span>
     </h1>
+  </div>
+
+  <div class="wrap hero-bottom">
     <p class="hero-sub" id="heroSub">
       Кожен гість чує музику у власних навушниках і сам вирішує, який із трьох каналів слухати — а зовні панує повна тиша. Перемикайтесь між ними будь-коли за вечір, скільки завгодно разів.
     </p>
     <div class="hero-actions">
-      <a href="#book" class="btn-primary">Перевірити доступність дати</a>
+      <a href="#book" class="btn-primary"><span class="lbl-wide">Перевірити доступність дати</span><span class="lbl-tight">Перевірити дату</span></a>
       <a href="#how" class="btn-ghost">Як це працює</a>
     </div>
+  </div>
 
+  <div class="hero-dancer" id="heroDancer" aria-hidden="true"></div>
+
+  <!-- Панель знову в .wrap: саме він дає їй z-index поверх фігури і ту саму
+       геометрію, що й у меню. Без обгортки margin-inline: -25px рахувався від
+       .hero на всю ширину і виштовхував панель за екран. -->
+  <div class="wrap hero-panel">
     <div class="hero-strip glass-panel" id="channels">
-      <div class="ch-strip-glow-blob" id="chGlowBlob"></div>
-      <div class="ch-outline-eq" id="chOutlineEq">
-        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <div class="ch-strip-glow-blob" id="chGlowBlob"></div>
+    <div class="ch-outline-eq" id="chOutlineEq">
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="ch-strip-head">
+      <span class="ch-strip-title">Оберіть канал</span>
+      <button class="ch-mute" type="button" id="chMute" aria-pressed="true" title="Увімкнути звук">
+        <svg class="ic-sound" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+        <svg class="ic-mute" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+        <span class="ch-mute-label">Увімкнути звук</span>
+      </button>
+    </div>
+    <div class="ch-toggle-row">
+      <div class="ch-toggle active" data-ch="0" style="--sw-color:var(--red)">
+        <div class="ch-toggle-top">
+          <div class="ch-toggle-label">
+            <span class="ch-toggle-name" style="color:var(--red)">RED</span>
+            <span class="ch-toggle-desc">Deep &amp; Dance — електроніка, хаус, ритм</span>
+          </div>
+          <button class="ch-switch" type="button" aria-pressed="true" style="--sw-color:var(--red)"><span class="ch-switch-knob"></span></button>
+        </div>
       </div>
-      <div class="ch-strip-head">
-        <span class="ch-strip-title">Оберіть канал</span>
-        <button class="ch-mute" type="button" id="chMute" aria-pressed="true" title="Увімкнути звук">
-          <svg class="ic-sound" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
-          <svg class="ic-mute" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
-          <span class="ch-mute-label">Увімкнути звук</span>
-        </button>
+      <div class="ch-toggle" data-ch="1" style="--sw-color:var(--green)">
+        <div class="ch-toggle-top">
+          <div class="ch-toggle-label">
+            <span class="ch-toggle-name" style="color:var(--green)">GREEN</span>
+            <span class="ch-toggle-desc">Pop &amp; Throwback — хіти, під які всі знають слова</span>
+          </div>
+          <button class="ch-switch" type="button" aria-pressed="false" style="--sw-color:var(--green)"><span class="ch-switch-knob"></span></button>
+        </div>
       </div>
-      <div class="ch-toggle-row">
-        <div class="ch-toggle active" data-ch="0" style="--sw-color:var(--red)">
-          <div class="ch-toggle-top">
-            <div class="ch-toggle-label">
-              <span class="ch-toggle-name" style="color:var(--red)">RED</span>
-              <span class="ch-toggle-desc">Deep &amp; Dance — електроніка, хаус, ритм</span>
-            </div>
-            <button class="ch-switch" type="button" aria-pressed="true" style="--sw-color:var(--red)"><span class="ch-switch-knob"></span></button>
+      <div class="ch-toggle" data-ch="2" style="--sw-color:var(--blue)">
+        <div class="ch-toggle-top">
+          <div class="ch-toggle-label">
+            <span class="ch-toggle-name" style="color:var(--blue)">BLUE</span>
+            <span class="ch-toggle-desc">Chill &amp; Soul — повільне, тепле, близьке</span>
           </div>
+          <button class="ch-switch" type="button" aria-pressed="false" style="--sw-color:var(--blue)"><span class="ch-switch-knob"></span></button>
         </div>
-        <div class="ch-toggle" data-ch="1" style="--sw-color:var(--green)">
-          <div class="ch-toggle-top">
-            <div class="ch-toggle-label">
-              <span class="ch-toggle-name" style="color:var(--green)">GREEN</span>
-              <span class="ch-toggle-desc">Pop &amp; Throwback — хіти, під які всі знають слова</span>
-            </div>
-            <button class="ch-switch" type="button" aria-pressed="false" style="--sw-color:var(--green)"><span class="ch-switch-knob"></span></button>
-          </div>
-        </div>
-        <div class="ch-toggle" data-ch="2" style="--sw-color:var(--blue)">
-          <div class="ch-toggle-top">
-            <div class="ch-toggle-label">
-              <span class="ch-toggle-name" style="color:var(--blue)">BLUE</span>
-              <span class="ch-toggle-desc">Chill &amp; Soul — повільне, тепле, близьке</span>
-            </div>
-            <button class="ch-switch" type="button" aria-pressed="false" style="--sw-color:var(--blue)"><span class="ch-switch-knob"></span></button>
-          </div>
-        </div>
+      </div>
       </div>
     </div>
   </div>
@@ -2205,24 +2453,24 @@
 <!-- PROBLEM → SHIFT -->
 <section class="block" id="idea">
   <div class="wrap">
-    <div class="band band-bare reveal">
-      <div class="g-tag">Чому silent disco</div>
-      <h2>Звичайна вечірка змушує обирати за всіх. Ця — дає обрати кожному.</h2>
-    </div>
+  <div class="band band-bare reveal">
+    <div class="g-tag">Чому silent disco</div>
+    <h2>Звичайна вечірка змушує обирати за всіх. Ця — дає обрати кожному.</h2>
+  </div>
 
-    <div class="shift-grid">
-      <div class="shift-card old reveal">
-        <div class="tag">Як зазвичай</div>
-        <h3>Колонки на всю залу</h3>
-        <p>Один плейлист на всіх. Хтось нудьгує, комусь голосно. О 23:00 — сусіди, охорона, «зробіть тихіше». Фото виходять темні й однакові.</p>
-      </div>
-      <div class="shift-card new reveal">
-        <div class="tag">Із silent disco</div>
-        <h3>Вечір, який кожен збирає собі</h3>
-        <p>Три канали під різний настрій, гучність під себе, світло LED у кожному кадрі. Танці хоч до ранку — і повна тиша ззовні.</p>
-      </div>
+  <div class="shift-grid">
+    <div class="shift-card old reveal">
+      <div class="tag">Як зазвичай</div>
+      <h3>Колонки на всю залу</h3>
+      <p>Один плейлист на всіх. Хтось нудьгує, комусь голосно. О 23:00 — сусіди, охорона, «зробіть тихіше». Фото виходять темні й однакові.</p>
+    </div>
+    <div class="shift-card new reveal">
+      <div class="tag">Із silent disco</div>
+      <h3>Вечір, який кожен збирає собі</h3>
+      <p>Три канали під різний настрій, гучність під себе, світло LED у кожному кадрі. Танці хоч до ранку — і повна тиша ззовні.</p>
     </div>
   </div>
+
 </section>
 
 <!-- HOW IT WORKS -->
@@ -2291,7 +2539,7 @@
 
 <!-- BENEFITS: pain-language -->
 <section class="benefits" id="experience">
-  <div class="benefits-bg" aria-hidden="true" style="--benefits-photo:url('images/benefits-bg.jpg')"></div>
+  <div class="benefits-bg" aria-hidden="true" style="--benefits-photo:url('images/bg-5.webp')"></div>
   <div class="wrap">
     <div class="eyebrow reveal">Досвід гостя</div>
     <h2 class="h2 reveal">Що відчують ваші гості на танцполі.</h2>
@@ -3059,9 +3307,19 @@
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduce) return;
     const layers = [
-      { el: document.getElementById('heroPhoto0'), section: document.querySelector('.hero'), speed: 0.18 },
+      { el: document.querySelector('.hero'), section: document.querySelector('.hero'), speed: 0.18, photos: true },
+      // Танцівниця їде помітніше за зал позаду, але стеля ходу в неї власна й
+      // рахується на льоту (autoMax). У фонових шарів є запас за краями секції,
+      // а її коробка — рівно кадр, і вона стоїть лише за кілька десятків
+      // пікселів від низу .hero. На спільних 150px вона виїжджала за цей край, і
+      // overflow:hidden різав її різкою межею просто під панеллю. Фіксоване
+      // число натомість зупиняло її посеред прокрутки — швидкість підібрана так,
+      // щоб вона не впиралась у стелю, поки hero у кадрі.
+      { el: document.getElementById('heroDancer'), section: document.querySelector('.hero'), speed: 0.11, autoMax: true },
       { el: document.querySelector('.benefits-bg'), section: document.querySelector('.benefits'), speed: 0.16 }
     ].filter(l => l.el && l.section);
+    // Фонові знімки hero їдуть разом: активний видно, решта прозорі.
+    const heroPhotoEls = [].slice.call(document.querySelectorAll('.hero-photo'));
     let ticking = false;
     function update(){
       const vh = window.innerHeight;
@@ -3070,10 +3328,20 @@
         // progress: how far the section center is from the viewport center
         const sectionCenter = r.top + r.height / 2;
         let delta = (sectionCenter - vh / 2) * -l.speed;
-        // never travel further than the overhang, or the photo's edge appears
-        const MAX = 150;
+        // never travel further than the overhang, or the layer's edge appears
+        let MAX = 150;
+        if (l.autoMax){
+          // Скільки лишилось до низу секції (без урахування вже накладеного
+          // зсуву) плюс прозорий хвіст маски, який однаково нічого не показує.
+          const rect = l.el.getBoundingClientRect();
+          const room = r.bottom - (rect.bottom - (l._d || 0));
+          MAX = Math.max(30, room + rect.height * 0.06);
+        }
         delta = Math.max(-MAX, Math.min(MAX, delta));
-        l.el.style.transform = 'translate3d(0,' + delta.toFixed(1) + 'px,0)';
+        l._d = delta;
+        const t = 'translate3d(0,' + delta.toFixed(1) + 'px,0)';
+        if (l.photos) heroPhotoEls.forEach(function(p){ p.style.transform = t; });
+        else l.el.style.transform = t;
       }
       ticking = false;
     }
@@ -3093,30 +3361,56 @@
   ];
   const root = document.documentElement;
   const btns = Array.from(document.querySelectorAll('.ch-toggle'));
-  const photos = [
-    document.getElementById('heroPhoto0')
-  ];
+  const heroPhotos = [0,1,2].map(i => document.getElementById('heroPhoto' + i)).filter(Boolean);
+  const heroDancerEl = document.getElementById('heroDancer');
   // Background position is controlled by CSS (focal point on the dancer, with a
   // mobile media-query variant) — do not override it here.
 
   // Hero copy per channel — the toggles double as a content slider. Each slide
   // has an eyebrow, three headline lines (one word optionally accented lime via
   // {lime:'word'}), and a sub. RED is slide 0 / default.
+  // lines — десктопні рядки (три, кожен в один ряд). mLines — мобільний набір:
+  // на телефоні композиція журнальна, і розподіл слів по рядках у кожного каналу
+  // свій, з власними зсувами. Другий елемент пари — клас зсуву (s1/s2/s3/sr).
+  // Підзаголовки навмисно вирівняні за довжиною (~130–140 знаків): у вузькій
+  // правій колонці різна довжина одразу ламала б висоту композиції.
   const heroContent = [
     {
       eyebrow: 'Тиша ззовні. Драйв усередині.',
       lines: ['Три хвилі музики', 'грають одночасно —', 'ви обираєте {свою}.'],
-      sub: 'Кожен гість чує музику у власних навушниках і сам вирішує, який із трьох каналів слухати — а зовні панує повна тиша. Перемикайтесь між ними будь-коли за вечір, скільки завгодно разів.'
+      mLines: [
+        ['Три хвилі', ''],
+        ['музики грають', ''],
+        ['одночасно —', ''],
+        ['ви обираєте', 'sr'],
+        ['{свою}.', '']
+      ],
+      mSub: 'Один вечір — три різні танцполи.',
+      sub: 'Кожен гість чує музику у власних навушниках і сам обирає, який із трьох каналів слухати. Зовні — повна тиша. Перемикайтесь будь-коли за вечір.'
     },
     {
       eyebrow: 'Формат, що підходить будь-де',
       lines: ['Дах, квартира, {офіс} —', 'місце більше', 'не обмеження.'],
-      sub: 'Навушники й три канали музики знімають потребу в спеціальній акустиці чи дозволі на гучний звук. Будь-який простір перетворюється на повноцінну вечірку.'
+      mLines: [
+        ['Дах, квартира,', ''],
+        ['{офіс} — місце', ''],
+        ['більше не', 'sr'],
+        ['обмеження.', '']
+      ],
+      mSub: 'Вечірка їде туди, куди скажете.',
+      sub: 'Навушники й три канали музики знімають потребу в спеціальній акустиці та дозволі на гучний звук. Будь-який простір стає повноцінним танцполом.'
     },
     {
       eyebrow: 'Вечірка без меж гучності',
       lines: ['Танцюйте так,', 'ніби вас {ніхто}', 'не чує.'],
-      sub: 'Бо ніхто й не чує. Повна свобода без обмежень на гучність, час чи місце — танцюйте де завгодно і як завгодно довго.'
+      mLines: [
+        ['Танцюйте', ''],
+        ['так, ніби вас', 'sr'],
+        ['{ніхто}', ''],
+        ['не чує.', '']
+      ],
+      mSub: 'Бо ніхто й не чує — ні сусіди, ні орендодавець.',
+      sub: 'Бо ніхто й не чує. Жодних обмежень на гучність, час чи сусідів за стіною — танцюйте де завгодно і рівно стільки, скільки захочете.'
     }
   ];
   const heroEyebrow = document.getElementById('heroEyebrow');
@@ -3128,27 +3422,49 @@
     return text.replace(/\{([^}]+)\}/g, '<span class="accent-lime">$1</span>');
   }
 
+  const heroNarrow = window.matchMedia('(max-width: 760px)');
+  // На телефоні підзаголовок — одне коротке речення: довгий текст у вузькій
+  // колонці поруч із фігурою розвалював композицію.
+  function heroSubText(data){
+    return (heroNarrow.matches && data.mSub) ? data.mSub : data.sub;
+  }
+  // Пари [текст, клас] для поточної ширини: на телефоні — мобільний набір,
+  // інакше десктопні рядки без зсувів.
+  function heroLineSet(data){
+    return (heroNarrow.matches && data.mLines)
+      ? data.mLines
+      : data.lines.map(t => [t, '']);
+  }
+  // Кількість рядків між наборами різна, тож спани щоразу будуються наново, а не
+  // переписуються на місці.
+  function paintHeadline(data){
+    heroLines.innerHTML = heroLineSet(data).map(([text, cls]) =>
+      '<span' + (cls ? ' class="' + cls + '"' : '') + '>' + renderLine(text) + '</span>'
+    ).join('');
+    return [...heroLines.querySelectorAll(':scope > span')];
+  }
+
+  let heroIndex = 0;
+
   // Reserve the headline and sub heights for the tallest of the three slides at
-  // the current width. Both wrap to a different number of lines per slide (and on
-  // phones the headline wraps too), so without this the hero shifts on each switch. Measured
+  // the current width, so the hero doesn't shift on each switch. Measured
   // synchronously (no paint between swaps) and re-run on resize / after fonts load.
   function reserveHeroSubHeight(){
     if (!heroSub || !heroLines) return;
-    const spans = [...heroLines.querySelectorAll(':scope > span')];
-    const activeSub = heroSub.textContent;
-    const activeLines = spans.map(s => s.innerHTML);
-
     heroSub.style.minHeight = '0px';
     heroLines.style.minHeight = '0px';
     let maxSub = 0, maxLines = 0;
     for (const c of heroContent){
-      heroSub.textContent = c.sub;
+      heroSub.textContent = heroSubText(c);
       if (heroSub.offsetHeight > maxSub) maxSub = heroSub.offsetHeight;
-      c.lines.forEach((ln, i) => { if (spans[i]) spans[i].innerHTML = renderLine(ln); });
+      paintHeadline(c);
       if (heroLines.offsetHeight > maxLines) maxLines = heroLines.offsetHeight;
     }
-    heroSub.textContent = activeSub;
-    spans.forEach((sp, i) => { sp.innerHTML = activeLines[i]; });
+    // Відновлюємо з даних, а не з того, що було в DOM: при першому виклику там
+    // лежить довгий серверний текст, і на телефоні він так і лишався б замість
+    // короткого варіанта.
+    heroSub.textContent = heroSubText(heroContent[heroIndex]);
+    paintHeadline(heroContent[heroIndex]);
     heroSub.style.minHeight = maxSub + 'px';
     heroLines.style.minHeight = maxLines + 'px';
   }
@@ -3159,40 +3475,48 @@
     clearTimeout(heroSubResizeTimer);
     heroSubResizeTimer = setTimeout(reserveHeroSubHeight, 150);
   });
+  // Перехід через 760px міняє сам набір рядків, а не лише їхню ширину.
+  const onHeroBreakpoint = () => reserveHeroSubHeight();
+  if (heroNarrow.addEventListener) heroNarrow.addEventListener('change', onHeroBreakpoint);
+  else heroNarrow.addListener(onHeroBreakpoint);
+
   let heroInited = false;
   let heroSwapTimer = null;
   function updateHeroText(i){
     const data = heroContent[i];
     if (!data || !heroEyebrow || !heroLines || !heroSub) return;
+    heroIndex = i;
     // On the very first call, content already matches slide 0 (server-rendered)
     // and the initial CSS rise animation is playing — don't replay it.
     if (!heroInited){ heroInited = true; return; }
 
-    const spans = [...heroLines.querySelectorAll(':scope > span')];
-    const anim = [heroEyebrow, heroSub, ...spans];
+    const oldSpans = [...heroLines.querySelectorAll(':scope > span')];
+    const out = [heroEyebrow, heroSub, ...oldSpans];
+    // paintHeadline будує спани наново (у слайдів різна кількість рядків), тож
+    // новий набір повертається звідси й анімується вже він, а не старий.
     const applyNew = () => {
       heroEyebrow.textContent = data.eyebrow;
-      heroSub.textContent = data.sub;
-      data.lines.forEach((ln, idx) => { if (spans[idx]) spans[idx].innerHTML = renderLine(ln); });
+      heroSub.textContent = heroSubText(data);
+      return [heroEyebrow, heroSub, ...paintHeadline(data)];
     };
 
     // Reduced-motion / no-anim: swap instantly, no transition.
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-      anim.forEach(el => el.classList.remove('swap-out', 'swap-in'));
-      applyNew();
+      out.forEach(el => el.classList.remove('swap-out', 'swap-in'));
+      applyNew().forEach(el => el.classList.remove('swap-out', 'swap-in'));
       return;
     }
 
     // Phase 1: ease the current copy up and out.
-    anim.forEach(el => { el.classList.remove('swap-in'); el.classList.add('swap-out'); });
+    out.forEach(el => { el.classList.remove('swap-in'); el.classList.add('swap-out'); });
 
     // Phase 2 (after the fade-out): swap the text, then rise the new copy in.
     clearTimeout(heroSwapTimer);
     heroSwapTimer = setTimeout(() => {
-      applyNew();
-      anim.forEach(el => el.classList.remove('swap-out'));
+      const fresh = applyNew();
+      fresh.forEach(el => el.classList.remove('swap-out'));
       void heroLines.offsetWidth; // reflow so swap-in restarts cleanly
-      anim.forEach(el => el.classList.add('swap-in'));
+      fresh.forEach(el => el.classList.add('swap-in'));
     }, 300);
   }
 
@@ -3217,7 +3541,9 @@
         b.style.setProperty('--active-glow', c.glow);
       }
     });
-    photos.forEach((p, idx) => { if (p) p.classList.toggle('active', idx === 0); });
+    // Активний лишається один — інакше три знімки світилися б один крізь одного.
+    heroPhotos.forEach((p, idx) => p.classList.toggle('active', idx === i));
+    if (heroDancerEl) heroDancerEl.classList.add('active');
     updateHeroText(i);
     litStrip(c.color, i);
     playChannel(i);
