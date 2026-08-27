@@ -937,7 +937,8 @@
     mask-composite: intersect;
     transition: background 0.35s ease;
   }
-  .flow-step:hover .flow-card::before {
+  .flow-step:hover .flow-card::before,
+  .flow-step.is-lit .flow-card::before {
     background:
       linear-gradient(180deg, rgba(198,255,0,0.10), rgba(255,255,255,0.02) 60%, transparent),
       var(--glass-fill-1);
@@ -955,7 +956,8 @@
     box-shadow: 0 0 30px -10px rgba(198,255,0,0.55), inset 0 0 18px -10px rgba(198,255,0,0.5);
     transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
   }
-  .flow-step:hover .flow-node {
+  .flow-step:hover .flow-node,
+  .flow-step.is-lit .flow-node {
     transform: translateY(-2px);
     border-color: rgba(198,255,0,0.65);
     box-shadow: 0 0 40px -8px rgba(198,255,0,0.7), inset 0 0 18px -8px rgba(198,255,0,0.6);
@@ -1854,9 +1856,14 @@
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     box-shadow: var(--glass-shadow-1), inset 0 1px 0 rgba(255,255,255,0.07);
-    transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    /* Довше за звичайне наведення: підсвітка тут переповзає між картками під
+       час прокрутки, і на 0.3s передача читалась би як клацання. */
+    transition: border-color 0.5s ease, transform 0.5s ease, box-shadow 0.5s ease;
   }
-  .benefit-card:hover { border-color: var(--ch); transform: translateY(-4px); box-shadow: var(--glass-shadow-2), 0 0 40px -22px var(--ch-glow), inset 0 1px 0 rgba(255,255,255,0.1); }
+  /* Те саме, що й при наведенні: обводка спалахує, коли картка проходить
+     середину екрана, і гасне, щойно її змінює наступна. */
+  .benefit-card:hover,
+  .benefit-card.is-lit { border-color: var(--ch); transform: translateY(-4px); box-shadow: var(--glass-shadow-2), 0 0 40px -22px var(--ch-glow), inset 0 1px 0 rgba(255,255,255,0.1); }
   /* Over the photo backdrop: light, neutral frost so the crowd image reads
      clearly through the glass. Lower floor opacity + moderate blur. */
   .benefits .benefit-card {
@@ -4277,30 +4284,50 @@
   })();
 
   // ---- Плашки «Що входить»: підсвітка за прокруткою ----
-  // Активною стає плашка, найближча до середини екрана, і при прокрутці підсвітка
-  // переходить далі. Курсор має пріоритет: щойно миша заходить у поле блока,
-  // прокруткова підсвітка гасне й лишається тільки :hover — інакше світилися б
-  // дві плашки одночасно. Коли миша йде за межі блока, підсвітка вертається.
-  (function(){
-    const box = document.querySelector('.slabs');
-    if (!box) return;
-    const slabs = [...box.querySelectorAll('.slab')];
-    if (!slabs.length) return;
+  // Підсвітка, що йде за прокруткою: активним стає той елемент групи, який
+  // найближчий до середини екрана; проходить — гасне, засвічується наступний.
+  // Курсор має пріоритет: доки миша в блоці, світиться лише те, на чому вона
+  // стоїть, інакше світилися б два елементи одночасно.
+  function litOnScroll(box, sel, opts){
+    if (!box) return null;
+    const items = [...box.querySelectorAll(sel)];
+    if (!items.length) return null;
+    const o = opts || {};
+    let ticking = false, lit = null, hovering = false, manual = false;
 
-    let ticking = false, lit = null, hovering = false;
     const clear = () => { if (lit){ lit.classList.remove('is-lit'); lit = null; } };
+
+    // Дві моделі, бо геометрія різна.
+    // 'nearest' — для вертикальної стопки: світиться те, що найближче до
+    // середини екрана; елементи проходять її по черзі самі.
+    // 'progress' — для ряду або сітки: там усі елементи перетинають середину
+    // ОДНОЧАСНО, і «найближчий» світив би завжди один і той самий. Тому чергу
+    // задає прогрес самого блока крізь екран.
+    function nearest(){
+      const mid = innerHeight * 0.45;
+      let best = null, bestD = Infinity;
+      for (const el of items){
+        const r = el.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > innerHeight) continue;
+        const d = Math.abs(r.top + r.height / 2 - mid);
+        if (d < bestD){ bestD = d; best = el; }
+      }
+      return best;
+    }
+    function byProgress(){
+      const r = box.getBoundingClientRect();
+      const from = innerHeight * 0.88;              // блок щойно виходить знизу
+      const to = innerHeight * 0.28 - r.height;     // блок майже пішов угору
+      if (from === to) return null;
+      const p = (from - r.top) / (from - to);
+      if (p < 0 || p > 1) return null;
+      return items[Math.min(items.length - 1, Math.floor(p * items.length))];
+    }
 
     function pick(){
       ticking = false;
       if (hovering || manual) return;
-      const mid = innerHeight * 0.45;
-      let best = null, bestD = Infinity;
-      for (const s of slabs){
-        const r = s.getBoundingClientRect();
-        if (r.bottom < 0 || r.top > innerHeight) continue;
-        const d = Math.abs(r.top + r.height / 2 - mid);
-        if (d < bestD){ bestD = d; best = s; }
-      }
+      const best = o.mode === 'progress' ? byProgress() : nearest();
       if (best === lit) return;
       if (lit) lit.classList.remove('is-lit');
       if (best) best.classList.add('is-lit');
@@ -4309,25 +4336,6 @@
     const onScroll = () => { if (!ticking){ ticking = true; requestAnimationFrame(pick); } };
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
-
-    // Дотик: тап по плашці фіксує саме її, а автоматична підсвітка гасне.
-    // Повертається, коли торкнутись повз стопку.
-    let manual = false;
-    box.addEventListener('click', (e) => {
-      if (!window.matchMedia('(hover: none)').matches) return;
-      const s = e.target.closest('.slab');
-      if (!s) return;
-      manual = true;
-      if (lit && lit !== s) lit.classList.remove('is-lit');
-      s.classList.add('is-lit');
-      lit = s;
-    });
-    document.addEventListener('click', (e) => {
-      if (!manual || box.contains(e.target)) return;
-      manual = false;
-      clear();
-      pick();
-    });
 
     // тільки миша: дотик не має вимикати прокруткову підсвітку
     box.addEventListener('pointerenter', (e) => {
@@ -4339,8 +4347,34 @@
       hovering = false; pick();
     });
 
+    // Дотик: тап фіксує саме цей елемент, автоматична підсвітка гасне. Потрібно
+    // лише там, де з елемента щось розкривається (стопка плашок) — решті груп
+    // фіксація ні до чого, там підсвітка суто декоративна.
+    if (o.pinOnTap){
+      box.addEventListener('click', (e) => {
+        if (!window.matchMedia('(hover: none)').matches) return;
+        const el = e.target.closest(sel);
+        if (!el) return;
+        manual = true;
+        if (lit && lit !== el) lit.classList.remove('is-lit');
+        el.classList.add('is-lit');
+        lit = el;
+      });
+      document.addEventListener('click', (e) => {
+        if (!manual || box.contains(e.target)) return;
+        manual = false;
+        clear();
+        pick();
+      });
+    }
+
     pick();
-  })();
+    return { pick, clear };
+  }
+
+  litOnScroll(document.querySelector('.slabs'), '.slab', { pinOnTap: true });
+  litOnScroll(document.querySelector('.flow'), '.flow-step', { mode: 'progress' });
+  litOnScroll(document.querySelector('.benefits-grid'), '.benefit-card', { mode: 'progress' });
 
   // ---- Стрічка відгуків: стрілки й активна картка ----
   (function(){
