@@ -952,35 +952,123 @@
   .photo-credit a { color: var(--muted); text-decoration: underline; text-underline-offset: 2px; }
 
   /* ---------- FAQ ---------- */
-  .faq { padding: var(--sec-pad) 0; }
-  .faq-list { margin-top: 40px; width: 100%; }
+  /* Не список із роздільниками, а стопка окремих карток матового скла. Відкрита
+     піднімається з ряду лаймовою рамкою й світлом ізсередини — видно з одного
+     погляду, де ти зараз. */
+  .faq {
+    padding: var(--sec-pad) 0;
+    --faq-pad: 24px;      /* бічний падінг картки */
+    --faq-num: 24px;      /* колонка з номером — фіксована, щоб текст усіх */
+    --faq-gap: 18px;      /* питань починався з однієї вертикалі */
+  }
+  .faq-list {
+    margin-top: 44px; width: 100%;
+    display: flex; flex-direction: column; gap: 12px;
+    counter-reset: faq;
+  }
   .faq-item {
-    border-bottom: 1px solid var(--line);
-    width: 100%;
+    counter-increment: faq;
+    position: relative; width: 100%;
+    border: 1px solid var(--line); border-top-color: var(--glass-edge);
+    /* 28px — найбільший радіус, що вже є в системі (ним скруглена панель
+       «Як це працює»), тож картки стають помітно круглішими, не вводячи нового
+       значення. На закритій картці 68px висоти це майже пігулка. */
+    border-radius: 28px;
+    background: var(--glass-fill-1);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    box-shadow: var(--glass-shadow-1), inset 0 1px 0 rgba(255,255,255,0.06);
+    transition: border-color 0.45s cubic-bezier(.22,1,.36,1),
+                background 0.45s cubic-bezier(.22,1,.36,1),
+                box-shadow 0.45s cubic-bezier(.22,1,.36,1);
   }
+  /* Світло приходить із лівого краю — звідти, де стоїть номер. Окремим шаром,
+     а не тлом самої картки: тло вже зайняте станом «відкрито», і два градієнти
+     в одній властивості не змогли б перетікати один в одного. */
+  .faq-item::before {
+    content: ''; position: absolute; inset: 0; z-index: 0;
+    border-radius: inherit; pointer-events: none;
+    background: linear-gradient(90deg,
+      rgba(198,255,0,0.18), rgba(198,255,0,0.05) 24%, transparent 52%);
+    opacity: 0; transition: opacity 0.45s cubic-bezier(.22,1,.36,1);
+  }
+  .faq-item:hover::before { opacity: 1; }
+  .faq-item.open::before { opacity: 0; }   /* відкрита має власне світло */
+  .faq-item:hover { border-color: rgba(198,255,0,0.32); }
+  .faq-item:hover .faq-q::before { color: var(--lime); }
+  .faq-q, .faq-a { position: relative; z-index: 1; }
+  .faq-item.open {
+    border-color: rgba(198,255,0,0.5);
+    background:
+      radial-gradient(130% 180% at 0% 0%, rgba(198,255,0,0.16), rgba(198,255,0,0.04) 46%, transparent 72%),
+      var(--glass-fill-dark);
+    box-shadow: var(--glass-shadow-2), 0 0 64px -26px rgba(198,255,0,0.5),
+                inset 0 1px 0 rgba(255,255,255,0.09);
+  }
+
   .faq-q {
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 20px; padding: 22px 4px;
-    cursor: pointer; user-select: none;
-    width: 100%;
+    display: grid; grid-template-columns: var(--faq-num) 1fr auto;
+    /* Від верху, а не по центру: довге питання переносить рядки, і при
+       центруванні номер зависав би десь посеред нього. */
+    align-items: start; gap: var(--faq-gap);
+    padding: 22px var(--faq-pad);
+    cursor: pointer; user-select: none; width: 100%;
   }
-  .faq-q h3 { font-size: 15.5px; font-weight: 600; line-height: 1.4; flex: 1; }
+  /* Номер малює лічильник, а не розмітка: питання можна додати чи прибрати,
+     і нумерація не поїде. */
+  .faq-q::before {
+    content: counter(faq, decimal-leading-zero);
+    font-family: 'Unbounded', sans-serif; font-size: 12px; font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--muted-2);
+    margin-top: 5px;                    /* сідає на перший рядок питання */
+    transition: color 0.45s ease;
+  }
+  .faq-item.open .faq-q::before { color: var(--lime); }
+  .faq-q h3 { font-size: 16px; font-weight: 600; line-height: 1.4; }
+
   .faq-icon {
-    flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%;
-    border: 1px solid var(--line);
+    align-self: center;                 /* кнопка по центру картки, а не вгорі */
+    flex-shrink: 0; width: 48px; height: 48px; border-radius: 50%;
+    border: 1px solid rgba(198,255,0,0.22);
+    background: rgba(198,255,0,0.07);
     display: flex; align-items: center; justify-content: center;
-    font-family: 'Unbounded'; font-size: 14px; font-weight: 400;
-    color: var(--ch); transition: transform 0.35s ease, color 0.6s ease, border-color 0.3s ease;
+    font-family: 'Unbounded', sans-serif; font-size: 22px; font-weight: 300; line-height: 1;
+    color: var(--lime);
+    transition: transform 0.45s cubic-bezier(.22,1,.36,1), background 0.4s ease,
+                color 0.4s ease, border-color 0.4s ease;
   }
-  .faq-item.open .faq-icon { transform: rotate(45deg); border-color: var(--ch); }
+  .faq-item:hover .faq-icon {
+    border-color: rgba(198,255,0,0.55);
+    background: rgba(198,255,0,0.13);
+    box-shadow: 0 0 26px -8px rgba(198,255,0,0.6);
+  }
+  /* 135° перетворює плюс на хрестик — той самий знак, інший стан */
+  .faq-item.open .faq-icon {
+    transform: rotate(135deg);
+    background: var(--lime); border-color: var(--lime); color: #12100a;
+  }
+
   .faq-a {
-    max-height: 0; overflow: hidden;
-    transition: max-height 0.4s ease, opacity 0.3s ease;
-    opacity: 0;
+    max-height: 0; overflow: hidden; opacity: 0;
+    transition: max-height 0.45s cubic-bezier(.22,1,.36,1), opacity 0.35s ease;
   }
   .faq-item.open .faq-a { opacity: 1; }
-  .faq-a p { font-size: 13.5px; color: var(--muted); padding: 0 4px 22px; max-width: 72ch; }
-  .faq-a p strong { color: rgba(255,255,255,0.88); }
+  .faq-a p {
+    font-size: 14px; line-height: 1.65; color: var(--muted); max-width: 72ch;
+    padding: 0 var(--faq-pad) 24px calc(var(--faq-pad) + var(--faq-num) + var(--faq-gap));
+  }
+  .faq-a p strong { color: rgba(255,255,255,0.9); }
+
+  @media (max-width: 640px){
+    .faq { --faq-pad: 18px; --faq-gap: 14px; }
+    .faq-item { border-radius: 24px; }
+    .faq-list { gap: 10px; }
+    .faq-q { padding: 18px var(--faq-pad); }
+    .faq-q h3 { font-size: 14.5px; }
+    .faq-icon { width: 42px; height: 42px; font-size: 20px; }
+    .faq-a p { font-size: 13.5px; padding-bottom: 20px; }
+  }
 
   /* ---------- CALCULATOR ---------- */
   .calculator { padding: var(--sec-pad) 0; }
@@ -1843,8 +1931,8 @@
      читаються майже як чиста прозорість. */
   @media (max-width: 720px){
     .tst-card {
-      backdrop-filter: blur(16px) saturate(1.25);
-      -webkit-backdrop-filter: blur(16px) saturate(1.25);
+      backdrop-filter: blur(28px) saturate(1.3);
+      -webkit-backdrop-filter: blur(28px) saturate(1.3);
     }
   }
   .tst-card .tst-author { margin-top: auto; }
