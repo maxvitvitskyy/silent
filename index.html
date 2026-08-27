@@ -172,7 +172,12 @@
        верх коробки, обривався різкою межею і "висів у повітрі" над плашкою, а
        маска танула вже в порожнечі під ним. Тепер низ фігури завжди всередині
        плашки, а маска завжди лягає на саму фігуру. */
-    right: 12%;
+    /* Прив'язка до краю КОНТЕЙНЕРА, а не до відсотка вікна. Відсоток росте разом
+       з екраном, а контейнер зупиняється на 1200px — тому на широких моніторах
+       фігура їхала все далі вправо й опинялась поза плашкою каналів. max()
+       тримає її всередині: до 1200px працює відсоток, далі — відступ від краю
+       контейнера. */
+    right: max(12%, calc((100% - 1200px) / 2 + 52px));
     top: auto;
     bottom: 118px;
     /* Розмір диктує ВИСОТА: кадр тепер портретний (1385×2090), і прив'язка до
@@ -1764,7 +1769,9 @@
     /* the contact column itself has to span both tracks, then the five icons
        divide that full width between them */
     .footer-cols > .f-col:last-child { grid-column: 1 / -1; }
-    .f-socials { display: flex; justify-content: center; gap: 22px; margin-top: 22px; }
+    /* На всю ширину підвалу: п'ять рівних колонок, іконка по центру кожної. */
+    .f-socials { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; margin-top: 22px; }
+    .f-soc { justify-self: center; }
     .f-soc { width: auto; height: auto; }
     .footer-inner { margin-top: 18px; padding-top: 22px; }
     .footer-legal { flex-direction: column; gap: 4px; margin-top: 20px; padding-top: 13px; }
