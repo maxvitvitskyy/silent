@@ -3114,10 +3114,12 @@
   // Файли при цьому вже лежать у HTTP-кеші — їх прогріває fetch, який нічого не
   // декодує й не займає пам'яті під бітмапи.
 
-  function warmStripCache(section, done){
+  function warmStripCache(section, list, done){
     if (!section) return;
     const run = () => {
-      const urls = [...new Set([...section.querySelectorAll('img')]
+      // Список можна передати явно: у віртуалізованій стрічці більшості картинок
+      // у DOM просто немає, тож зібрати їх звідти не вийде.
+      const urls = list || [...new Set([...section.querySelectorAll('img')]
         .map(i => i.dataset.src || i.getAttribute('src'))
         .filter(u => u && u.slice(0, 5) !== 'data:'))];
       if (!urls.length) { done && done(); return; }
@@ -3287,66 +3289,147 @@
     start();
     win.measure(); win.sync();
     grid.addEventListener('scroll', win.sync, { passive: true });
-    warmStripCache(document.getElementById('atmosphere'), () => { safeStart(); win.sync(); });
+    warmStripCache(document.getElementById('atmosphere'), null, () => { safeStart(); win.sync(); });
     window.addEventListener('load', () => { safeStart(); win.measure(); win.sync(); });
   })();
 
-  // ---- Scenario gallery: endless strip + "order this experience" ----
+  // ---- Сценарії: віртуалізована нескінченна стрічка ----
+  //
+  // Нескінченність раніше давалось дублюванням: 26 сценаріїв × 5 копій = 130
+  // карток у DOM. У кожної картки два шари backdrop-filter — сама картка й хвіст
+  // розмиття під фото, — тобто 260 окремих поверхонь, які компонувальник мусить
+  // знімати й розмивати щокадру. Мобільний Safari цього не витримує і вбиває
+  // вкладку («сталася повторна проблема»), причому ще до того, як діло доходить
+  // до ваги зображень.
+  //
+  // Тепер у DOM живе рівно стільки карток, скільки вміщається на екрані плюс
+  // невеликий запас. Картки переставні: під час прокрутки їм міняють позицію й
+  // вміст. Нескінченність дає не дублювання, а арифметика — номер слота за
+  // модулем кількості сценаріїв. Прокрутка лишається рідною, з інерцією
+  // платформи: ширину стрічці задає одна порожня розпірка.
   (function(){
     const view = document.getElementById('ucGrid');
     if (!view) return;
-    const rows = [...view.querySelectorAll('.uc-row')];
+    const rowEls = [...view.querySelectorAll('.uc-row')];
+    if (!rowEls.length) return;
     const prev = document.querySelector('.uc-prev');
     const next = document.querySelector('.uc-next');
 
-    // Clone each row twice so there is always a full set of cards to scroll into
-    // on either side; scrollLeft is then kept inside the middle copy, which makes
-    // the strip feel endless in both directions.
-    const counts = rows.map(r => r.children.length);
-    rows.forEach(row => {
-      const originals = [...row.children];
-      for (let i = 0; i < STRIP_COPIES - 1; i++) originals.forEach(c => row.appendChild(c.cloneNode(true)));
-    });
+    const PERIODS = 21;                 // скільки повних наборів має розпірка
+    const MID = Math.floor(PERIODS / 2);
 
-    const setWidth = () => {
-      const row = rows[0];
-      if (!row || !row.children.length) return 0;
-      const card = row.children[0].getBoundingClientRect().width;
-      const gap = parseFloat(getComputedStyle(row).columnGap) || 14;
-      return (card + gap) * counts[0];
-    };
+    // Вміст знімаємо з розмітки: вона лишається джерелом правди й показує всі
+    // сценарії навіть якщо скрипт не виконався.
+    const rows = rowEls.map((el, ri) => ({
+      el, ri,
+      items: [...el.querySelectorAll('.uc-card')].map(c => {
+        const img = c.querySelector('img');
+        return {
+          html: c.innerHTML,
+          name: c.dataset.uc || '',
+          accent: c.style.getPropertyValue('--uc-accent'),
+          src: img ? img.getAttribute('src') : null
+        };
+      }),
+      offset: ri === 1 ? 0.5 : 0,       // нижній ряд зсунутий на пів картки
+      pool: [], slot: []
+    })).filter(r => r.items.length);
+    if (!rows.length) return;
+
+    const urls = [...new Set(rows.flatMap(r => r.items.map(i => i.src)).filter(Boolean))];
+    let step = 0, period = 0, poolSize = 0;
+
+    function metrics(){
+      const cs = getComputedStyle(view.closest('.uc-gallery') || view);
+      return [parseFloat(cs.getPropertyValue('--uc-col')) || 272,
+              parseFloat(cs.getPropertyValue('--uc-gap')) || 14];
+    }
+
+    // У потоці картки вирівнював flex-stretch по найвищій. В абсолютній розкладці
+    // висоту треба знати наперед, тож міряємо найвищий варіант тексту один раз.
+    function tallest(r, col){
+      const probe = document.createElement('article');
+      probe.className = 'uc-card';
+      probe.style.cssText = 'position:absolute;visibility:hidden;pointer-events:none;left:0;top:0;width:' + col + 'px';
+      r.el.appendChild(probe);
+      let h = 0;
+      r.items.forEach(it => { probe.innerHTML = it.html; h = Math.max(h, probe.offsetHeight); });
+      probe.remove();
+      return h;
+    }
+
+    function build(){
+      const [col, gap] = metrics();
+      step = col + gap;
+      period = rows[0].items.length * step;
+      poolSize = Math.ceil(view.clientWidth / step) + 6;
+      rows.forEach(r => {
+        r.el.textContent = '';
+        r.el.style.position = 'relative';
+        r.el.style.paddingLeft = '0';
+        const h = tallest(r, col);
+        r.el.style.height = h + 'px';
+
+        const track = document.createElement('div');
+        track.style.cssText = 'height:1px;pointer-events:none;width:' + (r.items.length * PERIODS * step) + 'px';
+        r.el.appendChild(track);
+
+        r.pool = []; r.slot = [];
+        for (let i = 0; i < poolSize; i++){
+          const c = document.createElement('article');
+          c.className = 'uc-card';
+          c.style.cssText = 'position:absolute;top:0;left:0;width:' + col + 'px;height:' + h + 'px';
+          r.el.appendChild(c);
+          r.pool.push(c); r.slot.push(NaN);
+        }
+      });
+    }
+
+    function fill(){
+      const from = Math.floor(view.scrollLeft / step) - 3;
+      for (const r of rows){
+        const n = r.items.length;
+        for (let s = from; s < from + poolSize; s++){
+          // слот завжди лягає в ту саму картку пулу, тож при зсуві на крок
+          // перемальовується одна картка, а не весь ряд
+          const i = ((s % poolSize) + poolSize) % poolSize;
+          if (r.slot[i] === s) continue;
+          r.slot[i] = s;
+          const it = r.items[((s % n) + n) % n];
+          const c = r.pool[i];
+          if (c.dataset.uc !== it.name){
+            c.innerHTML = it.html;
+            c.dataset.uc = it.name;
+            if (it.accent) c.style.setProperty('--uc-accent', it.accent);
+            const img = c.querySelector('img');
+            if (img) img.loading = 'eager';   // картка вже поруч із кадром
+          }
+          c.style.transform = 'translateX(' + ((s + r.offset) * step) + 'px)';
+        }
+      }
+    }
+
+    let queued = false;
+    const sync = () => { if (!queued){ queued = true; requestAnimationFrame(() => { queued = false; fill(); }); } };
 
     let held = 0;
-    const normalise = idleNormaliser(view, setWidth, () => STRIP_COPIES, () => held);
-    function start(){
-      const w = setWidth();
-      if (w) view.scrollLeft = w * Math.floor(STRIP_COPIES / 2);
-    }
+    const normalise = idleNormaliser(view, () => period, () => PERIODS, () => held);
+    const start = () => { if (period) { view.scrollLeft = MID * period; fill(); } };
 
     view.addEventListener('pointerdown', () => { held = 1; }, { passive: true });
     ['pointerup','pointercancel','touchend','touchcancel'].forEach(ev =>
       window.addEventListener(ev, () => { held = 0; }, { passive: true }));
-    view.addEventListener('scroll', normalise, { passive: true });
-    window.addEventListener('resize', start, { passive: true });
+    view.addEventListener('scroll', () => { normalise(); sync(); }, { passive: true });
 
     let touched = false;
     ['pointerdown','touchstart','wheel','keydown'].forEach(ev =>
       view.addEventListener(ev, () => { touched = true; }, { passive: true }));
-    const win = makeImageWindow(view);
-    win.measure(); win.sync();
-    view.addEventListener('scroll', win.sync, { passive: true });
-    warmStripCache(document.getElementById('cases'), () => { if (!touched) start(); win.sync(); });
 
-    function nudge(dir){
-      const row = rows[0];
-      const card = row.children[0].getBoundingClientRect().width;
-      const gap = parseFloat(getComputedStyle(row).columnGap) || 14;
-      view.scrollBy({ left: dir * (card + gap) * 2, behavior: 'smooth' });
-    }
+    function nudge(dir){ view.scrollBy({ left: dir * step * 2, behavior: 'smooth' }); }
     if (prev) prev.addEventListener('click', () => nudge(-1));
     if (next) next.addEventListener('click', () => nudge(1));
 
-    // cards are cloned, so the order buttons are handled by delegation
+    // картки переставні, тож кнопки замовлення ловимо делегуванням
     view.addEventListener('click', (e) => {
       const btn = e.target.closest('.uc-order');
       if (!btn) return;
@@ -3368,22 +3451,20 @@
       setTimeout(() => { if (field) field.focus({ preventScroll: true }); }, 600);
     });
 
-    // ---- Parallax between the two rows ----
-    // As the section travels through the viewport the rows drift in opposite
-    // directions, so the strip feels layered rather than flat. Purely visual:
-    // transforms don't touch scrollLeft, so the looping maths is unaffected.
+    // ---- Паралакс між рядами ----
+    // Ряди пливуть у різні боки, поки секція йде через екран. Суто візуально:
+    // трансформи не чіпають scrollLeft, тож на арифметику слотів не впливають.
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!reduce){
+    if (!reduce && rows.length > 1){
       const DRIFT = 46;
       let ticking = false;
       function drift(){
         const r = view.getBoundingClientRect();
         if (r.bottom < 0 || r.top > innerHeight){ ticking = false; return; }
-        // -1 when the strip is entering from below, +1 as it leaves upward
         const p = 1 - (r.top + r.height / 2) / (innerHeight / 2 + r.height / 2);
         const clamped = Math.max(-1, Math.min(1, p));
-        rows[0].style.transform = `translate3d(${(-clamped * DRIFT).toFixed(1)}px,0,0)`;
-        rows[1].style.transform = `translate3d(${(clamped * DRIFT).toFixed(1)}px,0,0)`;
+        rows[0].el.style.transform = `translate3d(${(-clamped * DRIFT).toFixed(1)}px,0,0)`;
+        rows[1].el.style.transform = `translate3d(${(clamped * DRIFT).toFixed(1)}px,0,0)`;
         ticking = false;
       }
       const onScroll = () => { if (!ticking){ ticking = true; requestAnimationFrame(drift); } };
@@ -3392,12 +3473,15 @@
       drift();
     }
 
-    // той самий запобіжник: пізній start() не має смикати стрічку під пальцем
-    const safeStart = () => { if (!touched) start(); };
-    if (document.readyState !== 'complete')
-      window.addEventListener('load', () => { safeStart(); win.measure(); win.sync(); }, { once: true });
+    let rt = 0;
+    window.addEventListener('resize', () => {
+      clearTimeout(rt);
+      rt = setTimeout(() => { build(); start(); }, 200);
+    }, { passive: true });
+
+    build();
     start();
-    win.measure(); win.sync();
+    warmStripCache(document.getElementById('cases'), urls, () => { if (!touched) start(); });
   })();
 
   // ---- respect reduced motion ----
