@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SILENT — тиша, світло і три хвилі музики · Київ</title>
+<meta name="description" content="Silent disco під ключ у Києві та по Україні: LED-навушники, три канали музики одночасно й повна тиша ззовні. Обладнання, доставка, монтаж і супровід — в одній послузі.">
+<meta name="theme-color" content="#05070d">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SILENT">
+<meta property="og:locale" content="uk_UA">
+<meta property="og:title" content="SILENT — тиша, світло і три хвилі музики · Київ">
+<meta property="og:description" content="Три канали в навушниках кожного гостя, повна тиша ззовні. Silent disco під ключ у Києві та по Україні.">
+<meta property="og:image" content="images/shift-new.webp">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet">
@@ -179,7 +188,7 @@
        контейнера. */
     right: max(9.5%, calc((100% - 1200px) / 2 + 34px));
     top: auto;
-    bottom: 118px;
+    bottom: 154px;
     /* Розмір диктує ВИСОТА: кадр тепер портретний (1385×2090), і прив'язка до
        ширини робила фігуру півтора раза вищою за секцію — голова йшла за верхній
        край. aspect-ratio лишає коробку рівною кадру, тож маска завжди лягає на
@@ -506,9 +515,13 @@
     opacity: 0; animation: rise 0.8s 0.9s forwards;
   }
   .ch-strip-glow-blob {
+    /* Базова коробка фіксована, а рух і розмір задає transform: раніше тут
+       анімувались left/width/top/bottom/height — усе це властивості розкладки,
+       тож браузер перераховував layout на кожному кадрі переходу, а сам блоб
+       фіксувався як джерело зсуву верстки. */
     position: absolute; z-index: 0;
-    bottom: -40%; left: 0;
-    width: 300px; height: 200%;
+    top: 0; left: 0;
+    width: 300px; height: 100%;
     border-radius: 50%;
     background: radial-gradient(ellipse at center,
       color-mix(in srgb, var(--glow-color, var(--red)) 55%, transparent) 0%,
@@ -517,9 +530,9 @@
     filter: blur(18px);
     opacity: 0;
     pointer-events: none;
-    transition: left 0.55s cubic-bezier(.4,0,.2,1), width 0.55s cubic-bezier(.4,0,.2,1),
-                top 0.55s cubic-bezier(.4,0,.2,1), bottom 0.55s cubic-bezier(.4,0,.2,1),
-                height 0.55s cubic-bezier(.4,0,.2,1),
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+    transition: transform 0.55s cubic-bezier(.4,0,.2,1),
                 background 0.5s ease, opacity 0.35s ease;
   }
   .ch-strip-glow-blob.on { opacity: 1; }
@@ -2389,8 +2402,8 @@
 <nav>
   <div class="logo">SILENT<b>.</b></div>
   <div class="nav-links">
-    <a href="#how">Як це працює</a>
-    <a href="#offer">Що входить</a>
+    <a href="#how">Як це працює</a>
+    <a href="#offer">Що входить</a>
     <a href="#cases">Сценарії</a>
     <a href="#price">Ціна</a>
     <a href="#book" class="nav-cta">Перевірити дату</a>
@@ -2421,11 +2434,11 @@
 
   <div class="wrap hero-bottom">
     <p class="hero-sub" id="heroSub">
-      Кожен гість чує музику у власних навушниках і сам вирішує, який із трьох каналів слухати — а зовні панує повна тиша. Перемикайтесь між ними будь-коли за вечір, скільки завгодно разів.
+      Один вечір — три різні танцполи, і кожен гість обирає свій.
     </p>
     <div class="hero-actions">
       <a href="#book" class="btn-primary"><span class="lbl-wide">Перевірити доступність дати</span><span class="lbl-tight">Перевірити дату</span></a>
-      <a href="#how" class="btn-ghost">Як це працює</a>
+      <a href="#how" class="btn-ghost">Як це працює</a>
     </div>
   </div>
 
@@ -2453,7 +2466,7 @@
         <div class="ch-toggle-top">
           <div class="ch-toggle-label">
             <span class="ch-toggle-name" style="color:var(--red)">RED</span>
-            <span class="ch-toggle-desc">Deep &amp; Dance — електроніка, хаус, ритм</span>
+            <span class="ch-toggle-desc">Deep &amp; Dance — електроніка, хаус, ритм</span>
           </div>
           <button class="ch-switch" type="button" aria-pressed="true" style="--sw-color:var(--red)"><span class="ch-switch-knob"></span></button>
         </div>
@@ -2462,7 +2475,7 @@
         <div class="ch-toggle-top">
           <div class="ch-toggle-label">
             <span class="ch-toggle-name" style="color:var(--green)">GREEN</span>
-            <span class="ch-toggle-desc">Pop &amp; Throwback — хіти, під які всі знають слова</span>
+            <span class="ch-toggle-desc">Pop &amp; Throwback — хіти, під які всі знають слова</span>
           </div>
           <button class="ch-switch" type="button" aria-pressed="false" style="--sw-color:var(--green)"><span class="ch-switch-knob"></span></button>
         </div>
@@ -2471,7 +2484,7 @@
         <div class="ch-toggle-top">
           <div class="ch-toggle-label">
             <span class="ch-toggle-name" style="color:var(--blue)">BLUE</span>
-            <span class="ch-toggle-desc">Chill &amp; Soul — повільне, тепле, близьке</span>
+            <span class="ch-toggle-desc">Chill &amp; Soul — повільне, тепле, близьке</span>
           </div>
           <button class="ch-switch" type="button" aria-pressed="false" style="--sw-color:var(--blue)"><span class="ch-switch-knob"></span></button>
         </div>
@@ -2487,7 +2500,7 @@
   <div class="wrap">
   <div class="band band-bare reveal">
     <div class="g-tag">Чому silent disco</div>
-    <h2>Звичайна вечірка змушує обирати за всіх. Ця — дає обрати кожному.</h2>
+    <h2>Звичайна вечірка змушує обирати за всіх. Ця — дає обрати кожному.</h2>
   </div>
 
   <div class="shift-grid">
@@ -2496,9 +2509,9 @@
         <img src="images/shift-old.webp" loading="lazy" decoding="async" alt="Чорно-білий кадр: сцена з колонками і темна зала глядачів">
       </div>
       <div class="shift-body">
-        <div class="tag">Як зазвичай</div>
-        <h3>Колонки на всю залу</h3>
-        <p>Один плейлист на всіх. Хтось нудьгує, комусь голосно. О 23:00 — сусіди, охорона, «зробіть тихіше». Фото виходять темні й однакові.</p>
+        <div class="tag">Як зазвичай</div>
+        <h3>Колонки на всю залу</h3>
+        <p>Один плейлист на всіх. Хтось нудьгує, комусь голосно. О 23:00 — сусіди, охорона, «зробіть тихіше». Фото виходять темні й однакові.</p>
       </div>
     </div>
     <div class="shift-card new reveal">
@@ -2506,9 +2519,9 @@
         <img src="images/shift-new.webp" loading="lazy" decoding="async" alt="Компанія друзів сміється у світних зелених навушниках">
       </div>
       <div class="shift-body">
-        <div class="tag">Із silent disco</div>
+        <div class="tag">Із silent disco</div>
         <h3>Вечір, який кожен збирає собі</h3>
-        <p>Три канали під різний настрій, гучність під себе, світло LED у кожному кадрі.</p>
+        <p>Три канали під різний настрій, гучність під себе, світло LED у кожному кадрі. Кожен чує своє, але всі разом.</p>
       </div>
     </div>
   </div>
@@ -2519,9 +2532,9 @@
 <section class="block" id="how">
   <div class="wrap">
     <div class="how-head">
-      <div class="eyebrow reveal">Як це працює</div>
-      <h2 class="h2 reveal">Як насправді влаштована тиха вечірка?</h2>
-      <p class="how-lead reveal">Музика йде не з колонок, а одразу в навушники кожного гостя. Один передавач роздає три канали, і людина сама обирає, який слухати і на якій гучності. Колонок немає, тож ззовні залишається тиша. Ми привозимо навушники із запасними комплектами, збираємо систему на місці й лишаємось на вечір. Від вас потрібні тільки дата й приблизна кількість гостей.</p>
+      <div class="eyebrow reveal">Як це працює</div>
+      <h2 class="h2 reveal">Як насправді влаштована тиха вечірка?</h2>
+      <p class="how-lead reveal">Музика йде не з колонок, а одразу в навушники кожного гостя. Один передавач роздає три канали, і людина сама обирає, який слухати і на якій гучності. Колонок немає, тож ззовні залишається тиша. Ми привозимо навушники із запасними комплектами, збираємо систему на місці й лишаємось на вечір. Від вас потрібні тільки дата й приблизна кількість гостей.</p>
     </div>
 
     <ol class="flow reveal">
@@ -2532,7 +2545,7 @@
             <h3>Дата, місце, гості</h3>
             <ul class="step-list">
                 <li><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span>Форма займає хвилину</span></li>
-                <li><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span>Дзвонити не обов’язково</span></li>
+                <li><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span>Дзвонити не обов’язково</span></li>
             </ul>
           </div>
         </li>
@@ -2543,7 +2556,7 @@
             <h3>Рахуємо вартість</h3>
             <ul class="step-list">
                 <li><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span>Відповідаємо протягом дня</span></li>
-                <li><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span>Ціна залежить від дати й тривалості</span></li>
+                <li><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span>Ціна залежить від дати й тривалості</span></li>
             </ul>
           </div>
         </li>
@@ -2551,10 +2564,10 @@
           <span class="flow-node" aria-hidden="true"><svg viewBox="0 0 24 24" width="29" height="29" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.5h11v9H3z"/><path d="M14 9.5h3.4L21 12.5v3h-7"/><circle cx="7" cy="17.5" r="1.7"/><circle cx="17" cy="17.5" r="1.7"/></svg></span>
           <div class="flow-card">
             <span class="flow-chip"><b>03</b>Монтаж</span>
-            <h3>Ми приїжджаємо</h3>
+            <h3>Ми приїжджаємо</h3>
             <ul class="step-list">
-                <li><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span>Близько 30 хвилин до старту</span></li>
-                <li><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span>Показуємо, як перемикати канали</span></li>
+                <li><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span>Близько 30 хвилин до старту</span></li>
+                <li><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span>Показуємо, як перемикати канали</span></li>
             </ul>
           </div>
         </li>
@@ -2562,10 +2575,10 @@
           <span class="flow-node" aria-hidden="true"><svg viewBox="0 0 24 24" width="29" height="29" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9 2 9 2 15 6 15 11 19 11 5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a9 9 0 0 1 0 12"/></svg></span>
           <div class="flow-card">
             <span class="flow-chip"><b>04</b>Вечірка</span>
-            <h3>Ви танцюєте</h3>
+            <h3>Ви танцюєте</h3>
             <ul class="step-list">
                 <li><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span>Гості перемикають канали самі</span></li>
-                <li><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span>Демонтаж і вивіз на нас</span></li>
+                <li><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span>Демонтаж і вивіз на нас</span></li>
             </ul>
           </div>
         </li>
@@ -2578,37 +2591,37 @@
   <div class="benefits-bg" aria-hidden="true" style="--benefits-photo:url('images/bg-5.webp')"></div>
   <div class="wrap">
     <div class="eyebrow reveal">Досвід гостя</div>
-    <h2 class="h2 reveal">Що відчують ваші гості на танцполі.</h2>
+    <h2 class="h2 reveal">Що відчують ваші гості на танцполі.</h2>
     <div class="benefits-grid">
       <div class="benefit-card reveal">
         <div class="b-icon">♪</div>
         <h3>Три канали одночасно</h3>
-        <p>RED, GREEN, BLUE звучать паралельно. У кожного гостя — свій ефір, і всі танцюють в одному залі.</p>
+        <p>RED, GREEN, BLUE звучать паралельно. У кожного гостя — свій ефір, і всі танцюють в одному залі.</p>
       </div>
       <div class="benefit-card reveal">
         <div class="b-icon">◈</div>
         <h3>Кожен обирає свій настрій</h3>
-        <p>Драйв, хіти чи повільне — гість перемикає канал одним дотиком і залишається там, де йому добре.</p>
+        <p>Драйв, хіти чи повільне — гість перемикає канал одним дотиком і залишається там, де йому добре.</p>
       </div>
       <div class="benefit-card reveal">
         <div class="b-icon">–</div>
         <h3>Особиста гучність</h3>
-        <p>Кожен виставляє звук під себе. Ніхто не виходить із дзвоном у вухах — комфортно й дітям, і старшим.</p>
+        <p>Кожен виставляє звук під себе. Ніхто не виходить із дзвоном у вухах — комфортно й дітям, і старшим.</p>
       </div>
       <div class="benefit-card reveal">
         <div class="b-icon">✎</div>
         <h3>Можна нормально спілкуватися</h3>
-        <p>Навушники на шию — і розмова йде звичайним голосом. Без «що?» і «повтори!» крізь гуркіт колонок.</p>
+        <p>Навушники на шию — і розмова йде звичайним голосом. Без «що?» і «повтори!» крізь гуркіт колонок.</p>
       </div>
       <div class="benefit-card reveal">
         <div class="b-icon">✦</div>
-        <h3>LED-візуал у кожному кадрі</h3>
-        <p>Підсвітка на кожному гості перетворює зал на готову картинку. Фото й відео виходять яскравими без окремого світлового обладнання.</p>
+        <h3>LED-візуал у кожному кадрі</h3>
+        <p>Підсвітка на кожному гості перетворює зал на готову картинку. Фото й відео виходять яскравими без окремого світлового обладнання.</p>
       </div>
       <div class="benefit-card reveal">
         <div class="b-icon">✺</div>
-        <h3>Формат, якого ще не бачили</h3>
-        <p>Танці «в тиші» — незвичне відчуття вже з перших хвилин. Гості проводять час не так, як на звичайній вечірці.</p>
+        <h3>Формат, якого ще не бачили</h3>
+        <p>Танці «в тиші» — незвичне відчуття вже з перших хвилин. Гості проводять час не так, як на звичайній вечірці.</p>
       </div>
     </div>
   </div>
@@ -2617,53 +2630,53 @@
 <!-- VALUE STACK -->
 <section class="block" id="offer">
   <div class="wrap">
-    <div class="eyebrow reveal">Що входить</div>
-    <h2 class="h2 reveal">Що саме ви отримуєте за свої гроші.</h2>
-    <p class="section-lead reveal">Silent disco під ключ — комплект обладнання, логістика й супровід у межах однієї послуги.</p>
+    <div class="eyebrow reveal">Що входить</div>
+    <h2 class="h2 reveal">Що саме ви отримуєте за свої гроші.</h2>
+    <p class="section-lead reveal">Silent disco під ключ — комплект обладнання, логістика й супровід у межах однієї послуги.</p>
 
     <div class="slabs">
       <article class="slab reveal" style="--i:0">
         <span class="slab-num" aria-hidden="true">01</span>
         <div class="slab-body">
           <h3>Обладнання</h3>
-          <p>Від 40 LED-навушників, 3 канали, передавачі та запасні навушники в комплекті.</p>
+          <p>Від 40 LED-навушників, 3 канали, передавачі та запасні навушники в комплекті.</p>
         </div>
-        <span class="slab-meta">у базовій ціні</span>
+        <span class="slab-meta">у базовій ціні</span>
       </article>
       <article class="slab reveal" style="--i:1">
         <span class="slab-num" aria-hidden="true">02</span>
         <div class="slab-body">
-          <h3>Доставка й монтаж</h3>
-          <p>Привозимо, збираємо систему, налаштовуємо канали й тестуємо сигнал до старту.</p>
+          <h3>Доставка й монтаж</h3>
+          <p>Привозимо, збираємо систему, налаштовуємо канали й тестуємо сигнал до старту.</p>
         </div>
-        <span class="slab-meta">у базовій ціні</span>
+        <span class="slab-meta">у базовій ціні</span>
       </article>
       <article class="slab reveal" style="--i:2">
         <span class="slab-num" aria-hidden="true">03</span>
         <div class="slab-body">
           <h3>Підготовлені плейлисти</h3>
-          <p>Три канали, зібрані під ваш настрій і формат події — діджей не обов'язковий.</p>
+          <p>Три канали, зібрані під ваш настрій і формат події — діджей не обов'язковий.</p>
         </div>
-        <span class="slab-meta">у базовій ціні</span>
+        <span class="slab-meta">у базовій ціні</span>
       </article>
       <article class="slab reveal" style="--i:3">
         <span class="slab-num" aria-hidden="true">04</span>
         <div class="slab-body">
-          <h3>Супровід і демонтаж</h3>
-          <p>Ведемо технічну частину протягом вечора, а після завершення забираємо все обладнання.</p>
+          <h3>Супровід і демонтаж</h3>
+          <p>Ведемо технічну частину протягом вечора, а після завершення забираємо все обладнання.</p>
         </div>
-        <span class="slab-meta">у базовій ціні</span>
+        <span class="slab-meta">у базовій ціні</span>
       </article>
       <article class="slab reveal" style="--i:4">
         <span class="slab-num" aria-hidden="true">05</span>
         <div class="slab-body">
           <h3>Короткий reels</h3>
-          <p>Ролик вашого вечора, готовий до сторіз і публікації.</p>
+          <p>Ролик вашого вечора, готовий до сторіз і публікації.</p>
         </div>
-        <span class="slab-meta">за бажанням</span>
+        <span class="slab-meta">за бажанням</span>
       </article>
     </div>
-    <p class="slabs-foot reveal">Колонки, підсилювачі та окремий звук орендувати не потрібно — комплект замінює всю звукову частину вечора.</p>
+    <p class="slabs-foot reveal">Колонки, підсилювачі та окремий звук орендувати не потрібно — комплект замінює всю звукову частину вечора.</p>
   </div>
 </section>
 
@@ -2731,8 +2744,8 @@
   </div>
   <div class="wrap">
     <div class="eyebrow reveal">Silent-досвіди</div>
-    <h2 class="h2 reveal">Silent disco — це лише один зі сценаріїв. Тихий звук працює всюди, де важливо чути.</h2>
-    <p class="section-lead reveal">Один комплект обладнання відкриває десятки форматів — від весілля до екскурсії музеєм. Оберіть свій, і ми зберемо подію під нього.</p>
+    <h2 class="h2 reveal">Silent disco — це лише один зі сценаріїв. Тихий звук працює всюди, де важливо чути.</h2>
+    <p class="section-lead reveal">Один комплект обладнання відкриває десятки форматів — від весілля до екскурсії музеєм. Оберіть свій, і ми зберемо подію під нього.</p>
     <div class="uc-gallery reveal">
       <div class="uc-grid" id="ucGrid" role="region" aria-label="Сценарії подій, гортайте вбік">
         <div class="uc-row" data-row="a">
@@ -2742,7 +2755,7 @@
         </div>
         <div class="uc-body">
           <h3>Весілля</h3>
-          <p>Гості самі обирають: танцювати чи говорити. Жодного гуркоту на всю залу — і жодних дзвінків від готелю о другій ночі.</p>
+          <p>Гості самі обирають: танцювати чи говорити. Жодного гуркоту на всю залу — і жодних дзвінків від готелю о другій ночі.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -2752,7 +2765,7 @@
         </div>
         <div class="uc-body">
           <h3>Кіно просто неба</h3>
-          <p>Двір, дах, парк — звук у навушниках, тиша навколо. Фільм до ночі без питань від сусідів.</p>
+          <p>Двір, дах, парк — звук у навушниках, тиша навколо. Фільм до ночі без питань від сусідів.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -2762,7 +2775,7 @@
         </div>
         <div class="uc-body">
           <h3>Студентські події</h3>
-          <p>Посвята, випускний, вечірка гуртожитку — гучно для своїх і тихо для адміністрації.</p>
+          <p>Посвята, випускний, вечірка гуртожитку — гучно для своїх і тихо для адміністрації.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -2772,7 +2785,7 @@
         </div>
         <div class="uc-body">
           <h3>Презентація релізу</h3>
-          <p>Послухайте новий альбом у деталях — разом і водночас особисто. Камерний формат для перших слухачів.</p>
+          <p>Послухайте новий альбом у деталях — разом і водночас особисто. Камерний формат для перших слухачів.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -2781,8 +2794,8 @@
           <img src="images/uc/drivein.webp" style="--lqip:url(data:image/webp;base64,UklGRpAAAABXRUJQVlA4IIQAAAAwBACdASoYAA4APu1iqk4ppaQiMAgBMB2JZQCsACICl4nXZ1Dbb8p2rPQA/bZePZ71fjuPLkjX3jHkXHzKpM7yoPoYKXymZ4KKWdAsV0hHOTlc2Fzdhx9pLsCOOJqP2UKHaRnl4V93wwYVtnzb79Jj6jpkTomEvER0gmNjDbEhr+bGgAA=)" width="544" height="306" loading="lazy" decoding="async" alt="Драйв-ін формат">
         </div>
         <div class="uc-body">
-          <h3>Драйв-ін формат</h3>
-          <p>Майданчик, екран і звук у навушниках — подія там, де немає жодної звукової інфраструктури.</p>
+          <h3>Драйв-ін формат</h3>
+          <p>Майданчик, екран і звук у навушниках — подія там, де немає жодної звукової інфраструктури.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -2792,7 +2805,7 @@
         </div>
         <div class="uc-body">
           <h3>Музичні коледжі</h3>
-          <p>Камерне прослуховування студентських програм: чути кожну партію без гучних моніторів у залі.</p>
+          <p>Камерне прослуховування студентських програм: чути кожну партію без гучних моніторів у залі.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -2802,7 +2815,7 @@
         </div>
         <div class="uc-body">
           <h3>Фестивалі</h3>
-          <p>Додаткова сцена, яка не конфліктує з головною і не впирається в комендантську годину.</p>
+          <p>Додаткова сцена, яка не конфліктує з головною і не впирається в комендантську годину.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -2811,8 +2824,8 @@
           <img src="images/uc/museum.webp" style="--lqip:url(data:image/webp;base64,UklGRnYAAABXRUJQVlA4IGoAAABQBACdASoYAA4APu1iqU2ppaOiMAgBMB2JYwCdAB7Hy+gyYXZMhJs9SqxIAP7sJBz/6zN+jOgjeYgR3kWjelpk3S1kXjLictweTvrKLE/0jWYPg7kHQJzHWUpQ7XkGoBtvAWhcudloa3AA)" width="544" height="306" loading="lazy" decoding="async" alt="Музеї та галереї">
         </div>
         <div class="uc-body">
-          <h3>Музеї та галереї</h3>
-          <p>Аудіосупровід, синхронізований із простором. Відвідувач занурюється, не порушуючи тиші зали.</p>
+          <h3>Музеї та галереї</h3>
+          <p>Аудіосупровід, синхронізований із простором. Відвідувач занурюється, не порушуючи тиші зали.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -2822,7 +2835,7 @@
         </div>
         <div class="uc-body">
           <h3>Благодійні гала</h3>
-          <p>Аукціон і танці в одному залі. Гості чують ведучого, не борючись із фоновою музикою.</p>
+          <p>Аукціон і танці в одному залі. Гості чують ведучого, не борючись із фоновою музикою.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -2832,7 +2845,7 @@
         </div>
         <div class="uc-body">
           <h3>Шкільні свята</h3>
-          <p>Події та збори коштів, які діти чекають. Без перевантаження звуком у спортзалі.</p>
+          <p>Події та збори коштів, які діти чекають. Без перевантаження звуком у спортзалі.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -2841,8 +2854,8 @@
           <img src="images/uc/churchcamp.webp" style="--lqip:url(data:image/webp;base64,UklGRqwAAABXRUJQVlA4IKAAAAAwBACdASoYAA4APu1iqk2ppaQiMAgBMB2JYgC7AywTnwd9OrY95U9AvgAAzimdE4wBM1BkvcU/KjXS56dAVVmFyrRyBo1oe7FhOFTbfGsQPcL5zpbh/0bsq9sZmLqnoD8+ISCiQsirzl26uaf1D5j3Luhcz44F5C6XLPAno0auex5ZaTevGIKlCsXG9n8oAuNQhyAGwtvIoqtoDbj9tQAA)" width="544" height="306" loading="lazy" decoding="async" alt="Церковні та молодіжні табори">
         </div>
         <div class="uc-body">
-          <h3>Церковні та молодіжні табори</h3>
-          <p>Ранкові зібрання, тихі години роздумів і вечірні дискотеки — на одному комплекті обладнання.</p>
+          <h3>Церковні та молодіжні табори</h3>
+          <p>Ранкові зібрання, тихі години роздумів і вечірні дискотеки — на одному комплекті обладнання.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -2852,7 +2865,7 @@
         </div>
         <div class="uc-body">
           <h3>Silent disco</h3>
-          <p>Той самий формат у чистому вигляді: три канали, навушники й танцпол, який не заважає нікому навколо.</p>
+          <p>Той самий формат у чистому вигляді: три канали, навушники й танцпол, який не заважає нікому навколо.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -2862,7 +2875,7 @@
         </div>
         <div class="uc-body">
           <h3>Дні народження</h3>
-          <p>Від дитячого свята до дорослої вечірки: гучність під вік і настрій кожної компанії.</p>
+          <p>Від дитячого свята до дорослої вечірки: гучність під вік і настрій кожної компанії.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -2874,7 +2887,7 @@
         </div>
         <div class="uc-body">
           <h3>Конференції</h3>
-          <p>Кілька сцен в одному залі й тихі обговорення в групах. Кожен чує свого спікера, не заважаючи сусідній секції.</p>
+          <p>Кілька сцен в одному залі й тихі обговорення в групах. Кожен чує свого спікера, не заважаючи сусідній секції.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -2884,7 +2897,7 @@
         </div>
         <div class="uc-body">
           <h3>Екскурсії</h3>
-          <p>Гід говорить упівголоса, а чути однаково добре і в першому ряду, і в останньому. Без крику й мегафона.</p>
+          <p>Гід говорить упівголоса, а чути однаково добре і в першому ряду, і в останньому. Без крику й мегафона.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -2893,8 +2906,8 @@
           <img src="images/uc/camp.webp" style="--lqip:url(data:image/webp;base64,UklGRlAAAABXRUJQVlA4IEQAAADQAwCdASoYAA4APu1iqk2ppaQiMAgBMB2JaQAAW9aeJPbXvdKLkMAA/u6CHYiRa/I/q8iwdtRpP9rWG2H1pHHuI0AAAA==)" width="544" height="306" loading="lazy" decoding="async" alt="Табори та молодіжні збори">
         </div>
         <div class="uc-body">
-          <h3>Табори та молодіжні збори</h3>
-          <p>Ранкові розминки, командні ігри, вечірня дискотека — один комплект на всі активності зміни.</p>
+          <h3>Табори та молодіжні збори</h3>
+          <p>Ранкові розминки, командні ігри, вечірня дискотека — один комплект на всі активності зміни.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -2904,7 +2917,7 @@
         </div>
         <div class="uc-body">
           <h3>Діджей-сет наживо</h3>
-          <p>Резидент або запрошений діджей мікшує просто у ваші навушники — з реакцією на зал.</p>
+          <p>Резидент або запрошений діджей мікшує просто у ваші навушники — з реакцією на зал.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -2913,8 +2926,8 @@
           <img src="images/uc/church.webp" style="--lqip:url(data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAADQAwCdASoYAA4APu1iqU2ppaOiMAgBMB2JZACdABKdvY9v16UHQQAA/IpgXZn6GAuaFSgin/etDB3zdzLTnvgp2Clp0Ob8x1U171EJNjLyvG/7942dnRX7ztowAMX6XBbcBphEXe3Z3SBnU3QZmsuQTQAAAA==)" width="544" height="306" loading="lazy" decoding="async" alt="Церковні служби та зібрання">
         </div>
         <div class="uc-body">
-          <h3>Церковні служби та зібрання</h3>
-          <p>Проповідь і музика звучать чітко для кожного — у залі, у дворі чи на виїзному служінні.</p>
+          <h3>Церковні служби та зібрання</h3>
+          <p>Проповідь і музика звучать чітко для кожного — у залі, у дворі чи на виїзному служінні.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -2924,7 +2937,7 @@
         </div>
         <div class="uc-body">
           <h3>Корпоративи</h3>
-          <p>Формат, у якому команда нарешті розкривається. Працює і в офісі, і в лофті — без узгодження гучності з орендодавцем.</p>
+          <p>Формат, у якому команда нарешті розкривається. Працює і в офісі, і в лофті — без узгодження гучності з орендодавцем.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -2933,8 +2946,8 @@
           <img src="images/uc/yoga.webp" style="--lqip:url(data:image/webp;base64,UklGRrAAAABXRUJQVlA4IKQAAAAwBACdASoYAA4APu1iqU2ppaOiMAgBMB2JQBOmUI7gOgmfZKyHMhbObHgA/unfKPbHtmHMitbPVBJ6gsz/HDjax+IBlapek3W5VKarciQuWNmqcHTSJsRWBhAJNw1w70vxzc/IZv7cvELF9QcgIKX83dGzzcjwDQiXAkSXYNQIX2wbbbX20b7P6dODxwA1CWzLtv7R/W8sVw2gGTWl+JeS1wAAAA==)" width="544" height="306" loading="lazy" decoding="async" alt="Йога та ecstatic dance">
         </div>
         <div class="uc-body">
-          <h3>Йога та ecstatic dance</h3>
-          <p>Голос інструктора просто у вусі, музика — на власній гучності. Ніщо не збиває з практики.</p>
+          <h3>Йога та ecstatic dance</h3>
+          <p>Голос інструктора просто у вусі, музика — на власній гучності. Ніщо не збиває з практики.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -2944,7 +2957,7 @@
         </div>
         <div class="uc-body">
           <h3>Камерні концерти</h3>
-          <p>Прослуховування, де чути кожен нюанс виконання. Публіка максимально близько до звуку.</p>
+          <p>Прослуховування, де чути кожен нюанс виконання. Публіка максимально близько до звуку.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -2954,7 +2967,7 @@
         </div>
         <div class="uc-body">
           <h3>Інклюзивні події</h3>
-          <p>Кожен регулює гучність під себе — подія стає доступною для гостей із сенсорною чутливістю.</p>
+          <p>Кожен регулює гучність під себе — подія стає доступною для гостей із сенсорною чутливістю.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -2964,7 +2977,7 @@
         </div>
         <div class="uc-body">
           <h3>Громадські зібрання</h3>
-          <p>Лекції, покази, зустрічі спільноти — чути кожне слово навіть на відкритому майданчику.</p>
+          <p>Лекції, покази, зустрічі спільноти — чути кожне слово навіть на відкритому майданчику.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -2973,8 +2986,8 @@
           <img src="images/uc/markets.webp" style="--lqip:url(data:image/webp;base64,UklGRpoAAABXRUJQVlA4II4AAACwBACdASoYAA4APu1iqU2ppaOiMAgBMB2JQBOmUI4E0Gb+gcCdqy9a4cJBFcNAAP7yxzOfDMgeRjE/OjiXlH8yeVTo6t6tiJUWfhpUCvLk8qoGZ7Y/I9caCd9ZqRYDiS3f+k+DnE+ThP+TUay70/PE0z80PD2c0Uwumn5DLoPcrTwdua7JVicDQcIkbQAA)" width="544" height="306" loading="lazy" decoding="async" alt="Ярмарки та маркети">
         </div>
         <div class="uc-body">
-          <h3>Ярмарки та маркети</h3>
-          <p>Музична зона просто серед рядів — гості танцюють, а торгівля поруч іде своїм ходом.</p>
+          <h3>Ярмарки та маркети</h3>
+          <p>Музична зона просто серед рядів — гості танцюють, а торгівля поруч іде своїм ходом.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -2984,7 +2997,7 @@
         </div>
         <div class="uc-body">
           <h3>Іммерсивні театри</h3>
-          <p>Голос акторів і саундтрек звучать просто у вусі глядача. Сцену можна розгорнути навіть просто неба.</p>
+          <p>Голос акторів і саундтрек звучать просто у вусі глядача. Сцену можна розгорнути навіть просто неба.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -2994,7 +3007,7 @@
         </div>
         <div class="uc-body">
           <h3>Спортивні події</h3>
-          <p>Забіги, тренування, розминки: команда чує тренера, а не вітер і вуличний шум.</p>
+          <p>Забіги, тренування, розминки: команда чує тренера, а не вітер і вуличний шум.</p>
           <button type="button" class="uc-order">Замовити цей досвід</button>
         </div>
       </article>
@@ -3013,17 +3026,17 @@
     <div class="calc-card reveal">
       <div class="calc-copy">
         <div class="eyebrow">Калькулятор</div>
-        <h2>Порахуйте бюджет вечора до заявки.</h2>
-        <p>Мінімальне замовлення — 40 навушників на 4 години. Посуньте повзунок і додайте опції, щоб побачити орієнтовний бюджет для вашої події.</p>
+        <h2>Порахуйте бюджет вечора до заявки.</h2>
+        <p>Мінімальне замовлення — 40 навушників на 4 години. Посуньте повзунок і додайте опції, щоб побачити орієнтовний бюджет для вашої події.</p>
         <div class="calc-photo">
           <img src="images/headphones.png" width="1100" height="734" loading="lazy" decoding="async"
                alt="Навушники SILENT із підсвіткою трьох каналів — зеленого, синього та червоного">
         </div>
         <div class="calc-rules">
           <div class="calc-rule"><b>40</b><span>мінімум навушників</span></div>
-          <div class="calc-rule"><b>4 год</b><span>базова тривалість</span></div>
+          <div class="calc-rule"><b>4 год</b><span>базова тривалість</span></div>
           <div class="calc-rule"><b>3</b><span>музичні канали</span></div>
-          <div class="calc-rule"><b>~30 хв</b><span>налаштування на місці</span></div>
+          <div class="calc-rule"><b>~30 хв</b><span>налаштування на місці</span></div>
         </div>
       </div>
       <div class="calc-panel">
@@ -3051,17 +3064,17 @@
               <button type="button" class="hstep" id="hourPlus" aria-label="Більше годин">+</button>
             </div>
           </div>
-          <label><input type="checkbox" id="outsideKyiv"> виїзд по Україні</label>
+          <label><input type="checkbox" id="outsideKyiv"> виїзд по Україні</label>
           <label><input type="checkbox" id="contentReel"> короткий reels</label>
-          <label><input type="checkbox" id="smokeLight"> дим і світло</label>
+          <label><input type="checkbox" id="smokeLight"> дим і світло</label>
         </div>
-        <div class="calc-row"><span>База 40 навушників / 4 години</span><span id="baseLine">9 800 грн</span></div>
-        <div class="calc-row"><span>Додаткові навушники</span><span id="extraLine">0 грн</span></div>
-        <div class="calc-row"><span>Додаткові години</span><span id="hoursLine">0 грн</span></div>
-        <div class="calc-row"><span>Опції</span><span id="optionsLine">0 грн</span></div>
-        <div class="calc-row"><span>Ціна за гостя</span><span id="perHeadLine">173 грн</span></div>
+        <div class="calc-row"><span>База 40 навушників / 4 години</span><span id="baseLine">9 800 грн</span></div>
+        <div class="calc-row"><span>Додаткові навушники</span><span id="extraLine">0 грн</span></div>
+        <div class="calc-row"><span>Додаткові години</span><span id="hoursLine">0 грн</span></div>
+        <div class="calc-row"><span>Опції</span><span id="optionsLine">0 грн</span></div>
+        <div class="calc-row"><span>Ціна за гостя</span><span id="perHeadLine">173 грн</span></div>
         <a href="#book" class="btn-primary" id="calcSubmit" style="display:block;text-align:center;margin-top:20px;">Перевірити доступність дати</a>
-        <div class="calc-note">Це орієнтир. Фінальна ціна залежить від дати, локації, тривалості та формату — і не є публічною офертою.</div>
+        <div class="calc-note">Це орієнтир. Фінальна ціна залежить від дати, локації, тривалості та формату — і не є публічною офертою.</div>
       </div>
     </div>
   </div>
@@ -3071,8 +3084,8 @@
 <section class="block">
   <div class="band reveal">
     <div class="g-tag">Наша гарантія</div>
-    <h2>Якщо в перші пів години гості не танцюють — знімаємо частину суми.</h2>
-    <p>Ми відповідаємо за результат вечора, тож фінансовий ризик беремо на себе.</p>
+    <h2>Якщо в перші пів години гості не танцюють — знімаємо частину суми.</h2>
+    <p>Ми відповідаємо за результат вечора, тож фінансовий ризик беремо на себе.</p>
   </div>
 </section>
 
@@ -3080,8 +3093,8 @@
 <section class="testimonials" id="expect">
   <div class="wrap">
     <div class="eyebrow reveal">Відгуки</div>
-    <h2 class="h2 reveal">Що кажуть наступного дня.</h2>
-    <p class="section-lead reveal">Короткі враження гостей і організаторів після київських подій.</p>
+    <h2 class="h2 reveal">Що кажуть ті, хто це відчув.</h2>
+    <p class="section-lead reveal">Короткі враження гостей і організаторів після київських подій.</p>
     <!-- ЗАГЛУШКА / DESIGN MOCKUP.
          Ці вісім відгуків вигадані й потрібні лише щоб побачити верстку блоку.
          НЕ ПУБЛІКУВАТИ як справжні. Перед запуском замінити на реальні цитати
@@ -3090,7 +3103,7 @@
       <div class="tst-strip" id="tstStrip">
         <article class="tst-card reveal">
           <div class="tst-stars" aria-hidden="true">★★★★★</div>
-          <p class="tst-quote">Боялася, що гості просто постоять із навушниками в руках і підуть. За півгодини танцювали всі, включно з моєю мамою. О другій ночі вимикали самі, бо ніхто не збирався додому.</p>
+          <p class="tst-quote">Боялася, що гості просто постоять із навушниками в руках і підуть. За півгодини танцювали всі, включно з моєю мамою. О другій ночі вимикали самі, бо ніхто не збирався додому.</p>
           <div class="tst-author">
             <div class="tst-avatar">ОК</div>
             <div><div class="tst-name">Олена К.</div><div class="tst-role">весілля · Київ, вересень</div></div>
@@ -3098,15 +3111,15 @@
         </article>
         <article class="tst-card reveal">
           <div class="tst-stars" aria-hidden="true">★★★★★</div>
-          <p class="tst-quote">Лофт із житловими апартаментами через стіну. Скарг нуль, а це для нас було головне питання. Приїхали за дві години до старту й підключили все без нашої участі.</p>
+          <p class="tst-quote">Лофт із житловими апартаментами через стіну. Скарг нуль, а це для нас було головне питання. Приїхали за дві години до старту й підключили все без нашої участі.</p>
           <div class="tst-author">
             <div class="tst-avatar">ДП</div>
-            <div><div class="tst-name">Дмитро П.</div><div class="tst-role">корпоратив на 120 гостей</div></div>
+            <div><div class="tst-name">Дмитро П.</div><div class="tst-role">корпоратив на 120 гостей</div></div>
           </div>
         </article>
         <article class="tst-card reveal">
           <div class="tst-stars" aria-hidden="true">★★★★★</div>
-          <p class="tst-quote">Три канали врятували вечір. Друзі слухають зовсім різне, і замість компромісного плейлиста кожен просто крутнув перемикач на своєму.</p>
+          <p class="tst-quote">Три канали врятували вечір. Друзі слухають зовсім різне, і замість компромісного плейлиста кожен просто крутнув перемикач на своєму.</p>
           <div class="tst-author">
             <div class="tst-avatar">МЦ</div>
             <div><div class="tst-name">Марина Ц.</div><div class="tst-role">день народження, 35</div></div>
@@ -3114,39 +3127,39 @@
         </article>
         <article class="tst-card reveal">
           <div class="tst-stars" aria-hidden="true">★★★★★</div>
-          <p class="tst-quote">Найкраще навіть не музика. Ми з класним керівником спокійно розмовляли посеред танцполу, не зриваючи голос.</p>
+          <p class="tst-quote">Найкраще навіть не музика. Ми з класним керівником спокійно розмовляли посеред танцполу, не зриваючи голос.</p>
           <div class="tst-author">
             <div class="tst-avatar">АВ</div>
-            <div><div class="tst-name">Артем В.</div><div class="tst-role">випускний на даху</div></div>
+            <div><div class="tst-name">Артем В.</div><div class="tst-role">випускний на даху</div></div>
           </div>
         </article>
         <article class="tst-card reveal">
           <div class="tst-stars" aria-hidden="true">★★★★★</div>
-          <p class="tst-quote">Ранкова практика на 40 килимків просто неба. Голос інструктора чути навіть в останньому ряду. З колонками половина групи щоразу випадала.</p>
+          <p class="tst-quote">Ранкова практика на 40 килимків просто неба. Голос інструктора чути навіть в останньому ряду. З колонками половина групи щоразу випадала.</p>
           <div class="tst-author">
             <div class="tst-avatar">СР</div>
-            <div><div class="tst-name">Софія Р.</div><div class="tst-role">йога-сет у парку</div></div>
+            <div><div class="tst-name">Софія Р.</div><div class="tst-role">йога-сет у парку</div></div>
           </div>
         </article>
         <article class="tst-card reveal">
           <div class="tst-stars" aria-hidden="true">★★★★★</div>
-          <p class="tst-quote">Показували фільм у внутрішньому дворі до одинадцятої вечора. Без навушників нас зупинили б на двадцятій хвилині.</p>
+          <p class="tst-quote">Показували фільм у внутрішньому дворі до одинадцятої вечора. Без навушників нас зупинили б на двадцятій хвилині.</p>
           <div class="tst-author">
             <div class="tst-avatar">ІМ</div>
-            <div><div class="tst-name">Ігор М.</div><div class="tst-role">кінопоказ у дворі</div></div>
+            <div><div class="tst-name">Ігор М.</div><div class="tst-role">кінопоказ у дворі</div></div>
           </div>
         </article>
         <article class="tst-card reveal">
           <div class="tst-stars" aria-hidden="true">★★★★★</div>
-          <p class="tst-quote">Нас було всього дванадцять, думала, на такий формат ніхто не візьметься. Взялися й привезли рівно стільки, скільки треба.</p>
+          <p class="tst-quote">Нас було всього дванадцять, думала, на такий формат ніхто не візьметься. Взялися й привезли рівно стільки, скільки треба.</p>
           <div class="tst-author">
             <div class="tst-avatar">КЛ</div>
-            <div><div class="tst-name">Катерина Л.</div><div class="tst-role">дівич-вечір, 12 гостей</div></div>
+            <div><div class="tst-name">Катерина Л.</div><div class="tst-role">дівич-вечір, 12 гостей</div></div>
           </div>
         </article>
         <article class="tst-card reveal">
           <div class="tst-stars" aria-hidden="true">★★★★★</div>
-          <p class="tst-quote">Брали як активність на виїзд. Ефект неочікуваний: люди, які на корпоративах зазвичай сидять у кутку, того вечора танцювали.</p>
+          <p class="tst-quote">Брали як активність на виїзд. Ефект неочікуваний: люди, які на корпоративах зазвичай сидять у кутку, того вечора танцювали.</p>
           <div class="tst-author">
             <div class="tst-avatar">БШ</div>
             <div><div class="tst-name">Богдан Ш.</div><div class="tst-role">тимбілдинг для команди</div></div>
@@ -3165,36 +3178,36 @@
 <section class="faq" id="faq">
   <div class="wrap">
     <div class="eyebrow reveal">Питання наперед</div>
-    <h2 class="h2 reveal">Те, що зазвичай питають перед замовленням.</h2>
+    <h2 class="h2 reveal">Те, що зазвичай питають перед замовленням.</h2>
 
     <div class="faq-list">
       <div class="faq-item reveal">
-        <div class="faq-q" role="button" tabindex="0"><h3>Скільки місця потрібно на танцполі?</h3><div class="faq-icon">+</div></div>
-        <div class="faq-a"><p>Орієнтовно <strong>1 м² на людину</strong> для активних танців, менше — якщо частина гостей сидітиме. Скажіть нам розмір залу й кількість гостей — порахуємо, чи вистачить простору, і порадимо оптимальну кількість навушників.</p></div>
+        <div class="faq-q" role="button" tabindex="0"><h3>Скільки місця потрібно на танцполі?</h3><div class="faq-icon">+</div></div>
+        <div class="faq-a"><p>Орієнтовно <strong>1 м² на людину</strong> для активних танців, менше — якщо частина гостей сидітиме. Скажіть нам розмір залу й кількість гостей — порахуємо, чи вистачить простору, і порадимо оптимальну кількість навушників.</p></div>
       </div>
       <div class="faq-item reveal">
-        <div class="faq-q" role="button" tabindex="0"><h3>Чи можна на вулиці?</h3><div class="faq-icon">+</div></div>
-        <div class="faq-a"><p>Так, але обладнання залежить від живлення і не любить вологу. У дощ або без розетки поруч потрібен запасний план — намет, навіс або перенесення в приміщення. Обговорюємо це заздалегідь, коли дізнаємось локацію.</p></div>
+        <div class="faq-q" role="button" tabindex="0"><h3>Чи можна на вулиці?</h3><div class="faq-icon">+</div></div>
+        <div class="faq-a"><p>Так, але обладнання залежить від живлення і не любить вологу. У дощ або без розетки поруч потрібен запасний план — намет, навіс або перенесення в приміщення. Обговорюємо це заздалегідь, коли дізнаємось локацію.</p></div>
       </div>
       <div class="faq-item reveal">
         <div class="faq-q" role="button" tabindex="0"><h3>Наскільки довго тримає заряд?</h3><div class="faq-icon">+</div></div>
-        <div class="faq-a"><p>Навушники працюють <strong>10+ годин</strong> без підзарядки — вистачає на будь-який вечір з запасом. Приїжджаємо із зарядженим комплектом, тож про це можна не думати.</p></div>
+        <div class="faq-a"><p>Навушники працюють <strong>10+ годин</strong> без підзарядки — вистачає на будь-який вечір з запасом. Приїжджаємо із зарядженим комплектом, тож про це можна не думати.</p></div>
       </div>
       <div class="faq-item reveal">
-        <div class="faq-q" role="button" tabindex="0"><h3>Чи потрібен окремо DJ?</h3><div class="faq-icon">+</div></div>
-        <div class="faq-a"><p>Не обов'язково. Наймати живого DJ — це окрема стаття витрат, зазвичай суттєва сума за вечір. Ми наперед готуємо три плейлисти під ваш настрій, тож DJ потрібен, лише якщо хочете живий мікс саме на місці.</p></div>
+        <div class="faq-q" role="button" tabindex="0"><h3>Чи потрібен окремо DJ?</h3><div class="faq-icon">+</div></div>
+        <div class="faq-a"><p>Не обов'язково. Наймати живого DJ — це окрема стаття витрат, зазвичай суттєва сума за вечір. Ми наперед готуємо три плейлисти під ваш настрій, тож DJ потрібен, лише якщо хочете живий мікс саме на місці.</p></div>
       </div>
       <div class="faq-item reveal">
-        <div class="faq-q" role="button" tabindex="0"><h3>Як повертаються навушники наприкінці?</h3><div class="faq-icon">+</div></div>
-        <div class="faq-a"><p>Ставимо один пункт видачі й повернення на вході, щоб нічого не губилося. При потребі використовуємо просту систему обліку, щоб наприкінці вечора точно знати, що все зібрано — без незручних питань до гостей.</p></div>
+        <div class="faq-q" role="button" tabindex="0"><h3>Як повертаються навушники наприкінці?</h3><div class="faq-icon">+</div></div>
+        <div class="faq-a"><p>Ставимо один пункт видачі й повернення на вході, щоб нічого не губилося. При потребі використовуємо просту систему обліку, щоб наприкінці вечора точно знати, що все зібрано — без незручних питань до гостей.</p></div>
       </div>
       <div class="faq-item reveal">
-        <div class="faq-q" role="button" tabindex="0"><h3>Чи підходить для дітей?</h3><div class="faq-icon">+</div></div>
-        <div class="faq-a"><p>Так. У кожного гостя — особиста гучність, тож дитячий слух легко вберегти від зайвого звуку. Для подій із малими дітьми радимо одразу обмежити гучність на нижчому рівні — про це подбаємо ще до початку.</p></div>
+        <div class="faq-q" role="button" tabindex="0"><h3>Чи підходить для дітей?</h3><div class="faq-icon">+</div></div>
+        <div class="faq-a"><p>Так. У кожного гостя — особиста гучність, тож дитячий слух легко вберегти від зайвого звуку. Для подій із малими дітьми радимо одразу обмежити гучність на нижчому рівні — про це подбаємо ще до початку.</p></div>
       </div>
       <div class="faq-item reveal">
-        <div class="faq-q" role="button" tabindex="0"><h3>Що якщо навушники загубляться або пошкодяться?</h3><div class="faq-icon">+</div></div>
-        <div class="faq-a"><p>Таке трапляється на живих вечірках, тому ми закладаємо невеликий заставний внесок за комплект, який повертається одразу після того, як усе обладнання здано в цілості. Якщо один-два навушники не повернули чи пошкодили — покриваємо це із застави, без додаткових розбирань із вами. Про суму й умови домовляємось заздалегідь, до самого івенту.</p></div>
+        <div class="faq-q" role="button" tabindex="0"><h3>Що якщо навушники загубляться або пошкодяться?</h3><div class="faq-icon">+</div></div>
+        <div class="faq-a"><p>Таке трапляється на живих вечірках, тому ми закладаємо невеликий заставний внесок за комплект, який повертається одразу після того, як усе обладнання здано в цілості. Якщо один-два навушники не повернули чи пошкодили — покриваємо це із застави, без додаткових розбирань із вами. Про суму й умови домовляємось заздалегідь, до самого івенту.</p></div>
       </div>
     </div>
   </div>
@@ -3205,11 +3218,11 @@
     <div class="form-card reveal">
       <div class="form-left">
         <h2>Перевірте дату <span class="em">своєї</span> події</h2>
-        <p>Залиште заявку — ми зв'яжемося, перевіримо, чи вільна дата, підберемо формат і підтвердимо бронь після узгодження.</p>
+        <p>Залиште заявку — ми зв'яжемося, перевіримо, чи вільна дата, підберемо формат і підтвердимо бронь після узгодження.</p>
         <div class="form-assure">
           <div><span class="ok">✓</span> Відповідаємо протягом дня</div>
-          <div><span class="ok">✓</span> Один вечір — одна подія, тож дати розбирають наперед</div>
-          <div><span class="ok">✓</span> Заявка ні до чого не зобов'язує — це перевірка доступності</div>
+          <div><span class="ok">✓</span> Один вечір — одна подія, тож дати розбирають наперед</div>
+          <div><span class="ok">✓</span> Заявка ні до чого не зобов'язує — це перевірка доступності</div>
         </div>
 
         <!-- Календар — візуальна зручність поверх поля «Бажана дата», а не заміна
@@ -3222,7 +3235,7 @@
           </div>
           <div class="cal-week"><span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Нд</span></div>
           <div class="cal-grid" id="calGrid"></div>
-          <p class="cal-foot" id="calFoot">Оберіть дату — вона підставиться у форму</p>
+          <p class="cal-foot" id="calFoot">Оберіть дату — вона підставиться у форму</p>
         </div>
       </div>
 
@@ -3230,7 +3243,7 @@
         <div id="formFields">
           <div class="calc-summary-note" id="calcSummaryNote" style="display:none;"></div>
           <div class="field">
-            <label for="name">Як вас звати</label>
+            <label for="name">Як вас звати</label>
             <input type="text" id="name" placeholder="Ім'я">
           </div>
           <div class="field">
@@ -3265,11 +3278,11 @@
             <textarea id="comment" placeholder="Розкажіть більше про подію, побажання щодо локації, часу тощо" rows="3"></textarea>
           </div>
           <button class="form-submit" id="submitBtn">Надіслати заявку</button>
-          <div class="form-note">Натискаючи, ви погоджуєтесь, що ми зв'яжемося з вами щодо події.</div>
+          <div class="form-note">Натискаючи, ви погоджуєтесь, що ми зв'яжемося з вами щодо події.</div>
         </div>
         <div class="form-success" id="formSuccess">
           <div class="big">Заявку прийнято ✦</div>
-          <p>Дякуємо! Ми зв'яжемося найближчим часом, щоб узгодити деталі й підтвердити дату вашого вечора.</p>
+          <p>Дякуємо! Ми зв'яжемося найближчим часом, щоб узгодити деталі й підтвердити дату вашого вечора.</p>
         </div>
       </div>
     </div>
@@ -3289,16 +3302,16 @@
       <div class="footer-cols">
       <div class="f-col f-brand">
         <div class="f-logo">SILENT<b>.</b></div>
-        <p class="f-tagline">Тиша ззовні, драйв усередині. Silent disco під ключ у Києві та по Україні.</p>
+        <p class="f-tagline">Тиша ззовні, драйв усередині. Silent disco під ключ у Києві та по Україні.</p>
         <a href="#book" class="btn-primary f-cta">Залишити заявку</a>
       </div>
       <nav class="f-col">
         <h4>Про формат</h4>
         <ul>
           <li><a href="#idea">Чому silent disco</a></li>
-          <li><a href="#how">Як це працює</a></li>
+          <li><a href="#how">Як це працює</a></li>
           <li><a href="#experience">Досвід гостя</a></li>
-          <li><a href="#offer">Що входить</a></li>
+          <li><a href="#offer">Що входить</a></li>
           <li><a href="#atmosphere">Атмосфера</a></li>
         </ul>
       </nav>
@@ -3330,12 +3343,12 @@
           <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="5.2" width="18.8" height="13.6" rx="2.6"/><path d="m3.4 7 8.05 5.6a1 1 0 0 0 1.1 0L20.6 7"/></svg>
         </a>
         </div>
-        <p class="f-note">Пишіть у будь-який месенджер — відповідаємо швидко.</p>
+        <p class="f-note">Пишіть у будь-який месенджер — відповідаємо швидко.</p>
       </div>
       </div>
       <div class="footer-legal">
         <span>Silent disco під ключ · Київ · 2026</span>
-        <span>Ціни орієнтовні й не є публічною офертою</span>
+        <span>Ціни орієнтовні й не є публічною офертою</span>
       </div>
     </div>
   </div>
@@ -3435,11 +3448,11 @@
         ['ви обираєте', 'sr'],
         ['{свою}.', '']
       ],
-      mSub: 'Один вечір — три різні танцполи.',
-      sub: 'Кожен гість чує музику у власних навушниках і сам обирає, який із трьох каналів слухати. Зовні — повна тиша. Перемикайтесь будь-коли за вечір.'
+      mSub: 'Один вечір — три різні танцполи.',
+      sub: 'Один вечір — три різні танцполи, і кожен гість обирає свій.'
     },
     {
-      eyebrow: 'Формат, що підходить будь-де',
+      eyebrow: 'Формат, що підходить будь-де',
       lines: ['Дах, квартира, {офіс} —', 'місце більше', 'не обмеження.'],
       mLines: [
         ['Дах, квартира,', ''],
@@ -3448,7 +3461,7 @@
         ['обмеження.', '']
       ],
       mSub: 'Вечірка їде туди, куди скажете.',
-      sub: 'Навушники й три канали музики знімають потребу в спеціальній акустиці та дозволі на гучний звук. Будь-який простір стає повноцінним танцполом.'
+      sub: 'Вечірка їде туди, куди скажете — акустика вже в навушниках.'
     },
     {
       eyebrow: 'Вечірка без меж гучності',
@@ -3459,8 +3472,8 @@
         ['{ніхто}', ''],
         ['не чує.', '']
       ],
-      mSub: 'Бо ніхто й не чує — ні сусіди, ні орендодавець.',
-      sub: 'Бо ніхто й не чує. Жодних обмежень на гучність, час чи сусідів за стіною — танцюйте де завгодно і рівно стільки, скільки захочете.'
+      mSub: 'Бо ніхто й не чує — ні сусіди, ні орендодавець.',
+      sub: 'Бо ніхто й не чує — ні сусіди, ні орендодавець.'
     }
   ];
   const heroEyebrow = document.getElementById('heroEyebrow');
@@ -3605,6 +3618,18 @@
     playChannel(i);
   }
   const stripEl = document.getElementById('channels');
+  // Ставить блоб центром у (cx, cy) і розміром (w, h) через один transform.
+  // База в CSS: 300×100% у лівому верхньому куті, тож центр бази — (150, H/2).
+  const BLOB_BASE_W = 300;
+  function placeBlob(cx, cy, w, h, stripH){
+    const sx = w / BLOB_BASE_W;
+    const sy = stripH ? h / stripH : 1;
+    const tx = cx - BLOB_BASE_W / 2;
+    const ty = cy - stripH / 2;
+    glowBlob.style.transform =
+      'translate3d(' + tx.toFixed(1) + 'px,' + ty.toFixed(1) + 'px,0) scale(' +
+      sx.toFixed(3) + ',' + sy.toFixed(3) + ')';
+  }
   function litStrip(color, idx){
     if (!stripEl || !glowBlob) return;
     stripEl.style.setProperty('--glow-color', color);
@@ -3624,11 +3649,9 @@
       // Vertical mode: glow hugs the active toggle's row vertically, full width
       const centerY = targetRect.top - stripRect.top + targetRect.height / 2;
       const blobHeight = Math.max(targetRect.height * 1.4, 120);
-      glowBlob.style.top = (centerY - blobHeight / 2) + 'px';
-      glowBlob.style.bottom = 'auto';
-      glowBlob.style.left = '0';
-      glowBlob.style.width = '100%';
-      glowBlob.style.height = blobHeight + 'px';
+      // Коробка блоба — 300×H у лівому верхньому куті смуги; сюди рахуємо зсув і
+      // масштаб її центру до потрібного місця. Трансформація не чіпає розкладку.
+      placeBlob(0.5 * stripRect.width, centerY, stripRect.width, blobHeight, stripRect.height);
 
       if (outlineEq){
         outlineEq.style.left = '0';
@@ -3647,11 +3670,9 @@
       // Horizontal mode (desktop): glow hugs the active toggle's column
       const centerX = targetRect.left - stripRect.left + targetRect.width / 2;
       const blobWidth = Math.max(targetRect.width * 1.5, 240);
-      glowBlob.style.left = (centerX - blobWidth / 2) + 'px';
-      glowBlob.style.width = blobWidth + 'px';
-      glowBlob.style.bottom = '-40%';
-      glowBlob.style.top = 'auto';
-      glowBlob.style.height = '200%';
+      // По вертикалі — те саме, що давали bottom:-40% і height:200%:
+      // центр на 0.4 висоти смуги, висота вдвічі більша за неї.
+      placeBlob(centerX, 0.4 * stripRect.height, blobWidth, 2 * stripRect.height, stripRect.height);
 
       if (outlineEq){
         outlineEq.style.left = (targetRect.left - stripRect.left) + 'px';
@@ -3903,9 +3924,9 @@
       const qty = Number(headphoneRange.value);
       const price = calcPrice(qty);
       const opts = [];
-      if (outsideKyiv.checked) opts.push('виїзд по Україні');
+      if (outsideKyiv.checked) opts.push('виїзд по Україні');
       if (contentReel.checked) opts.push('короткий reels');
-      if (smokeLight.checked) opts.push('дим і світло');
+      if (smokeLight.checked) opts.push('дим і світло');
       const optsText = opts.length ? `, опції: ${opts.join(', ')}` : '';
       const qtyLabel = qty >= MAX_QTY ? `${MAX_QTY}+` : qty;
       const summary = `Розрахунок із калькулятора: ${qtyLabel} навушників, ${hours} год${optsText}. Орієнтовний бюджет: ${fmt.format(price.total)} грн.`;
@@ -4588,7 +4609,7 @@
       selected = parse(b.dataset.d);
       input.value = b.dataset.d;
       input.dispatchEvent(new Event('change', { bubbles: true }));
-      foot.textContent = 'Дата у формі: ' + new Intl.DateTimeFormat('uk-UA',
+      foot.textContent = 'Дата у формі: ' + new Intl.DateTimeFormat('uk-UA',
         { day: 'numeric', month: 'long', year: 'numeric' }).format(selected);
       render();
     });
@@ -4643,7 +4664,7 @@
     const name = document.getElementById('name').value.trim();
     const contact = document.getElementById('contact').value.trim();
     if (!name || !contact){
-      alert('Будь ласка, вкажіть імʼя і контакт, щоб ми могли звʼязатися.');
+      alert('Будь ласка, вкажіть імʼя і контакт, щоб ми могли звʼязатися.');
       return;
     }
     document.getElementById('formFields').style.display = 'none';
