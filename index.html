@@ -283,7 +283,7 @@
       margin-top: 14px;
       padding-right: 46%;
     }
-    .hero .hero-actions { margin-top: 64px; }
+    .hero .hero-actions { margin-top: 28px; }
     /* column-reverse, а не інший порядок у розмітці: на десктопі лаймова кнопка
        має лишатись першою і за табуляцією, і за читанням. */
     .hero .hero-actions {
@@ -307,6 +307,14 @@
       border-color: rgba(255,255,255,0.24);
       color: #fff;
     }
+    /* Компактний варіант факт-рядка: коротший текст, менший кегль, менший
+       відступ — повна версія розтягнулась би на два рядки й тіснила фігуру. */
+    .hero .hero-facts {
+      margin-top: 8px;
+      font-size: 10.5px;
+    }
+    .hero .hero-facts .hf-full { display: none; }
+    .hero .hero-facts .hf-short { display: inline; }
 
     /* Фігура праворуч і прив'язана до низу: її низ завжди всередині панелі, тож
        між ними не може виникнути розриву на жодній ширині. Коробка рівно за
@@ -398,6 +406,17 @@
   }
   .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; align-items: center;
     opacity: 0; animation: rise 0.8s 0.68s forwards; }
+  /* Короткий факт-рядок під кнопками: ціна й формат одразу, без прокрутки.
+     Той самий ритм появи, що й у кнопок над ним, з невеликою затримкою. */
+  .hero-facts {
+    margin-top: 22px;
+    font-size: 13px; color: var(--muted-2);
+    opacity: 0; animation: rise 0.8s 0.8s forwards;
+  }
+  .hero-facts b { color: var(--lime); font-weight: 600; }
+  .hero-facts .hf-dot { margin: 0 2px; opacity: 0.5; }
+  .hero-facts .hf-short { display: none; }
+
   .btn-primary {
     background: var(--lime); color: #12100a;
     padding: 12px 24px; border-radius: 999px;
@@ -1861,7 +1880,7 @@
     /* These start at opacity:0 and reveal themselves through the `rise`
        animation. With animations off they would stay invisible forever — the
        entire hero (headline, sub, CTAs, channel panel) would never appear. */
-    .hero-badge, .hero-eyebrow, .hero-sub, .hero-actions,
+    .hero-badge, .hero-eyebrow, .hero-sub, .hero-actions, .hero-facts,
     .hero-lines > span, .channels, .hero-strip {
       opacity: 1 !important; transform: none !important;
     }
@@ -2440,6 +2459,10 @@
       <a href="#book" class="btn-primary"><span class="lbl-wide">Перевірити доступність дати</span><span class="lbl-tight">Перевірити дату</span></a>
       <a href="#how" class="btn-ghost">Як це працює</a>
     </div>
+    <p class="hero-facts">
+      <span class="hf-full">Silent disco під ключ <span class="hf-dot">·</span> від <b>9 800 грн</b> <span class="hf-dot">·</span> від <b>40 гостей</b> <span class="hf-dot">·</span> Київ та Україна</span>
+      <span class="hf-short">Від <b>9 800 грн</b> <span class="hf-dot">·</span> від <b>40 гостей</b> <span class="hf-dot">·</span> Київ</span>
+    </p>
   </div>
 
   <div class="hero-dancer" id="heroDancer" aria-hidden="true"></div>
@@ -2745,7 +2768,7 @@
   <div class="wrap">
     <div class="eyebrow reveal">Silent-досвіди</div>
     <h2 class="h2 reveal">Silent disco — це лише один зі сценаріїв. Тихий звук працює всюди, де важливо чути.</h2>
-    <p class="section-lead reveal">Один комплект обладнання відкриває десятки форматів — від весілля до екскурсії музеєм. Оберіть свій, і ми зберемо подію під нього.</p>
+    <p class="section-lead reveal">Одна технологія — десятки форматів. Від весілля до екскурсії музеєм: гортайте нижче й дивіться, що вже можна зробити.</p>
     <div class="uc-gallery reveal">
       <div class="uc-grid" id="ucGrid" role="region" aria-label="Сценарії подій, гортайте вбік">
         <div class="uc-row" data-row="a">
@@ -3072,7 +3095,7 @@
         <div class="calc-row"><span>Додаткові навушники</span><span id="extraLine">0 грн</span></div>
         <div class="calc-row"><span>Додаткові години</span><span id="hoursLine">0 грн</span></div>
         <div class="calc-row"><span>Опції</span><span id="optionsLine">0 грн</span></div>
-        <div class="calc-row"><span>Ціна за гостя</span><span id="perHeadLine">173 грн</span></div>
+        <div class="calc-row"><span>Ціна за гостя</span><span id="perHeadLine">245 грн</span></div>
         <a href="#book" class="btn-primary" id="calcSubmit" style="display:block;text-align:center;margin-top:20px;">Перевірити доступність дати</a>
         <div class="calc-note">Це орієнтир. Фінальна ціна залежить від дати, локації, тривалості та формату — і не є публічною офертою.</div>
       </div>
@@ -3151,10 +3174,10 @@
         </article>
         <article class="tst-card reveal">
           <div class="tst-stars" aria-hidden="true">★★★★★</div>
-          <p class="tst-quote">Нас було всього дванадцять, думала, на такий формат ніхто не візьметься. Взялися й привезли рівно стільки, скільки треба.</p>
+          <p class="tst-quote">Боялася, що дівич-вечір на сорок людей — це вже занадто гучно для затишної компанії. З навушниками вийшло навпаки: кожна чула тільки свою музику, а разом все одно танцювали як одна команда.</p>
           <div class="tst-author">
             <div class="tst-avatar">КЛ</div>
-            <div><div class="tst-name">Катерина Л.</div><div class="tst-role">дівич-вечір, 12 гостей</div></div>
+            <div><div class="tst-name">Катерина Л.</div><div class="tst-role">дівич-вечір, 40 гостей</div></div>
           </div>
         </article>
         <article class="tst-card reveal">
@@ -3251,13 +3274,12 @@
             <input type="text" id="contact" placeholder="+380… або @нік">
           </div>
           <div class="field">
-            <label for="type">Тип події</label>
+            <label for="type">Що ви плануєте?</label>
             <select id="type">
-              <option>Весілля</option>
-              <option>Корпоратив</option>
-              <option>День народження</option>
-              <option>Творча / танцювальна подія</option>
-              <option>Інше</option>
+              <option>Хочу дізнатися ціну</option>
+              <option>Планую подію</option>
+              <option>Шукаю формат для клієнта</option>
+              <option>Хочу обговорити нестандартний сценарій</option>
             </select>
           </div>
           <div class="field">
@@ -3272,6 +3294,17 @@
           <div class="field">
             <label for="date">Бажана дата</label>
             <input type="date" id="date">
+          </div>
+          <div class="field">
+            <label for="source">Як ви про нас дізналися? (необов'язково)</label>
+            <select id="source">
+              <option value="">Оберіть варіант</option>
+              <option>Instagram</option>
+              <option>TikTok</option>
+              <option>Google</option>
+              <option>Рекомендація</option>
+              <option>Інше</option>
+            </select>
           </div>
           <div class="field">
             <label for="comment">Коментар (необов'язково)</label>
