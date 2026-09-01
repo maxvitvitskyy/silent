@@ -2507,7 +2507,7 @@
     <a href="#offer">Що входить</a>
     <a href="#cases">Сценарії</a>
     <a href="#price">Ціна</a>
-    <a href="#book" class="nav-cta">Перевірити дату</a>
+    <a href="#book" class="nav-cta" data-cta="header_check_date">Перевірити дату</a>
   </div>
 </nav>
 
@@ -2541,7 +2541,7 @@
       Три канали звучать паралельно в навушниках кожного гостя. Хтось танцює під хаус, хтось під поп — і всі поруч, в одному залі.
     </p>
     <div class="hero-actions">
-      <a href="#book" class="btn-primary"><span class="lbl-wide">Перевірити доступність дати</span><span class="lbl-tight">Перевірити дату</span></a>
+      <a href="#book" class="btn-primary" data-cta="hero_check_date"><span class="lbl-wide">Перевірити доступність дати</span><span class="lbl-tight">Перевірити дату</span></a>
       <a href="#how" class="btn-ghost">Як це працює</a>
     </div>
   </div>
@@ -3261,7 +3261,7 @@
         <div class="calc-row"><span>Додаткові години</span><span id="hoursLine">0 грн</span></div>
         <div class="calc-row"><span>Опції</span><span id="optionsLine">0 грн</span></div>
         <div class="calc-row"><span>Ціна за гостя</span><span id="perHeadLine">245 грн</span></div>
-        <a href="#book" class="btn-primary" id="calcSubmit" style="display:block;text-align:center;margin-top:20px;">Перевірити доступність дати</a>
+        <a href="#book" class="btn-primary" id="calcSubmit" data-cta="calculator_check_date" style="display:block;text-align:center;margin-top:20px;">Перевірити доступність дати</a>
         <div class="calc-note">Це орієнтир. Фінальна ціна залежить від дати, локації, тривалості та формату — і не є публічною офертою.</div>
       </div>
     </div>
@@ -3505,7 +3505,7 @@
       <div class="f-col f-brand">
         <div class="f-logo">SILENT<b>.</b></div>
         <p class="f-tagline">Тиша ззовні, драйв усередині. Silent disco під ключ у Києві та по Україні.</p>
-        <a href="#book" class="btn-primary f-cta">Залишити заявку</a>
+        <a href="#book" class="btn-primary f-cta" data-cta="footer_leave_request">Залишити заявку</a>
       </div>
       <nav class="f-col">
         <h4>Про формат</h4>
@@ -4925,6 +4925,34 @@
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
     });
   });
+
+  // ---- GA4: cta_click ----
+  // Делеговано на document, тому працює для всіх чотирьох CTA одним
+  // обробником і не заважає стандартній навігації (#book і далі саме
+  // скролить, click тут лише додатково фіксує подію). closest() підіймається
+  // й крізь <span class="lbl-wide/lbl-tight"> усередині hero-кнопки.
+  document.addEventListener('click', (e) => {
+    const cta = e.target.closest('[data-cta]');
+    if (cta && typeof gtag === 'function') {
+      gtag('event', 'cta_click', { cta_name: cta.dataset.cta });
+    }
+  });
+
+  // ---- GA4: form_start ----
+  // Спрацьовує рівно раз за завантаження сторінки, у момент, коли гість
+  // реально починає вводити текст у перше поле форми («Ім'я») — не на фокус
+  // (можна просто клікнути й передумати), а на перший символ. Жодних значень
+  // полів у подію не йде.
+  (function initFormStartTracking(){
+    let formStartSent = false;
+    const firstField = document.getElementById('name');
+    if (!firstField) return;
+    firstField.addEventListener('input', () => {
+      if (formStartSent || typeof gtag !== 'function') return;
+      formStartSent = true;
+      gtag('event', 'form_start');
+    });
+  })();
 
   // ---- Form: integrate with Google Apps Script ----
   (function initLeadTracking(){
