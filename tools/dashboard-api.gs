@@ -63,7 +63,17 @@ function doGet() {
         device:      str(r[15]),
         os:          str(r[16]),
         browser:     str(r[17]),
-        status:      str(r[18])
+        status:      str(r[18]),
+        // ТИМЧАСОВЕ поле для діагностики: сире значення й тип клітинок B/C/H,
+        // як їх бачить сам Apps Script. dashboard/index.html його ігнорує —
+        // він читає лише відомі йому ключі, тож це поле безпечне і нічого
+        // не зламає. Прибрати після того, як стане зрозуміло, чому fmtDate/
+        // fmtTime не розпізнають формат.
+        _dbg: {
+          rawB: String(r[1]), typeB: typeof r[1], isDateB: r[1] instanceof Date,
+          rawC: String(r[2]), typeC: typeof r[2], isDateC: r[2] instanceof Date,
+          rawH: String(r[7]), typeH: typeof r[7], isDateH: r[7] instanceof Date
+        }
       });
     }
     return json({ ok: true, rows: rows, generatedAt: new Date().toISOString() });
@@ -82,22 +92,48 @@ function str(v) {
   return v === null || v === undefined ? '' : String(v).trim();
 }
 
-/** Дати з таблиці приходять то об'єктом Date, то рядком — зводимо до YYYY-MM-DD,
- *  щоб фронт міг порівнювати їх як звичайні рядки, без вгадування часових поясів. */
+// Сітківський «день нуль» для серійних дат: 30 грудня 1899. Якщо клітинка
+// прийде як голе число (не Date і не рядок), це і є той серійний формат.
+var SHEETS_EPOCH_MS = Date.UTC(1899, 11, 30);
+
+/** Дати з таблиці приходять по-різному: об'єктом Date, рядком або (рідше)
+ *  голим числом-серійником. Зводимо все до YYYY-MM-DD, щоб фронт міг
+ *  порівнювати їх як звичайні рядки, без вгадування часових поясів. */
 function fmtDate(v, tz) {
-  if (!v) return '';
-  if (v instanceof Date) return Utilities.formatDate(v, tz, 'yyyy-MM-dd');
+  if (v === null || v === undefined || v === '') return '';
+  if (v instanceof Date) {
+    if (isNaN(v.getTime())) return '';                 // «зіпсована» дата
+    return Utilities.formatDate(v, tz, 'yyyy-MM-dd');
+  }
+  if (typeof v === 'number') {
+    var d = new Date(SHEETS_EPOCH_MS + Math.round(v) * 86400000);
+    return Utilities.formatDate(d, tz, 'yyyy-MM-dd');
+  }
   var s = String(v).trim();
-  var m = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (!s) return '';
+  var m = s.match(/^(\d{4})-(\d{2})-(\d{2})/);                          // 2026-09-01(...)
   if (m) return m[1] + '-' + m[2] + '-' + m[3];
-  m = s.match(/^(\d{1,2})[.\/](\d{1,2})[.\/](\d{4})/);   // 01.09.2026 або 01/09/2026
+  m = s.match(/^(\d{1,2})[.\/](\d{1,2})[.\/](\d{4})/);                  // 01.09.2026 або 01/09/2026
   if (m) return m[3] + '-' + pad(m[2]) + '-' + pad(m[1]);
+  // Останній шанс — віддати це на розсуд самого JS/Apps Script: формати
+  // штибу «Tue Sep 01 2026 …» чи локалізовані рядки Date.toString() інакше
+  // не зловити регуляркою.
+  var parsed = new Date(s);
+  if (!isNaN(parsed.getTime())) return Utilities.formatDate(parsed, tz, 'yyyy-MM-dd');
   return '';
 }
 
 function fmtTime(v, tz) {
-  if (!v) return '';
-  if (v instanceof Date) return Utilities.formatDate(v, tz, 'HH:mm');
+  if (v === null || v === undefined || v === '') return '';
+  if (v instanceof Date) {
+    if (isNaN(v.getTime())) return '';
+    return Utilities.formatDate(v, tz, 'HH:mm');
+  }
+  if (typeof v === 'number') {
+    // Час-без-дати Sheets теж зберігає як частку доби від тієї самої епохи.
+    var d = new Date(SHEETS_EPOCH_MS + Math.round(v * 86400000));
+    return Utilities.formatDate(d, tz, 'HH:mm');
+  }
   var m = String(v).trim().match(/^(\d{1,2}):(\d{2})/);
   return m ? pad(m[1]) + ':' + m[2] : '';
 }
