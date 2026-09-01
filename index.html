@@ -2,6 +2,16 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
+<!-- Google tag (gtag.js) — навмисно одразу після charset, до решти <head>:
+     так рекомендує сам Google, щоб перегляд сторінки не загубився через
+     ранній редирект чи повільний рендер. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L60PG6EF3E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-L60PG6EF3E');
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SILENT — тиша, світло і три хвилі музики · Київ</title>
 <meta name="description" content="Silent disco під ключ у Києві та по Україні: LED-навушники, три канали музики одночасно й повна тиша ззовні. Обладнання, доставка, монтаж і супровід — в одній послузі.">
@@ -4950,6 +4960,11 @@
     sessionStorage.setItem('lead_id', generateLeadId());
   })();
 
+  // Захист від дубля generate_lead: форму технічно можна надіслати повторно
+  // (кнопка ховається лише після успіху, а не блокується одразу), тож без
+  // цього прапорця повторний клік чи гонка подій дали б два events на один лід.
+  let leadEventSent = false;
+
   document.getElementById('submitBtn').addEventListener('click', () => {
     const name = document.getElementById('name').value.trim();
     const contact = document.getElementById('contact').value.trim();
@@ -4988,6 +5003,26 @@
 
     document.getElementById('formFields').style.display = 'none';
     document.getElementById('formSuccess').classList.add('show');
+
+    // GA4: generate_lead — рівно тут, бо саме це і є «успішна відправка» в
+    // термінах цієї форми (mode:'no-cors' не дає прочитати відповідь Apps
+    // Script, тож успіхом вважається пройдена валідація й показ formSuccess,
+    // так само як і для самого запису в Google Sheets вище).
+    // Жодних персональних даних: ні ім'я, ні контакт, ні коментар сюди не йдуть.
+    if (!leadEventSent && typeof gtag === 'function') {
+      leadEventSent = true;
+      gtag('event', 'generate_lead', {
+        event_type: formData.eventType,
+        guests: formData.guests,
+        discovery: formData.discovery,
+        utm_source: utm.utmSource || '',
+        utm_medium: utm.utmMedium || '',
+        utm_campaign: utm.utmCampaign || '',
+        device: tech.device || '',
+        os: tech.os || '',
+        browser: tech.browser || ''
+      });
+    }
   });
 
 </script>
