@@ -123,14 +123,19 @@
   .nav-links a { color: var(--muted); transition: color 0.25s; }
   .nav-links a:hover { color: #fff; }
   .nav-links a.nav-cta,
+  /* Global button reset */
+  button { font-family: 'Manrope', sans-serif; }
+
   .nav-cta {
     background: var(--lime); color: #12100a !important;
-    padding: 10px 20px; border-radius: 999px;
+    padding: 11px 24px; border-radius: 999px;
     font-weight: 700; font-size: 13px;
+    border: none;
     box-shadow: 0 6px 20px -6px var(--lime-glow);
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    cursor: pointer;
   }
-  .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 26px -4px var(--lime-glow); color: #12100a !important; }
+  .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 26px -4px var(--lime-glow); color: #12100a !important; background: var(--lime); }
   @media (max-width: 720px){ .nav-links a:not(.nav-cta){ display:none; } }
 
   /* ---------- HERO ---------- */
