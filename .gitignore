@@ -19,3 +19,8 @@ images/gal/silentparty-girl.webp
 # Вихідники для карток «як зазвичай» / «із silent disco»; на сайт іде експорт
 # images/shift-old.webp і shift-new.webp.
 images/old new/
+
+# Вихідні кадри для карток «Silent-досвіди» — 53 МБ PNG, на які в розмітці
+# немає жодного посилання: на сайт іде експорт із images/uc/. Одного разу вони
+# вже просочились у коміт, тож тека тут явно.
+images/uc1/
