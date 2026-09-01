@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Сторінка без авторизації й з даними заявок — з пошуку її треба тримати
+     подалі. Посилань на неї з сайту теж навмисно немає. -->
+<meta name="robots" content="noindex, nofollow">
+<title>SILENT — Dashboard</title>
+<meta name="theme-color" content="#05070d">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* Токени взяті з index.html — дашборд має читатися як частина SILENT,
+     а не як сторонній інструмент. */
+  :root {
+    --night: #05070d;
+    --night-2: #0b1020;
+    --ink: #ffffff;
+    --muted: rgba(255,255,255,0.62);
+    --muted-2: rgba(255,255,255,0.40);
+    --muted-3: rgba(255,255,255,0.26);
+    --line: rgba(255,255,255,0.08);
+    --line-soft: rgba(255,255,255,0.05);
+    --lime: #c6ff00;
+    --lime-dim: rgba(198,255,0,0.55);
+    --lime-soft: rgba(198,255,0,0.12);
+    --panel: linear-gradient(158deg, rgba(226,230,238,0.045), rgba(210,216,228,0.015) 55%, rgba(210,216,228,0.008)), rgba(11,16,32,0.35);
+    --ok: #2ed573;
+    --warn: #ffb020;
+    --bad: #ff4757;
+    --gap: 18px;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--night);
+    color: var(--ink);
+    font-family: 'Manrope', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    /* Дуже стриманий градієнт угорі — щоб чорне не було мертвим. */
+    background-image:
+      radial-gradient(900px 420px at 12% -8%, rgba(198,255,0,0.05), transparent 62%),
+      radial-gradient(760px 380px at 88% -12%, rgba(0,179,255,0.035), transparent 60%);
+    background-repeat: no-repeat;
+  }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px 72px; }
+
+  h1, h2, h3, .u { font-family: 'Unbounded', sans-serif; letter-spacing: -0.02em; margin: 0; }
+
+  /* ── Шапка ───────────────────────────────────────────────────────────── */
+  .top {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 24px; flex-wrap: wrap;
+    padding: 40px 0 28px;
+  }
+  .brand { display: flex; flex-direction: column; gap: 6px; }
+  .brand .mark {
+    font-family: 'Unbounded'; font-weight: 700; font-size: 19px; letter-spacing: 0.02em;
+  }
+  .brand .mark b { color: var(--lime); }
+  .brand .sub {
+    font-size: 10.5px; letter-spacing: 3.4px; text-transform: uppercase;
+    color: var(--muted-2); font-weight: 700;
+  }
+  .top-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: 8px 15px; font-size: 12.5px; color: var(--muted);
+    background: rgba(255,255,255,0.02);
+  }
+  .pill .dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--lime);
+    box-shadow: 0 0 10px var(--lime-dim);
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: 8px 17px; font-size: 12.5px; font-weight: 600;
+    font-family: 'Manrope', sans-serif;
+    color: var(--ink); background: rgba(255,255,255,0.03);
+    cursor: pointer; transition: border-color .2s, background .2s, color .2s;
+  }
+  .btn:hover { border-color: rgba(198,255,0,0.45); color: var(--lime); }
+  .btn[disabled] { opacity: .5; cursor: default; }
+  .btn .ico { display: inline-block; transition: transform .5s; }
+  .btn.busy .ico { animation: spin .9s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Статус останнього оновлення. Помилка не чистить дашборд — лише підсвічує
+     цей чіп, бо старі дані корисніші за порожній екран. */
+  .stale {
+    display: none; align-items: center; gap: 7px;
+    border: 1px solid rgba(255,176,32,0.3); border-radius: 999px;
+    padding: 7px 14px; font-size: 12px; color: var(--warn);
+    background: rgba(255,176,32,0.07);
+  }
+  .stale.show { display: inline-flex; }
+
+  /* ── Загальні панелі ─────────────────────────────────────────────────── */
+  .panel {
+    border: 1px solid var(--line); border-radius: 16px;
+    background: var(--panel);
+    padding: 22px 24px 24px;
+  }
+  .panel-h {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 14px; margin-bottom: 20px;
+  }
+  .panel-h h2 { font-size: 14.5px; font-weight: 600; }
+  .panel-h .hint { font-size: 11.5px; color: var(--muted-2); }
+
+  .grid { display: grid; gap: var(--gap); }
+  .row-2 { grid-template-columns: 1fr 1fr; }
+  .row-3 { grid-template-columns: repeat(3, 1fr); }
+  section + section, .grid + .grid, .grid + section, section + .grid { margin-top: var(--gap); }
+
+  /* ── KPI ─────────────────────────────────────────────────────────────── */
+  .kpis { grid-template-columns: repeat(6, 1fr); }
+  .kpi {
+    border: 1px solid var(--line); border-radius: 14px;
+    background: var(--panel);
+    padding: 18px 18px 17px;
+    display: flex; flex-direction: column; gap: 9px;
+    position: relative; overflow: hidden;
+  }
+  .kpi .label {
+    font-size: 10.5px; letter-spacing: 1.6px; text-transform: uppercase;
+    color: var(--muted-2); font-weight: 700;
+  }
+  .kpi .val {
+    font-family: 'Unbounded'; font-weight: 600; font-size: 30px;
+    line-height: 1; letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+  .kpi .foot { font-size: 11.5px; color: var(--muted-3); }
+  .kpi.accent .val { color: var(--lime); }
+  .kpi.accent::after {
+    content: ''; position: absolute; inset: auto 0 0 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--lime-dim), transparent);
+  }
+
+  /* ── Лінійний графік ─────────────────────────────────────────────────── */
+  .chart-wrap { position: relative; }
+  .line-svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .tip {
+    position: absolute; pointer-events: none; opacity: 0;
+    transform: translate(-50%, -100%);
+    background: rgba(8,11,20,0.94); border: 1px solid var(--line);
+    border-radius: 10px; padding: 9px 12px; white-space: nowrap;
+    transition: opacity .12s; z-index: 5;
+    box-shadow: 0 14px 34px -16px rgba(0,0,0,0.9);
+  }
+  .tip .d { font-size: 11px; color: var(--muted-2); margin-bottom: 3px; }
+  .tip .n { font-family: 'Unbounded'; font-weight: 600; font-size: 14px; }
+  .tip .n b { color: var(--lime); }
+
+  /* ── Горизонтальні смуги ─────────────────────────────────────────────── */
+  .bars { display: flex; flex-direction: column; gap: 13px; }
+  .bar-row { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; }
+  .bar-row .nm { font-size: 13px; color: rgba(255,255,255,0.86); }
+  .bar-row .qt {
+    font-size: 12.5px; color: var(--muted-2); font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .bar-row .qt b { color: var(--ink); font-weight: 600; }
+  .track {
+    grid-column: 1 / -1; height: 6px; border-radius: 999px;
+    background: rgba(255,255,255,0.05); overflow: hidden;
+  }
+  .fill {
+    height: 100%; border-radius: 999px;
+    background: linear-gradient(90deg, rgba(198,255,0,0.5), var(--lime));
+    width: 0; transition: width .7s cubic-bezier(.22,1,.36,1);
+  }
+  .fill.mute { background: linear-gradient(90deg, rgba(255,255,255,0.14), rgba(255,255,255,0.3)); }
+
+  /* ── Вертикальні стовпчики (місяці) ──────────────────────────────────── */
+  .cols { display: flex; align-items: stretch; gap: 8px; height: 190px; }
+  .col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 9px; min-width: 0; }
+  /* Стовпчику потрібен власний трек із визначеною висотою: відсоткова висота
+     не резолвиться проти батька, чия висота задана вмістом, і стовпчики
+     просто не малювалися. flex:1 дає треку конкретний розмір по головній осі. */
+  .col .stemwrap {
+    flex: 1; min-height: 0; width: 100%; max-width: 46px;
+    display: flex; align-items: flex-end;
+  }
+  .col .stem {
+    width: 100%; border-radius: 7px 7px 3px 3px;
+    background: linear-gradient(180deg, var(--lime), rgba(198,255,0,0.22));
+    height: 0; transition: height .7s cubic-bezier(.22,1,.36,1);
+  }
+  .col .stem[data-zero="1"] { background: rgba(255,255,255,0.07); }
+  .col .cnt {
+    font-family: 'Unbounded'; font-weight: 600; font-size: 12.5px;
+    font-variant-numeric: tabular-nums;
+  }
+  .col .cap {
+    font-size: 10.5px; color: var(--muted-2); text-align: center;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
+  }
+
+  /* ── Воронка ─────────────────────────────────────────────────────────── */
+  .funnel { display: flex; flex-direction: column; gap: 9px; }
+  .step {
+    border: 1px solid var(--line); border-radius: 11px;
+    padding: 13px 16px; display: flex; align-items: center;
+    justify-content: space-between; gap: 14px;
+    background: rgba(255,255,255,0.02);
+    position: relative; overflow: hidden;
+  }
+  .step .sfill {
+    position: absolute; inset: 0 auto 0 0; width: 0;
+    background: linear-gradient(90deg, rgba(198,255,0,0.16), rgba(198,255,0,0.03));
+    transition: width .7s cubic-bezier(.22,1,.36,1);
+  }
+  .step .sn, .step .sv { position: relative; }
+  .step .sn { font-size: 13px; }
+  .step .sv {
+    font-family: 'Unbounded'; font-weight: 600; font-size: 15px;
+    font-variant-numeric: tabular-nums;
+  }
+  .step .sv small { font-family: 'Manrope'; font-weight: 500; color: var(--muted-2); font-size: 11.5px; margin-left: 7px; }
+  .step.win { border-color: rgba(198,255,0,0.4); }
+  .step.win .sv { color: var(--lime); }
+  .step.lost .sv { color: var(--bad); }
+  .step.lost .sfill { background: linear-gradient(90deg, rgba(255,71,87,0.14), rgba(255,71,87,0.02)); }
+
+  /* ── Останні заявки ──────────────────────────────────────────────────── */
+  .tbl { width: 100%; border-collapse: collapse; }
+  .tbl th {
+    text-align: left; font-size: 10.5px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--muted-2); font-weight: 700; padding: 0 14px 12px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .tbl td {
+    padding: 14px 14px 14px 0; font-size: 13px;
+    border-bottom: 1px solid var(--line-soft); vertical-align: middle;
+  }
+  .tbl tr:last-child td { border-bottom: 0; }
+  .tbl .nm { font-weight: 600; }
+  .tbl .dim { color: var(--muted); }
+  .tag {
+    display: inline-block; padding: 4px 10px; border-radius: 999px;
+    font-size: 11px; font-weight: 600; white-space: nowrap;
+    border: 1px solid var(--line); color: var(--muted);
+  }
+  .tag.s-nova    { border-color: rgba(198,255,0,0.4);  color: var(--lime);  background: var(--lime-soft); }
+  .tag.s-kontakt { border-color: rgba(0,179,255,0.35); color: #6cc8ff; background: rgba(0,179,255,0.08); }
+  .tag.s-obg     { border-color: rgba(255,176,32,0.35);color: var(--warn);  background: rgba(255,176,32,0.08); }
+  .tag.s-bron    { border-color: rgba(46,213,115,0.4); color: var(--ok);    background: rgba(46,213,115,0.09); }
+  .tag.s-vidm    { border-color: rgba(255,71,87,0.32); color: var(--bad);   background: rgba(255,71,87,0.07); }
+
+  .cards { display: none; flex-direction: column; gap: 11px; }
+  .lcard {
+    border: 1px solid var(--line); border-radius: 13px;
+    padding: 15px 16px; background: rgba(255,255,255,0.02);
+    display: flex; flex-direction: column; gap: 11px;
+  }
+  .lcard .hd { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .lcard .hd .nm { font-weight: 600; font-size: 14px; }
+  .lcard .meta { display: grid; grid-template-columns: 1fr 1fr; gap: 9px 14px; }
+  .lcard .meta div { display: flex; flex-direction: column; gap: 3px; }
+  .lcard .meta .k { font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted-3); font-weight: 700; }
+  .lcard .meta .v { font-size: 12.5px; color: rgba(255,255,255,0.84); }
+
+  /* ── Порожньо / завантаження ─────────────────────────────────────────── */
+  .empty { color: var(--muted-2); font-size: 13px; padding: 26px 0; text-align: center; }
+  .boot {
+    min-height: 46vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 14px; text-align: center;
+  }
+  .boot .msg { color: var(--muted); font-size: 13.5px; max-width: 460px; line-height: 1.65; }
+  .boot code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px;
+    background: rgba(255,255,255,0.06); padding: 2px 7px; border-radius: 5px; color: var(--lime);
+  }
+  /* display:flex/grid у правилах вище перебиває атрибут hidden, тож ховаємо
+     явно — інакше екран завантаження лишається висіти над дашбордом. */
+  [hidden] { display: none !important; }
+
+  /* ── Адаптив ─────────────────────────────────────────────────────────── */
+  @media (max-width: 1080px) {
+    .kpis { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 860px) {
+    .row-2, .row-3 { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 620px) {
+    .wrap { padding: 0 16px 56px; }
+    .top { padding: 28px 0 22px; align-items: flex-start; }
+    .kpis { grid-template-columns: repeat(2, 1fr); }
+    .kpi .val { font-size: 25px; }
+    .panel { padding: 18px 16px 20px; border-radius: 14px; }
+    /* Таблиця на телефоні перетворюється на картки: горизонтального скролу
+       всієї сторінки бути не повинно. */
+    .tbl { display: none; }
+    .cards { display: flex; }
+    .cols { height: 150px; gap: 5px; }
+    .col .cap { font-size: 9.5px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="top">
+    <div class="brand">
+      <div class="mark">SILENT<b>.</b></div>
+      <div class="sub">Dashboard</div>
+    </div>
+    <div class="top-right">
+      <span class="pill"><span class="dot"></span>Останні 30 днів</span>
+      <span class="stale" id="stale">⚠ Не вдалося оновити дані</span>
+      <span class="pill" id="updated">Оновлення…</span>
+      <button class="btn" id="refresh"><span class="ico">↻</span> Оновити</button>
+    </div>
+  </header>
+
+  <!-- Екран до першої вдалої відповіді: або «вантажимо», або підказка, що
+       endpoint ще не підставлений. -->
+  <div class="boot" id="boot">
+    <div class="mark u" style="font-size:15px;color:var(--muted)">Завантаження даних…</div>
+  </div>
+
+  <main id="app" hidden>
+
+    <!-- KPI -->
+    <section class="grid kpis" id="kpis"></section>
+
+    <!-- Динаміка -->
+    <section class="panel">
+      <div class="panel-h">
+        <h2>Динаміка заявок</h2>
+        <span class="hint">по днях, 30 днів</span>
+      </div>
+      <div class="chart-wrap" id="lineWrap">
+        <svg class="line-svg" id="line" viewBox="0 0 1000 260" aria-label="Заявки по днях"></svg>
+        <div class="tip" id="tip"></div>
+      </div>
+    </section>
+
+    <div class="grid row-2">
+      <!-- Джерела -->
+      <section class="panel">
+        <div class="panel-h">
+          <h2>Звідки приходять заявки</h2>
+          <span class="hint">«Як ви про нас дізналися?»</span>
+        </div>
+        <div class="bars" id="sources"></div>
+      </section>
+
+      <!-- Статуси -->
+      <section class="panel">
+        <div class="panel-h">
+          <h2>Заявки → Заброньовано</h2>
+          <span class="hint">воронка</span>
+        </div>
+        <div class="funnel" id="funnel"></div>
+      </section>
+    </div>
+
+    <div class="grid row-2">
+      <!-- Типи подій -->
+      <section class="panel">
+        <div class="panel-h">
+          <h2>Типи подій</h2>
+          <span class="hint">«Що ви плануєте?»</span>
+        </div>
+        <div class="bars" id="types"></div>
+      </section>
+
+      <!-- Гості -->
+      <section class="panel">
+        <div class="panel-h">
+          <h2>Масштаб подій</h2>
+          <span class="hint">кількість гостей</span>
+        </div>
+        <div class="bars" id="guests"></div>
+      </section>
+    </div>
+
+    <!-- Попит за датами подій -->
+    <section class="panel">
+      <div class="panel-h">
+        <h2>Попит за датами подій</h2>
+        <span class="hint">«Бажана дата», по місяцях</span>
+      </div>
+      <div class="cols" id="months"></div>
+    </section>
+
+    <!-- UTM -->
+    <section class="panel">
+      <div class="panel-h">
+        <h2>Маркетинг</h2>
+        <span class="hint">UTM-мітки з посилань</span>
+      </div>
+      <div class="grid row-3">
+        <div><div class="panel-h"><h2 style="font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted-2)">Source</h2></div><div class="bars" id="utmS"></div></div>
+        <div><div class="panel-h"><h2 style="font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted-2)">Medium</h2></div><div class="bars" id="utmM"></div></div>
+        <div><div class="panel-h"><h2 style="font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted-2)">Campaign</h2></div><div class="bars" id="utmC"></div></div>
+      </div>
+    </section>
+
+    <!-- Останні заявки -->
+    <section class="panel">
+      <div class="panel-h">
+        <h2>Останні заявки</h2>
+        <span class="hint">10 найновіших</span>
+      </div>
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th>Ім'я</th><th>Заявка</th><th>Тип події</th>
+            <th>Гостей</th><th>Бажана дата</th><th>Джерело</th><th>Статус</th>
+          </tr>
+        </thead>
+        <tbody id="latest"></tbody>
+      </table>
+      <div class="cards" id="latestCards"></div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // Окремий Apps Script проєкт, ТІЛЬКИ на читання — не той /exec, що приймає
+  // заявки з форми. Код для нього лежить у tools/dashboard-api.gs.
+  var READ_ENDPOINT = 'ВСТАВТЕ_URL_READ_ENDPOINT';
+
+  var WINDOW_DAYS = 30;
+  var REFRESH_MS = 5 * 60 * 1000;
+  var MAX_SOURCES = 7;              // решта згортається в «Інші»
+
+  var MONTHS = ['січ','лют','бер','квіт','трав','черв','лип','серп','вер','жовт','лист','груд'];
+  var STATUSES = [
+    { key: 'Нова',          cls: 's-nova' },
+    { key: 'Контакт',       cls: 's-kontakt' },
+    { key: 'Обговорення',   cls: 's-obg' },
+    { key: 'Заброньовано',  cls: 's-bron' },
+    { key: 'Відмова',       cls: 's-vidm' }
+  ];
+
+  var $ = function (id) { return document.getElementById(id); };
+  var lastRows = null;              // останні вдалі дані — на випадок збою
+
+  // Стартові розміри смуг ставимо наступним тиком, щоб спрацював CSS-перехід.
+  // Саме setTimeout, а не requestAnimationFrame: rAF у фоновій вкладці не
+  // викликається взагалі, і дашборд, відкритий у фоні, лишався б із нульовими
+  // смугами до першого фокуса.
+  function nextTick(fn) { setTimeout(fn, 30); }
+
+  // ── дати ────────────────────────────────────────────────────────────────
+  function dayKey(d) {
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+  }
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  function shiftDays(n) {
+    var d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() + n); return d;
+  }
+  function prettyDate(key) {
+    var p = String(key).split('-');
+    if (p.length !== 3) return key || '—';
+    return Number(p[2]) + ' ' + MONTHS[Number(p[1]) - 1];
+  }
+
+  // ── підрахунки ──────────────────────────────────────────────────────────
+  function tally(rows, field, fallback) {
+    var map = {};
+    rows.forEach(function (r) {
+      var v = (r[field] || '').trim() || fallback;
+      if (!v) return;
+      map[v] = (map[v] || 0) + 1;
+    });
+    return Object.keys(map)
+      .map(function (k) { return { name: k, n: map[k] }; })
+      .sort(function (a, b) { return b.n - a.n; });
+  }
+
+  // ── рендер: смуги ───────────────────────────────────────────────────────
+  function renderBars(el, items, opts) {
+    opts = opts || {};
+    el.innerHTML = '';
+    if (!items.length) { el.innerHTML = '<div class="empty">Поки немає даних</div>'; return; }
+
+    var list = items;
+    if (opts.limit && items.length > opts.limit) {
+      var head = items.slice(0, opts.limit);
+      var restN = items.slice(opts.limit).reduce(function (s, i) { return s + i.n; }, 0);
+      list = head.concat([{ name: 'Інші', n: restN, mute: true }]);
+    }
+    var total = items.reduce(function (s, i) { return s + i.n; }, 0);
+    var max = Math.max.apply(null, list.map(function (i) { return i.n; }));
+
+    list.forEach(function (item) {
+      var share = total ? Math.round(item.n / total * 100) : 0;
+      var row = document.createElement('div');
+      row.className = 'bar-row';
+      row.innerHTML =
+        '<div class="nm"></div>' +
+        '<div class="qt"><b>' + item.n + '</b> · ' + share + '%</div>' +
+        '<div class="track"><div class="fill' + (item.mute ? ' mute' : '') + '"></div></div>';
+      row.querySelector('.nm').textContent = item.name;
+      el.appendChild(row);
+      var fill = row.querySelector('.fill');
+      nextTick(function () {
+        fill.style.width = (max ? item.n / max * 100 : 0) + '%';
+      });
+    });
+  }
+
+  // ── рендер: KPI ─────────────────────────────────────────────────────────
+  function renderKpis(win, all) {
+    var todayKey = dayKey(new Date());
+    var d7 = dayKey(shiftDays(-6));
+
+    var nova = win.filter(function (r) { return r.status === 'Нова'; }).length;
+    var bron = win.filter(function (r) { return r.status === 'Заброньовано'; }).length;
+    var today = win.filter(function (r) { return r.date === todayKey; }).length;
+    var week = win.filter(function (r) { return r.date >= d7; }).length;
+    var conv = win.length ? Math.round(bron / win.length * 100) : 0;
+
+    var cards = [
+      { label: 'Заявки',        val: win.length, foot: 'за 30 днів' },
+      { label: 'Нові',          val: nova,       foot: 'очікують контакту' },
+      { label: 'Заброньовано',  val: bron,       foot: 'підтверджені події', accent: true },
+      { label: 'Конверсія',     val: conv + '%', foot: 'заявка → бронь', accent: true },
+      { label: 'Сьогодні',      val: today,      foot: prettyDate(todayKey) },
+      { label: 'Останні 7 днів',val: week,       foot: 'тиждень' }
+    ];
+
+    $('kpis').innerHTML = cards.map(function (c) {
+      return '<div class="kpi' + (c.accent ? ' accent' : '') + '">' +
+             '<div class="label">' + c.label + '</div>' +
+             '<div class="val">' + c.val + '</div>' +
+             '<div class="foot">' + c.foot + '</div></div>';
+    }).join('');
+  }
+
+  // ── рендер: лінійний графік ─────────────────────────────────────────────
+  function renderLine(win) {
+    var svg = $('line'), tip = $('tip');
+    // viewBox беремо за реальною шириною контейнера, тобто масштаб 1:1. При
+    // фіксованій ширині графік на телефоні стискався разом із підписами дат,
+    // і вони ставали нечитабельними.
+    var W = Math.round($('lineWrap').getBoundingClientRect().width) || 1000;
+    W = Math.max(320, Math.min(1100, W));
+    var H = W < 560 ? 210 : 260;
+    var padL = 30, padR = 8, padT = 16, padB = 26;
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+
+    // усі 30 днів, навіть порожні — інакше провали в попиті стають невидимими
+    var days = [];
+    for (var i = WINDOW_DAYS - 1; i >= 0; i--) {
+      var k = dayKey(shiftDays(-i));
+      days.push({ key: k, n: win.filter(function (r) { return r.date === k; }).length });
+    }
+    var max = Math.max(1, Math.max.apply(null, days.map(function (d) { return d.n; })));
+    // «гарний» верх шкали, щоб підписи були цілими
+    var top = max <= 4 ? max : Math.ceil(max / 5) * 5;
+
+    var iw = W - padL - padR, ih = H - padT - padB;
+    var x = function (i) { return padL + (days.length === 1 ? iw / 2 : i / (days.length - 1) * iw); };
+    var y = function (v) { return padT + ih - (v / top) * ih; };
+
+    var parts = [];
+
+    // сітка + підписи шкали
+    var ticks = top <= 4 ? top : 4;
+    for (var t = 0; t <= ticks; t++) {
+      var v = Math.round(top / ticks * t), gy = y(v);
+      parts.push('<line x1="' + padL + '" y1="' + gy + '" x2="' + (W - padR) + '" y2="' + gy +
+                 '" stroke="rgba(255,255,255,0.055)" stroke-width="1" vector-effect="non-scaling-stroke"/>');
+      parts.push('<text x="' + (padL - 9) + '" y="' + (gy + 4) +
+                 '" text-anchor="end" font-size="10" fill="rgba(255,255,255,0.3)" font-family="Manrope">' + v + '</text>');
+    }
+
+    var line = days.map(function (d, i) { return (i ? 'L' : 'M') + x(i) + ' ' + y(d.n); }).join(' ');
+    var area = line + ' L' + x(days.length - 1) + ' ' + y(0) + ' L' + x(0) + ' ' + y(0) + ' Z';
+
+    parts.push('<defs><linearGradient id="ga" x1="0" y1="0" x2="0" y2="1">' +
+               '<stop offset="0%" stop-color="rgba(198,255,0,0.26)"/>' +
+               '<stop offset="100%" stop-color="rgba(198,255,0,0)"/></linearGradient></defs>');
+    parts.push('<path d="' + area + '" fill="url(#ga)"/>');
+    parts.push('<path d="' + line + '" fill="none" stroke="#c6ff00" stroke-width="2" ' +
+               'stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>');
+
+    // Підписи дат розріджуємо під ширину: приблизно один на 78px, інакше на
+    // вузькому екрані вони налазять один на одного.
+    var step = Math.max(2, Math.ceil(days.length / Math.max(2, Math.floor(iw / 78))));
+    days.forEach(function (d, i) {
+      if (i % step === 0 || i === days.length - 1) {
+        parts.push('<text x="' + x(i) + '" y="' + (H - 6) + '" text-anchor="middle" font-size="10" ' +
+                   'fill="rgba(255,255,255,0.3)" font-family="Manrope">' + prettyDate(d.key) + '</text>');
+      }
+      if (d.n > 0) {
+        parts.push('<circle cx="' + x(i) + '" cy="' + y(d.n) + '" r="3" fill="#05070d" stroke="#c6ff00" ' +
+                   'stroke-width="1.6" vector-effect="non-scaling-stroke"/>');
+      }
+    });
+
+    // невидимі зони наведення — по одній на день
+    var band = iw / Math.max(1, days.length - 1);
+    days.forEach(function (d, i) {
+      parts.push('<rect class="hit" data-i="' + i + '" x="' + (x(i) - band / 2) + '" y="' + padT +
+                 '" width="' + band + '" height="' + ih + '" fill="transparent" style="cursor:crosshair"/>');
+    });
+
+    svg.innerHTML = parts.join('');
+
+    // Позиції рахуємо від реального розміру SVG: viewBox масштабується, тож
+    // координати всередині нього не збігаються з пікселями на екрані.
+    function showTip(i) {
+      var d = days[i], box = svg.getBoundingClientRect();
+      tip.innerHTML = '<div class="d">' + prettyDate(d.key) + '</div><div class="n"><b>' + d.n + '</b> ' +
+                      (d.n === 1 ? 'заявка' : (d.n >= 2 && d.n <= 4 ? 'заявки' : 'заявок')) + '</div>';
+      tip.style.left = (x(i) / W * box.width) + 'px';
+      tip.style.top = (y(d.n) / H * box.height - 10) + 'px';
+      tip.style.opacity = '1';
+    }
+    Array.prototype.forEach.call(svg.querySelectorAll('.hit'), function (r) {
+      var i = Number(r.getAttribute('data-i'));
+      r.addEventListener('mouseenter', function () { showTip(i); });
+      r.addEventListener('touchstart', function (e) { e.preventDefault(); showTip(i); }, { passive: false });
+    });
+    $('lineWrap').addEventListener('mouseleave', function () { tip.style.opacity = '0'; });
+  }
+
+  // ── рендер: воронка ─────────────────────────────────────────────────────
+  function renderFunnel(win) {
+    var el = $('funnel');
+    var total = win.length;
+    var counts = {};
+    STATUSES.forEach(function (s) {
+      counts[s.key] = win.filter(function (r) { return r.status === s.key; }).length;
+    });
+
+    // Воронка кумулятивна: «Контакт» означає, що заявку вже опрацювали, тож
+    // на кожному кроці рахуємо всіх, хто дійшов щонайменше сюди. Відмова —
+    // окремо, це вихід із воронки, а не її сходинка.
+    // Перша сходинка — саме ВСІ заявки, включно з відмовами: інакше вона
+    // мовчки губила б їх і показувала 89% там, де має бути 100%.
+    var flow = ['Нова', 'Контакт', 'Обговорення', 'Заброньовано'];
+    var reached = flow.map(function (_, i) {
+      if (i === 0) return total;
+      return flow.slice(i).reduce(function (s, k) { return s + counts[k]; }, 0);
+    });
+
+    var html = flow.map(function (k, i) {
+      var n = reached[i];
+      var share = total ? Math.round(n / total * 100) : 0;
+      var win_ = k === 'Заброньовано';
+      return '<div class="step' + (win_ ? ' win' : '') + '">' +
+             '<div class="sfill" style="width:' + share + '%"></div>' +
+             '<div class="sn">' + (i === 0 ? 'Усі заявки' : k) + '</div>' +
+             '<div class="sv">' + n + '<small>' + share + '%</small></div></div>';
+    }).join('');
+
+    var lost = counts['Відмова'];
+    if (lost) {
+      var ls = total ? Math.round(lost / total * 100) : 0;
+      html += '<div class="step lost"><div class="sfill" style="width:' + ls + '%"></div>' +
+              '<div class="sn">Відмова</div><div class="sv">' + lost + '<small>' + ls + '%</small></div></div>';
+    }
+    el.innerHTML = total ? html : '<div class="empty">Поки немає даних</div>';
+  }
+
+  // ── рендер: місяці бажаних дат ──────────────────────────────────────────
+  function renderMonths(rows) {
+    var el = $('months');
+    var withDate = rows.filter(function (r) { return r.eventDate; });
+    if (!withDate.length) { el.innerHTML = '<div class="empty">Поки немає дат подій</div>'; return; }
+
+    var map = {};
+    withDate.forEach(function (r) {
+      var k = r.eventDate.slice(0, 7);
+      map[k] = (map[k] || 0) + 1;
+    });
+    // Показуємо суцільний діапазон від найранішого до найпізнішого місяця:
+    // порожній місяць між піками — це теж інформація.
+    var keys = Object.keys(map).sort();
+    var span = [], cur = keys[0], last = keys[keys.length - 1], guard = 0;
+    while (cur <= last && guard++ < 36) {
+      span.push(cur);
+      var yy = Number(cur.slice(0, 4)), mm = Number(cur.slice(5, 7));
+      if (mm === 12) { yy++; mm = 1; } else { mm++; }
+      cur = yy + '-' + pad(mm);
+    }
+    var max = Math.max.apply(null, span.map(function (k) { return map[k] || 0; }));
+
+    el.innerHTML = span.map(function (k) {
+      var n = map[k] || 0;
+      return '<div class="col">' +
+             '<div class="cnt">' + n + '</div>' +
+             '<div class="stemwrap"><div class="stem" data-zero="' + (n ? 0 : 1) +
+             '" data-h="' + (max ? n / max * 100 : 0) + '"></div></div>' +
+             '<div class="cap">' + MONTHS[Number(k.slice(5, 7)) - 1] + '</div></div>';
+    }).join('');
+
+    // Висоту рахуємо в пікселях від реально виміряного треку. Відсотки тут не
+    // працюють: висота треку береться з flex:1, а проти такої висоти браузер
+    // відсоткову висоту дитини не резолвить — стовпчики лишались нульовими.
+    nextTick(function () {
+      Array.prototype.forEach.call(el.querySelectorAll('.stem'), function (s) {
+        var track = s.parentNode.getBoundingClientRect().height;
+        var h = Number(s.getAttribute('data-h')) / 100 * track;
+        s.style.height = Math.max(Math.round(h), 3) + 'px';
+      });
+    });
+  }
+
+  // ── рендер: останні заявки ──────────────────────────────────────────────
+  function statusTag(s) {
+    var found = STATUSES.filter(function (x) { return x.key === s; })[0];
+    var safe = document.createElement('span');
+    safe.className = 'tag ' + (found ? found.cls : '');
+    safe.textContent = s || '—';
+    return safe.outerHTML;
+  }
+  function esc(s) {
+    var d = document.createElement('div');
+    d.textContent = s == null || s === '' ? '—' : s;
+    return d.innerHTML;
+  }
+
+  function renderLatest(rows) {
+    // Сортуємо за датою й часом заявки, а не за порядком у таблиці.
+    var latest = rows.slice().sort(function (a, b) {
+      return (b.date + ' ' + b.time).localeCompare(a.date + ' ' + a.time);
+    }).slice(0, 10);
+
+    if (!latest.length) {
+      $('latest').innerHTML = '<tr><td colspan="7"><div class="empty">Поки немає заявок</div></td></tr>';
+      $('latestCards').innerHTML = '<div class="empty">Поки немає заявок</div>';
+      return;
+    }
+
+    $('latest').innerHTML = latest.map(function (r) {
+      return '<tr>' +
+        '<td class="nm">' + esc(r.name) + '</td>' +
+        '<td class="dim">' + prettyDate(r.date) + (r.time ? ' · ' + esc(r.time) : '') + '</td>' +
+        '<td>' + esc(r.eventType) + '</td>' +
+        '<td class="dim">' + esc(r.guests) + '</td>' +
+        '<td class="dim">' + (r.eventDate ? prettyDate(r.eventDate) : '—') + '</td>' +
+        '<td class="dim">' + esc(r.discovery) + '</td>' +
+        '<td>' + statusTag(r.status) + '</td></tr>';
+    }).join('');
+
+    $('latestCards').innerHTML = latest.map(function (r) {
+      return '<div class="lcard">' +
+        '<div class="hd"><span class="nm">' + esc(r.name) + '</span>' + statusTag(r.status) + '</div>' +
+        '<div class="meta">' +
+          '<div><span class="k">Заявка</span><span class="v">' + prettyDate(r.date) + '</span></div>' +
+          '<div><span class="k">Тип</span><span class="v">' + esc(r.eventType) + '</span></div>' +
+          '<div><span class="k">Гостей</span><span class="v">' + esc(r.guests) + '</span></div>' +
+          '<div><span class="k">Бажана дата</span><span class="v">' + (r.eventDate ? prettyDate(r.eventDate) : '—') + '</span></div>' +
+          '<div><span class="k">Джерело</span><span class="v">' + esc(r.discovery) + '</span></div>' +
+        '</div></div>';
+    }).join('');
+  }
+
+  // ── головний рендер ─────────────────────────────────────────────────────
+  function render(rows) {
+    var from = dayKey(shiftDays(-(WINDOW_DAYS - 1)));
+    var win = rows.filter(function (r) { return r.date && r.date >= from; });
+
+    renderKpis(win, rows);
+    renderLine(win);
+    renderBars($('sources'), tally(win, 'discovery', 'Не вказано'), { limit: MAX_SOURCES });
+    renderFunnel(win);
+    renderBars($('types'), tally(win, 'eventType', 'Не вказано'));
+
+    // Категорії гостей беремо лише ті, що реально є в даних, але впорядковуємо
+    // за розміром події, а не за популярністю — так шкала читається як шкала.
+    var g = tally(win, 'guests', 'Не вказано').sort(function (a, b) {
+      var na = parseInt(a.name, 10), nb = parseInt(b.name, 10);
+      if (isNaN(na)) return 1;
+      if (isNaN(nb)) return -1;
+      return na - nb;
+    });
+    renderBars($('guests'), g);
+
+    renderBars($('utmS'), tally(win, 'utmSource', 'Без UTM'), { limit: 5 });
+    renderBars($('utmM'), tally(win, 'utmMedium', 'Без UTM'), { limit: 5 });
+    renderBars($('utmC'), tally(win, 'utmCampaign', 'Без UTM'), { limit: 5 });
+
+    renderMonths(win);
+    renderLatest(win);
+
+    $('boot').hidden = true;
+    $('app').hidden = false;
+  }
+
+  // ── завантаження ────────────────────────────────────────────────────────
+  function load() {
+    var btn = $('refresh');
+    btn.classList.add('busy'); btn.disabled = true;
+
+    fetch(READ_ENDPOINT + '?t=' + Date.now(), { method: 'GET' })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (!data || data.ok !== true || !Array.isArray(data.rows)) throw new Error('bad payload');
+        lastRows = data.rows;
+        render(lastRows);
+        $('stale').classList.remove('show');
+        var now = new Date();
+        $('updated').textContent = 'Оновлено: ' + pad(now.getHours()) + ':' + pad(now.getMinutes());
+      })
+      .catch(function (err) {
+        // Технічних деталей користувачу не показуємо — лише чіп у шапці.
+        console.error('dashboard: не вдалося завантажити дані', err);
+        $('stale').classList.add('show');
+        if (!lastRows) {
+          $('boot').innerHTML =
+            '<div class="mark u" style="font-size:15px">Немає зв\'язку з даними</div>' +
+            '<div class="msg">Дашборд не зміг прочитати таблицю. Перевірте, що в <code>READ_ENDPOINT</code> ' +
+            'вставлено адресу розгорнутого Apps Script (див. <code>tools/dashboard-api.gs</code>) ' +
+            'і що деплой відкритий для «Anyone».</div>';
+        }
+      })
+      .then(function () {
+        btn.classList.remove('busy'); btn.disabled = false;
+      });
+  }
+
+  $('refresh').addEventListener('click', load);
+
+  // Графік прив'язаний до ширини контейнера, тож при зміні розміру вікна його
+  // треба перебудувати — інакше після повороту телефона він лишиться в старій
+  // системі координат.
+  var resizeT;
+  window.addEventListener('resize', function () {
+    if (!lastRows) return;
+    clearTimeout(resizeT);
+    resizeT = setTimeout(function () {
+      var from = dayKey(shiftDays(-(WINDOW_DAYS - 1)));
+      renderLine(lastRows.filter(function (r) { return r.date && r.date >= from; }));
+    }, 180);
+  });
+
+  if (READ_ENDPOINT.indexOf('http') !== 0) {
+    $('boot').innerHTML =
+      '<div class="mark u" style="font-size:15px">Дашборд ще не під\'єднано</div>' +
+      '<div class="msg">Розгорніть <code>tools/dashboard-api.gs</code> як Apps Script Web App ' +
+      'і вставте отриману адресу в <code>READ_ENDPOINT</code> у цьому файлі.</div>';
+  } else {
+    load();
+    setInterval(load, REFRESH_MS);
+  }
+})();
+</script>
+</body>
+</html>
