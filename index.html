@@ -221,7 +221,21 @@
      стовпчик), і фігура на 56% ширини не дотягувалась до заголовка — між ними
      зяяла порожнеча. Розмір диктує ширина, тож на цих ширинах вона більша. */
   @media (min-width: 761px) and (max-width: 1100px){
-    .hero-dancer { height: min(76%, 640px); width: auto; right: 1%; }
+    .hero {
+      padding: 126px 0 80px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: clamp(28px, 3.5vw, 40px);
+    }
+    .hero-sub {
+      font-size: 14px;
+      max-width: 50ch;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero-dancer { height: min(60%, 520px); width: auto; right: 8%; }
+    .hero-photo { background-position: 55% 60%; }
   }
 
   /* ---- Мобільна композиція ---- */
@@ -1574,7 +1588,7 @@
 
   /* Тільки для десктопа: у вузькій колонці сітка стає нечитабельною, а поле
      «Бажана дата» й так відкриває рідний вибір дати на телефоні. */
-  @media (max-width: 860px){ .cal { display: none; } }
+  @media (max-width: 760px){ .cal { display: none; } }
 
   .field { margin-bottom: 16px; }
   .field label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 7px; letter-spacing: 0.3px; }
@@ -1792,6 +1806,37 @@
     font-size: 11px; color: var(--muted-2);
   }
 
+  @media (max-width: 1050px){
+    .footer-cols { grid-template-columns: 1.6fr 1fr 1fr 1.05fr; gap: 26px; }
+  }
+  @media (min-width: 768px) and (max-width: 1050px){
+    /* Лого зліва, дві навігаційні колонки поруч праворуч від нього — контакти
+       з іконками спускаються під усі три й розтягуються на всю ширину футера. */
+    .footer-cols {
+      grid-template-columns: 1.3fr 1fr 1fr;
+      gap: 30px;
+    }
+    .f-brand { grid-column: 1 / 2; grid-row: 1 / 2; }
+    .f-col:nth-child(2) { grid-column: 2 / 3; grid-row: 1 / 2; }
+    .f-col:nth-child(3) { grid-column: 3 / 4; grid-row: 1 / 2; }
+    .f-contact {
+      grid-column: 1 / -1;
+      grid-row: 2 / 3;
+      margin-top: 10px;
+    }
+    /* Кнопки на всю ширину футера: рівномірно розподілені, а не купкою зліва. */
+    .f-socials {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+      gap: 16px;
+      margin-top: 4px;
+    }
+    .f-soc { flex: 1; }
+    .f-soc svg { width: 30px; height: 30px; }
+    .f-note { max-width: none; }
+  }
   @media (max-width: 900px){
     .footer-cols { grid-template-columns: 1fr 1fr; gap: 26px; }
     .f-brand { grid-column: 1 / -1; }
@@ -3469,6 +3514,10 @@
       <div class="faq-item reveal">
         <div class="faq-q" role="button" tabindex="0"><h3>Що якщо навушники загубляться або пошкодяться?</h3><div class="faq-icon">+</div></div>
         <div class="faq-a"><p>Таке трапляється на живих вечірках, тому ми закладаємо невеликий заставний внесок за комплект, який повертається одразу після того, як усе обладнання здано в цілості. Якщо один-два навушники не повернули чи пошкодили — покриваємо це із застави, без додаткових розбирань із вами. Про суму й умови домовляємось заздалегідь, до самого івенту.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q" role="button" tabindex="0"><h3>Як багато часу потрібно на налаштування?</h3><div class="faq-icon">+</div></div>
+        <div class="faq-a"><p>Зазвичай близько <strong>30 хвилин</strong> для налаштування обладнання, розподілу навушників і перевірки каналів. Приїжджаємо заздалегідь, тож до початку вечора все вже готово. При більшій кількості навушників час може трохи збільшитись — обговорюємо це наперед.</p></div>
       </div>
     </div>
   </div>
