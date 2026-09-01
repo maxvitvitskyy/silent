@@ -249,8 +249,6 @@
     }
     .hero .hero-photo.active { opacity: 0.55; }
 
-    .hero .hero-eyebrow { font-size: 12px; margin-bottom: 12px; }
-
     /* Рядки заголовка задає JS окремим набором на кожен канал (mLines): у
        кожного слайда свій розподіл слів і свої зсуви. Тут лише геометрія. */
     .hero .hero-lines {
@@ -283,7 +281,7 @@
       margin-top: 14px;
       padding-right: 46%;
     }
-    .hero .hero-actions { margin-top: 28px; }
+    .hero .hero-actions { margin-top: 46px; }
     /* column-reverse, а не інший порядок у розмітці: на десктопі лаймова кнопка
        має лишатись першою і за табуляцією, і за читанням. */
     .hero .hero-actions {
@@ -307,11 +305,11 @@
       border-color: rgba(255,255,255,0.24);
       color: #fff;
     }
-    /* Компактний варіант факт-рядка: коротший текст, менший кегль, менший
-       відступ — повна версія розтягнулась би на два рядки й тіснила фігуру. */
+    /* Компактний варіант факт-рядка над заголовком: коротший текст і менший
+       кегль — повна версія розтягнулась би на два рядки й тіснила фігуру. */
     .hero .hero-facts {
-      margin-top: 8px;
-      font-size: 10.5px;
+      margin-bottom: 10px;
+      font-size: 11px;
     }
     .hero .hero-facts .hf-full { display: none; }
     .hero .hero-facts .hf-short { display: inline; }
@@ -367,11 +365,6 @@
     margin-bottom: 20px;
     opacity: 0; animation: rise 0.7s 0.02s forwards;
   }
-  .hero-eyebrow {
-    font-family: 'Lora', serif; font-style: italic;
-    color: var(--lime); font-size: 15px; font-weight: 500; margin-bottom: 20px;
-    opacity: 0; animation: rise 0.7s 0.1s forwards;
-  }
   /* Тонше накреслення замість жирного: на ескізі заголовок помітно легший, і
      це працює на бренд — SILENT не має кричати. 500 лишає його твердим, але
      знімає ту вагу, через яку блок виглядав важким. */
@@ -406,12 +399,13 @@
   }
   .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; align-items: center;
     opacity: 0; animation: rise 0.8s 0.68s forwards; }
-  /* Короткий факт-рядок під кнопками: ціна й формат одразу, без прокрутки.
-     Той самий ритм появи, що й у кнопок над ним, з невеликою затримкою. */
+  /* Короткий факт-рядок над заголовком, замість надзаголовка, що раніше
+     мінявся по каналах: ціна й формат одразу, ще до заголовка. Перший у
+     черзі появи — та сама роль, що мав старий eyebrow. */
   .hero-facts {
-    margin-top: 22px;
+    margin-bottom: 20px;
     font-size: 13px; color: var(--muted-2);
-    opacity: 0; animation: rise 0.8s 0.8s forwards;
+    opacity: 0; animation: rise 0.7s 0.1s forwards;
   }
   .hero-facts b { color: var(--lime); font-weight: 600; }
   .hero-facts .hf-dot { margin: 0 2px; opacity: 0.5; }
@@ -441,11 +435,9 @@
      (swap-in) — softer than replacing text mid-rise. Driven by setChannel(). */
   @keyframes fadeOutUp { from { opacity:1; transform: none; } to { opacity:0; transform: translateY(-14px); } }
 
-  .hero-eyebrow.swap-out,
   .hero-sub.swap-out,
   .hero-lines > span.swap-out { animation: fadeOutUp 0.32s cubic-bezier(.4,0,.2,1) forwards; }
 
-  .hero-eyebrow.swap-in { animation: rise 0.6s 0s cubic-bezier(.16,.84,.44,1) forwards; }
   .hero-sub.swap-in { animation: rise 0.62s 0.22s cubic-bezier(.16,.84,.44,1) forwards; }
   .hero-lines > span.swap-in { animation: rise 0.6s cubic-bezier(.16,.84,.44,1) forwards; }
   .hero-lines > span.swap-in:nth-child(1){ animation-delay: 0.06s; }
@@ -1885,7 +1877,7 @@
     /* These start at opacity:0 and reveal themselves through the `rise`
        animation. With animations off they would stay invisible forever — the
        entire hero (headline, sub, CTAs, channel panel) would never appear. */
-    .hero-badge, .hero-eyebrow, .hero-sub, .hero-actions, .hero-facts,
+    .hero-badge, .hero-sub, .hero-actions, .hero-facts,
     .hero-lines > span, .channels, .hero-strip {
       opacity: 1 !important; transform: none !important;
     }
@@ -2081,9 +2073,12 @@
     /* Крихітна (24×14) розмита версія кадру як тло самої картинки: картка
        ніколи не виглядає порожнім квадратом, поки вантажиться справжнє фото.
        Тло лежить на <img>, тож його гасить та сама маска — окремого
-       прямокутника з різким краєм не з'являється. */
+       прямокутника з різким краєм не з'являється. Той самий фон заповнює й
+       бокові поля навколо фото нижче: за задумом (contain, не cover) фото
+       квадратні й не мають різатись під ширшу картку — по боках лишається
+       розмита версія цього ж кадру, а не порожнеча. */
     background-image: var(--lqip); background-size: cover; background-position: center;
-    width: 100%; height: calc(100% + var(--uc-tail)); object-fit: cover;
+    width: 100%; height: calc(100% + var(--uc-tail)); object-fit: contain;
     -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 38%, rgba(0,0,0,0.66) 58%, rgba(0,0,0,0.22) 80%, transparent 100%);
     mask-image: linear-gradient(180deg, #000 0%, #000 38%, rgba(0,0,0,0.66) 58%, rgba(0,0,0,0.22) 80%, transparent 100%);
   }
@@ -2448,7 +2443,10 @@
        що й фінальна композиція: заголовок, підзаголовок, кнопки, фігура, потім
        на неї знизу накладається панель каналів. -->
   <div class="wrap hero-top">
-    <div class="hero-eyebrow" id="heroEyebrow">Тиша ззовні. Драйв усередині.</div>
+    <p class="hero-facts">
+      <span class="hf-full">Silent disco під ключ <span class="hf-dot">·</span> від <b>9 800 грн</b> <span class="hf-dot">·</span> від <b>40 гостей</b> <span class="hf-dot">·</span> Київ та Україна</span>
+      <span class="hf-short">Від <b>9 800 грн</b> <span class="hf-dot">·</span> від <b>40 гостей</b> <span class="hf-dot">·</span> Київ</span>
+    </p>
     <h1 class="hero-lines" id="heroLines">
       <span>Три хвилі музики</span>
       <span>грають одночасно —</span>
@@ -2464,10 +2462,6 @@
       <a href="#book" class="btn-primary"><span class="lbl-wide">Перевірити доступність дати</span><span class="lbl-tight">Перевірити дату</span></a>
       <a href="#how" class="btn-ghost">Як це працює</a>
     </div>
-    <p class="hero-facts">
-      <span class="hf-full">Silent disco під ключ <span class="hf-dot">·</span> від <b>9 800 грн</b> <span class="hf-dot">·</span> від <b>40 гостей</b> <span class="hf-dot">·</span> Київ та Україна</span>
-      <span class="hf-short">Від <b>9 800 грн</b> <span class="hf-dot">·</span> від <b>40 гостей</b> <span class="hf-dot">·</span> Київ</span>
-    </p>
   </div>
 
   <div class="hero-dancer" id="heroDancer" aria-hidden="true"></div>
@@ -2809,7 +2803,7 @@
       </article>
       <article class="uc-card" data-uc="Презентація релізу">
         <div class="uc-media">
-          <img src="images/uc/listening.webp" style="--lqip:url(data:image/webp;base64,UklGRpwAAABXRUJQVlA4IJAAAABQBACdASoYAA4APtFUo0uoJKMhsAgBABoJZgCdMoADKmrah0sAOZi3fVAAAP7syQEZOxGeLbto8J41rPKT+C15WMRrvrVM4npqb46c25H8fExhUaOhTAwL4S/xPZosSuKw6yavoO2xoV3sJ0XVu+lbBK4fb0nQUbKBtmZ1IfqqXZsAgB+ine7yZzQcKNSAAAA=)" width="544" height="306" loading="lazy" decoding="async" alt="Презентація релізу">
+          <img src="images/uc/listening.webp" style="--lqip:url(data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAABQBACdASoYAA4APtFWo0uoJKMhsAgBABoJYwDCkf/gND+o9rLasq+3lJgAAP72k+frd+Tx9MzWNuSRzIVr83k0gRilpmMzr9BlrgGyzSeTDtLf2/iOo6+FzH+Q7czV2CxtJA7564KHt1KHBSz87pZ9Ua6uF05DKz4OyAAA)" width="544" height="306" loading="lazy" decoding="async" alt="Презентація релізу">
         </div>
         <div class="uc-body">
           <h3>Презентація релізу</h3>
@@ -2829,7 +2823,7 @@
       </article>
       <article class="uc-card" data-uc="Музичні коледжі">
         <div class="uc-media">
-          <img src="images/uc/musiccollege.webp" style="--lqip:url(data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAAAQBACdASoYAA4APtFUo0uoJKMhsAgBABoJbACdACLL3iBe84qKtWO4wAD+5nbzcTrTZwJ/f9yt24gFs8j4aIRpVF74Sq8fSR210cywsMn4zsNNO8GypfsXGETLsYnVk9KY/wV7hrSg9HtY5O1iI5nAgf3bxJ2LSnF/lBw2SCZ1UKOTSk7eG3kP6fwSe6T+8dVDvLidIaRXLX9eaAAAAA==)" width="544" height="306" loading="lazy" decoding="async" alt="Музичні коледжі">
+          <img src="images/uc/musiccollege.webp" style="--lqip:url(data:image/webp;base64,UklGRrYAAABXRUJQVlA4IKoAAADQBACdASoYAA4APtFUo0uoJKMhsAgBABoJZgCdLwDs/xbHa2vE5qyKDEI6/A6sAAD+5rcp/v4gzDEpTtseTdXW52D61soTCkgUXaAHOu4K5vCcHOqtVwm8X2+bcl74be6FsZe3M/0zav3ge4MQQvas87tKoPe8WvJ057hbeTIT79v108ZnvtrqMAeJu/GBqt6ZuY3TBwp0M8K9n4QNbPC6Fw8x5iEjkfPwAA==)" width="544" height="306" loading="lazy" decoding="async" alt="Музичні коледжі">
         </div>
         <div class="uc-body">
           <h3>Музичні коледжі</h3>
@@ -2889,7 +2883,7 @@
       </article>
       <article class="uc-card" data-uc="Silent disco">
         <div class="uc-media">
-          <img src="images/uc/silentdisco.webp" style="--lqip:url(data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAABQBACdASoYAA4APtFWo0uoJKMhsAgBABoJYwDCkf/gND+o9rLasq+3lJgAAP72k+frd+Tx9MzWNuSRzIVr83k0gRilpmMzr9BlrgGyzSeTDtLf2/iOo6+FzH+Q7czV2CxtJA7564KHt1KHBSz87pZ9Ua6uF05DKz4OyAAA)" width="544" height="306" loading="lazy" decoding="async" alt="Silent disco">
+          <img src="images/uc/silentdisco.webp" style="--lqip:url(data:image/webp;base64,UklGRtQAAABXRUJQVlA4IMgAAACwBACdASoYAA4APtFUo0uoJKMhsAgBABoJbAC7MoRwACXe2OlOuLm/q4zmdJkYAP7R3o3mbs8WVpAoxjXkcFGn0upcAW9yNPxv1kqMK88RKEX3P74fRLjUbrQpbDcvqsLGdqkRv8sieQWVQNkjUzUnfdBn3CesNVdHIL3I6Ykyh1rsq18L0zm6lioIJez+I896Dq2jKopnXLclUqEm4GAPNqfd1nBZzvN+z6O0Fta5kLhdq5m7omdzqjDlDZfCVwB7ysq97oAAAA==)" width="544" height="306" loading="lazy" decoding="async" alt="Silent disco">
         </div>
         <div class="uc-body">
           <h3>Silent disco</h3>
@@ -2961,7 +2955,7 @@
       </article>
       <article class="uc-card" data-uc="Корпоративи">
         <div class="uc-media">
-          <img src="images/uc/corporate.webp" style="--lqip:url(data:image/webp;base64,UklGRtQAAABXRUJQVlA4IMgAAACwBACdASoYAA4APtFUo0uoJKMhsAgBABoJbAC7MoRwACXe2OlOuLm/q4zmdJkYAP7R3o3mbs8WVpAoxjXkcFGn0upcAW9yNPxv1kqMK88RKEX3P74fRLjUbrQpbDcvqsLGdqkRv8sieQWVQNkjUzUnfdBn3CesNVdHIL3I6Ykyh1rsq18L0zm6lioIJez+I896Dq2jKopnXLclUqEm4GAPNqfd1nBZzvN+z6O0Fta5kLhdq5m7omdzqjDlDZfCVwB7ysq97oAAAA==)" width="544" height="306" loading="lazy" decoding="async" alt="Корпоративи">
+          <img src="images/uc/corporate.webp" style="--lqip:url(data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAAAQBACdASoYAA4APtFUo0uoJKMhsAgBABoJbACdACLL3iBe84qKtWO4wAD+5nbzcTrTZwJ/f9yt24gFs8j4aIRpVF74Sq8fSR210cywsMn4zsNNO8GypfsXGETLsYnVk9KY/wV7hrSg9HtY5O1iI5nAgf3bxJ2LSnF/lBw2SCZ1UKOTSk7eG3kP6fwSe6T+8dVDvLidIaRXLX9eaAAAAA==)" width="544" height="306" loading="lazy" decoding="async" alt="Корпоративи">
         </div>
         <div class="uc-body">
           <h3>Корпоративи</h3>
@@ -2981,7 +2975,7 @@
       </article>
       <article class="uc-card" data-uc="Камерні концерти">
         <div class="uc-media">
-          <img src="images/uc/showcase.webp" style="--lqip:url(data:image/webp;base64,UklGRrYAAABXRUJQVlA4IKoAAADQBACdASoYAA4APtFUo0uoJKMhsAgBABoJZgCdLwDs/xbHa2vE5qyKDEI6/A6sAAD+5rcp/v4gzDEpTtseTdXW52D61soTCkgUXaAHOu4K5vCcHOqtVwm8X2+bcl74be6FsZe3M/0zav3ge4MQQvas87tKoPe8WvJ057hbeTIT79v108ZnvtrqMAeJu/GBqt6ZuY3TBwp0M8K9n4QNbPC6Fw8x5iEjkfPwAA==)" width="544" height="306" loading="lazy" decoding="async" alt="Камерні концерти">
+          <img src="images/uc/showcase.webp" style="--lqip:url(data:image/webp;base64,UklGRpwAAABXRUJQVlA4IJAAAABQBACdASoYAA4APtFUo0uoJKMhsAgBABoJZgCdMoADKmrah0sAOZi3fVAAAP7syQEZOxGeLbto8J41rPKT+C15WMRrvrVM4npqb46c25H8fExhUaOhTAwL4S/xPZosSuKw6yavoO2xoV3sJ0XVu+lbBK4fb0nQUbKBtmZ1IfqqXZsAgB+ine7yZzQcKNSAAAA=)" width="544" height="306" loading="lazy" decoding="async" alt="Камерні концерти">
         </div>
         <div class="uc-body">
           <h3>Камерні концерти</h3>
@@ -3468,8 +3462,10 @@
   // mobile media-query variant) — do not override it here.
 
   // Hero copy per channel — the toggles double as a content slider. Each slide
-  // has an eyebrow, three headline lines (one word optionally accented lime via
-  // {lime:'word'}), and a sub. RED is slide 0 / default.
+  // has three headline lines (one word optionally accented lime via
+  // {lime:'word'}) and a sub; the fact line above the headline is static and
+  // doesn't change per channel, unlike the old per-channel eyebrow it replaced.
+  // RED is slide 0 / default.
   // lines — десктопні рядки (три, кожен в один ряд). mLines — мобільний набір:
   // на телефоні композиція журнальна, і розподіл слів по рядках у кожного каналу
   // свій, з власними зсувами. Другий елемент пари — клас зсуву (s1/s2/s3/sr).
@@ -3477,7 +3473,6 @@
   // правій колонці різна довжина одразу ламала б висоту композиції.
   const heroContent = [
     {
-      eyebrow: 'Тиша ззовні. Драйв усередині.',
       lines: ['Три хвилі музики', 'грають одночасно —', 'ви обираєте {свою}.'],
       mLines: [
         ['Три хвилі', ''],
@@ -3490,7 +3485,6 @@
       sub: 'Три канали звучать паралельно в навушниках кожного гостя. Хтось танцює під хаус, хтось під поп — і всі поруч, в одному залі.'
     },
     {
-      eyebrow: 'Формат, що підходить будь-де',
       lines: ['Дах, квартира, {офіс} —', 'місце більше', 'не обмеження.'],
       mLines: [
         ['Дах, квартира,', ''],
@@ -3502,7 +3496,6 @@
       sub: 'Уся звукова система вміщується в навушники: ні колонок, ні вимог до акустики, ні узгодження гучності. Простір для вечірки обираєте ви.'
     },
     {
-      eyebrow: 'Вечірка без меж гучності',
       lines: ['Танцюйте так,', 'ніби вас {ніхто}', 'не чує.'],
       mLines: [
         ['Танцюйте', ''],
@@ -3514,7 +3507,6 @@
       sub: 'Бо ніхто й не чує. Ззовні лишається тиша, тож вечір триває рівно стільки, скільки хочете ви, а не скільки дозволяє годинник.'
     }
   ];
-  const heroEyebrow = document.getElementById('heroEyebrow');
   const heroLines = document.getElementById('heroLines');
   const heroSub = document.getElementById('heroSub');
 
@@ -3591,20 +3583,19 @@
   let heroSwapTimer = null;
   function updateHeroText(i){
     const data = heroContent[i];
-    if (!data || !heroEyebrow || !heroLines || !heroSub) return;
+    if (!data || !heroLines || !heroSub) return;
     heroIndex = i;
     // On the very first call, content already matches slide 0 (server-rendered)
     // and the initial CSS rise animation is playing — don't replay it.
     if (!heroInited){ heroInited = true; return; }
 
     const oldSpans = [...heroLines.querySelectorAll(':scope > span')];
-    const out = [heroEyebrow, heroSub, ...oldSpans];
+    const out = [heroSub, ...oldSpans];
     // paintHeadline будує спани наново (у слайдів різна кількість рядків), тож
     // новий набір повертається звідси й анімується вже він, а не старий.
     const applyNew = () => {
-      heroEyebrow.textContent = data.eyebrow;
       heroSub.textContent = heroSubText(data);
-      return [heroEyebrow, heroSub, ...paintHeadline(data)];
+      return [heroSub, ...paintHeadline(data)];
     };
 
     // Reduced-motion / no-anim: swap instantly, no transition.
@@ -4672,30 +4663,41 @@
   })();
 
   // ---- Вирівнювання панелі календаря під поля форми ----
-  // Верх .cal лягає на верхній край поля «Скільки гостей», низ — на нижній
-  // край кнопки «Надіслати заявку». Рахуємо в JS, а не фіксованими
-  // відступами: набір полів праворуч не сталий (з'являється підказка з
-  // калькулятора, може дописатись поле), і будь-який зашитий відступ тут же
-  // розійшовся б із сусідньою колонкою — так і сталось, коли додали поле
-  // «Як ви про нас дізналися».
+  // Верх .cal лягає на верхній край самого поля вводу «Скільки гостей» (на
+  // рівень <select>, а не його підпису над ним), низ — на рівень кнопки
+  // «Надіслати заявку», де стоїть рядок «Оберіть дату…» (не на padding
+  // панелі під ним). Рахуємо в JS, а не фіксованими відступами: набір полів
+  // праворуч не сталий (з'являється підказка з калькулятора, може дописатись
+  // поле), і будь-який зашитий відступ тут же розійшовся б із сусідньою
+  // колонкою — так і сталось, коли додали поле «Як ви про нас дізналися».
   (function(){
     const cal = document.getElementById('cal');
     const guests = document.getElementById('guests');
     const submit = document.getElementById('submitBtn');
+    const calFoot = document.getElementById('calFoot');
     const formRight = document.querySelector('.form-right');
-    if (!cal || !guests || !submit || !formRight) return;
+    if (!cal || !guests || !submit || !calFoot || !formRight) return;
 
     function alignCalendarToForm(){
       if (getComputedStyle(cal).display === 'none') return; // ховається нижче 860px
-      const guestsField = guests.closest('.field') || guests;
       cal.style.marginTop = '0px';
       cal.style.height = 'auto';
       const calTop = cal.getBoundingClientRect().top;
-      const guestsTop = guestsField.getBoundingClientRect().top;
+      const guestsTop = guests.getBoundingClientRect().top;
       const submitBottom = submit.getBoundingClientRect().bottom;
       const marginTop = Math.max(0, guestsTop - calTop);
       cal.style.marginTop = marginTop + 'px';
-      const height = submitBottom - (calTop + marginTop);
+
+      // Перший прохід: висота панелі так, щоб низ самої панелі сів на кнопку.
+      let height = submitBottom - (calTop + marginTop);
+      if (height > 0) cal.style.height = height + 'px';
+
+      // Другий прохід: cal-grid — flex:1, тож увесь доданий простір іде йому,
+      // а calFoot і далі сидить вище на власний padding-bottom панелі. Читаємо,
+      // де рядок фактично опинився, і дотягуємо висоту на різницю.
+      const footBottom = calFoot.getBoundingClientRect().bottom;
+      const delta = submitBottom - footBottom;
+      height += delta;
       if (height > 0) cal.style.height = height + 'px';
     }
 
