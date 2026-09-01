@@ -20,6 +20,11 @@
     y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
 })(window, document, "clarity", "script", "ybmupsein1");
 </script>
+<!-- LCP-зображення hero (heroPhoto0) задане через CSS background-image, тому
+     preload-сканер знаходить його лише після побудови CSSOM — пізніше, ніж
+     потрібно. Явний preload з fetchpriority=high змушує браузер тягнути файл
+     одразу, під час парсингу <head>, не чіпаючи сам div чи його стилі. -->
+<link rel="preload" as="image" href="images/hero-crowd.webp" fetchpriority="high">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SILENT — тиша, світло і три хвилі музики · Київ</title>
 <meta name="description" content="Silent disco під ключ у Києві та по Україні: LED-навушники, три канали музики одночасно й повна тиша ззовні. Обладнання, доставка, монтаж і супровід — в одній послузі.">
