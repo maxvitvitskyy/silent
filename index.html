@@ -1123,9 +1123,17 @@
     mask-image: linear-gradient(90deg, transparent 0, #000 58px, #000 calc(100% - 58px), transparent 100%);
   }
   .gallery-grid::-webkit-scrollbar { display: none; }
-  .g-tall { grid-row: span 2; }
-  .g-wide { grid-column: span 2; }
-  .g-square { grid-row: span 2; grid-column: span 1; }
+  /* Чотири форми плитки на сітці 2×N. Порядок плиток у розмітці підібраний так,
+     щоб кожна група закривала обидва рядки: дві .g-square стають одна над одною
+     в одній колонці, дві .g-wide — одна над одною на двох колонках, а .g-tall і
+     .g-big займають усю висоту самі. Дірок не лишається, тож dense-упаковці
+     нічого переставляти, і порядок кадрів зберігається таким, як у розмітці.
+     .g-square має бути рівно 1×1: коли їй писали span 2, вона ставала копією
+     .g-tall — кожен кадр з'їдав цілу колонку, і стрічка розтягувалась утричі. */
+  .g-square { grid-row: span 1; grid-column: span 1; }
+  .g-tall   { grid-row: span 2; grid-column: span 1; }
+  .g-wide   { grid-row: span 1; grid-column: span 2; }
+  .g-big    { grid-row: span 2; grid-column: span 2; }
 
   .gallery-item {
     position: relative; margin: 0;
@@ -2760,266 +2768,106 @@
     <h2 class="h2 reveal">Тиша звучить однаково в залі й на даху, в музеї й під небом.</h2>
     <div class="gallery-strip reveal">
       <div class="gallery-grid" id="galGrid" role="region" aria-label="Атмосфера події, гортайте вбік">
-            <figure class="gallery-item g-square">
-        <img src="images/gal/01_square.webp" style="--lqip:url(data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAADQAwCdASoYABgAPu1sqlEppiOiqAqpMB2JYgCw7BEXbS8KvpmyrkAA/vQjKbWw+d5o1L3lbORtWn1igzl3oldFa5kSHV73gddgh9+8f3l0x/w460K2oFREwHx/vAAA)" loading="lazy" decoding="async" alt="Деталь">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-tall">
-        <img src="images/gal/02_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAABwBACdASogABUAPu1oqU4ppiOiMAgBMB2JQBbfXRCeG90r1Z+4HZebP7ngwAD+76c5D1aR6MOXjzf3uB+sImuaDkC7NPQPkm+CM5J5mS8sZCAs15V0gzQikzNoAA==)" loading="lazy" decoding="async" alt="Середній план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-wide">
-        <img src="images/gal/03_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAAAwBACdASogABUAPu1opk2ppqMiMBgMATAdiWUAyywXxe7QHMLrm1cK8zgA/vAHMkD1vtGJPHUJJsTyRP+ECeuZvQQC9KSmfCmeTvJBWRAAAA==)" loading="lazy" decoding="async" alt="Загальний план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-square">
-        <img src="images/gal/04_square.webp" style="--lqip:url(data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAAAQAwCdASoYABgAPu1ur1KtJiQvqAgB8B2JZQDDcBeKLnAA/u/oxMvw+GJJRf1SgXnTq8Id/Pbmx5zJGiPDdjcpyNgWMAAA)" loading="lazy" decoding="async" alt="Деталь">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-tall">
-        <img src="images/gal/05_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAAAwAwCdASogABUAPu1qrlCppiQiqAqpMB2JZQCuHBk26LAAAP7voy8ffM8JnvP7wtyZ58v+j6h1o2fY6Tp1uwzZTExDKgAA)" loading="lazy" decoding="async" alt="Середній план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-wide">
-        <img src="images/gal/06_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAAAQBACdASogABUAPu1kqk4ppaQiMAgBMB2JZQDLLCsbu01SgpNFts5GMAD+8CUnU6Yr4d3dLd3cJVf10YIU94M93kDRyGr+Kh65EzC5a2lefzSj8lfF/gAA)" loading="lazy" decoding="async" alt="Загальний план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-square">
-        <img src="images/gal/07_square.webp" style="--lqip:url(data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAACwBACdASoYABgAPu1mp02ppiOiMBgMATAdiWMAtsgPQSzmPfclQgjNlSOpmS8gAM42V1QgcVJZfIik/jxCu1RF4A9Q0b66UvlSfPjgn+Scbu4EilDYuXHtUOX7xMab6W9gAA==)" loading="lazy" decoding="async" alt="Деталь">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-tall">
-        <img src="images/gal/08_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAADQAwCdASogABUAPuVgpU2pJaOiMAwBIByJZwDDNCm7xBRjs+ehGgAA/vC2nvWBsX0vsg/afDjn6GMEzXnUJ4Ul2u7KSYlBwxMcvIEaAAA=)" loading="lazy" decoding="async" alt="Середній план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-wide">
-        <img src="images/gal/09_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAAAQBACdASogABUAPuVepk2pJSOiMAwBIByJZWQzVH4NPl+LBjma+o+MwAD+48D4yRaYRzQpzPDiFJbZzr1uMc1aimLnTnEBvjxwNw5HtA9yYct2Tf6UhAAA)" loading="lazy" decoding="async" alt="Загальний план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-square">
-        <img src="images/gal/10_square.webp" style="--lqip:url(data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAAAQBACdASoYABgAPu1wsFIppiSiqAgBMB2JYwC7ABBeEyPKSFgCH/HwQAD+5lmKGeiuVTUUjp+enqImBhWmMcQZXo1vF0bLhTtbiEuJ7lDL2TAA)" loading="lazy" decoding="async" alt="Деталь">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-tall">
-        <img src="images/gal/11_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAAAwBACdASogABUAPu1qqk8ppiOiMBgIATAdiUAToAHo4uC5EqWdYeHUNgAA/sv+SBY0XHN5d22pRl7mfhepNnSS016cagEBr23640p26ri25Q035ooeKm1HRbgAAA==)" loading="lazy" decoding="async" alt="Середній план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-wide">
-        <img src="images/gal/12_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAAAQBACdASogABUAPtFYok2oJaMiN+gBABoJYwC2FEbApEOhBTpzWJrggAD+8RAlhT0gc2IIQXVlHhpx62CTbqeZBqnu10ZsV7WdBRXQexeq73fZ/gAAAA==)" loading="lazy" decoding="async" alt="Загальний план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-square">
-        <img src="images/gal/13_square.webp" style="--lqip:url(data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAADQAwCdASoYABgAPuFgpk2sJaOiMAwBgBwJYwAAW+wAkRGCNL5sYIAA/ukR8JE8e+hqOOPzxx8NC2LIaH4giXqnCsPiaIKM8qqAAA==)" loading="lazy" decoding="async" alt="Деталь">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-tall">
-        <img src="images/gal/14_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAABwAwCdASogABUAPulcqE2pJKOiN/VYASAdCU1YYANJwcpC+GAA/u63mSdos6VtaN11f6S6Ge/8GVJwgHFSK4w0WmRsu/2ucXRsEHaIN13t1CCAw6OfMbjiAt4jbiQAAAA=)" loading="lazy" decoding="async" alt="Середній план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-wide">
-        <img src="images/gal/15_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAAAQBACdASogABUAPu1qqU8ppiOiMBgIATAdiUAU4oFlgzCyVJt+m5v5AAD+qEJqVvzzcNXN5KHNl7Beh7nu9jeYanxAIANLwmjFgLHPCShFOlU5SPgAAA==)" loading="lazy" decoding="async" alt="Загальний план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-square">
-        <img src="images/gal/16_square.webp" style="--lqip:url(data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAAAwBACdASoYABgAPu1qqVAppiiiqA1RMB2JZQCzst8Bqfikp0y2cpFvqgAA/vQi61BANu+1NspdRqfF5igXOMgrVFBqY+gBB0oRR7gqMeU3gAAA)" loading="lazy" decoding="async" alt="Деталь">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-tall">
-        <img src="images/gal/17_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAAAwBACdASogABUAPu1mq02ppaQiMAgBMB2JYwDBzCPga3RIRl7z5PqN7QAA/qkCawhYySmhh14z74T7kMrJkkwPO5ZZDPJYXZuP0BTAdsrnIAAA)" loading="lazy" decoding="async" alt="Середній план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-wide">
-        <img src="images/gal/18_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAABQAwCdASogABUAPu1qrFEzpaQyKAqqcB2JZQDDcBlIqj+VAAD+8HXIf+L0oGfk8TScDl9g8lUOWCq5rLhdWlZDpKj74AAA)" loading="lazy" decoding="async" alt="Загальний план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-square">
-        <img src="images/gal/19_square.webp" style="--lqip:url(data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAAAQAwCdASoYABgAPu1ur1KtJiQvqAgB8B2JZQDDcBeKLnAA/u/oxMvw+GJJRf1SgXnTq8Id/Pbmx5zJGiPDdjcpyNgWMAAA)" loading="lazy" decoding="async" alt="Деталь">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-tall">
-        <img src="images/gal/20_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAACQAwCdASogABUAPu1sq1EppaOiqAqpMB2JZQC7ABEcTXWF2Sa8AP7ue4zO/7AGOlxCwGNkbLOZ+JFZn8xplalhEj+Uuc7AAAA=)" loading="lazy" decoding="async" alt="Середній план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-wide">
-        <img src="images/gal/21_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRnYAAABXRUJQVlA4IGoAAAAQBQCdASogABUAPtVeo02oJaMiN/qoAQAaiWUAxvQhvF1hJR9NlQrGbATeO7PcSewAAP7lzzqyvAGzw1myUfehsYnSwyhKSjJL6qKaa/EckixOYawVY8+YLHjJQTAl+jO8UVefzY2UQgAA)" loading="lazy" decoding="async" alt="Загальний план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-square">
-        <img src="images/gal/22_square.webp" style="--lqip:url(data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAADwBACdASoYABgAPu1oqk6ppiQiKA1RMB2JYgCdABI/+eJghdSFlOag/zxLqgUpGyAA/u7YpdbUrUHHXE2HfaVJGFWfOARqz1qDeHSnTY8iAmPPzocEAioC7Rfqcf/hhoBckuwc7gqe7T2BO9vC4tlQWDTgAA==)" loading="lazy" decoding="async" alt="Деталь">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-tall">
-        <img src="images/gal/23_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAACQBACdASogABUAPu1qrlCppaQiqAqpMB2JZQC+SBFBkAVy0S3UtBCwiCEFQ4AAyw1WNXbNQ9p0gReP423bOcGLTsKvgbHhmXNRG7gzOl7rhrm/DgEBVLrbDGUZIAAA)" loading="lazy" decoding="async" alt="Середній план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-wide">
-        <img src="images/gal/24_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAAAQBACdASogABUAPt1apE2opSOsN/qoAYAbiWUApIAwDMoyuq2AvpPeAAD+8CRxYA0qz/Cpx/vkXGsJ8FBt9sit4lY3m3wpZEcqXQAA)" loading="lazy" decoding="async" alt="Загальний план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-square">
-        <img src="images/gal/25_square.webp" style="--lqip:url(data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAADQAwCdASoYABgAPuFeqU2opSQiMAwBEBwJQBOgBDvper71VjS3nAAA/unJ/jp83qPLVWGl8+LxsgdhJ8w2BcrXSdeJSyKwMvN9GqpagLnXYHwMxb5tOpdEIqIJjVm3AAA=)" loading="lazy" decoding="async" alt="Деталь">
-        <div class="gallery-scrim"></div>
-      </figure>
-      </div>
-      </figure>
-            <figure class="gallery-item g-tall">
-        <img src="images/gal/02_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAABwBACdASogABUAPu1oqU4ppiOiMAgBMB2JQBbfXRCeG90r1Z+4HZebP7ngwAD+76c5D1aR6MOXjzf3uB+sImuaDkC7NPQPkm+CM5J5mS8sZCAs15V0gzQikzNoAA==)" loading="lazy" decoding="async" alt="Середній план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-wide">
-        <img src="images/gal/03_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAAAwBACdASogABUAPu1opk2ppqMiMBgMATAdiWUAyywXxe7QHMLrm1cK8zgA/vAHMkD1vtGJPHUJJsTyRP+ECeuZvQQC9KSmfCmeTvJBWRAAAA==)" loading="lazy" decoding="async" alt="Загальний план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-square">
-        <img src="images/gal/04_square.webp" style="--lqip:url(data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAAAQAwCdASoYABgAPu1ur1KtJiQvqAgB8B2JZQDDcBeKLnAA/u/oxMvw+GJJRf1SgXnTq8Id/Pbmx5zJGiPDdjcpyNgWMAAA)" loading="lazy" decoding="async" alt="Деталь">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-tall">
-        <img src="images/gal/05_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAAAwAwCdASogABUAPu1qrlCppiQiqAqpMB2JZQCuHBk26LAAAP7voy8ffM8JnvP7wtyZ58v+j6h1o2fY6Tp1uwzZTExDKgAA)" loading="lazy" decoding="async" alt="Середній план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-wide">
-        <img src="images/gal/06_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAAAQBACdASogABUAPu1kqk4ppaQiMAgBMB2JZQDLLCsbu01SgpNFts5GMAD+8CUnU6Yr4d3dLd3cJVf10YIU94M93kDRyGr+Kh65EzC5a2lefzSj8lfF/gAA)" loading="lazy" decoding="async" alt="Загальний план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-square">
-        <img src="images/gal/07_square.webp" style="--lqip:url(data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAACwBACdASoYABgAPu1mp02ppiOiMBgMATAdiWMAtsgPQSzmPfclQgjNlSOpmS8gAM42V1QgcVJZfIik/jxCu1RF4A9Q0b66UvlSfPjgn+Scbu4EilDYuXHtUOX7xMab6W9gAA==)" loading="lazy" decoding="async" alt="Деталь">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-tall">
-        <img src="images/gal/08_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAADQAwCdASogABUAPuVgpU2pJaOiMAwBIByJZwDDNCm7xBRjs+ehGgAA/vC2nvWBsX0vsg/afDjn6GMEzXnUJ4Ul2u7KSYlBwxMcvIEaAAA=)" loading="lazy" decoding="async" alt="Середній план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-wide">
-        <img src="images/gal/09_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAAAQBACdASogABUAPuVepk2pJSOiMAwBIByJZWQzVH4NPl+LBjma+o+MwAD+48D4yRaYRzQpzPDiFJbZzr1uMc1aimLnTnEBvjxwNw5HtA9yYct2Tf6UhAAA)" loading="lazy" decoding="async" alt="Загальний план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-square">
-        <img src="images/gal/10_square.webp" style="--lqip:url(data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAAAQBACdASoYABgAPu1wsFIppiSiqAgBMB2JYwC7ABBeEyPKSFgCH/HwQAD+5lmKGeiuVTUUjp+enqImBhWmMcQZXo1vF0bLhTtbiEuJ7lDL2TAA)" loading="lazy" decoding="async" alt="Деталь">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-tall">
-        <img src="images/gal/11_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAAAwBACdASogABUAPu1qqk8ppiOiMBgIATAdiUAToAHo4uC5EqWdYeHUNgAA/sv+SBY0XHN5d22pRl7mfhepNnSS016cagEBr23640p26ri25Q035ooeKm1HRbgAAA==)" loading="lazy" decoding="async" alt="Середній план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-wide">
-        <img src="images/gal/12_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAAAQBACdASogABUAPtFYok2oJaMiN+gBABoJYwC2FEbApEOhBTpzWJrggAD+8RAlhT0gc2IIQXVlHhpx62CTbqeZBqnu10ZsV7WdBRXQexeq73fZ/gAAAA==)" loading="lazy" decoding="async" alt="Загальний план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-tall">
-        <img src="images/gal/13_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAABwAwCdASogABUAPu1qrlCppaQiqAqpMB2JZQC/7BEYSJedTGQA/tjkbexZt1G50I5DU403sPr1zU2h/JHJYRQU1FaWB0AAAAA=)" loading="lazy" decoding="async" alt="Деталь">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-wide">
-        <img src="images/gal/14_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAAAQBACdASogABUAPu1kqE2ppaOiMAgBMB2JYwCo9CHgCExTLl9+u0I3wAD+4xRjY4XA3M4sMFfzxuhJUbdZNr8cx4GQrliYzR/UpR2ntegFOn+p9FU+EZnSqAqgYfJwkAA=)" loading="lazy" decoding="async" alt="Середній план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-tall">
-        <img src="images/gal/15_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAACQBACdASogABUAPu1kq1AppSOisBgIATAdiWMAnTNyQaiRUIkkyGEQ4bUehtAA/uk81iPHZJvXbNgAGWBewNusnwV2p8zFaqXK7l4EMXbDyBxMKHG4f+nVx+VzFYAA)" loading="lazy" decoding="async" alt="Загальний план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-wide">
-        <img src="images/gal/16_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAAAwBACdASogABUAPu1qr1CppaQiqAqpMB2JYwCsMoACN4fd6+mQ+j4cmUAA/u/qX9/sx+fotgfcvtD4t/sFPoe4LU1jdkaDfm/IFp+yFYhsjBtwqV5WTzVYKjIAAA==)" loading="lazy" decoding="async" alt="Деталь">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-square">
-        <img src="images/gal/17_square.webp" style="--lqip:url(data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAADwAwCdASoYABgAPu1oqk2ppiQiMAgBMB2JYwCzgCBYF2YBjRMNbJ0AAP7MwhPpBvo7wQmVDNLjhTR53B19RLqAMVXYtjcqfQvnWlhkUFUg4aAA)" loading="lazy" decoding="async" alt="Середній план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-tall">
-        <img src="images/gal/18_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAABwBACdASogABUAPu1ep06ppKMiMBgMATAdiWUAxQqAAhfD+DTYJSK8FYkhAAD+8CL2+Tvmh8XD6rcadvPcZayIGVKquYRPSM0l5k4csSP4uThOYGAAAA==)" loading="lazy" decoding="async" alt="Загальний план">
-        <div class="gallery-scrim"></div>
-      </figure>
-            <figure class="gallery-item g-wide">
-        <img src="images/gal/19_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAAAQBACdASogABUAPu1mq0+ppSOiMBgIATAdiWcAwoAQ5nTBJTfKCR8CAAD+8NCVFyfZ4cQyhBg+hAmCJK/ytnQV11Nxn+i26FZnQU1gCKBEboAA)" loading="lazy" decoding="async" alt="Деталь">
-        <div class="gallery-scrim"></div>
-      </figure>
-      </div>
-      </figure>
-      <figure class="gallery-item g-tall">
-        <img src="images/gal/02_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAABwBACdASogABUAPu1oqU4ppiOiMAgBMB2JQBbfXRCeG90r1Z+4HZebP7ngwAD+76c5D1aR6MOXjzf3uB+sImuaDkC7NPQPkm+CM5J5mS8sZCAs15V0gzQikzNoAA==)" loading="lazy" decoding="async" alt="Портал у власний простір">
-        <div class="gallery-scrim"></div>
-      </figure>
-      <figure class="gallery-item g-tall">
-        <img src="images/gal/03_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAABQBACdASogABUAPuVepU2pJSOiMAwBIByJZQDImCm7tT17LeVAj3rGpuMwAP7wBPX3S07koxyMmnWFnmtU+l4o2rKHHpKWd6ng8sH3cAA=)" loading="lazy" decoding="async" alt="Група з навушниками посереді гір">
-        <div class="gallery-scrim"></div>
-      </figure>
-      <figure class="gallery-item g-wide">
-        <img src="images/gal/04_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAAAQBACdASogABUAPu1mq0+ppSOiMBgIATAdiWcAwoAQ5nTBJTfKCR8CAAD+8NCVFyfZ4cQyhBg+hAmCJK/ytnQV11Nxn+i26FZnQU1gCKBEboAA)" loading="lazy" decoding="async" alt="Панорама міста вночі з гостями">
-        <div class="gallery-scrim"></div>
-      </figure>
-      <figure class="gallery-item g-tall">
-        <img src="images/gal/05_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAAAwAwCdASogABUAPu1qrlCppiQiqAqpMB2JZQCuHBk26LAAAP7voy8ffM8JnvP7wtyZ58v+j6h1o2fY6Tp1uwzZTExDKgAA)" loading="lazy" decoding="async" alt="Солоне світло & нас усіх тут">
-        <div class="gallery-scrim"></div>
-      </figure>
-      <figure class="gallery-item g-tall">
-        <img src="images/gal/06_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAACQAwCdASogABUAPu1mq066JaQiKA1TQB2JZwAAQm7xxzu45uNgAP7wXGu55jDl8jf7nxvULIJkD6d1aGtb0bK1LzvLsAAA)" loading="lazy" decoding="async" alt="Жінка в розмові без слів">
-        <div class="gallery-scrim"></div>
-      </figure>
-      <figure class="gallery-item g-square">
-        <img src="images/gal/07_square.webp" style="--lqip:url(data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAACwBACdASoYABgAPu1mp02ppiOiMBgMATAdiWMAtsgPQSzmPfclQgjNlSOpmS8gAM42V1QgcVJZfIik/jxCu1RF4A9Q0b66UvlSfPjgn+Scbu4EilDYuXHtUOX7xMab6W9gAA==)" loading="lazy" decoding="async" alt="Закат над краєм моря">
-        <div class="gallery-scrim"></div>
-      </figure>
-      <figure class="gallery-item g-square">
-        <img src="images/gal/08_square.webp" style="--lqip:url(data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAABQBACdASoYABgAPu1iqE2ppaOiMAgBMB2JZwDHMCG7l7Nsc8rlcFw9HiEAAP7yoeo5ZOAjyqRyCBtsQMC0Rc3ka03LaTe4BB7gX0AA)" loading="lazy" decoding="async" alt="Камерна вечірка в палаці">
-        <div class="gallery-scrim"></div>
-      </figure>
-      <figure class="gallery-item g-wide">
-        <img src="images/gal/09_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAAAQBACdASogABUAPuVepk2pJSOiMAwBIByJZWQzVH4NPl+LBjma+o+MwAD+48D4yRaYRzQpzPDiFJbZzr1uMc1aimLnTnEBvjxwNw5HtA9yYct2Tf6UhAAA)" loading="lazy" decoding="async" alt="Люди, музика, нічне небо">
-        <div class="gallery-scrim"></div>
-      </figure>
-      <figure class="gallery-item g-tall">
-        <img src="images/gal/10_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAADwAwCdASogABUAPu1mqk2ppaQiMAgBMB2JZQDG9Buj1yefnWrY4spQAP7svYxN5JtwPesJB4fsGu7dWQhs2nZVfCjP+HtCmG42US7dgAAAAA==)" loading="lazy" decoding="async" alt="Пара в синьому світлі">
-        <div class="gallery-scrim"></div>
-      </figure>
-      <figure class="gallery-item g-square">
-        <img src="images/gal/11_square.webp" style="--lqip:url(data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAACwBACdASoYABgAPulcqE2pJKQiN/VYASAdCUAVhnAQNOl8CsSrg3+Z/FpOkkXAAP7ZNhiKeQwf+j49IHeRl8hzgnyt50l+fC9lyHd8Am/AXk8rFS6PMwKMAAA=)" loading="lazy" decoding="async" alt="Танець на даху міста">
-        <div class="gallery-scrim"></div>
-      </figure>
-      <figure class="gallery-item g-square">
-        <img src="images/gal/12_square.webp" style="--lqip:url(data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAAAQBACdASoYABgAPt1apE2opSOiN/qoARAbiUAX/Ytr6Z78BO6IDAw9gAD+87m3NMeQWFK8A9dAQLCJ/9FceE5KeQ3Fyw+QgMW9Ct6ioyT8/wiQAAA=)" loading="lazy" decoding="async" alt="Чорна ніч, яскраві навушники">
-        <div class="gallery-scrim"></div>
-      </figure>
-      <figure class="gallery-item g-tall">
-        <img src="images/gal/13_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAABwAwCdASogABUAPu1qrlCppaQiqAqpMB2JZQC/7BEYSJedTGQA/tjkbexZt1G50I5DU403sPr1zU2h/JHJYRQU1FaWB0AAAAA=)" loading="lazy" decoding="async" alt="Момент під час перформансу">
-        <div class="gallery-scrim"></div>
-      </figure>
-      <figure class="gallery-item g-wide">
-        <img src="images/gal/14_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAAAQBACdASogABUAPu1kqE2ppaOiMAgBMB2JYwCo9CHgCExTLl9+u0I3wAD+4xRjY4XA3M4sMFfzxuhJUbdZNr8cx4GQrliYzR/UpR2ntegFOn+p9FU+EZnSqAqgYfJwkAA=)" loading="lazy" decoding="async" alt="Музей, але слухаємо здалеку">
-        <div class="gallery-scrim"></div>
-      </figure>
-      <figure class="gallery-item g-square">
-        <img src="images/gal/15_square.webp" style="--lqip:url(data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAAAwBACdASoYABgAPu1qqFAppaOiqA1RMB2JQBadAiOcASpsSvlc4/ZvYwAA/tzLEYTggvsO/KZzllAZyrcA+akIChR05I289vVsanj7sJH/a5H5y9dcrqoDgAA=)" loading="lazy" decoding="async" alt="Тиша, коли стільки шуму">
-        <div class="gallery-scrim"></div>
-      </figure>
-      <figure class="gallery-item g-square">
-        <img src="images/gal/16_square.webp" style="--lqip:url(data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAAAwBACdASoYABgAPu1qqVAppiiiqA1RMB2JZQCzst8Bqfikp0y2cpFvqgAA/vQi61BANu+1NspdRqfF5igXOMgrVFBqY+gBB0oRR7gqMeU3gAAA)" loading="lazy" decoding="async" alt="Найкоротше — найголосніше">
-        <div class="gallery-scrim"></div>
-      </figure>
-      <figure class="gallery-item g-tall">
-        <img src="images/gal/17_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAAAwBACdASogABUAPu1mq02ppaQiMAgBMB2JYwDBzCPga3RIRl7z5PqN7QAA/qkCawhYySmhh14z74T7kMrJkkwPO5ZZDPJYXZuP0BTAdsrnIAAA)" loading="lazy" decoding="async" alt="На краї клубу — твоя планета">
-        <div class="gallery-scrim"></div>
-      </figure>
-      <figure class="gallery-item g-tall">
-        <img src="images/gal/18_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAABwBACdASogABUAPu1ep06ppKMiMBgMATAdiWUAxQqAAhfD+DTYJSK8FYkhAAD+8CL2+Tvmh8XD6rcadvPcZayIGVKquYRPSM0l5k4csSP4uThOYGAAAA==)" loading="lazy" decoding="async" alt="Все те, що вам потрібно знати">
-        <div class="gallery-scrim"></div>
-      </figure>
-      <figure class="gallery-item g-wide">
-        <img src="images/gal/19_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAAAQBACdASogABUAPu1mq0+ppSOiMBgIATAdiWcAwoAQ5nTBJTfKCR8CAAD+8NCVFyfZ4cQyhBg+hAmCJK/ytnQV11Nxn+i26FZnQU1gCKBEboAA)" loading="lazy" decoding="async" alt="Світ звукового простору">
-        <div class="gallery-scrim"></div>
-      </figure>
-      <figure class="gallery-item g-square">
-        <img src="images/gal/20_square.webp" style="--lqip:url(data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAAAQAwCdASoYABgAPu1qrFEppaQnKAqpMB2JQBadArOgr4AA/u+lxnUOI7CW2rUg2qfnjrk3gjLlauT9TC2/Nq/nM7d7C6aSzVAAAA==)" loading="lazy" decoding="async" alt="Концентрація тиші й танцю">
-        <div class="gallery-scrim"></div>
-      </figure>
-      <figure class="gallery-item g-square">
-        <img src="images/gal/21_square.webp" style="--lqip:url(data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAADQBACdASoYABgAPu1wsFIppiSiqAgBMB2JZQCCLwOKFjyoJTsnl2+Gt50vt20G2AD+HOA1sReaTmP0ilkPeS5/bPSfvxeu7+RjzQE7t+NvWk3k3nU8oKSNaJlkSFIVIx4EDYiyoAA=)" loading="lazy" decoding="async" alt="Останній момент перед буденностю">
-        <div class="gallery-scrim"></div>
-      </figure>
-      <figure class="gallery-item g-tall">
-        <img src="images/gal/22_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRr4AAABXRUJQVlA4ILIAAABwBQCdASogABUAPu1gqE2ppaOiMAgBMB2JaAC0+f/gOdz99lx4KxTrhwJf3aux2kfMPLQAAP7vSq6JmYP9wq3FhzFFxJa+MNnTvHcMK9gOWaJhLVLGW5D9iaAZwWtyIxchxLbGcISarfzsqOsiX46P7Q4DnKdaAPX3fHicuD86nP12lpGAUH0Bo1s/l2OgqQD4At76kX7iW6uR+2+vBUObDjsPtEPEUPEV/OtI/sWKHgAA)" loading="lazy" decoding="async" alt="Свобода у чотирьох навушниках">
-        <div class="gallery-scrim"></div>
-      </figure>
+        <figure class="gallery-item g-tall">
+          <img src="images/gal/02_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRugAAABXRUJQVlA4INwAAAAwBgCdASoYACAAPs1Yo0unpaMhsBgMAPAZiUAWI96mFo46KUBAmgfgmFiZm2Syz0sDpyNXGuFDyyPQAP75FxgFws4T0Wr5WeCFwSrTQ7r0r2zdOvCtxYrKeDR+4loHBigSfPRgL2m7NmoJyekIUQfsm1iJthgwA3E73b0JauFBlj8cma+TbHTkefT11tdChRZlLiFzpzXhJZTZOlmYDhLpWdj5VLyFxffSHIFlaFz0gFd+ORDs1mvM1SZNUU2QlPG/N9FkoHr5nOjOMqoysf2Jixl9c/mZ8KXKAAAA)" loading="lazy" decoding="async" alt="Середній план">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-wide">
+          <img src="images/gal/03_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAABwBACdASoYABAAPtFUo0uoJKMhsAgBABoJQBOmUAS34v9GUrsI82U3dWzO1AD+9CXuQEKNcGJRNnWJSVrZ11xvy5hlDyRWZY2Vho04a5TmB1f+9WKSNe1s+pPVbbEe4PJ41oFgV+8wpfEjKmCE9AuwVPHCVomwDwOsk40jfdruE5+FGlJd70hLLVsoYCxutgLMX4ANqAA=)" loading="lazy" decoding="async" alt="Загальний план">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-wide">
+          <img src="images/gal/06_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAABQBACdASoYABAAPtFUpEuoJKOhsAgBABoJYwC7ACHe3WgU+EKLUQnhLegAAP72hoRVLB6e5OaePNfKltYdaZKH1Yj4njakiQa+YktR/yCLZLzyD4ADmhz/PhPnqw+yKYMR3yjoOw0H7NtOH2rGij5kX0WwwkF5LA26vAAA)" loading="lazy" decoding="async" alt="Загальний план">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-square">
+          <img src="images/gal/01_square.webp" style="--lqip:url(data:image/webp;base64,UklGRvAAAABXRUJQVlA4IOQAAACQBQCdASoYABgAPtFgqU+oJSOiKAgBABoJaACdMuLEEegAKcjIbCDr1ZOrciA2xwGQzA22AAD+9oerImcaevE26TNZdmfSAKFJJMNlKWuGmvRy3mbhfxOoxZukaYNpEKnWq4GZcLjubzaz79fRG88bgBtJ0jeiTMVZBpoxEqUILxzNbTHoxcvMsk3M+naurnUqxY7HI3081ChUS4ZNIvG1zk/c5zKTI9vrM+xvobZBNEaEZTbJX0hWkToaCL0gAJ/Z663+LmRK/6iyNUYUnN7hl4X2Axg5zG8zslcmCrXo4qvdIAA=)" loading="lazy" decoding="async" alt="Деталь">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-square">
+          <img src="images/gal/04_square.webp" style="--lqip:url(data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAAAwBQCdASoYABgAPtFgqk+oJaOiKAgBABoJZQCzgA9bM82M8p3SeZo6jB775L5hniViAAD+8zBKYLLyXwdLnHpt3BdDzA20H2DZWHTzPdCXczP/vRdvgdgy1hmlxpKOn45Cr9AXilbjWzIGF9zSBHKHrMsElP2mxDbTmcGRmeppZ51tlxKLDBX5TbnALsUwxZYXCzgJ0Rm5AB0SLVAAAA==)" loading="lazy" decoding="async" alt="Деталь">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall">
+          <img src="images/gal/05_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRswAAABXRUJQVlA4IMAAAAAwBACdASoYACAAPtFgqU+oJSOiKAgBABoJQBOmZfgreRWRFKrrLXLS5vAA/u0ffGbXlS0Ps8VS/ragE099nj1zCnCtn0AMZVOeYI6vEojd9aKrXILB0M1DXO9IBxbzmT7xsmEThwI5Hi3dyR46u5s4jR99HOpK0RIB9UqfA6i05iynFhp+JBejixORdNcekxbFeMs/OUJP/xOAQckdwIHVcsfiSHWDcIcSqid0iCeRAN8dBCH7q9ag/ncIEiSS0AA=)" loading="lazy" decoding="async" alt="Середній план">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-big">
+          <img src="images/gal/25_square.webp" style="--lqip:url(data:image/webp;base64,UklGRuwAAABXRUJQVlA4IOAAAADwBQCdASoYABgAPtFep0+oJKMiKAgBABoJZACdMzL+ZnbAPE5RJaXDwq7RKPIYyyLnVngsUedAAAD+74Lye4MiUZXIMEtvxEldaWtCB+yPdqvkQzBPNlSh6UEOuGYUpKPMSjhZOPJWJwoO3s2r+FnaNSrjFrRmWliIpLZx+gg4T8hYgcwflPnQ2PjkUuUlyAUWEfHK1E8OC0/UyI2gfldRYKwUkyin/w8BuNu9yECKIOQogBtCiqH73/V2mgmXBDRGqHyD6c0ygW2UEdjnQj/gBF25rLtUNY1pFJx0fAAAAA==)" loading="lazy" decoding="async" alt="Деталь">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-square">
+          <img src="images/gal/07_square.webp" style="--lqip:url(data:image/webp;base64,UklGRgQBAABXRUJQVlA4IPgAAADwBQCdASoYABgAPtFgqE+oJSOiKAgBABoJQBOmUDX/xbBx38OteOGMOK7UNQy30umWak4maQqVgADif9o1UZzUOhIg9HTF/XIPksACxaoNT0w69C8LRz3q24+pyoX+pku5YmosogqPqwr4rkuxNBBPPzOVsR5X4fk+Z5lWr2wqUJx4XVeutsUdimQ+paYk4fNCQq3ZY52SW7Jlcq1KrrriBF18FHcMHadaRK9HfRw9yB/AdtA450yARgr/wuG9WisaQr2qZga1WXIOKJPDUX6DKIaGu2DiDGyZ4mHHgraYvXzjrgbZ7iOPzYSq0Rn/fzQqpPm3owAAAA==)" loading="lazy" decoding="async" alt="Деталь">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-square">
+          <img src="images/gal/10_square.webp" style="--lqip:url(data:image/webp;base64,UklGRrIAAABXRUJQVlA4IKYAAABwBACdASoYABgAPtFgqE+oJSOiKAgBABoJQAAFYVOAmJWcj7BI/OYAPKADQAD+81zFrkzd5r3REUE6Z3DKt3137hHUyb21YjiqZ1s4XvbgPfZOkWf86BdovWp3MptnYRNfm8Zts1X7hNibYQvXPmZthrD/xAVQH0DyMJ3xUOLZqlNVDtUBfrIOz8Fqm0sX2sR75drhKNME8JCpxhzZG9icz3g0AAAA)" loading="lazy" decoding="async" alt="Деталь">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-wide">
+          <img src="images/gal/09_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAADQAwCdASoYABAAPtFUo0uoJKMhsAgBABoJQBOgAvCH7UMOO5NQWeAA/uxTN6Ma1cZUgEffC1tdW52IwVaQPDBZcUfgGr7gbSSY0rNqiximqcW8c1QUv/U2XbPrCFNdutlao4yPmu0g4CABa9L2ZeqU5SReK78+F00BkxUxa0BW/gAA)" loading="lazy" decoding="async" alt="Загальний план">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-wide">
+          <img src="images/gal/12_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAACwAwCdASoYABAAPtFUpEuoJKOhsAgBABoJZGHgTtGSqCD+Dq0WOAD+8O9YBRloMcYt7JX6D71hln6yfUZ8feOm5qqswd6U5VbZmPtKdFKbeAFVfrAlMP8hjIMCuCP9WihLMsFVg0Bn+n/B8Pn81VidV46x+WWIRzOdn7DDUaNwYcb6qqeADQDOmHA7IlEysXyqMisJgAA=)" loading="lazy" decoding="async" alt="Загальний план">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall">
+          <img src="images/gal/08_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRs4AAABXRUJQVlA4IMIAAACwBQCdASoYACAAPtFepk0oJSOiMBgIAQAaCWUAs4HcAXoe/fIy7yQB4R8BB6mhzwiGtzvnfAAA/vhJ3lM8f6qAmEAqyZugUn14A3qpGD8h1T9s3PAEmZzueRdENF8ElH7gJmt4JClUswcBxy/u9Ka/nEXla9DKc0PWwGoiyLKCoxsclls0iZyDC8NFxyfU/8UB9+j1zN3ahBbjVqA7UnwwGS8FyRtxpis6MuuNL8j3snXMmcS5jA2VEM5+btvnyRaAAA==)" loading="lazy" decoding="async" alt="Середній план">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall">
+          <img src="images/gal/11_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRsgAAABXRUJQVlA4ILwAAABQBQCdASoYACAAPtFUpk2oJCOiMBgIAQAaCWoAsR7aQVuwEcdZElwmXSUdg0V1LsxhM2AA/tqnU+h5t34ydrWVjsTkfd9uGnb/xIZjn5IqthwxwsltJ8RiK97teheFofz7wpNccGt43Yt4NsGOWFdSskhDkk8UsA8GCBV4MEUlXQm5+4ijmqrRvOo82/+f6W/bOPBqvc3icTfwe9vdqVVX6gYoThDhpP/uSxelSWl2TRFpK9c4rKUQaKLsAA==)" loading="lazy" decoding="async" alt="Середній план">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-square">
+          <img src="images/gal/13_square.webp" style="--lqip:url(data:image/webp;base64,UklGRq4AAABXRUJQVlA4IKIAAABwBACdASoYABgAPtFcp04oJSOiKAqpABoJR5CjGABrdBYC6NgSNgDjx26PAAD+8HXL0Xs63P+EN3M9ZGUWvRvnj65n1Km7i2DHC3BDOsQ1DNCTW/v1iyIz4PMPWvUolxw3+Ro3cODalg7hummN4qcEiI1kmt499As0rx50gwkYQYeL0KAA/kkier7h47FB6h8BBPnKV8sQVH3CCANSGywAAAA=)" loading="lazy" decoding="async" alt="Деталь">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-square">
+          <img src="images/gal/16_square.webp" style="--lqip:url(data:image/webp;base64,UklGRrIAAABXRUJQVlA4IKYAAACQBQCdASoYABgAPtFaqE4oJKQiKAqpABoJQBfNGggwkIRUBSrSqlVLcvj2HyOA8MpeBi3FgAD+93tWzhh0HA+focOAAg2b3BCwJ9RSwmJjQToi74MkGX+YLxAW7UsPHSRucCw5owQN7AuvaOwrRTTWkmB3IAceSdk81xctCqzhB+rTOuujH5evMDTWvrDzEdU0HlxyQgJ+OFoORNrT6wyaCv90wAAA)" loading="lazy" decoding="async" alt="Деталь">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-wide">
+          <img src="images/gal/15_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRpoAAABXRUJQVlA4II4AAAAQBACdASoYABAAPtFUpEuoJKOhsAgBABoJagCdACHwqdwOuN/vYUdCBAD+rYLBHZeKbYsjaaxciHCu9yDy/WoKuPmkDAGMJwFe/bGBzoLxfeqTkgrQykzQDgeO55lSgPbL7InlKraNPk4UYaGqVUlkbxZZZUC6UcwGZhPQADyj5f3zRdYJYkutgft+4AAA)" loading="lazy" decoding="async" alt="Загальний план">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-wide">
+          <img src="images/gal/18_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAAAQBACdASoYABAAPtFUpEuoJKOhsAgBABoJZQCnFCHfMFQjlDnZ5V0gAAD+9ZXLie0qgyZfgltO1BT5bx8VrOPLgHYUuVgZLkeBHGCVLTg2CpbOjbqoYyQTFpL9H8g+mAIm7JPAAAA=)" loading="lazy" decoding="async" alt="Загальний план">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall">
+          <img src="images/gal/14_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRh4BAABXRUJQVlA4IBIBAAAQBgCdASoYACAAPtFep0+oJKMiKAgBABoJagCdL9Y8cFXKLsJ/VMwVov/k4xr+UPAsoixY7qVCBNAA/u6w2qLyddG70Ikc4BaXmGbzJb9KbUMmOdUbQu34A9qiU3urNrbq3QURoeSl725LhTZEI5OL32cdbrtnFGNkCOpms+L1iGTYCafAOwHGF3B5/AIuPb09sOSZ3rbLlmglWwLmMWi4UemCjIPYJNaxyb6j+TKEwkL9zH9ZmbGw8uTHvzvompVJhxANlOGjFWb3Ljxf9Tkpikcnc2mgpoMzkG3daGBFYie0+2OsfcpbmGkVu9YXaxtE6ShTvK/hIAMYwej5pa+c7aRs8BdU7+n4iM0dcjSwAAAA)" loading="lazy" decoding="async" alt="Середній план">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-square">
+          <img src="images/gal/19_square.webp" style="--lqip:url(data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAAAwBQCdASoYABgAPtFgqk+oJaOiKAgBABoJZQCzgA9bM82M8p3SeZo6jB775L5hniViAAD+8zBKYLLyXwdLnHpt3BdDzA20H2DZWHTzPdCXczP/vRdvgdgy1hmlxpKOn45Cr9AXilbjWzIGF9zSBHKHrMsElP2mxDbTmcGRmeppZ51tlxKLDBX5TbnALsUwxZYXCzgJ0Rm5AB0SLVAAAA==)" loading="lazy" decoding="async" alt="Деталь">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-square">
+          <img src="images/gal/22_square.webp" style="--lqip:url(data:image/webp;base64,UklGRjIBAABXRUJQVlA4ICYBAACwBgCdASoYABgAPtFcpU6oJSMiKAqpABoJbACdMuz8qKr0a2wF3FHYAFcqm+n7dLSR3Qq85UXfQFTciM/ebAD+9KAlFVq3y/l5LjO2gYGwmkyC5okBzc8X3Y1xUGV+NJXDW8agb3jqQb15jH7zW7DVBqs3byl0EiYvqdGSbwHm0S5rwn3DZunnHuA1/E7+Dx34IkXuyCTBWy67IkztaWk9P/o/ONy/ubtztym7VBD5GgMHABt8jW47z7pKX5K6Jrxp/MLXPk2d17hJbbqoSqZQynrOCCj5WY2EslAYYv92/MDXe4R9V+L5qN62SS/KZykZyX+TX7mC0912rmCsyRExhHJBH8c72UyGOJpHJVbQsrkaeTUBp/dHfrqBxCM93nGYJFoAAAA=)" loading="lazy" decoding="async" alt="Деталь">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall">
+          <img src="images/gal/17_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRvoAAABXRUJQVlA4IO4AAADQBQCdASoYACAAPtFgqU+oJSOiKAgBABoJYgCdIOqJxngAD3qQmy8FeeCEDHFkeyCk09W39FzAAP6tP3us/vGvRQM5pjd39sYYo+RQxkqSsuE8bQGO+Jp8+uOTyQg1ofpL52dctqr6ryN8IkgMNGnhaBEz2FMWfoQcUrayRzwgn1IcfCot4DXlYfQlPvtDsWTnPF9M62n+L2ts0jleJenh5VmPgCw5eLNUn+No5LVF8GjBh50hBS9Bx8QJCiHQbhYPOikI/FtvqT7TqK5TZ9hhsepRxARyofH9t8sFcZrcjMl+kCGTNvbd4dGAzgAA)" loading="lazy" decoding="async" alt="Середній план">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-wide">
+          <img src="images/gal/21_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRtYAAABXRUJQVlA4IMoAAABQBACdASoYABAAPtFUo0uoJKMhsAgBABoJQBUfbUpsijAdi3cd5VpU/koAAP7eGnnDfuma6jhHXe+X0l83XR7dE0YV2W5hrmtGb0u0DtU/lvEWFKLUiu+eZMy5eHStaNHt7FfgxRhcKqw/pFh3AOAcR/nzT0df/eABcfksq8OAnXtgZWxSJ5xR2f3bv47GN3JkfrB5sXXzKebgSA/c6b0x/xzeu0w8TvQIQsenT2nihbYfCnlXrtFm99rjRMNFpdSHCdcACVafUAAA)" loading="lazy" decoding="async" alt="Загальний план">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-wide">
+          <img src="images/gal/24_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAADwAwCdASoYABAAPtFUo0uoJKMhsAgBABoJYwCdMoACsyzabGjYE3WgAP7xEpLwY7FmVD6bkFdpzISjhrYaclddFXpbuzIiK2I9sNhrNEfwH6LLRnw8dAYg3sDt13obWBQAvQa7l+qyabFGNbncAAAA)" loading="lazy" decoding="async" alt="Загальний план">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall">
+          <img src="images/gal/20_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRs4AAABXRUJQVlA4IMIAAADQBQCdASoYACAAPtFSokwoJCMiMBgMAQAaCWIAnTMcgUgWf7wnT2yllUUkdZvyom+6pdTFpeWAAP7vkQeGrxvuhN73IjZuEhTXWsDbqhB73PA0D0qeRaPcwBhGwY9VXGhXU2eiFdhx7XWX1fvU9IZ/WykLs/RIvVxiqJdNocmFq3C6jTm6wHT2W8uPcPCCV7f5DxMLkgIBgWIipAv9JO6aAhvEIWUkHn51bhdfQFXKdeMvjk692Z6wqDaNqZaWL66IAA==)" loading="lazy" decoding="async" alt="Середній план">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall">
+          <img src="images/gal/23_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRkIBAABXRUJQVlA4IDYBAABQBgCdASoYACAAPtFYpk0oJSOiMBgIAQAaCWIArCDu3AEUWE2LSzwC7hNVTQlBP6an1ux6zHu374ri0AD+lCc+wj9d+j8XvKTJFPzxzRU26hC7JQ/6zLcK8SpG049UD3eY0wRRUIz8oAQZbd/G1fjWLRNJVicudO1rG2kURfPYPGoLf/R1zkC1Bq0FViI58R4OC1Ut8RHR9OwJ4N9rI8gfDiKVcDJIoH9PzR8Jxbm1NnwhUhTYlBlSu0ClNGvXSsMMBHp+pD9n/OEcBtNwn+IqxnU0UB+PmuRKLJ+ehJb/Xcqg/v9XbdilhHZUUW0j1WXVzhkHruwlgxpmEXQrnuSDq5IVvZy5FmgoRuPN5K9Lbbon91WL/lvCii5Kl7p4pnJ3EsBoByDlo+RG48GxkhOJ8M/MHAAA)" loading="lazy" decoding="async" alt="Середній план">
+          <div class="gallery-scrim"></div>
+        </figure>
       </div>
       <button class="gal-nav gal-prev" type="button" aria-label="Попередні кадри">‹</button>
       <button class="gal-nav gal-next" type="button" aria-label="Наступні кадри">›</button>
