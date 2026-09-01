@@ -1103,12 +1103,19 @@
   /* ---------- GALLERY ---------- */
   .gallery { padding: var(--sec-pad) 0; }
 
-  /* Atmosphere strip: a mixed mosaic that scrolls sideways instead of stacking.
-     Tile shape follows the shot — portrait frames get tall tiles so nothing of
-     the composition has to be cropped away. */
+  /* Стрічка атмосфери: мозаїка у два ряди, що гортається вбік. Ритм у ній —
+     вертикаль, потім блок із двох кадрів один над одним, знову вертикаль:
+     V HH V SS V HH V SS … Тож ні дві вертикалі, ні два однакові блоки ніде не
+     стоять поруч, а кожен блок закриває обидва рядки — дірок не лишається, і
+     dense-упаковці нема чого переставляти.
+     Кадри під ці три пропорції ріже скрипт складання, а не браузер: у кожного
+     своя точка кадрування по горизонталі й вертикалі, підібрана під те, що в
+     кадрі головне. Через це object-fit тут уже нічого не обрізає — саме тому
+     герої не виїжджають за край, як було, коли вертикальні знімки підганялись
+     під горизонтальну коробку. */
   .gallery-strip {
     position: relative; margin-top: 40px;
-    --g-col: 280px; --g-row: 228px; --g-gap: 14px;
+    --g-col: 300px; --g-row: 235px; --g-gap: 14px;
   }
   .gallery-grid {
     display: grid;
@@ -1127,17 +1134,12 @@
     mask-image: linear-gradient(90deg, transparent 0, #000 58px, #000 calc(100% - 58px), transparent 100%);
   }
   .gallery-grid::-webkit-scrollbar { display: none; }
-  /* Чотири форми плитки на сітці 2×N. Порядок плиток у розмітці підібраний так,
-     щоб кожна група закривала обидва рядки: дві .g-square стають одна над одною
-     в одній колонці, дві .g-wide — одна над одною на двох колонках, а .g-tall і
-     .g-big займають усю висоту самі. Дірок не лишається, тож dense-упаковці
-     нічого переставляти, і порядок кадрів зберігається таким, як у розмітці.
-     .g-square має бути рівно 1×1: коли їй писали span 2, вона ставала копією
-     .g-tall — кожен кадр з'їдав цілу колонку, і стрічка розтягувалась утричі. */
-  .g-square { grid-row: span 1; grid-column: span 1; }
-  .g-tall   { grid-row: span 2; grid-column: span 1; }
-  .g-wide   { grid-row: span 1; grid-column: span 2; }
-  .g-big    { grid-row: span 2; grid-column: span 2; }
+  /* Три форми плитки. Пропорції, які з них виходять (300/484, 614/235, 300/235),
+     зашиті в скрипт складання — саме під них ріжуться файли, тож міняти COL/ROW
+     тут без перезбирання картинок не можна: кадри почне дорізати браузер. */
+  .g-tall { grid-row: span 2; grid-column: span 1; }
+  .g-wide { grid-row: span 1; grid-column: span 2; }
+  .g-sq   { grid-row: span 1; grid-column: span 1; }
 
   .gallery-item {
     position: relative; margin: 0;
@@ -1188,11 +1190,12 @@
     .gal-next { right: -6px; }
   }
   @media (max-width: 640px){
-    /* Та сама сітка, що й у «Silent-досвіди»: там картка 232px і геп 12px, тож
-       одна плитка дорівнює одній їхній картці, а широка (232+12+232) — рівно
-       двом колонкам. Бічний падінг 28px у обох блоків уже однаковий. */
+    /* На телефоні сітка дрібніша, але пропорції плиток збережені: 230/372 проти
+       300/484 і 472/180 проти 614/235 — різниця в межах відсотка, тож ті самі
+       файли лягають без дорізання. Бічний падінг 28px той самий, що й у стрічки
+       «Silent-досвіди». */
     .gallery-strip {
-      --g-col: 232px; --g-row: 196px; --g-gap: 12px;
+      --g-col: 230px; --g-row: 180px; --g-gap: 12px;
       margin-inline: -28px;
     }
     .gal-nav { display: none; }
@@ -2773,103 +2776,127 @@
     <div class="gallery-strip reveal">
       <div class="gallery-grid" id="galGrid" role="region" aria-label="Атмосфера події, гортайте вбік">
         <figure class="gallery-item g-tall">
-          <img src="images/gal/02_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRugAAABXRUJQVlA4INwAAAAwBgCdASoYACAAPs1Yo0unpaMhsBgMAPAZiUAWI96mFo46KUBAmgfgmFiZm2Syz0sDpyNXGuFDyyPQAP75FxgFws4T0Wr5WeCFwSrTQ7r0r2zdOvCtxYrKeDR+4loHBigSfPRgL2m7NmoJyekIUQfsm1iJthgwA3E73b0JauFBlj8cma+TbHTkefT11tdChRZlLiFzpzXhJZTZOlmYDhLpWdj5VLyFxffSHIFlaFz0gFd+ORDs1mvM1SZNUU2QlPG/N9FkoHr5nOjOMqoysf2Jixl9c/mZ8KXKAAAA)" loading="lazy" decoding="async" alt="Середній план">
+          <img src="images/gal/12_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAACwAwCdASoPABgAPtFWo0uoJKMhsAgBABoJYwAAW+s/MwO0mm/ePAD+9oElcZpj28B87XETa6kUCPYlNRAM0K33P0gOPO2XSIsFG3vS241HNQty5cYdGQnGJ5JAZTEAAAA=)" width="600" height="968" loading="lazy" decoding="async" alt="Перший танець молодят">
           <div class="gallery-scrim"></div>
         </figure>
         <figure class="gallery-item g-wide">
-          <img src="images/gal/03_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAABwBACdASoYABAAPtFUo0uoJKMhsAgBABoJQBOmUAS34v9GUrsI82U3dWzO1AD+9CXuQEKNcGJRNnWJSVrZ11xvy5hlDyRWZY2Vho04a5TmB1f+9WKSNe1s+pPVbbEe4PJ41oFgV+8wpfEjKmCE9AuwVPHCVomwDwOsk40jfdruE5+FGlJd70hLLVsoYCxutgLMX4ANqAA=)" loading="lazy" decoding="async" alt="Загальний план">
+          <img src="images/gal/04_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAADQAwCdASoYAAkAPtFUo0uoJKMhsAgBABoJZQCdAB09ze7QDqKTRgAA/uwS9ctH6OruaQMALmr2tPEE34ajQQOb38kER7fIXvSknqrWg7suxtE8JUUTcVo6n/ddADpwb4iLzyAA)" width="1228" height="470" loading="lazy" decoding="async" alt="Дах із панорамою нічного міста">
           <div class="gallery-scrim"></div>
         </figure>
         <figure class="gallery-item g-wide">
-          <img src="images/gal/06_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAABQBACdASoYABAAPtFUpEuoJKOhsAgBABoJYwC7ACHe3WgU+EKLUQnhLegAAP72hoRVLB6e5OaePNfKltYdaZKH1Yj4njakiQa+YktR/yCLZLzyD4ADmhz/PhPnqw+yKYMR3yjoOw0H7NtOH2rGij5kX0WwwkF5LA26vAAA)" loading="lazy" decoding="async" alt="Загальний план">
-          <div class="gallery-scrim"></div>
-        </figure>
-        <figure class="gallery-item g-square">
-          <img src="images/gal/01_square.webp" style="--lqip:url(data:image/webp;base64,UklGRvAAAABXRUJQVlA4IOQAAACQBQCdASoYABgAPtFgqU+oJSOiKAgBABoJaACdMuLEEegAKcjIbCDr1ZOrciA2xwGQzA22AAD+9oerImcaevE26TNZdmfSAKFJJMNlKWuGmvRy3mbhfxOoxZukaYNpEKnWq4GZcLjubzaz79fRG88bgBtJ0jeiTMVZBpoxEqUILxzNbTHoxcvMsk3M+naurnUqxY7HI3081ChUS4ZNIvG1zk/c5zKTI9vrM+xvobZBNEaEZTbJX0hWkToaCL0gAJ/Z663+LmRK/6iyNUYUnN7hl4X2Axg5zG8zslcmCrXo4qvdIAA=)" loading="lazy" decoding="async" alt="Деталь">
-          <div class="gallery-scrim"></div>
-        </figure>
-        <figure class="gallery-item g-square">
-          <img src="images/gal/04_square.webp" style="--lqip:url(data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAAAwBQCdASoYABgAPtFgqk+oJaOiKAgBABoJZQCzgA9bM82M8p3SeZo6jB775L5hniViAAD+8zBKYLLyXwdLnHpt3BdDzA20H2DZWHTzPdCXczP/vRdvgdgy1hmlxpKOn45Cr9AXilbjWzIGF9zSBHKHrMsElP2mxDbTmcGRmeppZ51tlxKLDBX5TbnALsUwxZYXCzgJ0Rm5AB0SLVAAAA==)" loading="lazy" decoding="async" alt="Деталь">
+          <img src="images/gal/26_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAADQAwCdASoYAAkAPtFWpEuoJKOhsAgBABoJQBdgBEGPL7D/BSmdzMAA/vWiH+KK04MuLAYf9DWNm4uS1G3vV4qT4s4RBpKD8a42zfT0I+RhnLLgjD3sAZtbmNSyUX9V+YofoU/vfy896N9TXs9zPiE/ez4taIAA)" width="1228" height="470" loading="lazy" decoding="async" alt="Захід сонця над пляжним танцполом">
           <div class="gallery-scrim"></div>
         </figure>
         <figure class="gallery-item g-tall">
-          <img src="images/gal/05_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRswAAABXRUJQVlA4IMAAAAAwBACdASoYACAAPtFgqU+oJSOiKAgBABoJQBOmZfgreRWRFKrrLXLS5vAA/u0ffGbXlS0Ps8VS/ragE099nj1zCnCtn0AMZVOeYI6vEojd9aKrXILB0M1DXO9IBxbzmT7xsmEThwI5Hi3dyR46u5s4jR99HOpK0RIB9UqfA6i05iynFhp+JBejixORdNcekxbFeMs/OUJP/xOAQckdwIHVcsfiSHWDcIcSqid0iCeRAN8dBCH7q9ag/ncIEiSS0AA=)" loading="lazy" decoding="async" alt="Середній план">
+          <img src="images/gal/07_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRrYAAABXRUJQVlA4IKoAAADwBACdASoPABgAPtFUo0uoJKMhsAgBABoJYgCdMoGv/i2HW/oRl0JEFMb8fDMFCgAA/tUWIq5oaYxiUXYcFek8x6/jlWO1kv9xl4uxn5oFzXFcF7oZ8XLM+VDoaxj5/+OG+G9ZUDH9TiiwrsXA0x4sYrrPbG0VUXqSm/vYMv5NQhc8jSr+YS8zwRczp9SEJ9rg27Yt9AEI05UIKbaP8ykGcvezVlfjqAAAAA==)" width="600" height="968" loading="lazy" decoding="async" alt="Йога-сет на світанку біля моря">
           <div class="gallery-scrim"></div>
         </figure>
-        <figure class="gallery-item g-big">
-          <img src="images/gal/25_square.webp" style="--lqip:url(data:image/webp;base64,UklGRuwAAABXRUJQVlA4IOAAAADwBQCdASoYABgAPtFep0+oJKMiKAgBABoJZACdMzL+ZnbAPE5RJaXDwq7RKPIYyyLnVngsUedAAAD+74Lye4MiUZXIMEtvxEldaWtCB+yPdqvkQzBPNlSh6UEOuGYUpKPMSjhZOPJWJwoO3s2r+FnaNSrjFrRmWliIpLZx+gg4T8hYgcwflPnQ2PjkUuUlyAUWEfHK1E8OC0/UyI2gfldRYKwUkyin/w8BuNu9yECKIOQogBtCiqH73/V2mgmXBDRGqHyD6c0ygW2UEdjnQj/gBF25rLtUNY1pFJx0fAAAAA==)" loading="lazy" decoding="async" alt="Деталь">
+        <figure class="gallery-item g-sq">
+          <img src="images/gal/02_sq.webp" style="--lqip:url(data:image/webp;base64,UklGRrwAAABXRUJQVlA4ILAAAAAwBQCdASoYABMAPtFep0+oJKMiKAgBABoJZgCxDExBgszd38AT+QFHlySiQO6cylbKAAD+9XUaDuD+mof3JO42ZfoHaHS6qu55CQPrIBLSmMZ4ct76y2m9v0dlydV3ukrwined9rykhrFwZoAtTQq/9qS92aTHIMGuPcwOYUtGQDPoiLRdwHsJvMQkjzKyHZdYUQEdpYC7ZrwJ0xKFAbBV20BUQ4Ysr3WN5i9Ji4YAAA==)" width="600" height="470" loading="lazy" decoding="async" alt="Руки вгору на танцполі">
           <div class="gallery-scrim"></div>
         </figure>
-        <figure class="gallery-item g-square">
-          <img src="images/gal/07_square.webp" style="--lqip:url(data:image/webp;base64,UklGRgQBAABXRUJQVlA4IPgAAADwBQCdASoYABgAPtFgqE+oJSOiKAgBABoJQBOmUDX/xbBx38OteOGMOK7UNQy30umWak4maQqVgADif9o1UZzUOhIg9HTF/XIPksACxaoNT0w69C8LRz3q24+pyoX+pku5YmosogqPqwr4rkuxNBBPPzOVsR5X4fk+Z5lWr2wqUJx4XVeutsUdimQ+paYk4fNCQq3ZY52SW7Jlcq1KrrriBF18FHcMHadaRK9HfRw9yB/AdtA450yARgr/wuG9WisaQr2qZga1WXIOKJPDUX6DKIaGu2DiDGyZ4mHHgraYvXzjrgbZ7iOPzYSq0Rn/fzQqpPm3owAAAA==)" loading="lazy" decoding="async" alt="Деталь">
-          <div class="gallery-scrim"></div>
-        </figure>
-        <figure class="gallery-item g-square">
-          <img src="images/gal/10_square.webp" style="--lqip:url(data:image/webp;base64,UklGRrIAAABXRUJQVlA4IKYAAABwBACdASoYABgAPtFgqE+oJSOiKAgBABoJQAAFYVOAmJWcj7BI/OYAPKADQAD+81zFrkzd5r3REUE6Z3DKt3137hHUyb21YjiqZ1s4XvbgPfZOkWf86BdovWp3MptnYRNfm8Zts1X7hNibYQvXPmZthrD/xAVQH0DyMJ3xUOLZqlNVDtUBfrIOz8Fqm0sX2sR75drhKNME8JCpxhzZG9icz3g0AAAA)" loading="lazy" decoding="async" alt="Деталь">
-          <div class="gallery-scrim"></div>
-        </figure>
-        <figure class="gallery-item g-wide">
-          <img src="images/gal/09_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAADQAwCdASoYABAAPtFUo0uoJKMhsAgBABoJQBOgAvCH7UMOO5NQWeAA/uxTN6Ma1cZUgEffC1tdW52IwVaQPDBZcUfgGr7gbSSY0rNqiximqcW8c1QUv/U2XbPrCFNdutlao4yPmu0g4CABa9L2ZeqU5SReK78+F00BkxUxa0BW/gAA)" loading="lazy" decoding="async" alt="Загальний план">
-          <div class="gallery-scrim"></div>
-        </figure>
-        <figure class="gallery-item g-wide">
-          <img src="images/gal/12_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAACwAwCdASoYABAAPtFUpEuoJKOhsAgBABoJZGHgTtGSqCD+Dq0WOAD+8O9YBRloMcYt7JX6D71hln6yfUZ8feOm5qqswd6U5VbZmPtKdFKbeAFVfrAlMP8hjIMCuCP9WihLMsFVg0Bn+n/B8Pn81VidV46x+WWIRzOdn7DDUaNwYcb6qqeADQDOmHA7IlEysXyqMisJgAA=)" loading="lazy" decoding="async" alt="Загальний план">
+        <figure class="gallery-item g-sq">
+          <img src="images/gal/14_sq.webp" style="--lqip:url(data:image/webp;base64,UklGRq4AAABXRUJQVlA4IKIAAADQBACdASoYABMAPtFapk4oJKMiKAqpABoJZgC7IOZBePEbbGkZBTtaXnHHCOQIYAD+6f8PZ8xQtE2hpzEI5bKihi9n7VN1dQ8JoPeq9Kh5WntknTCNDPYR+QK59bB/veoTA2fs9V/wBYYWyIy5WMW/TrXxgHHh0XSfVPxzymsJZfpzoORj/VnYhmDc9615/Zfw913///olCaiT9DcnngZAAAA=)" width="600" height="470" loading="lazy" decoding="async" alt="Сервірований стіл із навушниками">
           <div class="gallery-scrim"></div>
         </figure>
         <figure class="gallery-item g-tall">
-          <img src="images/gal/08_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRs4AAABXRUJQVlA4IMIAAACwBQCdASoYACAAPtFepk0oJSOiMBgIAQAaCWUAs4HcAXoe/fIy7yQB4R8BB6mhzwiGtzvnfAAA/vhJ3lM8f6qAmEAqyZugUn14A3qpGD8h1T9s3PAEmZzueRdENF8ElH7gJmt4JClUswcBxy/u9Ka/nEXla9DKc0PWwGoiyLKCoxsclls0iZyDC8NFxyfU/8UB9+j1zN3ahBbjVqA7UnwwGS8FyRtxpis6MuuNL8j3snXMmcS5jA2VEM5+btvnyRaAAA==)" loading="lazy" decoding="async" alt="Середній план">
-          <div class="gallery-scrim"></div>
-        </figure>
-        <figure class="gallery-item g-tall">
-          <img src="images/gal/11_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRsgAAABXRUJQVlA4ILwAAABQBQCdASoYACAAPtFUpk2oJCOiMBgIAQAaCWoAsR7aQVuwEcdZElwmXSUdg0V1LsxhM2AA/tqnU+h5t34ydrWVjsTkfd9uGnb/xIZjn5IqthwxwsltJ8RiK97teheFofz7wpNccGt43Yt4NsGOWFdSskhDkk8UsA8GCBV4MEUlXQm5+4ijmqrRvOo82/+f6W/bOPBqvc3icTfwe9vdqVVX6gYoThDhpP/uSxelSWl2TRFpK9c4rKUQaKLsAA==)" loading="lazy" decoding="async" alt="Середній план">
-          <div class="gallery-scrim"></div>
-        </figure>
-        <figure class="gallery-item g-square">
-          <img src="images/gal/13_square.webp" style="--lqip:url(data:image/webp;base64,UklGRq4AAABXRUJQVlA4IKIAAABwBACdASoYABgAPtFcp04oJSOiKAqpABoJR5CjGABrdBYC6NgSNgDjx26PAAD+8HXL0Xs63P+EN3M9ZGUWvRvnj65n1Km7i2DHC3BDOsQ1DNCTW/v1iyIz4PMPWvUolxw3+Ro3cODalg7hummN4qcEiI1kmt499As0rx50gwkYQYeL0KAA/kkier7h47FB6h8BBPnKV8sQVH3CCANSGywAAAA=)" loading="lazy" decoding="async" alt="Деталь">
-          <div class="gallery-scrim"></div>
-        </figure>
-        <figure class="gallery-item g-square">
-          <img src="images/gal/16_square.webp" style="--lqip:url(data:image/webp;base64,UklGRrIAAABXRUJQVlA4IKYAAACQBQCdASoYABgAPtFaqE4oJKQiKAqpABoJQBfNGggwkIRUBSrSqlVLcvj2HyOA8MpeBi3FgAD+93tWzhh0HA+focOAAg2b3BCwJ9RSwmJjQToi74MkGX+YLxAW7UsPHSRucCw5owQN7AuvaOwrRTTWkmB3IAceSdk81xctCqzhB+rTOuujH5evMDTWvrDzEdU0HlxyQgJ+OFoORNrT6wyaCv90wAAA)" loading="lazy" decoding="async" alt="Деталь">
+          <img src="images/gal/16_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAAAwBACdASoPABgAPtFUo0uoJKMhsAgBABoJQAXf+A8jy+MXe34XnsxCcwAA/vd7VsJ9zZhehTaD0RJGYkRif2JhIj5ownmP6D7Kr7ZQlQw0ON6+I0ErDl4UaX/s8o5/UiAdSkw+BlV9BJWF5AA=)" width="600" height="968" loading="lazy" decoding="async" alt="Дві подруги сміються">
           <div class="gallery-scrim"></div>
         </figure>
         <figure class="gallery-item g-wide">
-          <img src="images/gal/15_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRpoAAABXRUJQVlA4II4AAAAQBACdASoYABAAPtFUpEuoJKOhsAgBABoJagCdACHwqdwOuN/vYUdCBAD+rYLBHZeKbYsjaaxciHCu9yDy/WoKuPmkDAGMJwFe/bGBzoLxfeqTkgrQykzQDgeO55lSgPbL7InlKraNPk4UYaGqVUlkbxZZZUC6UcwGZhPQADyj5f3zRdYJYkutgft+4AAA)" loading="lazy" decoding="async" alt="Загальний план">
+          <img src="images/gal/28_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRrYAAABXRUJQVlA4IKoAAABwBACdASoYAAkAPtFUo0uoJKMhsAgBABoJbACdMoMljEPVRXGx8YarJg6EIAD+0jdHCMIsrQZxQ9V/LsPaVkvAndNZycJuCSq18OgGe/W7W30mQMmRjWon5d3g4DrxFSdeRLs2scKRzmpEUQ6ngOo3SHWJPxy3OR0Rm2RNHuzl84AYb+UXJnXzrsIO4ZzDatfNPNP33rUcHTeOTucX6EcxMcxrDV1VeAAAAA==)" width="1228" height="470" loading="lazy" decoding="async" alt="Лазери над головами танцполу">
           <div class="gallery-scrim"></div>
         </figure>
         <figure class="gallery-item g-wide">
-          <img src="images/gal/18_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAAAQBACdASoYABAAPtFUpEuoJKOhsAgBABoJZQCnFCHfMFQjlDnZ5V0gAAD+9ZXLie0qgyZfgltO1BT5bx8VrOPLgHYUuVgZLkeBHGCVLTg2CpbOjbqoYyQTFpL9H8g+mAIm7JPAAAA=)" loading="lazy" decoding="async" alt="Загальний план">
+          <img src="images/gal/03_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRoYAAABXRUJQVlA4IHoAAADwAwCdASoYAAkAPtFYpEwoJSOiMAgBABoJQBOgA9j+SAmHxSBoPNNgAP7zKywV4CP0hXistz3PlOEj3F8XqkfEm8Zl09wlkMVtSEnGMvag0F3GtQfvCcf4hlkIdQYhZ6rt03lENcV0EzlDEpct+6lyp/ibGj2ywELAAA==)" width="1228" height="470" loading="lazy" decoding="async" alt="Компанія танцює разом">
           <div class="gallery-scrim"></div>
         </figure>
         <figure class="gallery-item g-tall">
-          <img src="images/gal/14_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRh4BAABXRUJQVlA4IBIBAAAQBgCdASoYACAAPtFep0+oJKMiKAgBABoJagCdL9Y8cFXKLsJ/VMwVov/k4xr+UPAsoixY7qVCBNAA/u6w2qLyddG70Ikc4BaXmGbzJb9KbUMmOdUbQu34A9qiU3urNrbq3QURoeSl725LhTZEI5OL32cdbrtnFGNkCOpms+L1iGTYCafAOwHGF3B5/AIuPb09sOSZ3rbLlmglWwLmMWi4UemCjIPYJNaxyb6j+TKEwkL9zH9ZmbGw8uTHvzvompVJhxANlOGjFWb3Ljxf9Tkpikcnc2mgpoMzkG3daGBFYie0+2OsfcpbmGkVu9YXaxtE6ShTvK/hIAMYwej5pa+c7aRs8BdU7+n4iM0dcjSwAAAA)" loading="lazy" decoding="async" alt="Середній план">
+          <img src="images/gal/09_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAABwAwCdASoPABgAPtFUo0uoJKMhsAgBABoJYwCdACHZTXDgf4AA/s3/GNhujCrIR9jGbiDhEyyfsrYzMRMjI2GnqJpTq3g1qU6blL/Yb1U0p+8P/aicXm1WhXjO6S6Mi0AKXoFj3F+6S9KIQauAAA==)" width="600" height="968" loading="lazy" decoding="async" alt="Гості в залі музею">
           <div class="gallery-scrim"></div>
         </figure>
-        <figure class="gallery-item g-square">
-          <img src="images/gal/19_square.webp" style="--lqip:url(data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAAAwBQCdASoYABgAPtFgqk+oJaOiKAgBABoJZQCzgA9bM82M8p3SeZo6jB775L5hniViAAD+8zBKYLLyXwdLnHpt3BdDzA20H2DZWHTzPdCXczP/vRdvgdgy1hmlxpKOn45Cr9AXilbjWzIGF9zSBHKHrMsElP2mxDbTmcGRmeppZ51tlxKLDBX5TbnALsUwxZYXCzgJ0Rm5AB0SLVAAAA==)" loading="lazy" decoding="async" alt="Деталь">
+        <figure class="gallery-item g-sq">
+          <img src="images/gal/22_sq.webp" style="--lqip:url(data:image/webp;base64,UklGRgQBAABXRUJQVlA4IPgAAAAQBgCdASoYABMAPtFcqE4oJSQiKAqpABoJbACdMyX+ItXrJ1oAJR9tA+E6m1uY3LjgT27mnpxdYAAA/uzffhY3g9FrtHrzOl+isJs0JXuHAuChiTp+II0VI04Z2K5F1GoDf6qd0WEDrqw9Kc3gRYvf1tE433jswUCLhkNJDHzzs04thZQURcOZWZJqdnlB+7ENzTjpbLmVFELjRGzZCqzt/K46YX0wPiO+4HFP9A4/3k1DlV8FGw7wn9eTIkBvCR5wxYe1awec+UO5ND6KA2ZnnxS/ibKsbvsJFVDOn6AJNgIpCQoqWB+grZDfWN+Mt9gm+qISigAAAA==)" width="600" height="470" loading="lazy" decoding="async" alt="Гостя вибирає свій канал">
           <div class="gallery-scrim"></div>
         </figure>
-        <figure class="gallery-item g-square">
-          <img src="images/gal/22_square.webp" style="--lqip:url(data:image/webp;base64,UklGRjIBAABXRUJQVlA4ICYBAACwBgCdASoYABgAPtFcpU6oJSMiKAqpABoJbACdMuz8qKr0a2wF3FHYAFcqm+n7dLSR3Qq85UXfQFTciM/ebAD+9KAlFVq3y/l5LjO2gYGwmkyC5okBzc8X3Y1xUGV+NJXDW8agb3jqQb15jH7zW7DVBqs3byl0EiYvqdGSbwHm0S5rwn3DZunnHuA1/E7+Dx34IkXuyCTBWy67IkztaWk9P/o/ONy/ubtztym7VBD5GgMHABt8jW47z7pKX5K6Jrxp/MLXPk2d17hJbbqoSqZQynrOCCj5WY2EslAYYv92/MDXe4R9V+L5qN62SS/KZykZyX+TX7mC0912rmCsyRExhHJBH8c72UyGOJpHJVbQsrkaeTUBp/dHfrqBxCM93nGYJFoAAAA=)" loading="lazy" decoding="async" alt="Деталь">
+        <figure class="gallery-item g-sq">
+          <img src="images/gal/13_sq.webp" style="--lqip:url(data:image/webp;base64,UklGRpQAAABXRUJQVlA4IIgAAACwAwCdASoYABMAPtFcqU2oJSQiKAqpABoJQBadArDkY1OliCkcwAD+8MrD7Fgz8QnsLbggvJ22jzNWBjWhSVbV7LuTHt6mZQkg12cnrA4PqSw0nG2w4mcrzGgPDpXXFYUcw8jNJy9L8c9hlk4f08ZfHe0o2JT1GcLdvWCqddk++NjPUrEMqeAA)" width="600" height="470" loading="lazy" decoding="async" alt="Повний двір гостей">
           <div class="gallery-scrim"></div>
         </figure>
         <figure class="gallery-item g-tall">
-          <img src="images/gal/17_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRvoAAABXRUJQVlA4IO4AAADQBQCdASoYACAAPtFgqU+oJSOiKAgBABoJYgCdIOqJxngAD3qQmy8FeeCEDHFkeyCk09W39FzAAP6tP3us/vGvRQM5pjd39sYYo+RQxkqSsuE8bQGO+Jp8+uOTyQg1ofpL52dctqr6ryN8IkgMNGnhaBEz2FMWfoQcUrayRzwgn1IcfCot4DXlYfQlPvtDsWTnPF9M62n+L2ts0jleJenh5VmPgCw5eLNUn+No5LVF8GjBh50hBS9Bx8QJCiHQbhYPOikI/FtvqT7TqK5TZ9hhsepRxARyofH9t8sFcZrcjMl+kCGTNvbd4dGAzgAA)" loading="lazy" decoding="async" alt="Середній план">
+          <img src="images/gal/20_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAAAQAwCdASoPABgAPtFUo0uoJKMhsAgBABoJROAB/ACWNwAA/vCiQXyXUTixiwv3uxpXy6C3+NNELtMRSJ3TcYr6t7nSx2LPlLmO90lUPi1z179a72nJ+j6VPz9WC0GbR8b1nyCTxkwv0Nah9fRZ0bVwAAA=)" width="600" height="968" loading="lazy" decoding="async" alt="Навушники для гостей на вході">
           <div class="gallery-scrim"></div>
         </figure>
         <figure class="gallery-item g-wide">
-          <img src="images/gal/21_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRtYAAABXRUJQVlA4IMoAAABQBACdASoYABAAPtFUo0uoJKMhsAgBABoJQBUfbUpsijAdi3cd5VpU/koAAP7eGnnDfuma6jhHXe+X0l83XR7dE0YV2W5hrmtGb0u0DtU/lvEWFKLUiu+eZMy5eHStaNHt7FfgxRhcKqw/pFh3AOAcR/nzT0df/eABcfksq8OAnXtgZWxSJ5xR2f3bv47GN3JkfrB5sXXzKebgSA/c6b0x/xzeu0w8TvQIQsenT2nihbYfCnlXrtFm99rjRMNFpdSHCdcACVafUAAA)" loading="lazy" decoding="async" alt="Загальний план">
+          <img src="images/gal/29_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRq4AAABXRUJQVlA4IKIAAAAQBACdASoYAAkAPtFUo0uoJKMhsAgBABoJbACdAYw6lAgh/2D2FA/qYAD+wUOrP0huG2srJmb8CBRUXB/U3l2jjirvx4ljMSeT7YzoUXjCQ3ZtSAwd2InTDBPH1209brzQuYp8aVvG91/klK/o+8RB1+qj6WedKrx54TRxmeHAwFCu+uV8mZPj5OhSRKBVpJ9QJsSU1Na9cpdxExhf8G7MgAA=)" width="1228" height="470" loading="lazy" decoding="async" alt="Дискокуля над залою">
           <div class="gallery-scrim"></div>
         </figure>
         <figure class="gallery-item g-wide">
-          <img src="images/gal/24_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAADwAwCdASoYABAAPtFUo0uoJKMhsAgBABoJYwCdMoACsyzabGjYE3WgAP7xEpLwY7FmVD6bkFdpzISjhrYaclddFXpbuzIiK2I9sNhrNEfwH6LLRnw8dAYg3sDt13obWBQAvQa7l+qyabFGNbncAAAA)" loading="lazy" decoding="async" alt="Загальний план">
+          <img src="images/gal/05_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAAAQAwCdASoYAAkAPtFUo0uoJKMhsAgBABoJY2DrRgAV8gAA/vEAHCCtO+AH8wttLO4IprSLs3XAzp+LKkOWmLq8t1IvQFMOwHcW6G7jXCa66yjR/Hcb0U4fvKJkLnQDTER2CyZ9gAA=)" width="1228" height="470" loading="lazy" decoding="async" alt="Ряди навушників перед подією">
           <div class="gallery-scrim"></div>
         </figure>
         <figure class="gallery-item g-tall">
-          <img src="images/gal/20_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRs4AAABXRUJQVlA4IMIAAADQBQCdASoYACAAPtFSokwoJCMiMBgMAQAaCWIAnTMcgUgWf7wnT2yllUUkdZvyom+6pdTFpeWAAP7vkQeGrxvuhN73IjZuEhTXWsDbqhB73PA0D0qeRaPcwBhGwY9VXGhXU2eiFdhx7XWX1fvU9IZ/WykLs/RIvVxiqJdNocmFq3C6jTm6wHT2W8uPcPCCV7f5DxMLkgIBgWIipAv9JO6aAhvEIWUkHn51bhdfQFXKdeMvjk692Z6wqDaNqZaWL66IAA==)" loading="lazy" decoding="async" alt="Середній план">
+          <img src="images/gal/06_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAAAQBACdASoPABgAPtFYpEwoJSOiMAgBABoJYwABHujVvI2+U+oGRF0ssAD+/oeRtiTW3WYj1nZxU860sQUW3fT1V7V4eVqrTQq5s+epxlkP6FhCCkYQyJ8oRj8aJQh0axHzXSdTFqPUgl7t7Z/afP+3axojAAAA)" width="600" height="968" loading="lazy" decoding="async" alt="Танці серед колон">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-sq">
+          <img src="images/gal/23_sq.webp" style="--lqip:url(data:image/webp;base64,UklGRuwAAABXRUJQVlA4IOAAAADQBQCdASoYABMAPtFcpk6oJSMiKAqpABoJQBOja0W3QLZUOJmQkmQvyeTjL+1aVVUpkCciBWkAAP7dkvMkTQrFQIRsUu3Vj1VHMDmCqWGQHxPyifoP2xRhFxu7tmdDsJiLu8XQyGqbUls9r7juHcI+6zDsj1XaSOszSKpnUx8cTAmYBZWfZvBYki+C3odB6V/4p3g74Gq9shMyYrqWZLibWyG8I7nCAlOxvARL7LOgHPsz3pO06ydHZv9jH6Fx4azwBHZUjdYLfUfUwmHROPyB3pmBIQKOFU4DOLGwvoAAAA==)" width="600" height="470" loading="lazy" decoding="async" alt="Юрба перед сценою">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-sq">
+          <img src="images/gal/24_sq.webp" style="--lqip:url(data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAACQBACdASoYABMAPtFUo0uoJKMlMBgMAQAaCWUAnQAQ9Jj6Kph/sVSfG1h6GAAA/vRQDlWAidSqhDpYoAgPZy+IpHyXFUMJT/j+G7Qlp4v2H1CR8FLREtLGpusYYO1Cip+wOaI3s/eY7Jf68ECLt7Z0hoNTcP7cqAA=)" width="600" height="470" loading="lazy" decoding="async" alt="Вечірка за склом, тиша назовні">
           <div class="gallery-scrim"></div>
         </figure>
         <figure class="gallery-item g-tall">
-          <img src="images/gal/23_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRkIBAABXRUJQVlA4IDYBAABQBgCdASoYACAAPtFYpk0oJSOiMBgIAQAaCWIArCDu3AEUWE2LSzwC7hNVTQlBP6an1ux6zHu374ri0AD+lCc+wj9d+j8XvKTJFPzxzRU26hC7JQ/6zLcK8SpG049UD3eY0wRRUIz8oAQZbd/G1fjWLRNJVicudO1rG2kURfPYPGoLf/R1zkC1Bq0FViI58R4OC1Ut8RHR9OwJ4N9rI8gfDiKVcDJIoH9PzR8Jxbm1NnwhUhTYlBlSu0ClNGvXSsMMBHp+pD9n/OEcBtNwn+IqxnU0UB+PmuRKLJ+ehJb/Xcqg/v9XbdilhHZUUW0j1WXVzhkHruwlgxpmEXQrnuSDq5IVvZy5FmgoRuPN5K9Lbbon91WL/lvCii5Kl7p4pnJ3EsBoByDlo+RG48GxkhOJ8M/MHAAA)" loading="lazy" decoding="async" alt="Середній план">
+          <img src="images/gal/15_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAABQBACdASoPABgAPtFUo0uoJKMhsAgBABoJaACdMoAC/JOEAwF2eodBRawAAP7xUqQKug6nJQ8irR9gz9jxxRfM4zbDIvFR+HmtQJxgBRA0f2PdDsMv9wMzT5GKcRhkWQCvpL19hlPAxZVRgYFMFr1OADSgAA==)" width="600" height="968" loading="lazy" decoding="async" alt="Пара в обіймах серед гостей">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-wide">
+          <img src="images/gal/30_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAABQBACdASoYAAkAPtFUo0uoJKMhsAgBABoJbACdMoGvjgQEVG5Zu9Cw6zl4AP7ctjAEJQhcaYOdgzvrBp3BX/W596eSN3zCRVatIkUXHOKs2+UFWkiwW+AtK+VK6gZQIPsu6LfJ5mccn40IbYXdoDMva5Si85pBN0ssS/9BrqlcS0iL9QR9EU51i/dzd4aNXqGk6ylSc6vBMUwYDOEAAA==)" width="1228" height="470" loading="lazy" decoding="async" alt="Щільний танцпол у фіолетовому світлі">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-wide">
+          <img src="images/gal/18_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAACwAwCdASoYAAkAPtFUo0uoJKMhsAgBABoJYwCdACHICrBh8TWuAAD+9dSScSu7tK/ctRjCtlLdDnwkQMq+e9TeoXEvMBLpW69DN5nc89KnV4PVK0HCriForGhAWYEIrLAAAA==)" width="1228" height="470" loading="lazy" decoding="async" alt="Розмова в синьому світлі">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall">
+          <img src="images/gal/11_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAAAQBACdASoPABgAPtFUo0uoJKMhsAgBABoJZgCdACP7sJgGNeHY2bsbcAD+7PEWemELms7a0E/raRpO+T2cjyY9y0HYcZtTV0Gz360lRcmzH3ANZJbPvyEMe9Slmg8G5ZbCaXf8aLI/Parka9/09N04hblnYAAA)" width="600" height="968" loading="lazy" decoding="async" alt="Навушник на столі">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-sq">
+          <img src="images/gal/21_sq.webp" style="--lqip:url(data:image/webp;base64,UklGRuoAAABXRUJQVlA4IN4AAAAQBQCdASoYABMAPtFepU6oJSMiKAqpABoJYwAD5Jj3t3PEXOaWStS2IOmmc5fUvJMgAP7SRFwgZ43mpWNwjGUwTft5fUR7pl0IsBmxNNRzk3h8ckQeFnb5JmQtjKofnCmBKTINQXmWl7vI5Xm5OY73oBWoN9xiIUj0Ms5npC0l39G7gN/SDNgf6gt/AEEF6IoGqdY7w6LQDDecToF4uQH9nnw0UsO+RrIskiPn6966HLX+AVcQNHHfHogOaerG2nvJCd1VtYevToV/5Mb4gxrXEFGmtIJh5tl+XjoAAAA=)" width="600" height="470" loading="lazy" decoding="async" alt="Ранкове тренування на вулиці">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-sq">
+          <img src="images/gal/27_sq.webp" style="--lqip:url(data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAACQBQCdASoYABMAPtFcpk6oJKMiKAqpABoJQBOmUGbzhKJ3a3gv7pH6keVjL2ls8JAvNCDvQAD+9C5ni6+u749t6aWme0IiTgq4kRuVUpNcFZ0g2MxD3cax2KjTdboXUj3wk+TVGts8xRZOmdwrF4jWCr2vKkNoJH6XJqKZulyqSfjehCcf2X72GImGmALGl+VKf+XpF0W1AWD36AAAAA==)" width="600" height="470" loading="lazy" decoding="async" alt="Святковий стіл у рожевому світлі">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall">
+          <img src="images/gal/08_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAAAwBACdASoPABgAPtFUo0uoJKMhsAgBABoJZQCo9CHf5g7QGKYnfPSMcgAA/vaGu+U++5Tl9dnYmbUfDwWwnsObCqLwBIPOiOvE0kxewIPTgXPUe4RnkMbI0CsCWeRV2LgJYzFu+4ABfYwwgAA=)" width="600" height="968" loading="lazy" decoding="async" alt="Кінопоказ просто неба">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-wide">
+          <img src="images/gal/01_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRqQAAABXRUJQVlA4IJgAAABQBACdASoYAAkAPtFWo0uoJKMhsAgBABoJbACdMoGvgAO7VS8v3lJ7oQWIAP7vkpKvuctex4OF3hb3EppnpTyvKXD3n7/3Z5XZrgADklCzehoEOOUFkvz6SoUc+/Qhdo/Mjylj15LT5HIsJcQPrroNUJL15Md3z8g12UOrM0HWBPTFiDXjZhg79zzK+DAQACyqmTYdA7sAAA==)" width="1228" height="470" loading="lazy" decoding="async" alt="Дівчина танцює серед вогнів">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-wide">
+          <img src="images/gal/19_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAADQAwCdASoYAAkAPtFUo0uoJKMhsAgBABoJZQCdAB09ze7QDqKTRgAA/uwS9ctH6OruaQMALmr2tPEE34ajQQOb38kER7fIXvSknqrWg7suxtE8JUUTcVo6n/ddADpwb4iLzyAA)" width="1228" height="470" loading="lazy" decoding="async" alt="Вечірка на даху над містом">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall">
+          <img src="images/gal/17_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRpIAAABXRUJQVlA4IIYAAAAwBACdASoPABgAPtFUo0uoJKMhsAgBABoJYgC7Ba0lAAwrt049WCK9SNwA9W6oUxhmG2jeu1/Ft6tkmKjYEzfW22yLgmi0+S0SGsBBSeFeMJPZwqwfft355j6Em8V0FE/2z4oVksl/xiWRb3rL6IXV9dZkfU5uaAGRxKCInwpkfDCjZDbgAA==)" width="600" height="968" loading="lazy" decoding="async" alt="Сет на заході сонця">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-sq">
+          <img src="images/gal/10_sq.webp" style="--lqip:url(data:image/webp;base64,UklGRpoAAABXRUJQVlA4II4AAACQBACdASoYABMAPtFWpk2oJCOiMBgIAQAaCWMAADFTNVDsgj6ZIDHWAMEtTQAA/vSZJEZ83qmKrh0JDbleMgMaMeXZFcOa+ola+ksx7CDxyv6y7txfdpikyq3e/kc4K4yW/LiGV1dDW2mkQIfVJrKB3PjnoO/RQKlyqSaRkFtEmrENRtWagHncMWFAAAAA)" width="600" height="470" loading="lazy" decoding="async" alt="Навушник зблизька">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-sq">
+          <img src="images/gal/25_sq.webp" style="--lqip:url(data:image/webp;base64,UklGRsgAAABXRUJQVlA4ILwAAADQBQCdASoYABMAPtFgqE+oJSOiKAgBABoJZAC7IQYJwAH0V5wNtUMGB1DrWjFWc9EZ5BF4m7EAAP7p+DUz75lTSDpLMh6I1kbWOnzLNBSxLK9kGV+OIucIGMmsINQAwY/riypqKu9yMnL7kSfBcnZIZCm6euZKAPkIi1BCKjJFsDA4VeWa3kQi+xwz4AZOvt18DJ8PldzoEDgt/DbNxlN7FYpfSSnZUe83H7NW6ZBtP1C6NZohfx0QwyBgAA==)" width="600" height="470" loading="lazy" decoding="async" alt="Танці у дворі надвечір">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall">
+          <img src="images/gal/31_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAABQBACdASoPABgAPtFUo0uoJKMhsAgBABoJbAC7ACHeKpEjol/oRS/r/L1AAP72ikxYmEmiyV5U8gnLR30prP/EMbGbsDJwdZH8Cyn+nwBgLYv93mPIT4iQ+RJXNUtVGA30PPzS/q1SQ3tL8Ep0bGZzd7LOAMThsjIOntx7C59PDY0wqE0EYjYbFnG4Oypo3cTIyMZ7gAA=)" width="600" height="968" loading="lazy" decoding="async" alt="Гостя озирається на танцполі">
           <div class="gallery-scrim"></div>
         </figure>
       </div>
