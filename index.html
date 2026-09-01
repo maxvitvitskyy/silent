@@ -221,7 +221,11 @@
      стовпчик), і фігура на 56% ширини не дотягувалась до заголовка — між ними
      зяяла порожнеча. Розмір диктує ширина, тож на цих ширинах вона більша. */
   @media (min-width: 761px) and (max-width: 1100px){
-    .hero-dancer { height: min(76%, 640px); width: auto; right: 1%; }
+    /* Розмір і прив'язка разом тримають фігуру між двома краями: голова
+       зупиняється з запасом під пігулкою меню (та закінчується на 91px, тож
+       76% і bottom:181px заводили її верх аж на 11px — вона йшла за меню
+       цілком), а низ лишається всередині панелі каналів. */
+    .hero-dancer { height: min(65%, 520px); width: auto; right: 1%; bottom: 157px; }
     /* Планшет тримає десктопну композицію (текст ліворуч, фігура праворуч), але
        нижчу: padding, кегль заголовка й міра підзаголовка стиснуті так, щоб
        колонка тексту не заходила фігурі на руку. Короткий підзаголовок сюди
@@ -4802,18 +4806,27 @@
   (function(){
     const cal = document.getElementById('cal');
     const guests = document.getElementById('guests');
+    const dateField = document.getElementById('date');
     const submit = document.getElementById('submitBtn');
     const formRight = document.querySelector('.form-right');
     if (!cal || !guests || !submit || !formRight) return;
 
+    // На планшеті ліва колонка коротша, і календар природно опиняється вже
+    // нижче за «Скільки гостей» — прив'язка до нього там не робить нічого
+    // (margin-top уміє тільки опускати панель, не піднімати), і верх календаря
+    // повисає між полями. Тому на цій ширині рівняємо його на «Бажану дату» —
+    // поле, яке календар і дублює.
+    const calNarrow = window.matchMedia('(max-width: 1100px)');
+    const topAnchor = () => (calNarrow.matches && dateField) ? dateField : guests;
+
     function alignCalendarToForm(){
-      if (getComputedStyle(cal).display === 'none') return; // ховається нижче 860px
+      if (getComputedStyle(cal).display === 'none') return; // ховається нижче 761px
       cal.style.marginTop = '0px';
       cal.style.height = 'auto';
       const calTop = cal.getBoundingClientRect().top;
-      const guestsTop = guests.getBoundingClientRect().top;
+      const anchorTop = topAnchor().getBoundingClientRect().top;
       const submitBottom = submit.getBoundingClientRect().bottom;
-      const marginTop = Math.max(0, guestsTop - calTop);
+      const marginTop = Math.max(0, anchorTop - calTop);
       cal.style.marginTop = marginTop + 'px';
       const height = submitBottom - (calTop + marginTop);
       if (height > 0) cal.style.height = height + 'px';
@@ -4828,6 +4841,9 @@
       alignW = window.innerWidth;
       alignCalendarToForm();
     });
+    // Перехід через 1100px міняє саму точку прив'язки, а не лише розміри.
+    if (calNarrow.addEventListener) calNarrow.addEventListener('change', alignCalendarToForm);
+    else calNarrow.addListener(alignCalendarToForm);
 
     // Ловить будь-яку зміну висоти правої колонки — підказку з калькулятора,
     // майбутнє поле, перенесення довгого лейбла на другий рядок — без
