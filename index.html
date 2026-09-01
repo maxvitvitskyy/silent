@@ -4916,17 +4916,80 @@
     });
   });
 
-  // ---- Form (demo submit) ----
+  // ---- Form: integrate with Google Apps Script ----
+  (function initLeadTracking(){
+    function parseUTM(){
+      const params = new URLSearchParams(window.location.search);
+      return {
+        utmSource: params.get('utm_source') || '',
+        utmMedium: params.get('utm_medium') || '',
+        utmCampaign: params.get('utm_campaign') || '',
+      };
+    }
+    function getTechData(){
+      const ua = navigator.userAgent;
+      let device = 'desktop', os = '', browser = '';
+      if (/mobile|android|iphone|ipod|blackberry/i.test(ua)) device = 'mobile';
+      if (/iphone|mac os/i.test(ua)) os = 'iOS';
+      else if (/android/i.test(ua)) os = 'Android';
+      else if (/win/i.test(ua)) os = 'Windows';
+      else if (/linux/i.test(ua)) os = 'Linux';
+      if (/chrome/i.test(ua)) browser = 'Chrome';
+      else if (/firefox/i.test(ua)) browser = 'Firefox';
+      else if (/safari/i.test(ua) && !/chrome/i.test(ua)) browser = 'Safari';
+      else if (/edge/i.test(ua)) browser = 'Edge';
+      return { device, os, browser };
+    }
+    function generateLeadId(){
+      return 'lead_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    }
+    const utm = parseUTM();
+    const tech = getTechData();
+    sessionStorage.setItem('lead_utm', JSON.stringify(utm));
+    sessionStorage.setItem('lead_tech', JSON.stringify(tech));
+    sessionStorage.setItem('lead_id', generateLeadId());
+  })();
+
   document.getElementById('submitBtn').addEventListener('click', () => {
     const name = document.getElementById('name').value.trim();
     const contact = document.getElementById('contact').value.trim();
     if (!name || !contact){
-      alert('Будь ласка, вкажіть імʼя і контакт, щоб ми могли звʼязатися.');
+      alert('Будь ласка, вкажіть імʼя і контакт, щоб ми могли звʼязатися.');
       return;
     }
+
+    const formData = {
+      name: name,
+      contact: contact,
+      eventType: document.getElementById('type').value,
+      guests: document.getElementById('guests').value,
+      eventDate: document.getElementById('date').value,
+      discovery: document.getElementById('source').value,
+      comment: document.getElementById('comment').value.trim(),
+      leadId: sessionStorage.getItem('lead_id'),
+      submittedDate: new Date().toISOString().split('T')[0],
+      submittedTime: new Date().toTimeString().split(' ')[0],
+      status: 'Нова',
+    };
+
+    const utm = JSON.parse(sessionStorage.getItem('lead_utm') || '{}');
+    const tech = JSON.parse(sessionStorage.getItem('lead_tech') || '{}');
+    const referrer = document.referrer || '';
+    const landingPage = window.location.pathname;
+    Object.assign(formData, utm, tech, { referrer, landingPage });
+
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwdSqc1-M0KmHBwIE8_EANY7dbPbqVcOmdTbl-gfDxyASabYJXW55mGQIXhlOBRRLwS/exec';
+    fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(formData),
+      mode: 'no-cors'
+    }).catch(err => console.error('Помилка при відправці заявки:', err));
+
     document.getElementById('formFields').style.display = 'none';
     document.getElementById('formSuccess').classList.add('show');
   });
+
 </script>
 </body>
 </html>
