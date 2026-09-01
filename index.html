@@ -1560,7 +1560,11 @@
     border-color: var(--lime);
     box-shadow: 0 0 22px -6px rgba(198,255,0,0.7);
   }
-  .cal-foot { margin-top: 10px; font-size: 11.5px; color: var(--muted-2); text-align: center; }
+  /* .cal .cal-foot, а не просто .cal-foot: інакше програє загальному
+     ".form-left p { margin-bottom: 26px }" (він специфічніший — клас+тег
+     проти самого лише класу), і цей чужий відступ знизу відсовував панель
+     календаря нижче кнопки, хоч сам текст рядка лежав, де треба. */
+  .cal .cal-foot { margin: 10px 0 0; font-size: 11.5px; color: var(--muted-2); text-align: center; }
 
   /* Тільки для десктопа: у вузькій колонці сітка стає нечитабельною, а поле
      «Бажана дата» й так відкриває рідний вибір дати на телефоні. */
@@ -2073,12 +2077,9 @@
     /* Крихітна (24×14) розмита версія кадру як тло самої картинки: картка
        ніколи не виглядає порожнім квадратом, поки вантажиться справжнє фото.
        Тло лежить на <img>, тож його гасить та сама маска — окремого
-       прямокутника з різким краєм не з'являється. Той самий фон заповнює й
-       бокові поля навколо фото нижче: за задумом (contain, не cover) фото
-       квадратні й не мають різатись під ширшу картку — по боках лишається
-       розмита версія цього ж кадру, а не порожнеча. */
+       прямокутника з різким краєм не з'являється. */
     background-image: var(--lqip); background-size: cover; background-position: center;
-    width: 100%; height: calc(100% + var(--uc-tail)); object-fit: contain;
+    width: 100%; height: calc(100% + var(--uc-tail)); object-fit: cover;
     -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 38%, rgba(0,0,0,0.66) 58%, rgba(0,0,0,0.22) 80%, transparent 100%);
     mask-image: linear-gradient(180deg, #000 0%, #000 38%, rgba(0,0,0,0.66) 58%, rgba(0,0,0,0.22) 80%, transparent 100%);
   }
@@ -4664,19 +4665,18 @@
 
   // ---- Вирівнювання панелі календаря під поля форми ----
   // Верх .cal лягає на верхній край самого поля вводу «Скільки гостей» (на
-  // рівень <select>, а не його підпису над ним), низ — на рівень кнопки
-  // «Надіслати заявку», де стоїть рядок «Оберіть дату…» (не на padding
-  // панелі під ним). Рахуємо в JS, а не фіксованими відступами: набір полів
-  // праворуч не сталий (з'являється підказка з калькулятора, може дописатись
-  // поле), і будь-який зашитий відступ тут же розійшовся б із сусідньою
-  // колонкою — так і сталось, коли додали поле «Як ви про нас дізналися».
+  // рівень <select>, а не його підпису над ним), низ .cal — на нижній край
+  // кнопки «Надіслати заявку» (сама панель, не тільки текст усередині неї).
+  // Рахуємо в JS, а не фіксованими відступами: набір полів праворуч не
+  // сталий (з'являється підказка з калькулятора, може дописатись поле), і
+  // будь-який зашитий відступ тут же розійшовся б із сусідньою колонкою —
+  // так і сталось, коли додали поле «Як ви про нас дізналися».
   (function(){
     const cal = document.getElementById('cal');
     const guests = document.getElementById('guests');
     const submit = document.getElementById('submitBtn');
-    const calFoot = document.getElementById('calFoot');
     const formRight = document.querySelector('.form-right');
-    if (!cal || !guests || !submit || !calFoot || !formRight) return;
+    if (!cal || !guests || !submit || !formRight) return;
 
     function alignCalendarToForm(){
       if (getComputedStyle(cal).display === 'none') return; // ховається нижче 860px
@@ -4687,17 +4687,7 @@
       const submitBottom = submit.getBoundingClientRect().bottom;
       const marginTop = Math.max(0, guestsTop - calTop);
       cal.style.marginTop = marginTop + 'px';
-
-      // Перший прохід: висота панелі так, щоб низ самої панелі сів на кнопку.
-      let height = submitBottom - (calTop + marginTop);
-      if (height > 0) cal.style.height = height + 'px';
-
-      // Другий прохід: cal-grid — flex:1, тож увесь доданий простір іде йому,
-      // а calFoot і далі сидить вище на власний padding-bottom панелі. Читаємо,
-      // де рядок фактично опинився, і дотягуємо висоту на різницю.
-      const footBottom = calFoot.getBoundingClientRect().bottom;
-      const delta = submitBottom - footBottom;
-      height += delta;
+      const height = submitBottom - (calTop + marginTop);
       if (height > 0) cal.style.height = height + 'px';
     }
 
