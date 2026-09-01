@@ -44,7 +44,14 @@
 <link rel="canonical" href="https://silent.org.ua/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet">
+<!-- Звичайний rel="stylesheet" блокує перший paint, доки браузер не отримає
+     цей файл по мережі — незалежно від display=swap (той рятує лише від
+     очікування самих файлів шрифту, а не цього CSS). preload+onload вантажить
+     його паралельно й підключає, коли готовий; noscript — той самий файл для
+     браузерів без JS, щоб шрифти не зникли зовсім. Самі шрифти й swap-поведінка
+     не змінились — лише те, чи чекає на них перший кадр сторінки. -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
 <style>
   :root {
     --night: #05070d;
@@ -3807,7 +3814,15 @@
     }, 300);
   }
 
-  function setChannel(i){
+  // deferGlow: тільки для початкового виклику на завантаженні. litStrip()
+  // читає getBoundingClientRect() і тим форсує синхронний layout усього
+  // документа — на старті сторінки це заважає першому paint. Класи ж
+  // (heroPhoto/heroDancer .active) мають лишитись синхронними: якщо
+  // додати їх пізніше, ПІСЛЯ того як браузер уже намалював кадр без них,
+  // CSS-transition на opacity вперше реально запуститься з 0 замість
+  // миттєвого фінального стану — і рендер спотвориться (перевірено:
+  // саме так і сталось, коли відкладався весь setChannel()).
+  function setChannel(i, deferGlow){
     const c = channels[i];
     // Не в root: інакше колір каналу розтікався б по всьому сайту — по eyebrow,
     // цифрах, іконках, підсвітках. Панель перевизначає змінні лише для себе.
@@ -3832,7 +3847,8 @@
     heroPhotos.forEach((p, idx) => p.classList.toggle('active', idx === i));
     if (heroDancerEl) heroDancerEl.classList.add('active');
     updateHeroText(i);
-    litStrip(c.color, i);
+    if (deferGlow) requestAnimationFrame(() => litStrip(c.color, i));
+    else litStrip(c.color, i);
     playChannel(i);
   }
   const stripEl = document.getElementById('channels');
@@ -4002,7 +4018,10 @@
     setChannel(idx);
     syncMuteBtn();
   }));
-  setChannel(0);
+  // deferGlow=true: лише геометрія підсвітки перемикача (litStrip) чекає
+  // кадр, класи .active йдуть синхронно, як і завжди — деталі в коментарі
+  // над setChannel().
+  setChannel(0, true);
   syncMuteBtn();
 
   // ---- Master sound toggle ----
