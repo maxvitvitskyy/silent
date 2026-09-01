@@ -221,21 +221,15 @@
      стовпчик), і фігура на 56% ширини не дотягувалась до заголовка — між ними
      зяяла порожнеча. Розмір диктує ширина, тож на цих ширинах вона більша. */
   @media (min-width: 761px) and (max-width: 1100px){
-    .hero {
-      padding: 126px 0 80px;
-      text-align: center;
-    }
-    .hero h1 {
-      font-size: clamp(28px, 3.5vw, 40px);
-    }
-    .hero-sub {
-      font-size: 14px;
-      max-width: 50ch;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .hero-dancer { height: min(60%, 520px); width: auto; right: 8%; }
-    .hero-photo { background-position: 55% 60%; }
+    .hero-dancer { height: min(76%, 640px); width: auto; right: 1%; }
+    /* Планшет тримає десктопну композицію (текст ліворуч, фігура праворуч), але
+       нижчу: padding, кегль заголовка й міра підзаголовка стиснуті так, щоб
+       колонка тексту не заходила фігурі на руку. Короткий підзаголовок сюди
+       підставляє JS — той самий mSub, що й на телефоні. */
+    .hero { padding: 132px 0 88px; }
+    .hero h1 { font-size: clamp(28px, 4vw, 42px); }
+    .hero-sub { max-width: 32ch; margin-bottom: 34px; }
+    .hero-photo { background-position: 65% 58%; }
   }
 
   /* ---- Мобільна композиція ---- */
@@ -1586,8 +1580,9 @@
      календаря нижче кнопки, хоч сам текст рядка лежав, де треба. */
   .cal .cal-foot { margin: 10px 0 0; font-size: 11.5px; color: var(--muted-2); text-align: center; }
 
-  /* Тільки для десктопа: у вузькій колонці сітка стає нечитабельною, а поле
-     «Бажана дата» й так відкриває рідний вибір дати на телефоні. */
+  /* Ховаємо тільки на телефоні: там колонка вузька, сітка стає нечитабельною, а
+     поле «Бажана дата» й так відкриває рідний вибір дати. З 761px ширини вже
+     вистачає, щоб сітка читалась. */
   @media (max-width: 760px){ .cal { display: none; } }
 
   .field { margin-bottom: 16px; }
@@ -1806,40 +1801,32 @@
     font-size: 11px; color: var(--muted-2);
   }
 
-  @media (max-width: 1050px){
-    .footer-cols { grid-template-columns: 1.6fr 1fr 1fr 1.05fr; gap: 26px; }
+  @media (max-width: 900px){
+    .footer-cols { grid-template-columns: 1fr 1fr; gap: 26px; }
+    .f-brand { grid-column: 1 / -1; }
   }
-  @media (min-width: 768px) and (max-width: 1050px){
-    /* Лого зліва, дві навігаційні колонки поруч праворуч від нього — контакти
-       з іконками спускаються під усі три й розтягуються на всю ширину футера. */
+  /* Планшет. Стоїть ПІСЛЯ правила 900px навмисно: діапазони перетинаються на
+     761–900, специфічність у обох однакова, тож виграє те, що нижче. Логотип
+     ліворуч, обидві навігаційні колонки поруч праворуч від нього, а контакти з
+     іконками спускаються окремим рядом на всю ширину підвалу. */
+  @media (min-width: 761px) and (max-width: 1050px){
     .footer-cols {
       grid-template-columns: 1.3fr 1fr 1fr;
       gap: 30px;
     }
-    .f-brand { grid-column: 1 / 2; grid-row: 1 / 2; }
-    .f-col:nth-child(2) { grid-column: 2 / 3; grid-row: 1 / 2; }
-    .f-col:nth-child(3) { grid-column: 3 / 4; grid-row: 1 / 2; }
-    .f-contact {
-      grid-column: 1 / -1;
-      grid-row: 2 / 3;
-      margin-top: 10px;
-    }
-    /* Кнопки на всю ширину футера: рівномірно розподілені, а не купкою зліва. */
+    .f-brand { grid-column: 1 / 2; grid-row: 1; }
+    .footer-cols > nav.f-col:nth-of-type(1) { grid-column: 2 / 3; grid-row: 1; }
+    .footer-cols > nav.f-col:nth-of-type(2) { grid-column: 3 / 4; grid-row: 1; }
+    .f-contact { grid-column: 1 / -1; grid-row: 2; }
+    /* Ряд іконок на всю ширину підвалу: п'ять рівних комірок, іконка по центру
+       кожної — той самий прийом, що й на телефоні, тільки більшим кеглем. */
     .f-socials {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      width: 100%;
-      gap: 16px;
-      margin-top: 4px;
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      gap: 0; margin-top: 6px;
     }
-    .f-soc { flex: 1; }
-    .f-soc svg { width: 30px; height: 30px; }
-    .f-note { max-width: none; }
-  }
-  @media (max-width: 900px){
-    .footer-cols { grid-template-columns: 1fr 1fr; gap: 26px; }
-    .f-brand { grid-column: 1 / -1; }
+    .f-soc { justify-self: center; width: auto; height: auto; }
+    .f-soc svg { width: 32px; height: 32px; }
+    .f-note { max-width: none; text-align: center; }
   }
   @media (max-width: 560px){
     /* Compact on phones: the two link lists sit side by side as short columns
@@ -3516,8 +3503,8 @@
         <div class="faq-a"><p>Таке трапляється на живих вечірках, тому ми закладаємо невеликий заставний внесок за комплект, який повертається одразу після того, як усе обладнання здано в цілості. Якщо один-два навушники не повернули чи пошкодили — покриваємо це із застави, без додаткових розбирань із вами. Про суму й умови домовляємось заздалегідь, до самого івенту.</p></div>
       </div>
       <div class="faq-item reveal">
-        <div class="faq-q" role="button" tabindex="0"><h3>Як багато часу потрібно на налаштування?</h3><div class="faq-icon">+</div></div>
-        <div class="faq-a"><p>Зазвичай близько <strong>30 хвилин</strong> для налаштування обладнання, розподілу навушників і перевірки каналів. Приїжджаємо заздалегідь, тож до початку вечора все вже готово. При більшій кількості навушників час може трохи збільшитись — обговорюємо це наперед.</p></div>
+        <div class="faq-q" role="button" tabindex="0"><h3>Якщо хочемо змінити музику під час вечора?</h3><div class="faq-icon">+</div></div>
+        <div class="faq-a"><p>Плейлист можна міняти просто під час події — скажіть нам, і ми переберемо його на льоту. Три канали дають запас гнучкості: один можна лишити під заявлений настрій, а два інші розвернути під те, як пішов вечір.</p></div>
       </div>
     </div>
   </div>
@@ -3804,10 +3791,13 @@
   }
 
   const heroNarrow = window.matchMedia('(max-width: 760px)');
+  // Планшет бере короткий підзаголовок, але НЕ мобільні рядки заголовка: mLines —
+  // це журнальна розкладка під вузьку колонку, і на 900px вона розсипалась би.
+  const heroShortSub = window.matchMedia('(max-width: 1100px)');
   // На телефоні підзаголовок — одне коротке речення: довгий текст у вузькій
   // колонці поруч із фігурою розвалював композицію.
   function heroSubText(data){
-    return (heroNarrow.matches && data.mSub) ? data.mSub : data.sub;
+    return (heroShortSub.matches && data.mSub) ? data.mSub : data.sub;
   }
   // Пари [текст, клас] для поточної ширини: на телефоні — мобільний набір,
   // інакше десктопні рядки без зсувів.
@@ -3862,10 +3852,13 @@
     clearTimeout(heroSubResizeTimer);
     heroSubResizeTimer = setTimeout(reserveHeroSubHeight, 150);
   });
-  // Перехід через 760px міняє сам набір рядків, а не лише їхню ширину.
+  // Перехід через 760px міняє сам набір рядків, а через 1100px — довжину
+  // підзаголовка; обидва змінюють вміст, а не лише його ширину.
   const onHeroBreakpoint = () => reserveHeroSubHeight();
-  if (heroNarrow.addEventListener) heroNarrow.addEventListener('change', onHeroBreakpoint);
-  else heroNarrow.addListener(onHeroBreakpoint);
+  [heroNarrow, heroShortSub].forEach(mq => {
+    if (mq.addEventListener) mq.addEventListener('change', onHeroBreakpoint);
+    else mq.addListener(onHeroBreakpoint);
+  });
 
   let heroInited = false;
   let heroSwapTimer = null;
