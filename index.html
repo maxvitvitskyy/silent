@@ -2619,7 +2619,12 @@
            рендеру. Той самий патерн, що й у #heroPhoto0/1/2 — усі в DOM,
            видимий лише .active. -->
       <span class="hf-full"><span class="hf-phrase active" data-ch="0">Silent Disco під ключ</span><span class="hf-phrase" data-ch="1">Сайлент Диско в навушниках</span><span class="hf-phrase" data-ch="2">Тиха вечірка під ключ</span> <span class="hf-dot">·</span> від <b>9 800 грн</b> <span class="hf-dot">·</span> від <b>40 гостей</b> <span class="hf-dot">·</span> Київ та Україна</span>
-      <span class="hf-short">Від <b>9 800 грн</b> <span class="hf-dot">·</span> від <b>40 гостей</b> <span class="hf-dot">·</span> Київ</span>
+      <!-- Мобільний короткий рядок раніше не мав жодного SEO-сигналу про
+           послугу — лише ціну/гостей/місто. Google індексує насамперед
+           мобільну версію, тож додано один статичний варіант (без
+           прив’язки до RED/GREEN/BLUE — hf-short свідомо лишається
+           компактним і незмінним, на відміну від hf-full). -->
+      <span class="hf-short">Silent Disco <span class="hf-dot">·</span> від <b>9 800 грн</b> <span class="hf-dot">·</span> від <b>40 гостей</b> <span class="hf-dot">·</span> Київ та Україна</span>
     </p>
     <h1 class="hero-lines" id="heroLines">
       <span>Три хвилі музики</span>
