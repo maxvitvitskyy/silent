@@ -467,23 +467,25 @@
       </div>
     </section>
 
-    <!-- Попит за датами подій -->
-    <section class="panel">
-      <div class="panel-h">
-        <h2>Коли хочуть провести подію</h2>
-        <span class="hint">за бажаною датою, по місяцях</span>
-      </div>
-      <div class="cols" id="months"></div>
-    </section>
+    <div class="grid row-2">
+      <!-- Кількість подій на місяць -->
+      <section class="panel">
+        <div class="panel-h">
+          <h2>Кількість подій на місяць</h2>
+          <span class="hint" id="monthsHint">за бажаною датою</span>
+        </div>
+        <div class="cols" id="months"></div>
+      </section>
 
-    <!-- Воронка -->
-    <section class="panel">
-      <div class="panel-h">
-        <h2>Заявки в процесі обробки</h2>
-        <span class="hint">від нових до заброньованих</span>
-      </div>
-      <div class="funnel" id="funnel"></div>
-    </section>
+      <!-- Воронка -->
+      <section class="panel">
+        <div class="panel-h">
+          <h2>Заявки в процесі обробки</h2>
+          <span class="hint">від нових до заброньованих</span>
+        </div>
+        <div class="funnel" id="funnel"></div>
+      </section>
+    </div>
 
     <div class="grid row-2">
       <!-- Джерела -->
@@ -739,45 +741,49 @@
     $('lineWrap').addEventListener('mouseleave', function () { tip.style.opacity = '0'; });
   }
 
-  // ── Місяці бажаних дат ──────────────────────────────────────────────────
+  // ── Кількість подій на місяць ───────────────────────────────────────────
+  // Панель тепер удвічі вужча (стоїть поруч із воронкою), тож на телефоні
+  // вміщається менше колонок, ніж на десктопі — це нормально, головне, щоб
+  // обидва вигляди не тіснилися.
+  function getMonthsCount() { return window.innerWidth < 620 ? 4 : 5; }
+
   function renderMonths(rows) {
     var el = $('months');
     var withDate = rows.filter(function (r) { return r.eventDate; });
-    if (!withDate.length) { el.innerHTML = '<div class="empty">Поки немає дат подій</div>'; return; }
     var map = {};
     withDate.forEach(function (r) {
       var k = r.eventDate.slice(0, 7);
       map[k] = (map[k] || 0) + 1;
     });
-    var keys = Object.keys(map).sort();
-    // Показуємо щонайменше три місяці вперед від поточного, навіть якщо там
-    // порожньо: незаповнений календар попереду — це теж те, що власник має
-    // побачити з одного погляду.
-    var horizon = shiftDays(0);
-    horizon.setDate(1);
-    horizon.setMonth(horizon.getMonth() + 2);
-    var minLast = dayKey(horizon).slice(0, 7);
 
-    var span = [], cur = keys[0], last = keys[keys.length - 1], guard = 0;
-    if (last < minLast) last = minLast;
-    while (cur <= last && guard++ < 36) {
-      span.push(cur);
-      var yy = Number(cur.slice(0, 4)), mm = Number(cur.slice(5, 7));
-      if (mm === 12) { yy++; mm = 1; } else { mm++; }
-      cur = yy + '-' + pad(mm);
-    }
-    var max = Math.max.apply(null, span.map(function (k) { return map[k] || 0; }));
-    // Найближчий місяць, у якому вже є заявки — його підсвічуємо: саме до
-    // цих подій готуватися першими.
+    var n = getMonthsCount();
     var thisMonth = dayKey(new Date()).slice(0, 7);
+    // Правий край вікна — це поточний місяць, АЛЕ якщо з'явилась заявка на
+    // місяць далі за нього, вікно зсувається вперед: нове бронювання на
+    // майбутнє не повинно випадати за межі видимого діапазону.
+    var latestWithData = Object.keys(map).sort().pop() || thisMonth;
+    var endKey = latestWithData > thisMonth ? latestWithData : thisMonth;
+    var endDate = new Date(Number(endKey.slice(0, 4)), Number(endKey.slice(5, 7)) - 1, 1);
+
+    var span = [];
+    for (var i = n - 1; i >= 0; i--) {
+      var d = new Date(endDate.getFullYear(), endDate.getMonth() - i, 1);
+      span.push(d.getFullYear() + '-' + pad(d.getMonth() + 1));
+    }
+
+    $('monthsHint').textContent = 'за бажаною датою, останні ' + n + ' міс.';
+
+    var max = Math.max.apply(null, span.map(function (k) { return map[k] || 0; }));
+    // Найближчий місяць у вікні, в якому вже є заявки, — підсвічуємо: саме
+    // до цих подій готуватися першими.
     var nextKey = span.filter(function (k) { return k >= thisMonth && map[k]; })[0];
 
     el.innerHTML = span.map(function (k) {
-      var n = map[k] || 0;
-      return '<div class="col' + (k === nextKey ? ' next' : '') + '" data-zero="' + (n ? 0 : 1) + '">' +
-             '<div class="cnt">' + n + '</div>' +
-             '<div class="stemwrap"><div class="stem" data-zero="' + (n ? 0 : 1) +
-             '" data-h="' + (max ? n / max * 100 : 0) + '"></div></div>' +
+      var cnt = map[k] || 0;
+      return '<div class="col' + (k === nextKey ? ' next' : '') + '" data-zero="' + (cnt ? 0 : 1) + '">' +
+             '<div class="cnt">' + cnt + '</div>' +
+             '<div class="stemwrap"><div class="stem" data-zero="' + (cnt ? 0 : 1) +
+             '" data-h="' + (max ? cnt / max * 100 : 0) + '"></div></div>' +
              '<div class="cap">' + MONTHS[Number(k.slice(5, 7)) - 1] + '</div></div>';
     }).join('');
     nextTick(function () {
@@ -1065,15 +1071,17 @@
     renderLatest(filterByPeriod(lastRows));
   });
 
-  // Графік прив'язаний до ширини контейнера — при зміні розміру вікна його
-  // треба перебудувати, інакше після повороту телефона він лишиться в
-  // старій системі координат.
+  // Графік і кількість колонок у «Кількість подій на місяць» прив'язані до
+  // ширини вікна — при повороті телефона чи зміні розміру вікна їх треба
+  // перебудувати, інакше вони лишаться в старій системі координат.
   var resizeT;
   window.addEventListener('resize', function () {
     if (!lastRows) return;
     clearTimeout(resizeT);
     resizeT = setTimeout(function () {
-      renderLine(filterByPeriod(lastRows));
+      var win = filterByPeriod(lastRows);
+      renderLine(win);
+      renderMonths(win);
     }, 180);
   });
 
