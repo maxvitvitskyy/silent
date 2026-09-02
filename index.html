@@ -464,6 +464,11 @@
   .hero-facts b { color: var(--lime); font-weight: 600; }
   .hero-facts .hf-dot { margin: 0 2px; opacity: 0.5; }
   .hero-facts .hf-short { display: none; }
+  /* Усі три фрази в DOM завжди — видима лише .active, синхронізовано з
+     каналом у updateHeroText(). Без анімації: перемикання відбувається в тому
+     самому кадрі, що й зміна кольору панелі, тож окрема транзиція тут зайва. */
+  .hero-facts .hf-phrase { display: none; }
+  .hero-facts .hf-phrase.active { display: inline; }
 
   .btn-primary {
     background: var(--lime); color: #12100a;
@@ -2608,7 +2613,12 @@
        на неї знизу накладається панель каналів. -->
   <div class="wrap hero-top">
     <p class="hero-facts">
-      <span class="hf-full">Silent disco під ключ <span class="hf-dot">·</span> від <b>9 800 грн</b> <span class="hf-dot">·</span> від <b>40 гостей</b> <span class="hf-dot">·</span> Київ та Україна</span>
+      <!-- Три SEO-формулювання (RED/GREEN/BLUE) — усі одразу в статичному
+           HTML, а не через JS innerHTML, як у H1 нижче: лише так Google
+           гарантовано бачить усі три, а не тільки активний на момент
+           рендеру. Той самий патерн, що й у #heroPhoto0/1/2 — усі в DOM,
+           видимий лише .active. -->
+      <span class="hf-full"><span class="hf-phrase active" data-ch="0">Silent Disco під ключ</span><span class="hf-phrase" data-ch="1">Сайлент Диско в навушниках</span><span class="hf-phrase" data-ch="2">Тиха вечірка під ключ</span> <span class="hf-dot">·</span> від <b>9 800 грн</b> <span class="hf-dot">·</span> від <b>40 гостей</b> <span class="hf-dot">·</span> Київ та Україна</span>
       <span class="hf-short">Від <b>9 800 грн</b> <span class="hf-dot">·</span> від <b>40 гостей</b> <span class="hf-dot">·</span> Київ</span>
     </p>
     <h1 class="hero-lines" id="heroLines">
@@ -3839,8 +3849,19 @@
 
   let heroInited = false;
   let heroSwapTimer = null;
+  // Усі три SEO-фрази вже в DOM (розмітка вище) — тут лише перемикається,
+  // яка видима. На відміну від заголовка нижче, це не залежить від heroInited:
+  // клас коректний уже в статичному HTML (data-ch="0" — активна), тож на
+  // першому виклику це просто no-op, а не пропуск анімації.
+  function updateHeroFacts(i){
+    document.querySelectorAll('.hf-phrase').forEach(el => {
+      el.classList.toggle('active', Number(el.dataset.ch) === i);
+    });
+  }
+
   function updateHeroText(i){
     const data = heroContent[i];
+    updateHeroFacts(i);
     if (!data || !heroLines || !heroSub) return;
     heroIndex = i;
     // On the very first call, content already matches slide 0 (server-rendered)
