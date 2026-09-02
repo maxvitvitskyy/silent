@@ -29,20 +29,91 @@
 <title>SILENT — тиша, світло і три хвилі музики · Київ</title>
 <meta name="description" content="Silent disco під ключ у Києві та по Україні: LED-навушники, три канали музики одночасно й повна тиша ззовні. Обладнання, доставка, монтаж і супровід — в одній послузі.">
 <meta name="theme-color" content="#05070d">
-<link rel="icon" type="image/png" sizes="512x512" href="images/favicon.png">
+<!-- sizes="any": файл зараз 473×470 (не квадрат 512×512, як було раніше) —
+     фіксований розмір тут був би недостовірним, браузер сам масштабує PNG. -->
+<link rel="icon" type="image/png" sizes="any" href="images/favicon.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="SILENT">
 <meta property="og:locale" content="uk_UA">
-<meta property="og:title" content="SILENT — тиша, світло і три хвилі музики · Київ">
-<meta property="og:description" content="Три канали в навушниках кожного гостя, повна тиша ззовні. Silent disco під ключ у Києві та по Україні.">
+<meta property="og:title" content="SILENT — Silent Disco">
+<meta property="og:description" content="Три канали в навушниках кожного гостя, повна тиша ззовні. Silent Disco під ключ у Києві та по Україні.">
 <!-- og:image і og:url мусять бути абсолютними: Facebook, Telegram та інші
      скребачки прев'ю не розв'язують відносні шляхи й просто лишаються без
      картинки. Канонічний адрес — на власному домені, щоб пошук не індексував
      ще й дублікат на github.io. -->
 <meta property="og:url" content="https://silent.org.ua/">
-<meta property="og:image" content="https://silent.org.ua/images/shift-new.webp">
+<meta property="og:image" content="https://silent.org.ua/images/promo.png">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SILENT — Silent Disco">
+<meta name="twitter:description" content="Три канали в навушниках кожного гостя, повна тиша ззовні. Silent Disco під ключ у Києві та по Україні.">
+<meta name="twitter:image" content="https://silent.org.ua/images/promo.png">
 <link rel="canonical" href="https://silent.org.ua/">
+<!-- Structured data: Organization + Service, пов'язані через @id. Без
+     LocalBusiness (немає фізичної адреси, куди приходить клієнт), без
+     Review/AggregateRating (немає реальних відгуків із перевірюваним
+     джерелом) і без Event (сайт продає послугу організації, а не
+     конкретну подію з датою). price у Service.offers — стартова/мінімальна
+     ціна, а не універсальна фіксована для всіх замовлень. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://silent.org.ua/#organization",
+      "name": "SILENT",
+      "url": "https://silent.org.ua/",
+      "logo": "https://silent.org.ua/images/SILENT_logo.png",
+      "image": "https://silent.org.ua/images/promo.png",
+      "description": "SILENT — Silent Disco під ключ у Києві та по Україні: LED-навушники, 3 канали музики, доставка, налаштування та супровід. Для весіль, корпоративів, вечірок, фестивалів, таборів і приватних подій.",
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Kyiv"
+        },
+        {
+          "@type": "Country",
+          "name": "Ukraine"
+        }
+      ],
+      "sameAs": [
+        "https://www.instagram.com/silent_ukraine/",
+        "https://www.tiktok.com/@silent.ukraine",
+        "https://t.me/silent_ukraine",
+        "https://www.youtube.com/channel/UCYJcmOSbk5MDaNXDLjchVyQ"
+      ],
+      "telephone": "+380 96 333 90 68",
+      "email": "hello.silent.ua@gmail.com",
+      "knowsLanguage": "uk-UA"
+    },
+    {
+      "@type": "Service",
+      "@id": "https://silent.org.ua/#service",
+      "name": "Silent Events",
+      "serviceType": "Silent Disco Events",
+      "description": "Організація Silent Disco та інших подій",
+      "provider": {
+        "@id": "https://silent.org.ua/#organization"
+      },
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Kyiv"
+        },
+        {
+          "@type": "Country",
+          "name": "Ukraine"
+        }
+      ],
+      "offers": {
+        "@type": "Offer",
+        "price": "9800",
+        "priceCurrency": "UAH"
+      }
+    }
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Звичайний rel="stylesheet" блокує перший paint, доки браузер не отримає
