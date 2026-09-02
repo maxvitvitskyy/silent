@@ -59,7 +59,7 @@
     font-family: 'Unbounded'; font-weight: 700; font-size: 19px; letter-spacing: 0.02em;
   }
   .brand .mark b { color: var(--lime); }
-  .top-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .top-right { display: flex; align-items: center; gap: 12px; flex-wrap: nowrap; }
   .pill {
     display: inline-flex; align-items: center; gap: 8px;
     border: 1px solid var(--line); border-radius: 999px;
@@ -91,6 +91,27 @@
     background: rgba(255,176,32,0.07);
   }
   .stale.show { display: inline-flex; }
+
+  /* ── Вертикальні стовпчики (місяці) ──────────────────────────────────── */
+  .cols { display: flex; align-items: stretch; gap: 8px; height: 190px; }
+  .col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 9px; min-width: 0; }
+  .col .stemwrap {
+    flex: 1; min-height: 0; width: 100%; max-width: 46px;
+    display: flex; align-items: flex-end;
+  }
+  .col .stem {
+    width: 100%; border-radius: 7px 7px 3px 3px;
+    background: linear-gradient(180deg, var(--lime), rgba(198,255,0,0.22));
+    height: 0; transition: height .7s cubic-bezier(.22,1,.36,1);
+  }
+  .col .cnt {
+    font-family: 'Unbounded'; font-weight: 600; font-size: 12.5px;
+    font-variant-numeric: tabular-nums;
+  }
+  .col .cap {
+    font-size: 10.5px; color: var(--muted-2); text-align: center;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
+  }
 
   /* ── Період перемикач ────────────────────────────────────────────────── */
   .period-switcher {
@@ -224,6 +245,9 @@
   /* ── Таблиця заявок ──────────────────────────────────────────────────── */
   .table-controls {
     display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap;
+  }
+  @media (max-width: 620px) {
+    .table-controls { flex-wrap: nowrap; }
   }
   .search-input {
     flex: 1; min-width: 200px;
@@ -366,7 +390,7 @@
           <option value="Заброньовано">Статус: Заброньовано</option>
           <option value="Відмова">Статус: Відмова</option>
         </select>
-        <button class="btn" id="resetFilters">✕ Скинути фільтри</button>
+        <button class="btn" id="resetFilters">✕ Скинути</button>
       </div>
 
       <table class="tbl">
@@ -396,6 +420,15 @@
         <svg class="line-svg" id="line" viewBox="0 0 1000 260" aria-label="Заявки по днях"></svg>
         <div class="tip" id="tip"></div>
       </div>
+    </section>
+
+    <!-- Попит за датами подій -->
+    <section class="panel">
+      <div class="panel-h">
+        <h2>Попит за датами подій</h2>
+        <span class="hint">когда люди хочуть провести подію</span>
+      </div>
+      <div class="cols" id="months"></div>
     </section>
 
     <!-- Воронка -->
@@ -639,6 +672,42 @@
     $('lineWrap').addEventListener('mouseleave', function () { tip.style.opacity = '0'; });
   }
 
+  // ── Місяці бажаних дат ──────────────────────────────────────────────────
+  function renderMonths(rows) {
+    var el = $('months');
+    var withDate = rows.filter(function (r) { return r.eventDate; });
+    if (!withDate.length) { el.innerHTML = '<div class="empty">Поки немає дат подій</div>'; return; }
+    var map = {};
+    withDate.forEach(function (r) {
+      var k = r.eventDate.slice(0, 7);
+      map[k] = (map[k] || 0) + 1;
+    });
+    var keys = Object.keys(map).sort();
+    var span = [], cur = keys[0], last = keys[keys.length - 1], guard = 0;
+    while (cur <= last && guard++ < 36) {
+      span.push(cur);
+      var yy = Number(cur.slice(0, 4)), mm = Number(cur.slice(5, 7));
+      if (mm === 12) { yy++; mm = 1; } else { mm++; }
+      cur = yy + '-' + pad(mm);
+    }
+    var max = Math.max.apply(null, span.map(function (k) { return map[k] || 0; }));
+    el.innerHTML = span.map(function (k) {
+      var n = map[k] || 0;
+      return '<div class="col">' +
+             '<div class="cnt">' + n + '</div>' +
+             '<div class="stemwrap"><div class="stem" data-zero="' + (n ? 0 : 1) +
+             '" data-h="' + (max ? n / max * 100 : 0) + '"></div></div>' +
+             '<div class="cap">' + MONTHS[Number(k.slice(5, 7)) - 1] + '</div></div>';
+    }).join('');
+    nextTick(function () {
+      Array.prototype.forEach.call(el.querySelectorAll('.stem'), function (s) {
+        var track = s.parentNode.getBoundingClientRect().height;
+        var h = Number(s.getAttribute('data-h')) / 100 * track;
+        s.style.height = Math.max(Math.round(h), 3) + 'px';
+      });
+    });
+  }
+
   // ── Воронка ──────────────────────────────────────────────────────────────
   function renderFunnel(win) {
     var el = $('funnel');
@@ -784,7 +853,8 @@
       return;
     }
 
-    $('latest').innerHTML = filtered.slice(0, 50).map(function (r) {
+    var limit = window.innerWidth < 620 ? 3 : 50;
+    $('latest').innerHTML = filtered.slice(0, limit).map(function (r) {
       return '<tr>' +
         '<td class="nm">' + esc(r.name) + '</td>' +
         '<td class="dim">' + prettyDate(r.date) + (r.time ? ' · ' + esc(r.time) : '') + '</td>' +
@@ -817,6 +887,7 @@
     renderFunnel(win);
     renderClickableBars($('sources'), tally(win, 'discovery', 'Не вказано'));
     renderClickableBars($('types'), tally(win, 'eventType', 'Не вказано'));
+    renderMonths(win);
     renderLatest(win);
 
     $('boot').hidden = true;
