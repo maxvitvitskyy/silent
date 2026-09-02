@@ -2080,22 +2080,37 @@
     -webkit-backdrop-filter: var(--glass-blur);
   }
   /* Намальована піктограма замість типографського символу (♪ ◈ – ✎), який
-     нічого не пояснював. Без підкладки й у правому верхньому куті: картка
-     починається одразу з заголовка, а іконка лишається тихою позначкою збоку. */
+     нічого не пояснював. Без підкладки, у правому нижньому куті: заголовок і
+     опис читаються зверху на всю ширину, а іконка лежить тихою позначкою під
+     текстом, а не поруч із ним. */
   .benefit-card .b-icon {
-    position: absolute; top: 22px; right: 20px;
+    position: absolute; bottom: 22px; right: 20px;
     color: var(--ch); opacity: 0.9;
     display: flex; align-items: center; justify-content: center;
     transition: color 0.6s ease;
   }
   .benefit-card .b-icon svg { width: 36px; height: 36px; display: block; }
-  /* Місце під іконку — тільки в заголовка: опис починається нижче за неї й
-     може займати всю ширину картки. */
   .benefit-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 14px; line-height: 1.3; }
   .benefit-card p { font-size: 13px; color: var(--muted); line-height: 1.55; }
-  /* Праворуч у картці лишається повітря під іконку — текст закінчується
-     раніше й не тягнеться на всю ширину, тож колонка під іконкою чиста. */
-  .benefit-card h3, .benefit-card p { padding-right: 52px; }
+  /* Іконка внизу картки, під останнім рядком опису, тож за ширину тексту вона
+     не заважає — застереження потрібне лише в короткого заголовка. */
+  .benefit-card h3 { padding-right: 52px; }
+  /* Явний min-width, а не покладання на порядок у коді: у мобільного блоку
+     нижче вже є свій padding-bottom на .benefits-grid .benefit-card (52px,
+     під нашарування карток) — та сама специфічність, і без чіткої межі ширини
+     невідомо, яке з двох правил виграло б на 560px. */
+  @media (min-width: 561px){
+    /* Резерв під іконку внизу картки: 26 (звичайний низ) + 36 (сама іконка) +
+       трохи повітря — інакше довгий опис міг би зверстатись під неї. */
+    .benefits-grid .benefit-card { padding-bottom: 66px; }
+  }
+  /* Мобільна одноколонкова стрічка (нижче) уже й так тісна через нашарування
+     карток одна на одну — там іконка лишається у звичному верхньому куті,
+     над текстом, а не під ним. */
+  @media (max-width: 560px){
+    .benefit-card .b-icon { top: 22px; bottom: auto; }
+    .benefit-card h3, .benefit-card p { padding-right: 52px; }
+  }
 
   /* ---------- USE CASES ---------- */
   .usecases { position: relative; padding: var(--sec-pad) 0; overflow: hidden; }
