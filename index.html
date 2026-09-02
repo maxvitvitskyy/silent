@@ -2009,12 +2009,21 @@
     will-change: transform;
   }
   .benefits .wrap { position: relative; z-index: 1; }
+  /* Bento замість таблиці. Раніше тут стояло шість однакових прямокутників у три
+     колонки — сітка читалась рівним списком, і головна перевага (три канали) не
+     виділялась нічим. Тепер розміри різні: велика картка 2×2 з реальним візуалом
+     каналів задає ритм, дві вузькі 1×1 роблять паузу, три широкі 2×1 закривають
+     ряди. Порядок у розмітці підібраний так, що звичайне auto-placement лягає
+     без дірок — grid-auto-flow: dense не потрібен, і кадри не переставляються. */
+  /* minmax(0, 1fr), а не просто 1fr: у заголовках стоять нерозривні пробіли
+     («ще не бачили» — один нерозривний блок), і при звичайному 1fr його
+     min-content розпирав колонку — сусідні картки виходили різної ширини. */
   .benefits-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;
     margin-top: 40px;
   }
-  @media (max-width: 860px){ .benefits-grid { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 560px){ .benefits-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 860px){ .benefits-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px){ .benefits-grid { grid-template-columns: minmax(0, 1fr); } }
   .benefit-card {
     position: relative;
     border: 1px solid var(--line); border-top-color: var(--glass-edge);
@@ -2041,14 +2050,19 @@
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
   }
+  /* Намальована піктограма замість типографського символу (♪ ◈ – ✎), який
+     нічого не пояснював. Без підкладки й у правому верхньому куті: картка
+     починається одразу з заголовка, а іконка лишається тихою позначкою збоку. */
   .benefit-card .b-icon {
-    width: 42px; height: 42px; border-radius: 50%;
-    background: var(--ch-soft); color: var(--ch);
+    position: absolute; top: 22px; right: 20px;
+    color: var(--ch); opacity: 0.9;
     display: flex; align-items: center; justify-content: center;
-    font-family: 'Unbounded'; font-weight: 700; font-size: 16px;
-    margin-bottom: 16px; transition: background 0.6s ease, color 0.6s ease;
+    transition: color 0.6s ease;
   }
-  .benefit-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; line-height: 1.3; }
+  .benefit-card .b-icon svg { width: 36px; height: 36px; display: block; }
+  /* Місце під іконку — тільки в заголовка: опис починається нижче за неї й
+     може займати всю ширину картки. */
+  .benefit-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; line-height: 1.3; padding-right: 48px; }
   .benefit-card p { font-size: 13px; color: var(--muted); line-height: 1.55; }
 
   /* ---------- USE CASES ---------- */
@@ -2719,32 +2733,32 @@
     <h2 class="h2 reveal">Що відчують ваші гості на танцполі.</h2>
     <div class="benefits-grid">
       <div class="benefit-card reveal">
-        <div class="b-icon">♪</div>
+        <div class="b-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9v6M12 4.5v15M18 7.5v9"/></svg></div>
         <h3>Три канали одночасно</h3>
         <p>RED, GREEN, BLUE звучать паралельно. У кожного гостя — свій ефір, і всі танцюють в одному залі.</p>
       </div>
       <div class="benefit-card reveal">
-        <div class="b-icon">◈</div>
+        <div class="b-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.8" y="7.2" width="18.4" height="9.6" rx="4.8"/><circle cx="16.4" cy="12" r="2.4" fill="currentColor" stroke="none"/></svg></div>
         <h3>Кожен обирає свій настрій</h3>
         <p>Драйв, хіти чи повільне — гість перемикає канал одним дотиком і залишається там, де йому добре.</p>
       </div>
       <div class="benefit-card reveal">
-        <div class="b-icon">–</div>
+        <div class="b-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3L11.5 6v12L7 14.5H4z"/><path d="M15 9.8a3.4 3.4 0 0 1 0 4.4"/><path d="M17.8 7.2a7 7 0 0 1 0 9.6"/></svg></div>
         <h3>Особиста гучність</h3>
         <p>Кожен виставляє звук під себе. Ніхто не виходить із дзвоном у вухах — комфортно й дітям, і старшим.</p>
       </div>
       <div class="benefit-card reveal">
-        <div class="b-icon">✎</div>
+        <div class="b-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="5.4" width="12.8" height="9" rx="3"/><path d="M6.6 14.4v3.2l3.6-3.2"/><rect x="13" y="10.2" width="8.4" height="6.8" rx="2.6"/><path d="M18.8 17v2.4L16.4 17"/></svg></div>
         <h3>Можна нормально спілкуватися</h3>
         <p>Навушники на шию — і розмова йде звичайним голосом. Без «що?» і «повтори!» крізь гуркіт колонок.</p>
       </div>
       <div class="benefit-card reveal">
-        <div class="b-icon">✦</div>
+        <div class="b-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.8" y="7" width="18.4" height="13" rx="3.4"/><circle cx="12" cy="13.5" r="3.7"/><path d="M8.8 7 10 4.6h4L15.2 7"/></svg></div>
         <h3>LED-візуал у кожному кадрі</h3>
         <p>Підсвітка на кожному гості перетворює зал на готову картинку. Фото й відео виходять яскравими без окремого світлового обладнання.</p>
       </div>
       <div class="benefit-card reveal">
-        <div class="b-icon">✺</div>
+        <div class="b-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.2v17.6M4.4 7.6l15.2 8.8M19.6 7.6 4.4 16.4"/></svg></div>
         <h3>Формат, якого ще не бачили</h3>
         <p>Танці «в тиші» — незвичне відчуття вже з перших хвилин. Гості проводять час не так, як на звичайній вечірці.</p>
       </div>
