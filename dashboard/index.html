@@ -12,8 +12,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  /* Токени взяті з index.html — дашборд має читатися як частина SILENT,
-     а не як сторонній інструмент. */
   :root {
     --night: #05070d;
     --night-2: #0b1020;
@@ -41,7 +39,6 @@
     font-family: 'Manrope', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     min-height: 100vh;
-    /* Дуже стриманий градієнт угорі — щоб чорне не було мертвим. */
     background-image:
       radial-gradient(900px 420px at 12% -8%, rgba(198,255,0,0.05), transparent 62%),
       radial-gradient(760px 380px at 88% -12%, rgba(0,179,255,0.035), transparent 60%);
@@ -91,8 +88,6 @@
   .btn.busy .ico { animation: spin .9s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Статус останнього оновлення. Помилка не чистить дашборд — лише підсвічує
-     цей чіп, бо старі дані корисніші за порожній екран. */
   .stale {
     display: none; align-items: center; gap: 7px;
     border: 1px solid rgba(255,176,32,0.3); border-radius: 999px;
@@ -100,6 +95,21 @@
     background: rgba(255,176,32,0.07);
   }
   .stale.show { display: inline-flex; }
+
+  /* ── Період перемикач ────────────────────────────────────────────────── */
+  .period-switcher {
+    display: flex; align-items: center; gap: 6px;
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: 4px; background: rgba(255,255,255,0.01);
+  }
+  .period-btn {
+    padding: 6px 12px; border-radius: 999px; border: none;
+    font-size: 12.5px; font-weight: 500; font-family: 'Manrope', sans-serif;
+    color: var(--muted-2); background: transparent; cursor: pointer;
+    transition: all .2s;
+  }
+  .period-btn:hover { color: var(--muted); }
+  .period-btn.active { background: rgba(198,255,0,0.15); color: var(--lime); font-weight: 600; }
 
   /* ── Загальні панелі ─────────────────────────────────────────────────── */
   .panel {
@@ -117,91 +127,45 @@
   .grid { display: grid; gap: var(--gap); }
   .row-2 { grid-template-columns: 1fr 1fr; }
   .row-3 { grid-template-columns: repeat(3, 1fr); }
+  .row-4 { grid-template-columns: repeat(4, 1fr); }
   section + section, .grid + .grid, .grid + section, section + .grid { margin-top: var(--gap); }
 
-  /* ── KPI ─────────────────────────────────────────────────────────────── */
-  .kpis { grid-template-columns: repeat(6, 1fr); }
+  /* ── KPI Картки ──────────────────────────────────────────────────────── */
+  .kpis { grid-template-columns: repeat(4, 1fr); }
   .kpi {
     border: 1px solid var(--line); border-radius: 14px;
     background: var(--panel);
-    padding: 18px 18px 17px;
-    display: flex; flex-direction: column; gap: 9px;
+    padding: 20px;
+    display: flex; flex-direction: column; gap: 8px;
     position: relative; overflow: hidden;
   }
   .kpi .label {
-    font-size: 10.5px; letter-spacing: 1.6px; text-transform: uppercase;
-    color: var(--muted-2); font-weight: 700;
+    font-size: 12px; font-weight: 600;
+    color: var(--ink); display: flex; align-items: center; gap: 6px;
+  }
+  .kpi .label .help {
+    width: 18px; height: 18px; border-radius: 50%; border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; color: var(--muted-2); cursor: help;
+    position: relative;
+  }
+  .kpi .label .help:hover::after {
+    content: attr(data-hint); position: absolute; bottom: 24px; left: 50%;
+    transform: translateX(-50%); background: rgba(8,11,20,0.94);
+    border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px;
+    font-size: 11px; white-space: nowrap; z-index: 10;
+    color: var(--muted); font-family: 'Manrope';
   }
   .kpi .val {
-    font-family: 'Unbounded'; font-weight: 600; font-size: 30px;
+    font-family: 'Unbounded'; font-weight: 700; font-size: 32px;
     line-height: 1; letter-spacing: -0.03em;
-    font-variant-numeric: tabular-nums;
+    font-variant-numeric: tabular-nums; color: var(--lime);
   }
-  .kpi .foot { font-size: 11.5px; color: var(--muted-3); }
+  .kpi .desc { font-size: 11px; color: var(--muted-2); line-height: 1.4; }
   .kpi.accent .val { color: var(--lime); }
   .kpi.accent::after {
     content: ''; position: absolute; inset: auto 0 0 0; height: 1px;
     background: linear-gradient(90deg, transparent, var(--lime-dim), transparent);
-  }
-
-  /* ── Лінійний графік ─────────────────────────────────────────────────── */
-  .chart-wrap { position: relative; }
-  .line-svg { display: block; width: 100%; height: auto; overflow: visible; }
-  .tip {
-    position: absolute; pointer-events: none; opacity: 0;
-    transform: translate(-50%, -100%);
-    background: rgba(8,11,20,0.94); border: 1px solid var(--line);
-    border-radius: 10px; padding: 9px 12px; white-space: nowrap;
-    transition: opacity .12s; z-index: 5;
-    box-shadow: 0 14px 34px -16px rgba(0,0,0,0.9);
-  }
-  .tip .d { font-size: 11px; color: var(--muted-2); margin-bottom: 3px; }
-  .tip .n { font-family: 'Unbounded'; font-weight: 600; font-size: 14px; }
-  .tip .n b { color: var(--lime); }
-
-  /* ── Горизонтальні смуги ─────────────────────────────────────────────── */
-  .bars { display: flex; flex-direction: column; gap: 13px; }
-  .bar-row { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; }
-  .bar-row .nm { font-size: 13px; color: rgba(255,255,255,0.86); }
-  .bar-row .qt {
-    font-size: 12.5px; color: var(--muted-2); font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-  }
-  .bar-row .qt b { color: var(--ink); font-weight: 600; }
-  .track {
-    grid-column: 1 / -1; height: 6px; border-radius: 999px;
-    background: rgba(255,255,255,0.05); overflow: hidden;
-  }
-  .fill {
-    height: 100%; border-radius: 999px;
-    background: linear-gradient(90deg, rgba(198,255,0,0.5), var(--lime));
-    width: 0; transition: width .7s cubic-bezier(.22,1,.36,1);
-  }
-  .fill.mute { background: linear-gradient(90deg, rgba(255,255,255,0.14), rgba(255,255,255,0.3)); }
-
-  /* ── Вертикальні стовпчики (місяці) ──────────────────────────────────── */
-  .cols { display: flex; align-items: stretch; gap: 8px; height: 190px; }
-  .col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 9px; min-width: 0; }
-  /* Стовпчику потрібен власний трек із визначеною висотою: відсоткова висота
-     не резолвиться проти батька, чия висота задана вмістом, і стовпчики
-     просто не малювалися. flex:1 дає треку конкретний розмір по головній осі. */
-  .col .stemwrap {
-    flex: 1; min-height: 0; width: 100%; max-width: 46px;
-    display: flex; align-items: flex-end;
-  }
-  .col .stem {
-    width: 100%; border-radius: 7px 7px 3px 3px;
-    background: linear-gradient(180deg, var(--lime), rgba(198,255,0,0.22));
-    height: 0; transition: height .7s cubic-bezier(.22,1,.36,1);
-  }
-  .col .stem[data-zero="1"] { background: rgba(255,255,255,0.07); }
-  .col .cnt {
-    font-family: 'Unbounded'; font-weight: 600; font-size: 12.5px;
-    font-variant-numeric: tabular-nums;
-  }
-  .col .cap {
-    font-size: 10.5px; color: var(--muted-2); text-align: center;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
   }
 
   /* ── Воронка ─────────────────────────────────────────────────────────── */
@@ -218,25 +182,70 @@
     background: linear-gradient(90deg, rgba(198,255,0,0.16), rgba(198,255,0,0.03));
     transition: width .7s cubic-bezier(.22,1,.36,1);
   }
-  .step .sn, .step .sv { position: relative; }
-  .step .sn { font-size: 13px; }
+  .step .sn, .step .sv { position: relative; z-index: 1; }
+  .step .sn { font-size: 13px; flex: 1; }
   .step .sv {
     font-family: 'Unbounded'; font-weight: 600; font-size: 15px;
-    font-variant-numeric: tabular-nums;
+    font-variant-numeric: tabular-nums; display: flex; align-items: baseline; gap: 8px;
   }
-  .step .sv small { font-family: 'Manrope'; font-weight: 500; color: var(--muted-2); font-size: 11.5px; margin-left: 7px; }
+  .step .sv .pct { font-family: 'Manrope'; font-weight: 500; color: var(--muted-2); font-size: 11.5px; }
   .step.win { border-color: rgba(198,255,0,0.4); }
   .step.win .sv { color: var(--lime); }
+  .step.lost { border-color: rgba(255,71,87,0.32); }
   .step.lost .sv { color: var(--bad); }
   .step.lost .sfill { background: linear-gradient(90deg, rgba(255,71,87,0.14), rgba(255,71,87,0.02)); }
 
-  /* ── Останні заявки ──────────────────────────────────────────────────── */
+  /* ── Фільтровані блоки (джерела, типи подій) ──────────────────────────── */
+  .clickable-bars { display: flex; flex-direction: column; gap: 11px; }
+  .bar-item {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 12px 14px; border-radius: 11px;
+    border: 1px solid var(--line); background: rgba(255,255,255,0.01);
+    cursor: pointer; transition: all .2s;
+  }
+  .bar-item:hover {
+    border-color: var(--lime-dim); background: rgba(198,255,0,0.08);
+  }
+  .bar-item.active {
+    border-color: var(--lime); background: rgba(198,255,0,0.12);
+  }
+  .bar-item .name { font-size: 13px; color: var(--ink); flex: 1; }
+  .bar-item .count { font-family: 'Unbounded'; font-weight: 600; color: var(--lime); font-size: 14px; }
+
+  /* ── Таблиця заявок ──────────────────────────────────────────────────── */
+  .table-controls {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1; min-width: 200px;
+    border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px;
+    background: rgba(255,255,255,0.03); color: var(--ink); font-family: 'Manrope';
+    font-size: 12.5px;
+  }
+  .search-input::placeholder { color: var(--muted-3); }
+  .search-input:focus { outline: none; border-color: var(--lime); background: rgba(198,255,0,0.05); }
+
+  .filter-select {
+    border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px;
+    background: rgba(255,255,255,0.03); color: var(--ink); font-family: 'Manrope';
+    font-size: 12.5px; cursor: pointer;
+  }
+  .filter-select:focus { outline: none; border-color: var(--lime); background: rgba(198,255,0,0.05); }
+  .filter-select option { background: var(--night); color: var(--ink); }
+
   .tbl { width: 100%; border-collapse: collapse; }
   .tbl th {
     text-align: left; font-size: 10.5px; letter-spacing: 1.5px; text-transform: uppercase;
     color: var(--muted-2); font-weight: 700; padding: 0 14px 12px 0;
-    border-bottom: 1px solid var(--line);
+    border-bottom: 1px solid var(--line); cursor: pointer; user-select: none;
   }
+  .tbl th:hover { color: var(--muted); }
+  .tbl th.sortable::after {
+    content: '↕'; font-size: 10px; margin-left: 4px; opacity: 0;
+    transition: opacity .2s;
+  }
+  .tbl th:hover.sortable::after { opacity: 1; }
+  .tbl th.sorted::after { opacity: 1; content: attr(data-dir); }
   .tbl td {
     padding: 14px 14px 14px 0; font-size: 13px;
     border-bottom: 1px solid var(--line-soft); vertical-align: middle;
@@ -279,29 +288,26 @@
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px;
     background: rgba(255,255,255,0.06); padding: 2px 7px; border-radius: 5px; color: var(--lime);
   }
-  /* display:flex/grid у правилах вище перебиває атрибут hidden, тож ховаємо
-     явно — інакше екран завантаження лишається висіти над дашбордом. */
   [hidden] { display: none !important; }
 
   /* ── Адаптив ─────────────────────────────────────────────────────────── */
   @media (max-width: 1080px) {
-    .kpis { grid-template-columns: repeat(3, 1fr); }
-  }
-  @media (max-width: 860px) {
+    .kpis { grid-template-columns: repeat(2, 1fr); }
     .row-2, .row-3 { grid-template-columns: 1fr; }
   }
   @media (max-width: 620px) {
     .wrap { padding: 0 16px 56px; }
-    .top { padding: 28px 0 22px; align-items: flex-start; }
-    .kpis { grid-template-columns: repeat(2, 1fr); }
-    .kpi .val { font-size: 25px; }
+    .top { padding: 28px 0 22px; align-items: flex-start; flex-direction: column; }
+    .top-right { flex-direction: column; width: 100%; }
+    .period-switcher { width: 100%; }
+    .kpis { grid-template-columns: 1fr; }
+    .kpi .val { font-size: 24px; }
     .panel { padding: 18px 16px 20px; border-radius: 14px; }
-    /* Таблиця на телефоні перетворюється на картки: горизонтального скролу
-       всієї сторінки бути не повинно. */
     .tbl { display: none; }
     .cards { display: flex; }
-    .cols { height: 150px; gap: 5px; }
-    .col .cap { font-size: 9.5px; }
+    .table-controls { flex-direction: column; }
+    .search-input { width: 100%; }
+    .filter-select { width: 100%; }
   }
 </style>
 </head>
@@ -312,37 +318,32 @@
   <header class="top">
     <div class="brand">
       <div class="mark">SILENT<b>.</b></div>
-      <div class="sub">Dashboard</div>
+      <div class="sub">Керування заявками</div>
     </div>
     <div class="top-right">
-      <span class="pill"><span class="dot"></span>Останні 30 днів</span>
+      <div class="period-switcher" id="periodSwitcher"></div>
       <span class="stale" id="stale">⚠ Не вдалося оновити дані</span>
       <span class="pill" id="updated">Оновлення…</span>
       <button class="btn" id="refresh"><span class="ico">↻</span> Оновити</button>
     </div>
   </header>
 
-  <!-- Екран до першої вдалої відповіді: або «вантажимо», або підказка, що
-       endpoint ще не підставлений. -->
   <div class="boot" id="boot">
     <div class="mark u" style="font-size:15px;color:var(--muted)">Завантаження даних…</div>
   </div>
 
   <main id="app" hidden>
 
-    <!-- KPI -->
-    <section class="grid kpis" id="kpis"></section>
+    <!-- KPI Блок -->
+    <section class="grid row-4" id="kpis"></section>
 
-    <!-- Динаміка -->
+    <!-- Воронка -->
     <section class="panel">
       <div class="panel-h">
-        <h2>Динаміка заявок</h2>
-        <span class="hint">по днях, 30 днів</span>
+        <h2>Заявки в процесі обробки</h2>
+        <span class="hint">від нових до заброньованих</span>
       </div>
-      <div class="chart-wrap" id="lineWrap">
-        <svg class="line-svg" id="line" viewBox="0 0 1000 260" aria-label="Заявки по днях"></svg>
-        <div class="tip" id="tip"></div>
-      </div>
+      <div class="funnel" id="funnel"></div>
     </section>
 
     <div class="grid row-2">
@@ -350,74 +351,51 @@
       <section class="panel">
         <div class="panel-h">
           <h2>Звідки приходять заявки</h2>
-          <span class="hint">«Як ви про нас дізналися?»</span>
+          <span class="hint">натисніть для фільтру</span>
         </div>
-        <div class="bars" id="sources"></div>
+        <div class="clickable-bars" id="sources"></div>
       </section>
 
-      <!-- Статуси -->
-      <section class="panel">
-        <div class="panel-h">
-          <h2>Заявки → Заброньовано</h2>
-          <span class="hint">воронка</span>
-        </div>
-        <div class="funnel" id="funnel"></div>
-      </section>
-    </div>
-
-    <div class="grid row-2">
       <!-- Типи подій -->
       <section class="panel">
         <div class="panel-h">
-          <h2>Типи подій</h2>
-          <span class="hint">«Що ви плануєте?»</span>
+          <h2>Які типи подій замовляють</h2>
+          <span class="hint">натисніть для фільтру</span>
         </div>
-        <div class="bars" id="types"></div>
-      </section>
-
-      <!-- Гості -->
-      <section class="panel">
-        <div class="panel-h">
-          <h2>Масштаб подій</h2>
-          <span class="hint">кількість гостей</span>
-        </div>
-        <div class="bars" id="guests"></div>
+        <div class="clickable-bars" id="types"></div>
       </section>
     </div>
 
-    <!-- Попит за датами подій -->
-    <section class="panel">
-      <div class="panel-h">
-        <h2>Попит за датами подій</h2>
-        <span class="hint">«Бажана дата», по місяцях</span>
-      </div>
-      <div class="cols" id="months"></div>
-    </section>
-
-    <!-- UTM -->
-    <section class="panel">
-      <div class="panel-h">
-        <h2>Маркетинг</h2>
-        <span class="hint">UTM-мітки з посилань</span>
-      </div>
-      <div class="grid row-3">
-        <div><div class="panel-h"><h2 style="font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted-2)">Source</h2></div><div class="bars" id="utmS"></div></div>
-        <div><div class="panel-h"><h2 style="font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted-2)">Medium</h2></div><div class="bars" id="utmM"></div></div>
-        <div><div class="panel-h"><h2 style="font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted-2)">Campaign</h2></div><div class="bars" id="utmC"></div></div>
-      </div>
-    </section>
-
-    <!-- Останні заявки -->
+    <!-- Таблиця / Карти заявок -->
     <section class="panel">
       <div class="panel-h">
         <h2>Останні заявки</h2>
-        <span class="hint">10 найновіших</span>
+        <span class="hint" id="leadCount">Всього: —</span>
       </div>
+
+      <div class="table-controls">
+        <input type="text" class="search-input" id="searchInput" placeholder="Пошук за ім'ям, типом, джерелом…">
+        <select class="filter-select" id="statusFilter">
+          <option value="">Статус: усі</option>
+          <option value="Нова">Статус: Нова</option>
+          <option value="Контакт">Статус: Контакт</option>
+          <option value="Обговорення">Статус: Обговорення</option>
+          <option value="Заброньовано">Статус: Заброньовано</option>
+          <option value="Відмова">Статус: Відмова</option>
+        </select>
+        <button class="btn" id="resetFilters">✕ Скинути фільтри</button>
+      </div>
+
       <table class="tbl">
         <thead>
           <tr>
-            <th>Ім'я</th><th>Заявка</th><th>Тип події</th>
-            <th>Гостей</th><th>Бажана дата</th><th>Джерело</th><th>Статус</th>
+            <th class="sortable" data-col="name">Ім'я</th>
+            <th class="sortable" data-col="date">Заявка</th>
+            <th class="sortable" data-col="eventType">Тип</th>
+            <th>Гостей</th>
+            <th class="sortable" data-col="eventDate">Бажана дата</th>
+            <th class="sortable" data-col="discovery">Джерело</th>
+            <th class="sortable" data-col="status">Статус</th>
           </tr>
         </thead>
         <tbody id="latest"></tbody>
@@ -432,13 +410,11 @@
 (function () {
   'use strict';
 
-  // Окремий Apps Script проєкт, ТІЛЬКИ на читання — не той /exec, що приймає
-  // заявки з форми. Код для нього лежить у tools/dashboard-api.gs.
   var READ_ENDPOINT = 'https://script.google.com/macros/s/AKfycbztJiQTF5FHG7mzE2tJxWj3puXAhr-Fv67mDLmvjvcbSqli8bwliovNI-uQoyIaQLAi3A/exec';
 
-  var WINDOW_DAYS = 30;
+  var PERIOD_DAYS = { '7': 7, '30': 30, '90': 90, 'all': 999 };
+  var DEFAULT_PERIOD = '30';
   var REFRESH_MS = 5 * 60 * 1000;
-  var MAX_SOURCES = 7;              // решта згортається в «Інші»
 
   var MONTHS = ['січ','лют','бер','квіт','трав','черв','лип','серп','вер','жовт','лист','груд'];
   var STATUSES = [
@@ -450,12 +426,11 @@
   ];
 
   var $ = function (id) { return document.getElementById(id); };
-  var lastRows = null;              // останні вдалі дані — на випадок збою
+  var lastRows = null;
+  var currentPeriod = DEFAULT_PERIOD;
+  var filters = { discovery: null, eventType: null, status: null, search: '' };
+  var sortCol = null, sortDir = 'asc';
 
-  // Стартові розміри смуг ставимо наступним тиком, щоб спрацював CSS-перехід.
-  // Саме setTimeout, а не requestAnimationFrame: rAF у фоновій вкладці не
-  // викликається взагалі, і дашборд, відкритий у фоні, лишався б із нульовими
-  // смугами до першого фокуса.
   function nextTick(fn) { setTimeout(fn, 30); }
 
   // ── дати ────────────────────────────────────────────────────────────────
@@ -472,7 +447,36 @@
     return Number(p[2]) + ' ' + MONTHS[Number(p[1]) - 1];
   }
 
-  // ── підрахунки ──────────────────────────────────────────────────────────
+  // ── Період фільтр ──────────────────────────────────────────────────────
+  function initPeriodSwitcher() {
+    var switcher = $('periodSwitcher');
+    Object.keys(PERIOD_DAYS).forEach(function (key) {
+      var label = key === 'all' ? 'Весь час' : (key + ' днів');
+      var btn = document.createElement('button');
+      btn.className = 'period-btn' + (key === currentPeriod ? ' active' : '');
+      btn.textContent = label;
+      btn.addEventListener('click', function () {
+        currentPeriod = key;
+        Array.prototype.forEach.call(switcher.querySelectorAll('.period-btn'), function (b) {
+          b.classList.remove('active');
+        });
+        btn.classList.add('active');
+        render(lastRows);
+      });
+      switcher.appendChild(btn);
+    });
+  }
+
+  function getWindowStart() {
+    return dayKey(shiftDays(-(PERIOD_DAYS[currentPeriod] - 1)));
+  }
+
+  function filterByPeriod(rows) {
+    var from = getWindowStart();
+    return rows.filter(function (r) { return r.date && r.date >= from; });
+  }
+
+  // ── тальні ──────────────────────────────────────────────────────────────
   function tally(rows, field, fallback) {
     var map = {};
     rows.forEach(function (r) {
@@ -485,156 +489,40 @@
       .sort(function (a, b) { return b.n - a.n; });
   }
 
-  // ── рендер: смуги ───────────────────────────────────────────────────────
-  function renderBars(el, items, opts) {
-    opts = opts || {};
+  // ── Фільтровані клікабельні смуги ───────────────────────────────────────
+  function renderClickableBars(el, items) {
     el.innerHTML = '';
     if (!items.length) { el.innerHTML = '<div class="empty">Поки немає даних</div>'; return; }
 
-    var list = items;
-    if (opts.limit && items.length > opts.limit) {
-      var head = items.slice(0, opts.limit);
-      var restN = items.slice(opts.limit).reduce(function (s, i) { return s + i.n; }, 0);
-      list = head.concat([{ name: 'Інші', n: restN, mute: true }]);
-    }
-    var total = items.reduce(function (s, i) { return s + i.n; }, 0);
-    var max = Math.max.apply(null, list.map(function (i) { return i.n; }));
-
-    list.forEach(function (item) {
-      var share = total ? Math.round(item.n / total * 100) : 0;
+    items.forEach(function (item) {
       var row = document.createElement('div');
-      row.className = 'bar-row';
-      row.innerHTML =
-        '<div class="nm"></div>' +
-        '<div class="qt"><b>' + item.n + '</b> · ' + share + '%</div>' +
-        '<div class="track"><div class="fill' + (item.mute ? ' mute' : '') + '"></div></div>';
-      row.querySelector('.nm').textContent = item.name;
-      el.appendChild(row);
-      var fill = row.querySelector('.fill');
-      nextTick(function () {
-        fill.style.width = (max ? item.n / max * 100 : 0) + '%';
+      row.className = 'bar-item';
+      if (filters[el.id === 'sources' ? 'discovery' : 'eventType'] === item.name) {
+        row.classList.add('active');
+      }
+      var nameEl = document.createElement('div');
+      nameEl.className = 'name';
+      nameEl.textContent = item.name;
+      var countEl = document.createElement('div');
+      countEl.className = 'count';
+      countEl.textContent = item.n;
+      row.appendChild(nameEl);
+      row.appendChild(countEl);
+
+      var fieldName = el.id === 'sources' ? 'discovery' : 'eventType';
+      row.addEventListener('click', function () {
+        if (filters[fieldName] === item.name) {
+          filters[fieldName] = null;
+        } else {
+          filters[fieldName] = item.name;
+        }
+        render(lastRows);
       });
+      el.appendChild(row);
     });
   }
 
-  // ── рендер: KPI ─────────────────────────────────────────────────────────
-  function renderKpis(win, all) {
-    var todayKey = dayKey(new Date());
-    var d7 = dayKey(shiftDays(-6));
-
-    var nova = win.filter(function (r) { return r.status === 'Нова'; }).length;
-    var bron = win.filter(function (r) { return r.status === 'Заброньовано'; }).length;
-    var today = win.filter(function (r) { return r.date === todayKey; }).length;
-    var week = win.filter(function (r) { return r.date >= d7; }).length;
-    var conv = win.length ? Math.round(bron / win.length * 100) : 0;
-
-    var cards = [
-      { label: 'Заявки',        val: win.length, foot: 'за 30 днів' },
-      { label: 'Нові',          val: nova,       foot: 'очікують контакту' },
-      { label: 'Заброньовано',  val: bron,       foot: 'підтверджені події', accent: true },
-      { label: 'Конверсія',     val: conv + '%', foot: 'заявка → бронь', accent: true },
-      { label: 'Сьогодні',      val: today,      foot: prettyDate(todayKey) },
-      { label: 'Останні 7 днів',val: week,       foot: 'тиждень' }
-    ];
-
-    $('kpis').innerHTML = cards.map(function (c) {
-      return '<div class="kpi' + (c.accent ? ' accent' : '') + '">' +
-             '<div class="label">' + c.label + '</div>' +
-             '<div class="val">' + c.val + '</div>' +
-             '<div class="foot">' + c.foot + '</div></div>';
-    }).join('');
-  }
-
-  // ── рендер: лінійний графік ─────────────────────────────────────────────
-  function renderLine(win) {
-    var svg = $('line'), tip = $('tip');
-    // viewBox беремо за реальною шириною контейнера, тобто масштаб 1:1. При
-    // фіксованій ширині графік на телефоні стискався разом із підписами дат,
-    // і вони ставали нечитабельними.
-    var W = Math.round($('lineWrap').getBoundingClientRect().width) || 1000;
-    W = Math.max(320, Math.min(1100, W));
-    var H = W < 560 ? 210 : 260;
-    var padL = 30, padR = 8, padT = 16, padB = 26;
-    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-
-    // усі 30 днів, навіть порожні — інакше провали в попиті стають невидимими
-    var days = [];
-    for (var i = WINDOW_DAYS - 1; i >= 0; i--) {
-      var k = dayKey(shiftDays(-i));
-      days.push({ key: k, n: win.filter(function (r) { return r.date === k; }).length });
-    }
-    var max = Math.max(1, Math.max.apply(null, days.map(function (d) { return d.n; })));
-    // «гарний» верх шкали, щоб підписи були цілими
-    var top = max <= 4 ? max : Math.ceil(max / 5) * 5;
-
-    var iw = W - padL - padR, ih = H - padT - padB;
-    var x = function (i) { return padL + (days.length === 1 ? iw / 2 : i / (days.length - 1) * iw); };
-    var y = function (v) { return padT + ih - (v / top) * ih; };
-
-    var parts = [];
-
-    // сітка + підписи шкали
-    var ticks = top <= 4 ? top : 4;
-    for (var t = 0; t <= ticks; t++) {
-      var v = Math.round(top / ticks * t), gy = y(v);
-      parts.push('<line x1="' + padL + '" y1="' + gy + '" x2="' + (W - padR) + '" y2="' + gy +
-                 '" stroke="rgba(255,255,255,0.055)" stroke-width="1" vector-effect="non-scaling-stroke"/>');
-      parts.push('<text x="' + (padL - 9) + '" y="' + (gy + 4) +
-                 '" text-anchor="end" font-size="10" fill="rgba(255,255,255,0.3)" font-family="Manrope">' + v + '</text>');
-    }
-
-    var line = days.map(function (d, i) { return (i ? 'L' : 'M') + x(i) + ' ' + y(d.n); }).join(' ');
-    var area = line + ' L' + x(days.length - 1) + ' ' + y(0) + ' L' + x(0) + ' ' + y(0) + ' Z';
-
-    parts.push('<defs><linearGradient id="ga" x1="0" y1="0" x2="0" y2="1">' +
-               '<stop offset="0%" stop-color="rgba(198,255,0,0.26)"/>' +
-               '<stop offset="100%" stop-color="rgba(198,255,0,0)"/></linearGradient></defs>');
-    parts.push('<path d="' + area + '" fill="url(#ga)"/>');
-    parts.push('<path d="' + line + '" fill="none" stroke="#c6ff00" stroke-width="2" ' +
-               'stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>');
-
-    // Підписи дат розріджуємо під ширину: приблизно один на 78px, інакше на
-    // вузькому екрані вони налазять один на одного.
-    var step = Math.max(2, Math.ceil(days.length / Math.max(2, Math.floor(iw / 78))));
-    days.forEach(function (d, i) {
-      if (i % step === 0 || i === days.length - 1) {
-        parts.push('<text x="' + x(i) + '" y="' + (H - 6) + '" text-anchor="middle" font-size="10" ' +
-                   'fill="rgba(255,255,255,0.3)" font-family="Manrope">' + prettyDate(d.key) + '</text>');
-      }
-      if (d.n > 0) {
-        parts.push('<circle cx="' + x(i) + '" cy="' + y(d.n) + '" r="3" fill="#05070d" stroke="#c6ff00" ' +
-                   'stroke-width="1.6" vector-effect="non-scaling-stroke"/>');
-      }
-    });
-
-    // невидимі зони наведення — по одній на день
-    var band = iw / Math.max(1, days.length - 1);
-    days.forEach(function (d, i) {
-      parts.push('<rect class="hit" data-i="' + i + '" x="' + (x(i) - band / 2) + '" y="' + padT +
-                 '" width="' + band + '" height="' + ih + '" fill="transparent" style="cursor:crosshair"/>');
-    });
-
-    svg.innerHTML = parts.join('');
-
-    // Позиції рахуємо від реального розміру SVG: viewBox масштабується, тож
-    // координати всередині нього не збігаються з пікселями на екрані.
-    function showTip(i) {
-      var d = days[i], box = svg.getBoundingClientRect();
-      tip.innerHTML = '<div class="d">' + prettyDate(d.key) + '</div><div class="n"><b>' + d.n + '</b> ' +
-                      (d.n === 1 ? 'заявка' : (d.n >= 2 && d.n <= 4 ? 'заявки' : 'заявок')) + '</div>';
-      tip.style.left = (x(i) / W * box.width) + 'px';
-      tip.style.top = (y(d.n) / H * box.height - 10) + 'px';
-      tip.style.opacity = '1';
-    }
-    Array.prototype.forEach.call(svg.querySelectorAll('.hit'), function (r) {
-      var i = Number(r.getAttribute('data-i'));
-      r.addEventListener('mouseenter', function () { showTip(i); });
-      r.addEventListener('touchstart', function (e) { e.preventDefault(); showTip(i); }, { passive: false });
-    });
-    $('lineWrap').addEventListener('mouseleave', function () { tip.style.opacity = '0'; });
-  }
-
-  // ── рендер: воронка ─────────────────────────────────────────────────────
+  // ── Воронка ──────────────────────────────────────────────────────────────
   function renderFunnel(win) {
     var el = $('funnel');
     var total = win.length;
@@ -643,11 +531,6 @@
       counts[s.key] = win.filter(function (r) { return r.status === s.key; }).length;
     });
 
-    // Воронка кумулятивна: «Контакт» означає, що заявку вже опрацювали, тож
-    // на кожному кроці рахуємо всіх, хто дійшов щонайменше сюди. Відмова —
-    // окремо, це вихід із воронки, а не її сходинка.
-    // Перша сходинка — саме ВСІ заявки, включно з відмовами: інакше вона
-    // мовчки губила б їх і показувала 89% там, де має бути 100%.
     var flow = ['Нова', 'Контакт', 'Обговорення', 'Заброньовано'];
     var reached = flow.map(function (_, i) {
       if (i === 0) return total;
@@ -661,63 +544,62 @@
       return '<div class="step' + (win_ ? ' win' : '') + '">' +
              '<div class="sfill" style="width:' + share + '%"></div>' +
              '<div class="sn">' + (i === 0 ? 'Усі заявки' : k) + '</div>' +
-             '<div class="sv">' + n + '<small>' + share + '%</small></div></div>';
+             '<div class="sv">' + n + '<span class="pct">' + share + '%</span></div></div>';
     }).join('');
 
     var lost = counts['Відмова'];
     if (lost) {
       var ls = total ? Math.round(lost / total * 100) : 0;
       html += '<div class="step lost"><div class="sfill" style="width:' + ls + '%"></div>' +
-              '<div class="sn">Відмова</div><div class="sv">' + lost + '<small>' + ls + '%</small></div></div>';
+              '<div class="sn">Відмова</div><div class="sv">' + lost + '<span class="pct">' + ls + '%</span></div></div>';
     }
     el.innerHTML = total ? html : '<div class="empty">Поки немає даних</div>';
   }
 
-  // ── рендер: місяці бажаних дат ──────────────────────────────────────────
-  function renderMonths(rows) {
-    var el = $('months');
-    var withDate = rows.filter(function (r) { return r.eventDate; });
-    if (!withDate.length) { el.innerHTML = '<div class="empty">Поки немає дат подій</div>'; return; }
+  // ── KPI ──────────────────────────────────────────────────────────────────
+  function renderKpis(win) {
+    var nova = win.filter(function (r) { return r.status === 'Нова'; }).length;
+    var kontakt = win.filter(function (r) { return r.status === 'Контакт'; }).length;
+    var obg = win.filter(function (r) { return r.status === 'Обговорення'; }).length;
+    var bron = win.filter(function (r) { return r.status === 'Заброньовано'; }).length;
+    var conv = win.length ? Math.round(bron / win.length * 100) : 0;
 
-    var map = {};
-    withDate.forEach(function (r) {
-      var k = r.eventDate.slice(0, 7);
-      map[k] = (map[k] || 0) + 1;
-    });
-    // Показуємо суцільний діапазон від найранішого до найпізнішого місяця:
-    // порожній місяць між піками — це теж інформація.
-    var keys = Object.keys(map).sort();
-    var span = [], cur = keys[0], last = keys[keys.length - 1], guard = 0;
-    while (cur <= last && guard++ < 36) {
-      span.push(cur);
-      var yy = Number(cur.slice(0, 4)), mm = Number(cur.slice(5, 7));
-      if (mm === 12) { yy++; mm = 1; } else { mm++; }
-      cur = yy + '-' + pad(mm);
-    }
-    var max = Math.max.apply(null, span.map(function (k) { return map[k] || 0; }));
+    var cards = [
+      {
+        label: 'Залишили заявку',
+        val: win.length,
+        desc: 'Усі люди, які заповнили та відправили форму',
+        hint: 'Загальна кількість заявок за період'
+      },
+      {
+        label: 'Нові',
+        val: nova,
+        desc: 'Заявки, з якими ще не розпочали роботу',
+        hint: 'Статус: Нова'
+      },
+      {
+        label: 'Заброньовано',
+        val: bron,
+        desc: 'Заявки, які перетворилися на реальні eventos',
+        hint: 'Вже заплатили передоплату'
+      },
+      {
+        label: 'Конверсія',
+        val: conv + '%',
+        desc: 'Відсоток заявок, які стали бронюваннями',
+        hint: 'Заброньовано ÷ Всього × 100%'
+      }
+    ];
 
-    el.innerHTML = span.map(function (k) {
-      var n = map[k] || 0;
-      return '<div class="col">' +
-             '<div class="cnt">' + n + '</div>' +
-             '<div class="stemwrap"><div class="stem" data-zero="' + (n ? 0 : 1) +
-             '" data-h="' + (max ? n / max * 100 : 0) + '"></div></div>' +
-             '<div class="cap">' + MONTHS[Number(k.slice(5, 7)) - 1] + '</div></div>';
+    $('kpis').innerHTML = cards.map(function (c) {
+      return '<div class="kpi accent">' +
+             '<div class="label">' + c.label + '<span class="help" data-hint="' + c.hint + '">?</span></div>' +
+             '<div class="val">' + c.val + '</div>' +
+             '<div class="desc">' + c.desc + '</div></div>';
     }).join('');
-
-    // Висоту рахуємо в пікселях від реально виміряного треку. Відсотки тут не
-    // працюють: висота треку береться з flex:1, а проти такої висоти браузер
-    // відсоткову висоту дитини не резолвить — стовпчики лишались нульовими.
-    nextTick(function () {
-      Array.prototype.forEach.call(el.querySelectorAll('.stem'), function (s) {
-        var track = s.parentNode.getBoundingClientRect().height;
-        var h = Number(s.getAttribute('data-h')) / 100 * track;
-        s.style.height = Math.max(Math.round(h), 3) + 'px';
-      });
-    });
   }
 
-  // ── рендер: останні заявки ──────────────────────────────────────────────
+  // ── Таблиця ──────────────────────────────────────────────────────────────
   function statusTag(s) {
     var found = STATUSES.filter(function (x) { return x.key === s; })[0];
     var safe = document.createElement('span');
@@ -731,19 +613,55 @@
     return d.innerHTML;
   }
 
-  function renderLatest(rows) {
-    // Сортуємо за датою й часом заявки, а не за порядком у таблиці.
-    var latest = rows.slice().sort(function (a, b) {
-      return (b.date + ' ' + b.time).localeCompare(a.date + ' ' + a.time);
-    }).slice(0, 10);
+  function applyTableFilters(rows) {
+    var filtered = rows.slice();
+    if (filters.discovery) {
+      filtered = filtered.filter(function (r) { return r.discovery === filters.discovery; });
+    }
+    if (filters.eventType) {
+      filtered = filtered.filter(function (r) { return r.eventType === filters.eventType; });
+    }
+    if (filters.status) {
+      filtered = filtered.filter(function (r) { return r.status === filters.status; });
+    }
+    if (filters.search) {
+      var q = filters.search.toLowerCase();
+      filtered = filtered.filter(function (r) {
+        return (r.name || '').toLowerCase().indexOf(q) >= 0 ||
+               (r.eventType || '').toLowerCase().indexOf(q) >= 0 ||
+               (r.discovery || '').toLowerCase().indexOf(q) >= 0;
+      });
+    }
+    if (sortCol) {
+      filtered.sort(function (a, b) {
+        var aVal = a[sortCol] || '';
+        var bVal = b[sortCol] || '';
+        if (typeof aVal === 'string') aVal = aVal.toLowerCase();
+        if (typeof bVal === 'string') bVal = bVal.toLowerCase();
+        if (aVal < bVal) return sortDir === 'asc' ? -1 : 1;
+        if (aVal > bVal) return sortDir === 'asc' ? 1 : -1;
+        return 0;
+      });
+    } else {
+      filtered.sort(function (a, b) {
+        return (b.date + ' ' + b.time).localeCompare(a.date + ' ' + a.time);
+      });
+    }
+    return filtered;
+  }
 
-    if (!latest.length) {
-      $('latest').innerHTML = '<tr><td colspan="7"><div class="empty">Поки немає заявок</div></td></tr>';
-      $('latestCards').innerHTML = '<div class="empty">Поки немає заявок</div>';
+  function renderLatest(rows) {
+    var filtered = applyTableFilters(rows);
+
+    $('leadCount').textContent = 'Всього: ' + filtered.length;
+
+    if (!filtered.length) {
+      $('latest').innerHTML = '<tr><td colspan="7"><div class="empty">Немає заявок за вибраними фільтрами</div></td></tr>';
+      $('latestCards').innerHTML = '<div class="empty">Немає заявок за вибраними фільтрами</div>';
       return;
     }
 
-    $('latest').innerHTML = latest.map(function (r) {
+    $('latest').innerHTML = filtered.slice(0, 50).map(function (r) {
       return '<tr>' +
         '<td class="nm">' + esc(r.name) + '</td>' +
         '<td class="dim">' + prettyDate(r.date) + (r.time ? ' · ' + esc(r.time) : '') + '</td>' +
@@ -754,7 +672,7 @@
         '<td>' + statusTag(r.status) + '</td></tr>';
     }).join('');
 
-    $('latestCards').innerHTML = latest.map(function (r) {
+    $('latestCards').innerHTML = filtered.slice(0, 50).map(function (r) {
       return '<div class="lcard">' +
         '<div class="hd"><span class="nm">' + esc(r.name) + '</span>' + statusTag(r.status) + '</div>' +
         '<div class="meta">' +
@@ -767,39 +685,21 @@
     }).join('');
   }
 
-  // ── головний рендер ─────────────────────────────────────────────────────
+  // ── Головний рендер ─────────────────────────────────────────────────────
   function render(rows) {
-    var from = dayKey(shiftDays(-(WINDOW_DAYS - 1)));
-    var win = rows.filter(function (r) { return r.date && r.date >= from; });
+    var win = filterByPeriod(rows);
 
-    renderKpis(win, rows);
-    renderLine(win);
-    renderBars($('sources'), tally(win, 'discovery', 'Не вказано'), { limit: MAX_SOURCES });
+    renderKpis(win);
     renderFunnel(win);
-    renderBars($('types'), tally(win, 'eventType', 'Не вказано'));
-
-    // Категорії гостей беремо лише ті, що реально є в даних, але впорядковуємо
-    // за розміром події, а не за популярністю — так шкала читається як шкала.
-    var g = tally(win, 'guests', 'Не вказано').sort(function (a, b) {
-      var na = parseInt(a.name, 10), nb = parseInt(b.name, 10);
-      if (isNaN(na)) return 1;
-      if (isNaN(nb)) return -1;
-      return na - nb;
-    });
-    renderBars($('guests'), g);
-
-    renderBars($('utmS'), tally(win, 'utmSource', 'Без UTM'), { limit: 5 });
-    renderBars($('utmM'), tally(win, 'utmMedium', 'Без UTM'), { limit: 5 });
-    renderBars($('utmC'), tally(win, 'utmCampaign', 'Без UTM'), { limit: 5 });
-
-    renderMonths(win);
+    renderClickableBars($('sources'), tally(win, 'discovery', 'Не вказано'));
+    renderClickableBars($('types'), tally(win, 'eventType', 'Не вказано'));
     renderLatest(win);
 
     $('boot').hidden = true;
     $('app').hidden = false;
   }
 
-  // ── завантаження ────────────────────────────────────────────────────────
+  // ── Завантаження ────────────────────────────────────────────────────────
   function load() {
     var btn = $('refresh');
     btn.classList.add('busy'); btn.disabled = true;
@@ -815,7 +715,6 @@
         $('updated').textContent = 'Оновлено: ' + pad(now.getHours()) + ':' + pad(now.getMinutes());
       })
       .catch(function (err) {
-        // Технічних деталей користувачу не показуємо — лише чіп у шапці.
         console.error('dashboard: не вдалося завантажити дані', err);
         $('stale').classList.add('show');
         if (!lastRows) {
@@ -831,19 +730,50 @@
       });
   }
 
+  // ── Обробники подій ────────────────────────────────────────────────────
   $('refresh').addEventListener('click', load);
 
-  // Графік прив'язаний до ширини контейнера, тож при зміні розміру вікна його
-  // треба перебудувати — інакше після повороту телефона він лишиться в старій
-  // системі координат.
-  var resizeT;
-  window.addEventListener('resize', function () {
-    if (!lastRows) return;
-    clearTimeout(resizeT);
-    resizeT = setTimeout(function () {
-      var from = dayKey(shiftDays(-(WINDOW_DAYS - 1)));
-      renderLine(lastRows.filter(function (r) { return r.date && r.date >= from; }));
-    }, 180);
+  $('searchInput').addEventListener('input', function () {
+    filters.search = this.value;
+    renderLatest(filterByPeriod(lastRows));
+  });
+
+  $('statusFilter').addEventListener('change', function () {
+    filters.status = this.value;
+    renderLatest(filterByPeriod(lastRows));
+  });
+
+  $('resetFilters').addEventListener('click', function () {
+    filters = { discovery: null, eventType: null, status: null, search: '' };
+    $('searchInput').value = '';
+    $('statusFilter').value = '';
+    sortCol = null;
+    sortDir = 'asc';
+    Array.prototype.forEach.call($('latest').parentNode.querySelectorAll('th'), function (th) {
+      th.classList.remove('sorted');
+      th.removeAttribute('data-dir');
+    });
+    render(lastRows);
+  });
+
+  // Сортування таблиці
+  Array.prototype.forEach.call(document.querySelectorAll('th.sortable'), function (th) {
+    th.addEventListener('click', function () {
+      var col = th.getAttribute('data-col');
+      if (sortCol === col) {
+        sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+      } else {
+        sortCol = col;
+        sortDir = 'asc';
+        Array.prototype.forEach.call(th.parentNode.querySelectorAll('th'), function (t) {
+          t.classList.remove('sorted');
+          t.removeAttribute('data-dir');
+        });
+      }
+      th.classList.add('sorted');
+      th.setAttribute('data-dir', sortDir === 'asc' ? '↑' : '↓');
+      renderLatest(filterByPeriod(lastRows));
+    });
   });
 
   if (READ_ENDPOINT.indexOf('http') !== 0) {
@@ -852,6 +782,7 @@
       '<div class="msg">Розгорніть <code>tools/dashboard-api.gs</code> як Apps Script Web App ' +
       'і вставте отриману адресу в <code>READ_ENDPOINT</code> у цьому файлі.</div>';
   } else {
+    initPeriodSwitcher();
     load();
     setInterval(load, REFRESH_MS);
   }
