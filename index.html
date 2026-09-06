@@ -443,7 +443,10 @@
       font-size: 11px;
     }
     .hero .hero-facts .hf-full { display: none; }
-    .hero .hero-facts .hf-short { display: inline; }
+    /* Дві явні сходинки замість довільного переносу: перший рядок — послуга й
+       ціна, другий — масштаб і географія. */
+    .hero .hero-facts .hf-short { display: block; }
+    .hero .hero-facts .hf-line { display: block; line-height: 1.5; }
 
     /* Фігура праворуч і прив'язана до низу: її низ завжди всередині панелі, тож
        між ними не може виникнути розриву на жодній ширині. Коробка рівно за
@@ -542,10 +545,19 @@
   .hero-facts .hf-dot { margin: 0 2px; opacity: 0.5; }
   .hero-facts .hf-short { display: none; }
   /* Усі три фрази в DOM завжди — видима лише .active, синхронізовано з
-     каналом у updateHeroText(). Без анімації: перемикання відбувається в тому
-     самому кадрі, що й зміна кольору панелі, тож окрема транзиція тут зайва. */
+     каналом у updateHeroText(). Поява супроводжується тим самим підйомом, що
+     й решта hero: раніше фраза підмінялась різко, і на тлі плавного переходу
+     кольору панелі це читалось як збій. inline-block — бо transform на
+     справжньому inline не діє. */
   .hero-facts .hf-phrase { display: none; }
-  .hero-facts .hf-phrase.active { display: inline; }
+  .hero-facts .hf-phrase.active {
+    display: inline-block;
+    animation: hfSwap 0.5s cubic-bezier(.16,.84,.44,1) both;
+  }
+  @keyframes hfSwap { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-facts .hf-phrase.active { animation: none; }
+  }
 
   .btn-primary {
     background: var(--lime); color: #12100a;
@@ -2762,12 +2774,11 @@
            рендеру. Той самий патерн, що й у #heroPhoto0/1/2 — усі в DOM,
            видимий лише .active. -->
       <span class="hf-full"><span class="hf-phrase active" data-ch="0">Silent Disco під ключ</span><span class="hf-phrase" data-ch="1">Сайлент Диско в навушниках</span><span class="hf-phrase" data-ch="2">Тиха вечірка під ключ</span> <span class="hf-dot">·</span> від <b>9 800 грн</b> <span class="hf-dot">·</span> від <b>40 гостей</b> <span class="hf-dot">·</span> Київ та Україна</span>
-      <!-- Мобільний короткий рядок раніше не мав жодного SEO-сигналу про
-           послугу — лише ціну/гостей/місто. Google індексує насамперед
-           мобільну версію, тож додано один статичний варіант (без
-           прив’язки до RED/GREEN/BLUE — hf-short свідомо лишається
-           компактним і незмінним, на відміну від hf-full). -->
-      <span class="hf-short">Silent Disco <span class="hf-dot">·</span> від <b>9 800 грн</b> <span class="hf-dot">·</span> від <b>40 гостей</b> <span class="hf-dot">·</span> Київ та Україна</span>
+      <!-- Мобільний варіант теж перемикається за каналом: ті самі три
+           формулювання, лише коротші. Розбитий на дві сходинки — інакше
+           «від 40 гостей» однаково перекидалось на другий рядок, але в
+           довільному місці, залежно від довжини активної фрази. -->
+      <span class="hf-short"><span class="hf-line"><span class="hf-phrase active" data-ch="0">Silent Disco під ключ</span><span class="hf-phrase" data-ch="1">Сайлент Диско</span><span class="hf-phrase" data-ch="2">Тиха вечірка під ключ</span> <span class="hf-dot">·</span> від <b>9 800 грн</b></span><span class="hf-line">від <b>40 гостей</b> <span class="hf-dot">·</span> Київ та Україна</span></span>
     </p>
     <h1 class="hero-lines" id="heroLines">
       <span>Три хвилі музики</span>

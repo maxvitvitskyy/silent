@@ -55,9 +55,15 @@
     padding: 40px 0 28px;
   }
   .brand { display: flex; flex-direction: column; gap: 6px; }
+  /* Логотип веде на сайт. Тут немає глобального скидання для <a>, тож колір і
+     підкреслення знімаються на самому елементі — інакше він став би синім
+     підкресленим посиланням. */
   .brand .mark {
     font-family: 'Unbounded'; font-weight: 700; font-size: 19px; letter-spacing: 0.02em;
+    color: var(--ink); text-decoration: none;
+    display: inline-block; transition: opacity .2s;
   }
+  .brand .mark:hover { opacity: 0.75; }
   .brand .mark b { color: var(--lime); }
   .top-right { display: flex; align-items: center; gap: 12px; flex-wrap: nowrap; }
   .pill {
@@ -399,7 +405,7 @@
 
   <header class="top">
     <div class="brand">
-      <div class="mark">SILENT<b>.</b> Dashboard</div>
+      <a class="mark" href="/" title="На головну сторінку SILENT">SILENT<b>.</b> Dashboard</a>
     </div>
     <div class="top-right">
       <div class="period-switcher" id="periodSwitcher"></div>
