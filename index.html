@@ -163,6 +163,16 @@
     /* unified vertical rhythm between sections */
     --sec-pad: 72px;
 
+    /* Шкала скруглень. Раніше по файлу було дванадцять довільних значень
+       (10, 12, 15, 16, 18, 20, 22, 24, 26, 28, 40), і сусідні поверхні
+       відрізнялись на два пікселі — око цього не читає як задум, лише як
+       неохайність. Чотири щаблі за роллю елемента: поле вводу, кнопка,
+       картка, велика панель. Кола (50%) і пігулки (999px) поза шкалою. */
+    --r-xs: 12px;   /* поля вводу, дрібні чипи */
+    --r-sm: 16px;   /* кнопки, дрібні картки, фото в стрічці */
+    --r-md: 22px;   /* картки контенту */
+    --r-lg: 28px;   /* великі панелі: форма, band, модалка */
+
     /* fixed RGB identity — the three headphone channels */
     /* Канальні кольори тримаємо ще й у вигляді компонент: усі світіння —
        це rgba від того самого відтінку, тож палітра міняється в одному місці,
@@ -607,7 +617,7 @@
   .ch-btn {
     display: flex; align-items: center; gap: 12px;
     padding: 14px 20px 14px 16px;
-    border-radius: 20px;
+    border-radius: var(--r-md);
     border: 1px solid var(--line);
     background: rgba(255,255,255,0.02);
     cursor: pointer;
@@ -655,7 +665,7 @@
 
   /* ---------- STRIP ---------- */
   .strip {
-    border-radius: 24px;
+    border-radius: var(--r-md);
     padding: 30px 24px;
     display: flex; gap: 20px; justify-content: space-around; flex-wrap: wrap;
     font-size: 13px; color: var(--muted); font-weight: 500;
@@ -668,7 +678,7 @@
        зменшена — раніше вона займала майже чверть екрана. */
     margin-inline: -25px;
     margin-top: 66px;
-    border-radius: 24px;
+    border-radius: var(--r-md);
     padding: 22px 26px;
     width: auto;
     opacity: 0; animation: rise 0.8s 0.9s forwards;
@@ -880,7 +890,7 @@
     position: relative;
     overflow: hidden;
     border: 1px solid var(--line); border-top-color: var(--glass-edge);
-    border-radius: 22px;
+    border-radius: var(--r-md);
     background: var(--glass-fill-1);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
@@ -932,7 +942,7 @@
     gap: 30px;
     padding: 30px 32px;
     border: 1px solid var(--line); border-top-color: var(--glass-edge);
-    border-radius: 24px;
+    border-radius: var(--r-md);
     background: var(--glass-fill-dark);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
@@ -962,7 +972,7 @@
   .slab:not(:last-child)::after {
     content: ''; position: absolute; inset: 0;
     pointer-events: none; z-index: 2;
-    border-radius: 24px;
+    border-radius: var(--r-md);
     background: linear-gradient(180deg,
       transparent 18%, rgba(3,5,9,0.26) 42%, rgba(3,5,9,0.68) 71%, rgba(3,5,9,0.94) 100%);
     transition: opacity 0.6s cubic-bezier(.22,1,.36,1);
@@ -1045,7 +1055,7 @@
          Там і так затемнення 94%, тож візуально втрата мала — але текст справді
          недоступний. Свідомий розмін заради компактності стопки. */
       margin-top: -48px;
-      border-radius: 20px;
+      border-radius: var(--r-md);
     }
     .slab-num { grid-column: 1; grid-row: 1; font-size: 48px; margin-top: 5px; }
     /* Активна плашка виходить наверх — але тоді вона накрила б заголовок
@@ -1115,7 +1125,7 @@
      перетнуті через mask-composite. */
   .flow-card::before {
     content: ''; position: absolute; inset: 0; z-index: -1;
-    border-radius: 22px;
+    border-radius: var(--r-md);
     border: 1px solid var(--line); border-top-color: var(--glass-edge);
     background:
       linear-gradient(180deg, rgba(255,255,255,0.075), rgba(255,255,255,0.015) 60%, transparent),
@@ -1196,7 +1206,7 @@
   /* guarantee band */
   .band {
     margin: 0 auto; max-width: 1120px;
-    border-radius: 28px;
+    border-radius: var(--r-lg);
     background: radial-gradient(circle at 30% 0%, rgba(198,255,0,0.08), transparent 60%), var(--glass);
     border: 1px solid rgba(198,255,0,0.25);
     box-shadow: 0 0 60px -20px rgba(198,255,0,0.15);
@@ -1220,7 +1230,7 @@
   /* who it's for */
   .audience { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 40px; }
   .aud-pill {
-    border: 1px solid var(--line); border-radius: 40px;
+    border: 1px solid var(--line); border-radius: 999px;
     padding: 11px 22px; font-size: 14px; color: var(--muted);
     transition: border-color 0.3s, color 0.3s;
   }
@@ -1274,7 +1284,7 @@
 
   .gallery-item {
     position: relative; margin: 0;
-    border-radius: 18px; overflow: hidden;
+    border-radius: var(--r-sm); overflow: hidden;
     border: 1px solid var(--line); border-top-color: var(--glass-edge);
     box-shadow: var(--glass-shadow-1);
     transition: border-color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
@@ -1363,7 +1373,7 @@
     /* 28px — найбільший радіус, що вже є в системі (ним скруглена панель
        «Як це працює»), тож картки стають помітно круглішими, не вводячи нового
        значення. На закритій картці 68px висоти це майже пігулка. */
-    border-radius: 28px;
+    border-radius: var(--r-lg);
     background: var(--glass-fill-1);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
@@ -1452,7 +1462,7 @@
 
   @media (max-width: 640px){
     .faq { --faq-pad: 18px; --faq-gap: 14px; }
-    .faq-item { border-radius: 24px; }
+    .faq-item { border-radius: var(--r-md); }
     .faq-list { gap: 10px; }
     .faq-q { padding: 18px var(--faq-pad); }
     .faq-q h3 { font-size: 14.5px; }
@@ -1466,7 +1476,7 @@
     position: relative;
     border: 1px solid rgba(255,255,255,0.10);
     border-top-color: var(--glass-edge);
-    border-radius: 28px;
+    border-radius: var(--r-lg);
     background:
       radial-gradient(circle at 78% 0%, var(--ch-soft), transparent 40%),
       var(--glass-fill-2);
@@ -1503,7 +1513,7 @@
   .calc-rules { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 26px; }
   .calc-rule {
     border: 1px solid var(--line); border-top-color: var(--glass-edge);
-    border-radius: 18px;
+    border-radius: var(--r-sm);
     padding: 16px;
     background: var(--glass-fill-soft);
     backdrop-filter: var(--glass-blur);
@@ -1517,7 +1527,7 @@
   .calc-rule span { color: var(--muted); font-size: 12.5px; line-height: 1.35; display: block; }
   .calc-panel {
     border: 1px solid var(--line); border-top-color: var(--glass-edge);
-    border-radius: 22px;
+    border-radius: var(--r-md);
     background: var(--glass-fill-1);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
@@ -1556,7 +1566,7 @@
   .calc-checks { display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0 20px; }
   .calc-checks label {
     border: 1px solid var(--line);
-    border-radius: 16px;
+    border-radius: var(--r-sm);
     padding: 11px 14px;
     color: var(--muted);
     font-size: 12.5px;
@@ -1567,7 +1577,7 @@
   .calc-checks input { accent-color: var(--ch); margin-right: 7px; }
   .calc-hours {
     border: 1px solid var(--line);
-    border-radius: 16px;
+    border-radius: var(--r-sm);
     padding: 11px 14px;
     display: flex; align-items: center; justify-content: space-between;
   }
@@ -1611,10 +1621,10 @@
     /* .calc-rules deliberately stays 2x2 here — as four full-width rows the
        stats read as a long list instead of a compact block. */
     .calc-checks { grid-template-columns: 1fr; }
-    .calc-rule { padding: 13px 12px; border-radius: 15px; }
+    .calc-rule { padding: 13px 12px; border-radius: var(--r-sm); }
     .calc-rule b { font-size: 16px; }
     .calc-rule span { font-size: 11.5px; }
-    .calc-card { padding: 20px; border-radius: 22px; }
+    .calc-card { padding: 20px; border-radius: var(--r-md); }
     /* nested padding (page + card + panel) eats the width the readouts need,
        so trim the innermost one rather than shrinking the numbers */
     .calc-panel { padding: 18px 16px; }
@@ -1625,7 +1635,7 @@
   /* ---------- FORM ---------- */
   .form-section { padding: var(--sec-pad) 0 0; position: relative; z-index: 2; }
   .form-card {
-    border: 1px solid var(--line); border-radius: 28px;
+    border: 1px solid var(--line); border-radius: var(--r-lg);
     background: linear-gradient(180deg, rgba(255,255,255,0.04), transparent);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
@@ -1657,7 +1667,7 @@
     box-sizing: border-box;
     display: flex; flex-direction: column;
     border: 1px solid var(--line); border-top-color: var(--glass-edge);
-    border-radius: 18px;
+    border-radius: var(--r-sm);
     background: rgba(255,255,255,0.035);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
@@ -1703,7 +1713,7 @@
   }
   .cal-day {
     display: grid; place-items: center;
-    border: 1px solid transparent; border-radius: 10px;
+    border: 1px solid transparent; border-radius: var(--r-xs);
     background: none; color: rgba(255,255,255,0.86);
     font-size: 13.5px; font-weight: 500;
     font-variant-numeric: tabular-nums;
@@ -1736,7 +1746,7 @@
   .field input, .field select, .field textarea {
     width: 100%; padding: 14px 16px;
     background: rgba(255,255,255,0.04);
-    border: 1px solid var(--line); border-radius: 12px;
+    border: 1px solid var(--line); border-radius: var(--r-xs);
     color: #fff; font-family: inherit; font-size: 14.5px;
     transition: border-color 0.2s, background 0.2s;
     resize: vertical;
@@ -1787,7 +1797,7 @@
   .calc-summary-note {
     border: 1px solid var(--ch);
     background: var(--ch-soft);
-    border-radius: 12px;
+    border-radius: var(--r-xs);
     padding: 13px 16px;
     margin-bottom: 20px;
     font-size: 13px; line-height: 1.5;
@@ -1798,7 +1808,7 @@
   .form-submit {
     width: 100%; margin-top: 6px;
     background: var(--lime); color: #12100a;
-    padding: 16px; border-radius: 16px; border: none;
+    padding: 16px; border-radius: var(--r-sm); border: none;
     font-family: inherit; font-weight: 700; font-size: 15px; cursor: pointer;
     box-shadow: 0 8px 26px -8px var(--lime-glow);
     transition: transform 0.2s, box-shadow 0.2s;
@@ -2004,7 +2014,7 @@
   /* ---------- FORM ---------- */
   .form-section { padding: var(--sec-pad) 0 0; position: relative; z-index: 2; }
   .form-card {
-    border: 1px solid var(--line); border-radius: 28px;
+    border: 1px solid var(--line); border-radius: var(--r-lg);
     background: linear-gradient(180deg, rgba(255,255,255,0.04), transparent);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
@@ -2030,7 +2040,7 @@
   .calc-summary-note {
     border: 1px solid var(--ch);
     background: var(--ch-soft);
-    border-radius: 12px;
+    border-radius: var(--r-xs);
     padding: 13px 16px;
     margin-bottom: 20px;
     font-size: 13px; line-height: 1.5;
@@ -2041,7 +2051,7 @@
   .form-submit {
     width: 100%; margin-top: 6px;
     background: var(--lime); color: #12100a;
-    padding: 16px; border-radius: 16px; border: none;
+    padding: 16px; border-radius: var(--r-sm); border: none;
     font-family: inherit; font-weight: 700; font-size: 15px; cursor: pointer;
     box-shadow: 0 8px 26px -8px var(--lime-glow);
     transition: transform 0.2s, box-shadow 0.2s;
@@ -2150,7 +2160,7 @@
   .benefit-card {
     position: relative;
     border: 1px solid var(--line); border-top-color: var(--glass-edge);
-    border-radius: 22px;
+    border-radius: var(--r-md);
     padding: 26px 22px;
     background: var(--glass-fill-1);
     backdrop-filter: var(--glass-blur);
@@ -2281,7 +2291,7 @@
     display: flex; flex-direction: column;
     overflow: hidden;
     border: 1px solid var(--line); border-top-color: var(--glass-edge);
-    border-radius: 20px;
+    border-radius: var(--r-md);
     /* Без backdrop-filter. Картка переставна: під час прокрутки їй міняють
        позицію, а рухомий елемент із backdrop-filter змушує браузер щоразу
        наново знімати й розмивати фон під собою. iOS цю роботу під час інерції
@@ -2549,7 +2559,7 @@
     position: relative;
     display: flex; flex-direction: column;
     border: 1px solid var(--line); border-top-color: var(--glass-edge);
-    border-radius: 22px;
+    border-radius: var(--r-md);
     padding: 26px 24px;
     /* лаймовий градієнт усередині матового скла: світло падає згори зліва
        і сходить нанівець, щоб не заважати читати цитату */
@@ -2696,7 +2706,7 @@
   .lead-modal-card {
     position: relative;
     width: 100%; max-width: 420px;
-    border-radius: 26px;
+    border-radius: var(--r-lg);
     padding: 36px 30px 30px;
     text-align: center;
     transform: translateY(14px) scale(0.97);
@@ -2734,7 +2744,7 @@
   .lead-modal-socials .f-soc svg { width: 30px; height: 30px; }
 
   @media (max-width: 480px) {
-    .lead-modal-card { padding: 30px 22px 24px; border-radius: 22px; }
+    .lead-modal-card { padding: 30px 22px 24px; border-radius: var(--r-md); }
     .lead-modal-big { font-size: 19px; }
     .lead-modal-socials .f-soc svg { width: 27px; height: 27px; }
   }
