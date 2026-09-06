@@ -4489,6 +4489,20 @@
     io.observe(section);
   }
 
+  // Обидві стрічки віртуалізовані по горизонталі, але про вертикаль не знали
+  // нічого: їхня ініціалізація підставляла src у картки одразу на старті, хоча
+  // самі секції лежать за сім-вісім екранів униз. Через це 57 файлів (~1.5 МБ)
+  // тягнулись у першу ж секунду й відбирали смугу в hero. Тепер запуск чекає
+  // на наближення секції — тим самим спостерігачем, що вже прогріває кеш вище.
+  // Сама логіка вікна й віртуалізації не змінюється, зсувається лише момент.
+  function whenNear(section, fn, margin){
+    if (!section || !('IntersectionObserver' in window)) { fn(); return; }
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some(e => e.isIntersecting)) { io.disconnect(); fn(); }
+    }, { rootMargin: margin || '2200px 0px' });
+    io.observe(section);
+  }
+
   // Прозорий піксель замість зняття src: <img> без адреси малює іконку
   // «зображення не завантажилось» і текст alt, а з цим — нічого. Усі копії
   // ділять один і той самий декодований піксель, тож пам'яті це не коштує.
@@ -4608,11 +4622,20 @@
     // не вистачало: сильний свайп долітав до краю. Рахуємо потрібну кількість
     // від фактичної ширини копії — стільки, щоб запас у кожен бік був не менший
     // за TARGET_SLACK. Число копій непарне, щоб старт був рівно посередині.
-    addCopy();
-    let copies = 2;
-    const w0 = copyWidth() || 1;
-    const want = Math.min(15, Math.max(5, 2 * Math.ceil(TARGET_SLACK / w0) + 1));
-    while (copies < want) { addCopy(); copies++; }
+    // Клонування відкладене до наближення секції: копії створюються через
+    // cloneNode, а програмно вставлений <img> не проходить ту саму ліниву
+    // перевірку, що й розпарсений з розмітки — усі 31 кадр стрічки летіли по
+    // мережі в першу ж секунду, хоча сама галерея за сім екранів униз.
+    // Кількість копій читається лениво (через колбеки), тож до клонування
+    // стрічка просто лишається однією статичною копією.
+    let copies = 1;
+    const cloneStrip = () => {
+      addCopy();
+      copies = 2;
+      const w0 = copyWidth() || 1;
+      const want = Math.min(15, Math.max(5, 2 * Math.ceil(TARGET_SLACK / w0) + 1));
+      while (copies < want) { addCopy(); copies++; }
+    };
 
     let held = 0;                       // палець на стрічці — переносити не можна
     const normalise = idleNormaliser(grid, copyWidth, () => copies, () => held);
@@ -4648,12 +4671,20 @@
       grid.addEventListener(ev, () => { touched = true; }, { passive: true }));
     const safeStart = () => { if (!touched) start(); };
 
-    const win = makeImageWindow(grid);
-    start();
-    win.measure(); win.sync();
-    grid.addEventListener('scroll', win.sync, { passive: true });
-    warmStripCache(document.getElementById('atmosphere'), null, () => { safeStart(); win.sync(); });
-    window.addEventListener('load', () => { safeStart(); win.measure(); win.sync(); });
+    // win створюється лише коли секція наблизилась, тож зовнішні обробники
+    // мусять переживати стан «ще не створено» — до того моменту стрічка просто
+    // стоїть статичною розміткою з рідним loading="lazy".
+    let win = null;
+    const section = document.getElementById('atmosphere');
+    whenNear(section, () => {
+      cloneStrip();
+      win = makeImageWindow(grid);
+      start();
+      win.measure(); win.sync();
+      grid.addEventListener('scroll', win.sync, { passive: true });
+    });
+    warmStripCache(section, null, () => { safeStart(); if (win) win.sync(); });
+    window.addEventListener('load', () => { safeStart(); if (win) { win.measure(); win.sync(); } });
   })();
 
   // ---- Сценарії: віртуалізована нескінченна стрічка ----
@@ -4879,15 +4910,22 @@
     // далі, а слайдер стрибає назад».
     let rt = 0, lastW = 0, lastCol = 0;
     const remember = () => { lastW = view.clientWidth; lastCol = metrics()[0]; };
+    // Один вхід у побудову на всі виклики: до наближення секції lastW/lastCol
+    // ще нульові, тож будь-який resize (на телефоні його кидає навіть поява
+    // адресного рядка) пройшов би повз перевірку ширини й побудував стрічку
+    // достроково — а потім спостерігач побудував би її вдруге.
+    let booted = false;
+    const boot = () => { if (booted) return; booted = true; build(); start(); remember(); };
     window.addEventListener('resize', () => {
+      if (!booted) return;                 // ще нема чого перебудовувати
       if (view.clientWidth === lastW && metrics()[0] === lastCol) return;
       clearTimeout(rt);
       rt = setTimeout(() => { build(); start(); remember(); }, 200);
     }, { passive: true });
 
-    build();
-    start();
-    remember();
+    whenNear(document.getElementById('cases'), boot);
+    // start() усередині захищений `if (period)`, тож до побудови він тихо
+    // нічого не робить — колбек прогріву кешу лишається безпечним.
     warmStripCache(document.getElementById('cases'), urls, () => { if (!touched) start(); });
   })();
 
