@@ -20,10 +20,14 @@
     y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
 })(window, document, "clarity", "script", "ybmupsein1");
 </script>
-<!-- LCP-зображення hero (heroPhoto0) задане через CSS background-image, тому
-     preload-сканер знаходить його лише після побудови CSSOM — пізніше, ніж
-     потрібно. Явний preload з fetchpriority=high змушує браузер тягнути файл
-     одразу, під час парсингу <head>, не чіпаючи сам div чи його стилі. -->
+<!-- Обидва зображення першого екрана задані через CSS background-image, тому
+     preload-сканер знаходить їх лише після побудови CSSOM — пізніше, ніж
+     потрібно. Явний preload з fetchpriority=high змушує браузер тягнути файли
+     одразу, під час парсингу <head>, не чіпаючи самі div-и чи їхні стилі.
+     heroDancer вагою ~284 КБ — найбільший видимий елемент екрана і саме він
+     визначає LCP; без цього рядка він стартував на ~13 мс пізніше за crowd і
+     без пріоритету, тобто в спільній черзі з галереєю сценаріїв. -->
+<link rel="preload" as="image" href="images/hero-dancer.webp" fetchpriority="high">
 <link rel="preload" as="image" href="images/hero-crowd.webp" fetchpriority="high">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SILENT — одна вечірка. Три музичні світи.</title>
@@ -3176,7 +3180,7 @@
         <div class="uc-row" data-row="a">
       <article class="uc-card" data-uc="Весілля">
         <div class="uc-media">
-          <img src="images/uc/wedding.webp" style="--lqip:url(data:image/webp;base64,UklGRsQAAABXRUJQVlA4ILgAAADQBACdASoYAA4APtFUo0uoJKMhsAgBABoJagCdMoRwJoIoAAiwusfd61BQLA0+sAD+6hZDggq31DvIMiGxnLmzmQNYIop1aAMLfkk2DBYNjZFPp+w+fhL3RU1EP1ejngs67TeTDjNyqbmyN2wbWEboQZ8tij8H7ueZ+QV20oSsKcGNE+OP7A/I9FxQZwii9vxZhg+dN93GzXuGVpA7t7yq0fSy2VRoxun13QJjd7VuNID+XGlrA0gA)" width="544" height="306" loading="lazy" decoding="async" alt="Весілля">
+          <img src="images/uc/wedding.webp" style="--lqip:url(data:image/webp;base64,UklGRsQAAABXRUJQVlA4ILgAAADQBACdASoYAA4APtFUo0uoJKMhsAgBABoJagCdMoRwJoIoAAiwusfd61BQLA0+sAD+6hZDggq31DvIMiGxnLmzmQNYIop1aAMLfkk2DBYNjZFPp+w+fhL3RU1EP1ejngs67TeTDjNyqbmyN2wbWEboQZ8tij8H7ueZ+QV20oSsKcGNE+OP7A/I9FxQZwii9vxZhg+dN93GzXuGVpA7t7yq0fSy2VRoxun13QJjd7VuNID+XGlrA0gA)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Весілля">
         </div>
         <div class="uc-body">
           <h3>Весілля</h3>
@@ -3186,7 +3190,7 @@
       </article>
       <article class="uc-card" data-uc="Кіно просто неба">
         <div class="uc-media">
-          <img src="images/uc/cinema.webp" style="--lqip:url(data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAADQAwCdASoYAA4APtFWpUwoJKOiMAgBABoJQBOgBDvudFPd9AUGbAAA/vKo1+COQ1/Zx8C7tQq2YZSCRtxmj9UxMg/8UwxLNkVa+FlxnhWGi/WvGjhVUxeSHnvRwB/q3vA8kl8GAQ/FnyYAAAA=)" width="544" height="306" loading="lazy" decoding="async" alt="Кіно просто неба">
+          <img src="images/uc/cinema.webp" style="--lqip:url(data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAADQAwCdASoYAA4APtFWpUwoJKOiMAgBABoJQBOgBDvudFPd9AUGbAAA/vKo1+COQ1/Zx8C7tQq2YZSCRtxmj9UxMg/8UwxLNkVa+FlxnhWGi/WvGjhVUxeSHnvRwB/q3vA8kl8GAQ/FnyYAAAA=)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Кіно просто неба">
         </div>
         <div class="uc-body">
           <h3>Кіно просто неба</h3>
@@ -3196,7 +3200,7 @@
       </article>
       <article class="uc-card" data-uc="Студентські події">
         <div class="uc-media">
-          <img src="images/uc/students.webp" style="--lqip:url(data:image/webp;base64,UklGRrQAAABXRUJQVlA4IKgAAADwAwCdASoYAA4APtFUo0uoJKMhsAgBABoJYgCdAywA6PbdEtjsA+SAAPvsSHW3OqisnIIH0Frjn5vQdO9D/0OpecLV+P0WN4C/HBZgBbLnp8JCypezVcHOjf8BrUagqtEi5ocqrcT1nK8VkwvV/sIoVkSEnvDwm/DeWXNVGgHdjpDnzQg5YTDJrnkivJHMLlWw2x6Ifx1XwyMVTfEbIPKVGK3gxYswAAA=)" width="544" height="306" loading="lazy" decoding="async" alt="Студентські події">
+          <img src="images/uc/students.webp" style="--lqip:url(data:image/webp;base64,UklGRrQAAABXRUJQVlA4IKgAAADwAwCdASoYAA4APtFUo0uoJKMhsAgBABoJYgCdAywA6PbdEtjsA+SAAPvsSHW3OqisnIIH0Frjn5vQdO9D/0OpecLV+P0WN4C/HBZgBbLnp8JCypezVcHOjf8BrUagqtEi5ocqrcT1nK8VkwvV/sIoVkSEnvDwm/DeWXNVGgHdjpDnzQg5YTDJrnkivJHMLlWw2x6Ifx1XwyMVTfEbIPKVGK3gxYswAAA=)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Студентські події">
         </div>
         <div class="uc-body">
           <h3>Студентські події</h3>
@@ -3206,7 +3210,7 @@
       </article>
       <article class="uc-card" data-uc="Презентація релізу">
         <div class="uc-media">
-          <img src="images/uc/listening.webp" style="--lqip:url(data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAABQBACdASoYAA4APtFWo0uoJKMhsAgBABoJYwDCkf/gND+o9rLasq+3lJgAAP72k+frd+Tx9MzWNuSRzIVr83k0gRilpmMzr9BlrgGyzSeTDtLf2/iOo6+FzH+Q7czV2CxtJA7564KHt1KHBSz87pZ9Ua6uF05DKz4OyAAA)" width="544" height="306" loading="lazy" decoding="async" alt="Презентація релізу">
+          <img src="images/uc/listening.webp" style="--lqip:url(data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAABQBACdASoYAA4APtFWo0uoJKMhsAgBABoJYwDCkf/gND+o9rLasq+3lJgAAP72k+frd+Tx9MzWNuSRzIVr83k0gRilpmMzr9BlrgGyzSeTDtLf2/iOo6+FzH+Q7czV2CxtJA7564KHt1KHBSz87pZ9Ua6uF05DKz4OyAAA)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Презентація релізу">
         </div>
         <div class="uc-body">
           <h3>Презентація релізу</h3>
@@ -3216,7 +3220,7 @@
       </article>
       <article class="uc-card" data-uc="Драйв-ін формат">
         <div class="uc-media">
-          <img src="images/uc/drivein.webp" style="--lqip:url(data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAAAQBACdASoYAA4APtFWo0uoJKMhsAgBABoJQBdgBEM2cB3CtRUksPXyFAD+9pGZTvDMjh3Csl8v0OePiuYehRb2/+uP4WiApjPQYwnu0Ll/H2oH3iJbyDxtrBzruf9QTWEMmG7HP11Ubwj+m5xOoIym4kExJ0AA)" width="544" height="306" loading="lazy" decoding="async" alt="Драйв-ін формат">
+          <img src="images/uc/drivein.webp" style="--lqip:url(data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAAAQBACdASoYAA4APtFWo0uoJKMhsAgBABoJQBdgBEM2cB3CtRUksPXyFAD+9pGZTvDMjh3Csl8v0OePiuYehRb2/+uP4WiApjPQYwnu0Ll/H2oH3iJbyDxtrBzruf9QTWEMmG7HP11Ubwj+m5xOoIym4kExJ0AA)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Драйв-ін формат">
         </div>
         <div class="uc-body">
           <h3>Драйв-ін формат</h3>
@@ -3226,7 +3230,7 @@
       </article>
       <article class="uc-card" data-uc="Музичні коледжі">
         <div class="uc-media">
-          <img src="images/uc/musiccollege.webp" style="--lqip:url(data:image/webp;base64,UklGRrYAAABXRUJQVlA4IKoAAADQBACdASoYAA4APtFUo0uoJKMhsAgBABoJZgCdLwDs/xbHa2vE5qyKDEI6/A6sAAD+5rcp/v4gzDEpTtseTdXW52D61soTCkgUXaAHOu4K5vCcHOqtVwm8X2+bcl74be6FsZe3M/0zav3ge4MQQvas87tKoPe8WvJ057hbeTIT79v108ZnvtrqMAeJu/GBqt6ZuY3TBwp0M8K9n4QNbPC6Fw8x5iEjkfPwAA==)" width="544" height="306" loading="lazy" decoding="async" alt="Музичні коледжі">
+          <img src="images/uc/musiccollege.webp" style="--lqip:url(data:image/webp;base64,UklGRrYAAABXRUJQVlA4IKoAAADQBACdASoYAA4APtFUo0uoJKMhsAgBABoJZgCdLwDs/xbHa2vE5qyKDEI6/A6sAAD+5rcp/v4gzDEpTtseTdXW52D61soTCkgUXaAHOu4K5vCcHOqtVwm8X2+bcl74be6FsZe3M/0zav3ge4MQQvas87tKoPe8WvJ057hbeTIT79v108ZnvtrqMAeJu/GBqt6ZuY3TBwp0M8K9n4QNbPC6Fw8x5iEjkfPwAA==)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Музичні коледжі">
         </div>
         <div class="uc-body">
           <h3>Музичні коледжі</h3>
@@ -3236,7 +3240,7 @@
       </article>
       <article class="uc-card" data-uc="Фестивалі">
         <div class="uc-media">
-          <img src="images/uc/festival.webp" style="--lqip:url(data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAADwAwCdASoYAA4APtFWpEuoJKOhsAgBABoJZQAAW++8bKuV9cVwc3AAAP72jSMjMom0RT6TN3Bl5z/Qy6Jj+z4jD8gYVoO13hbo3aF6yTKvR/8f+ndpxRqW5eOrIKvP14d2VKESS+kD6W+/flnL08mAAAA=)" width="544" height="306" loading="lazy" decoding="async" alt="Фестивалі">
+          <img src="images/uc/festival.webp" style="--lqip:url(data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAADwAwCdASoYAA4APtFWpEuoJKOhsAgBABoJZQAAW++8bKuV9cVwc3AAAP72jSMjMom0RT6TN3Bl5z/Qy6Jj+z4jD8gYVoO13hbo3aF6yTKvR/8f+ndpxRqW5eOrIKvP14d2VKESS+kD6W+/flnL08mAAAA=)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Фестивалі">
         </div>
         <div class="uc-body">
           <h3>Фестивалі</h3>
@@ -3246,7 +3250,7 @@
       </article>
       <article class="uc-card" data-uc="Музеї та галереї">
         <div class="uc-media">
-          <img src="images/uc/museum.webp" style="--lqip:url(data:image/webp;base64,UklGRowAAABXRUJQVlA4IIAAAABwBACdASoYAA4APtFUo0uoJKMhsAgBABoJYgCdMoACTzLq9lFt7s8mexZ8AAD+9Yv5sNCJOab5PaOPf1UWQ9nsWHEP9u5XQ9rx/L3dxHREV/Q9V7DvfCsIaMnUND3maveqJ4q6jWbanmUBiozIhkPtMrIEk4b4G1+BCRkkMZAAAA==)" width="544" height="306" loading="lazy" decoding="async" alt="Музеї та галереї">
+          <img src="images/uc/museum.webp" style="--lqip:url(data:image/webp;base64,UklGRowAAABXRUJQVlA4IIAAAABwBACdASoYAA4APtFUo0uoJKMhsAgBABoJYgCdMoACTzLq9lFt7s8mexZ8AAD+9Yv5sNCJOab5PaOPf1UWQ9nsWHEP9u5XQ9rx/L3dxHREV/Q9V7DvfCsIaMnUND3maveqJ4q6jWbanmUBiozIhkPtMrIEk4b4G1+BCRkkMZAAAA==)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Музеї та галереї">
         </div>
         <div class="uc-body">
           <h3>Музеї та галереї</h3>
@@ -3256,7 +3260,7 @@
       </article>
       <article class="uc-card" data-uc="Благодійні гала">
         <div class="uc-media">
-          <img src="images/uc/gala.webp" style="--lqip:url(data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAADQAwCdASoYAA4APtFWo0uoJKMhsAgBABoJS7NsAWJwAAnG5YqCSLgA/vCjDgrnjn/4Z76o5rNek86Uu9Q6uMUbhgmjUns8hFaZWMIF44JPLMf05A6UxfO4WTSCXbwAYxUHQs/TAICGKOP6q4suoJJtDFBizr9cDKaXiQS2LtisTAAA)" width="544" height="306" loading="lazy" decoding="async" alt="Благодійні гала">
+          <img src="images/uc/gala.webp" style="--lqip:url(data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAADQAwCdASoYAA4APtFWo0uoJKMhsAgBABoJS7NsAWJwAAnG5YqCSLgA/vCjDgrnjn/4Z76o5rNek86Uu9Q6uMUbhgmjUns8hFaZWMIF44JPLMf05A6UxfO4WTSCXbwAYxUHQs/TAICGKOP6q4suoJJtDFBizr9cDKaXiQS2LtisTAAA)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Благодійні гала">
         </div>
         <div class="uc-body">
           <h3>Благодійні гала</h3>
@@ -3266,7 +3270,7 @@
       </article>
       <article class="uc-card" data-uc="Шкільні свята">
         <div class="uc-media">
-          <img src="images/uc/school.webp" style="--lqip:url(data:image/webp;base64,UklGRrIAAABXRUJQVlA4IKYAAACQBACdASoYAA4APtFWpEuoJKOhsAgBABoJZgCdMoGvgAQGlaFpsTjAN0x46kAA/vFCF+XAmC6ylmjcMnokgjbvXNEFHKnjA6TpYAF7VcnaoGx+OhxeP55xuZdx3+zueII/fuuE9VpQQKy69fzWZFkRonxjuGxbhJvBw6bvT1sSxl8oRg3ILvbVYTmbHtA0cLw47a4NoHQ2cN/7PC8XfGl5Tgg5AAAA)" width="544" height="306" loading="lazy" decoding="async" alt="Шкільні свята">
+          <img src="images/uc/school.webp" style="--lqip:url(data:image/webp;base64,UklGRrIAAABXRUJQVlA4IKYAAACQBACdASoYAA4APtFWpEuoJKOhsAgBABoJZgCdMoGvgAQGlaFpsTjAN0x46kAA/vFCF+XAmC6ylmjcMnokgjbvXNEFHKnjA6TpYAF7VcnaoGx+OhxeP55xuZdx3+zueII/fuuE9VpQQKy69fzWZFkRonxjuGxbhJvBw6bvT1sSxl8oRg3ILvbVYTmbHtA0cLw47a4NoHQ2cN/7PC8XfGl5Tgg5AAAA)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Шкільні свята">
         </div>
         <div class="uc-body">
           <h3>Шкільні свята</h3>
@@ -3276,7 +3280,7 @@
       </article>
       <article class="uc-card" data-uc="Церковні та молодіжні табори">
         <div class="uc-media">
-          <img src="images/uc/churchcamp.webp" style="--lqip:url(data:image/webp;base64,UklGRtQAAABXRUJQVlA4IMgAAADQBACdASoYAA4APtFUo0uoJKMhsAgBABoJZgCdMoGv/i2RXa0YxH7OCuwomdgSAAD+qHdUFtREeorG0C0ANxH5xib0YT/xtiAqFhGrJToIMjwQZs3+KmWs2KF8WqdOLtDpY3jHdN//WvSyLHzIPkrLq6az+7mxXagD1uTW2UUi/McZV/2Livvf+VVace0oDPT+FJDMQp6uWoTudqpr8kRKEo9Fu5Ew/42YUZcW2YDPOPoIs1e6t7w8tymWK7BQGQlUkWGPiIAAAA==)" width="544" height="306" loading="lazy" decoding="async" alt="Церковні та молодіжні табори">
+          <img src="images/uc/churchcamp.webp" style="--lqip:url(data:image/webp;base64,UklGRtQAAABXRUJQVlA4IMgAAADQBACdASoYAA4APtFUo0uoJKMhsAgBABoJZgCdMoGv/i2RXa0YxH7OCuwomdgSAAD+qHdUFtREeorG0C0ANxH5xib0YT/xtiAqFhGrJToIMjwQZs3+KmWs2KF8WqdOLtDpY3jHdN//WvSyLHzIPkrLq6az+7mxXagD1uTW2UUi/McZV/2Livvf+VVace0oDPT+FJDMQp6uWoTudqpr8kRKEo9Fu5Ew/42YUZcW2YDPOPoIs1e6t7w8tymWK7BQGQlUkWGPiIAAAA==)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Церковні та молодіжні табори">
         </div>
         <div class="uc-body">
           <h3>Церковні та молодіжні табори</h3>
@@ -3286,7 +3290,7 @@
       </article>
       <article class="uc-card" data-uc="Silent disco">
         <div class="uc-media">
-          <img src="images/uc/silentdisco.webp" style="--lqip:url(data:image/webp;base64,UklGRtQAAABXRUJQVlA4IMgAAACwBACdASoYAA4APtFUo0uoJKMhsAgBABoJbAC7MoRwACXe2OlOuLm/q4zmdJkYAP7R3o3mbs8WVpAoxjXkcFGn0upcAW9yNPxv1kqMK88RKEX3P74fRLjUbrQpbDcvqsLGdqkRv8sieQWVQNkjUzUnfdBn3CesNVdHIL3I6Ykyh1rsq18L0zm6lioIJez+I896Dq2jKopnXLclUqEm4GAPNqfd1nBZzvN+z6O0Fta5kLhdq5m7omdzqjDlDZfCVwB7ysq97oAAAA==)" width="544" height="306" loading="lazy" decoding="async" alt="Silent disco">
+          <img src="images/uc/silentdisco.webp" style="--lqip:url(data:image/webp;base64,UklGRtQAAABXRUJQVlA4IMgAAACwBACdASoYAA4APtFUo0uoJKMhsAgBABoJbAC7MoRwACXe2OlOuLm/q4zmdJkYAP7R3o3mbs8WVpAoxjXkcFGn0upcAW9yNPxv1kqMK88RKEX3P74fRLjUbrQpbDcvqsLGdqkRv8sieQWVQNkjUzUnfdBn3CesNVdHIL3I6Ykyh1rsq18L0zm6lioIJez+I896Dq2jKopnXLclUqEm4GAPNqfd1nBZzvN+z6O0Fta5kLhdq5m7omdzqjDlDZfCVwB7ysq97oAAAA==)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Silent disco">
         </div>
         <div class="uc-body">
           <h3>Silent disco</h3>
@@ -3296,7 +3300,7 @@
       </article>
       <article class="uc-card" data-uc="Дні народження">
         <div class="uc-media">
-          <img src="images/uc/birthday.webp" style="--lqip:url(data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAACQBACdASoYAA4APtFWpEuoJKOhsAgBABoJbAC7MoAvQBrMpa85VqL7klBZIAAA/vVvw0aA7VYVV/rP4/dfAm8vmzCTzVL/q4gycDvbjcpChx8iSE2/KWAVxFMzQhnh7UXXJMuRbnH3c2t5LT4hUzDhSeTM+hDTDpzW/7L4n6BDnwLLZ4vGuy0sKLO/JcUJOLt9gy+gAAA=)" width="544" height="306" loading="lazy" decoding="async" alt="Дні народження">
+          <img src="images/uc/birthday.webp" style="--lqip:url(data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAACQBACdASoYAA4APtFWpEuoJKOhsAgBABoJbAC7MoAvQBrMpa85VqL7klBZIAAA/vVvw0aA7VYVV/rP4/dfAm8vmzCTzVL/q4gycDvbjcpChx8iSE2/KWAVxFMzQhnh7UXXJMuRbnH3c2t5LT4hUzDhSeTM+hDTDpzW/7L4n6BDnwLLZ4vGuy0sKLO/JcUJOLt9gy+gAAA=)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Дні народження">
         </div>
         <div class="uc-body">
           <h3>Дні народження</h3>
@@ -3308,7 +3312,7 @@
         <div class="uc-row" data-row="b">
       <article class="uc-card" data-uc="Конференції">
         <div class="uc-media">
-          <img src="images/uc/conference.webp" style="--lqip:url(data:image/webp;base64,UklGRowAAABXRUJQVlA4IIAAAAAQBACdASoYAA4APtFWpEwoJKOiMAgBABoJQAqVcPYgpuUopXx90e5wxAD+2irCZTRSKU6Ru7/i7IH3JiHo9sHN7r8QgV22wyw3+AHvPy1qf8wqDUMeROUAxgs9OlCWgIMgTMmljxnYSPL2GTu6W9oakvtQAIpAiuPbLFZA7nggAA==)" width="544" height="306" loading="lazy" decoding="async" alt="Конференції">
+          <img src="images/uc/conference.webp" style="--lqip:url(data:image/webp;base64,UklGRowAAABXRUJQVlA4IIAAAAAQBACdASoYAA4APtFWpEwoJKOiMAgBABoJQAqVcPYgpuUopXx90e5wxAD+2irCZTRSKU6Ru7/i7IH3JiHo9sHN7r8QgV22wyw3+AHvPy1qf8wqDUMeROUAxgs9OlCWgIMgTMmljxnYSPL2GTu6W9oakvtQAIpAiuPbLFZA7nggAA==)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Конференції">
         </div>
         <div class="uc-body">
           <h3>Конференції</h3>
@@ -3318,7 +3322,7 @@
       </article>
       <article class="uc-card" data-uc="Екскурсії">
         <div class="uc-media">
-          <img src="images/uc/tour.webp" style="--lqip:url(data:image/webp;base64,UklGRsgAAABXRUJQVlA4ILwAAAAQBACdASoYAA4APtFUo0uoJKMhsAgBABoJYwCo9YxOysDGzUVO7fN9qAD5CBa6x7gug8n9jkeLVWYMe8YVxCr0JPrHmAPYei3N7266XaY9Raepys2g2gdJH95NGOKAwNdKqaoZ4dVUEy5ApUCZqtXe75W1ukItNI+/bZ92mP9a0T3WsJKioaUpNVL/9hCWx/eoXpxEbhcTrabCWlS79g9Ps+Zdcz/+gGCKHBMbIfOgY3TOjooL1/Q/HoRgAA==)" width="544" height="306" loading="lazy" decoding="async" alt="Екскурсії">
+          <img src="images/uc/tour.webp" style="--lqip:url(data:image/webp;base64,UklGRsgAAABXRUJQVlA4ILwAAAAQBACdASoYAA4APtFUo0uoJKMhsAgBABoJYwCo9YxOysDGzUVO7fN9qAD5CBa6x7gug8n9jkeLVWYMe8YVxCr0JPrHmAPYei3N7266XaY9Raepys2g2gdJH95NGOKAwNdKqaoZ4dVUEy5ApUCZqtXe75W1ukItNI+/bZ92mP9a0T3WsJKioaUpNVL/9hCWx/eoXpxEbhcTrabCWlS79g9Ps+Zdcz/+gGCKHBMbIfOgY3TOjooL1/Q/HoRgAA==)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Екскурсії">
         </div>
         <div class="uc-body">
           <h3>Екскурсії</h3>
@@ -3328,7 +3332,7 @@
       </article>
       <article class="uc-card" data-uc="Табори та молодіжні збори">
         <div class="uc-media">
-          <img src="images/uc/camp.webp" style="--lqip:url(data:image/webp;base64,UklGRowAAABXRUJQVlA4IIAAAADwAwCdASoYAA4APtFUo0uoJKMhsAgBABoJYhw0DLxlqgPQ/v+TVT7gAP71cGPLd3bujHx/+n0VS1nq0Xs+MXrk5eU8j6VqEsvKi9oL4khCaMC+Qedw4Huvc1UOxSVk14B+QNCXjVa1KyElqMDverUYbAEYWYzRn5iUTAhhTVFOAA==)" width="544" height="306" loading="lazy" decoding="async" alt="Табори та молодіжні збори">
+          <img src="images/uc/camp.webp" style="--lqip:url(data:image/webp;base64,UklGRowAAABXRUJQVlA4IIAAAADwAwCdASoYAA4APtFUo0uoJKMhsAgBABoJYhw0DLxlqgPQ/v+TVT7gAP71cGPLd3bujHx/+n0VS1nq0Xs+MXrk5eU8j6VqEsvKi9oL4khCaMC+Qedw4Huvc1UOxSVk14B+QNCXjVa1KyElqMDverUYbAEYWYzRn5iUTAhhTVFOAA==)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Табори та молодіжні збори">
         </div>
         <div class="uc-body">
           <h3>Табори та молодіжні збори</h3>
@@ -3338,7 +3342,7 @@
       </article>
       <article class="uc-card" data-uc="Діджей-сет наживо">
         <div class="uc-media">
-          <img src="images/uc/dj.webp" style="--lqip:url(data:image/webp;base64,UklGRrQAAABXRUJQVlA4IKgAAABQBACdASoYAA4APtFUo0uoJKMhsAgBABoJbACsHX+lP+JBvwQ2tni0yHdYAP7vYeHx8HQXp/hEpIbwbnYhycZ8q6yo8OpXEB9QcXVzTqThzH9FmaaB33a53kO+df7tl5Kswj59zSiNsj/Tt/zL2O9GhT3rdQWvfaOZXlVlY9GQZKsmJEamU0I1YqaQ9FXdZ1byN77qedtmfwFK/ansZLy4W8P2+w4AAAA=)" width="544" height="306" loading="lazy" decoding="async" alt="Діджей-сет наживо">
+          <img src="images/uc/dj.webp" style="--lqip:url(data:image/webp;base64,UklGRrQAAABXRUJQVlA4IKgAAABQBACdASoYAA4APtFUo0uoJKMhsAgBABoJbACsHX+lP+JBvwQ2tni0yHdYAP7vYeHx8HQXp/hEpIbwbnYhycZ8q6yo8OpXEB9QcXVzTqThzH9FmaaB33a53kO+df7tl5Kswj59zSiNsj/Tt/zL2O9GhT3rdQWvfaOZXlVlY9GQZKsmJEamU0I1YqaQ9FXdZ1byN77qedtmfwFK/ansZLy4W8P2+w4AAAA=)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Діджей-сет наживо">
         </div>
         <div class="uc-body">
           <h3>Діджей-сет наживо</h3>
@@ -3348,7 +3352,7 @@
       </article>
       <article class="uc-card" data-uc="Церковні служби та зібрання">
         <div class="uc-media">
-          <img src="images/uc/church.webp" style="--lqip:url(data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAAAwBACdASoYAA4APtFUo0uoJKMhsAgBABoJZACdACK1h7W94VHqi9MZucAA/unpiZ4KKeBeyLjdZsWD3pN1TIVXTeTSc1PCTfpZAFMNzeeKiU0Lvldx7S+wFqrRXHGvteSF7Xt7cMrIwCGdrMhGPrNG9KmKLmQAAAA=)" width="544" height="306" loading="lazy" decoding="async" alt="Церковні служби та зібрання">
+          <img src="images/uc/church.webp" style="--lqip:url(data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAAAwBACdASoYAA4APtFUo0uoJKMhsAgBABoJZACdACK1h7W94VHqi9MZucAA/unpiZ4KKeBeyLjdZsWD3pN1TIVXTeTSc1PCTfpZAFMNzeeKiU0Lvldx7S+wFqrRXHGvteSF7Xt7cMrIwCGdrMhGPrNG9KmKLmQAAAA=)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Церковні служби та зібрання">
         </div>
         <div class="uc-body">
           <h3>Церковні служби та зібрання</h3>
@@ -3358,7 +3362,7 @@
       </article>
       <article class="uc-card" data-uc="Корпоративи">
         <div class="uc-media">
-          <img src="images/uc/corporate.webp" style="--lqip:url(data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAAAQBACdASoYAA4APtFUo0uoJKMhsAgBABoJbACdACLL3iBe84qKtWO4wAD+5nbzcTrTZwJ/f9yt24gFs8j4aIRpVF74Sq8fSR210cywsMn4zsNNO8GypfsXGETLsYnVk9KY/wV7hrSg9HtY5O1iI5nAgf3bxJ2LSnF/lBw2SCZ1UKOTSk7eG3kP6fwSe6T+8dVDvLidIaRXLX9eaAAAAA==)" width="544" height="306" loading="lazy" decoding="async" alt="Корпоративи">
+          <img src="images/uc/corporate.webp" style="--lqip:url(data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAAAQBACdASoYAA4APtFUo0uoJKMhsAgBABoJbACdACLL3iBe84qKtWO4wAD+5nbzcTrTZwJ/f9yt24gFs8j4aIRpVF74Sq8fSR210cywsMn4zsNNO8GypfsXGETLsYnVk9KY/wV7hrSg9HtY5O1iI5nAgf3bxJ2LSnF/lBw2SCZ1UKOTSk7eG3kP6fwSe6T+8dVDvLidIaRXLX9eaAAAAA==)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Корпоративи">
         </div>
         <div class="uc-body">
           <h3>Корпоративи</h3>
@@ -3368,7 +3372,7 @@
       </article>
       <article class="uc-card" data-uc="Йога та ecstatic dance">
         <div class="uc-media">
-          <img src="images/uc/yoga.webp" style="--lqip:url(data:image/webp;base64,UklGRrwAAABXRUJQVlA4ILAAAABwBACdASoYAA4APtFUo0uoJKMhsAgBABoJZACdMoMYJn/AZQkfgyxGcAvOVAD+7IYPVX05YzoYsbxsftIqCk2zygRcJXW1kuR+816YAdrwqhj1eTEFNG/lQ1kN+vaMYXbkTxS/MlyaDUTcWJmZuZg/xaDL/V4YD7FgAh5OAxHZDG2sQnzD6PfcFV0nEtl9J6iZn1hTsPedGobZO3lrwcxchE63DLW1YC83nXwj1AAAAA==)" width="544" height="306" loading="lazy" decoding="async" alt="Йога та ecstatic dance">
+          <img src="images/uc/yoga.webp" style="--lqip:url(data:image/webp;base64,UklGRrwAAABXRUJQVlA4ILAAAABwBACdASoYAA4APtFUo0uoJKMhsAgBABoJZACdMoMYJn/AZQkfgyxGcAvOVAD+7IYPVX05YzoYsbxsftIqCk2zygRcJXW1kuR+816YAdrwqhj1eTEFNG/lQ1kN+vaMYXbkTxS/MlyaDUTcWJmZuZg/xaDL/V4YD7FgAh5OAxHZDG2sQnzD6PfcFV0nEtl9J6iZn1hTsPedGobZO3lrwcxchE63DLW1YC83nXwj1AAAAA==)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Йога та ecstatic dance">
         </div>
         <div class="uc-body">
           <h3>Йога та ecstatic dance</h3>
@@ -3378,7 +3382,7 @@
       </article>
       <article class="uc-card" data-uc="Камерні концерти">
         <div class="uc-media">
-          <img src="images/uc/showcase.webp" style="--lqip:url(data:image/webp;base64,UklGRpwAAABXRUJQVlA4IJAAAABQBACdASoYAA4APtFUo0uoJKMhsAgBABoJZgCdMoADKmrah0sAOZi3fVAAAP7syQEZOxGeLbto8J41rPKT+C15WMRrvrVM4npqb46c25H8fExhUaOhTAwL4S/xPZosSuKw6yavoO2xoV3sJ0XVu+lbBK4fb0nQUbKBtmZ1IfqqXZsAgB+ine7yZzQcKNSAAAA=)" width="544" height="306" loading="lazy" decoding="async" alt="Камерні концерти">
+          <img src="images/uc/showcase.webp" style="--lqip:url(data:image/webp;base64,UklGRpwAAABXRUJQVlA4IJAAAABQBACdASoYAA4APtFUo0uoJKMhsAgBABoJZgCdMoADKmrah0sAOZi3fVAAAP7syQEZOxGeLbto8J41rPKT+C15WMRrvrVM4npqb46c25H8fExhUaOhTAwL4S/xPZosSuKw6yavoO2xoV3sJ0XVu+lbBK4fb0nQUbKBtmZ1IfqqXZsAgB+ine7yZzQcKNSAAAA=)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Камерні концерти">
         </div>
         <div class="uc-body">
           <h3>Камерні концерти</h3>
@@ -3388,7 +3392,7 @@
       </article>
       <article class="uc-card" data-uc="Інклюзивні події">
         <div class="uc-media">
-          <img src="images/uc/inclusive.webp" style="--lqip:url(data:image/webp;base64,UklGRqgAAABXRUJQVlA4IJwAAABQBACdASoYAA4APtFUo0uoJKMhsAgBABoJaACdMoADTrh9pnE1PUW/+SlAAP7xeTQDp5G0bnUfoI63KuxgsEKAe8HLBHgBDbgojj7le3Ryml1NXM+DWfkiPeKBv5HwhrxXjX/Llaqu+jdFdWtZB8OuinMFF/uP0kD8RrRWOl222aIlR9GIbSskv31lfg/RGxO2LreOUm2/q0AAAAA=)" width="544" height="306" loading="lazy" decoding="async" alt="Інклюзивні події">
+          <img src="images/uc/inclusive.webp" style="--lqip:url(data:image/webp;base64,UklGRqgAAABXRUJQVlA4IJwAAABQBACdASoYAA4APtFUo0uoJKMhsAgBABoJaACdMoADTrh9pnE1PUW/+SlAAP7xeTQDp5G0bnUfoI63KuxgsEKAe8HLBHgBDbgojj7le3Ryml1NXM+DWfkiPeKBv5HwhrxXjX/Llaqu+jdFdWtZB8OuinMFF/uP0kD8RrRWOl222aIlR9GIbSskv31lfg/RGxO2LreOUm2/q0AAAAA=)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Інклюзивні події">
         </div>
         <div class="uc-body">
           <h3>Інклюзивні події</h3>
@@ -3398,7 +3402,7 @@
       </article>
       <article class="uc-card" data-uc="Громадські зібрання">
         <div class="uc-media">
-          <img src="images/uc/community.webp" style="--lqip:url(data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAAAQBACdASoYAA4APtFUo0uoJKMhsAgBABoJYwCo9BuZ1ewnK3JJr6pwAAD+9Xvhh8SqgC5o/9kjrPhvQSOaIro5VtV5iCCmM7jQjdOwoDFOevDIPE43wjfu95twltkkvOFthm9hOj4LBBTzs9sKvVaJShk/vAAFHn4YLxsAAAA=)" width="544" height="306" loading="lazy" decoding="async" alt="Громадські зібрання">
+          <img src="images/uc/community.webp" style="--lqip:url(data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAAAQBACdASoYAA4APtFUo0uoJKMhsAgBABoJYwCo9BuZ1ewnK3JJr6pwAAD+9Xvhh8SqgC5o/9kjrPhvQSOaIro5VtV5iCCmM7jQjdOwoDFOevDIPE43wjfu95twltkkvOFthm9hOj4LBBTzs9sKvVaJShk/vAAFHn4YLxsAAAA=)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Громадські зібрання">
         </div>
         <div class="uc-body">
           <h3>Громадські зібрання</h3>
@@ -3408,7 +3412,7 @@
       </article>
       <article class="uc-card" data-uc="Ярмарки та маркети">
         <div class="uc-media">
-          <img src="images/uc/markets.webp" style="--lqip:url(data:image/webp;base64,UklGRp4AAABXRUJQVlA4IJIAAAAwBACdASoYAA4APtFUo0uoJKMhsAgBABoJYwCdMoACsvI5SZ2dG/eA/YAA/u7udFVZGj11xHvVuoKpkTpTsSP3a3cHFv1fWlpt4eWWfeNFUIEl2SUQs2E2HBJXTzO8oH0O0A0ekYcHq+uXc5zC5rauZmSMCyUMTcAm3+Jvlraka/tGAPc6HBjYcZo79NfgNybgAA==)" width="544" height="306" loading="lazy" decoding="async" alt="Ярмарки та маркети">
+          <img src="images/uc/markets.webp" style="--lqip:url(data:image/webp;base64,UklGRp4AAABXRUJQVlA4IJIAAAAwBACdASoYAA4APtFUo0uoJKMhsAgBABoJYwCdMoACsvI5SZ2dG/eA/YAA/u7udFVZGj11xHvVuoKpkTpTsSP3a3cHFv1fWlpt4eWWfeNFUIEl2SUQs2E2HBJXTzO8oH0O0A0ekYcHq+uXc5zC5rauZmSMCyUMTcAm3+Jvlraka/tGAPc6HBjYcZo79NfgNybgAA==)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Ярмарки та маркети">
         </div>
         <div class="uc-body">
           <h3>Ярмарки та маркети</h3>
@@ -3418,7 +3422,7 @@
       </article>
       <article class="uc-card" data-uc="Іммерсивні театри">
         <div class="uc-media">
-          <img src="images/uc/theatre.webp" style="--lqip:url(data:image/webp;base64,UklGRrgAAABXRUJQVlA4IKwAAADwBACdASoYAA4APtFUo0uoJKMhsAgBABoJZgCdMoGvqgOBmK2bA75gneRYo8TgQAAA/qntKDi8mAtGmzhGjAxj5G4iZ9YLKf7BfzYLwn/w8N6LqPUzTEkDvjq8NR0h4vZ4Nfxf5aKnrq/d6nLMNlQWgN3yWTLtRMSHY+gl6gpLXACJajEusE/aNaWD/FMyIfyS47EYi8D9bhHRQiYG9wi24Z68I4Ahpw8+oAAA)" width="544" height="306" loading="lazy" decoding="async" alt="Іммерсивні театри">
+          <img src="images/uc/theatre.webp" style="--lqip:url(data:image/webp;base64,UklGRrgAAABXRUJQVlA4IKwAAADwBACdASoYAA4APtFUo0uoJKMhsAgBABoJZgCdMoGvqgOBmK2bA75gneRYo8TgQAAA/qntKDi8mAtGmzhGjAxj5G4iZ9YLKf7BfzYLwn/w8N6LqPUzTEkDvjq8NR0h4vZ4Nfxf5aKnrq/d6nLMNlQWgN3yWTLtRMSHY+gl6gpLXACJajEusE/aNaWD/FMyIfyS47EYi8D9bhHRQiYG9wi24Z68I4Ahpw8+oAAA)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Іммерсивні театри">
         </div>
         <div class="uc-body">
           <h3>Іммерсивні театри</h3>
@@ -3428,7 +3432,7 @@
       </article>
       <article class="uc-card" data-uc="Спортивні події">
         <div class="uc-media">
-          <img src="images/uc/sport.webp" style="--lqip:url(data:image/webp;base64,UklGRsoAAABXRUJQVlA4IL4AAADwAwCdASoYAA4APtFUo0uoJKMhsAgBABoJQBXDsXhZ/EIr2vqsaU/AAP7qVcCuqHPu5880miPlmzrnGeM7JXp7yoCC7bp3IEs+uzCd5LfQITar6LpB9AIP0iXZ+QQbOh2yvnaXs4IkMjIMHP9rS2P/JPsZeveCJaJo4PkZ6v4WGNGaF+GCBFkNW8lf1/jOqvmVZ+V/86G/1iEuCiyjHFz86bejBYJ4fDl4NdgJ5QDCOsZIoFNksRNjJYPpaAAA)" width="544" height="306" loading="lazy" decoding="async" alt="Спортивні події">
+          <img src="images/uc/sport.webp" style="--lqip:url(data:image/webp;base64,UklGRsoAAABXRUJQVlA4IL4AAADwAwCdASoYAA4APtFUo0uoJKMhsAgBABoJQBXDsXhZ/EIr2vqsaU/AAP7qVcCuqHPu5880miPlmzrnGeM7JXp7yoCC7bp3IEs+uzCd5LfQITar6LpB9AIP0iXZ+QQbOh2yvnaXs4IkMjIMHP9rS2P/JPsZeveCJaJo4PkZ6v4WGNGaF+GCBFkNW8lf1/jOqvmVZ+V/86G/1iEuCiyjHFz86bejBYJ4fDl4NdgJ5QDCOsZIoFNksRNjJYPpaAAA)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Спортивні події">
         </div>
         <div class="uc-body">
           <h3>Спортивні події</h3>
