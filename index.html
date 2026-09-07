@@ -771,7 +771,14 @@
                 background 0.5s ease, opacity 0.35s ease;
   }
   .ch-strip-glow-blob.on { opacity: 1; }
-  .ch-toggle-row { position: relative; z-index: 1; display: flex; gap: clamp(16px, 3.4vw, 44px); flex-wrap: nowrap; }
+  /* Проміжок винесено в змінну, бо його потребує не тільки сама сітка: розділювачі
+     нижче ставлять себе рівно в його середину, і два незалежні clamp() рано чи
+     пізно розійшлися б. */
+  .ch-toggle-row {
+    position: relative; z-index: 1; display: flex; flex-wrap: nowrap;
+    --ch-gap: clamp(16px, 3.4vw, 44px);
+    gap: var(--ch-gap);
+  }
   .ch-strip-head {
     position: relative; z-index: 1;
     display: flex; align-items: center; justify-content: space-between;
@@ -809,6 +816,32 @@
        name (text-shadow) and the active switch (box-shadow) cast outwards —
        which the side padding used to leave room for. */
     padding: 8px 0;
+  }
+  /* Волосяний розділювач між каналами. Стоїть рівно посередині проміжку сітки
+     і не доходить до країв колонки: 8px повітря згори й знизу лишають кожен
+     канал окремою коміркою, а не шматком суцільної смуги.
+
+     Градієнт, а не суцільний колір: лінія народжується з прозорості й у неї ж
+     згасає, тож на скляній панелі читається як відблиск, а не як накреслена
+     риска. Так само поводяться інші межі в системі.
+
+     Тільки від 761px — це межа десктопної версії на всьому сайті. Нижче панель
+     переходить у компактну розкладку з проміжком 6px, де лінії ні до чого. */
+  @media (min-width: 761px){
+    .ch-toggle + .ch-toggle::before {
+      content: '';
+      position: absolute; z-index: 1;
+      left: calc(var(--ch-gap) / -2);
+      transform: translateX(-50%);
+      top: 8px; bottom: 8px;
+      width: 1px;
+      background: linear-gradient(180deg,
+        transparent 0,
+        rgba(255,255,255,0.22) 24%,
+        rgba(255,255,255,0.22) 76%,
+        transparent 100%);
+      pointer-events: none;
+    }
   }
   .ch-toggle-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
   .ch-toggle-label { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
