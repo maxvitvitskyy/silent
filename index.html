@@ -969,6 +969,54 @@
   }
   .strip b { color: #fff; font-family:'Unbounded'; font-weight:600; font-size: 13px; }
 
+  /* ---------- ТЕЛЕФОН У ГОРИЗОНТАЛЬНІЙ ОРІЄНТАЦІЇ ----------
+     Екран удвічі ширший за вертикальний і при цьому втричі нижчий: iPhone 14 Pro
+     дає 734×360 (852 мінус вирізи під «острівець» з обох боків). Жоден з наявних
+     брейкпоінтів під таке не розрахований, і виходило одразу дві проблеми.
+
+     Перша — заголовок. На телефоні його рядки будує JS окремим набором (mLines),
+     де один рядок навмисно зсунуто вправо: це журнальна композиція під колонку
+     завширшки з екран. У горизонталі колонка стає 734px, і зсунутий рядок
+     відлітав до правого краю самотнім уламком. Тут композиція інша — текст
+     ліворуч, фігура праворуч, — тож зсув вимкнено, а колонку обмежено.
+
+     Друга — висота. Вертикальна розкладка розрахована на 850px екрана; на 360px
+     кнопки опинялись глибоко за згином. Кегль і відступи стиснуті так, щоб від
+     меню до кнопок усе вміщалось у перший екран.
+
+     Блок стоїть після мобільного (≤760) і планшетного (761–1100) — обидва
+     перекриваються ним на цих розмірах.
+
+     Межі: max-width 900 закриває найширший телефон (Pro Max дає 814), а
+     max-height 480 з orientation відсікає планшети й звичайні вікна. */
+  @media (max-width: 900px) and (max-height: 480px) and (orientation: landscape){
+    .hero { padding: 96px 0 20px; }
+
+    /* Колонка тексту не ширша за 56vw: на 667px (SE) фіксовані 400px уже
+       заходили фігурі на руку. */
+    .hero .wrap.hero-top > *,
+    .hero .wrap.hero-bottom > * { max-width: min(400px, 56vw); }
+
+    .hero .hero-facts { margin-bottom: 8px; font-size: 11px; }
+    /* Компактний двоступеневий варіант факт-рядка, той самий, що на телефоні:
+       повна версія на цих ширинах переносилась некрасивим хвостом. */
+    .hero .hero-facts .hf-full { display: none; }
+    .hero .hero-facts .hf-short { display: block; }
+    .hero .hero-facts .hf-line { display: block; line-height: 1.5; }
+
+    .hero .hero-lines { font-size: 22px; }
+    .hero .hero-lines > span.sr { text-align: left; }
+
+    .hero .wrap.hero-bottom { margin-top: 6px; padding-right: 0; }
+    .hero .hero-sub { margin-bottom: 0; }
+    .hero .hero-actions { margin-top: 12px; flex-direction: row; align-items: center; gap: 10px; }
+
+    /* Висота теж прив'язана до ширини: інакше на вужчому екрані фігура росла
+       від висоти секції й наповзала на текст. */
+    .hero .hero-dancer { right: -14%; bottom: 96px; height: min(62%, 46vw); }
+    .hero .wrap.hero-panel { margin-top: 16px; }
+  }
+
   /* ---------- GENERIC SECTION ---------- */
   .block { padding: var(--sec-pad) 0; }
   @media (max-width: 640px){ :root { --sec-pad: 56px; } }
@@ -4172,8 +4220,13 @@
   });
   // Перехід через 760px міняє сам набір рядків, а через 1100px — довжину
   // підзаголовка; обидва змінюють вміст, а не лише його ширину.
+  // Горизонтальна орієнтація телефона міняє кегль заголовка, а отже і його
+  // висоту. Поворот пристрою міняє й ширину, тож resize вище спрацював би й сам,
+  // але вікно можна стиснути і по одній висоті — тоді резерв лишався б від
+  // попереднього кегля і під заголовком зяяла б порожнеча.
+  const heroLandscape = window.matchMedia('(max-width: 900px) and (max-height: 480px) and (orientation: landscape)');
   const onHeroBreakpoint = () => reserveHeroSubHeight();
-  [heroNarrow, heroShortSub].forEach(mq => {
+  [heroNarrow, heroShortSub, heroLandscape].forEach(mq => {
     if (mq.addEventListener) mq.addEventListener('change', onHeroBreakpoint);
     else mq.addListener(onHeroBreakpoint);
   });
