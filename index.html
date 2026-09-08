@@ -1360,6 +1360,117 @@
     .flow { grid-template-columns: 1fr; gap: 58px; }
   }
 
+  /* ---------- ЕТАПИ ОДНІЄЮ СТРІЧКОЮ ----------
+     Замість чотирьох окремих карток — одна суцільна поверхня, яка тане донизу,
+     і світна лінія по її верхньому краю. Іконки стоять серединою рівно на цій
+     лінії, як і раніше стояли на межі свого фрейма.
+
+     Лінія — це рамка з маскою, а не смужка. Так border-radius сам малює обидва
+     кути, а маска лишає видимим тільки той бік, уздовж якого стоять іконки, і
+     розчиняє хвости, що йдуть від кутів. Дуги, накреслені градієнтом вручну, не
+     збігалися б із радіусом решти інтерфейсу.
+
+     Два шари, і кожен має свою маску: ::before — сама лінія (згасає за кутами),
+     ::after — скло (згасає в темряву в протилежний від лінії бік).
+
+     Текст, його оформлення та самі іконки не змінюються — тільки контейнер.
+
+     Планшетна смуга (621–1040px) навмисно НЕ входить сюди: там сітка 2×2, і одна
+     лінія мусила б петляти між рядами. На цих ширинах усе лишається як було —
+     чотири окремі картки з іконками у вирізі.
+
+     Крізь іконки лінія не проходить: кружечки залиті var(--night) і стоять на
+     z-index вище за неї, тож вона впирається в їхній край і виходить з іншого
+     боку. */
+  @media (min-width: 1041px), (max-width: 620px){
+    .flow {
+      position: relative;
+      isolation: isolate;
+      gap: 0;
+    }
+    /* Поверхня тепер спільна, тож власне скло кожної картки не потрібне. Разом
+       з ним іде й виріз під іконку: кружечок непрозорий і сам закриває те, що
+       під ним. */
+    .flow-card::before { display: none; }
+    /* Кружечок стоїть серединою рівно на лінії, тож підсвітка більше не піднімає
+       його на 2px — інакше при наведенні він відривався б від неї. Саме
+       світіння лишається. */
+    .flow-step:hover .flow-node,
+    .flow-step.is-lit .flow-node { transform: none; }
+
+    .flow::before,
+    .flow::after {
+      content: '';
+      position: absolute;
+      pointer-events: none;
+      border-radius: var(--r-lg);
+    }
+    .flow::before {
+      z-index: 1;
+      border: 1.5px solid var(--lime);
+      box-shadow: 0 0 18px rgba(198,255,0,0.45), inset 0 0 14px rgba(198,255,0,0.22);
+    }
+    .flow::after {
+      z-index: -1;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.075), rgba(255,255,255,0.015) 60%, transparent),
+        var(--glass-fill-1);
+      backdrop-filter: blur(22px) saturate(1.3);
+      -webkit-backdrop-filter: blur(22px) saturate(1.3);
+    }
+  }
+
+  /* Десктоп: лінія — верхній край, скло тане вниз.
+     Рамку піднято на пів товщини (0.75px), щоб її середина збіглася з центром
+     іконок: бордюр малюється всередину коробки, а не по її межі. */
+  @media (min-width: 1041px){
+    .flow { padding: 0; }
+    .flow-step { padding: 0 26px; }
+    /* 58px — низ іконки на 39px під лінією плюс просвіт до першого рядка. */
+    .flow-card { padding: 58px 0 34px; }
+    .flow::before {
+      inset: -0.75px 0 0;
+      -webkit-mask-image: linear-gradient(180deg, #000 0, #000 34px, transparent 138px);
+      mask-image: linear-gradient(180deg, #000 0, #000 34px, transparent 138px);
+    }
+    .flow::after {
+      inset: 0;
+      -webkit-mask-image: linear-gradient(180deg, #000 44%, rgba(0,0,0,0.45) 78%, transparent 100%);
+      mask-image: linear-gradient(180deg, #000 44%, rgba(0,0,0,0.45) 78%, transparent 100%);
+    }
+  }
+
+  /* Телефон: той самий край, тільки правий. Іконка переїжджає у власну колонку
+     і стає серединою на лінію, тому рамка відступає від правого краю на 39px —
+     на половину кружечка, інакше він вилазив би за екран. Скло відповідно тане
+     не вниз, а вліво, у протилежний від лінії бік. */
+  @media (max-width: 620px){
+    .flow {
+      grid-template-columns: 1fr;
+      padding: 0;
+      margin-top: 72px;
+    }
+    .flow-step {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 78px;
+      align-items: center;
+      gap: 0 20px;
+      padding: 26px 0;
+    }
+    .flow-card { grid-column: 1; grid-row: 1; padding: 0; }
+    .flow-node { position: static; grid-column: 2; grid-row: 1; }
+    .flow::before {
+      top: 0; bottom: 0; left: 0; right: 38.25px;
+      -webkit-mask-image: linear-gradient(270deg, #000 0, #000 34px, transparent 156px);
+      mask-image: linear-gradient(270deg, #000 0, #000 34px, transparent 156px);
+    }
+    .flow::after {
+      top: 0; bottom: 0; left: 0; right: 39px;
+      -webkit-mask-image: linear-gradient(270deg, #000 0, #000 52%, transparent 100%);
+      mask-image: linear-gradient(270deg, #000 0, #000 52%, transparent 100%);
+    }
+  }
+
   @media (max-width: 900px){
     .how-head { grid-template-columns: 1fr; gap: 16px; }
     .how-head .eyebrow, .how-head .h2, .how-lead { grid-column: 1; grid-row: auto; }
