@@ -1361,27 +1361,23 @@
   }
 
   /* ---------- ЕТАПИ ОДНІЄЮ СТРІЧКОЮ ----------
-     Замість чотирьох окремих карток — одна суцільна поверхня, яка тане донизу,
-     і світна лінія по її верхньому краю. Іконки стоять серединою рівно на цій
-     лінії, як і раніше стояли на межі свого фрейма.
+     Замість чотирьох скляних карток — сама лише світна лінія, що малює той край,
+     де раніше проходила межа фрейма. Іконки стоять серединою рівно на ній.
 
      Лінія — це рамка з маскою, а не смужка. Так border-radius сам малює обидва
      кути, а маска лишає видимим тільки той бік, уздовж якого стоять іконки, і
      розчиняє хвости, що йдуть від кутів. Дуги, накреслені градієнтом вручну, не
      збігалися б із радіусом решти інтерфейсу.
 
-     Два шари, і кожен має свою маску: ::before — сама лінія (згасає за кутами),
-     ::after — скло (згасає в темряву в протилежний від лінії бік).
-
      Текст, його оформлення та самі іконки не змінюються — тільки контейнер.
 
      Планшетна смуга (621–1040px) навмисно НЕ входить сюди: там сітка 2×2, і одна
      лінія мусила б петляти між рядами. На цих ширинах усе лишається як було —
-     чотири окремі картки з іконками у вирізі.
+     чотири окремі картки зі склом і з іконками у вирізі.
 
      Крізь іконки лінія не проходить: кружечки залиті var(--night) і стоять на
      z-index вище за неї, тож вона впирається в їхній край і виходить з іншого
-     боку. */
+     боку. Просвіт між нею і кружечком робить кільце — див. нижче. */
   @media (min-width: 1041px), (max-width: 620px){
     .flow {
       position: relative;
@@ -1398,25 +1394,37 @@
     .flow-step:hover .flow-node,
     .flow-step.is-lit .flow-node { transform: none; }
 
-    .flow::before,
-    .flow::after {
+    .flow::before {
       content: '';
       position: absolute;
       pointer-events: none;
       border-radius: var(--r-lg);
-    }
-    .flow::before {
       z-index: 1;
       border: 1.5px solid var(--lime);
       box-shadow: 0 0 18px rgba(198,255,0,0.45), inset 0 0 14px rgba(198,255,0,0.22);
     }
-    .flow::after {
-      z-index: -1;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.075), rgba(255,255,255,0.015) 60%, transparent),
-        var(--glass-fill-1);
-      backdrop-filter: blur(22px) saturate(1.3);
-      -webkit-backdrop-filter: blur(22px) saturate(1.3);
+
+    /* Просвіт між лінією і кружечком. Кільце кольору тла домальовується
+       box-shadow'ом навколо іконки й з'їдає лінію за 7px до її краю — під цим
+       блоком тло рівне (--night від body, жодних підкладок), тож саме кільце
+       непомітне.
+
+       Тінь стоїть ДРУГОЮ, після світіння: тоді світіння лягає поверх неї і
+       просвіт лишається з лаймовим підсвітом, а не чорною діркою. Значення
+       світіння доводиться повторювати в обох станах, бо box-shadow не
+       доповнюється, а замінюється цілком. */
+    .flow-node {
+      box-shadow:
+        0 0 30px -10px rgba(198,255,0,0.55),
+        0 0 0 7px var(--night),
+        inset 0 0 18px -10px rgba(198,255,0,0.5);
+    }
+    .flow-step:hover .flow-node,
+    .flow-step.is-lit .flow-node {
+      box-shadow:
+        0 0 40px -8px rgba(198,255,0,0.7),
+        0 0 0 7px var(--night),
+        inset 0 0 18px -8px rgba(198,255,0,0.6);
     }
   }
 
@@ -1427,16 +1435,11 @@
     .flow { padding: 0; }
     .flow-step { padding: 0 26px; }
     /* 58px — низ іконки на 39px під лінією плюс просвіт до першого рядка. */
-    .flow-card { padding: 58px 0 34px; }
+    .flow-card { padding: 58px 0 0; }
     .flow::before {
       inset: -0.75px 0 0;
       -webkit-mask-image: linear-gradient(180deg, #000 0, #000 34px, transparent 138px);
       mask-image: linear-gradient(180deg, #000 0, #000 34px, transparent 138px);
-    }
-    .flow::after {
-      inset: 0;
-      -webkit-mask-image: linear-gradient(180deg, #000 44%, rgba(0,0,0,0.45) 78%, transparent 100%);
-      mask-image: linear-gradient(180deg, #000 44%, rgba(0,0,0,0.45) 78%, transparent 100%);
     }
   }
 
@@ -1463,11 +1466,6 @@
       top: 0; bottom: 0; left: 0; right: 38.25px;
       -webkit-mask-image: linear-gradient(270deg, #000 0, #000 34px, transparent 156px);
       mask-image: linear-gradient(270deg, #000 0, #000 34px, transparent 156px);
-    }
-    .flow::after {
-      top: 0; bottom: 0; left: 0; right: 39px;
-      -webkit-mask-image: linear-gradient(270deg, #000 0, #000 52%, transparent 100%);
-      mask-image: linear-gradient(270deg, #000 0, #000 52%, transparent 100%);
     }
   }
 
