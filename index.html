@@ -134,12 +134,10 @@
   :root {
     --night: #05070d;
     --night-2: #0b1020;
-    --night-3: #080b14;
     --ink-inv: #ffffff;
     --muted: rgba(255,255,255,0.62);
     --muted-2: rgba(255,255,255,0.40);
     --line: rgba(255,255,255,0.08);
-    --line-soft: rgba(255,255,255,0.05);
     --lime: #c6ff00;
     --lime-glow: rgba(198,255,0,0.35);
     --glass: rgba(255,255,255,0.03);
@@ -203,7 +201,7 @@
     -webkit-font-smoothing: antialiased;
     transition: background 0.8s ease;
   }
-  h1,h2,h3,.display { font-family: 'Unbounded', sans-serif; letter-spacing: -0.02em; }
+  h1,h2,h3 { font-family: 'Unbounded', sans-serif; letter-spacing: -0.02em; }
   .em { font-family: 'Lora', serif; font-style: italic; }
   a { color: inherit; text-decoration: none; }
 
@@ -568,17 +566,6 @@
     padding-inline: 25px;
   }
 
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 7px;
-    border: 1px solid rgba(200,243,29,0.35);
-    background: var(--lime-glow);
-    background: rgba(200,243,29,0.1);
-    color: var(--lime);
-    padding: 8px 16px; border-radius: 999px;
-    font-size: 12px; font-weight: 700; letter-spacing: 0.3px;
-    margin-bottom: 20px;
-    opacity: 0; animation: rise 0.7s 0.02s forwards;
-  }
   /* Тонше накреслення замість жирного: на ескізі заголовок помітно легший, і
      це працює на бренд — SILENT не має кричати. 500 лишає його твердим, але
      знімає ту вагу, через яку блок виглядав важким. */
@@ -588,8 +575,6 @@
     letter-spacing: -0.015em;
     margin-bottom: 24px;
   }
-  .hero h1 .thin { font-weight: 400; color: var(--muted); }
-  .hero h1 .accent { color: var(--ch); transition: color 0.6s ease; }
   .hero-lines > span { display: block; opacity: 0; animation: rise 0.8s forwards; }
   /* Each of the three headline lines stays on a single row — no internal wrap,
      so "в одному вечорі" never breaks onto a third line. Inner accent spans
@@ -674,36 +659,6 @@
   .hero-lines > span.swap-in:nth-child(4){ animation-delay: 0.27s; }
   .hero-lines > span.swap-in:nth-child(5){ animation-delay: 0.34s; }
 
-  /* ---------- CHANNEL SWITCHER (signature) ---------- */
-  .channels {
-    margin-top: 64px;
-    opacity: 0; animation: rise 0.8s 0.8s forwards;
-  }
-  .ch-label {
-    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-    color: var(--muted-2); margin-bottom: 16px; font-weight: 700;
-  }
-  .ch-row { display: flex; gap: 12px; flex-wrap: wrap; }
-  .ch-btn {
-    display: flex; align-items: center; gap: 12px;
-    padding: 14px 20px 14px 16px;
-    border-radius: var(--r-md);
-    border: 1px solid var(--line);
-    background: rgba(255,255,255,0.02);
-    cursor: pointer;
-    transition: all 0.35s ease;
-    min-width: 200px;
-    position: relative;
-    overflow: hidden;
-  }
-  .ch-btn .dot {
-    width: 34px; height: 34px; border-radius: 50%;
-    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-    font-family: 'Unbounded'; font-weight: 700; font-size: 14px; color: #fff;
-  }
-  
-
-  /* equalizer bars */
   .hero-fade {
     position: absolute; left: 0; right: 0; bottom: 0;
     height: clamp(240px, 32vh, 400px);
@@ -716,30 +671,7 @@
     pointer-events: none;
     z-index: 1;
   }
-  .eq { display: flex; align-items: flex-end; gap: 3px; height: 100%; width: 100%; padding: 0 4px; }
-  .eq span {
-    flex: 1; min-width: 2px; border-radius: 3px 3px 0 0;
-    background: var(--ch);
-    transition: background 0.6s ease;
-    animation: bounce 1s ease-in-out infinite;
-  }
-  @keyframes bounce {
-    0%,100% { height: 6px; } 50% { height: 56px; }
-  }
-  .paused .eq span { animation-play-state: paused; }
-  .ch-audio-hint {
-    margin-top: 16px;
-    font-size: 11.5px; color: var(--muted-2);
-    letter-spacing: 0.2px;
-  }
 
-  /* ---------- STRIP ---------- */
-  .strip {
-    border-radius: var(--r-md);
-    padding: 30px 24px;
-    display: flex; gap: 20px; justify-content: space-around; flex-wrap: wrap;
-    font-size: 13px; color: var(--muted); font-weight: 500;
-  }
   .hero-strip {
     position: relative;
     overflow: hidden;
@@ -849,7 +781,6 @@
   }
   .ch-toggle-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
   .ch-toggle-label { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-  .ch-toggle-name { text-shadow: 0 0 12px currentColor, 0 0 26px currentColor; }
   .ch-toggle-name {
     font-family: 'Unbounded'; font-weight: 800; font-size: 20px;
     letter-spacing: 0.04em; line-height: 1;
@@ -940,7 +871,7 @@
     90%  { height: 55%; }
     100% { height: 8%; }
   }
-  .ch-toggle-top { position: relative; z-index: 1; position: relative; z-index: 1; }
+  .ch-toggle-top { position: relative; z-index: 1; }
   @media (max-width: 640px){
     /* Три канали в ряд, а не стовпчиком: у стовпчику панель займала пів екрана.
        Перемикач переїжджає під назву, жанровий опис прибраний — на такій ширині
@@ -967,11 +898,6 @@
        країв меню */
     .hero-strip { max-width: none; }
   }
-  .strip-item { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; min-width: 100px; }
-  .strip-icon {
-    font-size: 15px; margin-bottom: 8px;
-  }
-  .strip b { color: #fff; font-family:'Unbounded'; font-weight:600; font-size: 13px; }
 
   /* ---------- ТЕЛЕФОН У ГОРИЗОНТАЛЬНІЙ ОРІЄНТАЦІЇ ----------
      iPhone 14 Pro у горизонталі дає 734×360: 852 мінус вирізи під «острівець» з
@@ -1175,7 +1101,6 @@
      інакше бейдж унизу (а на телефоні він найнижчий) ішов би в темряву разом
      із фоном і переставав читатись. */
   .slab-num, .slab-body, .slab-meta { position: relative; z-index: 1; }
-  .slab-meta { align-self: start; }   /* угорі, щоб не тонув у затемненні */
   .slab-body h3 { font-size: 20px; font-weight: 600; margin-bottom: 6px; }
   /* Місце під два рядки резервуємо завжди: з прихованим описом плашки інакше
      мали б різну висоту без видимої причини. */
@@ -1500,20 +1425,6 @@
   .band h2 { font-size: clamp(24px, 3.6vw, 38px); font-weight: 600; line-height: 1.15; max-width: none; margin: 0 auto 16px; color: #fff; text-wrap: balance; }
   .band p { font-size: 15px; color: var(--muted); max-width: 46ch; margin: 0 auto; }
 
-  /* who it's for */
-  .audience { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 40px; }
-  .aud-pill {
-    border: 1px solid var(--line); border-radius: 999px;
-    padding: 11px 22px; font-size: 14px; color: var(--muted);
-    transition: border-color 0.3s, color 0.3s;
-  }
-  .aud-pill:hover { border-color: var(--ch); color: #fff; }
-  .aud-pill.active {
-    background: var(--lime); border-color: var(--lime); color: #12100a; font-weight: 700;
-    box-shadow: 0 6px 20px -6px var(--lime-glow);
-  }
-  .aud-pill.active:hover { color: #12100a; }
-
   /* ---------- GALLERY ---------- */
   .gallery { padding: var(--sec-pad) 0; }
 
@@ -1687,11 +1598,6 @@
       -webkit-mask-image: none; mask-image: none;
     }
   }
-
-  .photo-credit {
-    font-size: 10.5px; color: var(--muted-2); margin-top: 14px; text-align: right;
-  }
-  .photo-credit a { color: var(--muted); text-decoration: underline; text-underline-offset: 2px; }
 
   /* ---------- FAQ ---------- */
   /* Не список із роздільниками, а стопка окремих карток матового скла. Відкрита
@@ -1963,26 +1869,8 @@
   .hstep:disabled { opacity: 0.3; cursor: not-allowed; }
   .calc-note { color: var(--muted-2); font-size: 12px; margin-top: 12px; line-height: 1.45; }
 
-  .quiet-band {
-    padding: var(--sec-pad) 0;
-    background:
-      linear-gradient(180deg, transparent, rgba(255,255,255,0.025), transparent);
-  }
-  .quiet-grid {
-    display:grid;
-    grid-template-columns: 0.62fr 1.38fr;
-    gap: 42px;
-    align-items:center;
-  }
-  .quiet-stat {
-    border-left: 2px solid var(--ch);
-    padding-left: 24px;
-  }
-  .quiet-stat .big { font-family:'Unbounded'; font-size: clamp(32px, 5vw, 52px); line-height: 1.05; color: var(--ch); font-weight: 700; }
-  .quiet-stat p { color: var(--muted); margin-top: 16px; max-width: 38ch; }
-
   @media (max-width: 860px){
-    .calc-card, .quiet-grid { grid-template-columns: 1fr; }
+    .calc-card { grid-template-columns: 1fr; }
     .calc-card { padding: 30px; }
   }
   @media (max-width: 520px){
@@ -2379,45 +2267,6 @@
     .footer-legal { flex-direction: column; gap: 4px; margin-top: 20px; padding-top: 13px; }
   }
 
-  /* ---------- FORM ---------- */
-  .form-section { padding: var(--sec-pad) 0 0; position: relative; z-index: 2; }
-
-  .field { margin-bottom: 16px; }
-  .field label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 7px; letter-spacing: 0.3px; }
-  .field input::placeholder, .field textarea::placeholder { color: var(--muted-2); }
-  .field input:focus, .field select:focus, .field textarea:focus {
-    outline: none; border-color: var(--ch);
-    background: rgba(255,255,255,0.06);
-  }
-  .field select option { background: var(--night-2); }
-  .calc-summary-note {
-    border: 1px solid var(--ch);
-    background: var(--ch-soft);
-    border-radius: var(--r-xs);
-    padding: 13px 16px;
-    margin-bottom: 20px;
-    font-size: 13px; line-height: 1.5;
-    color: rgba(255,255,255,0.92);
-    transition: background 0.6s ease, border-color 0.6s ease;
-  }
-  .calc-summary-note b { color: var(--ch); transition: color 0.6s ease; }
-  .form-submit {
-    width: 100%; margin-top: 6px;
-    background: var(--lime); color: #12100a;
-    padding: 16px; border-radius: var(--r-sm); border: none;
-    font-family: inherit; font-weight: 700; font-size: 15px; cursor: pointer;
-    box-shadow: 0 8px 26px -8px var(--lime-glow);
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .form-submit:hover { transform: translateY(-2px); box-shadow: 0 14px 34px -6px var(--lime-glow); }
-  .form-note { font-size: 12px; color: var(--muted-2); margin-top: 14px; text-align: center; }
-  .form-success {
-    display: none; text-align: center; padding: 20px;
-  }
-  .form-success.show { display: block; }
-  .form-success .big { font-family:'Unbounded'; font-size: 22px; font-weight: 600; margin-bottom: 10px; color: var(--lime); }
-  .form-success p { color: var(--muted); font-size: 14px; }
-
 
   .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
   .reveal.in { opacity: 1; transform: none; }
@@ -2428,8 +2277,8 @@
     /* These start at opacity:0 and reveal themselves through the `rise`
        animation. With animations off they would stay invisible forever — the
        entire hero (headline, sub, CTAs, channel panel) would never appear. */
-    .hero-badge, .hero-sub, .hero-actions, .hero-facts,
-    .hero-lines > span, .channels, .hero-strip {
+    .hero-sub, .hero-actions, .hero-facts,
+    .hero-lines > span, .hero-strip {
       opacity: 1 !important; transform: none !important;
     }
   }
@@ -2981,34 +2830,6 @@
   .tst-name { font-size: 12.5px; font-weight: 700; }
   .tst-role { font-size: 11px; color: var(--muted-2); }
 
-  /* ==================================================================
-     NEW DESIGN SYSTEM UTILITIES — premium dark glass + RGB accents
-     ================================================================== */
-
-  /* RGB gradient divider — the signature accent line from reference 2.
-     Used sparingly: How It Works, Channels, CTA band. */
-  .rgb-divider {
-    height: 1px; width: 100%;
-    background: linear-gradient(90deg,
-      transparent, var(--red) 18%, var(--green) 50%, var(--blue) 82%, transparent);
-    opacity: 0.55;
-    border: none;
-  }
-  .rgb-divider.glow {
-    height: 2px;
-    box-shadow: 0 0 20px 1px rgba(198,255,0,0.12);
-  }
-
-  /* Gradient typography — for 1-3 key words only, never full headlines */
-  .grad-text {
-    background: linear-gradient(90deg, var(--red), var(--green), var(--blue));
-    -webkit-background-clip: text; background-clip: text;
-    -webkit-text-fill-color: transparent; color: transparent;
-  }
-  .grad-text.rg { background: linear-gradient(90deg, var(--red), var(--green)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-  .grad-text.gb { background: linear-gradient(90deg, var(--green), var(--blue)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-  .grad-text.lime-glow-text { color: var(--lime); }
-
   /* Matte glass surface — the primary card treatment across the site.
      Gradient fill + inset top-edge highlight sells the frosted look; the
      backdrop blur alone was invisible on near-black. */
@@ -3022,31 +2843,6 @@
     box-shadow: var(--glass-shadow-1), inset 0 1px 0 rgba(255,255,255,0.09);
   }
 
-  /* Circular icon token with resting colored glow (ref 1: feature icons) */
-  .icon-token {
-    width: 44px; height: 44px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    border: 1px solid var(--line); border-top-color: var(--glass-edge);
-    background: var(--glass-fill-soft);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    flex-shrink: 0;
-    transition: border-color 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
-  }
-  .icon-token.tok-red   { color: var(--red);   box-shadow: 0 0 0 0 transparent; }
-  .icon-token.tok-green { color: var(--green); }
-  .icon-token.tok-blue  { color: var(--blue); }
-  .icon-token.tok-lime  { color: var(--lime); }
-  .icon-token.tok-red   { border-color: rgba(var(--red-rgb), 0.28);   background: rgba(var(--red-rgb), 0.06);   box-shadow: 0 0 18px -6px rgba(var(--red-rgb), 0.5); }
-  .icon-token.tok-green { border-color: rgba(var(--green-rgb), 0.28);  background: rgba(var(--green-rgb), 0.06);  box-shadow: 0 0 18px -6px rgba(var(--green-rgb), 0.5); }
-  .icon-token.tok-blue  { border-color: rgba(var(--blue-rgb), 0.28);  background: rgba(var(--blue-rgb), 0.06);  box-shadow: 0 0 18px -6px rgba(var(--blue-rgb), 0.5); }
-  .icon-token.tok-lime  { border-color: rgba(198,255,0,0.3);    background: rgba(198,255,0,0.07);   box-shadow: 0 0 18px -6px rgba(198,255,0,0.45); }
-
-  /* ---------- LEAD MODAL ---------- */
-  /* З'являється поверх існуючого formSuccess одразу після відправки — той
-     екран лишається як був, це додатковий шар над ним. Задній фон
-     розмивається (той самий --glass-blur, що й решта сайту), картка — той
-     самий .glass-panel матеріал, що й панелі вище по сторінці. */
   /* ---------- ЛАЙТБОКС-КАРУСЕЛЬ ДЛЯ РОЛИКІВ ----------
      Ролики вертикальні 9:16, тож «на всю ширину» на десктопі неможливо: слайд
      упирається у висоту вікна. Тому всю геометрію рахуємо ВІД висоти — одна
@@ -3190,6 +2986,11 @@
     .vbox-slide { transition: opacity 0.2s ease; }
   }
 
+  /* ---------- LEAD MODAL ---------- */
+  /* З'являється поверх існуючого formSuccess одразу після відправки — той
+     екран лишається як був, це додатковий шар над ним. Задній фон
+     розмивається (той самий --glass-blur, що й решта сайту), картка — той
+     самий .glass-panel матеріал, що й панелі вище по сторінці. */
   .lead-modal {
     display: none;
     position: fixed; inset: 0; z-index: 500;
@@ -3393,6 +3194,7 @@
     </div>
   </div>
 
+  </div>
 </section>
 
 <!-- HOW IT WORKS -->
@@ -3729,7 +3531,6 @@
       <button class="gal-nav gal-next" type="button" aria-label="Наступні кадри">›</button>
     </div>
     <p class="uc-hint">Гортайте вбік, щоб побачити більше кадрів</p>
-    </div>
   </div>
 </section>
 
@@ -4499,7 +4300,6 @@
     { color:'#2ed573', soft:'rgba(var(--green-rgb), 0.14)', glow:'rgba(var(--green-rgb), 0.45)' },
     { color:'#3da8ff', soft:'rgba(var(--blue-rgb), 0.14)', glow:'rgba(var(--blue-rgb), 0.45)' }
   ];
-  const root = document.documentElement;
   const btns = Array.from(document.querySelectorAll('.ch-toggle'));
   const heroPhotos = [0,1,2].map(i => document.getElementById('heroPhoto' + i)).filter(Boolean);
   const heroDancerEl = document.getElementById('heroDancer');
@@ -5174,10 +4974,9 @@
   // це й давало «стіну»: запис у scrollLeft посеред інерційного розгону скасовує
   // саму інерцію, стрічка різко спиняється, і докрутити її можна лише наступним
   // свайпом. Тому перенос тепер чекає, поки прокрутка вгамується, а щоб довгий
-  // кидок не встиг долетіти до справжнього краю, копій стало п'ять замість трьох.
-  // Інерцію рахує сам браузер — вона рідна для платформи й гальмує саме так, як
-  // очікує палець.
-  const STRIP_COPIES = 5;
+  // кидок не встиг долетіти до справжнього краю, копій стало більше — скільки
+  // саме, рахує TARGET_SLACK нижче. Інерцію рахує сам браузер — вона рідна для
+  // платформи й гальмує саме так, як очікує палець.
   // Запас, який має лишатись у кожен бік: приблизно стільки долітає найсильніший
   // кидок пальцем у вузькій стрічці на телефоні.
   const TARGET_SLACK = 6500;
@@ -5686,9 +5485,6 @@
     window.addEventListener('resize', () => { syncArrows(); queue(); }, { passive: true });
     syncArrows(); pickCentre();
   })();
-
-  // ---- respect reduced motion ----
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // ---- Scroll reveal ----
   const io = new IntersectionObserver((entries) => {
