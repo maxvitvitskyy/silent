@@ -2315,21 +2315,6 @@
 
   /* ---------- FORM ---------- */
   .form-section { padding: var(--sec-pad) 0 0; position: relative; z-index: 2; }
-  .form-card {
-    border: 1px solid var(--line); border-radius: var(--r-lg);
-    background: linear-gradient(180deg, rgba(255,255,255,0.04), transparent);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    padding: 48px;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
-  }
-  @media (max-width: 760px){ .form-card { grid-template-columns: 1fr; padding: 32px; } }
-  .form-left h2 { font-size: clamp(24px, 3vw, 32px); font-weight: 700; line-height: 1.15; margin-bottom: 14px; }
-  .form-left .em { color: var(--lime); }
-  .form-left p { color: var(--muted); font-size: 15px; margin-bottom: 26px; }
-  .form-assure { display: flex; flex-direction: column; gap: 12px; }
-  .form-assure div { display: flex; gap: 10px; align-items: center; font-size: 13.5px; color: var(--muted); }
-  .form-assure .ok { color: var(--lime); font-weight: 700; }
 
   .field { margin-bottom: 16px; }
   .field label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 7px; letter-spacing: 0.3px; }
