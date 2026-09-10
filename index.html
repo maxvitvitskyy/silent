@@ -1625,8 +1625,12 @@
     0%, 100% { box-shadow: 0 0 0 7px rgba(198,255,0,0.14), 0 0 26px -6px rgba(198,255,0,0.55), 0 12px 32px -12px rgba(0,0,0,0.9); }
     50%      { box-shadow: 0 0 0 10px rgba(198,255,0,0.22), 0 0 46px -2px rgba(198,255,0,0.95), 0 12px 32px -12px rgba(0,0,0,0.9); }
   }
+  /* Клікабельна вся плитка, тож і підсвічування кнопки чіпляємо до плитки:
+     інакше курсор десь у кутку кадру відкривав би ролик без жодної реакції. */
+  .gallery-item.is-video { cursor: pointer; }
   .gal-play:hover,
-  .gal-play:focus-visible {
+  .gal-play:focus-visible,
+  .gallery-item.is-video:hover .gal-play {
     transform: translate(-50%, -50%) scale(1.09);
     animation-play-state: paused;
     box-shadow:
@@ -6053,10 +6057,19 @@
 
     // Делегування: стрічка клонується, слухачі на самих кнопках cloneNode не
     // переносить.
+    // Ловимо всю плитку, а не саму кнопку: у кадр 600x968 цілитися кнопкою
+    // 64 px незручно, надто з телефона. Кнопка лишається як позначка «тут відео».
+    // scrollLeft звіряємо, бо стрічка горизонтальна: палець, що дотягнув її й
+    // зупинився на плитці, не повинен відкривати ролик.
+    let gx = 0;
+    grid.addEventListener('pointerdown', () => { gx = grid.scrollLeft; }, { passive: true });
     grid.addEventListener('click', (e) => {
-      const btn = e.target.closest('.gal-play');
+      const item = e.target.closest('.gallery-item.is-video');
+      if (!item) return;
+      const btn = item.querySelector('.gal-play');
       if (!btn) return;
       e.preventDefault();
+      if (Math.abs(grid.scrollLeft - gx) > 8) return;
       open(btn.dataset.video);
     });
 
@@ -6075,6 +6088,14 @@
     nextB.addEventListener('click', () => go(active + 1));
     document.getElementById('vboxClose').addEventListener('click', close);
     document.getElementById('vboxBackdrop').addEventListener('click', close);
+    // Порожнє поле навколо слайдів. Сцена лежить поверх фону на всю площу, тож
+    // до самого фону клік не дійшов би — перевіряємо, що поцілили саме в неї,
+    // а не в слайд. На телефоні цього не стається: там зверху зони тапу.
+    stage.addEventListener('click', (e) => {
+      if (e.target !== stage) return;
+      if (swiped) { swiped = false; return; }
+      close();
+    });
 
     // Свайп. Слухаємо на фазі перехоплення й на самому вікні, а не на сцені:
     // зверху лежать зони тапу, і до сцени подія просто не дійшла б.
