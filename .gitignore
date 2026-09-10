@@ -16,6 +16,18 @@ images/gal/*
 !images/gal/[0-9][0-9]_tall.webp
 !images/gal/[0-9][0-9]_wide.webp
 !images/gal/[0-9][0-9]_sq.webp
+# Постери роликів мають тризначні номери (101+), щоб не плутатися з фото.
+!images/gal/[0-9][0-9][0-9]_tall.webp
+
+# Ролики. Вихідні .mov з телефона — 268 МБ, у репозиторії їм не місце: на сайт
+# іде тільки перекодований video/web/*.mp4 (31 МБ разом), який збирає
+# tools/build_video.sh. Постери-джерела в images/vid теж лишаються локально —
+# у галерею йде плитка, нарізана build_gallery.py.
+video/*
+!video/web/
+video/web/*
+!video/web/*.mp4
+images/vid/
 
 # Вихідники для карток «як зазвичай» / «із silent disco»; на сайт іде експорт
 # images/shift-old.webp і shift-new.webp.

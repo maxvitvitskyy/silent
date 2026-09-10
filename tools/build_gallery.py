@@ -104,11 +104,31 @@ PLAN = {
 #
 # 32/33 стоять між 31 і 12: обидва ці кадри вертикальні, і після зсуву вони
 # опинилися поруч. Блок між ними прибирає дві вертикалі підряд.
-ORDER = [20, 29, 5, 6, 23, 24, 15, 34, 35, 30, 18, 11, 21, 27, 8, 1, 19,
-         17, 10, 25, 31, 32, 33, 12, 4, 26, 7, 2, 14, 16, 28, 3, 9, 22, 13]
+ORDER = [20, 101, 29, 5, 6, 23, 24, 15, 34, 35, 102, 30, 18, 11, 21, 27,
+         8, 103, 1, 19, 17, 10, 25, 31, 104, 32, 33, 12, 4, 26, 7, 105, 2, 14,
+         16, 28, 3, 9, 106, 22, 13]
+
+# ── ролики ─────────────────────────────────────────────────────────────────
+# Нумерація з 101, щоб не плуталася з фото. Кожен займає плитку 'tall': вихідні
+# кадри вертикальні 9:16 (0.563), і з трьох форм саме tall (0.620) до них
+# найближча — підрізається лише 178px висоти з 1920.
+#
+# Постер ріжеться тут-таки з кадру, знятого build_video.sh на другій секунді:
+# з нульової часто виходить змазаний рухом кадр.
+VID = {
+    101: ('silent-1', 'Гості танцюють у червоному світлі'),
+    102: ('silent-2', 'Танцпол просто неба'),
+    103: ('silent-3', 'Повний двір у навушниках'),
+    104: ('silent-4', 'Синє світло над танцполом'),
+    105: ('silent-5', 'Лазери й екран у залі'),
+    106: ('silent-6', 'Гості співають разом'),
+}
+for k in VID:
+    PLAN[k] = ('tall', 0.50, 0.45, VID[k][1])
+    omap[k] = f'../vid/{VID[k][0]}-poster.jpg'      # шлях відносно images/gal
 
 assert set(PLAN) == set(omap) == set(ORDER), 'плани й порядок мають збігатися'
-assert len(ORDER) == 35 and len(set(ORDER)) == 35
+assert len(ORDER) == 41 and len(set(ORDER)) == 41
 
 def crop(im, ratio, fx, fy):
     w, h = im.size
@@ -139,13 +159,29 @@ for n in ORDER:
     kept[n] = (c.width * c.height) / (im.width * im.height)
     c.resize((ow, oh), Image.LANCZOS).save(
         os.path.join(GAL, f'{n:02d}_{shape}.webp'), 'WEBP', quality=80, method=6)
-    rows.append(
-        f'        <figure class="gallery-item {CLS[shape]}">\n'
-        f'          <img src="images/gal/{n:02d}_{shape}.webp"'
-        f' style="--lqip:url(data:image/webp;base64,{lqip(c)})"'
-        f' width="{ow}" height="{oh}" loading="lazy" decoding="async" alt="{alt}">\n'
-        f'          <div class="gallery-scrim"></div>\n'
-        f'        </figure>')
+    img = (f'          <img src="images/gal/{n:02d}_{shape}.webp"'
+           f' style="--lqip:url(data:image/webp;base64,{lqip(c)})"'
+           f' width="{ow}" height="{oh}" loading="lazy" decoding="async" alt="{alt}">\n')
+    if n in VID:
+        # Кнопка, а не посилання: відео відкривається лайтбоксом на місці.
+        # Обробник висить на самій стрічці, бо вона клонується у п'ять копій —
+        # слухачі на кнопках при cloneNode не переносяться.
+        play = ('          <button class="gal-play" type="button"'
+                f' data-video="video/web/{VID[n][0]}.mp4"'
+                f' aria-label="\u0414\u0438\u0432\u0438\u0442\u0438\u0441\u044f \u0432\u0456\u0434\u0435\u043e: {alt}">'
+                '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">'
+                '<path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></button>\n')
+        rows.append(
+            f'        <figure class="gallery-item {CLS[shape]} is-video">\n'
+            + img + play +
+            f'          <div class="gallery-scrim"></div>\n'
+            f'        </figure>')
+    else:
+        rows.append(
+            f'        <figure class="gallery-item {CLS[shape]}">\n'
+            + img +
+            f'          <div class="gallery-scrim"></div>\n'
+            f'        </figure>')
 
 # ---- перевірка упаковки: два рядки, без дірок ----
 SPAN = {'tall': (1, 2), 'wide': (2, 1), 'sq': (1, 1)}
@@ -169,7 +205,14 @@ while i < len(kinds):
     else:
         assert i + 1 < len(kinds) and kinds[i + 1] == kinds[i], f'непарний блок на {i}'
         blocks.append(kinds[i] * 2); i += 2
+# Дві вертикалі поспіль тепер дозволені: роликів шість, і всі вони вертикальні,
+# а горизонтальних блоків для їх розділення бракує (17 вертикалей на 12 блоків).
+# Читається це нормально — у ролика є лаймова кнопка, тож із фото він не
+# зливається. А от два однакові ГОРИЗОНТАЛЬНІ блоки поспіль і далі заборонені:
+# два ряди по два кадри виглядали б як помилка верстки.
 for a, b in zip(blocks, blocks[1:]):
+    if a == 'V' and b == 'V':
+        continue
     assert a != b, f'два однакові блоки поспіль: {a} {b}'
 
 print('блоки:', ' '.join(blocks))

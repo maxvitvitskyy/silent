@@ -1583,6 +1583,34 @@
     background: linear-gradient(0deg, rgba(0,0,0,0.34) 0%, transparent 38%);
   }
 
+  /* Плитка з роликом. Кнопка лаймова, як і всі дії на сайті, і має власне
+     кільце-світіння — кадри в стрічці різні за яскравістю, і на світлому
+     сама заливка загубилася б.
+
+     Обробник кліку висить на стрічці, а не на кнопці: стрічка клонується в
+     п'ять копій через cloneNode, а він слухачів не переносить. */
+  .gal-play {
+    position: absolute; z-index: 2;
+    left: 50%; top: 50%; transform: translate(-50%, -50%);
+    width: 62px; height: 62px; border-radius: 50%;
+    display: grid; place-items: center;
+    border: 0; padding: 0; cursor: pointer;
+    background: var(--lime); color: var(--night);
+    box-shadow: 0 0 0 7px rgba(198,255,0,0.16), 0 10px 30px -10px rgba(0,0,0,0.85);
+    transition: transform 0.28s cubic-bezier(.22,1,.36,1), box-shadow 0.28s ease;
+  }
+  /* Трикутник важчий праворуч, тож оптичний центр не збігається з коробкою. */
+  .gal-play svg { margin-left: 3px; }
+  .gal-play:hover,
+  .gal-play:focus-visible {
+    transform: translate(-50%, -50%) scale(1.08);
+    box-shadow: 0 0 0 11px rgba(198,255,0,0.22), 0 12px 34px -10px rgba(0,0,0,0.9);
+  }
+  @media (max-width: 640px){
+    .gal-play { width: 52px; height: 52px; }
+    .gal-play svg { width: 22px; height: 22px; }
+  }
+
   /* arrows sit outside the tiles, at the nav's width — same as the experiences strip */
   .gal-nav {
     position: absolute; top: 50%; transform: translateY(-50%);
@@ -2981,6 +3009,77 @@
      екран лишається як був, це додатковий шар над ним. Задній фон
      розмивається (той самий --glass-blur, що й решта сайту), картка — той
      самий .glass-panel матеріал, що й панелі вище по сторінці. */
+  /* ---------- ЛАЙТБОКС ДЛЯ РОЛИКІВ ----------
+     Ролики вертикальні 9:16, тож «на всю ширину» на десктопі неможливо: панель
+     упирається у висоту вікна. Тому ширину рахуємо ВІД висоти — 86vh, а
+     max-width страхує вузькі екрани, де обмеженням стає вже ширина. На телефоні
+     9:16 і так майже збігається з екраном, тож там панель виходить на всю
+     ширину сама.
+
+     Плеєр навмисно голий: власні play/пауза й закриття замість браузерних
+     контролів, бо звуку в роликах немає й гучність із таймлайном тут зайві. */
+  .vbox {
+    display: none;
+    position: fixed; inset: 0; z-index: 600;
+    align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .vbox.show { display: flex; }
+  .vbox-backdrop {
+    position: absolute; inset: 0;
+    background: rgba(5,7,13,0.72);
+    backdrop-filter: blur(16px) saturate(1.1);
+    -webkit-backdrop-filter: blur(16px) saturate(1.1);
+    opacity: 0; transition: opacity 0.35s ease;
+  }
+  .vbox.show .vbox-backdrop { opacity: 1; }
+  .vbox-panel {
+    position: relative; z-index: 1;
+    height: min(86vh, calc((100vw - 40px) * 16 / 9));
+    aspect-ratio: 9 / 16;
+    max-width: calc(100vw - 40px);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 30px 80px -30px rgba(0,0,0,0.9);
+    opacity: 0; transform: translateY(12px) scale(0.985);
+    transition: opacity 0.35s ease, transform 0.45s cubic-bezier(.22,1,.36,1);
+  }
+  .vbox.show .vbox-panel { opacity: 1; transform: none; }
+  .vbox video {
+    display: block; width: 100%; height: 100%;
+    object-fit: cover; background: #000;
+  }
+  .vbox-btn {
+    position: absolute; z-index: 2;
+    display: grid; place-items: center;
+    border: 1px solid var(--glass-edge);
+    background: rgba(5,7,13,0.5);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    color: #fff; cursor: pointer; padding: 0;
+    border-radius: 50%;
+    transition: background 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+  }
+  .vbox-btn:hover, .vbox-btn:focus-visible {
+    background: rgba(5,7,13,0.72); border-color: rgba(198,255,0,0.55); transform: scale(1.06);
+  }
+  .vbox-close { top: 12px; right: 12px; width: 42px; height: 42px; font-size: 17px; }
+  .vbox-toggle {
+    left: 50%; bottom: 16px; transform: translateX(-50%);
+    width: 56px; height: 56px;
+  }
+  .vbox-toggle:hover, .vbox-toggle:focus-visible { transform: translateX(-50%) scale(1.06); }
+  /* Іконка перемикається класом на самому вікні, а не всередині кнопки: так
+     стан задає одна властивість, і його видно з розмітки. */
+  .vbox-toggle .ic-pause { display: none; }
+  .vbox.playing .vbox-toggle .ic-play { display: none; }
+  .vbox.playing .vbox-toggle .ic-pause { display: block; }
+  @media (max-width: 640px){
+    .vbox { padding: 12px; }
+    .vbox-panel { height: min(82vh, calc((100vw - 24px) * 16 / 9)); max-width: calc(100vw - 24px); border-radius: var(--r-md); }
+  }
+
   .lead-modal {
     display: none;
     position: fixed; inset: 0; z-index: 500;
@@ -3349,6 +3448,11 @@
           <img src="images/gal/20_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAAAQAwCdASoPABgAPtFUo0uoJKMhsAgBABoJROAB/ACWNwAA/vCiQXyXUTixiwv3uxpXy6C3+NNELtMRSJ3TcYr6t7nSx2LPlLmO90lUPi1z179a72nJ+j6VPz9WC0GbR8b1nyCTxkwv0Nah9fRZ0bVwAAA=)" width="600" height="968" loading="lazy" decoding="async" alt="Навушники для гостей на вході">
           <div class="gallery-scrim"></div>
         </figure>
+        <figure class="gallery-item g-tall is-video">
+          <img src="images/gal/101_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAADwAwCdASoPABgAPtFUo0uoJKMhsAgBABoJaAC06CHf+JovTmfyp/WAAP73e/nwDiX4FxoICcP2gkLVRenXiSWt77Da4NNomDZq1/wvPuclpBDMT9y/vQ/8EHQXioHCq8QQL/AEvvW/N5c6QoP4AAAA)" width="600" height="968" loading="lazy" decoding="async" alt="Гості танцюють у червоному світлі">
+          <button class="gal-play" type="button" data-video="video/web/silent-1.mp4" aria-label="Дивитися відео: Гості танцюють у червоному світлі"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></button>
+          <div class="gallery-scrim"></div>
+        </figure>
         <figure class="gallery-item g-wide">
           <img src="images/gal/29_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRq4AAABXRUJQVlA4IKIAAAAQBACdASoYAAkAPtFUo0uoJKMhsAgBABoJbACdAYw6lAgh/2D2FA/qYAD+wUOrP0huG2srJmb8CBRUXB/U3l2jjirvx4ljMSeT7YzoUXjCQ3ZtSAwd2InTDBPH1209brzQuYp8aVvG91/klK/o+8RB1+qj6WedKrx54TRxmeHAwFCu+uV8mZPj5OhSRKBVpJ9QJsSU1Na9cpdxExhf8G7MgAA=)" width="1228" height="470" loading="lazy" decoding="async" alt="Дискокуля над залою">
           <div class="gallery-scrim"></div>
@@ -3381,6 +3485,11 @@
           <img src="images/gal/35_sq.webp" style="--lqip:url(data:image/webp;base64,UklGRtwAAABXRUJQVlA4INAAAACQBQCdASoYABMAPtFepE6oJSMiKAqpABoJbACdMtPqmCNnk1M9pHJjuAV1UEpyeQbUxFzPAAD+mlfDGE/8frqWEUXJfZpiikS3mZZYl50UKAPlPitdyRyk0Cfx1CNauoIueovZVpnKV9LVm3IXKjnc79BmgldyuL8XbTNL3ZvB0IpCAp+X4PcKwNM6oFloHW2l41sdkxHy6FMjbP1rROD3lMcwakwupdbyIwib9m5cuPj1wukSVilgLkmk9bhwwwHL2jFm4eyyVEElLNfYQAAA)" width="600" height="470" loading="lazy" decoding="async" alt="Подруги перепочивають на дивані">
           <div class="gallery-scrim"></div>
         </figure>
+        <figure class="gallery-item g-tall is-video">
+          <img src="images/gal/102_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAACQAwCdASoPABgAPtFUpEuoJKOhsAgBABoJZ2R5VR0TmDXx/CgAAP7x8pnRw1apBwMh8G/j/axKINJYbKPHFw473bneb7hQ6q29aeq8Z72NK/oLvkKYAA==)" width="600" height="968" loading="lazy" decoding="async" alt="Танцпол просто неба">
+          <button class="gal-play" type="button" data-video="video/web/silent-2.mp4" aria-label="Дивитися відео: Танцпол просто неба"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></button>
+          <div class="gallery-scrim"></div>
+        </figure>
         <figure class="gallery-item g-wide">
           <img src="images/gal/30_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAABQBACdASoYAAkAPtFUo0uoJKMhsAgBABoJbACdMoGvjgQEVG5Zu9Cw6zl4AP7ctjAEJQhcaYOdgzvrBp3BX/W596eSN3zCRVatIkUXHOKs2+UFWkiwW+AtK+VK6gZQIPsu6LfJ5mccn40IbYXdoDMva5Si85pBN0ssS/9BrqlcS0iL9QR9EU51i/dzd4aNXqGk6ylSc6vBMUwYDOEAAA==)" width="1228" height="470" loading="lazy" decoding="async" alt="Щільний танцпол у фіолетовому світлі">
           <div class="gallery-scrim"></div>
@@ -3403,6 +3512,11 @@
         </figure>
         <figure class="gallery-item g-tall">
           <img src="images/gal/08_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAAAwBACdASoPABgAPtFUo0uoJKMhsAgBABoJZQCo9CHf5g7QGKYnfPSMcgAA/vaGu+U++5Tl9dnYmbUfDwWwnsObCqLwBIPOiOvE0kxewIPTgXPUe4RnkMbI0CsCWeRV2LgJYzFu+4ABfYwwgAA=)" width="600" height="968" loading="lazy" decoding="async" alt="Кінопоказ просто неба">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall is-video">
+          <img src="images/gal/103_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAABwAwCdASoPABgALplotFoiqCgoCACYSzgABc60xd1W+JERWAAA/vtl4edzzhsuCDa1kkU4rKwHtNs5f39k0FMJ0lz9q4ohtZW9Q182BAA=)" width="600" height="968" loading="lazy" decoding="async" alt="Повний двір у навушниках">
+          <button class="gal-play" type="button" data-video="video/web/silent-3.mp4" aria-label="Дивитися відео: Повний двір у навушниках"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></button>
           <div class="gallery-scrim"></div>
         </figure>
         <figure class="gallery-item g-wide">
@@ -3429,6 +3543,11 @@
           <img src="images/gal/31_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAABQBACdASoPABgAPtFUo0uoJKMhsAgBABoJbAC7ACHeKpEjol/oRS/r/L1AAP72ikxYmEmiyV5U8gnLR30prP/EMbGbsDJwdZH8Cyn+nwBgLYv93mPIT4iQ+RJXNUtVGA30PPzS/q1SQ3tL8Ep0bGZzd7LOAMThsjIOntx7C59PDY0wqE0EYjYbFnG4Oypo3cTIyMZ7gAA=)" width="600" height="968" loading="lazy" decoding="async" alt="Гостя озирається на танцполі">
           <div class="gallery-scrim"></div>
         </figure>
+        <figure class="gallery-item g-tall is-video">
+          <img src="images/gal/104_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAAAwAwCdASoPABgAPtFUo0uoJKMhsAgBABoJZQAAW+/vEhAAAP73fQKTn/JMk+Y1TvUj0bJMSM9Th8AA)" width="600" height="968" loading="lazy" decoding="async" alt="Синє світло над танцполом">
+          <button class="gal-play" type="button" data-video="video/web/silent-4.mp4" aria-label="Дивитися відео: Синє світло над танцполом"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></button>
+          <div class="gallery-scrim"></div>
+        </figure>
         <figure class="gallery-item g-sq">
           <img src="images/gal/32_sq.webp" style="--lqip:url(data:image/webp;base64,UklGRpwAAABXRUJQVlA4IJAAAACwBACdASoYABMAPtFYpE0oJKMiMBgIAQAaCWYAxwkAADHZ2KDhRszli0cXW0IAAP6jaPizEagzhoa+TetNiRuAAW/27Kf8O1voP4zKt0qK2E/vxLP2lVTFJMVUimysijKPz1cjL2jiACuIbVxJhGRmhMaMfPUZ4XOKb8ya1yRzt8S5h6xm0D/D+w8CMEgAAAA=)" width="600" height="470" loading="lazy" decoding="async" alt="Гості співають разом у синьому світлі">
           <div class="gallery-scrim"></div>
@@ -3453,6 +3572,11 @@
           <img src="images/gal/07_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRrYAAABXRUJQVlA4IKoAAADwBACdASoPABgAPtFUo0uoJKMhsAgBABoJYgCdMoGv/i2HW/oRl0JEFMb8fDMFCgAA/tUWIq5oaYxiUXYcFek8x6/jlWO1kv9xl4uxn5oFzXFcF7oZ8XLM+VDoaxj5/+OG+G9ZUDH9TiiwrsXA0x4sYrrPbG0VUXqSm/vYMv5NQhc8jSr+YS8zwRczp9SEJ9rg27Yt9AEI05UIKbaP8ykGcvezVlfjqAAAAA==)" width="600" height="968" loading="lazy" decoding="async" alt="Йога-сет на світанку біля моря">
           <div class="gallery-scrim"></div>
         </figure>
+        <figure class="gallery-item g-tall is-video">
+          <img src="images/gal/105_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAACwAwCdASoPABgAPtFUo0uoJKMhsAgBABoJZQAAW43Tc3cUqUziAAD+9o2+Veav86N/YTx/L2ZnpwW01mhsbSTORFMPqmr+vJc0j24+SYWSQIJT/gSAAA==)" width="600" height="968" loading="lazy" decoding="async" alt="Лазери й екран у залі">
+          <button class="gal-play" type="button" data-video="video/web/silent-5.mp4" aria-label="Дивитися відео: Лазери й екран у залі"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></button>
+          <div class="gallery-scrim"></div>
+        </figure>
         <figure class="gallery-item g-sq">
           <img src="images/gal/02_sq.webp" style="--lqip:url(data:image/webp;base64,UklGRrwAAABXRUJQVlA4ILAAAAAwBQCdASoYABMAPtFep0+oJKMiKAgBABoJZgCxDExBgszd38AT+QFHlySiQO6cylbKAAD+9XUaDuD+mof3JO42ZfoHaHS6qu55CQPrIBLSmMZ4ct76y2m9v0dlydV3ukrwined9rykhrFwZoAtTQq/9qS92aTHIMGuPcwOYUtGQDPoiLRdwHsJvMQkjzKyHZdYUQEdpYC7ZrwJ0xKFAbBV20BUQ4Ysr3WN5i9Ji4YAAA==)" width="600" height="470" loading="lazy" decoding="async" alt="Руки вгору на танцполі">
           <div class="gallery-scrim"></div>
@@ -3475,6 +3599,11 @@
         </figure>
         <figure class="gallery-item g-tall">
           <img src="images/gal/09_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAABwAwCdASoPABgAPtFUo0uoJKMhsAgBABoJYwCdACHZTXDgf4AA/s3/GNhujCrIR9jGbiDhEyyfsrYzMRMjI2GnqJpTq3g1qU6blL/Yb1U0p+8P/aicXm1WhXjO6S6Mi0AKXoFj3F+6S9KIQauAAA==)" width="600" height="968" loading="lazy" decoding="async" alt="Гості в залі музею">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall is-video">
+          <img src="images/gal/106_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAADwAwCdASoPABgAPtFUo0uoJKMhsAgBABoJYwC7MoADTraofW7F7cQAAP71eVSK7r7SbC8LhE1KVp8ek027wnEU2DdA3l9r2v8rpcxs2TaKleGK6kO90bUBLoUXogUoXYyyTGYCGI+ixj+dApAAAA==)" width="600" height="968" loading="lazy" decoding="async" alt="Гості співають разом">
+          <button class="gal-play" type="button" data-video="video/web/silent-6.mp4" aria-label="Дивитися відео: Гості співають разом"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></button>
           <div class="gallery-scrim"></div>
         </figure>
         <figure class="gallery-item g-sq">
@@ -4144,6 +4273,24 @@
      формі — з'являється разом з ним, поверх усієї сторінки. Закрити можна
      хрестиком, кліком по затемненому фону або Escape; сама заявка й
      formSuccess при цьому ніяк не змінюються. -->
+<!-- Лайтбокс для роликів галереї. preload="none" — критично: у стрічці шість
+     відео по 5-7 МБ, і без цього браузер потягнув би їх усі ще до кліку. До
+     відкриття вантажиться лише постер-плитка (23 КБ).
+     Без muted: у роликах є звук, і відтворення стартує з кліку по кнопці на
+     плитці — цього жесту браузеру достатньо, щоб дозволити звук. Якщо політика
+     все ж заблокує старт, вікно просто лишиться на першому кадрі з кнопкою. -->
+<div class="vbox" id="vbox" aria-hidden="true">
+  <div class="vbox-backdrop" id="vboxBackdrop"></div>
+  <div class="vbox-panel" role="dialog" aria-modal="true" aria-label="Відео з події">
+    <video id="vboxVideo" playsinline preload="none"></video>
+    <button class="vbox-btn vbox-close" id="vboxClose" type="button" aria-label="Закрити">✕</button>
+    <button class="vbox-btn vbox-toggle" id="vboxToggle" type="button" aria-label="Пауза або відтворення">
+      <svg class="ic-play" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>
+      <svg class="ic-pause" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M8 5h3v14H8zM13 5h3v14h-3z" fill="currentColor"/></svg>
+    </button>
+  </div>
+</div>
+
 <div class="lead-modal" id="leadModal" aria-hidden="true">
   <div class="lead-modal-backdrop" id="leadModalBackdrop"></div>
   <div class="lead-modal-card glass-panel" role="dialog" aria-modal="true" aria-labelledby="leadModalTitle">
@@ -5680,6 +5827,59 @@
     sessionStorage.setItem('lead_tech', JSON.stringify(tech));
     sessionStorage.setItem('lead_id', generateLeadId());
   })();
+
+  // ---- Лайтбокс для роликів галереї ----
+  (function(){
+    const box = document.getElementById('vbox');
+    const grid = document.getElementById('galGrid');
+    if (!box || !grid) return;
+    const vid = box.querySelector('video');
+    const toggle = document.getElementById('vboxToggle');
+    let lastFocus = null;
+
+    function open(src){
+      lastFocus = document.activeElement;
+      vid.src = src;
+      box.classList.add('show');
+      box.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      // play() повертає проміс і відхиляється, якщо браузер заблокував старт.
+      // Тоді вікно просто лишається з першим кадром і кнопкою «грати».
+      vid.play().catch(() => {});
+    }
+    function close(){
+      box.classList.remove('show', 'playing');
+      box.setAttribute('aria-hidden', 'true');
+      vid.pause();
+      // Знімаємо джерело й перезавантажуємо: інакше закрите відео лишається в
+      // памʼяті й далі тягне буфер. Шість роликів по 5 МБ це помітно.
+      vid.removeAttribute('src');
+      vid.load();
+      document.body.style.overflow = '';
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    // Делегування: стрічка клонується у пʼять копій, тож слухачі на самих
+    // кнопках не пережили б cloneNode.
+    grid.addEventListener('click', (e) => {
+      const btn = e.target.closest('.gal-play');
+      if (!btn) return;
+      e.preventDefault();
+      open(btn.dataset.video);
+    });
+
+    toggle.addEventListener('click', () => { vid.paused ? vid.play() : vid.pause(); });
+    vid.addEventListener('play',  () => box.classList.add('playing'));
+    vid.addEventListener('pause', () => box.classList.remove('playing'));
+    vid.addEventListener('ended', () => box.classList.remove('playing'));
+
+    document.getElementById('vboxClose').addEventListener('click', close);
+    document.getElementById('vboxBackdrop').addEventListener('click', close);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && box.classList.contains('show')) close();
+    });
+  })();
+
 
   // ---- Спливне вікно подяки поверх formSuccess ----
   // Незалежний шар: formSuccess у формі лишається як був, це вікно лише
