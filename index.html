@@ -3043,49 +3043,64 @@
      екран лишається як був, це додатковий шар над ним. Задній фон
      розмивається (той самий --glass-blur, що й решта сайту), картка — той
      самий .glass-panel матеріал, що й панелі вище по сторінці. */
-  /* ---------- ЛАЙТБОКС ДЛЯ РОЛИКІВ ----------
-     Ролики вертикальні 9:16, тож «на всю ширину» на десктопі неможливо: панель
-     упирається у висоту вікна. Тому ширину рахуємо ВІД висоти — 86vh, а
-     max-width страхує вузькі екрани, де обмеженням стає вже ширина. На телефоні
-     9:16 і так майже збігається з екраном, тож там панель виходить на всю
-     ширину сама.
+  /* ---------- ЛАЙТБОКС-КАРУСЕЛЬ ДЛЯ РОЛИКІВ ----------
+     Ролики вертикальні 9:16, тож «на всю ширину» на десктопі неможливо: слайд
+     упирається у висоту вікна. Тому всю геометрію рахуємо ВІД висоти — одна
+     змінна --vh задає висоту слайда, ширина випливає з пропорції, а --step
+     (ширина + проміжок) розсуває сусідів. Через це верстка не потребує JS для
+     розмірів: він лише перемикає активний індекс.
 
-     Плеєр навмисно голий: власні play/пауза й закриття замість браузерних
-     контролів, бо звуку в роликах немає й гучність із таймлайном тут зайві. */
+     Слайди позиціоновані абсолютно й зсунуті на --off кроків від центру. Такий
+     спосіб замість стрічки з overflow: не треба рахувати прокрутку, а перехід
+     живе на transform, тобто на композиторі. */
   .vbox {
+    --vh: min(78vh, calc((100vw - 40px) * 16 / 9));
+    --step: calc(var(--vh) * 9 / 16 + 26px);
     display: none;
     position: fixed; inset: 0; z-index: 600;
-    align-items: center; justify-content: center;
-    padding: 20px;
   }
-  .vbox.show { display: flex; }
+  .vbox.show { display: block; }
   .vbox-backdrop {
     position: absolute; inset: 0;
-    background: rgba(5,7,13,0.72);
-    backdrop-filter: blur(16px) saturate(1.1);
-    -webkit-backdrop-filter: blur(16px) saturate(1.1);
+    background: rgba(5,7,13,0.78);
+    backdrop-filter: blur(18px) saturate(1.1);
+    -webkit-backdrop-filter: blur(18px) saturate(1.1);
     opacity: 0; transition: opacity 0.35s ease;
   }
   .vbox.show .vbox-backdrop { opacity: 1; }
-  .vbox-panel {
-    position: relative; z-index: 1;
-    height: min(86vh, calc((100vw - 40px) * 16 / 9));
-    aspect-ratio: 9 / 16;
-    max-width: calc(100vw - 40px);
+  .vbox-stage { position: absolute; inset: 0; }
+
+  .vbox-slide {
+    position: absolute; left: 50%; top: 50%;
+    height: var(--vh); aspect-ratio: 9 / 16;
     border-radius: var(--r-lg);
     overflow: hidden;
-    background: #000;
+    background: #000 center/cover no-repeat;
     box-shadow: 0 30px 80px -30px rgba(0,0,0,0.9);
-    opacity: 0; transform: translateY(12px) scale(0.985);
-    transition: opacity 0.35s ease, transform 0.45s cubic-bezier(.22,1,.36,1);
+    transform: translate(-50%, -50%) translateX(calc(var(--off) * var(--step))) scale(0.8);
+    opacity: 0;
+    transition: transform 0.5s cubic-bezier(.22,1,.36,1), opacity 0.4s ease, filter 0.4s ease;
+    will-change: transform;
   }
-  .vbox.show .vbox-panel { opacity: 1; transform: none; }
-  .vbox video {
+  /* Показуємо лише активний і по одному сусіду з боків: далі вони все одно за
+     краєм екрана, а кожен зайвий шар — це ще одна велика картинка в памʼяті. */
+  .vbox-slide[data-near] { opacity: 1; }
+  .vbox-slide[data-near="1"] {
+    filter: brightness(0.42) blur(2px);
+    cursor: pointer;
+  }
+  .vbox-slide[data-near="1"]:hover { filter: brightness(0.6) blur(1px); }
+  .vbox-slide.is-active {
+    transform: translate(-50%, -50%) scale(1);
+    filter: none;
+  }
+  .vbox-slide video {
     display: block; width: 100%; height: 100%;
-    object-fit: cover; background: #000;
+    object-fit: cover; background: transparent;
   }
+
   .vbox-btn {
-    position: absolute; z-index: 2;
+    position: absolute; z-index: 3;
     display: grid; place-items: center;
     border: 1px solid var(--glass-edge);
     background: rgba(5,7,13,0.5);
@@ -3093,25 +3108,82 @@
     -webkit-backdrop-filter: var(--glass-blur);
     color: #fff; cursor: pointer; padding: 0;
     border-radius: 50%;
-    transition: background 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+    transition: background 0.25s ease, transform 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
   }
   .vbox-btn:hover, .vbox-btn:focus-visible {
-    background: rgba(5,7,13,0.72); border-color: rgba(198,255,0,0.55); transform: scale(1.06);
+    background: rgba(5,7,13,0.72); border-color: rgba(198,255,0,0.55);
   }
-  .vbox-close { top: 12px; right: 12px; width: 42px; height: 42px; font-size: 17px; }
+  .vbox-close { top: 18px; right: 18px; width: 44px; height: 44px; font-size: 17px; }
+  .vbox-close:hover { transform: scale(1.06); }
+
+  /* Кнопка паузи стоїть над нижнім краєм активного слайда, а не вікна: слайд
+     завжди по центру, тож його низ — це рівно 50% + половина висоти. */
   .vbox-toggle {
-    left: 50%; bottom: 16px; transform: translateX(-50%);
+    left: 50%; top: calc(50% + var(--vh) / 2 - 44px);
+    transform: translate(-50%, -50%);
     width: 56px; height: 56px;
   }
-  .vbox-toggle:hover, .vbox-toggle:focus-visible { transform: translateX(-50%) scale(1.06); }
-  /* Іконка перемикається класом на самому вікні, а не всередині кнопки: так
-     стан задає одна властивість, і його видно з розмітки. */
+  .vbox-toggle:hover, .vbox-toggle:focus-visible { transform: translate(-50%, -50%) scale(1.06); }
   .vbox-toggle .ic-pause { display: none; }
   .vbox.playing .vbox-toggle .ic-play { display: none; }
   .vbox.playing .vbox-toggle .ic-pause { display: block; }
-  @media (max-width: 640px){
-    .vbox { padding: 12px; }
-    .vbox-panel { height: min(82vh, calc((100vw - 24px) * 16 / 9)); max-width: calc(100vw - 24px); border-radius: var(--r-md); }
+
+  .vbox-arrow {
+    top: 50%; transform: translateY(-50%);
+    width: 52px; height: 52px; font-size: 26px; line-height: 1;
+    font-family: 'Manrope', sans-serif; font-weight: 300;
+  }
+  .vbox-arrow:hover, .vbox-arrow:focus-visible { transform: translateY(-50%) scale(1.08); }
+  .vbox-prev { left: 18px; }
+  .vbox-next { right: 18px; }
+  .vbox-arrow[disabled] { opacity: 0.25; pointer-events: none; }
+
+  /* Смужки-сегменти, як у сторіз: одразу видно, скільки роликів і котрий іде. */
+  .vbox-dots {
+    position: absolute; z-index: 3;
+    left: 50%; transform: translateX(-50%);
+    top: calc(50% - var(--vh) / 2 - 22px);
+    display: flex; gap: 6px;
+  }
+  .vbox-dot {
+    width: 26px; height: 3px; border-radius: 2px;
+    background: rgba(255,255,255,0.22);
+    border: 0; padding: 0; cursor: pointer;
+    transition: background 0.3s ease, width 0.3s ease;
+  }
+  .vbox-dot.is-on { background: var(--lime); width: 34px; }
+
+  /* ---- Телефон: сторіз ----
+     Слайд на всю ширину, сусіди відсунуті на цілий екран, тож у кадрі завжди
+     один ролик. Перемикання — тап по половині екрана або свайп; стрілки з
+     курсором тут зайві. */
+  @media (max-width: 760px){
+    .vbox {
+      --vh: min(88vh, calc((100vw - 20px) * 16 / 9));
+      --step: 100vw;
+    }
+    .vbox-slide { border-radius: var(--r-md); }
+    .vbox-slide[data-near="1"] { filter: none; }
+    .vbox-arrow { display: none; }
+    .vbox-close { top: 12px; right: 12px; width: 40px; height: 40px; }
+    .vbox-dots { top: calc(50% - var(--vh) / 2 - 18px); }
+    .vbox-dot { width: 20px; }
+    .vbox-dot.is-on { width: 28px; }
+    /* Зони тапу поверх слайда: ліва третина — назад, решта — вперед. Під
+       кнопкою паузи їх немає, бо вона лежить вище за z-index. */
+    .vbox-tap {
+      position: absolute; z-index: 2; top: 0; bottom: 0;
+      border: 0; background: transparent; cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .vbox-tap-prev { left: 0; width: 33%; }
+    .vbox-tap-next { right: 0; width: 67%; }
+  }
+  @media (min-width: 761px){
+    .vbox-tap { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .vbox-slide { transition: opacity 0.2s ease; }
   }
 
   .lead-modal {
@@ -3484,7 +3556,7 @@
         </figure>
         <figure class="gallery-item g-tall is-video">
           <img src="images/gal/101_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAADwAwCdASoPABgAPtFUo0uoJKMhsAgBABoJaAC06CHf+JovTmfyp/WAAP73e/nwDiX4FxoICcP2gkLVRenXiSWt77Da4NNomDZq1/wvPuclpBDMT9y/vQ/8EHQXioHCq8QQL/AEvvW/N5c6QoP4AAAA)" width="600" height="968" loading="lazy" decoding="async" alt="Гості танцюють у червоному світлі">
-          <button class="gal-play" type="button" data-video="video/web/silent-1.mp4" aria-label="Дивитися відео: Гості танцюють у червоному світлі"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg></button>
+          <button class="gal-play" type="button" data-video="video/web/silent-1.mp4" data-poster="images/gal/101_tall.webp" aria-label="Дивитися відео: Гості танцюють у червоному світлі"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg></button>
           <div class="gallery-scrim"></div>
         </figure>
         <figure class="gallery-item g-wide">
@@ -3521,7 +3593,7 @@
         </figure>
         <figure class="gallery-item g-tall is-video">
           <img src="images/gal/102_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAACQAwCdASoPABgAPtFUpEuoJKOhsAgBABoJZ2R5VR0TmDXx/CgAAP7x8pnRw1apBwMh8G/j/axKINJYbKPHFw473bneb7hQ6q29aeq8Z72NK/oLvkKYAA==)" width="600" height="968" loading="lazy" decoding="async" alt="Танцпол просто неба">
-          <button class="gal-play" type="button" data-video="video/web/silent-2.mp4" aria-label="Дивитися відео: Танцпол просто неба"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg></button>
+          <button class="gal-play" type="button" data-video="video/web/silent-2.mp4" data-poster="images/gal/102_tall.webp" aria-label="Дивитися відео: Танцпол просто неба"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg></button>
           <div class="gallery-scrim"></div>
         </figure>
         <figure class="gallery-item g-wide">
@@ -3550,7 +3622,7 @@
         </figure>
         <figure class="gallery-item g-tall is-video">
           <img src="images/gal/103_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAABwAwCdASoPABgALplotFoiqCgoCACYSzgABc60xd1W+JERWAAA/vtl4edzzhsuCDa1kkU4rKwHtNs5f39k0FMJ0lz9q4ohtZW9Q182BAA=)" width="600" height="968" loading="lazy" decoding="async" alt="Повний двір у навушниках">
-          <button class="gal-play" type="button" data-video="video/web/silent-3.mp4" aria-label="Дивитися відео: Повний двір у навушниках"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg></button>
+          <button class="gal-play" type="button" data-video="video/web/silent-3.mp4" data-poster="images/gal/103_tall.webp" aria-label="Дивитися відео: Повний двір у навушниках"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg></button>
           <div class="gallery-scrim"></div>
         </figure>
         <figure class="gallery-item g-wide">
@@ -3579,7 +3651,7 @@
         </figure>
         <figure class="gallery-item g-tall is-video">
           <img src="images/gal/104_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAAAwAwCdASoPABgAPtFUo0uoJKMhsAgBABoJZQAAW+/vEhAAAP73fQKTn/JMk+Y1TvUj0bJMSM9Th8AA)" width="600" height="968" loading="lazy" decoding="async" alt="Синє світло над танцполом">
-          <button class="gal-play" type="button" data-video="video/web/silent-4.mp4" aria-label="Дивитися відео: Синє світло над танцполом"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg></button>
+          <button class="gal-play" type="button" data-video="video/web/silent-4.mp4" data-poster="images/gal/104_tall.webp" aria-label="Дивитися відео: Синє світло над танцполом"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg></button>
           <div class="gallery-scrim"></div>
         </figure>
         <figure class="gallery-item g-sq">
@@ -3608,7 +3680,7 @@
         </figure>
         <figure class="gallery-item g-tall is-video">
           <img src="images/gal/105_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAACwAwCdASoPABgAPtFUo0uoJKMhsAgBABoJZQAAW43Tc3cUqUziAAD+9o2+Veav86N/YTx/L2ZnpwW01mhsbSTORFMPqmr+vJc0j24+SYWSQIJT/gSAAA==)" width="600" height="968" loading="lazy" decoding="async" alt="Лазери й екран у залі">
-          <button class="gal-play" type="button" data-video="video/web/silent-5.mp4" aria-label="Дивитися відео: Лазери й екран у залі"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg></button>
+          <button class="gal-play" type="button" data-video="video/web/silent-5.mp4" data-poster="images/gal/105_tall.webp" aria-label="Дивитися відео: Лазери й екран у залі"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg></button>
           <div class="gallery-scrim"></div>
         </figure>
         <figure class="gallery-item g-sq">
@@ -3637,7 +3709,7 @@
         </figure>
         <figure class="gallery-item g-tall is-video">
           <img src="images/gal/106_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAADwAwCdASoPABgAPtFUo0uoJKMhsAgBABoJYwC7MoADTraofW7F7cQAAP71eVSK7r7SbC8LhE1KVp8ek027wnEU2DdA3l9r2v8rpcxs2TaKleGK6kO90bUBLoUXogUoXYyyTGYCGI+ixj+dApAAAA==)" width="600" height="968" loading="lazy" decoding="async" alt="Гості співають разом">
-          <button class="gal-play" type="button" data-video="video/web/silent-6.mp4" aria-label="Дивитися відео: Гості співають разом"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg></button>
+          <button class="gal-play" type="button" data-video="video/web/silent-6.mp4" data-poster="images/gal/106_tall.webp" aria-label="Дивитися відео: Гості співають разом"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg></button>
           <div class="gallery-scrim"></div>
         </figure>
         <figure class="gallery-item g-sq">
@@ -4307,22 +4379,24 @@
      формі — з'являється разом з ним, поверх усієї сторінки. Закрити можна
      хрестиком, кліком по затемненому фону або Escape; сама заявка й
      formSuccess при цьому ніяк не змінюються. -->
-<!-- Лайтбокс для роликів галереї. preload="none" — критично: у стрічці шість
-     відео по 5-7 МБ, і без цього браузер потягнув би їх усі ще до кліку. До
-     відкриття вантажиться лише постер-плитка (23 КБ).
-     Без muted: у роликах є звук, і відтворення стартує з кліку по кнопці на
-     плитці — цього жесту браузеру достатньо, щоб дозволити звук. Якщо політика
-     все ж заблокує старт, вікно просто лишиться на першому кадрі з кнопкою. -->
+<!-- Лайтбокс-карусель для роликів галереї.
+     Слайди будує JS зі списку кнопок у стрічці. Відео завантажується завжди
+     ТІЛЬКИ одне — активне; сусіди стоять постерами, тобто картинками по 23 КБ,
+     які й так уже в кеші після плиток. Інакше відкриття вікна тягло б усі
+     шість роликів, а це 36 МБ.
+     preload="none" на кожному <video> страхує ще раз: навіть коли src уже
+     стоїть, браузер не почне качати, доки не буде play(). -->
 <div class="vbox" id="vbox" aria-hidden="true">
   <div class="vbox-backdrop" id="vboxBackdrop"></div>
-  <div class="vbox-panel" role="dialog" aria-modal="true" aria-label="Відео з події">
-    <video id="vboxVideo" playsinline preload="none"></video>
-    <button class="vbox-btn vbox-close" id="vboxClose" type="button" aria-label="Закрити">✕</button>
-    <button class="vbox-btn vbox-toggle" id="vboxToggle" type="button" aria-label="Пауза або відтворення">
-      <svg class="ic-play" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>
-      <svg class="ic-pause" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M8 5h3v14H8zM13 5h3v14h-3z" fill="currentColor"/></svg>
-    </button>
-  </div>
+  <div class="vbox-stage" id="vboxStage" role="dialog" aria-modal="true" aria-label="Відео з події"></div>
+  <button class="vbox-btn vbox-toggle" id="vboxToggle" type="button" aria-label="Пауза або відтворення">
+    <svg class="ic-play" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg>
+    <svg class="ic-pause" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M8 5h3v14H8zM13 5h3v14h-3z" fill="currentColor"/></svg>
+  </button>
+  <div class="vbox-dots" id="vboxDots"></div>
+  <button class="vbox-btn vbox-close" id="vboxClose" type="button" aria-label="Закрити">✕</button>
+  <button class="vbox-btn vbox-arrow vbox-prev" id="vboxPrev" type="button" aria-label="Попереднє відео">‹</button>
+  <button class="vbox-btn vbox-arrow vbox-next" id="vboxNext" type="button" aria-label="Наступне відео">›</button>
 </div>
 
 <div class="lead-modal" id="leadModal" aria-hidden="true">
@@ -5862,39 +5936,123 @@
     sessionStorage.setItem('lead_id', generateLeadId());
   })();
 
-  // ---- Лайтбокс для роликів галереї ----
+  // ---- Лайтбокс-карусель для роликів галереї ----
   (function(){
-    const box = document.getElementById('vbox');
+    const box  = document.getElementById('vbox');
     const grid = document.getElementById('galGrid');
     if (!box || !grid) return;
-    const vid = box.querySelector('video');
+    const stage  = document.getElementById('vboxStage');
+    const dots   = document.getElementById('vboxDots');
     const toggle = document.getElementById('vboxToggle');
-    let lastFocus = null;
+    const prevB  = document.getElementById('vboxPrev');
+    const nextB  = document.getElementById('vboxNext');
+
+    let list = [], slides = [], active = -1, lastFocus = null, built = false;
+
+    // Список збирається зі самої стрічки, а не дублюється окремим масивом:
+    // джерело правди лишається одне. Стрічка клонується в пʼять копій, тож
+    // дублікати відсіюємо за адресою файлу.
+    function collect(){
+      const seen = new Set();
+      list = [];
+      grid.querySelectorAll('.gal-play').forEach(b => {
+        const src = b.dataset.video;
+        if (!src || seen.has(src)) return;
+        seen.add(src);
+        list.push({ src, poster: b.dataset.poster || '' });
+      });
+    }
+
+    function build(){
+      slides = list.map((item, i) => {
+        const s = document.createElement('div');
+        s.className = 'vbox-slide';
+        if (item.poster) s.style.backgroundImage = 'url("' + item.poster + '")';
+        const v = document.createElement('video');
+        v.playsInline = true;
+        v.preload = 'none';
+        s.appendChild(v);
+        // Клік по сусідньому слайду робить його активним. Активний не слухаємо:
+        // інакше пауза ловилася б кліком повз кнопку.
+        s.addEventListener('click', () => { if (!s.classList.contains('is-active')) go(i); });
+        stage.appendChild(s);
+        return s;
+      });
+      list.forEach((_, i) => {
+        const d = document.createElement('button');
+        d.type = 'button'; d.className = 'vbox-dot';
+        d.setAttribute('aria-label', 'Ролик ' + (i + 1));
+        d.addEventListener('click', () => go(i));
+        dots.appendChild(d);
+      });
+      // Зони тапу для телефона. На десктопі їх ховає CSS — там для того самого
+      // є стрілки й самі сусідні слайди.
+      [['prev', 'Попереднє відео'], ['next', 'Наступне відео']].forEach(([dir, label]) => {
+        const t = document.createElement('button');
+        t.type = 'button';
+        t.className = 'vbox-tap vbox-tap-' + dir;
+        t.setAttribute('aria-label', label);
+        t.addEventListener('click', () => {
+          if (swiped) { swiped = false; return; }   // свайп уже перемкнув
+          go(active + (dir === 'next' ? 1 : -1));
+        });
+        box.appendChild(t);
+      });
+      built = true;
+    }
+
+    function stop(i){
+      if (i < 0 || !slides[i]) return;
+      const v = slides[i].querySelector('video');
+      v.pause();
+      // Знімаємо джерело й перезавантажуємо: інакше закритий ролик лишається в
+      // памʼяті й далі тримає буфер. Шість роликів по 5-7 МБ це помітно.
+      v.removeAttribute('src');
+      v.load();
+    }
+
+    function go(i){
+      if (i < 0 || i >= list.length || i === active) return;
+      stop(active);
+      active = i;
+      slides.forEach((s, k) => {
+        const off = k - active;
+        s.style.setProperty('--off', off);
+        // Тримаємо в кадрі активний і по одному сусіду: далі вони все одно за
+        // краєм екрана, а кожен зайвий шар — ще одна велика картинка в памʼяті.
+        if (Math.abs(off) <= 1) s.dataset.near = String(Math.abs(off));
+        else delete s.dataset.near;
+        s.classList.toggle('is-active', k === active);
+      });
+      const v = slides[active].querySelector('video');
+      v.src = list[active].src;
+      v.play().catch(() => {});
+      Array.prototype.forEach.call(dots.children, (d, k) => d.classList.toggle('is-on', k === active));
+      prevB.disabled = active === 0;
+      nextB.disabled = active === list.length - 1;
+    }
 
     function open(src){
+      if (!built) { collect(); build(); }
       lastFocus = document.activeElement;
-      vid.src = src;
       box.classList.add('show');
       box.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
-      // play() повертає проміс і відхиляється, якщо браузер заблокував старт.
-      // Тоді вікно просто лишається з першим кадром і кнопкою «грати».
-      vid.play().catch(() => {});
+      const i = list.findIndex(x => x.src === src);
+      active = -1;
+      go(i < 0 ? 0 : i);
     }
     function close(){
+      stop(active);
       box.classList.remove('show', 'playing');
       box.setAttribute('aria-hidden', 'true');
-      vid.pause();
-      // Знімаємо джерело й перезавантажуємо: інакше закрите відео лишається в
-      // памʼяті й далі тягне буфер. Шість роликів по 5 МБ це помітно.
-      vid.removeAttribute('src');
-      vid.load();
       document.body.style.overflow = '';
+      active = -1;
       if (lastFocus && lastFocus.focus) lastFocus.focus();
     }
 
-    // Делегування: стрічка клонується у пʼять копій, тож слухачі на самих
-    // кнопках не пережили б cloneNode.
+    // Делегування: стрічка клонується, слухачі на самих кнопках cloneNode не
+    // переносить.
     grid.addEventListener('click', (e) => {
       const btn = e.target.closest('.gal-play');
       if (!btn) return;
@@ -5902,15 +6060,39 @@
       open(btn.dataset.video);
     });
 
-    toggle.addEventListener('click', () => { vid.paused ? vid.play() : vid.pause(); });
-    vid.addEventListener('play',  () => box.classList.add('playing'));
-    vid.addEventListener('pause', () => box.classList.remove('playing'));
-    vid.addEventListener('ended', () => box.classList.remove('playing'));
+    toggle.addEventListener('click', () => {
+      const v = slides[active] && slides[active].querySelector('video');
+      if (!v) return;
+      v.paused ? v.play().catch(() => {}) : v.pause();
+    });
+    // play і pause не спливають, тож слухаємо на фазі перехоплення.
+    stage.addEventListener('play',  (e) => { if (e.target.tagName === 'VIDEO') box.classList.add('playing'); }, true);
+    stage.addEventListener('pause', (e) => { if (e.target.tagName === 'VIDEO') box.classList.remove('playing'); }, true);
+    // Як у сторіз: доглянув — поїхали далі. На останньому просто зупиняємось.
+    stage.addEventListener('ended', () => { if (active < list.length - 1) go(active + 1); }, true);
 
+    prevB.addEventListener('click', () => go(active - 1));
+    nextB.addEventListener('click', () => go(active + 1));
     document.getElementById('vboxClose').addEventListener('click', close);
     document.getElementById('vboxBackdrop').addEventListener('click', close);
+
+    // Свайп. Слухаємо на фазі перехоплення й на самому вікні, а не на сцені:
+    // зверху лежать зони тапу, і до сцени подія просто не дійшла б.
+    let px = 0, py = 0, swiped = false;
+    box.addEventListener('pointerdown', (e) => { px = e.clientX; py = e.clientY; swiped = false; }, { passive: true, capture: true });
+    box.addEventListener('pointerup', (e) => {
+      const dx = e.clientX - px, dy = e.clientY - py;
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) {
+        swiped = true;
+        go(active + (dx < 0 ? 1 : -1));
+      }
+    }, { passive: true, capture: true });
+
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && box.classList.contains('show')) close();
+      if (!box.classList.contains('show')) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowRight') go(active + 1);
+      else if (e.key === 'ArrowLeft') go(active - 1);
     });
   })();
 
