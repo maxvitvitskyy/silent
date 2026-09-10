@@ -1592,23 +1592,57 @@
   .gal-play {
     position: absolute; z-index: 2;
     left: 50%; top: 50%; transform: translate(-50%, -50%);
-    width: 62px; height: 62px; border-radius: 50%;
+    width: 64px; height: 64px; border-radius: 50%;
     display: grid; place-items: center;
     border: 0; padding: 0; cursor: pointer;
     background: var(--lime); color: var(--night);
-    box-shadow: 0 0 0 7px rgba(198,255,0,0.16), 0 10px 30px -10px rgba(0,0,0,0.85);
-    transition: transform 0.28s cubic-bezier(.22,1,.36,1), box-shadow 0.28s ease;
+    /* Три шари тіні: щільне кільце біля краю, широке лаймове світіння і
+       звичайна тінь униз, щоб кнопка не висіла в повітрі над кадром. */
+    box-shadow:
+      0 0 0 7px rgba(198,255,0,0.16),
+      0 0 30px -4px rgba(198,255,0,0.65),
+      0 12px 32px -12px rgba(0,0,0,0.9);
+    animation: playGlow 2.8s ease-in-out infinite;
+    transition: transform 0.28s cubic-bezier(.22,1,.36,1);
   }
   /* Трикутник важчий праворуч, тож оптичний центр не збігається з коробкою. */
-  .gal-play svg { margin-left: 3px; }
+  .gal-play svg { margin-left: 2px; }
+  /* Кільце, що розходиться і тане. Окремим шаром, бо анімувати box-shadow —
+     це перемальовувати кнопку кожен кадр, а transform і opacity рахує
+     композитор, не чіпаючи розкладку. */
+  .gal-play::after {
+    content: ''; position: absolute; inset: 0;
+    border-radius: 50%;
+    border: 2px solid rgba(198,255,0,0.5);
+    animation: playPulse 2.8s cubic-bezier(.22,1,.36,1) infinite;
+    pointer-events: none;
+  }
+  @keyframes playPulse {
+    0%        { transform: scale(1);    opacity: 0.75; }
+    70%, 100% { transform: scale(1.85); opacity: 0; }
+  }
+  @keyframes playGlow {
+    0%, 100% { box-shadow: 0 0 0 7px rgba(198,255,0,0.14), 0 0 26px -6px rgba(198,255,0,0.55), 0 12px 32px -12px rgba(0,0,0,0.9); }
+    50%      { box-shadow: 0 0 0 10px rgba(198,255,0,0.22), 0 0 46px -2px rgba(198,255,0,0.95), 0 12px 32px -12px rgba(0,0,0,0.9); }
+  }
   .gal-play:hover,
   .gal-play:focus-visible {
-    transform: translate(-50%, -50%) scale(1.08);
-    box-shadow: 0 0 0 11px rgba(198,255,0,0.22), 0 12px 34px -10px rgba(0,0,0,0.9);
+    transform: translate(-50%, -50%) scale(1.09);
+    animation-play-state: paused;
+    box-shadow:
+      0 0 0 12px rgba(198,255,0,0.24),
+      0 0 52px -2px rgba(198,255,0,1),
+      0 14px 36px -12px rgba(0,0,0,0.95);
+  }
+  /* Пульсація тут декоративна, тож при вимкненій анімації просто зникає —
+     кнопка лишається з рівним світінням. */
+  @media (prefers-reduced-motion: reduce){
+    .gal-play { animation: none; }
+    .gal-play::after { display: none; }
   }
   @media (max-width: 640px){
-    .gal-play { width: 52px; height: 52px; }
-    .gal-play svg { width: 22px; height: 22px; }
+    .gal-play { width: 54px; height: 54px; }
+    .gal-play svg { width: 26px; height: 26px; }
   }
 
   /* arrows sit outside the tiles, at the nav's width — same as the experiences strip */
@@ -3450,7 +3484,7 @@
         </figure>
         <figure class="gallery-item g-tall is-video">
           <img src="images/gal/101_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAADwAwCdASoPABgAPtFUo0uoJKMhsAgBABoJaAC06CHf+JovTmfyp/WAAP73e/nwDiX4FxoICcP2gkLVRenXiSWt77Da4NNomDZq1/wvPuclpBDMT9y/vQ/8EHQXioHCq8QQL/AEvvW/N5c6QoP4AAAA)" width="600" height="968" loading="lazy" decoding="async" alt="Гості танцюють у червоному світлі">
-          <button class="gal-play" type="button" data-video="video/web/silent-1.mp4" aria-label="Дивитися відео: Гості танцюють у червоному світлі"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></button>
+          <button class="gal-play" type="button" data-video="video/web/silent-1.mp4" aria-label="Дивитися відео: Гості танцюють у червоному світлі"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg></button>
           <div class="gallery-scrim"></div>
         </figure>
         <figure class="gallery-item g-wide">
@@ -3487,7 +3521,7 @@
         </figure>
         <figure class="gallery-item g-tall is-video">
           <img src="images/gal/102_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAACQAwCdASoPABgAPtFUpEuoJKOhsAgBABoJZ2R5VR0TmDXx/CgAAP7x8pnRw1apBwMh8G/j/axKINJYbKPHFw473bneb7hQ6q29aeq8Z72NK/oLvkKYAA==)" width="600" height="968" loading="lazy" decoding="async" alt="Танцпол просто неба">
-          <button class="gal-play" type="button" data-video="video/web/silent-2.mp4" aria-label="Дивитися відео: Танцпол просто неба"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></button>
+          <button class="gal-play" type="button" data-video="video/web/silent-2.mp4" aria-label="Дивитися відео: Танцпол просто неба"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg></button>
           <div class="gallery-scrim"></div>
         </figure>
         <figure class="gallery-item g-wide">
@@ -3516,7 +3550,7 @@
         </figure>
         <figure class="gallery-item g-tall is-video">
           <img src="images/gal/103_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAABwAwCdASoPABgALplotFoiqCgoCACYSzgABc60xd1W+JERWAAA/vtl4edzzhsuCDa1kkU4rKwHtNs5f39k0FMJ0lz9q4ohtZW9Q182BAA=)" width="600" height="968" loading="lazy" decoding="async" alt="Повний двір у навушниках">
-          <button class="gal-play" type="button" data-video="video/web/silent-3.mp4" aria-label="Дивитися відео: Повний двір у навушниках"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></button>
+          <button class="gal-play" type="button" data-video="video/web/silent-3.mp4" aria-label="Дивитися відео: Повний двір у навушниках"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg></button>
           <div class="gallery-scrim"></div>
         </figure>
         <figure class="gallery-item g-wide">
@@ -3545,7 +3579,7 @@
         </figure>
         <figure class="gallery-item g-tall is-video">
           <img src="images/gal/104_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAAAwAwCdASoPABgAPtFUo0uoJKMhsAgBABoJZQAAW+/vEhAAAP73fQKTn/JMk+Y1TvUj0bJMSM9Th8AA)" width="600" height="968" loading="lazy" decoding="async" alt="Синє світло над танцполом">
-          <button class="gal-play" type="button" data-video="video/web/silent-4.mp4" aria-label="Дивитися відео: Синє світло над танцполом"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></button>
+          <button class="gal-play" type="button" data-video="video/web/silent-4.mp4" aria-label="Дивитися відео: Синє світло над танцполом"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg></button>
           <div class="gallery-scrim"></div>
         </figure>
         <figure class="gallery-item g-sq">
@@ -3574,7 +3608,7 @@
         </figure>
         <figure class="gallery-item g-tall is-video">
           <img src="images/gal/105_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAACwAwCdASoPABgAPtFUo0uoJKMhsAgBABoJZQAAW43Tc3cUqUziAAD+9o2+Veav86N/YTx/L2ZnpwW01mhsbSTORFMPqmr+vJc0j24+SYWSQIJT/gSAAA==)" width="600" height="968" loading="lazy" decoding="async" alt="Лазери й екран у залі">
-          <button class="gal-play" type="button" data-video="video/web/silent-5.mp4" aria-label="Дивитися відео: Лазери й екран у залі"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></button>
+          <button class="gal-play" type="button" data-video="video/web/silent-5.mp4" aria-label="Дивитися відео: Лазери й екран у залі"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg></button>
           <div class="gallery-scrim"></div>
         </figure>
         <figure class="gallery-item g-sq">
@@ -3603,7 +3637,7 @@
         </figure>
         <figure class="gallery-item g-tall is-video">
           <img src="images/gal/106_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAADwAwCdASoPABgAPtFUo0uoJKMhsAgBABoJYwC7MoADTraofW7F7cQAAP71eVSK7r7SbC8LhE1KVp8ek027wnEU2DdA3l9r2v8rpcxs2TaKleGK6kO90bUBLoUXogUoXYyyTGYCGI+ixj+dApAAAA==)" width="600" height="968" loading="lazy" decoding="async" alt="Гості співають разом">
-          <button class="gal-play" type="button" data-video="video/web/silent-6.mp4" aria-label="Дивитися відео: Гості співають разом"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></button>
+          <button class="gal-play" type="button" data-video="video/web/silent-6.mp4" aria-label="Дивитися відео: Гості співають разом"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg></button>
           <div class="gallery-scrim"></div>
         </figure>
         <figure class="gallery-item g-sq">

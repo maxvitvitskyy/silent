@@ -169,8 +169,13 @@ for n in ORDER:
         play = ('          <button class="gal-play" type="button"'
                 f' data-video="video/web/{VID[n][0]}.mp4"'
                 f' aria-label="\u0414\u0438\u0432\u0438\u0442\u0438\u0441\u044f \u0432\u0456\u0434\u0435\u043e: {alt}">'
-                '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">'
-                '<path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></button>\n')
+                '<svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true">'
+                # Трикутник обведений тим самим кольором, що й залитий: обведення
+                # з round-стиками округляє кути й заразом робить його більшим,
+                # ніж дала б сама заливка.
+                '<path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor"'
+                ' stroke="currentColor" stroke-width="3.4" stroke-linejoin="round"'
+                ' stroke-linecap="round"/></svg></button>\n')
         rows.append(
             f'        <figure class="gallery-item {CLS[shape]} is-video">\n'
             + img + play +
