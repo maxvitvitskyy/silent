@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Google tag (gtag.js) — навмисно одразу після charset, до решти <head>:
+     так рекомендує сам Google, щоб перегляд сторінки не загубився через
+     ранній редирект чи повільний рендер. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L60PG6EF3E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-L60PG6EF3E');
+</script>
+<!-- Microsoft Clarity — офіційний код проєкту, без змін. -->
+<script type="text/javascript">
+(function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", "ybmupsein1");
+</script>
+<!-- Обидва зображення першого екрана задані через CSS background-image, тому
+     preload-сканер знаходить їх лише після побудови CSSOM — пізніше, ніж
+     потрібно. Явний preload з fetchpriority=high змушує браузер тягнути файли
+     одразу, під час парсингу <head>, не чіпаючи самі div-и чи їхні стилі.
+     heroDancer вагою ~284 КБ — найбільший видимий елемент екрана і саме він
+     визначає LCP; без цього рядка він стартував на ~13 мс пізніше за crowd і
+     без пріоритету, тобто в спільній черзі з галереєю сценаріїв. -->
+<link rel="preload" as="image" href="../images/hero-crowd.webp" fetchpriority="high">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SILENT — one party. Three worlds of music.</title>
+<meta name="description" content="Full-service silent disco in Kyiv and across Ukraine: wireless LED headphones, 3 music channels, delivery, setup and on-site support.">
+<meta name="theme-color" content="#05070d">
+<!-- sizes="any": файл зараз 473×470 (не квадрат 512×512, як було раніше) —
+     фіксований розмір тут був би недостовірним, браузер сам масштабує PNG. -->
+<link rel="icon" type="image/png" sizes="any" href="../images/favicon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SILENT">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="SILENT — one party. Three worlds of music.">
+<meta property="og:description" content="Full-service silent disco in Kyiv and across Ukraine: wireless LED headphones, 3 music channels, delivery, setup and on-site support.">
+<!-- og:image і og:url мусять бути абсолютними: Facebook, Telegram та інші
+     скребачки прев'ю не розв'язують відносні шляхи й просто лишаються без
+     картинки. Канонічний адрес — на власному домені, щоб пошук не індексував
+     ще й дублікат на github.io. -->
+<meta property="og:url" content="https://silent.org.ua/en/">
+<meta property="og:image" content="https://silent.org.ua/images/promo.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SILENT — one party. Three worlds of music.">
+<meta name="twitter:description" content="Full-service silent disco in Kyiv and across Ukraine: wireless LED headphones, 3 music channels, delivery, setup and on-site support.">
+<meta name="twitter:image" content="https://silent.org.ua/images/promo.png">
+<link rel="canonical" href="https://silent.org.ua/en/">
+<!-- Дві мовні версії одного сайту: кожна сторінка називає обидві й себе саму,
+     інакше пошук трактує їх як окремі сайти-дублікати. x-default — українська:
+     це основна версія для відвідувача, чия мова невідома. -->
+<link rel="alternate" hreflang="uk" href="https://silent.org.ua/">
+<link rel="alternate" hreflang="en" href="https://silent.org.ua/en/">
+<link rel="alternate" hreflang="x-default" href="https://silent.org.ua/">
+<!-- Structured data: Organization + Service, пов'язані через @id. Без
+     LocalBusiness (немає фізичної адреси, куди приходить клієнт), без
+     Review/AggregateRating (немає реальних відгуків із перевірюваним
+     джерелом) і без Event (сайт продає послугу організації, а не
+     конкретну подію з датою). price у Service.offers — стартова/мінімальна
+     ціна, а не універсальна фіксована для всіх замовлень. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://silent.org.ua/#organization",
+      "name": "SILENT",
+      "url": "https://silent.org.ua/",
+      "logo": "https://silent.org.ua/images/SILENT_logo.png",
+      "image": "https://silent.org.ua/images/promo.png",
+      "description": "SILENT — full-service silent disco in Kyiv and across Ukraine: LED headphones, 3 music channels, delivery, setup and on-site support. For weddings, company parties, private events, festivals and camps.",
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Kyiv"
+        },
+        {
+          "@type": "Country",
+          "name": "Ukraine"
+        }
+      ],
+      "sameAs": [
+        "https://www.instagram.com/silent_ukraine/",
+        "https://www.tiktok.com/@silent.ukraine",
+        "https://t.me/silent_ukraine",
+        "https://www.youtube.com/channel/UCYJcmOSbk5MDaNXDLjchVyQ"
+      ],
+      "telephone": "+380 96 333 90 68",
+      "email": "hello.silent.ua@gmail.com",
+      "knowsLanguage": ["uk-UA", "en"]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://silent.org.ua/#service",
+      "name": "Silent Events",
+      "serviceType": "Silent Disco Events",
+      "description": "Silent disco and event production",
+      "provider": {
+        "@id": "https://silent.org.ua/#organization"
+      },
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Kyiv"
+        },
+        {
+          "@type": "Country",
+          "name": "Ukraine"
+        }
+      ],
+      "offers": {
+        "@type": "Offer",
+        "price": "9800",
+        "priceCurrency": "UAH"
+      }
+    }
+  ]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Звичайний rel="stylesheet" блокує перший paint, доки браузер не отримає
+     цей файл по мережі — незалежно від display=swap (той рятує лише від
+     очікування самих файлів шрифту, а не цього CSS). preload+onload вантажить
+     його паралельно й підключає, коли готовий; noscript — той самий файл для
+     браузерів без JS, щоб шрифти не зникли зовсім. Самі шрифти й swap-поведінка
+     не змінились — лише те, чи чекає на них перший кадр сторінки. -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
+<!-- Стилі спільні для української та англомовної версій — один файл на дві -->
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body id="top">
+
+<nav>
+  <a href="#top" class="logo" aria-label="Back to top">SILENT<b>.</b></a>
+  <div class="nav-links">
+    <a href="#how">How it works</a>
+    <a href="#offer">What's included</a>
+    <a href="#cases">Scenarios</a>
+    <a href="#price">Pricing</a>
+    <span class="lang-switch" role="group" aria-label="Site language">
+      <a href="../" hreflang="uk" lang="uk">UA</a>
+      <span class="lang-cur" aria-current="true">EN</span>
+    </span>
+    <a href="#book" class="nav-cta" data-cta="header_check_date">Check a date</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <!-- Три знімки одним стосом: активний тримає .active, решта прозорі. Зміна
+       каналу перемикає клас, а перехід opacity у CSS дає плавний кросфейд. -->
+  <div class="hero-photo active" id="heroPhoto0" style="background-image:url('../images/hero-crowd.webp')"></div>
+  <div class="hero-photo" id="heroPhoto1" style="background-image:url('../images/bg-2.webp')"></div>
+  <div class="hero-photo" id="heroPhoto2" style="background-image:url('../images/bg-3.webp')"></div>
+  <!-- Танцівниця окремим шаром і повністю в кадрі: background-size: contain не
+       може її обрізати за визначенням, тож голова й руки завжди на місці.
+       На десктопі фігура абсолютна й у потік не входить, тож порядок у розмітці
+       на неї не впливає. На телефоні вона в потоці, і порядок тут — той самий,
+       що й фінальна композиція: заголовок, підзаголовок, кнопки, фігура, потім
+       на неї знизу накладається панель каналів. -->
+  <div class="wrap hero-top">
+    <p class="hero-facts">
+      <!-- Три SEO-формулювання (RED/GREEN/BLUE) — усі одразу в статичному
+           HTML, а не через JS innerHTML, як у H1 нижче: лише так Google
+           гарантовано бачить усі три, а не тільки активний на момент
+           рендеру. Той самий патерн, що й у #heroPhoto0/1/2 — усі в DOM,
+           видимий лише .active. -->
+      <span class="hf-full"><span class="hf-phrase active" data-ch="0">Full-service silent disco</span><span class="hf-phrase" data-ch="1">Silent disco in headphones</span><span class="hf-phrase" data-ch="2">Full-service quiet party</span> <span class="hf-dot">·</span> from <b>9,800 UAH</b> <span class="hf-dot">·</span> from <b>40 guests</b> <span class="hf-dot">·</span> Kyiv and across Ukraine</span>
+      <!-- Мобільний варіант теж перемикається за каналом: ті самі три
+           формулювання, лише коротші. Розбитий на дві сходинки — інакше
+           «від 40 guests» однаково перекидалось на другий рядок, але в
+           довільному місці, залежно від довжини активної фрази. -->
+      <span class="hf-short"><span class="hf-line"><span class="hf-phrase active" data-ch="0">Full-service silent disco</span><span class="hf-phrase" data-ch="1">Silent disco</span><span class="hf-phrase" data-ch="2">Full-service quiet party</span> <span class="hf-dot">·</span> from <b>9,800 UAH</b></span><span class="hf-line">from <b>40 guests</b> <span class="hf-dot">·</span> Kyiv and across Ukraine</span></span>
+    </p>
+    <h1 class="hero-lines" id="heroLines">
+      <span>Three waves of music</span>
+      <span>playing all at once —</span>
+      <span>you pick <span class="accent-lime">yours</span>.</span>
+    </h1>
+  </div>
+
+  <div class="wrap hero-bottom">
+    <p class="hero-sub" id="heroSub">
+      Three channels play at the same time in every guest's headphones. Some dance to house, some to pop — and all of them side by side, in the same room.
+    </p>
+    <div class="hero-actions">
+      <a href="#book" class="btn-primary" data-cta="hero_check_date"><span class="lbl-wide">Check if your date is free</span><span class="lbl-tight">Check a date</span></a>
+      <a href="#how" class="btn-ghost">How it works</a>
+    </div>
+  </div>
+
+  <div class="hero-dancer" id="heroDancer" aria-hidden="true"></div>
+
+  <!-- Панель знову в .wrap: саме він дає їй z-index поверх фігури і ту саму
+       геометрію, що й у меню. Без обгортки margin-inline: -25px рахувався від
+       .hero на всю ширину і виштовхував панель за екран. -->
+  <div class="wrap hero-panel">
+    <div class="hero-strip glass-panel" id="channels">
+    <div class="ch-strip-glow-blob" id="chGlowBlob"></div>
+    <div class="ch-outline-eq" id="chOutlineEq">
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="ch-strip-head">
+      <span class="ch-strip-title">Pick a channel</span>
+      <button class="ch-mute" type="button" id="chMute" aria-pressed="true" title="Turn sound on">
+        <svg class="ic-sound" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+        <svg class="ic-mute" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+        <span class="ch-mute-label">Turn sound on</span>
+      </button>
+    </div>
+    <div class="ch-toggle-row">
+      <div class="ch-toggle active" data-ch="0" style="--sw-color:var(--red)">
+        <div class="ch-toggle-top">
+          <div class="ch-toggle-label">
+            <span class="ch-toggle-name" style="color:var(--red)">RED</span>
+            <span class="ch-toggle-desc">Deep &amp; Dance — electronic, house, rhythm</span>
+          </div>
+          <button class="ch-switch" type="button" aria-pressed="true" style="--sw-color:var(--red)"><span class="ch-switch-knob"></span></button>
+        </div>
+      </div>
+      <div class="ch-toggle" data-ch="1" style="--sw-color:var(--green)">
+        <div class="ch-toggle-top">
+          <div class="ch-toggle-label">
+            <span class="ch-toggle-name" style="color:var(--green)">GREEN</span>
+            <span class="ch-toggle-desc">Pop &amp; Throwback — the hits everyone knows the words to</span>
+          </div>
+          <button class="ch-switch" type="button" aria-pressed="false" style="--sw-color:var(--green)"><span class="ch-switch-knob"></span></button>
+        </div>
+      </div>
+      <div class="ch-toggle" data-ch="2" style="--sw-color:var(--blue)">
+        <div class="ch-toggle-top">
+          <div class="ch-toggle-label">
+            <span class="ch-toggle-name" style="color:var(--blue)">BLUE</span>
+            <span class="ch-toggle-desc">Chill &amp; Soul — slow, warm, close</span>
+          </div>
+          <button class="ch-switch" type="button" aria-pressed="false" style="--sw-color:var(--blue)"><span class="ch-switch-knob"></span></button>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-fade"></div>
+</section>
+
+<!-- PROBLEM → SHIFT -->
+<section class="block" id="idea">
+  <div class="wrap">
+  <div class="band band-bare reveal">
+    <div class="g-tag">Why silent disco</div>
+    <h2>An ordinary party makes you choose for everyone. This one lets everyone choose.</h2>
+  </div>
+
+  <div class="shift-grid">
+    <div class="shift-card old reveal">
+      <div class="shift-photo">
+        <img src="../images/shift-old.webp" loading="lazy" decoding="async" alt="Black-and-white shot: a stage with speakers and a dark room of guests">
+      </div>
+      <div class="shift-body">
+        <div class="tag">The usual way</div>
+        <h3>Speakers blasting the whole room</h3>
+        <p>One playlist for everybody. Some are bored, others find it too loud. At 11pm it's the neighbours, security, “turn it down”. The photos come out dark and all alike.</p>
+      </div>
+    </div>
+    <div class="shift-card new reveal">
+      <div class="shift-photo">
+        <img src="../images/shift-new.webp" loading="lazy" decoding="async" alt="A group of friends laughing in glowing green headphones">
+      </div>
+      <div class="shift-body">
+        <div class="tag">With silent disco</div>
+        <h3>A night everyone puts together for themselves</h3>
+        <p>Silent disco is a format where everyone hears their own thing and still stays together: three channels for different moods, volume set by each guest, LED light in every shot.</p>
+      </div>
+    </div>
+  </div>
+
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="block" id="how">
+  <div class="wrap">
+    <div class="how-head">
+      <div class="eyebrow reveal">How it works</div>
+      <h2 class="h2 reveal">How does a quiet party actually work?</h2>
+      <p class="how-lead reveal">The music doesn't come from speakers — it goes straight into every guest's headphones. One transmitter carries three channels, and each person chooses which one to listen to and how loud. There are no speakers, so outside it stays quiet. We bring the headphones with spare sets, assemble the system on site and stay for the evening. All we need from you is a date and a rough number of guests. We work in Kyiv and travel anywhere in Ukraine.</p>
+    </div>
+
+    <ol class="flow reveal">
+        <li class="flow-step">
+          <span class="flow-node" aria-hidden="true"><svg viewBox="0 0 24 24" width="29" height="29" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 3v3M16 3v3"/></svg></span>
+          <div class="flow-card">
+            <span class="flow-chip"><b>01</b>Request</span>
+            <h3>Date, venue, guests</h3>
+            <ul class="step-list">
+                <li><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span>The form takes a minute</span></li>
+                <li><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span>No phone call needed</span></li>
+            </ul>
+          </div>
+        </li>
+        <li class="flow-step">
+          <span class="flow-node" aria-hidden="true"><svg viewBox="0 0 24 24" width="29" height="29" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 10.5h8M8 14h5"/><path d="M4 5.5h16v11H9l-4 3v-3H4z"/></svg></span>
+          <div class="flow-card">
+            <span class="flow-chip"><b>02</b>Quote</span>
+            <h3>We work out the cost</h3>
+            <ul class="step-list">
+                <li><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span>We reply the same day</span></li>
+                <li><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span>The price depends on the date and the hours</span></li>
+            </ul>
+          </div>
+        </li>
+        <li class="flow-step">
+          <span class="flow-node" aria-hidden="true"><svg viewBox="0 0 24 24" width="29" height="29" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.5h11v9H3z"/><path d="M14 9.5h3.4L21 12.5v3h-7"/><circle cx="7" cy="17.5" r="1.7"/><circle cx="17" cy="17.5" r="1.7"/></svg></span>
+          <div class="flow-card">
+            <span class="flow-chip"><b>03</b>Setup</span>
+            <h3>We arrive</h3>
+            <ul class="step-list">
+                <li><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span>About 30 minutes before the start</span></li>
+                <li><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span>We show you how to switch channels</span></li>
+            </ul>
+          </div>
+        </li>
+        <li class="flow-step">
+          <span class="flow-node" aria-hidden="true"><svg viewBox="0 0 24 24" width="29" height="29" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9 2 9 2 15 6 15 11 19 11 5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a9 9 0 0 1 0 12"/></svg></span>
+          <div class="flow-card">
+            <span class="flow-chip"><b>04</b>The party</span>
+            <h3>You dance</h3>
+            <ul class="step-list">
+                <li><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span>Guests switch channels themselves</span></li>
+                <li><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"/></svg><span>Teardown and pickup are on us</span></li>
+            </ul>
+          </div>
+        </li>
+    </ol>
+  </div>
+</section>
+
+<!-- BENEFITS: pain-language -->
+<section class="benefits" id="experience">
+  <div class="benefits-bg" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="eyebrow reveal">The guest experience</div>
+    <h2 class="h2 reveal">What your guests will feel on the dancefloor.</h2>
+    <div class="benefits-grid">
+      <div class="benefit-card reveal">
+        <div class="b-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9v6M12 4.5v15M18 7.5v9"/></svg></div>
+        <h3>Three channels at once</h3>
+        <p>RED, GREEN and BLUE play in parallel. Every guest gets their own broadcast, and everyone dances in the same room.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="b-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.8" y="7.2" width="18.4" height="9.6" rx="4.8"/><circle cx="16.4" cy="12" r="2.4" fill="currentColor" stroke="none"/></svg></div>
+        <h3>Everyone picks their own mood</h3>
+        <p>High energy, big hits or something slow — a guest switches channel with one tap and stays where it feels good.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="b-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3L11.5 6v12L7 14.5H4z"/><path d="M15 9.8a3.4 3.4 0 0 1 0 4.4"/><path d="M17.8 7.2a7 7 0 0 1 0 9.6"/></svg></div>
+        <h3>Personal volume</h3>
+        <p>Everyone sets the level for themselves. Nobody leaves with ringing ears — it suits children and older guests alike.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="b-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="5.4" width="12.8" height="9" rx="3"/><path d="M6.6 14.4v3.2l3.6-3.2"/><rect x="13" y="10.2" width="8.4" height="6.8" rx="2.6"/><path d="M18.8 17v2.4L16.4 17"/></svg></div>
+        <h3>You can actually talk</h3>
+        <p>Headphones down to the neck and the conversation runs at a normal voice. No “what?” or “say that again!” over booming speakers.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="b-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.8" y="7" width="18.4" height="13" rx="3.4"/><circle cx="12" cy="13.5" r="3.7"/><path d="M8.8 7 10 4.6h4L15.2 7"/></svg></div>
+        <h3>LED visuals in every shot</h3>
+        <p>The glow on every guest turns the room into a ready-made picture. Photos and video come out bright with no separate lighting rig.</p>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="b-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.2v17.6M4.4 7.6l15.2 8.8M19.6 7.6 4.4 16.4"/></svg></div>
+        <h3>A format they haven't seen before</h3>
+        <p>Dancing “in silence” feels unfamiliar from the first minutes. Guests spend the evening in a way they simply don't at an ordinary party.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUE STACK -->
+<section class="block" id="offer">
+  <div class="wrap">
+    <div class="eyebrow reveal">What's included</div>
+    <h2 class="h2 reveal">Exactly what you get for your money.</h2>
+    <p class="section-lead reveal">Full-service silent disco — the equipment, the logistics and the on-site support all within one service.</p>
+
+    <div class="slabs">
+      <article class="slab reveal" style="--i:0">
+        <span class="slab-num" aria-hidden="true">01</span>
+        <div class="slab-body">
+          <h3>Equipment</h3>
+          <p>From 40 wireless LED headphones, 3 channels, transmitters and spare headsets included.</p>
+        </div>
+        <span class="slab-meta">in the base price</span>
+      </article>
+      <article class="slab reveal" style="--i:1">
+        <span class="slab-num" aria-hidden="true">02</span>
+        <div class="slab-body">
+          <h3>Delivery and setup</h3>
+          <p>We deliver, assemble the system, set up the channels and test the signal before the start.</p>
+        </div>
+        <span class="slab-meta">in the base price</span>
+      </article>
+      <article class="slab reveal" style="--i:2">
+        <span class="slab-num" aria-hidden="true">03</span>
+        <div class="slab-body">
+          <h3>Playlists prepared in advance</h3>
+          <p>Three channels put together for your mood and the type of event — a DJ is optional.</p>
+        </div>
+        <span class="slab-meta">in the base price</span>
+      </article>
+      <article class="slab reveal" style="--i:3">
+        <span class="slab-num" aria-hidden="true">04</span>
+        <div class="slab-body">
+          <h3>On-site support and teardown</h3>
+          <p>We run the technical side through the evening and take all the equipment away afterwards.</p>
+        </div>
+        <span class="slab-meta">in the base price</span>
+      </article>
+      <article class="slab reveal" style="--i:4">
+        <span class="slab-num" aria-hidden="true">05</span>
+        <div class="slab-body">
+          <h3>A short reel</h3>
+          <p>A clip of your evening, ready for stories and posts.</p>
+        </div>
+        <span class="slab-meta">optional</span>
+      </article>
+    </div>
+    <p class="slabs-foot reveal">There's no need to rent speakers, amplifiers or separate sound — the kit replaces the whole audio side of the evening.</p>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="atmosphere">
+  <div class="wrap">
+    <div class="eyebrow reveal">Atmosphere</div>
+    <h2 class="h2 reveal">SILENT sounds the same in a hall or on a rooftop, in a museum or under open sky.</h2>
+    <div class="gallery-strip reveal">
+      <div class="gallery-grid" id="galGrid" role="region" aria-label="Event atmosphere, scroll sideways">
+        <figure class="gallery-item g-tall">
+          <img src="../images/gal/20_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAAAQAwCdASoPABgAPtFUo0uoJKMhsAgBABoJROAB/ACWNwAA/vCiQXyXUTixiwv3uxpXy6C3+NNELtMRSJ3TcYr6t7nSx2LPlLmO90lUPi1z179a72nJ+j6VPz9WC0GbR8b1nyCTxkwv0Nah9fRZ0bVwAAA=)" width="600" height="968" loading="lazy" decoding="async" alt="Headphones waiting for guests at the entrance">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall is-video">
+          <img src="../images/gal/101_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAADwAwCdASoPABgAPtFUo0uoJKMhsAgBABoJaAC06CHf+JovTmfyp/WAAP73e/nwDiX4FxoICcP2gkLVRenXiSWt77Da4NNomDZq1/wvPuclpBDMT9y/vQ/8EHQXioHCq8QQL/AEvvW/N5c6QoP4AAAA)" width="600" height="968" loading="lazy" decoding="async" alt="Guests dancing in red light">
+          <button class="gal-play" type="button" data-video="../video/web/silent-1.mp4" data-poster="../images/gal/101_tall.webp" aria-label="Watch video: Guests dancing in red light"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg></button>
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-wide">
+          <img src="../images/gal/29_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRq4AAABXRUJQVlA4IKIAAAAQBACdASoYAAkAPtFUo0uoJKMhsAgBABoJbACdAYw6lAgh/2D2FA/qYAD+wUOrP0huG2srJmb8CBRUXB/U3l2jjirvx4ljMSeT7YzoUXjCQ3ZtSAwd2InTDBPH1209brzQuYp8aVvG91/klK/o+8RB1+qj6WedKrx54TRxmeHAwFCu+uV8mZPj5OhSRKBVpJ9QJsSU1Na9cpdxExhf8G7MgAA=)" width="1228" height="470" loading="lazy" decoding="async" alt="A mirror ball above the room">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-wide">
+          <img src="../images/gal/05_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAAAQAwCdASoYAAkAPtFUo0uoJKMhsAgBABoJY2DrRgAV8gAA/vEAHCCtO+AH8wttLO4IprSLs3XAzp+LKkOWmLq8t1IvQFMOwHcW6G7jXCa66yjR/Hcb0U4fvKJkLnQDTER2CyZ9gAA=)" width="1228" height="470" loading="lazy" decoding="async" alt="Rows of headphones before the event">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall">
+          <img src="../images/gal/06_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAAAQBACdASoPABgAPtFYpEwoJSOiMAgBABoJYwABHujVvI2+U+oGRF0ssAD+/oeRtiTW3WYj1nZxU860sQUW3fT1V7V4eVqrTQq5s+epxlkP6FhCCkYQyJ8oRj8aJQh0axHzXSdTFqPUgl7t7Z/afP+3axojAAAA)" width="600" height="968" loading="lazy" decoding="async" alt="Dancing between the columns">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-sq">
+          <img src="../images/gal/23_sq.webp" style="--lqip:url(data:image/webp;base64,UklGRuwAAABXRUJQVlA4IOAAAADQBQCdASoYABMAPtFcpk6oJSMiKAqpABoJQBOja0W3QLZUOJmQkmQvyeTjL+1aVVUpkCciBWkAAP7dkvMkTQrFQIRsUu3Vj1VHMDmCqWGQHxPyifoP2xRhFxu7tmdDsJiLu8XQyGqbUls9r7juHcI+6zDsj1XaSOszSKpnUx8cTAmYBZWfZvBYki+C3odB6V/4p3g74Gq9shMyYrqWZLibWyG8I7nCAlOxvARL7LOgHPsz3pO06ydHZv9jH6Fx4azwBHZUjdYLfUfUwmHROPyB3pmBIQKOFU4DOLGwvoAAAA==)" width="600" height="470" loading="lazy" decoding="async" alt="A crowd in front of the stage">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-sq">
+          <img src="../images/gal/24_sq.webp" style="--lqip:url(data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAACQBACdASoYABMAPtFUo0uoJKMlMBgMAQAaCWUAnQAQ9Jj6Kph/sVSfG1h6GAAA/vRQDlWAidSqhDpYoAgPZy+IpHyXFUMJT/j+G7Qlp4v2H1CR8FLREtLGpusYYO1Cip+wOaI3s/eY7Jf68ECLt7Z0hoNTcP7cqAA=)" width="600" height="470" loading="lazy" decoding="async" alt="A party behind glass, silence outside">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall">
+          <img src="../images/gal/15_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAABQBACdASoPABgAPtFUo0uoJKMhsAgBABoJaACdMoAC/JOEAwF2eodBRawAAP7xUqQKug6nJQ8irR9gz9jxxRfM4zbDIvFR+HmtQJxgBRA0f2PdDsMv9wMzT5GKcRhkWQCvpL19hlPAxZVRgYFMFr1OADSgAA==)" width="600" height="968" loading="lazy" decoding="async" alt="A couple holding each other among the guests">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-sq">
+          <img src="../images/gal/34_sq.webp" style="--lqip:url(data:image/webp;base64,UklGRsgAAABXRUJQVlA4ILwAAABQBQCdASoYABMAPtFepk6oJSMiKAqpABoJbACsL1yA97VUlSl6KAIxbTsEkbjE5t9GMPgA/u7mQz3DKu8lN8hm5b3LRrVJ+oQ+TdOjVojbGBt57lvqRxex3ysumILsZR4PJIQrq2NrastvP3NhI6WcPpWdvfkb1n2aUehvONjR9aQ2qXfqP0+4LZwmrvJg8MBJulffnf1/tCCwkmaJk2+g2Un4HJuWJBUM9tHgZ/nhER0Zm96lProscMAAAA==)" width="600" height="470" loading="lazy" decoding="async" alt="At the bar, everyone in their own headphones">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-sq">
+          <img src="../images/gal/35_sq.webp" style="--lqip:url(data:image/webp;base64,UklGRtwAAABXRUJQVlA4INAAAACQBQCdASoYABMAPtFepE6oJSMiKAqpABoJbACdMtPqmCNnk1M9pHJjuAV1UEpyeQbUxFzPAAD+mlfDGE/8frqWEUXJfZpiikS3mZZYl50UKAPlPitdyRyk0Cfx1CNauoIueovZVpnKV9LVm3IXKjnc79BmgldyuL8XbTNL3ZvB0IpCAp+X4PcKwNM6oFloHW2l41sdkxHy6FMjbP1rROD3lMcwakwupdbyIwib9m5cuPj1wukSVilgLkmk9bhwwwHL2jFm4eyyVEElLNfYQAAA)" width="600" height="470" loading="lazy" decoding="async" alt="Friends taking a break on the sofa">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall is-video">
+          <img src="../images/gal/102_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAACQAwCdASoPABgAPtFUpEuoJKOhsAgBABoJZ2R5VR0TmDXx/CgAAP7x8pnRw1apBwMh8G/j/axKINJYbKPHFw473bneb7hQ6q29aeq8Z72NK/oLvkKYAA==)" width="600" height="968" loading="lazy" decoding="async" alt="An open-air dancefloor">
+          <button class="gal-play" type="button" data-video="../video/web/silent-2.mp4" data-poster="../images/gal/102_tall.webp" aria-label="Watch video: An open-air dancefloor"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg></button>
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-wide">
+          <img src="../images/gal/30_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAABQBACdASoYAAkAPtFUo0uoJKMhsAgBABoJbACdMoGvjgQEVG5Zu9Cw6zl4AP7ctjAEJQhcaYOdgzvrBp3BX/W596eSN3zCRVatIkUXHOKs2+UFWkiwW+AtK+VK6gZQIPsu6LfJ5mccn40IbYXdoDMva5Si85pBN0ssS/9BrqlcS0iL9QR9EU51i/dzd4aNXqGk6ylSc6vBMUwYDOEAAA==)" width="1228" height="470" loading="lazy" decoding="async" alt="A packed dancefloor in purple light">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-wide">
+          <img src="../images/gal/18_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAACwAwCdASoYAAkAPtFUo0uoJKMhsAgBABoJYwCdACHICrBh8TWuAAD+9dSScSu7tK/ctRjCtlLdDnwkQMq+e9TeoXEvMBLpW69DN5nc89KnV4PVK0HCriForGhAWYEIrLAAAA==)" width="1228" height="470" loading="lazy" decoding="async" alt="A conversation in blue light">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall">
+          <img src="../images/gal/11_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAAAQBACdASoPABgAPtFUo0uoJKMhsAgBABoJZgCdACP7sJgGNeHY2bsbcAD+7PEWemELms7a0E/raRpO+T2cjyY9y0HYcZtTV0Gz360lRcmzH3ANZJbPvyEMe9Slmg8G5ZbCaXf8aLI/Parka9/09N04hblnYAAA)" width="600" height="968" loading="lazy" decoding="async" alt="A headset on the table">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-sq">
+          <img src="../images/gal/21_sq.webp" style="--lqip:url(data:image/webp;base64,UklGRuoAAABXRUJQVlA4IN4AAAAQBQCdASoYABMAPtFepU6oJSMiKAqpABoJYwAD5Jj3t3PEXOaWStS2IOmmc5fUvJMgAP7SRFwgZ43mpWNwjGUwTft5fUR7pl0IsBmxNNRzk3h8ckQeFnb5JmQtjKofnCmBKTINQXmWl7vI5Xm5OY73oBWoN9xiIUj0Ms5npC0l39G7gN/SDNgf6gt/AEEF6IoGqdY7w6LQDDecToF4uQH9nnw0UsO+RrIskiPn6966HLX+AVcQNHHfHogOaerG2nvJCd1VtYevToV/5Mb4gxrXEFGmtIJh5tl+XjoAAAA=)" width="600" height="470" loading="lazy" decoding="async" alt="A morning workout outdoors">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-sq">
+          <img src="../images/gal/27_sq.webp" style="--lqip:url(data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAACQBQCdASoYABMAPtFcpk6oJKMiKAqpABoJQBOmUGbzhKJ3a3gv7pH6keVjL2ls8JAvNCDvQAD+9C5ni6+u749t6aWme0IiTgq4kRuVUpNcFZ0g2MxD3cax2KjTdboXUj3wk+TVGts8xRZOmdwrF4jWCr2vKkNoJH6XJqKZulyqSfjehCcf2X72GImGmALGl+VKf+XpF0W1AWD36AAAAA==)" width="600" height="470" loading="lazy" decoding="async" alt="A celebration table in pink light">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall">
+          <img src="../images/gal/08_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAAAwBACdASoPABgAPtFUo0uoJKMhsAgBABoJZQCo9CHf5g7QGKYnfPSMcgAA/vaGu+U++5Tl9dnYmbUfDwWwnsObCqLwBIPOiOvE0kxewIPTgXPUe4RnkMbI0CsCWeRV2LgJYzFu+4ABfYwwgAA=)" width="600" height="968" loading="lazy" decoding="async" alt="An open-air film screening">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall is-video">
+          <img src="../images/gal/103_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAABwAwCdASoPABgALplotFoiqCgoCACYSzgABc60xd1W+JERWAAA/vtl4edzzhsuCDa1kkU4rKwHtNs5f39k0FMJ0lz9q4ohtZW9Q182BAA=)" width="600" height="968" loading="lazy" decoding="async" alt="A full courtyard in headphones">
+          <button class="gal-play" type="button" data-video="../video/web/silent-3.mp4" data-poster="../images/gal/103_tall.webp" aria-label="Watch video: A full courtyard in headphones"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg></button>
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-wide">
+          <img src="../images/gal/01_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRqQAAABXRUJQVlA4IJgAAABQBACdASoYAAkAPtFWo0uoJKMhsAgBABoJbACdMoGvgAO7VS8v3lJ7oQWIAP7vkpKvuctex4OF3hb3EppnpTyvKXD3n7/3Z5XZrgADklCzehoEOOUFkvz6SoUc+/Qhdo/Mjylj15LT5HIsJcQPrroNUJL15Md3z8g12UOrM0HWBPTFiDXjZhg79zzK+DAQACyqmTYdA7sAAA==)" width="1228" height="470" loading="lazy" decoding="async" alt="A woman dancing among the lights">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-wide">
+          <img src="../images/gal/19_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAADQAwCdASoYAAkAPtFUo0uoJKMhsAgBABoJZQCdAB09ze7QDqKTRgAA/uwS9ctH6OruaQMALmr2tPEE34ajQQOb38kER7fIXvSknqrWg7suxtE8JUUTcVo6n/ddADpwb4iLzyAA)" width="1228" height="470" loading="lazy" decoding="async" alt="A rooftop party above the city">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall">
+          <img src="../images/gal/17_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRpIAAABXRUJQVlA4IIYAAAAwBACdASoPABgAPtFUo0uoJKMhsAgBABoJYgC7Ba0lAAwrt049WCK9SNwA9W6oUxhmG2jeu1/Ft6tkmKjYEzfW22yLgmi0+S0SGsBBSeFeMJPZwqwfft355j6Em8V0FE/2z4oVksl/xiWRb3rL6IXV9dZkfU5uaAGRxKCInwpkfDCjZDbgAA==)" width="600" height="968" loading="lazy" decoding="async" alt="A set at sunset">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-sq">
+          <img src="../images/gal/10_sq.webp" style="--lqip:url(data:image/webp;base64,UklGRpoAAABXRUJQVlA4II4AAACQBACdASoYABMAPtFWpk2oJCOiMBgIAQAaCWMAADFTNVDsgj6ZIDHWAMEtTQAA/vSZJEZ83qmKrh0JDbleMgMaMeXZFcOa+ola+ksx7CDxyv6y7txfdpikyq3e/kc4K4yW/LiGV1dDW2mkQIfVJrKB3PjnoO/RQKlyqSaRkFtEmrENRtWagHncMWFAAAAA)" width="600" height="470" loading="lazy" decoding="async" alt="A headset up close">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-sq">
+          <img src="../images/gal/25_sq.webp" style="--lqip:url(data:image/webp;base64,UklGRsgAAABXRUJQVlA4ILwAAADQBQCdASoYABMAPtFgqE+oJSOiKAgBABoJZAC7IQYJwAH0V5wNtUMGB1DrWjFWc9EZ5BF4m7EAAP7p+DUz75lTSDpLMh6I1kbWOnzLNBSxLK9kGV+OIucIGMmsINQAwY/riypqKu9yMnL7kSfBcnZIZCm6euZKAPkIi1BCKjJFsDA4VeWa3kQi+xwz4AZOvt18DJ8PldzoEDgt/DbNxlN7FYpfSSnZUe83H7NW6ZBtP1C6NZohfx0QwyBgAA==)" width="600" height="470" loading="lazy" decoding="async" alt="Dancing in the courtyard at dusk">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall">
+          <img src="../images/gal/31_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAABQBACdASoPABgAPtFUo0uoJKMhsAgBABoJbAC7ACHeKpEjol/oRS/r/L1AAP72ikxYmEmiyV5U8gnLR30prP/EMbGbsDJwdZH8Cyn+nwBgLYv93mPIT4iQ+RJXNUtVGA30PPzS/q1SQ3tL8Ep0bGZzd7LOAMThsjIOntx7C59PDY0wqE0EYjYbFnG4Oypo3cTIyMZ7gAA=)" width="600" height="968" loading="lazy" decoding="async" alt="A guest glancing back on the dancefloor">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall is-video">
+          <img src="../images/gal/104_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAAAwAwCdASoPABgAPtFUo0uoJKMhsAgBABoJZQAAW+/vEhAAAP73fQKTn/JMk+Y1TvUj0bJMSM9Th8AA)" width="600" height="968" loading="lazy" decoding="async" alt="Blue light over the dancefloor">
+          <button class="gal-play" type="button" data-video="../video/web/silent-4.mp4" data-poster="../images/gal/104_tall.webp" aria-label="Watch video: Blue light over the dancefloor"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg></button>
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-sq">
+          <img src="../images/gal/32_sq.webp" style="--lqip:url(data:image/webp;base64,UklGRpwAAABXRUJQVlA4IJAAAACwBACdASoYABMAPtFYpE0oJKMiMBgIAQAaCWYAxwkAADHZ2KDhRszli0cXW0IAAP6jaPizEagzhoa+TetNiRuAAW/27Kf8O1voP4zKt0qK2E/vxLP2lVTFJMVUimysijKPz1cjL2jiACuIbVxJhGRmhMaMfPUZ4XOKb8ya1yRzt8S5h6xm0D/D+w8CMEgAAAA=)" width="600" height="470" loading="lazy" decoding="async" alt="Guests singing together in blue light">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-sq">
+          <img src="../images/gal/33_sq.webp" style="--lqip:url(data:image/webp;base64,UklGRuQAAABXRUJQVlA4INgAAABQBgCdASoYABMAPtFYpE0oJSMiKA1RABoJaACdMtU+A8MMwAVHR8RMuU6PTVU+2BVDRY3pVS5+CM2zAAD+3N3F/KhFRdnac9ywBhKolHfmMfMfeCmidB2axAS61dE4LUhD4y+SLXw4lUglPXY8KxRV1nZEgv3gAMpRAF6r31DXIwEreEwmH67uR7TcgLhvGroOCdG4q9Z0XLp6BJn8BauJxLE6BF7GExblnFxNaiHDxU/Mm3eiItBxYR3SwuT1fn2bRyAV1IjXaNeJUg3n5YsaaLgACHby1AA=)" width="600" height="470" loading="lazy" decoding="async" alt="A guest with a cocktail in the middle of the dancefloor">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall">
+          <img src="../images/gal/12_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAACwAwCdASoPABgAPtFWo0uoJKMhsAgBABoJYwAAW+s/MwO0mm/ePAD+9oElcZpj28B87XETa6kUCPYlNRAM0K33P0gOPO2XSIsFG3vS241HNQty5cYdGQnGJ5JAZTEAAAA=)" width="600" height="968" loading="lazy" decoding="async" alt="The newlyweds' first dance">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-wide">
+          <img src="../images/gal/04_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAADQAwCdASoYAAkAPtFUo0uoJKMhsAgBABoJZQCdAB09ze7QDqKTRgAA/uwS9ctH6OruaQMALmr2tPEE34ajQQOb38kER7fIXvSknqrWg7suxtE8JUUTcVo6n/ddADpwb4iLzyAA)" width="1228" height="470" loading="lazy" decoding="async" alt="A rooftop with the night city below">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-wide">
+          <img src="../images/gal/26_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAADQAwCdASoYAAkAPtFWpEuoJKOhsAgBABoJQBdgBEGPL7D/BSmdzMAA/vWiH+KK04MuLAYf9DWNm4uS1G3vV4qT4s4RBpKD8a42zfT0I+RhnLLgjD3sAZtbmNSyUX9V+YofoU/vfy896N9TXs9zPiE/ez4taIAA)" width="1228" height="470" loading="lazy" decoding="async" alt="Sunset over a beach dancefloor">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall">
+          <img src="../images/gal/07_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRrYAAABXRUJQVlA4IKoAAADwBACdASoPABgAPtFUo0uoJKMhsAgBABoJYgCdMoGv/i2HW/oRl0JEFMb8fDMFCgAA/tUWIq5oaYxiUXYcFek8x6/jlWO1kv9xl4uxn5oFzXFcF7oZ8XLM+VDoaxj5/+OG+G9ZUDH9TiiwrsXA0x4sYrrPbG0VUXqSm/vYMv5NQhc8jSr+YS8zwRczp9SEJ9rg27Yt9AEI05UIKbaP8ykGcvezVlfjqAAAAA==)" width="600" height="968" loading="lazy" decoding="async" alt="A sunrise yoga set by the sea">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall is-video">
+          <img src="../images/gal/105_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAACwAwCdASoPABgAPtFUo0uoJKMhsAgBABoJZQAAW43Tc3cUqUziAAD+9o2+Veav86N/YTx/L2ZnpwW01mhsbSTORFMPqmr+vJc0j24+SYWSQIJT/gSAAA==)" width="600" height="968" loading="lazy" decoding="async" alt="Lasers and a screen in the hall">
+          <button class="gal-play" type="button" data-video="../video/web/silent-5.mp4" data-poster="../images/gal/105_tall.webp" aria-label="Watch video: Lasers and a screen in the hall"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg></button>
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-sq">
+          <img src="../images/gal/02_sq.webp" style="--lqip:url(data:image/webp;base64,UklGRrwAAABXRUJQVlA4ILAAAAAwBQCdASoYABMAPtFep0+oJKMiKAgBABoJZgCxDExBgszd38AT+QFHlySiQO6cylbKAAD+9XUaDuD+mof3JO42ZfoHaHS6qu55CQPrIBLSmMZ4ct76y2m9v0dlydV3ukrwined9rykhrFwZoAtTQq/9qS92aTHIMGuPcwOYUtGQDPoiLRdwHsJvMQkjzKyHZdYUQEdpYC7ZrwJ0xKFAbBV20BUQ4Ysr3WN5i9Ji4YAAA==)" width="600" height="470" loading="lazy" decoding="async" alt="Hands in the air on the dancefloor">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-sq">
+          <img src="../images/gal/14_sq.webp" style="--lqip:url(data:image/webp;base64,UklGRq4AAABXRUJQVlA4IKIAAADQBACdASoYABMAPtFapk4oJKMiKAqpABoJZgC7IOZBePEbbGkZBTtaXnHHCOQIYAD+6f8PZ8xQtE2hpzEI5bKihi9n7VN1dQ8JoPeq9Kh5WntknTCNDPYR+QK59bB/veoTA2fs9V/wBYYWyIy5WMW/TrXxgHHh0XSfVPxzymsJZfpzoORj/VnYhmDc9615/Zfw913///olCaiT9DcnngZAAAA=)" width="600" height="470" loading="lazy" decoding="async" alt="A laid table with headphones">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall">
+          <img src="../images/gal/16_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAAAwBACdASoPABgAPtFUo0uoJKMhsAgBABoJQAXf+A8jy+MXe34XnsxCcwAA/vd7VsJ9zZhehTaD0RJGYkRif2JhIj5ownmP6D7Kr7ZQlQw0ON6+I0ErDl4UaX/s8o5/UiAdSkw+BlV9BJWF5AA=)" width="600" height="968" loading="lazy" decoding="async" alt="Two friends laughing">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-wide">
+          <img src="../images/gal/28_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAAAQBACdASoYAAkAPtFWo0uoJKMhsAgBABoJbACdAB+F3CzzuL+xX4ytgAD+6hTiaxV1BkwKqps9CCGuCFTLXcyJ63pLiWXTDBjEervNArZxz62vp2wncK1O0gW3m5UFM+lW+bGfmp7uUqoa06nwZCC/T3lPa7wMZvlpTwT9pLDABUgA)" width="1228" height="470" loading="lazy" decoding="async" alt="Lasers over a room in headphones">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-wide">
+          <img src="../images/gal/03_wide.webp" style="--lqip:url(data:image/webp;base64,UklGRoYAAABXRUJQVlA4IHoAAADwAwCdASoYAAkAPtFYpEwoJSOiMAgBABoJQBOgA9j+SAmHxSBoPNNgAP7zKywV4CP0hXistz3PlOEj3F8XqkfEm8Zl09wlkMVtSEnGMvag0F3GtQfvCcf4hlkIdQYhZ6rt03lENcV0EzlDEpct+6lyp/ibGj2ywELAAA==)" width="1228" height="470" loading="lazy" decoding="async" alt="A group dancing together">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall">
+          <img src="../images/gal/09_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAABwAwCdASoPABgAPtFUo0uoJKMhsAgBABoJYwCdACHZTXDgf4AA/s3/GNhujCrIR9jGbiDhEyyfsrYzMRMjI2GnqJpTq3g1qU6blL/Yb1U0p+8P/aicXm1WhXjO6S6Mi0AKXoFj3F+6S9KIQauAAA==)" width="600" height="968" loading="lazy" decoding="async" alt="Guests in a museum hall">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-tall is-video">
+          <img src="../images/gal/106_tall.webp" style="--lqip:url(data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAADwAwCdASoPABgAPtFUo0uoJKMhsAgBABoJYwC7MoADTraofW7F7cQAAP71eVSK7r7SbC8LhE1KVp8ek027wnEU2DdA3l9r2v8rpcxs2TaKleGK6kO90bUBLoUXogUoXYyyTGYCGI+ixj+dApAAAA==)" width="600" height="968" loading="lazy" decoding="async" alt="Guests singing together">
+          <button class="gal-play" type="button" data-video="../video/web/silent-6.mp4" data-poster="../images/gal/106_tall.webp" aria-label="Watch video: Guests singing together"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg></button>
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-sq">
+          <img src="../images/gal/22_sq.webp" style="--lqip:url(data:image/webp;base64,UklGRgQBAABXRUJQVlA4IPgAAAAQBgCdASoYABMAPtFcqE4oJSQiKAqpABoJbACdMyX+ItXrJ1oAJR9tA+E6m1uY3LjgT27mnpxdYAAA/uzffhY3g9FrtHrzOl+isJs0JXuHAuChiTp+II0VI04Z2K5F1GoDf6qd0WEDrqw9Kc3gRYvf1tE433jswUCLhkNJDHzzs04thZQURcOZWZJqdnlB+7ENzTjpbLmVFELjRGzZCqzt/K46YX0wPiO+4HFP9A4/3k1DlV8FGw7wn9eTIkBvCR5wxYe1awec+UO5ND6KA2ZnnxS/ibKsbvsJFVDOn6AJNgIpCQoqWB+grZDfWN+Mt9gm+qISigAAAA==)" width="600" height="470" loading="lazy" decoding="async" alt="A guest choosing her channel">
+          <div class="gallery-scrim"></div>
+        </figure>
+        <figure class="gallery-item g-sq">
+          <img src="../images/gal/13_sq.webp" style="--lqip:url(data:image/webp;base64,UklGRpQAAABXRUJQVlA4IIgAAACwAwCdASoYABMAPtFcqU2oJSQiKAqpABoJQBadArDkY1OliCkcwAD+8MrD7Fgz8QnsLbggvJ22jzNWBjWhSVbV7LuTHt6mZQkg12cnrA4PqSw0nG2w4mcrzGgPDpXXFYUcw8jNJy9L8c9hlk4f08ZfHe0o2JT1GcLdvWCqddk++NjPUrEMqeAA)" width="600" height="470" loading="lazy" decoding="async" alt="A courtyard full of guests">
+          <div class="gallery-scrim"></div>
+        </figure>
+      </div>
+      <button class="gal-nav gal-prev" type="button" aria-label="Previous shots">‹</button>
+      <button class="gal-nav gal-next" type="button" aria-label="Next shots">›</button>
+    </div>
+    <p class="uc-hint">Scroll sideways for more shots</p>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section class="usecases" id="cases">
+  <div class="uc-aurora" aria-hidden="true">
+    <span class="ua-blob u1"></span><span class="ua-blob u2"></span>
+    <span class="ua-blob u3"></span><span class="ua-blob u4"></span><span class="ua-blob u5"></span>
+  </div>
+  <div class="wrap">
+    <div class="eyebrow reveal">Silent experiences</div>
+    <h2 class="h2 reveal">Silent disco is only one of the scenarios. Quiet sound works anywhere it matters to hear.</h2>
+    <p class="section-lead reveal">One technology, dozens of formats. From private celebrations and weddings to a museum tour: scroll on and see what is already possible.</p>
+    <div class="uc-gallery reveal">
+      <div class="uc-grid" id="ucGrid" role="region" aria-label="Event scenarios, scroll sideways">
+        <div class="uc-row" data-row="a">
+      <article class="uc-card" data-uc="Weddings">
+        <div class="uc-media">
+          <img src="../images/uc/wedding.webp" style="--lqip:url(data:image/webp;base64,UklGRsQAAABXRUJQVlA4ILgAAADQBACdASoYAA4APtFUo0uoJKMhsAgBABoJagCdMoRwJoIoAAiwusfd61BQLA0+sAD+6hZDggq31DvIMiGxnLmzmQNYIop1aAMLfkk2DBYNjZFPp+w+fhL3RU1EP1ejngs67TeTDjNyqbmyN2wbWEboQZ8tij8H7ueZ+QV20oSsKcGNE+OP7A/I9FxQZwii9vxZhg+dN93GzXuGVpA7t7yq0fSy2VRoxun13QJjd7VuNID+XGlrA0gA)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Weddings">
+        </div>
+        <div class="uc-body">
+          <h3>Weddings</h3>
+          <p>Guests choose for themselves: dance or talk. Nothing booming across the room, and no call from the hotel at two in the morning.</p>
+          <button type="button" class="uc-order">Book this experience</button>
+        </div>
+      </article>
+      <article class="uc-card" data-uc="Open-air cinema">
+        <div class="uc-media">
+          <img src="../images/uc/cinema.webp" style="--lqip:url(data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAADQAwCdASoYAA4APtFWpUwoJKOiMAgBABoJQBOgBDvudFPd9AUGbAAA/vKo1+COQ1/Zx8C7tQq2YZSCRtxmj9UxMg/8UwxLNkVa+FlxnhWGi/WvGjhVUxeSHnvRwB/q3vA8kl8GAQ/FnyYAAAA=)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Open-air cinema">
+        </div>
+        <div class="uc-body">
+          <h3>Open-air cinema</h3>
+          <p>A courtyard, a rooftop, a park — sound in the headphones, quiet all around. A film that runs late with no questions from the neighbours.</p>
+          <button type="button" class="uc-order">Book this experience</button>
+        </div>
+      </article>
+      <article class="uc-card" data-uc="Student events">
+        <div class="uc-media">
+          <img src="../images/uc/students.webp" style="--lqip:url(data:image/webp;base64,UklGRrQAAABXRUJQVlA4IKgAAADwAwCdASoYAA4APtFUo0uoJKMhsAgBABoJYgCdAywA6PbdEtjsA+SAAPvsSHW3OqisnIIH0Frjn5vQdO9D/0OpecLV+P0WN4C/HBZgBbLnp8JCypezVcHOjf8BrUagqtEi5ocqrcT1nK8VkwvV/sIoVkSEnvDwm/DeWXNVGgHdjpDnzQg5YTDJrnkivJHMLlWw2x6Ifx1XwyMVTfEbIPKVGK3gxYswAAA=)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Student events">
+        </div>
+        <div class="uc-body">
+          <h3>Student events</h3>
+          <p>Initiations, graduations, a dorm party — loud for your own people and quiet for the administration.</p>
+          <button type="button" class="uc-order">Book this experience</button>
+        </div>
+      </article>
+      <article class="uc-card" data-uc="Release listening party">
+        <div class="uc-media">
+          <img src="../images/uc/listening.webp" style="--lqip:url(data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAABQBACdASoYAA4APtFWo0uoJKMhsAgBABoJYwDCkf/gND+o9rLasq+3lJgAAP72k+frd+Tx9MzWNuSRzIVr83k0gRilpmMzr9BlrgGyzSeTDtLf2/iOo6+FzH+Q7czV2CxtJA7564KHt1KHBSz87pZ9Ua6uF05DKz4OyAAA)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Release listening party">
+        </div>
+        <div class="uc-body">
+          <h3>Release listening party</h3>
+          <p>Hear a new album in detail — together and privately at the same time. An intimate format for its first listeners.</p>
+          <button type="button" class="uc-order">Book this experience</button>
+        </div>
+      </article>
+      <article class="uc-card" data-uc="Drive-in format">
+        <div class="uc-media">
+          <img src="../images/uc/drivein.webp" style="--lqip:url(data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAAAQBACdASoYAA4APtFWo0uoJKMhsAgBABoJQBdgBEM2cB3CtRUksPXyFAD+9pGZTvDMjh3Csl8v0OePiuYehRb2/+uP4WiApjPQYwnu0Ll/H2oH3iJbyDxtrBzruf9QTWEMmG7HP11Ubwj+m5xOoIym4kExJ0AA)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Drive-in format">
+        </div>
+        <div class="uc-body">
+          <h3>Drive-in format</h3>
+          <p>An empty lot, a screen and sound in the headphones — an event where there is no audio infrastructure at all.</p>
+          <button type="button" class="uc-order">Book this experience</button>
+        </div>
+      </article>
+      <article class="uc-card" data-uc="Music colleges">
+        <div class="uc-media">
+          <img src="../images/uc/musiccollege.webp" style="--lqip:url(data:image/webp;base64,UklGRrYAAABXRUJQVlA4IKoAAADQBACdASoYAA4APtFUo0uoJKMhsAgBABoJZgCdLwDs/xbHa2vE5qyKDEI6/A6sAAD+5rcp/v4gzDEpTtseTdXW52D61soTCkgUXaAHOu4K5vCcHOqtVwm8X2+bcl74be6FsZe3M/0zav3ge4MQQvas87tKoPe8WvJ057hbeTIT79v108ZnvtrqMAeJu/GBqt6ZuY3TBwp0M8K9n4QNbPC6Fw8x5iEjkfPwAA==)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Music colleges">
+        </div>
+        <div class="uc-body">
+          <h3>Music colleges</h3>
+          <p>Intimate listening sessions for student programmes: every part audible without loud monitors in the hall.</p>
+          <button type="button" class="uc-order">Book this experience</button>
+        </div>
+      </article>
+      <article class="uc-card" data-uc="Festivals">
+        <div class="uc-media">
+          <img src="../images/uc/festival.webp" style="--lqip:url(data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAADwAwCdASoYAA4APtFWpEuoJKOhsAgBABoJZQAAW++8bKuV9cVwc3AAAP72jSMjMom0RT6TN3Bl5z/Qy6Jj+z4jD8gYVoO13hbo3aF6yTKvR/8f+ndpxRqW5eOrIKvP14d2VKESS+kD6W+/flnL08mAAAA=)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Festivals">
+        </div>
+        <div class="uc-body">
+          <h3>Festivals</h3>
+          <p>An extra stage that doesn't clash with the main one and doesn't run into curfew.</p>
+          <button type="button" class="uc-order">Book this experience</button>
+        </div>
+      </article>
+      <article class="uc-card" data-uc="Museums and galleries">
+        <div class="uc-media">
+          <img src="../images/uc/museum.webp" style="--lqip:url(data:image/webp;base64,UklGRowAAABXRUJQVlA4IIAAAABwBACdASoYAA4APtFUo0uoJKMhsAgBABoJYgCdMoACTzLq9lFt7s8mexZ8AAD+9Yv5sNCJOab5PaOPf1UWQ9nsWHEP9u5XQ9rx/L3dxHREV/Q9V7DvfCsIaMnUND3maveqJ4q6jWbanmUBiozIhkPtMrIEk4b4G1+BCRkkMZAAAA==)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Museums and galleries">
+        </div>
+        <div class="uc-body">
+          <h3>Museums and galleries</h3>
+          <p>An audio track synced to the space. Visitors get drawn in without breaking the quiet of the room.</p>
+          <button type="button" class="uc-order">Book this experience</button>
+        </div>
+      </article>
+      <article class="uc-card" data-uc="Charity galas">
+        <div class="uc-media">
+          <img src="../images/uc/gala.webp" style="--lqip:url(data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAADQAwCdASoYAA4APtFWo0uoJKMhsAgBABoJS7NsAWJwAAnG5YqCSLgA/vCjDgrnjn/4Z76o5rNek86Uu9Q6uMUbhgmjUns8hFaZWMIF44JPLMf05A6UxfO4WTSCXbwAYxUHQs/TAICGKOP6q4suoJJtDFBizr9cDKaXiQS2LtisTAAA)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Charity galas">
+        </div>
+        <div class="uc-body">
+          <h3>Charity galas</h3>
+          <p>An auction and dancing in the same room. Guests hear the host without fighting the background music.</p>
+          <button type="button" class="uc-order">Book this experience</button>
+        </div>
+      </article>
+      <article class="uc-card" data-uc="School events">
+        <div class="uc-media">
+          <img src="../images/uc/school.webp" style="--lqip:url(data:image/webp;base64,UklGRrIAAABXRUJQVlA4IKYAAACQBACdASoYAA4APtFWpEuoJKOhsAgBABoJZgCdMoGvgAQGlaFpsTjAN0x46kAA/vFCF+XAmC6ylmjcMnokgjbvXNEFHKnjA6TpYAF7VcnaoGx+OhxeP55xuZdx3+zueII/fuuE9VpQQKy69fzWZFkRonxjuGxbhJvBw6bvT1sSxl8oRg3ILvbVYTmbHtA0cLw47a4NoHQ2cN/7PC8XfGl5Tgg5AAAA)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="School events">
+        </div>
+        <div class="uc-body">
+          <h3>School events</h3>
+          <p>Events and fundraisers children look forward to. Without overloading the gym with sound.</p>
+          <button type="button" class="uc-order">Book this experience</button>
+        </div>
+      </article>
+      <article class="uc-card" data-uc="Church and youth camps">
+        <div class="uc-media">
+          <img src="../images/uc/churchcamp.webp" style="--lqip:url(data:image/webp;base64,UklGRtQAAABXRUJQVlA4IMgAAADQBACdASoYAA4APtFUo0uoJKMhsAgBABoJZgCdMoGv/i2RXa0YxH7OCuwomdgSAAD+qHdUFtREeorG0C0ANxH5xib0YT/xtiAqFhGrJToIMjwQZs3+KmWs2KF8WqdOLtDpY3jHdN//WvSyLHzIPkrLq6az+7mxXagD1uTW2UUi/McZV/2Livvf+VVace0oDPT+FJDMQp6uWoTudqpr8kRKEo9Fu5Ew/42YUZcW2YDPOPoIs1e6t7w8tymWK7BQGQlUkWGPiIAAAA==)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Church and youth camps">
+        </div>
+        <div class="uc-body">
+          <h3>Church and youth camps</h3>
+          <p>Morning gatherings, quiet hours for reflection and evening discos — on one set of equipment.</p>
+          <button type="button" class="uc-order">Book this experience</button>
+        </div>
+      </article>
+      <article class="uc-card" data-uc="Silent disco">
+        <div class="uc-media">
+          <img src="../images/uc/silentdisco.webp" style="--lqip:url(data:image/webp;base64,UklGRtQAAABXRUJQVlA4IMgAAACwBACdASoYAA4APtFUo0uoJKMhsAgBABoJbAC7MoRwACXe2OlOuLm/q4zmdJkYAP7R3o3mbs8WVpAoxjXkcFGn0upcAW9yNPxv1kqMK88RKEX3P74fRLjUbrQpbDcvqsLGdqkRv8sieQWVQNkjUzUnfdBn3CesNVdHIL3I6Ykyh1rsq18L0zm6lioIJez+I896Dq2jKopnXLclUqEm4GAPNqfd1nBZzvN+z6O0Fta5kLhdq5m7omdzqjDlDZfCVwB7ysq97oAAAA==)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Silent disco">
+        </div>
+        <div class="uc-body">
+          <h3>Silent disco</h3>
+          <p>The format in its purest form: three channels, headphones and a dancefloor that bothers nobody around it.</p>
+          <button type="button" class="uc-order">Book this experience</button>
+        </div>
+      </article>
+      <article class="uc-card" data-uc="Birthdays">
+        <div class="uc-media">
+          <img src="../images/uc/birthday.webp" style="--lqip:url(data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAACQBACdASoYAA4APtFWpEuoJKOhsAgBABoJbAC7MoAvQBrMpa85VqL7klBZIAAA/vVvw0aA7VYVV/rP4/dfAm8vmzCTzVL/q4gycDvbjcpChx8iSE2/KWAVxFMzQhnh7UXXJMuRbnH3c2t5LT4hUzDhSeTM+hDTDpzW/7L4n6BDnwLLZ4vGuy0sKLO/JcUJOLt9gy+gAAA=)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Birthdays">
+        </div>
+        <div class="uc-body">
+          <h3>Birthdays</h3>
+          <p>From a children's party to a grown-up one: volume to match the age and mood of each group.</p>
+          <button type="button" class="uc-order">Book this experience</button>
+        </div>
+      </article>
+        </div>
+        <div class="uc-row" data-row="b">
+      <article class="uc-card" data-uc="Conferences">
+        <div class="uc-media">
+          <img src="../images/uc/conference.webp" style="--lqip:url(data:image/webp;base64,UklGRowAAABXRUJQVlA4IIAAAAAQBACdASoYAA4APtFWpEwoJKOiMAgBABoJQAqVcPYgpuUopXx90e5wxAD+2irCZTRSKU6Ru7/i7IH3JiHo9sHN7r8QgV22wyw3+AHvPy1qf8wqDUMeROUAxgs9OlCWgIMgTMmljxnYSPL2GTu6W9oakvtQAIpAiuPbLFZA7nggAA==)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Conferences">
+        </div>
+        <div class="uc-body">
+          <h3>Conferences</h3>
+          <p>Several stages in one hall and quiet breakout discussions. Everyone hears their own speaker without disturbing the section next door.</p>
+          <button type="button" class="uc-order">Book this experience</button>
+        </div>
+      </article>
+      <article class="uc-card" data-uc="Guided tours">
+        <div class="uc-media">
+          <img src="../images/uc/tour.webp" style="--lqip:url(data:image/webp;base64,UklGRsgAAABXRUJQVlA4ILwAAAAQBACdASoYAA4APtFUo0uoJKMhsAgBABoJYwCo9YxOysDGzUVO7fN9qAD5CBa6x7gug8n9jkeLVWYMe8YVxCr0JPrHmAPYei3N7266XaY9Raepys2g2gdJH95NGOKAwNdKqaoZ4dVUEy5ApUCZqtXe75W1ukItNI+/bZ92mP9a0T3WsJKioaUpNVL/9hCWx/eoXpxEbhcTrabCWlS79g9Ps+Zdcz/+gGCKHBMbIfOgY3TOjooL1/Q/HoRgAA==)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Guided tours">
+        </div>
+        <div class="uc-body">
+          <h3>Guided tours</h3>
+          <p>The guide speaks softly and is heard just as well at the front as at the back. No shouting, no megaphone.</p>
+          <button type="button" class="uc-order">Book this experience</button>
+        </div>
+      </article>
+      <article class="uc-card" data-uc="Camps and youth gatherings">
+        <div class="uc-media">
+          <img src="../images/uc/camp.webp" style="--lqip:url(data:image/webp;base64,UklGRowAAABXRUJQVlA4IIAAAADwAwCdASoYAA4APtFUo0uoJKMhsAgBABoJYhw0DLxlqgPQ/v+TVT7gAP71cGPLd3bujHx/+n0VS1nq0Xs+MXrk5eU8j6VqEsvKi9oL4khCaMC+Qedw4Huvc1UOxSVk14B+QNCXjVa1KyElqMDverUYbAEYWYzRn5iUTAhhTVFOAA==)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Camps and youth gatherings">
+        </div>
+        <div class="uc-body">
+          <h3>Camps and youth gatherings</h3>
+          <p>Morning warm-ups, team games, an evening disco — one kit for every activity of the session.</p>
+          <button type="button" class="uc-order">Book this experience</button>
+        </div>
+      </article>
+      <article class="uc-card" data-uc="Live DJ set">
+        <div class="uc-media">
+          <img src="../images/uc/dj.webp" style="--lqip:url(data:image/webp;base64,UklGRrQAAABXRUJQVlA4IKgAAABQBACdASoYAA4APtFUo0uoJKMhsAgBABoJbACsHX+lP+JBvwQ2tni0yHdYAP7vYeHx8HQXp/hEpIbwbnYhycZ8q6yo8OpXEB9QcXVzTqThzH9FmaaB33a53kO+df7tl5Kswj59zSiNsj/Tt/zL2O9GhT3rdQWvfaOZXlVlY9GQZKsmJEamU0I1YqaQ9FXdZ1byN77qedtmfwFK/ansZLy4W8P2+w4AAAA=)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Live DJ set">
+        </div>
+        <div class="uc-body">
+          <h3>Live DJ set</h3>
+          <p>A resident or guest DJ mixes straight into your headphones, reading the room as they go.</p>
+          <button type="button" class="uc-order">Book this experience</button>
+        </div>
+      </article>
+      <article class="uc-card" data-uc="Church services and gatherings">
+        <div class="uc-media">
+          <img src="../images/uc/church.webp" style="--lqip:url(data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAAAwBACdASoYAA4APtFUo0uoJKMhsAgBABoJZACdACK1h7W94VHqi9MZucAA/unpiZ4KKeBeyLjdZsWD3pN1TIVXTeTSc1PCTfpZAFMNzeeKiU0Lvldx7S+wFqrRXHGvteSF7Xt7cMrIwCGdrMhGPrNG9KmKLmQAAAA=)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Church services and gatherings">
+        </div>
+        <div class="uc-body">
+          <h3>Church services and gatherings</h3>
+          <p>The sermon and the music come through clearly for everyone — in the hall, in the yard or at an outdoor service.</p>
+          <button type="button" class="uc-order">Book this experience</button>
+        </div>
+      </article>
+      <article class="uc-card" data-uc="Corporate events">
+        <div class="uc-media">
+          <img src="../images/uc/corporate.webp" style="--lqip:url(data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAAAQBACdASoYAA4APtFUo0uoJKMhsAgBABoJbACdACLL3iBe84qKtWO4wAD+5nbzcTrTZwJ/f9yt24gFs8j4aIRpVF74Sq8fSR210cywsMn4zsNNO8GypfsXGETLsYnVk9KY/wV7hrSg9HtY5O1iI5nAgf3bxJ2LSnF/lBw2SCZ1UKOTSk7eG3kP6fwSe6T+8dVDvLidIaRXLX9eaAAAAA==)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Corporate events">
+        </div>
+        <div class="uc-body">
+          <h3>Corporate events</h3>
+          <p>A format for team building or a company party where the team finally opens up. Works in an office or a loft, with no volume to negotiate with the landlord.</p>
+          <button type="button" class="uc-order">Book this experience</button>
+        </div>
+      </article>
+      <article class="uc-card" data-uc="Yoga and ecstatic dance">
+        <div class="uc-media">
+          <img src="../images/uc/yoga.webp" style="--lqip:url(data:image/webp;base64,UklGRrwAAABXRUJQVlA4ILAAAABwBACdASoYAA4APtFUo0uoJKMhsAgBABoJZACdMoMYJn/AZQkfgyxGcAvOVAD+7IYPVX05YzoYsbxsftIqCk2zygRcJXW1kuR+816YAdrwqhj1eTEFNG/lQ1kN+vaMYXbkTxS/MlyaDUTcWJmZuZg/xaDL/V4YD7FgAh5OAxHZDG2sQnzD6PfcFV0nEtl9J6iZn1hTsPedGobZO3lrwcxchE63DLW1YC83nXwj1AAAAA==)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Yoga and ecstatic dance">
+        </div>
+        <div class="uc-body">
+          <h3>Yoga and ecstatic dance</h3>
+          <p>The instructor's voice right in your ear, the music at your own volume. Nothing pulls you out of the practice.</p>
+          <button type="button" class="uc-order">Book this experience</button>
+        </div>
+      </article>
+      <article class="uc-card" data-uc="Intimate concerts">
+        <div class="uc-media">
+          <img src="../images/uc/showcase.webp" style="--lqip:url(data:image/webp;base64,UklGRpwAAABXRUJQVlA4IJAAAABQBACdASoYAA4APtFUo0uoJKMhsAgBABoJZgCdMoADKmrah0sAOZi3fVAAAP7syQEZOxGeLbto8J41rPKT+C15WMRrvrVM4npqb46c25H8fExhUaOhTAwL4S/xPZosSuKw6yavoO2xoV3sJ0XVu+lbBK4fb0nQUbKBtmZ1IfqqXZsAgB+ine7yZzQcKNSAAAA=)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Intimate concerts">
+        </div>
+        <div class="uc-body">
+          <h3>Intimate concerts</h3>
+          <p>Sessions where every nuance of the performance comes through. The audience as close to the sound as it gets.</p>
+          <button type="button" class="uc-order">Book this experience</button>
+        </div>
+      </article>
+      <article class="uc-card" data-uc="Inclusive events">
+        <div class="uc-media">
+          <img src="../images/uc/inclusive.webp" style="--lqip:url(data:image/webp;base64,UklGRqgAAABXRUJQVlA4IJwAAABQBACdASoYAA4APtFUo0uoJKMhsAgBABoJaACdMoADTrh9pnE1PUW/+SlAAP7xeTQDp5G0bnUfoI63KuxgsEKAe8HLBHgBDbgojj7le3Ryml1NXM+DWfkiPeKBv5HwhrxXjX/Llaqu+jdFdWtZB8OuinMFF/uP0kD8RrRWOl222aIlR9GIbSskv31lfg/RGxO2LreOUm2/q0AAAAA=)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Inclusive events">
+        </div>
+        <div class="uc-body">
+          <h3>Inclusive events</h3>
+          <p>Everyone sets their own volume, which makes the event accessible to guests with sensory sensitivities.</p>
+          <button type="button" class="uc-order">Book this experience</button>
+        </div>
+      </article>
+      <article class="uc-card" data-uc="Community gatherings">
+        <div class="uc-media">
+          <img src="../images/uc/community.webp" style="--lqip:url(data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAAAQBACdASoYAA4APtFUo0uoJKMhsAgBABoJYwCo9BuZ1ewnK3JJr6pwAAD+9Xvhh8SqgC5o/9kjrPhvQSOaIro5VtV5iCCmM7jQjdOwoDFOevDIPE43wjfu95twltkkvOFthm9hOj4LBBTzs9sKvVaJShk/vAAFHn4YLxsAAAA=)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Community gatherings">
+        </div>
+        <div class="uc-body">
+          <h3>Community gatherings</h3>
+          <p>Talks, screenings, community meetings — every word audible even in an open space.</p>
+          <button type="button" class="uc-order">Book this experience</button>
+        </div>
+      </article>
+      <article class="uc-card" data-uc="Fairs and markets">
+        <div class="uc-media">
+          <img src="../images/uc/markets.webp" style="--lqip:url(data:image/webp;base64,UklGRp4AAABXRUJQVlA4IJIAAAAwBACdASoYAA4APtFUo0uoJKMhsAgBABoJYwCdMoACsvI5SZ2dG/eA/YAA/u7udFVZGj11xHvVuoKpkTpTsSP3a3cHFv1fWlpt4eWWfeNFUIEl2SUQs2E2HBJXTzO8oH0O0A0ekYcHq+uXc5zC5rauZmSMCyUMTcAm3+Jvlraka/tGAPc6HBjYcZo79NfgNybgAA==)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Fairs and markets">
+        </div>
+        <div class="uc-body">
+          <h3>Fairs and markets</h3>
+          <p>A music zone right among the stalls — guests dance while trading carries on beside them.</p>
+          <button type="button" class="uc-order">Book this experience</button>
+        </div>
+      </article>
+      <article class="uc-card" data-uc="Immersive theatre">
+        <div class="uc-media">
+          <img src="../images/uc/theatre.webp" style="--lqip:url(data:image/webp;base64,UklGRrgAAABXRUJQVlA4IKwAAADwBACdASoYAA4APtFUo0uoJKMhsAgBABoJZgCdMoGvqgOBmK2bA75gneRYo8TgQAAA/qntKDi8mAtGmzhGjAxj5G4iZ9YLKf7BfzYLwn/w8N6LqPUzTEkDvjq8NR0h4vZ4Nfxf5aKnrq/d6nLMNlQWgN3yWTLtRMSHY+gl6gpLXACJajEusE/aNaWD/FMyIfyS47EYi8D9bhHRQiYG9wi24Z68I4Ahpw8+oAAA)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Immersive theatre">
+        </div>
+        <div class="uc-body">
+          <h3>Immersive theatre</h3>
+          <p>The actors' voices and the soundtrack play right in the audience's ear. The stage can be set up even in the open air.</p>
+          <button type="button" class="uc-order">Book this experience</button>
+        </div>
+      </article>
+      <article class="uc-card" data-uc="Sports events">
+        <div class="uc-media">
+          <img src="../images/uc/sport.webp" style="--lqip:url(data:image/webp;base64,UklGRsoAAABXRUJQVlA4IL4AAADwAwCdASoYAA4APtFUo0uoJKMhsAgBABoJQBXDsXhZ/EIr2vqsaU/AAP7qVcCuqHPu5880miPlmzrnGeM7JXp7yoCC7bp3IEs+uzCd5LfQITar6LpB9AIP0iXZ+QQbOh2yvnaXs4IkMjIMHP9rS2P/JPsZeveCJaJo4PkZ6v4WGNGaF+GCBFkNW8lf1/jOqvmVZ+V/86G/1iEuCiyjHFz86bejBYJ4fDl4NdgJ5QDCOsZIoFNksRNjJYPpaAAA)" width="544" height="306" fetchpriority="low" loading="lazy" decoding="async" alt="Sports events">
+        </div>
+        <div class="uc-body">
+          <h3>Sports events</h3>
+          <p>Runs, training, warm-ups: the team hears the coach, not the wind and the street noise.</p>
+          <button type="button" class="uc-order">Book this experience</button>
+        </div>
+      </article>
+        </div>
+      </div>
+      <button class="uc-nav uc-prev" type="button" aria-label="Previous scenarios">‹</button>
+      <button class="uc-nav uc-next" type="button" aria-label="Next scenarios">›</button>
+    </div>
+    <p class="uc-hint">Scroll sideways to see every format</p>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section class="calculator" id="price">
+  <div class="wrap">
+    <div class="calc-card reveal">
+      <div class="calc-copy">
+        <div class="eyebrow">Calculator</div>
+        <h2>Work out the budget for the evening before you enquire.</h2>
+        <p>The minimum order is 40 headphones for 4 hours. Move the slider and add options to see a rough budget for your event.</p>
+        <div class="calc-photo">
+          <img src="../images/headphones3.webp" width="1100" height="733" loading="lazy" decoding="async"
+               alt="SILENT headphones with the logo and the three channel colours lit — green, blue and red">
+        </div>
+        <div class="calc-rules">
+          <div class="calc-rule"><b>40</b><span>headphones minimum</span></div>
+          <div class="calc-rule"><b>4 hrs</b><span>base duration</span></div>
+          <div class="calc-rule"><b>3</b><span>music channels</span></div>
+          <div class="calc-rule"><b>~30 min</b><span>setup on site</span></div>
+        </div>
+      </div>
+      <div class="calc-panel">
+        <div class="calc-top">
+          <div>
+            <span>Headphones</span>
+            <div class="calc-price"><strong id="calcHeadphones">40</strong> <small>units</small></div>
+          </div>
+          <div style="text-align:right;">
+            <span>Estimate</span>
+            <div class="calc-price"><strong id="calcTotal">9,800</strong> <small>UAH</small></div>
+          </div>
+        </div>
+        <div class="calc-slider">
+          <input type="range" id="headphoneRange" min="40" max="90" step="5" value="40" aria-label="Number of headphones">
+          <!-- three labels only: with space-between they land exactly on 40 / 65 / 90 -->
+          <div class="calc-labels"><span>40</span><span>65</span><span>90+</span></div>
+        </div>
+        <div class="calc-checks">
+          <div class="calc-hours">
+            <span>Duration</span>
+            <div class="hours-stepper">
+              <button type="button" class="hstep" id="hourMinus" aria-label="Fewer hours">−</button>
+              <span id="hoursValue">4</span> <small>hrs</small>
+              <button type="button" class="hstep" id="hourPlus" aria-label="More hours">+</button>
+            </div>
+          </div>
+          <label><input type="checkbox" id="outsideKyiv"> travel across Ukraine</label>
+          <label><input type="checkbox" id="contentReel"> a short reel</label>
+          <label><input type="checkbox" id="smokeLight"> smoke and lights</label>
+        </div>
+        <div class="calc-row"><span>Base: 40 headphones / 4 hours</span><span id="baseLine">9,800 UAH</span></div>
+        <div class="calc-row"><span>Extra headphones</span><span id="extraLine">0 UAH</span></div>
+        <div class="calc-row"><span>Extra hours</span><span id="hoursLine">0 UAH</span></div>
+        <div class="calc-row"><span>Options</span><span id="optionsLine">0 UAH</span></div>
+        <div class="calc-row"><span>Price per guest</span><span id="perHeadLine">245 UAH</span></div>
+        <a href="#book" class="btn-primary" id="calcSubmit" data-cta="calculator_check_date" style="display:block;text-align:center;margin-top:20px;">Check if your date is free</a>
+        <div class="calc-note">This is an estimate. The final price depends on the date, the venue, the hours and the format, and it isn't a public offer.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GUARANTEE -->
+<section class="block">
+  <div class="band reveal">
+    <div class="g-tag">Our guarantee</div>
+    <h2>If nobody is dancing in the first half hour, we take part of the fee off the bill.</h2>
+    <p>We're accountable for how the evening turns out, so we carry the financial risk.</p>
+  </div>
+</section>
+
+<!-- WHAT TO EXPECT -->
+<section class="testimonials" id="expect">
+  <div class="wrap">
+    <div class="eyebrow reveal">Reviews</div>
+    <h2 class="h2 reveal">What people who've felt it say.</h2>
+    <p class="section-lead reveal">Short impressions from guests and organisers after events in Kyiv.</p>
+    <!-- ЗАГЛУШКА / DESIGN MOCKUP.
+         Ці вісім відгуків вигадані й потрібні лише щоб побачити верстку блоку.
+         НЕ ПУБЛІКУВАТИ як справжні. Перед запуском замінити на реальні цитати
+         з іменами, які надасть замовник, або прибрати секцію цілком. -->
+    <div class="tst-wrap" data-placeholder-content="true">
+      <div class="tst-strip" id="tstStrip">
+        <article class="tst-card reveal">
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">I was afraid the guests would just stand around holding the headphones and leave. Half an hour in, everyone was dancing, my mum included. At two in the morning we were the ones switching it off, because nobody was going home.</p>
+          <div class="tst-author">
+            <div class="tst-avatar">OK</div>
+            <div><div class="tst-name">Olena K.</div><div class="tst-role">wedding · Kyiv, September</div></div>
+          </div>
+        </article>
+        <article class="tst-card reveal">
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">A loft with flats on the other side of the wall. Zero complaints, and that was the main question for us. They arrived two hours before the start and set everything up without us.</p>
+          <div class="tst-author">
+            <div class="tst-avatar">DP</div>
+            <div><div class="tst-name">Dmytro P.</div><div class="tst-role">company party for 120 guests</div></div>
+          </div>
+        </article>
+        <article class="tst-card reveal">
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">The three channels saved the evening. My friends listen to completely different things, and instead of a compromise playlist everyone just flicked the switch on their own headset.</p>
+          <div class="tst-author">
+            <div class="tst-avatar">MT</div>
+            <div><div class="tst-name">Maryna Ts.</div><div class="tst-role">birthday, 35</div></div>
+          </div>
+        </article>
+        <article class="tst-card reveal">
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">The best part wasn't even the music. Our form teacher and I had a proper conversation in the middle of the dancefloor without wrecking our voices.</p>
+          <div class="tst-author">
+            <div class="tst-avatar">AV</div>
+            <div><div class="tst-name">Artem V.</div><div class="tst-role">rooftop graduation</div></div>
+          </div>
+        </article>
+        <article class="tst-card reveal">
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">A morning practice on 40 mats in the open air. The instructor's voice carried even to the back row. With speakers, half the group used to drop out every time.</p>
+          <div class="tst-author">
+            <div class="tst-avatar">SR</div>
+            <div><div class="tst-name">Sofiia R.</div><div class="tst-role">yoga set in the park</div></div>
+          </div>
+        </article>
+        <article class="tst-card reveal">
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">We screened a film in the inner courtyard until eleven at night. Without headphones we'd have been stopped twenty minutes in.</p>
+          <div class="tst-author">
+            <div class="tst-avatar">IM</div>
+            <div><div class="tst-name">Ihor M.</div><div class="tst-role">film screening in the courtyard</div></div>
+          </div>
+        </article>
+        <article class="tst-card reveal">
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">I worried that a hen party for forty would be far too loud for a close group. With the headphones it came out the other way round: each of us heard only her own music, and we still danced together like one crew.</p>
+          <div class="tst-author">
+            <div class="tst-avatar">KL</div>
+            <div><div class="tst-name">Kateryna L.</div><div class="tst-role">hen party, 40 guests</div></div>
+          </div>
+        </article>
+        <article class="tst-card reveal">
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">We booked it as an off-site activity. The effect was unexpected: the people who normally sit in the corner at company parties were dancing that night.</p>
+          <div class="tst-author">
+            <div class="tst-avatar">BS</div>
+            <div><div class="tst-name">Bohdan Sh.</div><div class="tst-role">team building day</div></div>
+          </div>
+        </article>
+      </div>
+      <button class="gal-nav tst-prev" type="button" aria-label="Previous reviews">‹</button>
+      <button class="gal-nav tst-next" type="button" aria-label="Next reviews">›</button>
+    </div>
+    <p class="uc-hint">Scroll sideways for more reviews</p>
+  </div>
+</section>
+
+<!-- BOOKING FORM -->
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="wrap">
+    <div class="eyebrow reveal">Questions up front</div>
+    <h2 class="h2 reveal">What people usually ask before booking.</h2>
+
+    <div class="faq-list">
+      <div class="faq-col">
+        <div class="faq-item reveal">
+          <div class="faq-q" role="button" tabindex="0"><h3>How much dancefloor space do we need?</h3><div class="faq-icon">+</div></div>
+          <div class="faq-a"><p>Roughly <strong>1 m² per person</strong> for active dancing, less if some of the guests will be seated. Tell us the size of the room and the number of guests and we'll work out whether there's enough space, then suggest how many headsets to take.</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <div class="faq-q" role="button" tabindex="0"><h3>Can it be outdoors?</h3><div class="faq-icon">+</div></div>
+          <div class="faq-a"><p>Yes, but the equipment needs power and doesn't like damp. In rain, or with no socket nearby, you need a backup plan — a tent, a canopy or moving indoors. We work that out in advance, once we know the venue.</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <div class="faq-q" role="button" tabindex="0"><h3>Is it really quiet from the outside?</h3><div class="faq-icon">+</div></div>
+          <div class="faq-a"><p>Guests dance, sing and laugh, so it isn't soundless. But the total noise from even a hundred people in headphones is a small fraction of what ordinary speakers make. And when someone wants to talk, they simply slide the headphones down to their neck and speak at a normal voice.</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <div class="faq-q" role="button" tabindex="0"><h3>How long does the battery last?</h3><div class="faq-icon">+</div></div>
+          <div class="faq-a"><p>The headphones run <strong>10+ hours</strong> on one charge — enough for any evening with room to spare. We arrive with the kit fully charged, so it isn't something you need to think about.</p></div>
+        </div>
+      </div>
+      <div class="faq-col">
+        <div class="faq-item reveal">
+          <div class="faq-q" role="button" tabindex="0"><h3>Do we need a DJ as well?</h3><div class="faq-icon">+</div></div>
+          <div class="faq-a"><p>Not necessarily. Hiring a live DJ is a separate line in the budget, usually a sizeable one for the evening. We prepare three playlists in advance to match your mood, so a DJ is only needed if you want a live mix on the night.</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <div class="faq-q" role="button" tabindex="0"><h3>Is it suitable for children?</h3><div class="faq-icon">+</div></div>
+          <div class="faq-a"><p>Yes. Every guest has their own volume, so it's easy to keep children's hearing away from too much sound. For events with small children we suggest capping the volume lower from the outset — we take care of that before it starts.</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <div class="faq-q" role="button" tabindex="0"><h3>How do the headphones come back at the end?</h3><div class="faq-icon">+</div></div>
+          <div class="faq-a"><p>We set up a single hand-out and return point at the entrance so nothing goes astray. If needed we use a simple tracking system, so by the end of the evening we know for certain everything is back — without awkward questions to guests.</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <div class="faq-q" role="button" tabindex="0"><h3>What if headphones get lost or damaged?</h3><div class="faq-icon">+</div></div>
+          <div class="faq-a"><p>It happens at live parties, so we take a small refundable deposit on the kit, returned as soon as all the equipment is handed back intact. If one or two headsets don't come back or are damaged, we cover it from the deposit, with nothing further to sort out on your side. We agree the amount and the terms in advance, before the event itself.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="form-section" id="book">
+  <div class="wrap">
+    <div class="form-card reveal">
+      <div class="form-left">
+        <h2>Check the date of <span class="em">your</span> event</h2>
+        <p>Send a request and we'll get in touch, check whether the date is free, work out the format and confirm the booking once it's agreed.</p>
+        <div class="form-assure">
+          <div><span class="ok">✓</span> We reply the same day</div>
+          <div><span class="ok">✓</span> One evening, one event — dates get taken well in advance</div>
+          <div><span class="ok">✓</span> A request commits you to nothing — it's an availability check</div>
+        </div>
+
+        <!-- Календар — візуальна зручність поверх поля «Preferred date», а не заміна
+             йому: саме поле лишається доступним із клавіатури й на мобільному. -->
+        <div class="cal" id="cal">
+          <div class="cal-head">
+            <button type="button" class="cal-nav" id="calPrev" aria-label="Previous month">‹</button>
+            <div class="cal-title"><span id="calMonth"></span><b id="calYear"></b></div>
+            <button type="button" class="cal-nav" id="calNext" aria-label="Next month">›</button>
+          </div>
+          <div class="cal-week"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+          <div class="cal-grid" id="calGrid"></div>
+          <p class="cal-foot" id="calFoot">Pick a date and it will fill the form</p>
+        </div>
+      </div>
+
+      <div class="form-right">
+        <div id="formFields">
+          <div class="calc-summary-note" id="calcSummaryNote" style="display:none;"></div>
+          <div class="field">
+            <label for="name">Your name</label>
+            <input type="text" id="name" placeholder="Name">
+          </div>
+          <div class="field">
+            <label for="contact">Phone or Instagram</label>
+            <input type="text" id="contact" placeholder="+380… or @handle">
+          </div>
+          <div class="field">
+            <label for="type">What are you planning?</label>
+            <select id="type">
+              <option>I want to know the price</option>
+              <option>I'm planning an event</option>
+              <option>Looking for a format for a client</option>
+              <option>I'd like to discuss something out of the ordinary</option>
+              <option>Wedding</option>
+              <option>Birthday</option>
+              <option>Company party</option>
+              <option>Graduation</option>
+              <option>Team building</option>
+              <option>Festival</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="guests">Roughly how many guests</label>
+            <select id="guests">
+              <option>40–60</option>
+              <option>60–80</option>
+              <option>80–100</option>
+              <option>100+</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="date">Preferred date</label>
+            <input type="date" id="date">
+          </div>
+          <div class="field">
+            <label for="source">How did you hear about us? (optional)</label>
+            <select id="source">
+              <option value="">Choose one</option>
+              <option>Instagram</option>
+              <option>TikTok</option>
+              <option>Google</option>
+              <option>Facebook</option>
+              <option>YouTube</option>
+              <option>OLX</option>
+              <option>Telegram</option>
+              <option>Recommendation</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="comment">Comment (optional)</label>
+            <textarea id="comment" placeholder="Tell us more about the event, the venue you have in mind, the timing and anything else" rows="3"></textarea>
+          </div>
+          <button class="form-submit" id="submitBtn">Send the request</button>
+          <div class="form-note">By sending this you agree that we may contact you about the event.</div>
+        </div>
+        <div class="form-success" id="formSuccess">
+          <div class="big">Request received ✦</div>
+          <p>Thank you. We'll be in touch shortly to agree the details and confirm the date of your evening.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-aurora" aria-hidden="true">
+    <span class="fa-blob b1"></span><span class="fa-blob b2"></span>
+    <span class="fa-blob b3"></span><span class="fa-blob b4"></span>
+  </div>
+
+  <div class="footer-word-clip" aria-hidden="true"><div class="footer-word">SILENT</div></div>
+
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="footer-cols">
+      <div class="f-col f-brand">
+        <a href="#top" class="f-logo" aria-label="Back to top">SILENT<b>.</b></a>
+        <p class="f-tagline">Quiet outside, everything happening inside. Full-service silent disco in Kyiv and across Ukraine.</p>
+        <a href="#book" class="btn-primary f-cta" data-cta="footer_leave_request">Send a request</a>
+      </div>
+      <nav class="f-col">
+        <h4>About the format</h4>
+        <ul>
+          <li><a href="#idea">Why silent disco</a></li>
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#experience">The guest experience</a></li>
+          <li><a href="#offer">What's included</a></li>
+          <li><a href="#atmosphere">Atmosphere</a></li>
+        </ul>
+      </nav>
+      <nav class="f-col">
+        <h4>Before you book</h4>
+        <ul>
+          <li><a href="#cases">Silent experiences</a></li>
+          <li><a href="#price">Calculator</a></li>
+          <li><a href="#expect">What to expect</a></li>
+          <li><a href="#faq">Questions up front</a></li>
+          <li><a href="#book" data-cta="footer_nav_leave_request">Send a request</a></li>
+        </ul>
+      </nav>
+      <div class="f-col f-contact">
+        <div class="f-socials">
+        <a class="f-soc" href="https://www.instagram.com/silent_ukraine/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.05" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a class="f-soc" href="https://www.tiktok.com/@silent.ukraine" target="_blank" rel="noopener noreferrer" aria-label="TikTok" title="TikTok">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.6 3.2v11.3a3.6 3.6 0 1 1-3.1-3.57"/><path d="M14.6 3.2a5 5 0 0 0 5 5"/></svg>
+        </a>
+        <a class="f-soc" href="https://t.me/silent_ukraine" target="_blank" rel="noopener noreferrer" aria-label="Telegram" title="Telegram">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.2 4.5 2.9 11.4a.5.5 0 0 0 .04.94l4.6 1.44 1.77 5.3a.5.5 0 0 0 .88.14l2.5-2.9 4.6 3.4a.5.5 0 0 0 .78-.3l3.05-14a.5.5 0 0 0-.66-.58Z"/><path d="m7.54 13.78 11.1-7.4-8.34 8.36-.36 3.9"/></svg>
+        </a>
+        <a class="f-soc" href="https://www.youtube.com/channel/UCYJcmOSbk5MDaNXDLjchVyQ" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="5.6" width="18.8" height="12.8" rx="4"/><path d="m10.2 9.4 5 2.6-5 2.6z"/></svg>
+        </a>
+        <a class="f-soc" href="mailto:hello.silent.ua@gmail.com" aria-label="Email" title="Email">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="5.2" width="18.8" height="13.6" rx="2.6"/><path d="m3.4 7 8.05 5.6a1 1 0 0 0 1.1 0L20.6 7"/></svg>
+        </a>
+        </div>
+        <p class="f-note">Message us on any of these — we reply quickly.</p>
+      </div>
+      </div>
+      <div class="footer-legal">
+        <span>Full-service silent disco · Kyiv · 2026</span>
+        <span>Prices are indicative and not a public offer</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Спливне вікно після відправки заявки. Не замінює formSuccess у самій
+     формі — з'являється разом з ним, поверх усієї сторінки. Close можна
+     хрестиком, кліком по затемненому фону або Escape; сама заявка й
+     formSuccess при цьому ніяк не змінюються. -->
+<!-- Лайтбокс-карусель для роликів галереї.
+     Слайди будує JS зі списку кнопок у стрічці. Відео завантажується завжди
+     ТІЛЬКИ одне — активне; сусіди стоять постерами, тобто картинками по 23 КБ,
+     які й так уже в кеші після плиток. Інакше відкриття вікна тягло б усі
+     шість роликів, а це 36 МБ.
+     preload="none" на кожному <video> страхує ще раз: навіть коли src уже
+     стоїть, браузер не почне качати, доки не буде play(). -->
+<div class="vbox" id="vbox" aria-hidden="true">
+  <div class="vbox-backdrop" id="vboxBackdrop"></div>
+  <div class="vbox-stage" id="vboxStage" role="dialog" aria-modal="true" aria-label="Video from the event"></div>
+  <button class="vbox-btn vbox-toggle" id="vboxToggle" type="button" aria-label="Pause or play">
+    <svg class="ic-play" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg>
+    <svg class="ic-pause" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M8 5h3v14H8zM13 5h3v14h-3z" fill="currentColor"/></svg>
+  </button>
+  <div class="vbox-dots" id="vboxDots"></div>
+  <button class="vbox-btn vbox-close" id="vboxClose" type="button" aria-label="Close">✕</button>
+  <button class="vbox-btn vbox-arrow vbox-prev" id="vboxPrev" type="button" aria-label="Previous video">‹</button>
+  <button class="vbox-btn vbox-arrow vbox-next" id="vboxNext" type="button" aria-label="Next video">›</button>
+</div>
+
+<div class="lead-modal" id="leadModal" aria-hidden="true">
+  <div class="lead-modal-backdrop" id="leadModalBackdrop"></div>
+  <div class="lead-modal-card glass-panel" role="dialog" aria-modal="true" aria-labelledby="leadModalTitle">
+    <button class="lead-modal-close" id="leadModalClose" aria-label="Close">✕</button>
+    <div class="lead-modal-big" id="leadModalTitle">Request received ✦</div>
+    <p class="lead-modal-text">Thank you. We'll be in touch shortly to agree the details and confirm the date of your evening.</p>
+    <div class="lead-modal-divider"></div>
+    <p class="lead-modal-sub">Stay in touch — follow upcoming events and what happens behind the scenes at SILENT:</p>
+    <div class="lead-modal-socials">
+      <a class="f-soc" href="https://www.instagram.com/silent_ukraine/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.05" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a class="f-soc" href="https://www.facebook.com/profile.php?id=61593832479897" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5"/><path d="M13 17.3V9.6a1.9 1.9 0 0 1 1.9-1.9h1.4M10.6 12.3h5"/></svg>
+      </a>
+      <a class="f-soc" href="https://www.tiktok.com/@silent.ukraine" target="_blank" rel="noopener noreferrer" aria-label="TikTok" title="TikTok">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.6 3.2v11.3a3.6 3.6 0 1 1-3.1-3.57"/><path d="M14.6 3.2a5 5 0 0 0 5 5"/></svg>
+      </a>
+      <a class="f-soc" href="https://t.me/silent_ukraine" target="_blank" rel="noopener noreferrer" aria-label="Telegram" title="Telegram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.2 4.5 2.9 11.4a.5.5 0 0 0 .04.94l4.6 1.44 1.77 5.3a.5.5 0 0 0 .88.14l2.5-2.9 4.6 3.4a.5.5 0 0 0 .78-.3l3.05-14a.5.5 0 0 0-.66-.58Z"/><path d="m7.54 13.78 11.1-7.4-8.34 8.36-.36 3.9"/></svg>
+      </a>
+      <a class="f-soc" href="https://www.youtube.com/channel/UCYJcmOSbk5MDaNXDLjchVyQ" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="5.6" width="18.8" height="12.8" rx="4"/><path d="m10.2 9.4 5 2.6-5 2.6z"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Рядки, які скрипт виводить сам. Усе інше — статичний текст у розмітці
+     нижче. Оголошується ДО site.js: той читає window.SILENT_I18N при старті. -->
+<script>
+window.SILENT_I18N = {
+  base: '../',
+  locale: 'en-US',
+  currency: 'UAH',
+  hero: [
+    {
+      lines: ['Three waves of music', 'playing all at once —', 'you pick {yours}.'],
+      mLines: [
+        ['Three waves of', ''],
+        ['music playing', ''],
+        ['all at once —', ''],
+        ['you pick', 'sr'],
+        ['{yours}.', '']
+      ],
+      mSub: 'One night, three different dancefloors.',
+      sub: "Three channels play at the same time in every guest's headphones. Some dance to house, some to pop — and all of them side by side, in the same room."
+    },
+    {
+      lines: ['Rooftop, flat, {office} —', 'the venue is no', 'longer a limit.'],
+      mLines: [
+        ['Rooftop, flat,', ''],
+        ['{office} — the venue', ''],
+        ['is no longer', 'sr'],
+        ['a limit.', '']
+      ],
+      mSub: 'The party goes wherever you say.',
+      sub: 'The whole sound system fits into the headphones: no speakers, no acoustic requirements, no negotiating the volume. You choose where the party happens.'
+    },
+    {
+      lines: ['Dance like', '{nobody}', 'can hear you.'],
+      mLines: [
+        ['Dance like', ''],
+        ['{nobody}', 'sr'],
+        ['can hear you.', '']
+      ],
+      mSub: 'Because nobody can — and the night runs as long as you want.',
+      sub: 'Because nobody can. Outside it stays quiet, so the evening lasts exactly as long as you want it to, not as long as the clock allows.'
+    }
+  ],
+  sound: { on: 'Sound on', off: 'Turn sound on', mute: 'Turn sound off' },
+  calc: {
+    outside: 'travel across Ukraine',
+    reel: 'a short reel',
+    smoke: 'smoke and lights',
+    opts: (list) => `, options: ${list.join(', ')}`,
+    summary: (qty, hours, opts, total) =>
+      `From the calculator: ${qty} headphones, ${hours} hrs${opts}. Estimated budget: ${total} UAH.`,
+    note: (qty, hours, total) =>
+      `✓ Pulled in from the calculator: <b>${qty} headphones, ${hours} hrs, ~${total} UAH</b>. Check the comment below — you can add to it.`
+  },
+  uc: {
+    order: 'Book this experience',
+    line: (name) => `Interested in: ${name}.`,
+    note: (name) => `✓ Chosen experience: <b>${name}</b>. It is already in the comment below — add any details you like.`
+  },
+  cal: { foot: 'Date in the form: ' },
+  video: { clip: (n) => 'Clip ' + n, prev: 'Previous video', next: 'Next video' },
+  form: { required: 'Please leave a name and a contact so we can get back to you.' }
+};
+</script>
+<script src="../assets/site.js"></script>
+</body>
+</html>
