@@ -1370,8 +1370,21 @@
       radial-gradient(32% 110% at 48% 38%, #000 0, transparent 74%),
       radial-gradient(34% 115% at 84% 56%, #000 0, transparent 74%);
   }
+  /* Плашка низька, і крізь три вузькі лобі маски видно малу частину поля. При
+     спільних розмірах плитки малинова була найбільшою — тобто повторювалась
+     рідше за всіх (1.1 раза на шар проти 1.8 у лайму), і її єдина пляма часто
+     просто не потрапляла в жоден лоб. Плашка через це читалась лаймовою.
+     Тут малинова плитка навпаки найдрібніша: її плям більше, ніж лаймових,
+     тож колір присутній завжди. Плюс сама вона трохи щільніша, а лайм
+     слабший — навколо плашки й так лаймовий кант і лаймове світіння. */
   .band-aurora .aurora-liquid::before,
-  .band-aurora .aurora-liquid::after { background-size: 70% 70%, 92% 92%, 56% 56%; }
+  .band-aurora .aurora-liquid::after {
+    background-image:
+      radial-gradient(circle, rgba(198,255,0,0.42) 0, transparent 55%),
+      radial-gradient(circle, rgba(var(--acid-rgb),0.58) 0, transparent 55%),
+      radial-gradient(circle, rgba(198,255,0,0.26) 0, transparent 50%);
+    background-size: 58% 58%, 46% 46%, 50% 50%;
+  }
   /* Текст плашки лишається над мозаїкою. */
   .band > :not(.band-aurora) { position: relative; z-index: 1; }
   .band .g-tag { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; opacity: 0.85; font-weight: 700; margin-bottom: 18px; color: var(--lime); }
