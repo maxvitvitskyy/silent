@@ -2204,7 +2204,14 @@
      звисає за край секції (inset нижче), а маска догасає вже на тому звисі:
      перехід виходить ширшим за саму секцію і в сусідній блок заходить
      нанівець. Горизонтальний виліт ловить body { overflow-x: hidden }. */
-  .benefits { padding: var(--sec-pad) 0; position: relative; isolation: isolate; }
+  /* z-index: 0, а не спільна для секцій 1. Коробка плям звисає за верхній край
+     секції, а сусідня секція лежить у розмітці ВИЩЕ — отже, при однаковому
+     z-index вона малюється раніше, і звис лягає просто на її вміст. На нулі
+     вся секція разом зі своїми плямами йде під сусідні: світло на чужій
+     території лишається, але вже позаду фотографій і карток, а не поверх них.
+     Власний вміст секції це не чіпає — він усередині її ж контексту, у .wrap
+     з z-index: 1. */
+  .benefits { padding: var(--sec-pad) 0; position: relative; isolation: isolate; z-index: 0; }
   /* Той самий living-mesh прийом, що в .uc-aurora й .footer-aurora: розмиті
      градієнтні плями, що повільно пливуть, замасковані по краях, тож секція
      з'являється з нічого й у ніщо йде, без різкого краю. */
@@ -2384,7 +2391,8 @@
   }
 
   /* ---------- USE CASES ---------- */
-  .usecases { position: relative; padding: var(--sec-pad) 0; }
+  /* z-index: 0 з тієї самої причини, що й у .benefits вище. */
+  .usecases { position: relative; padding: var(--sec-pad) 0; z-index: 0; }
   /* A slow, deliberately unsynchronised lime mesh drifting behind the whole
      section — the cards are opaque glass, so this is a backdrop, not
      something that has to read clearly through them. Same technique as
