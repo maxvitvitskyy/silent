@@ -2360,23 +2360,27 @@
 
   .benefits .wrap { position: relative; z-index: 1; }
   /* ---------- СВІТЛО ЗА КУРСОРОМ ----------
-     Ланцюг із шести ланок: перша йде за курсором, кожна наступна — за
-     попередньою, а не за мишею. Саме в цьому вся річ. Коли всі плями
-     рівнялись на курсор, вони завжди стояли на одній прямій, і на розвороті
-     кожна прокручувалась на пів оберта — було видно, як великий овал жорстко
-     крутиться. Ланка, що йде за сусідкою, у повороті просто не встигає за нею
-     і лягає збоку: ланцюг сам вигинається дугою, як змійка.
+     Ланцюг із чотирнадцяти круглих ланок. Перша тягнеться до курсора, кожна
+     наступна — до попередньої.
 
-     Ланки дрібніші й майже круглі, а розтяг слабкий (до 1.4 замість 1.85):
-     вигин має малювати сам ланцюг, а не витягнута пляма. Розмиття aurora
-     зливає їх у суцільну смугу.
+     Тут свідомо НЕМАЄ ні обертання, ні розтягу вздовж напрямку руху. Саме
+     вони й робили шлейф твердим: і поворот, і масштаб по одній осі — це
+     трансформації твердого тіла, і око безпомилково читає «фігура
+     розвертається», а не «рідина тече». Ланка з орієнтацією завжди виглядає
+     як предмет. Тому ланки круглі: у кола немає напрямку, повертати в ньому
+     нічого, і форму стрічки цілком малює те, ДЕ ланки стоять, а не як вони
+     повернуті.
 
-     Кут кожної ланки доводиться повільно й завжди найкоротшим шляхом, ще й
-     лише поки ланка справді рухається. Тому розворот виглядає як плавне
-     переорієнтування, а не як стрибок через 180 градусів.
+     Ширину стрічки міняє рівномірний масштаб від швидкості: на різкому русі
+     ланки трохи худнуть, як струмінь, що витягується. Масштаб однаковий по
+     обох осях, тож орієнтації не з'являється й тут.
 
-     Елементи створює JS і лише там, де в цьому є сенс (десктоп, точний
-     вказівник, дозволена анімація) — на телефоні їх немає в DOM узагалі. */
+     Розміри в пікселях, а не у відсотках: коробка секції не квадратна, і у
+     відсотках кола виходили б еліпсами різної витягнутості на різних
+     екранах. Шлейф і так тільки для десктопа.
+
+     Елементи створює JS і лише там, де в цьому є сенс (точний вказівник,
+     дозволена анімація) — на телефоні їх немає в DOM узагалі. */
   .aurora-pointer {
     position: absolute; left: 0; top: 0;
     border-radius: 50%;
@@ -2385,15 +2389,20 @@
     transition: opacity 1.1s ease;
     will-change: transform, opacity;
   }
-  .aurora-pointer.p1 { width: 26%; height: 34%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.22), transparent 72%); }
-  .aurora-pointer.p2 { width: 25%; height: 32%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.2), transparent 72%); }
-  .aurora-pointer.p3 { width: 23%; height: 30%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.18), transparent 72%); }
-  .aurora-pointer.p4 { width: 21%; height: 27%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.16), transparent 72%); }
-  .aurora-pointer.p5 { width: 19%; height: 24%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.14), transparent 72%); }
-  .aurora-pointer.p6 { width: 17%; height: 21%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.12), transparent 72%); }
-  .aurora-pointer.p7 { width: 15%; height: 19%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.1), transparent 72%); }
-  .aurora-pointer.p8 { width: 13%; height: 16%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.08), transparent 72%); }
-  .aurora-pointer.p9 { width: 11%; height: 14%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.06), transparent 72%); }
+  .aurora-pointer.p1 { width: 396px; height: 396px; background: radial-gradient(circle, rgba(var(--acid-rgb),0.225), transparent 70%); }
+  .aurora-pointer.p2 { width: 378px; height: 378px; background: radial-gradient(circle, rgba(var(--acid-rgb),0.213), transparent 70%); }
+  .aurora-pointer.p3 { width: 359px; height: 359px; background: radial-gradient(circle, rgba(var(--acid-rgb),0.2), transparent 70%); }
+  .aurora-pointer.p4 { width: 340px; height: 340px; background: radial-gradient(circle, rgba(var(--acid-rgb),0.187), transparent 70%); }
+  .aurora-pointer.p5 { width: 320px; height: 320px; background: radial-gradient(circle, rgba(var(--acid-rgb),0.174), transparent 70%); }
+  .aurora-pointer.p6 { width: 299px; height: 299px; background: radial-gradient(circle, rgba(var(--acid-rgb),0.161), transparent 70%); }
+  .aurora-pointer.p7 { width: 277px; height: 277px; background: radial-gradient(circle, rgba(var(--acid-rgb),0.147), transparent 70%); }
+  .aurora-pointer.p8 { width: 254px; height: 254px; background: radial-gradient(circle, rgba(var(--acid-rgb),0.133), transparent 70%); }
+  .aurora-pointer.p9 { width: 230px; height: 230px; background: radial-gradient(circle, rgba(var(--acid-rgb),0.118), transparent 70%); }
+  .aurora-pointer.p10 { width: 204px; height: 204px; background: radial-gradient(circle, rgba(var(--acid-rgb),0.103), transparent 70%); }
+  .aurora-pointer.p11 { width: 176px; height: 176px; background: radial-gradient(circle, rgba(var(--acid-rgb),0.087), transparent 70%); }
+  .aurora-pointer.p12 { width: 144px; height: 144px; background: radial-gradient(circle, rgba(var(--acid-rgb),0.07), transparent 70%); }
+  .aurora-pointer.p13 { width: 105px; height: 105px; background: radial-gradient(circle, rgba(var(--acid-rgb),0.051), transparent 70%); }
+  .aurora-pointer.p14 { width: 26px; height: 26px; background: radial-gradient(circle, rgba(var(--acid-rgb),0.025), transparent 70%); }
   .aurora-pointer.on { opacity: 1; }
 
   .benefits .wrap { position: relative; z-index: 1; }
