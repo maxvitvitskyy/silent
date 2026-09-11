@@ -1313,8 +1313,12 @@
        Тому тут повторено формулу .wrap без його падінга. Прибрати обмеження
        зовсім не можна — тоді панель розтягується на весь монітор. */
     margin: 0 auto; max-width: 1120px;
+    position: relative;
     border-radius: var(--r-lg);
-    background: radial-gradient(circle at 30% 0%, rgba(198,255,0,0.08), transparent 60%), var(--glass);
+    /* Статичну лаймову пляму в лівому верхньому куті прибрано: її роботу тепер
+       робить рухома мозаїка в .band-aurora нижче, а дві плями на одному місці
+       (одна застигла, друга жива) читались би як помилка. */
+    background: var(--glass);
     border: 1px solid rgba(198,255,0,0.25);
     box-shadow: 0 0 60px -20px rgba(198,255,0,0.15);
     backdrop-filter: var(--glass-blur);
@@ -1335,6 +1339,39 @@
     padding: 0;
   }
   .band-bare h2 { margin-bottom: 0; }
+  /* Мозаїка всередині самої плашки, а не за нею. Своє overflow: hidden плюс
+     border-radius: inherit — коробка повторює скруглення плашки й обрізає
+     плями точно по її рамці, тож нічого не вилазить за кант.
+     Плями навмисно вищі за плашку й зсунуті вгору: коробка низька, і рух
+     всередині неї цікавий саме по горизонталі — вертикаль дає лише плавну
+     зміну щільності кольору.
+     Розмиття менше, ніж у секційних мозаїках (54px проти 86px): на короткій
+     плашці велике розмиття злило б усе в рівну заливку, і руху не було б
+     видно зовсім. */
+  .band-aurora {
+    position: absolute; inset: 0;
+    z-index: 0; pointer-events: none;
+    overflow: hidden;
+    border-radius: inherit;
+    filter: blur(52px) saturate(1.3);
+    opacity: 0.85;
+  }
+  .bd-blob { position: absolute; border-radius: 50%; }
+  /* Дві речі тут працюють одна проти одної, і обидві потрібні.
+     По ВЕРТИКАЛІ плями навмисно втричі вищі за плашку: доки контур плями
+     вміщається в коробку, око читає його як коло, хоч як його розмивай. Коли
+     ж у кадр потрапляє лише середній зріз, лишається смуга кольору без краю.
+     По ГОРИЗОНТАЛІ — навпаки, вузькі й рознесені з проміжками: вісім широких
+     плям закривали всю плашку суцільно, і повітря в ній не лишалось зовсім.
+     П'ять вузьких із різною висотою центру лишають між собою провали в базове
+     скло — саме вони й читаються як повітря. */
+  .bd-blob.d1 { width: 28%; height: 240%; left: -10%; top: -70%; background: radial-gradient(ellipse, rgba(198,255,0,0.26), transparent 74%); animation: aurDrift1 34s cubic-bezier(.37,0,.63,1) infinite; }
+  .bd-blob.d2 { width: 24%; height: 300%; left: 30%; top: -130%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.22), transparent 74%); animation: aurDrift3 27s cubic-bezier(.45,.05,.55,.95) infinite; }
+  .bd-blob.d3 { width: 26%; height: 230%; left: 66%; top: -50%; background: radial-gradient(ellipse, rgba(198,255,0,0.24), transparent 74%); animation: aurDrift5 39s cubic-bezier(.33,0,.2,1) infinite; }
+  .bd-blob.d4 { width: 18%; height: 260%; left: 14%; top: -100%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.14), transparent 74%); animation: aurDrift2 31s ease-in-out infinite; }
+  .bd-blob.d5 { width: 22%; height: 280%; left: 84%; top: -120%; background: radial-gradient(ellipse, rgba(198,255,0,0.16), transparent 74%); animation: aurDrift6 23s cubic-bezier(.37,0,.63,1) infinite; }
+  /* Текст плашки лишається над мозаїкою. */
+  .band > :not(.band-aurora) { position: relative; z-index: 1; }
   .band .g-tag { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; opacity: 0.85; font-weight: 700; margin-bottom: 18px; color: var(--lime); }
   .band h2 { font-size: clamp(24px, 3.6vw, 38px); font-weight: 600; line-height: 1.15; max-width: none; margin: 0 auto 16px; color: #fff; text-wrap: balance; }
   .band p { font-size: 15px; color: var(--muted); max-width: 46ch; margin: 0 auto; }
