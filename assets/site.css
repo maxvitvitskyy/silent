@@ -1419,10 +1419,20 @@
     overscroll-behavior: auto;
     touch-action: pan-x pan-y;
     scroll-behavior: auto;
-    padding: 4px 2px 16px;
+    /* Знизу більше місця під тінь плитки — на 16px вона впиралась у край
+       scroll-бокса й обрізалась рівно. */
+    padding: 4px 2px 36px;
     scrollbar-width: none;
-    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 58px, #000 calc(100% - 58px), transparent 100%);
-    mask-image: linear-gradient(90deg, transparent 0, #000 58px, #000 calc(100% - 58px), transparent 100%);
+    /* Горизонтальне згасання з боків плюс вертикальне знизу, через перетин —
+       те саме, що й у стрічці сценаріїв. */
+    -webkit-mask-image:
+      linear-gradient(90deg, transparent 0, #000 58px, #000 calc(100% - 58px), transparent 100%),
+      linear-gradient(180deg, #000 0, #000 calc(100% - 28px), transparent 100%);
+    mask-image:
+      linear-gradient(90deg, transparent 0, #000 58px, #000 calc(100% - 58px), transparent 100%),
+      linear-gradient(180deg, #000 0, #000 calc(100% - 28px), transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
   }
   .gallery-grid::-webkit-scrollbar { display: none; }
   /* Три форми плитки. Пропорції, які з них виходять (300/484, 614/235, 300/235),
@@ -1560,7 +1570,7 @@
     }
     .gal-nav { display: none; }
     .gallery-grid {
-      padding: 4px 28px 14px;
+      padding: 4px 28px 32px;
       -webkit-mask-image: none; mask-image: none;
     }
   }
@@ -2523,12 +2533,26 @@
     scroll-behavior: auto;
     /* room for the cards' own shadows, which the scroll box would otherwise clip
        into a hard edge at the top and bottom */
-    padding: 16px 0 22px;
+    /* 40px знизу, а не 22: тінь картки (0 20px 50px -28px) реально сягає
+       близько сорока пікселів під нею, бо розмиття видно далеко за номінальний
+       радіус. На 22px scroll-бокс різав її рівною лінією — і на градієнті це
+       стало добре помітно. */
+    padding: 16px 0 40px;
     scrollbar-width: none;
     /* fades the strip itself at both ends — no solid overlay, so nothing cuts
        across the card shadows */
-    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 68px, #000 calc(100% - 68px), transparent 100%);
-    mask-image: linear-gradient(90deg, transparent 0, #000 68px, #000 calc(100% - 68px), transparent 100%);
+    /* Два шари маски через перетин: горизонтальний гасить стрічку з боків (як і
+       раніше), вертикальний розчиняє останні 30px знизу. Самого падінга мало —
+       хвіст тіні все одно десь закінчується на межі, і без цього згасання там
+       лишалася б ледь помітна, але рівна лінія. */
+    -webkit-mask-image:
+      linear-gradient(90deg, transparent 0, #000 68px, #000 calc(100% - 68px), transparent 100%),
+      linear-gradient(180deg, #000 0, #000 calc(100% - 30px), transparent 100%);
+    mask-image:
+      linear-gradient(90deg, transparent 0, #000 68px, #000 calc(100% - 68px), transparent 100%),
+      linear-gradient(180deg, #000 0, #000 calc(100% - 30px), transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
   }
   .uc-grid::-webkit-scrollbar { display: none; }
   .uc-row { display: flex; gap: var(--uc-gap); width: max-content; }
@@ -2688,10 +2712,17 @@
     .uc-grid, .gallery-grid {
       padding-left: 24px;
       padding-right: 24px;
-      -webkit-mask-image: linear-gradient(90deg,
-        transparent 0, #000 var(--fade), #000 calc(100% - var(--fade)), transparent 100%);
-      mask-image: linear-gradient(90deg,
-        transparent 0, #000 var(--fade), #000 calc(100% - var(--fade)), transparent 100%);
+      /* Це правило перекриває базову маску цілком, тож вертикальне згасання
+         під тінь треба повторити й тут — інакше на широких екранах воно просто
+         зникало б. */
+      -webkit-mask-image:
+        linear-gradient(90deg, transparent 0, #000 var(--fade), #000 calc(100% - var(--fade)), transparent 100%),
+        linear-gradient(180deg, #000 0, #000 calc(100% - 30px), transparent 100%);
+      mask-image:
+        linear-gradient(90deg, transparent 0, #000 var(--fade), #000 calc(100% - var(--fade)), transparent 100%),
+        linear-gradient(180deg, #000 0, #000 calc(100% - 30px), transparent 100%);
+      -webkit-mask-composite: source-in;
+      mask-composite: intersect;
     }
     .uc-grid { --fade: 190px; }
     .gallery-grid { --fade: 190px; }
@@ -2717,7 +2748,9 @@
     }
     .uc-nav { display: none; }
     .uc-grid {
-      padding: 12px 28px 18px;
+      /* Тут маски немає (бокове згасання на вузькому екрані тільки заважало б),
+         тож місце під тінь дає сам падінг. */
+      padding: 12px 28px 34px;
       -webkit-mask-image: none;
       mask-image: none;
     }
