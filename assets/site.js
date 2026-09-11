@@ -1523,43 +1523,67 @@ const I18N = window.SILENT_I18N;
     const VOID_K = 0.07, VOID_D = 0.70;
 
     // ---- Який колір рідини зараз під курсором ----
-    // Поле рідини — це три тайльовані радіальні градієнти на двох шарах, що
-    // обертаються. Колір у конкретній точці з нього можна не вгадувати, а
-    // порахувати: беремо точку, знімаємо з неї поточні rotate і scale шару
-    // (вони читаються з обчисленого стилю псевдоелемента, тож фаза завжди
-    // справжня, а не відтворена з таймера), заводимо її в систему плитки й
-    // дивимось відстань до центру найближчої плитки.
-    // Числа нижче мусять збігатися з .aurora-liquid::before у CSS.
-    const LAYERS = [
-      // [розмір плитки %, позиція % X, позиція % Y, базова альфа, стоп, лайм?]
-      [42, 0,  0,  0.55, 0.55, true],
-      [55, 30, 65, 0.50, 0.55, false],
-      [34, 70, 20, 0.30, 0.50, true]
-    ];
+    // Поле рідини — це кілька тайльованих радіальних градієнтів на двох шарах,
+    // що обертаються. Колір у точці з нього можна не вгадувати, а порахувати:
+    // знімаємо з точки поточні rotate і scale шару (вони читаються з
+    // обчисленого стилю псевдоелемента, тож фаза завжди справжня, а не
+    // відтворена з таймера), заводимо її в систему плитки й дивимось відстань
+    // до центру найближчої плитки.
+    //
+    // Параметри шарів НЕ зашиті числами, а розбираються з того самого
+    // обчисленого стилю. Плашка гарантії має власні розміри плитки й власну
+    // прозорість, і будь-яка копія констант тут рано чи пізно розійшлася б із
+    // CSS — тоді підказка про колір почала б брехати, а це гірше, ніж її
+    // відсутність.
     const PSEUDO = 1.9;   // inset: -45% з обох боків
 
-    function полеВТочці(liq, W, H, px, py){
+    function розібратиШари(cs){
+      const sizes = cs.backgroundSize.split(',').map(v => parseFloat(v));
+      const poss  = cs.backgroundPosition.split(',').map(v => v.trim().split(/\s+/).map(parseFloat));
+      // Кома всередині rgba() не роздільник, тож ріжемо лише перед самим
+      // radial-gradient.
+      const grads = cs.backgroundImage.split(/,(?=\s*radial-gradient)/);
+      const out = [];
+      for (let i = 0; i < grads.length; i++){
+        const col = grads[i].match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+        const stop = grads[i].match(/([\d.]+)%\s*\)\s*$/);
+        if (!col || !sizes[i]) continue;
+        out.push({
+          size: sizes[i],
+          bx: (poss[i] && poss[i][0]) || 0,
+          by: (poss[i] && poss[i][1]) || 0,
+          alpha: col[4] === undefined ? 1 : parseFloat(col[4]),
+          stop: stop ? parseFloat(stop[1]) / 100 : 0.55,
+          // Лайм від малинового відрізняємо за каналами: у лайму зелений
+          // більший за червоний, у малинового навпаки.
+          lime: +col[2] > +col[1]
+        });
+      }
+      return out;
+    }
+
+    function полеВТочці(z, W, H, px, py){
       const pw = W * PSEUDO, ph = H * PSEUDO;
       const cx = W / 2, cy = H / 2;
       let lime = 0, mag = 0;
       for (let n = 0; n < 2; n++){
-        const cs = getComputedStyle(liq, n ? '::after' : '::before');
+        const cs = getComputedStyle(z.liq, n ? '::after' : '::before');
         if (cs.display === 'none') continue;          // на телефоні другого шару немає
+        if (!z.layers[n]) z.layers[n] = розібратиШари(cs);
         const rot = (parseFloat(cs.rotate) || 0) * Math.PI / 180;
         const sc  = parseFloat(cs.scale) || 1;
         const w   = n ? 0.55 : 1;                     // opacity другого шару
         const vx = (px - cx) / sc, vy = (py - cy) / sc;
         const lx = vx * Math.cos(-rot) - vy * Math.sin(-rot) + pw / 2;
         const ly = vx * Math.sin(-rot) + vy * Math.cos(-rot) + ph / 2;
-        for (const [sz, bx, by, alpha, stop, isLime] of LAYERS){
-          const tw = pw * sz / 100, th = ph * sz / 100;
-          const ox = (pw - tw) * bx / 100, oy = (ph - th) * by / 100;
+        for (const L of z.layers[n]){
+          const tw = pw * L.size / 100, th = ph * L.size / 100;
+          const ox = (pw - tw) * L.bx / 100, oy = (ph - th) * L.by / 100;
           const u = (((lx - ox) % tw) + tw) % tw - tw / 2;
           const v = (((ly - oy) % th) + th) % th - th / 2;
-          const rad = Math.hypot(tw, th) / 2 * stop;
-          const f = 1 - Math.hypot(u, v) / rad;
+          const f = 1 - Math.hypot(u, v) / (Math.hypot(tw, th) / 2 * L.stop);
           if (f <= 0) continue;
-          if (isLime) lime += alpha * f * w; else mag += alpha * f * w;
+          if (L.lime) lime += L.alpha * f * w; else mag += L.alpha * f * w;
         }
       }
       return lime - mag;    // >0 під курсором лайм, <0 малиновий
@@ -1570,7 +1594,7 @@ const I18N = window.SILENT_I18N;
     const LIME = [198, 255, 0], ACID = [255, 20, 120];
 
     const zones = [];
-    document.querySelectorAll('.benefits-aurora, .uc-aurora').forEach(box => {
+    document.querySelectorAll('.benefits-aurora, .uc-aurora, .band-aurora').forEach(box => {
       // Порядок важливий: розрідження додається ПЕРШИМ, тож ланки шлейфу
       // лягають поверх нього, а не зникають під ним.
       const hole = document.createElement('span');
@@ -1584,8 +1608,14 @@ const I18N = window.SILENT_I18N;
         box.appendChild(el);
         links.push({ el, x: 0, y: 0, vx: 0, vy: 0 });
       }
+      // Розміри ланок у CSS розраховані на секцію заввишки близько 1040px.
+      // Плашка гарантії вп'ятеро нижча, і в ній ті самі кола були б більші за
+      // неї саму — тож масштабуємо їх під висоту коробки.
+      const k = Math.min(1, Math.max(0.26, box.getBoundingClientRect().height / 1040));
       zones.push({ box, links, hole: { el: hole, x: 0, y: 0, vx: 0, vy: 0 },
                    liq: box.querySelector('.aurora-liquid'),
+                   layers: [null, null],   // розбираються з CSS при першому зніманні
+                   k,
                    mix: 0,        // 0 — малиновий шлейф, 1 — лаймовий
                    frame: 0,
                    placed: false, vis: false, on: false });
@@ -1642,7 +1672,7 @@ const I18N = window.SILENT_I18N;
         // ніж досить. Саме змішування при цьому йде щокадру, тож перехід
         // лишається плавним.
         if (inside && z.liq && (z.frame++ & 3) === 0){
-          const знак = полеВТочці(z.liq, r.width, r.height, tx, ty);
+          const знак = полеВТочці(z, r.width, r.height, tx, ty);
           z.target = знак > 0 ? 0 : 1;   // під лаймом → малиновий шлейф, і навпаки
         }
         if (z.target !== undefined){
@@ -1660,7 +1690,7 @@ const I18N = window.SILENT_I18N;
         if (hl.vy > MAX_V) hl.vy = MAX_V; else if (hl.vy < -MAX_V) hl.vy = -MAX_V;
         hl.x += hl.vx; hl.y += hl.vy;
         const hsp = Math.hypot(hl.vx, hl.vy);
-        const hsc = 1 + Math.min(hsp / 30, 1) * 0.42;
+        const hsc = (1 + Math.min(hsp / 30, 1) * 0.42) * z.k;
         hl.el.style.transform =
           'translate3d(' + hl.x.toFixed(1) + 'px,' + hl.y.toFixed(1) + 'px,0) ' +
           'translate(-50%,-50%) scale(' + hsc.toFixed(3) + ')';
@@ -1684,7 +1714,7 @@ const I18N = window.SILENT_I18N;
           // як струмінь, що витягується. По обох осях однаково, тож напрямку
           // в ланки не з'являється.
           const sp = Math.hypot(l.vx, l.vy);
-          const sc = 1 - Math.min(sp / 34, 1) * 0.26;
+          const sc = (1 - Math.min(sp / 34, 1) * 0.26) * z.k;
           l.el.style.transform =
             'translate3d(' + l.x.toFixed(1) + 'px,' + l.y.toFixed(1) + 'px,0) ' +
             'translate(-50%,-50%) scale(' + sc.toFixed(3) + ')';
