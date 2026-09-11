@@ -1494,11 +1494,15 @@ const I18N = window.SILENT_I18N;
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    const LINKS = 6;
-    // Голова доганяє курсор повільніше за те, як ланки доганяють одна одну:
-    // так між нею й мишею лишається запізнення, а сам ланцюг тримається
-    // купно й не розтягується в нитку.
-    const HEAD_LAG = 0.16, LINK_LAG = 0.34;
+    const LINKS = 9;
+    // Відстань між ланками задає саме LINK_LAG: на кожному кадрі ланка
+    // з'їдає цю частку розриву, тож у сталому русі розрив тримається
+    // приблизно на швидкість × (1 - lag) / lag. На 0.34 це виходило близько
+    // двох швидкостей на ланку — менше за розмір самої плями, і ланцюг
+    // стискався в одну кулю. На 0.19 розрив уп'ятеро більший: на спокої
+    // ланки так само сходяться в калюжу, а на русі витягуються у смугу, і
+    // що швидше ведеш, то вона довша.
+    const HEAD_LAG = 0.14, LINK_LAG = 0.19;
 
     const zones = [];
     document.querySelectorAll('.benefits-aurora, .uc-aurora').forEach(box => {
