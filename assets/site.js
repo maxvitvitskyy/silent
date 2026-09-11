@@ -1479,6 +1479,81 @@ const I18N = window.SILENT_I18N;
     sessionStorage.setItem('lead_id', generateLeadId());
   })();
 
+  // ---- Світло за курсором у секціях із плямами ----
+  // Ще одна пляма мозаїки, якій координати дає курсор, а не keyframes. Вона
+  // лежить усередині .benefits-aurora / .uc-aurora, тобто дістає той самий
+  // blur і ту саму маску, що й решта світла.
+  //
+  // Елемент створюється звідси, а не лежить у розмітці: на телефоні курсора
+  // немає, і зайвий вузол там не потрібен узагалі. Заразом обидві мовні
+  // версії лишаються синхронними самі собою.
+  (function(){
+    // (hover: hover) and (pointer: fine) — це саме миша, а не палець і не
+    // стилус: на дотику ефект або не спрацює, або смикатиметься по тапах.
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const zones = [];
+    document.querySelectorAll('.benefits-aurora, .uc-aurora').forEach(box => {
+      const dot = document.createElement('span');
+      dot.className = 'aurora-pointer';
+      box.appendChild(dot);
+      zones.push({ box, dot, x: 0, y: 0, tx: 0, ty: 0, placed: false, vis: false, on: false });
+    });
+    if (!zones.length) return;
+
+    let px = -1, py = -1, raf = 0;
+    const wake = () => { if (!raf) raf = requestAnimationFrame(tick); };
+
+    window.addEventListener('pointermove', (e) => {
+      px = e.clientX; py = e.clientY; wake();
+    }, { passive: true });
+
+    // Цикл крутиться лише поки секція в кадрі. Без цього два
+    // getBoundingClientRect на кожен кадр їхали б і тоді, коли до цих секцій
+    // ще пів сторінки прокрутки.
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(en => {
+        const z = zones.find(v => v.box === en.target);
+        if (z) z.vis = en.isIntersecting;
+      });
+      wake();
+    }, { rootMargin: '150px 0px' });
+    zones.forEach(z => io.observe(z.box));
+
+    function tick(){
+      raf = 0;
+      let alive = false;
+      for (const z of zones){
+        if (!z.vis){
+          if (z.on){ z.on = false; z.dot.classList.remove('on'); }
+          continue;
+        }
+        const r = z.box.getBoundingClientRect();
+        const inside = px >= r.left && px <= r.right && py >= r.top && py <= r.bottom;
+        if (inside){
+          z.tx = px - r.left; z.ty = py - r.top;
+          // Перший кадр ставимо пляму одразу під курсор: інакше вона летіла б
+          // до нього через пів секції, і вхід у блок читався б як ривок.
+          if (!z.placed){ z.x = z.tx; z.y = z.ty; z.placed = true; }
+          if (!z.on){ z.on = true; z.dot.classList.add('on'); }
+        } else if (z.on){
+          z.on = false; z.dot.classList.remove('on');
+        }
+        // 0.045 — світло помітно відстає й доганяє курсор спокійно. Вище
+        // виходить «приклеєно до мишки», нижче — взагалі не встигає.
+        z.x += (z.tx - z.x) * 0.045;
+        z.y += (z.ty - z.y) * 0.045;
+        z.dot.style.setProperty('--px', z.x.toFixed(1));
+        z.dot.style.setProperty('--py', z.y.toFixed(1));
+        // Поки пляма ще їде або світиться — крутимо далі; коли доїхала й
+        // згасла, цикл спиняється сам до наступного руху миші.
+        if (z.on || Math.abs(z.tx - z.x) > 0.5 || Math.abs(z.ty - z.y) > 0.5) alive = true;
+      }
+      if (alive) raf = requestAnimationFrame(tick);
+    }
+  })();
+
   // ---- Лайтбокс-карусель для роликів галереї ----
   (function(){
     const box  = document.getElementById('vbox');
