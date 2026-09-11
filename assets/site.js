@@ -1480,32 +1480,36 @@ const I18N = window.SILENT_I18N;
   })();
 
   // ---- Світло за курсором у секціях із плямами ----
-  // Три плями на секцію, що йдуть слідом із різним запізненням. Коли миша
-  // стоїть, вони сходяться в одну калюжу; коли ведеш — розтягуються в шлейф.
-  // Форму задає швидкість: пляма витягується вздовж руху й стискається
-  // впоперек, тож різкий рух дає смугу, а повільний — майже коло.
+  // Ланцюг із шести ланок. Перша йде за курсором, кожна наступна — за
+  // попередньою. Це принципово: коли всі ланки рівнялись просто на курсор,
+  // вони завжди стояли на одній прямій і на розвороті синхронно
+  // прокручувались на пів оберта — було видно, як великий овал жорстко
+  // крутиться. Ланка, що женеться за сусідкою, у повороті не встигає за нею й
+  // лягає збоку, тож ланцюг вигинається дугою сам собою.
   //
   // Елементи створюються звідси, а не лежать у розмітці: на телефоні курсора
   // немає, і зайві вузли там ні до чого. Заразом обидві мовні версії
   // лишаються синхронними самі собою.
   (function(){
-    // (hover: hover) and (pointer: fine) — це саме миша, а не палець.
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    // Запізнення кожної плями шлейфу. Перша майже встигає за курсором,
-    // остання відстає помітно — саме ця різниця й малює розвід.
-    const LAG = [0.075, 0.042, 0.024];
+    const LINKS = 6;
+    // Голова доганяє курсор повільніше за те, як ланки доганяють одна одну:
+    // так між нею й мишею лишається запізнення, а сам ланцюг тримається
+    // купно й не розтягується в нитку.
+    const HEAD_LAG = 0.16, LINK_LAG = 0.34;
 
     const zones = [];
     document.querySelectorAll('.benefits-aurora, .uc-aurora').forEach(box => {
-      const dots = LAG.map((lag, i) => {
+      const links = [];
+      for (let i = 0; i < LINKS; i++){
         const el = document.createElement('span');
         el.className = 'aurora-pointer p' + (i + 1);
         box.appendChild(el);
-        return { el, lag, x: 0, y: 0, px: 0, py: 0, vx: 0, vy: 0 };
-      });
-      zones.push({ box, dots, placed: false, vis: false, on: false });
+        links.push({ el, x: 0, y: 0, px: 0, py: 0, vx: 0, vy: 0, ang: 0 });
+      }
+      zones.push({ box, links, placed: false, vis: false, on: false });
     });
     if (!zones.length) return;
 
@@ -1528,7 +1532,7 @@ const I18N = window.SILENT_I18N;
       let alive = false;
       for (const z of zones){
         if (!z.vis){
-          if (z.on){ z.on = false; z.dots.forEach(d => d.el.classList.remove('on')); }
+          if (z.on){ z.on = false; z.links.forEach(l => l.el.classList.remove('on')); }
           continue;
         }
         const r = z.box.getBoundingClientRect();
@@ -1536,37 +1540,47 @@ const I18N = window.SILENT_I18N;
         const tx = mx - r.left, ty = my - r.top;
 
         if (inside){
-          // Перший кадр ставимо шлейф одразу під курсор, інакше він летів би
-          // до нього через пів секції, і вхід у блок читався б як ривок.
-          if (!z.placed){ z.dots.forEach(d => { d.x = tx; d.y = ty; }); z.placed = true; }
-          if (!z.on){ z.on = true; z.dots.forEach(d => d.el.classList.add('on')); }
+          // Перший кадр ставимо весь ланцюг під курсор, інакше він летів би
+          // туди через пів секції, і вхід у блок читався б як ривок.
+          if (!z.placed){ z.links.forEach(l => { l.x = tx; l.y = ty; }); z.placed = true; }
+          if (!z.on){ z.on = true; z.links.forEach(l => l.el.classList.add('on')); }
         } else if (z.on){
-          z.on = false; z.dots.forEach(d => d.el.classList.remove('on'));
+          z.on = false; z.links.forEach(l => l.el.classList.remove('on'));
         }
 
-        for (const d of z.dots){
-          d.px = d.x; d.py = d.y;
-          d.x += (tx - d.x) * d.lag;
-          d.y += (ty - d.y) * d.lag;
+        for (let i = 0; i < z.links.length; i++){
+          const l = z.links[i];
+          // Ціль голови — курсор, ціль решти — ланка попереду.
+          const ax = i === 0 ? tx : z.links[i - 1].x;
+          const ay = i === 0 ? ty : z.links[i - 1].y;
+          const lag = i === 0 ? HEAD_LAG : LINK_LAG;
+
+          l.px = l.x; l.py = l.y;
+          l.x += (ax - l.x) * lag;
+          l.y += (ay - l.y) * lag;
           // Швидкість згладжуємо окремо: на сирій різниці координат форма
           // смикалась би щокадру разом із рукою.
-          d.vx += ((d.x - d.px) - d.vx) * 0.18;
-          d.vy += ((d.y - d.py) - d.vy) * 0.18;
+          l.vx += ((l.x - l.px) - l.vx) * 0.16;
+          l.vy += ((l.y - l.py) - l.vy) * 0.16;
 
-          const sp = Math.hypot(d.vx, d.vy);
-          // 26 px за кадр — приблизно той темп, на якому рух уже читається як
-          // кидок; вище розтяг упирається в стелю, щоб не виходила нитка.
-          const k = Math.min(sp / 26, 1);
-          const st = 1 + k * 0.85;
-          const ang = sp > 0.4 ? Math.atan2(d.vy, d.vx) * 57.2958 : 0;
-          d.el.style.transform =
-            'translate3d(' + d.x.toFixed(1) + 'px,' + d.y.toFixed(1) + 'px,0) ' +
-            'translate(-50%,-50%) rotate(' + ang.toFixed(1) + 'deg) ' +
+          const sp = Math.hypot(l.vx, l.vy);
+          // Кут повертаємо лише поки ланка справді їде, і завжди найкоротшим
+          // шляхом (atan2 від sin/cos згортає різницю в -PI..PI). Без цього
+          // розворот на 180 градусів іде довгою дугою й читається як ривок.
+          if (sp > 0.5){
+            const diff = Math.atan2(l.vy, l.vx) - l.ang;
+            l.ang += Math.atan2(Math.sin(diff), Math.cos(diff)) * 0.09;
+          }
+          // Розтяг слабкий: вигин малює сам ланцюг, а не витягнута пляма.
+          const st = 1 + Math.min(sp / 30, 1) * 0.4;
+          l.el.style.transform =
+            'translate3d(' + l.x.toFixed(1) + 'px,' + l.y.toFixed(1) + 'px,0) ' +
+            'translate(-50%,-50%) rotate(' + (l.ang * 57.2958).toFixed(1) + 'deg) ' +
             'scale(' + st.toFixed(3) + ',' + (1 / st).toFixed(3) + ')';
-          // Крутимо далі, поки пляма ще їде або ще розтягнута. Коли курсор
-          // просто лежить у секції, шлейф сходиться в калюжу й цикл спиняється
-          // сам — наступний рух миші його розбудить.
-          if (sp > 0.25 || Math.abs(tx - d.x) > 0.4 || Math.abs(ty - d.y) > 0.4) alive = true;
+
+          // Крутимо далі, поки ланцюг ще збирається. Коли курсор лежить на
+          // місці й усе зійшлося, цикл спиняється сам до наступного руху.
+          if (sp > 0.25 || Math.abs(ax - l.x) > 0.4 || Math.abs(ay - l.y) > 0.4) alive = true;
         }
       }
       if (alive) raf = requestAnimationFrame(tick);

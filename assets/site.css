@@ -2256,19 +2256,21 @@
 
   .benefits .wrap { position: relative; z-index: 1; }
   /* ---------- СВІТЛО ЗА КУРСОРОМ ----------
-     Не одна пляма, а три, що йдуть слідом із різним запізненням: перша майже
-     встигає за курсором, остання відстає помітно. Коли миша стоїть, усі три
-     сходяться в одну круглу калюжу; коли ведеш — розтягуються в шлейф. Саме
-     різний лаг і дає розвід, а не рухомий кружечок.
+     Ланцюг із шести ланок: перша йде за курсором, кожна наступна — за
+     попередньою, а не за мишею. Саме в цьому вся річ. Коли всі плями
+     рівнялись на курсор, вони завжди стояли на одній прямій, і на розвороті
+     кожна прокручувалась на пів оберта — було видно, як великий овал жорстко
+     крутиться. Ланка, що йде за сусідкою, у повороті просто не встигає за нею
+     і лягає збоку: ланцюг сам вигинається дугою, як змійка.
 
-     Форму кожній задає швидкість: пляма витягується вздовж напрямку руху й
-     стискається впоперек (площа зберігається), тому на різкому русі це смуга,
-     а на повільному — майже коло. Повний transform пише скрипт одним рядком:
-     зсув, поворот за напрямком і нерівномірний масштаб.
+     Ланки дрібніші й майже круглі, а розтяг слабкий (до 1.4 замість 1.85):
+     вигин має малювати сам ланцюг, а не витягнута пляма. Розмиття aurora
+     зливає їх у суцільну смугу.
 
-     Лежить усередині aurora, тож дістає те саме розмиття — на екрані це не
-     курсор із хвостом, а світло, що перетікає за рукою.
-     Колір малиновий: лайму в мозаїці й так більшість, на ньому рух губився б.
+     Кут кожної ланки доводиться повільно й завжди найкоротшим шляхом, ще й
+     лише поки ланка справді рухається. Тому розворот виглядає як плавне
+     переорієнтування, а не як стрибок через 180 градусів.
+
      Елементи створює JS і лише там, де в цьому є сенс (десктоп, точний
      вказівник, дозволена анімація) — на телефоні їх немає в DOM узагалі. */
   .aurora-pointer {
@@ -2279,9 +2281,12 @@
     transition: opacity 1.1s ease;
     will-change: transform, opacity;
   }
-  .aurora-pointer.p1 { width: 34%; height: 20%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.48), transparent 78%); }
-  .aurora-pointer.p2 { width: 44%; height: 26%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.30), transparent 78%); }
-  .aurora-pointer.p3 { width: 56%; height: 32%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.22), transparent 78%); }
+  .aurora-pointer.p1 { width: 15.0%; height: 21.0%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.4), transparent 72%); }
+  .aurora-pointer.p2 { width: 14.0%; height: 19.0%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.34), transparent 72%); }
+  .aurora-pointer.p3 { width: 12.5%; height: 17.0%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.28), transparent 72%); }
+  .aurora-pointer.p4 { width: 11.0%; height: 15.0%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.22), transparent 72%); }
+  .aurora-pointer.p5 { width: 9.5%; height: 13.0%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.16), transparent 72%); }
+  .aurora-pointer.p6 { width: 8.0%; height: 11.0%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.11), transparent 72%); }
   .aurora-pointer.on { opacity: 1; }
 
   .benefits .wrap { position: relative; z-index: 1; }
