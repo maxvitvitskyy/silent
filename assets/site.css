@@ -1353,23 +1353,25 @@
     z-index: 0; pointer-events: none;
     overflow: hidden;
     border-radius: inherit;
-    filter: blur(52px) saturate(1.3);
+    filter: blur(44px) saturate(1.3);
     opacity: 0.85;
   }
-  .bd-blob { position: absolute; border-radius: 50%; }
-  /* Дві речі тут працюють одна проти одної, і обидві потрібні.
-     По ВЕРТИКАЛІ плями навмисно втричі вищі за плашку: доки контур плями
-     вміщається в коробку, око читає його як коло, хоч як його розмивай. Коли
-     ж у кадр потрапляє лише середній зріз, лишається смуга кольору без краю.
-     По ГОРИЗОНТАЛІ — навпаки, вузькі й рознесені з проміжками: вісім широких
-     плям закривали всю плашку суцільно, і повітря в ній не лишалось зовсім.
-     П'ять вузьких із різною висотою центру лишають між собою провали в базове
-     скло — саме вони й читаються як повітря. */
-  .bd-blob.d1 { width: 28%; height: 240%; left: -10%; top: -70%; background: radial-gradient(ellipse, rgba(198,255,0,0.26), transparent 74%); animation: aurDrift1 34s cubic-bezier(.37,0,.63,1) infinite; }
-  .bd-blob.d2 { width: 24%; height: 300%; left: 30%; top: -130%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.22), transparent 74%); animation: aurDrift3 27s cubic-bezier(.45,.05,.55,.95) infinite; }
-  .bd-blob.d3 { width: 26%; height: 230%; left: 66%; top: -50%; background: radial-gradient(ellipse, rgba(198,255,0,0.24), transparent 74%); animation: aurDrift5 39s cubic-bezier(.33,0,.2,1) infinite; }
-  .bd-blob.d4 { width: 18%; height: 260%; left: 14%; top: -100%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.14), transparent 74%); animation: aurDrift2 31s ease-in-out infinite; }
-  .bd-blob.d5 { width: 22%; height: 280%; left: 84%; top: -120%; background: radial-gradient(ellipse, rgba(198,255,0,0.16), transparent 74%); animation: aurDrift6 23s cubic-bezier(.37,0,.63,1) infinite; }
+  /* Усередині плашки — та сама рідина, тільки силует під її пропорції:
+     коробка низька й широка, тож три витягнуті лобі впоперек, а не чотири
+     по діагоналі. Розмиття теж менше — на короткій плашці велике злило б усе
+     в рівну заливку й проковтнуло проміжки. */
+  .band-aurora .aurora-liquid {
+    -webkit-mask-image:
+      radial-gradient(38% 120% at 14% 46%, #000 0, transparent 74%),
+      radial-gradient(32% 110% at 48% 38%, #000 0, transparent 74%),
+      radial-gradient(34% 115% at 84% 56%, #000 0, transparent 74%);
+    mask-image:
+      radial-gradient(38% 120% at 14% 46%, #000 0, transparent 74%),
+      radial-gradient(32% 110% at 48% 38%, #000 0, transparent 74%),
+      radial-gradient(34% 115% at 84% 56%, #000 0, transparent 74%);
+  }
+  .band-aurora .aurora-liquid::before,
+  .band-aurora .aurora-liquid::after { background-size: 70% 70%, 92% 92%, 56% 56%; }
   /* Текст плашки лишається над мозаїкою. */
   .band > :not(.band-aurora) { position: relative; z-index: 1; }
   .band .g-tag { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; opacity: 0.85; font-weight: 700; margin-bottom: 18px; color: var(--lime); }
@@ -2253,43 +2255,79 @@
      градієнтні плями, що повільно пливуть, замасковані по краях, тож секція
      з'являється з нічого й у ніщо йде, без різкого краю. */
   .benefits-aurora {
-    /* Ані маски, ані затемнення по краях: краї роблять самі плями своїм
-       спадом, а коробка навмисно набагато вища за секцію, щоб жодна з них не
-       діставала до її країв. Обрізка лишається тільки заради горизонталі.
-       Розмиття велике навмисно — воно і є тим, що перетворює сім еліпсів на
-       одну масу, у якій не видно окремих фігур. */
+    /* Коробка навмисно набагато вища за секцію, щоб рідина виходила за її межі
+       й розчинялась уже в сусідньому блоці. Обрізка — заради горизонталі:
+       інакше поле розсувало б сторінку. Розмиття тут спільне і на рідину, і на
+       шлейф за курсором, тож обидва лишаються однаково м'якими. */
     position: absolute; inset: -30% 0 -35%; z-index: -2;
     overflow: hidden;
-    filter: blur(86px) saturate(1.25);
+    filter: blur(64px) saturate(1.25);
     opacity: 0.95;
   }
-  /* Еліпси, а не кола: у колі око одразу впізнає коло, хоч як його розмивай.
-     ellipse у градієнті, а не circle: коло в еліптичній коробці лишається
-     колом і зводить нанівець усю затію з формою. Розмір навмисно лишений
-     типовим (до дальнього кута) — пляма виходить за власну коробку, і кольору
-     в секції рівно стільки, скільки треба. */
-  .bn-blob { position: absolute; border-radius: 50%; transition: background 1.4s ease; }
-  .bn-blob.n1 { width: 62%; height: 34%; left: -12%; top: 12%; background: radial-gradient(ellipse, rgba(198,255,0,0.48), transparent 78%); animation: aurDrift1 57s cubic-bezier(.37,0,.63,1) infinite; }
-  .bn-blob.n2 { width: 58%; height: 32%; left: 54%; top: 16%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.4), transparent 78%); animation: aurDrift2 49s cubic-bezier(.45,.05,.55,.95) infinite; }
-  .bn-blob.n3 { width: 50%; height: 28%; left: 16%; top: 38%; background: radial-gradient(ellipse, rgba(198,255,0,0.44), transparent 78%); animation: aurDrift3 63s cubic-bezier(.33,0,.2,1) infinite; }
-  .bn-blob.n4 { width: 56%; height: 32%; left: 64%; top: 44%; background: radial-gradient(ellipse, rgba(198,255,0,0.40), transparent 78%); animation: aurDrift4 45s ease-in-out infinite; }
-  .bn-blob.n5 { width: 52%; height: 30%; left: -8%; top: 54%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.40), transparent 78%); animation: aurDrift5 53s cubic-bezier(.37,0,.63,1) infinite; }
-  .bn-blob.n6 { width: 56%; height: 28%; left: 36%; top: 56%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.44), transparent 78%); animation: aurDrift6 41s cubic-bezier(.45,.05,.55,.95) infinite; }
-  .bn-blob.n7 { width: 44%; height: 22%; left: 42%; top: 24%; background: radial-gradient(ellipse, rgba(198,255,0,0.34), transparent 78%); animation: aurDrift7 37s cubic-bezier(.33,0,.2,1) infinite; }
 
-  /* Спільний набір траєкторій на обидві секції. Крім зсуву й масштабу тут є
-     поворот — і він тут не прикраса. Плями тепер еліпси, а еліпс, що
-     повертається, міняє форму перетину із сусідніми. Під сильним розмиттям
-     кілька таких накладених одна на одну читаються як течія, а не як кружечки,
-     що їздять. Різними плями робить не крива, а тривалість і згладжування в
-     самому правилі. */
-  @keyframes aurDrift1 { 0%{transform:translate(0,0) rotate(-2.9deg) scale(1.0)} 21%{transform:translate(13.6%,-17.1%) rotate(-6.6deg) scale(1.05)} 41%{transform:translate(-6.3%,17.4%) rotate(-10.7deg) scale(0.96)} 64%{transform:translate(-6.3%,-1.3%) rotate(-16.3deg) scale(1.1)} 76%{transform:translate(-17.3%,-7.3%) rotate(-9.7deg) scale(0.95)} 88%{transform:translate(-6.9%,10.2%) rotate(2.5deg) scale(1.04)} 100%{transform:translate(0,0) rotate(-2.9deg) scale(1.0)} }
-  @keyframes aurDrift2 { 0%{transform:translate(0,0) rotate(11.5deg) scale(1.05)} 14%{transform:translate(-5.0%,-4.1%) rotate(1.2deg) scale(0.99)} 35%{transform:translate(-6.5%,8.0%) rotate(-8.7deg) scale(0.97)} 47%{transform:translate(-6.0%,-7.4%) rotate(7.7deg) scale(0.96)} 60%{transform:translate(8.0%,-3.6%) rotate(5.0deg) scale(0.95)} 74%{transform:translate(-6.0%,0.4%) rotate(-9.0deg) scale(0.97)} 88%{transform:translate(2.8%,-13.5%) rotate(1.0deg) scale(0.93)} 100%{transform:translate(0,0) rotate(11.5deg) scale(1.05)} }
-  @keyframes aurDrift3 { 0%{transform:translate(0,0) rotate(-17.7deg) scale(0.97)} 12%{transform:translate(8.7%,7.6%) rotate(20.8deg) scale(0.82)} 26%{transform:translate(8.6%,-19.0%) rotate(-12.3deg) scale(0.89)} 43%{transform:translate(-17.0%,2.2%) rotate(7.6deg) scale(0.91)} 59%{transform:translate(13.1%,-14.1%) rotate(-5.7deg) scale(0.93)} 71%{transform:translate(-15.9%,-6.5%) rotate(-19.9deg) scale(0.95)} 86%{transform:translate(4.1%,-0.3%) rotate(8.1deg) scale(0.95)} 100%{transform:translate(0,0) rotate(-17.7deg) scale(0.97)} }
-  @keyframes aurDrift4 { 0%{transform:translate(0,0) rotate(-1.6deg) scale(1.0)} 10%{transform:translate(-3.1%,4.3%) rotate(-5.6deg) scale(1.0)} 27%{transform:translate(4.4%,-1.2%) rotate(-8.3deg) scale(0.94)} 41%{transform:translate(4.1%,-3.5%) rotate(-15.9deg) scale(1.01)} 63%{transform:translate(11.8%,14.7%) rotate(-15.1deg) scale(0.91)} 86%{transform:translate(5.5%,-2.0%) rotate(-0.6deg) scale(0.99)} 100%{transform:translate(0,0) rotate(-1.6deg) scale(1.0)} }
-  @keyframes aurDrift5 { 0%{transform:translate(0,0) rotate(4.3deg) scale(1.03)} 11%{transform:translate(-14.7%,-8.6%) rotate(4.9deg) scale(0.98)} 25%{transform:translate(10.5%,-6.6%) rotate(-10.4deg) scale(1.16)} 46%{transform:translate(-3.0%,5.5%) rotate(18.5deg) scale(1.1)} 58%{transform:translate(13.6%,13.5%) rotate(-19.1deg) scale(1.12)} 70%{transform:translate(-12.7%,16.1%) rotate(-14.0deg) scale(1.07)} 88%{transform:translate(16.1%,10.5%) rotate(0deg) scale(0.9)} 100%{transform:translate(0,0) rotate(4.3deg) scale(1.03)} }
-  @keyframes aurDrift6 { 0%{transform:translate(0,0) rotate(9.7deg) scale(0.98)} 16%{transform:translate(-11.6%,15.7%) rotate(2.6deg) scale(0.97)} 30%{transform:translate(-6.9%,-5.1%) rotate(11.4deg) scale(0.93)} 49%{transform:translate(14.1%,-4.4%) rotate(-11.1deg) scale(1.0)} 62%{transform:translate(-10.4%,4.7%) rotate(6.9deg) scale(0.94)} 74%{transform:translate(5.5%,-2.4%) rotate(13.2deg) scale(1.0)} 87%{transform:translate(-16.0%,-15.4%) rotate(-1.2deg) scale(1.09)} 100%{transform:translate(0,0) rotate(9.7deg) scale(0.98)} }
-  @keyframes aurDrift7 { 0%{transform:translate(0,0) rotate(3.9deg) scale(1.02)} 14%{transform:translate(-4.4%,4.6%) rotate(10.6deg) scale(1.17)} 26%{transform:translate(-7.5%,6.7%) rotate(-12.0deg) scale(0.9)} 38%{transform:translate(-0.3%,7.8%) rotate(4.9deg) scale(0.97)} 50%{transform:translate(-11.1%,9.6%) rotate(-17.1deg) scale(0.87)} 68%{transform:translate(-0.9%,-4.3%) rotate(16.4deg) scale(1.02)} 87%{transform:translate(10.7%,6.0%) rotate(12.0deg) scale(0.94)} 100%{transform:translate(0,0) rotate(3.9deg) scale(1.02)} }
+  /* ---------- РІДКИЙ ГРАДІЄНТ ----------
+     Механіка взята з референсу «Liquid Gradient» і працює зовсім інакше за
+     окремі плями, які були тут раніше. Замість кількох позиціонованих кульок —
+     ДВА шари тайльованих радіальних градієнтів, що безперервно обертаються в
+     протилежні боки з різними періодами. Накладаючись, вони щомиті дають новий
+     візерунок, і він ніколи не повторюється в око: спільний період двох
+     обертів у різні боки на 61 і 83 секунди — кілька десятків хвилин.
+
+     Обертання рівно на 360deg і з linear — тільки так петля зшивається без
+     шва. «Дихання» винесене в окрему анімацію на властивість scale, а не в ту
+     саму, де rotate: це різні властивості трансформації, тож вони не
+     сперечаються за одну, і кожна зациклюється сама по собі. У референсі
+     rotate і scale сиділи в одному keyframes, і на стику циклу масштаб
+     стрибав з 1.25 назад на 1.1.
+
+     Швидкість удвічі спокійніша за референс (16s там проти 61s тут): те, що
+     доречно на демо-картці 240px, на фоні цілої секції гуляло б в очах. */
+  .aurora-liquid {
+    position: absolute; inset: 0;
+    /* Силует. Поле градієнтів заповнює всю коробку рівно, тож без силуету воно
+       обривалось би рівним прямокутником по краю секції. Чотири радіальні
+       плями в масці дають органічний контур із провалами між ними — краї
+       розчиняються, а всередині лишається повітря. Маска стоїть на місці,
+       рідина під нею тече, тож око не читає її як фігуру. */
+    -webkit-mask-image:
+      radial-gradient(58% 42% at 16% 34%, #000 0, transparent 72%),
+      radial-gradient(52% 38% at 58% 26%, #000 0, transparent 72%),
+      radial-gradient(46% 34% at 38% 66%, #000 0, transparent 72%),
+      radial-gradient(50% 36% at 84% 58%, #000 0, transparent 72%);
+    mask-image:
+      radial-gradient(58% 42% at 16% 34%, #000 0, transparent 72%),
+      radial-gradient(52% 38% at 58% 26%, #000 0, transparent 72%),
+      radial-gradient(46% 34% at 38% 66%, #000 0, transparent 72%),
+      radial-gradient(50% 36% at 84% 58%, #000 0, transparent 72%);
+    -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 100%;   mask-size: 100% 100%;
+  }
+  .aurora-liquid::before, .aurora-liquid::after {
+    content: ''; position: absolute;
+    /* Запас під обертання: коли прямокутник крутиться, у кадр заходять його
+       кути, тож шар мусить бути більшим за коробку по діагоналі. */
+    inset: -45%;
+    background:
+      radial-gradient(circle, rgba(198,255,0,0.55) 0, transparent 55%),
+      radial-gradient(circle, rgba(var(--acid-rgb),0.50) 0, transparent 55%),
+      radial-gradient(circle, rgba(198,255,0,0.30) 0, transparent 50%);
+    /* Різний розмір плитки в кожного кольору — вузли трьох сіток не збігаються,
+       тож регулярність тайлінгу не читається. */
+    background-size: 42% 42%, 55% 55%, 34% 34%;
+    background-position: 0 0, 30% 65%, 70% 20%;
+    will-change: transform;
+  }
+  .aurora-liquid::before { animation: liqSpin 61s linear infinite, liqBreath 37s ease-in-out infinite; }
+  .aurora-liquid::after  { animation: liqSpinBack 83s linear infinite, liqBreath 47s ease-in-out infinite; opacity: 0.55; }
+  @keyframes liqSpin     { from { rotate: 0deg; }   to { rotate: 360deg; } }
+  @keyframes liqSpinBack { from { rotate: 360deg; } to { rotate: 0deg; } }
+  @keyframes liqBreath   { 0%, 100% { scale: 1.14; } 50% { scale: 1.3; } }
+  /* На телефоні лишається один шар: два великі розмиті полотна, що крутяться
+     щокадру, — рівно та стаття витрат, на якій мобільний Safari у цьому
+     проєкті вже спотикався. */
+  @media (max-width: 760px){
+    .aurora-liquid::after { display: none; }
+  }
 
   .benefits .wrap { position: relative; z-index: 1; }
   /* ---------- СВІТЛО ЗА КУРСОРОМ ----------
@@ -2449,17 +2487,9 @@
     position: absolute; inset: -30% 0 -35%;
     z-index: 0; pointer-events: none;
     overflow: hidden;
-    filter: blur(86px) saturate(1.25);
+    filter: blur(64px) saturate(1.25);
     opacity: 0.95;
   }
-  .ua-blob { position: absolute; border-radius: 50%; transition: background 1.4s ease; }
-  .ua-blob.u1 { width: 62%; height: 34%; left: -12%; top: 12%; background: radial-gradient(ellipse, rgba(198,255,0,0.48), transparent 78%); animation: aurDrift1 61s cubic-bezier(.37,0,.63,1) infinite; }
-  .ua-blob.u2 { width: 58%; height: 32%; left: 54%; top: 16%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.4), transparent 78%); animation: aurDrift2 53s cubic-bezier(.45,.05,.55,.95) infinite; }
-  .ua-blob.u3 { width: 50%; height: 28%; left: 16%; top: 38%; background: radial-gradient(ellipse, rgba(198,255,0,0.44), transparent 78%); animation: aurDrift3 67s cubic-bezier(.33,0,.2,1) infinite; }
-  .ua-blob.u4 { width: 56%; height: 32%; left: 64%; top: 44%; background: radial-gradient(ellipse, rgba(198,255,0,0.40), transparent 78%); animation: aurDrift4 49s ease-in-out infinite; }
-  .ua-blob.u5 { width: 52%; height: 30%; left: -8%; top: 54%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.40), transparent 78%); animation: aurDrift5 57s cubic-bezier(.37,0,.63,1) infinite; }
-  .ua-blob.u6 { width: 56%; height: 28%; left: 36%; top: 56%; background: radial-gradient(ellipse, rgba(var(--acid-rgb),0.44), transparent 78%); animation: aurDrift6 45s cubic-bezier(.45,.05,.55,.95) infinite; }
-  .ua-blob.u7 { width: 44%; height: 22%; left: 42%; top: 24%; background: radial-gradient(ellipse, rgba(198,255,0,0.34), transparent 78%); animation: aurDrift7 41s cubic-bezier(.33,0,.2,1) infinite; }
   .usecases > .wrap { position: relative; z-index: 1; }
 
   /* Horizontal gallery: two rows that scroll together, the lower one offset by
