@@ -1480,38 +1480,40 @@ const I18N = window.SILENT_I18N;
   })();
 
   // ---- Світло за курсором у секціях із плямами ----
-  // Ще одна пляма мозаїки, якій координати дає курсор, а не keyframes. Вона
-  // лежить усередині .benefits-aurora / .uc-aurora, тобто дістає той самий
-  // blur і ту саму маску, що й решта світла.
+  // Три плями на секцію, що йдуть слідом із різним запізненням. Коли миша
+  // стоїть, вони сходяться в одну калюжу; коли ведеш — розтягуються в шлейф.
+  // Форму задає швидкість: пляма витягується вздовж руху й стискається
+  // впоперек, тож різкий рух дає смугу, а повільний — майже коло.
   //
-  // Елемент створюється звідси, а не лежить у розмітці: на телефоні курсора
-  // немає, і зайвий вузол там не потрібен узагалі. Заразом обидві мовні
-  // версії лишаються синхронними самі собою.
+  // Елементи створюються звідси, а не лежать у розмітці: на телефоні курсора
+  // немає, і зайві вузли там ні до чого. Заразом обидві мовні версії
+  // лишаються синхронними самі собою.
   (function(){
-    // (hover: hover) and (pointer: fine) — це саме миша, а не палець і не
-    // стилус: на дотику ефект або не спрацює, або смикатиметься по тапах.
+    // (hover: hover) and (pointer: fine) — це саме миша, а не палець.
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
+    // Запізнення кожної плями шлейфу. Перша майже встигає за курсором,
+    // остання відстає помітно — саме ця різниця й малює розвід.
+    const LAG = [0.075, 0.042, 0.024];
+
     const zones = [];
     document.querySelectorAll('.benefits-aurora, .uc-aurora').forEach(box => {
-      const dot = document.createElement('span');
-      dot.className = 'aurora-pointer';
-      box.appendChild(dot);
-      zones.push({ box, dot, x: 0, y: 0, tx: 0, ty: 0, placed: false, vis: false, on: false });
+      const dots = LAG.map((lag, i) => {
+        const el = document.createElement('span');
+        el.className = 'aurora-pointer p' + (i + 1);
+        box.appendChild(el);
+        return { el, lag, x: 0, y: 0, px: 0, py: 0, vx: 0, vy: 0 };
+      });
+      zones.push({ box, dots, placed: false, vis: false, on: false });
     });
     if (!zones.length) return;
 
-    let px = -1, py = -1, raf = 0;
+    let mx = -1, my = -1, raf = 0;
     const wake = () => { if (!raf) raf = requestAnimationFrame(tick); };
+    window.addEventListener('pointermove', (e) => { mx = e.clientX; my = e.clientY; wake(); }, { passive: true });
 
-    window.addEventListener('pointermove', (e) => {
-      px = e.clientX; py = e.clientY; wake();
-    }, { passive: true });
-
-    // Цикл крутиться лише поки секція в кадрі. Без цього два
-    // getBoundingClientRect на кожен кадр їхали б і тоді, коли до цих секцій
-    // ще пів сторінки прокрутки.
+    // Цикл крутиться лише поки секція в кадрі.
     const io = new IntersectionObserver((entries) => {
       entries.forEach(en => {
         const z = zones.find(v => v.box === en.target);
@@ -1526,29 +1528,46 @@ const I18N = window.SILENT_I18N;
       let alive = false;
       for (const z of zones){
         if (!z.vis){
-          if (z.on){ z.on = false; z.dot.classList.remove('on'); }
+          if (z.on){ z.on = false; z.dots.forEach(d => d.el.classList.remove('on')); }
           continue;
         }
         const r = z.box.getBoundingClientRect();
-        const inside = px >= r.left && px <= r.right && py >= r.top && py <= r.bottom;
+        const inside = mx >= r.left && mx <= r.right && my >= r.top && my <= r.bottom;
+        const tx = mx - r.left, ty = my - r.top;
+
         if (inside){
-          z.tx = px - r.left; z.ty = py - r.top;
-          // Перший кадр ставимо пляму одразу під курсор: інакше вона летіла б
+          // Перший кадр ставимо шлейф одразу під курсор, інакше він летів би
           // до нього через пів секції, і вхід у блок читався б як ривок.
-          if (!z.placed){ z.x = z.tx; z.y = z.ty; z.placed = true; }
-          if (!z.on){ z.on = true; z.dot.classList.add('on'); }
+          if (!z.placed){ z.dots.forEach(d => { d.x = tx; d.y = ty; }); z.placed = true; }
+          if (!z.on){ z.on = true; z.dots.forEach(d => d.el.classList.add('on')); }
         } else if (z.on){
-          z.on = false; z.dot.classList.remove('on');
+          z.on = false; z.dots.forEach(d => d.el.classList.remove('on'));
         }
-        // 0.045 — світло помітно відстає й доганяє курсор спокійно. Вище
-        // виходить «приклеєно до мишки», нижче — взагалі не встигає.
-        z.x += (z.tx - z.x) * 0.045;
-        z.y += (z.ty - z.y) * 0.045;
-        z.dot.style.setProperty('--px', z.x.toFixed(1));
-        z.dot.style.setProperty('--py', z.y.toFixed(1));
-        // Поки пляма ще їде або світиться — крутимо далі; коли доїхала й
-        // згасла, цикл спиняється сам до наступного руху миші.
-        if (z.on || Math.abs(z.tx - z.x) > 0.5 || Math.abs(z.ty - z.y) > 0.5) alive = true;
+
+        for (const d of z.dots){
+          d.px = d.x; d.py = d.y;
+          d.x += (tx - d.x) * d.lag;
+          d.y += (ty - d.y) * d.lag;
+          // Швидкість згладжуємо окремо: на сирій різниці координат форма
+          // смикалась би щокадру разом із рукою.
+          d.vx += ((d.x - d.px) - d.vx) * 0.18;
+          d.vy += ((d.y - d.py) - d.vy) * 0.18;
+
+          const sp = Math.hypot(d.vx, d.vy);
+          // 26 px за кадр — приблизно той темп, на якому рух уже читається як
+          // кидок; вище розтяг упирається в стелю, щоб не виходила нитка.
+          const k = Math.min(sp / 26, 1);
+          const st = 1 + k * 0.85;
+          const ang = sp > 0.4 ? Math.atan2(d.vy, d.vx) * 57.2958 : 0;
+          d.el.style.transform =
+            'translate3d(' + d.x.toFixed(1) + 'px,' + d.y.toFixed(1) + 'px,0) ' +
+            'translate(-50%,-50%) rotate(' + ang.toFixed(1) + 'deg) ' +
+            'scale(' + st.toFixed(3) + ',' + (1 / st).toFixed(3) + ')';
+          // Крутимо далі, поки пляма ще їде або ще розтягнута. Коли курсор
+          // просто лежить у секції, шлейф сходиться в калюжу й цикл спиняється
+          // сам — наступний рух миші його розбудить.
+          if (sp > 0.25 || Math.abs(tx - d.x) > 0.4 || Math.abs(ty - d.y) > 0.4) alive = true;
+        }
       }
       if (alive) raf = requestAnimationFrame(tick);
     }
