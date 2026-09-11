@@ -1518,8 +1518,65 @@ const I18N = window.SILENT_I18N;
     // довгим: без нього один стрибок здатен викинути ланку за екран.
     const MAX_V = 140;
 
+    // Розрідження рідини: м'якша пружина, ніж у шлейфу, тож воно помітно
+    // відстає від світла.
+    const VOID_K = 0.07, VOID_D = 0.70;
+
+    // ---- Який колір рідини зараз під курсором ----
+    // Поле рідини — це три тайльовані радіальні градієнти на двох шарах, що
+    // обертаються. Колір у конкретній точці з нього можна не вгадувати, а
+    // порахувати: беремо точку, знімаємо з неї поточні rotate і scale шару
+    // (вони читаються з обчисленого стилю псевдоелемента, тож фаза завжди
+    // справжня, а не відтворена з таймера), заводимо її в систему плитки й
+    // дивимось відстань до центру найближчої плитки.
+    // Числа нижче мусять збігатися з .aurora-liquid::before у CSS.
+    const LAYERS = [
+      // [розмір плитки %, позиція % X, позиція % Y, базова альфа, стоп, лайм?]
+      [42, 0,  0,  0.55, 0.55, true],
+      [55, 30, 65, 0.50, 0.55, false],
+      [34, 70, 20, 0.30, 0.50, true]
+    ];
+    const PSEUDO = 1.9;   // inset: -45% з обох боків
+
+    function полеВТочці(liq, W, H, px, py){
+      const pw = W * PSEUDO, ph = H * PSEUDO;
+      const cx = W / 2, cy = H / 2;
+      let lime = 0, mag = 0;
+      for (let n = 0; n < 2; n++){
+        const cs = getComputedStyle(liq, n ? '::after' : '::before');
+        if (cs.display === 'none') continue;          // на телефоні другого шару немає
+        const rot = (parseFloat(cs.rotate) || 0) * Math.PI / 180;
+        const sc  = parseFloat(cs.scale) || 1;
+        const w   = n ? 0.55 : 1;                     // opacity другого шару
+        const vx = (px - cx) / sc, vy = (py - cy) / sc;
+        const lx = vx * Math.cos(-rot) - vy * Math.sin(-rot) + pw / 2;
+        const ly = vx * Math.sin(-rot) + vy * Math.cos(-rot) + ph / 2;
+        for (const [sz, bx, by, alpha, stop, isLime] of LAYERS){
+          const tw = pw * sz / 100, th = ph * sz / 100;
+          const ox = (pw - tw) * bx / 100, oy = (ph - th) * by / 100;
+          const u = (((lx - ox) % tw) + tw) % tw - tw / 2;
+          const v = (((ly - oy) % th) + th) % th - th / 2;
+          const rad = Math.hypot(tw, th) / 2 * stop;
+          const f = 1 - Math.hypot(u, v) / rad;
+          if (f <= 0) continue;
+          if (isLime) lime += alpha * f * w; else mag += alpha * f * w;
+        }
+      }
+      return lime - mag;    // >0 під курсором лайм, <0 малиновий
+    }
+
+    // Колір шлейфу — протилежний до того, що під ним. Змішування плавне, тож
+    // перехід читається як перетікання, а не як перемикання.
+    const LIME = [198, 255, 0], ACID = [255, 20, 120];
+
     const zones = [];
     document.querySelectorAll('.benefits-aurora, .uc-aurora').forEach(box => {
+      // Порядок важливий: розрідження додається ПЕРШИМ, тож ланки шлейфу
+      // лягають поверх нього, а не зникають під ним.
+      const hole = document.createElement('span');
+      hole.className = 'aurora-void';
+      box.appendChild(hole);
+
       const links = [];
       for (let i = 0; i < LINKS; i++){
         const el = document.createElement('span');
@@ -1527,7 +1584,11 @@ const I18N = window.SILENT_I18N;
         box.appendChild(el);
         links.push({ el, x: 0, y: 0, vx: 0, vy: 0 });
       }
-      zones.push({ box, links, placed: false, vis: false, on: false });
+      zones.push({ box, links, hole: { el: hole, x: 0, y: 0, vx: 0, vy: 0 },
+                   liq: box.querySelector('.aurora-liquid'),
+                   mix: 0,        // 0 — малиновий шлейф, 1 — лаймовий
+                   frame: 0,
+                   placed: false, vis: false, on: false });
     });
     if (!zones.length) return;
 
@@ -1559,11 +1620,51 @@ const I18N = window.SILENT_I18N;
         if (inside){
           // Перший кадр ставимо весь ланцюг під курсор, інакше він летів би
           // туди через пів секції, і вхід у блок читався б як ривок.
-          if (!z.placed){ z.links.forEach(l => { l.x = tx; l.y = ty; l.vx = 0; l.vy = 0; }); z.placed = true; }
-          if (!z.on){ z.on = true; z.links.forEach(l => l.el.classList.add('on')); }
+          if (!z.placed){
+            z.links.forEach(l => { l.x = tx; l.y = ty; l.vx = 0; l.vy = 0; });
+            z.hole.x = tx; z.hole.y = ty; z.hole.vx = 0; z.hole.vy = 0;
+            z.placed = true;
+          }
+          if (!z.on){
+            z.on = true;
+            z.links.forEach(l => l.el.classList.add('on'));
+            z.hole.el.classList.add('on');
+          }
         } else if (z.on){
-          z.on = false; z.links.forEach(l => l.el.classList.remove('on'));
+          z.on = false;
+          z.links.forEach(l => l.el.classList.remove('on'));
+          z.hole.el.classList.remove('on');
         }
+
+        // Колір шлейфу — протилежний до рідини під курсором. Поле знімаємо не
+        // щокадру: getComputedStyle псевдоелемента змушує браузер перерахувати
+        // стилі, а поле й так рухається повільно — раз на чотири кадри більш
+        // ніж досить. Саме змішування при цьому йде щокадру, тож перехід
+        // лишається плавним.
+        if (inside && z.liq && (z.frame++ & 3) === 0){
+          const знак = полеВТочці(z.liq, r.width, r.height, tx, ty);
+          z.target = знак > 0 ? 0 : 1;   // під лаймом → малиновий шлейф, і навпаки
+        }
+        if (z.target !== undefined){
+          z.mix += (z.target - z.mix) * 0.035;   // ~1.5s на повний перехід
+          const c = [0,1,2].map(i => Math.round(ACID[i] + (LIME[i] - ACID[i]) * z.mix));
+          z.box.style.setProperty('--trail-rgb', c.join(', '));
+          if (Math.abs(z.target - z.mix) > 0.003) alive = true;
+        }
+
+        // Розрідження. Що швидше веде миша, то ширше розступається рідина.
+        const hl = z.hole;
+        hl.vx = (hl.vx + (tx - hl.x) * VOID_K) * VOID_D;
+        hl.vy = (hl.vy + (ty - hl.y) * VOID_K) * VOID_D;
+        if (hl.vx > MAX_V) hl.vx = MAX_V; else if (hl.vx < -MAX_V) hl.vx = -MAX_V;
+        if (hl.vy > MAX_V) hl.vy = MAX_V; else if (hl.vy < -MAX_V) hl.vy = -MAX_V;
+        hl.x += hl.vx; hl.y += hl.vy;
+        const hsp = Math.hypot(hl.vx, hl.vy);
+        const hsc = 1 + Math.min(hsp / 30, 1) * 0.42;
+        hl.el.style.transform =
+          'translate3d(' + hl.x.toFixed(1) + 'px,' + hl.y.toFixed(1) + 'px,0) ' +
+          'translate(-50%,-50%) scale(' + hsc.toFixed(3) + ')';
+        if (hsp > 0.25 || Math.abs(tx - hl.x) > 0.4 || Math.abs(ty - hl.y) > 0.4) alive = true;
 
         for (let i = 0; i < z.links.length; i++){
           const l = z.links[i];
