@@ -1136,20 +1136,34 @@
 
      Радіус --r-lg, а не --r-md картки: дуга в кутах — частина самого мотиву, і
      на всіх трьох ширинах вона має бути та сама. */
+  /* Другий шар маски — справжня діра під кружечок: радіус 46px, тобто 39px
+     самого кружечка плюс ті самі 7px просвіту, що були колись кільцем. Іконка
+     стоїть на 78px від правого краю картки (right: 39px плюс півширини), а її
+     центр — на 0.75px нижче верху цієї коробки, бо рамка піднята на пів
+     товщини. Шари перетинаються, тож дірка виїдає і лінію, і її світіння. */
   .flow-card::before {
     content: ''; position: absolute; inset: -0.75px 0 0; z-index: -1;
     border-radius: var(--r-lg);
     border: 1.5px solid var(--lime);
     box-shadow: 0 0 18px rgba(198,255,0,0.45), inset 0 0 14px rgba(198,255,0,0.22);
-    -webkit-mask-image: linear-gradient(180deg, #000 0, #000 34px, transparent 138px);
-    mask-image: linear-gradient(180deg, #000 0, #000 34px, transparent 138px);
+    -webkit-mask-image:
+      linear-gradient(180deg, #000 0, #000 34px, transparent 138px),
+      radial-gradient(circle 46px at calc(100% - 78px) 0.75px, transparent 96%, #000 100%);
+    mask-image:
+      linear-gradient(180deg, #000 0, #000 34px, transparent 138px),
+      radial-gradient(circle 46px at calc(100% - 78px) 0.75px, transparent 96%, #000 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
   }
   /* Центр іконки — рівно на лінії: половина кружечка над нею, половина під.
 
-     Друга тінь — кільце кольору тла, воно й дає 7px просвіту між лінією та
-     краєм кружечка. Стоїть після світіння, щоб те лягало поверх кільця і
-     просвіт лишався з лаймовим підсвітом, а не чорною дірою. Під блоком тло
-     рівне (--night від body, жодних підкладок), тож саме кільце непомітне.
+     Кружечок нічим не залитий. Раніше він був кольору тла (--night) і мав ще
+     кільце тієї ж заливки — саме воно й давало просвіт, затуляючи собою лінію.
+     Поки під блоком було рівне тло, цього не було видно, але градієнти, що
+     пливуть за секціями, підсвітили і диск, і кільце темним пласким кружком.
+     Тепер просвіт вирізаний у самій лінії (див. маски нижче), тож заливка не
+     потрібна: крізь іконку видно те саме, що й навколо неї.
+
      Значення світіння повторюються в обох станах: box-shadow не доповнюється,
      а замінюється цілком. */
   .flow-node {
@@ -1159,10 +1173,9 @@
     display: grid; place-items: center;
     color: var(--lime);
     border: 1px solid rgba(198,255,0,0.40);
-    background: var(--night);
+    background: transparent;
     box-shadow:
       0 0 30px -10px rgba(198,255,0,0.55),
-      0 0 0 7px var(--night),
       inset 0 0 18px -10px rgba(198,255,0,0.5);
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
   }
@@ -1173,7 +1186,6 @@
     border-color: rgba(198,255,0,0.65);
     box-shadow:
       0 0 40px -8px rgba(198,255,0,0.7),
-      0 0 0 7px var(--night),
       inset 0 0 18px -8px rgba(198,255,0,0.6);
   }
   /* Номер стоїть перед назвою кроку одним рядком; до заголовка — виразний
@@ -1213,9 +1225,10 @@
      мусила б петляти між рядами. Мотив там той самий, але поштучний — обводка
      краю в кожної з чотирьох карток (базове правило .flow-card::before вище).
 
-     Крізь іконки лінія не проходить: кружечки залиті var(--night) і стоять на
-     z-index вище за неї, тож вона впирається в їхній край і виходить з іншого
-     боку. Просвіт задає кільце в box-shadow іконки. */
+     Крізь іконки лінія не проходить: у ній вирізані справжні дірки радіусом
+     46px — кружечок (39px) плюс 7px просвіту. Раніше цю роль грала заливка
+     самих кружечків кольором тла, але вона читалася темним диском скрізь, де
+     під блок затікав градієнт сусідніх секцій. */
   @media (min-width: 1041px), (max-width: 620px){
     .flow {
       position: relative;
@@ -1245,8 +1258,20 @@
     .flow-card { padding: 58px 0 0; }
     .flow::before {
       inset: -0.75px 0 0;
-      -webkit-mask-image: linear-gradient(180deg, #000 0, #000 34px, transparent 138px);
-      mask-image: linear-gradient(180deg, #000 0, #000 34px, transparent 138px);
+      -webkit-mask-image:
+        linear-gradient(180deg, #000 0, #000 34px, transparent 138px),
+        radial-gradient(circle 46px at calc(25%  - 78px) 0.75px, transparent 96%, #000 100%),
+        radial-gradient(circle 46px at calc(50%  - 78px) 0.75px, transparent 96%, #000 100%),
+        radial-gradient(circle 46px at calc(75%  - 78px) 0.75px, transparent 96%, #000 100%),
+        radial-gradient(circle 46px at calc(100% - 78px) 0.75px, transparent 96%, #000 100%);
+      mask-image:
+        linear-gradient(180deg, #000 0, #000 34px, transparent 138px),
+        radial-gradient(circle 46px at calc(25%  - 78px) 0.75px, transparent 96%, #000 100%),
+        radial-gradient(circle 46px at calc(50%  - 78px) 0.75px, transparent 96%, #000 100%),
+        radial-gradient(circle 46px at calc(75%  - 78px) 0.75px, transparent 96%, #000 100%),
+        radial-gradient(circle 46px at calc(100% - 78px) 0.75px, transparent 96%, #000 100%);
+      -webkit-mask-composite: source-in;
+      mask-composite: intersect;
     }
   }
 
@@ -1272,6 +1297,11 @@
          суміщеними. */
       padding: 0 0 0 22px;
       margin: 72px -10px 0 0;
+      /* Рядки однакової висоти. Це потрібно не для вигляду, а для маски:
+         дірки під кружечки задаються відсотками від висоти всієї стрічки, а
+         відсоток можна порахувати тільки тоді, коли кроки рівні. Заразом
+         колонка стає впорядкованішою. */
+      grid-auto-rows: 1fr;
     }
     .flow-step {
       display: grid;
@@ -1282,10 +1312,26 @@
     }
     .flow-card { grid-column: 1; grid-row: 1; padding: 0; }
     .flow-node { position: static; grid-column: 2; grid-row: 1; }
+    /* Кружечки стоять серединою кожного з чотирьох рівних рядів, тобто на
+       12.5, 37.5, 62.5 і 87.5% висоти стрічки. По горизонталі центр — на
+       0.75px лівіше правого краю цієї коробки: її край іде по зовнішньому боці
+       рамки, а центр кружечка — по середині її товщини. */
     .flow::before {
       top: 0; bottom: 0; left: 0; right: 38.25px;
-      -webkit-mask-image: linear-gradient(270deg, #000 0, #000 34px, transparent 156px);
-      mask-image: linear-gradient(270deg, #000 0, #000 34px, transparent 156px);
+      -webkit-mask-image:
+        linear-gradient(270deg, #000 0, #000 34px, transparent 156px),
+        radial-gradient(circle 46px at calc(100% - 0.75px) 12.5%, transparent 96%, #000 100%),
+        radial-gradient(circle 46px at calc(100% - 0.75px) 37.5%, transparent 96%, #000 100%),
+        radial-gradient(circle 46px at calc(100% - 0.75px) 62.5%, transparent 96%, #000 100%),
+        radial-gradient(circle 46px at calc(100% - 0.75px) 87.5%, transparent 96%, #000 100%);
+      mask-image:
+        linear-gradient(270deg, #000 0, #000 34px, transparent 156px),
+        radial-gradient(circle 46px at calc(100% - 0.75px) 12.5%, transparent 96%, #000 100%),
+        radial-gradient(circle 46px at calc(100% - 0.75px) 37.5%, transparent 96%, #000 100%),
+        radial-gradient(circle 46px at calc(100% - 0.75px) 62.5%, transparent 96%, #000 100%),
+        radial-gradient(circle 46px at calc(100% - 0.75px) 87.5%, transparent 96%, #000 100%);
+      -webkit-mask-composite: source-in;
+      mask-composite: intersect;
     }
   }
 
