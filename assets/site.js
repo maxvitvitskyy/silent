@@ -6,10 +6,14 @@
    набір рядків. */
 const I18N = window.SILENT_I18N;
 
-  // ---- Parallax on background photos (hero + benefits) ----
+  // ---- Parallax on the hero background photos ----
   // Each layer drifts vertically at a fraction of scroll speed. Layers are
   // oversized in CSS so the translate never exposes an edge. Skipped entirely
   // when the user prefers reduced motion.
+  // Плями в секціях сюди НЕ входять: у них власний нескінченний дрейф у CSS,
+  // а скролл-паралакс зверху ще й зсував би їхню маску відносно секції — край
+  // згасання виїжджав би за обріз, і замість плавного виходу з'являлася б
+  // різка межа саме там, де вона найпомітніша.
   (function(){
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduce) return;
@@ -22,8 +26,7 @@ const I18N = window.SILENT_I18N;
       // overflow:hidden різав її різкою межею просто під панеллю. Фіксоване
       // число натомість зупиняло її посеред прокрутки — швидкість підібрана так,
       // щоб вона не впиралась у стелю, поки hero у кадрі.
-      { el: document.getElementById('heroDancer'), section: document.querySelector('.hero'), speed: 0.11, autoMax: true },
-      { el: document.querySelector('.benefits-aurora'), section: document.querySelector('.benefits'), speed: 0.16 }
+      { el: document.getElementById('heroDancer'), section: document.querySelector('.hero'), speed: 0.11, autoMax: true }
     ].filter(l => l.el && l.section);
     // Фонові знімки hero їдуть разом: активний видно, решта прозорі.
     const heroPhotoEls = [].slice.call(document.querySelectorAll('.hero-photo'));
