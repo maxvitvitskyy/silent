@@ -2191,41 +2191,38 @@
   }
   /* ---------- BENEFITS (pain-language) ---------- */
   .benefits { padding: var(--sec-pad) 0; position: relative; overflow: hidden; isolation: isolate; }
-  /* fade scrim: photo emerges from and dissolves back into the page bg */
-  .benefits::before {
-    content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-    background: linear-gradient(180deg,
-      var(--night) 0%,
-      rgba(5,7,13,0.82) 8%,
-      rgba(5,7,13,0.20) 26%,
-      rgba(5,7,13,0.14) 50%,
-      rgba(5,7,13,0.24) 74%,
-      rgba(5,7,13,0.82) 92%,
-      var(--night) 100%);
-  }
-  /* Real SILENT crowd photo as the section backdrop. Brighter than before, and
-     it fades out of nothing at the top and back into nothing at the bottom so
-     there's no hard seam with the page background. */
-  .benefits-bg {
-    /* Overhang has to exceed the parallax travel, otherwise the photo's own edge
+  /* Той самий living-mesh прийом, що в .uc-aurora й .footer-aurora: розмиті
+     градієнтні плями, що повільно пливуть, замасковані по краях, тож секція
+     з'являється з нічого й у ніщо йде, без різкого краю. */
+  .benefits-aurora {
+    /* Overhang has to exceed the parallax travel, otherwise a blob's own edge
        slides into view and reads as a hard line before the scrim can fade it. */
     position: absolute; left: 0; right: 0; top: -190px; height: calc(100% + 380px); z-index: -2;
-    /* Адреса знімка живе тут, поруч із двома іншими url() файлу, а не в атрибуті
-       style у розмітці: відносний url() усередині власної властивості браузер
-       розв'язує від того файлу, який його підставляє, тобто від цього. Зі
-       сторінки в /en/ той самий рядок вказував би вже не туди. */
-    --benefits-photo: url('../images/bg-5.webp');
-    background-image: var(--benefits-photo, none);
-    background-size: cover;
-    background-position: center 42%;
-    background-repeat: no-repeat;
-    filter: brightness(1.12) saturate(1.05);
-    /* Власна маска на додачу до скриму секції: знімок з'являється з нічого і в
-       ніщо йде, тож у нього немає власного краю, який міг би читатись як лінія. */
-    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 78%, transparent 100%);
-    mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 78%, transparent 100%);
+    filter: blur(70px) saturate(1.3);
+    opacity: 0.8;
+    /* Той самий 10-точковий градус, що й у .uc-aurora: один шар відповідає за
+       увесь вхід/вихід, тож окремий скрим-псевдоелемент більше не потрібен —
+       раніше він дублював цю роботу й гасив плями майже до невидимості. */
+    -webkit-mask-image: linear-gradient(180deg,
+      transparent 0%, rgba(0,0,0,0.10) 9%, rgba(0,0,0,0.34) 18%, rgba(0,0,0,0.68) 28%, #000 40%,
+      #000 58%, rgba(0,0,0,0.72) 72%, rgba(0,0,0,0.38) 84%, rgba(0,0,0,0.12) 93%, transparent 100%);
+    mask-image: linear-gradient(180deg,
+      transparent 0%, rgba(0,0,0,0.10) 9%, rgba(0,0,0,0.34) 18%, rgba(0,0,0,0.68) 28%, #000 40%,
+      #000 58%, rgba(0,0,0,0.72) 72%, rgba(0,0,0,0.38) 84%, rgba(0,0,0,0.12) 93%, transparent 100%);
     will-change: transform;
   }
+  .bn-blob { position: absolute; border-radius: 50%; transition: background 1.4s ease; }
+  .bn-blob.n1 { width: 58%; height: 54%; left: -8%;  top: 20%; background: radial-gradient(circle, rgba(198,255,0,0.6),  transparent 66%); animation: bnDrift1 33s ease-in-out infinite; }
+  .bn-blob.n2 { width: 50%; height: 50%; left: 18%;  top: 46%; background: radial-gradient(circle, rgba(198,255,0,0.44), transparent 66%); animation: bnDrift2 26s ease-in-out infinite; }
+  .bn-blob.n3 { width: 54%; height: 54%; left: 48%;  top: 16%; background: radial-gradient(circle, rgba(198,255,0,0.52), transparent 66%); animation: bnDrift3 39s ease-in-out infinite; }
+  .bn-blob.n4 { width: 46%; height: 46%; left: 60%;  top: 42%; background: radial-gradient(circle, var(--ch-glow),      transparent 68%); animation: bnDrift4 28s ease-in-out infinite; }
+  .bn-blob.n5 { width: 40%; height: 42%; left: 30%;  top: 28%; background: radial-gradient(circle, var(--ch-glow),      transparent 70%); animation: bnDrift5 21s ease-in-out infinite; }
+  /* four-step paths at unrelated durations, so the pattern never visibly repeats */
+  @keyframes bnDrift1 { 0%{transform:translate(0,0) scale(1)}    26%{transform:translate(13%,10%) scale(1.12)}  57%{transform:translate(-7%,15%) scale(0.95)}  82%{transform:translate(8%,-8%) scale(1.07)}   100%{transform:translate(0,0) scale(1)} }
+  @keyframes bnDrift2 { 0%{transform:translate(0,0) scale(1.05)} 32%{transform:translate(-12%,-9%) scale(0.93)} 63%{transform:translate(10%,11%) scale(1.15)}  85%{transform:translate(-4%,6%) scale(1)}      100%{transform:translate(0,0) scale(1.05)} }
+  @keyframes bnDrift3 { 0%{transform:translate(0,0) scale(0.97)} 23%{transform:translate(-10%,12%) scale(1.11)} 54%{transform:translate(9%,-8%) scale(1.03)}   78%{transform:translate(-13%,-5%) scale(1.09)} 100%{transform:translate(0,0) scale(0.97)} }
+  @keyframes bnDrift4 { 0%{transform:translate(0,0) scale(1)}    30%{transform:translate(8%,-13%) scale(1.17)}  60%{transform:translate(-11%,7%) scale(0.91)}  87%{transform:translate(5%,10%) scale(1.05)}   100%{transform:translate(0,0) scale(1)} }
+  @keyframes bnDrift5 { 0%{transform:translate(0,0) scale(1.03)} 34%{transform:translate(15%,8%) scale(0.95)}  65%{transform:translate(-8%,-11%) scale(1.13)} 89%{transform:translate(7%,5%) scale(1)}       100%{transform:translate(0,0) scale(1.03)} }
   .benefits .wrap { position: relative; z-index: 1; }
   /* Bento замість таблиці. Раніше тут стояло шість однакових прямокутників у три
      колонки — сітка читалась рівним списком, і головна перевага (три канали) не
@@ -2333,19 +2330,16 @@
   /* ---------- USE CASES ---------- */
   .usecases { position: relative; padding: var(--sec-pad) 0; overflow: hidden; }
   /* A slow, deliberately unsynchronised lime mesh drifting behind the whole
-     section — the cards are translucent, so it reads through them. */
+     section — the cards are opaque glass, so this is a backdrop, not
+     something that has to read clearly through them. Same technique as
+     .footer-aurora below: blurred radial-gradient blobs, masked at both
+     edges so the section fades in and out of the page instead of starting
+     on a hard line. */
   .uc-aurora {
     position: absolute; inset: -8% -6%;
     z-index: 0; pointer-events: none;
-    /* Замість поля градієнтних плям — реальний кадр зі змазаними вогнями. Він
-       уже розмитий сам по собі, тож blur тут майже не потрібен; лишається
-       стільки, щоб не читались окремі деталі. */
-    background-image: url('../images/bg-4.webp');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    filter: blur(18px) saturate(1.2);
-    opacity: 0.45;
+    filter: blur(70px) saturate(1.3);
+    opacity: 0.8;
     /* eased in at the top so the heading keeps a clean ground, and out at the
        bottom so the section doesn't end on a band of colour */
     -webkit-mask-image: linear-gradient(180deg,
@@ -2355,8 +2349,7 @@
       transparent 0%, rgba(0,0,0,0.10) 9%, rgba(0,0,0,0.34) 18%, rgba(0,0,0,0.68) 28%, #000 40%,
       #000 58%, rgba(0,0,0,0.72) 72%, rgba(0,0,0,0.38) 84%, rgba(0,0,0,0.12) 93%, transparent 100%);
   }
-  /* Плями лишаються в розмітці, але сховані: їхню роль тепер грає сам знімок. */
-  .ua-blob { display: none; position: absolute; border-radius: 50%; transition: background 1.4s ease; }
+  .ua-blob { position: absolute; border-radius: 50%; transition: background 1.4s ease; }
   .ua-blob.u1 { width: 60%; height: 58%; left: -10%; top: 26%;   background: radial-gradient(circle, rgba(198,255,0,0.62), transparent 66%); animation: uaDrift1 37s ease-in-out infinite; }
   .ua-blob.u2 { width: 52%; height: 52%; left: 20%;  top: 44%;  background: radial-gradient(circle, rgba(198,255,0,0.46), transparent 66%); animation: uaDrift2 29s ease-in-out infinite; }
   .ua-blob.u3 { width: 56%; height: 56%; left: 50%;  top: 22%;  background: radial-gradient(circle, rgba(198,255,0,0.54), transparent 66%); animation: uaDrift3 43s ease-in-out infinite; }

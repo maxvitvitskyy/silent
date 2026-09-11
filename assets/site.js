@@ -23,7 +23,7 @@ const I18N = window.SILENT_I18N;
       // число натомість зупиняло її посеред прокрутки — швидкість підібрана так,
       // щоб вона не впиралась у стелю, поки hero у кадрі.
       { el: document.getElementById('heroDancer'), section: document.querySelector('.hero'), speed: 0.11, autoMax: true },
-      { el: document.querySelector('.benefits-bg'), section: document.querySelector('.benefits'), speed: 0.16 }
+      { el: document.querySelector('.benefits-aurora'), section: document.querySelector('.benefits'), speed: 0.16 }
     ].filter(l => l.el && l.section);
     // Фонові знімки hero їдуть разом: активний видно, решта прозорі.
     const heroPhotoEls = [].slice.call(document.querySelectorAll('.hero-photo'));
