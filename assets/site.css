@@ -1419,9 +1419,15 @@
     overscroll-behavior: auto;
     touch-action: pan-x pan-y;
     scroll-behavior: auto;
-    /* Знизу більше місця під тінь плитки — на 16px вона впиралась у край
-       scroll-бокса й обрізалась рівно. */
-    padding: 4px 2px 36px;
+    /* Запас рахований під тінь АКТИВНОЇ плитки, а не спокійної. У спокої це
+       0 20px 50px -28px, тобто ~42px під карткою. При наведенні тінь інша —
+       0 30px 70px -30px, і картка ще й підіймається на 3px, разом ~67px. Саме
+       її й різало: на 36px спокійна майже вміщалась, а активна ні, тож обрив
+       з'являвся рівно тоді, коли на картку наводиш або тицяєш пальцем.
+       Зверху теж потрібен запас: та сама тінь виступає над карткою на ~13px,
+       а було 4px. Орієнтир — стрічка відгуків нижче, де під той самий стан
+       давно закладено 54/64px. */
+    padding: 16px 2px 72px;
     scrollbar-width: none;
     /* Горизонтальне згасання з боків плюс вертикальне знизу, через перетин —
        те саме, що й у стрічці сценаріїв. */
@@ -1570,7 +1576,7 @@
     }
     .gal-nav { display: none; }
     .gallery-grid {
-      padding: 4px 28px 32px;
+      padding: 16px 28px 70px;
       -webkit-mask-image: none; mask-image: none;
     }
   }
@@ -2533,11 +2539,11 @@
     scroll-behavior: auto;
     /* room for the cards' own shadows, which the scroll box would otherwise clip
        into a hard edge at the top and bottom */
-    /* 40px знизу, а не 22: тінь картки (0 20px 50px -28px) реально сягає
-       близько сорока пікселів під нею, бо розмиття видно далеко за номінальний
-       радіус. На 22px scroll-бокс різав її рівною лінією — і на градієнті це
-       стало добре помітно. */
-    padding: 16px 0 40px;
+    /* Запас під тінь АКТИВНОЇ картки: 0 30px 70px -30px плюс підйом на 3px —
+       разом ~67px під нею. Спокійній вистачало й 40px, тому обрив було видно
+       лише при наведенні. Зверху 28px: там ще й лаймове світіння
+       0 0 40px -18px, яке виступає над карткою на ~25px. */
+    padding: 28px 0 72px;
     scrollbar-width: none;
     /* fades the strip itself at both ends — no solid overlay, so nothing cuts
        across the card shadows */
@@ -2750,7 +2756,7 @@
     .uc-grid {
       /* Тут маски немає (бокове згасання на вузькому екрані тільки заважало б),
          тож місце під тінь дає сам падінг. */
-      padding: 12px 28px 34px;
+      padding: 24px 28px 70px;
       -webkit-mask-image: none;
       mask-image: none;
     }
