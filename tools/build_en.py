@@ -16,6 +16,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 SRC  = os.path.join(ROOT, 'index.html')
 DST  = os.path.join(ROOT, 'en', 'index.html')
+SRC404 = os.path.join(ROOT, '404.html')
+DST404 = os.path.join(ROOT, 'en', '404.html')
 
 NB = ' '   # нерозривний пробіл, яким в українському тексті склеєні прийменники
 
@@ -47,6 +49,31 @@ HEAD = [
   '"description": "Silent disco and event production",'),
 ]
 
+# ------------------------------------------------------- SEO / head 404
+# Шляхів тут немає: у 404.html усі адреси абсолютні (файл віддають замість
+# будь-якої неіснуючої адреси, тож відносні не працюють), і для англійської
+# версії їх міняти не треба.
+HEAD404 = [
+ ('<html lang="uk">', '<html lang="en">'),
+ ('<title>Сторінки немає — SILENT</title>', '<title>Page not found — SILENT</title>'),
+ ('<meta name="description" content="Сторінки за цією адресою немає. Повертайтесь на головну SILENT — silent disco під ключ у Києві та по Україні.">',
+  '<meta name="description" content="There is no page at this address. Head back to the SILENT homepage — full-service silent disco in Kyiv and across Ukraine.">'),
+ ('<meta property="og:locale" content="uk_UA">', '<meta property="og:locale" content="en_US">'),
+ ('<meta property="og:title" content="Сторінки немає — SILENT">',
+  '<meta property="og:title" content="Page not found — SILENT">'),
+ ('<meta property="og:description" content="Сторінки за цією адресою немає. Повертайтесь на головну SILENT.">',
+  '<meta property="og:description" content="There is no page at this address. Head back to the SILENT homepage.">'),
+]
+
+SWITCH_UA_404 = """    <span class="lang-switch" role="group" aria-label="Мова сайту">
+      <span class="lang-cur" aria-current="true">UA</span>
+      <a href="/en/" hreflang="en" lang="en">EN</a>
+    </span>"""
+SWITCH_EN_404 = """    <span class="lang-switch" role="group" aria-label="Site language">
+      <a href="/" hreflang="uk" lang="uk">UA</a>
+      <span class="lang-cur" aria-current="true">EN</span>
+    </span>"""
+
 # ------------------------------------------------------------------- шляхи
 # Сторінка лежить на рівень глибше за корінь, тож усі відносні адреси
 # піднімаються на крок вище. Абсолютні (http, #, mailto:) не чіпаємо.
@@ -77,6 +104,16 @@ SWITCH_EN = """    <span class="lang-switch" role="group" aria-label="Site langu
 T = {
 # --- меню й підвал -------------------------------------------------------
 'Перейти до вмісту': 'Skip to content',
+
+# --- сторінка 404 --------------------------------------------------------
+'Помилка 404': 'Error 404',
+'Тут тиша — і цього разу не тому, що ми так задумали.':
+  "It's quiet here — and this time we didn't plan it that way.",
+'Сторінки за цією адресою немає. Схоже, посилання застаріло або в адресі загубився символ. Решта сайту на місці.':
+  'There is no page at this address. The link has probably gone stale, or a character got lost on the way. The rest of the site is where you left it.',
+'На головну': 'Go to the homepage',
+'Розділи сайту': 'Site sections',
+
 'На початок сторінки': 'Back to top',
 'Нагору сторінки': 'Back to top',
 'Як це працює': 'How it works',
@@ -588,6 +625,40 @@ window.SILENT_I18N = {
 <script src="../assets/site.js"></script>"""
 
 
+# Зіставляємо не буквально: в українському тексті пробіли між прийменником і
+# словом нерозривні, а апостроф трапляється і прямий, і типографський. Шукати
+# кожен варіант окремо означало б тримати словник у двох-трьох копіях.
+def flexible(key):
+    out = []
+    for ch in key:
+        if ch == ' ':
+            out.append('[ \u00a0]')
+        elif ch in "'\u2019\u02bc":
+            out.append("['\u2019\u02bc]")
+        else:
+            out.append(re.escape(ch))
+    return re.compile(''.join(out))
+
+
+def translate(s):
+    # Від найдовших рядків до найкоротших, щоб короткий не з'їв частину довшого.
+    for k in sorted(T, key=len, reverse=True):
+        s = flexible(k).sub(lambda m, v=T[k]: v, s)
+    return s
+
+
+def assert_translated(s, name):
+    # Жодної кирилиці поза HTML-коментарями. Коментарі — нотатки для
+    # розробника, вони однакові в обох файлах і читачеві не видні.
+    check = re.sub(r'<!--[\s\S]*?-->', '', s)
+    left = sorted({l.strip() for l in check.split('\n') if re.search(r'[А-Яа-яІіЇїЄєҐґ]', l)})
+    if left:
+        print('НЕПЕРЕКЛАДЕНЕ у %s (%d рядків):' % (name, len(left)))
+        for l in left:
+            print('   ', l[:160])
+        sys.exit(1)
+
+
 def build():
     s = io.open(SRC, encoding='utf-8').read()
 
@@ -606,24 +677,7 @@ def build():
         sys.exit('блок SILENT_I18N не знайдено')
     s = s[:m.start()] + I18N_EN + s[m.end():]
 
-    # Текст: від найдовших рядків до найкоротших, щоб короткий не з'їв частину
-    # довшого. Зіставляємо не буквально: в українському тексті пробіли між
-    # прийменником і словом нерозривні, а апостроф трапляється і прямий, і
-    # типографський. Шукати кожен варіант окремо означало б тримати словник
-    # у двох-трьох копіях.
-    def flexible(key):
-        out = []
-        for ch in key:
-            if ch == ' ':
-                out.append('[ \u00a0]')
-            elif ch in "'\u2019\u02bc":
-                out.append("['\u2019\u02bc]")
-            else:
-                out.append(re.escape(ch))
-        return re.compile(''.join(out))
-
-    for k in sorted(T, key=len, reverse=True):
-        s = flexible(k).sub(lambda m, v=T[k]: v, s)
+    s = translate(s)
 
     # hreflang не чіпаємо: обидві сторінки мусять називати ту саму пару, тож
     # трійка посилань з index.html переїжджає сюди дослівно. Змінюється лише
@@ -631,18 +685,36 @@ def build():
 
     os.makedirs(os.path.dirname(DST), exist_ok=True)
     io.open(DST, 'w', encoding='utf-8').write(s)
-
-    # Перевірка: жодної кирилиці поза HTML-коментарями. Коментарі — нотатки для
-    # розробника, вони однакові в обох файлах і читачеві не видні.
-    check = re.sub(r'<!--[\s\S]*?-->', '', s)
-    left = sorted({l.strip() for l in check.split('\n') if re.search(r'[А-Яа-яІіЇїЄєҐґ]', l)})
-    if left:
-        print('НЕПЕРЕКЛАДЕНЕ (%d рядків):' % len(left))
-        for l in left:
-            print('   ', l[:160])
-        sys.exit(1)
+    assert_translated(s, 'en/index.html')
     print('en/index.html зібрано:', len(s.split('\n')), 'рядків, неперекладеного немає')
+
+
+def build_404():
+    """en/404.html з 404.html — тим самим способом і тим самим словником.
+
+    Окрема функція, а не ще один прохід у build(): у сторінки помилки своя
+    голова (noindex, свій title) і свій перемикач мови — з неіснуючої адреси
+    він веде на головну іншої мови, а не на її таку саму помилку.
+    """
+    s = io.open(SRC404, encoding='utf-8').read()
+
+    for old, new in HEAD404:
+        if s.count(old) < 1:
+            sys.exit('немає в 404.html: ' + old[:80])
+        s = s.replace(old, new)
+
+    if s.count(SWITCH_UA_404) != 1:
+        sys.exit('перемикач мови в 404.html не знайдено')
+    s = s.replace(SWITCH_UA_404, SWITCH_EN_404)
+
+    s = translate(s)
+
+    os.makedirs(os.path.dirname(DST404), exist_ok=True)
+    io.open(DST404, 'w', encoding='utf-8').write(s)
+    assert_translated(s, 'en/404.html')
+    print('en/404.html зібрано:', len(s.split('\n')), 'рядків, неперекладеного немає')
 
 
 if __name__ == '__main__':
     build()
+    build_404()

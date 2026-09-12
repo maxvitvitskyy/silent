@@ -3331,3 +3331,65 @@
     .lead-modal-big { font-size: 19px; }
     .lead-modal-socials .f-soc svg { width: 27px; height: 27px; }
   }
+
+  /* ---------- СТОРІНКА 404 ----------
+     Лежить тут, а не в <style> самої сторінки, з двох причин. Стилі сайту
+     живуть в одному файлі — це правило, а не звичка, і саме воно дозволяє
+     міняти вигляд, не відкриваючи розмітку. Друга причина технічна: збирач
+     англійської версії перекладає весь текст сторінки за словником, і
+     українські коментарі всередині <style> він приймав би за неперекладений
+     текст. Усе, що вже є в системі — сітка, кнопки, надпис над заголовком,
+     рідкий градієнт — сторінка бере звідси ж; нижче тільки те, чого ніде
+     більше немає. */
+  .nf {
+    min-height: 100svh;
+    display: grid; place-items: center;
+    position: relative; isolation: isolate;
+    padding: 150px 0 96px;
+    text-align: center;
+  }
+  /* У секціях градієнт навмисно вилазить за їхні межі й затікає під сусідні —
+     тут сусідніх немає, а виліз на 35% донизу додавав сторінці зайвих 315px
+     прокрутки під порожнім екраном. Тут він рівно в межах сторінки. */
+  .nf .benefits-aurora { inset: 0; }
+  /* Цифри обведенням, без заливки — той самий прийом, що в номерів плашок
+     «Що входить» (.slab-num). Це найбільший елемент сторінки, і він же
+     єдиний гучний: решта лишається тихою. */
+  .nf-code {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(104px, 21vw, 250px);
+    font-weight: 800; line-height: 0.82;
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+    color: transparent;
+    -webkit-text-stroke: 2px rgba(255,255,255,0.24);
+    margin-bottom: 30px;
+  }
+  /* Без підтримки обведення прозорий текст просто зник би. */
+  @supports not (-webkit-text-stroke: 1px #000) {
+    .nf-code { color: rgba(255,255,255,0.13); }
+  }
+  .nf h1 {
+    font-size: clamp(26px, 4.4vw, 44px);
+    line-height: 1.12; font-weight: 700;
+    margin-bottom: 14px; text-wrap: balance;
+  }
+  .nf-lead {
+    color: var(--muted); font-size: 16px; line-height: 1.65;
+    max-width: 58ch; margin: 0 auto 34px; text-wrap: pretty;
+  }
+  .nf-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+  /* Розділи головної поруч: з глухої адреси корисніше потрапити одразу туди,
+     куди людина йшла, ніж на початок сторінки й гортати заново. */
+  .nf-links {
+    margin-top: 48px;
+    display: flex; flex-wrap: wrap; gap: 12px 26px; justify-content: center;
+    font-size: 13px;
+  }
+  .nf-links a { color: var(--muted-2); transition: color 0.25s ease; }
+  .nf-links a:hover { color: var(--lime); }
+  @media (max-width: 640px){
+    .nf { padding: 128px 0 76px; }
+    .nf-lead { font-size: 15px; }
+    .nf-actions { flex-direction: column; align-items: stretch; }
+  }

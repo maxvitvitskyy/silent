@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Google tag (gtag.js). Саме на цій сторінці він потрібен не менше, ніж на
+     решті: звіт по переглядах /404 — єдиний спосіб побачити, за якими адресами
+     до нас приходять і які посилання десь зламані. Clarity тут навмисно немає:
+     записувати сеанс на сторінці, де нема чого робити, нема сенсу. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L60PG6EF3E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-L60PG6EF3E');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page not found — SILENT</title>
+<meta name="description" content="There is no page at this address. Head back to the SILENT homepage — full-service silent disco in Kyiv and across Ukraine.">
+<!-- noindex: сторінку не треба тримати в пошуку, але посилання з неї хай
+     обходяться — вони ведуть на живі розділи. Canonical тут не ставимо: у
+     помилки немає канонічної адреси, її віддають замість будь-якої. -->
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#0a0a0b">
+<link rel="icon" type="image/png" sizes="any" href="/images/favicon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SILENT">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Page not found — SILENT">
+<meta property="og:description" content="There is no page at this address. Head back to the SILENT homepage.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
+
+<!-- Усі адреси тут абсолютні, і це не стиль, а вимога: цей файл віддається
+     замість будь-якої неіснуючої адреси, зокрема /якась/глибока/сторінка.
+     Відносний шлях рахувався б від неї й не знайшов би ні стилів, ні картинок. -->
+<link rel="stylesheet" href="/assets/site.css">
+<!-- site.js сюди не під'єднаний, і це не забутість. Він розрахований на те, що
+     сторінка перед ним оголосила window.SILENT_I18N — набір рядків, які скрипт
+     виводить сам: заголовки hero, підписи календаря, лайтбокса й форми. Цій
+     сторінці не потрібен жоден із них, і вигадувати порожню заглушку заради
+     одного ефекту було б гірше, ніж обійтися без нього: градієнт нижче живе в
+     CSS і рухається сам, без скрипта він лише не реагує на курсор. -->
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav>
+  <a href="/" class="logo" aria-label="Back to top" translate="no">SILENT<b>.</b></a>
+  <div class="nav-links">
+    <a href="/#how">How it works</a>
+    <a href="/#offer">What's included</a>
+    <a href="/#cases">Scenarios</a>
+    <a href="/#price">Pricing</a>
+    <!-- З неіснуючої адреси перемикач веде на головну іншої мови, а не на її
+         таку саму помилку: сторінки, з якої перемикаються, все одно немає. -->
+    <span class="lang-switch" role="group" aria-label="Site language">
+      <a href="/" hreflang="uk" lang="uk">UA</a>
+      <span class="lang-cur" aria-current="true">EN</span>
+    </span>
+    <a href="/#book" class="nav-cta">Check a date</a>
+  </div>
+</nav>
+
+<main id="main" tabindex="-1">
+  <section class="nf">
+    <div class="benefits-aurora" aria-hidden="true">
+      <div class="aurora-liquid"></div>
+    </div>
+    <div class="wrap">
+      <p class="eyebrow">Error 404</p>
+      <div class="nf-code" aria-hidden="true">404</div>
+      <h1>It's quiet here — and this time we didn't plan it that way.</h1>
+      <p class="nf-lead">There is no page at this address. The link has probably gone stale, or a character got lost on the way. The rest of the site is where you left it.</p>
+      <div class="nf-actions">
+        <a href="/" class="btn-primary">Go to the homepage</a>
+        <a href="/#book" class="btn-ghost">Send a request</a>
+      </div>
+      <nav class="nf-links" aria-label="Site sections">
+        <a href="/#idea">Why silent disco</a>
+        <a href="/#experience">The guest experience</a>
+        <a href="/#atmosphere">Atmosphere</a>
+        <a href="/#price">Calculator</a>
+        <a href="/#faq">Questions up front</a>
+      </nav>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>
