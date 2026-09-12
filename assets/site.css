@@ -1136,22 +1136,30 @@
 
      Радіус --r-lg, а не --r-md картки: дуга в кутах — частина самого мотиву, і
      на всіх трьох ширинах вона має бути та сама. */
-  /* Другий шар маски — справжня діра під кружечок: радіус 46px, тобто 39px
-     самого кружечка плюс ті самі 7px просвіту, що були колись кільцем. Іконка
-     стоїть на 78px від правого краю картки (right: 39px плюс півширини), а її
-     центр — на 0.75px нижче верху цієї коробки, бо рамка піднята на пів
-     товщини. Шари перетинаються, тож дірка виїдає і лінію, і її світіння. */
+  /* Коробка обривається там, де закінчується згасання (138px), і нижнього
+     краю в неї немає зовсім. Раніше вона тяглася на всю висоту картки, а низ
+     ховала маска — тобто в розмітці існували нижні кути, яких дизайн ніколи не
+     показував, і варто було масці не спрацювати, як вони вилазили. Тепер їх
+     просто немає: маска лише пом'якшує кінці хвостів, а не ховає пів рамки.
+
+     Другий шар — проріз під кружечок. Іконка стоїть на 78px від правого краю
+     картки (right: 39px плюс півширини), проріз іде на 46px у кожен бік від її
+     центра: 39px самого кружечка плюс ті самі 7px просвіту, що були колись
+     кільцем. Смуга, а не коло: лінія тут горизонтальна й завтовшки 1.5px, тож
+     результат той самий, зате це звичайний linear-gradient із calc() у стопах —
+     та сама конструкція, що вже працює на стрічках галереї. */
   .flow-card::before {
-    content: ''; position: absolute; inset: -0.75px 0 0; z-index: -1;
-    border-radius: var(--r-lg);
+    content: ''; position: absolute; top: -0.75px; left: 0; right: 0; height: 138px; z-index: -1;
+    border-radius: var(--r-lg) var(--r-lg) 0 0;
     border: 1.5px solid var(--lime);
+    border-bottom: 0;
     box-shadow: 0 0 18px rgba(198,255,0,0.45), inset 0 0 14px rgba(198,255,0,0.22);
     -webkit-mask-image:
       linear-gradient(180deg, #000 0, #000 34px, transparent 138px),
-      radial-gradient(circle 46px at calc(100% - 78px) 0.75px, transparent 96%, #000 100%);
+      linear-gradient(90deg, #000 calc(100% - 126px), transparent calc(100% - 122px), transparent calc(100% - 34px), #000 calc(100% - 30px));
     mask-image:
       linear-gradient(180deg, #000 0, #000 34px, transparent 138px),
-      radial-gradient(circle 46px at calc(100% - 78px) 0.75px, transparent 96%, #000 100%);
+      linear-gradient(90deg, #000 calc(100% - 126px), transparent calc(100% - 122px), transparent calc(100% - 34px), #000 calc(100% - 30px));
     -webkit-mask-composite: source-in;
     mask-composite: intersect;
   }
@@ -1225,10 +1233,11 @@
      мусила б петляти між рядами. Мотив там той самий, але поштучний — обводка
      краю в кожної з чотирьох карток (базове правило .flow-card::before вище).
 
-     Крізь іконки лінія не проходить: у ній вирізані справжні дірки радіусом
-     46px — кружечок (39px) плюс 7px просвіту. Раніше цю роль грала заливка
-     самих кружечків кольором тла, але вона читалася темним диском скрізь, де
-     під блок затікав градієнт сусідніх секцій. */
+     Крізь іконки лінія не проходить: у ній вирізані справжні прорізи на 46px
+     у кожен бік від центра кожної іконки — кружечок (39px) плюс 7px просвіту.
+     Раніше цю роль грала заливка самих кружечків кольором тла, але вона
+     читалася темним диском скрізь, де під блок затікав градієнт сусідніх
+     секцій. */
   @media (min-width: 1041px), (max-width: 620px){
     .flow {
       position: relative;
@@ -1256,20 +1265,29 @@
     .flow-step { padding: 0 26px; }
     /* 58px — низ іконки на 39px під лінією плюс просвіт до першого рядка. */
     .flow-card { padding: 58px 0 0; }
+    /* Висота 138px, нижнього краю немає: рівно стільки, скільки показує
+       згасання. Нижніх кутів більше не існує, тож і вилізти нема чому.
+       Прорізи — вертикальні смуги на 46px у кожен бік від центра кожної
+       іконки (25, 50, 75 і 100 відсотків мінус 78px). */
     .flow::before {
-      inset: -0.75px 0 0;
+      top: -0.75px; left: 0; right: 0; bottom: auto;
+      height: 138px;
+      border-bottom: 0;
+      border-radius: var(--r-lg) var(--r-lg) 0 0;
       -webkit-mask-image:
         linear-gradient(180deg, #000 0, #000 34px, transparent 138px),
-        radial-gradient(circle 46px at calc(25%  - 78px) 0.75px, transparent 96%, #000 100%),
-        radial-gradient(circle 46px at calc(50%  - 78px) 0.75px, transparent 96%, #000 100%),
-        radial-gradient(circle 46px at calc(75%  - 78px) 0.75px, transparent 96%, #000 100%),
-        radial-gradient(circle 46px at calc(100% - 78px) 0.75px, transparent 96%, #000 100%);
+        linear-gradient(90deg,
+        #000 calc(25%  - 126px), transparent calc(25%  - 122px), transparent calc(25%  - 34px), #000 calc(25%  - 30px),
+        #000 calc(50%  - 126px), transparent calc(50%  - 122px), transparent calc(50%  - 34px), #000 calc(50%  - 30px),
+        #000 calc(75%  - 126px), transparent calc(75%  - 122px), transparent calc(75%  - 34px), #000 calc(75%  - 30px),
+        #000 calc(100% - 126px), transparent calc(100% - 122px), transparent calc(100% - 34px), #000 calc(100% - 30px));
       mask-image:
         linear-gradient(180deg, #000 0, #000 34px, transparent 138px),
-        radial-gradient(circle 46px at calc(25%  - 78px) 0.75px, transparent 96%, #000 100%),
-        radial-gradient(circle 46px at calc(50%  - 78px) 0.75px, transparent 96%, #000 100%),
-        radial-gradient(circle 46px at calc(75%  - 78px) 0.75px, transparent 96%, #000 100%),
-        radial-gradient(circle 46px at calc(100% - 78px) 0.75px, transparent 96%, #000 100%);
+        linear-gradient(90deg,
+        #000 calc(25%  - 126px), transparent calc(25%  - 122px), transparent calc(25%  - 34px), #000 calc(25%  - 30px),
+        #000 calc(50%  - 126px), transparent calc(50%  - 122px), transparent calc(50%  - 34px), #000 calc(50%  - 30px),
+        #000 calc(75%  - 126px), transparent calc(75%  - 122px), transparent calc(75%  - 34px), #000 calc(75%  - 30px),
+        #000 calc(100% - 126px), transparent calc(100% - 122px), transparent calc(100% - 34px), #000 calc(100% - 30px));
       -webkit-mask-composite: source-in;
       mask-composite: intersect;
     }
@@ -1312,24 +1330,29 @@
     }
     .flow-card { grid-column: 1; grid-row: 1; padding: 0; }
     .flow-node { position: static; grid-column: 2; grid-row: 1; }
-    /* Кружечки стоять серединою кожного з чотирьох рівних рядів, тобто на
-       12.5, 37.5, 62.5 і 87.5% висоти стрічки. По горизонталі центр — на
-       0.75px лівіше правого краю цієї коробки: її край іде по зовнішньому боці
-       рамки, а центр кружечка — по середині її товщини. */
+    /* Ширина 156px, лівого краю немає — рівно стільки, скільки показує
+       згасання вліво. Кружечки стоять серединою кожного з чотирьох рівних
+       рядів, тобто на 12.5, 37.5, 62.5 і 87.5 відсотка висоти стрічки; проріз
+       іде на 46px угору й униз від кожної з цих позначок. */
     .flow::before {
-      top: 0; bottom: 0; left: 0; right: 38.25px;
+      top: 0; bottom: 0; left: auto; right: 38.25px;
+      width: 156px;
+      border-left: 0;
+      border-radius: 0 var(--r-lg) var(--r-lg) 0;
       -webkit-mask-image:
         linear-gradient(270deg, #000 0, #000 34px, transparent 156px),
-        radial-gradient(circle 46px at calc(100% - 0.75px) 12.5%, transparent 96%, #000 100%),
-        radial-gradient(circle 46px at calc(100% - 0.75px) 37.5%, transparent 96%, #000 100%),
-        radial-gradient(circle 46px at calc(100% - 0.75px) 62.5%, transparent 96%, #000 100%),
-        radial-gradient(circle 46px at calc(100% - 0.75px) 87.5%, transparent 96%, #000 100%);
+        linear-gradient(180deg,
+        #000 calc(12.5% - 48px), transparent calc(12.5% - 44px), transparent calc(12.5% + 44px), #000 calc(12.5% + 48px),
+        #000 calc(37.5% - 48px), transparent calc(37.5% - 44px), transparent calc(37.5% + 44px), #000 calc(37.5% + 48px),
+        #000 calc(62.5% - 48px), transparent calc(62.5% - 44px), transparent calc(62.5% + 44px), #000 calc(62.5% + 48px),
+        #000 calc(87.5% - 48px), transparent calc(87.5% - 44px), transparent calc(87.5% + 44px), #000 calc(87.5% + 48px));
       mask-image:
         linear-gradient(270deg, #000 0, #000 34px, transparent 156px),
-        radial-gradient(circle 46px at calc(100% - 0.75px) 12.5%, transparent 96%, #000 100%),
-        radial-gradient(circle 46px at calc(100% - 0.75px) 37.5%, transparent 96%, #000 100%),
-        radial-gradient(circle 46px at calc(100% - 0.75px) 62.5%, transparent 96%, #000 100%),
-        radial-gradient(circle 46px at calc(100% - 0.75px) 87.5%, transparent 96%, #000 100%);
+        linear-gradient(180deg,
+        #000 calc(12.5% - 48px), transparent calc(12.5% - 44px), transparent calc(12.5% + 44px), #000 calc(12.5% + 48px),
+        #000 calc(37.5% - 48px), transparent calc(37.5% - 44px), transparent calc(37.5% + 44px), #000 calc(37.5% + 48px),
+        #000 calc(62.5% - 48px), transparent calc(62.5% - 44px), transparent calc(62.5% + 44px), #000 calc(62.5% + 48px),
+        #000 calc(87.5% - 48px), transparent calc(87.5% - 44px), transparent calc(87.5% + 44px), #000 calc(87.5% + 48px));
       -webkit-mask-composite: source-in;
       mask-composite: intersect;
     }
