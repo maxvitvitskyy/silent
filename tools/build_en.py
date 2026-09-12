@@ -76,6 +76,7 @@ SWITCH_EN = """    <span class="lang-switch" role="group" aria-label="Site langu
 # частину довшого.
 T = {
 # --- меню й підвал -------------------------------------------------------
+'Перейти до вмісту': 'Skip to content',
 'На початок сторінки': 'Back to top',
 'Нагору сторінки': 'Back to top',
 'Як це працює': 'How it works',

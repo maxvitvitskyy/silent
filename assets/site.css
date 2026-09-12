@@ -71,7 +71,37 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  /* color-scheme — не косметика: від нього залежать рідні елементи, які
+     браузер малює сам і які CSS не дістає. Без нього випадайка <select>,
+     календарик <input type="date"> і смуга прокрутки лишалися світлими на
+     чорному сайті. */
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+    /* Сірий прямокутник, який Android малює під пальцем на кожному дотику.
+       Свої стани натискання в кнопок є, тож він тільки заважає. Раніше це
+       правило стояло всередині одного медіа-запиту, тобто діяло не скрізь. */
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* 300-мілісекундна пауза перед реакцією, якою браузер чекає на другий тап
+     (подвійний тап = зум). Сайт не покладається на подвійний тап ніде. */
+  a, button, label, summary, [role="button"], input, select, textarea {
+    touch-action: manipulation;
+  }
+  /* Посилання «до вмісту»: лежить поза екраном і виїжджає тільки під фокусом. */
+  .skip-link {
+    position: fixed; top: 8px; left: 8px; z-index: 900;
+    transform: translateY(-160%);
+    padding: 12px 18px;
+    border-radius: var(--r-sm);
+    background: var(--lime); color: #0a0a0b;
+    font-weight: 700; font-size: 14px;
+    transition: transform 0.2s ease;
+  }
+  .skip-link:focus-visible { transform: translateY(0); }
+  /* Фокус сюди ставить саме посилання вище, а не Tab, тож рамка навколо всієї
+     сторінки була б шумом — видимий результат і так є, сторінка прокрутилась. */
+  main[tabindex="-1"]:focus, main[tabindex="-1"]:focus-visible { outline: none; }
   body {
     font-family: 'Manrope', sans-serif;
     background: var(--night);
@@ -2096,11 +2126,27 @@
   }
   .field input[type="date"]::-webkit-calendar-picker-indicator:hover { filter: invert(1) opacity(1); }
   .field input::placeholder, .field textarea::placeholder { color: var(--muted-2); }
+  /* :not(:focus-visible) — щоб зняття рамки стосувалося лише кліку мишею.
+     Той, хто прийшов сюди клавіатурою, лишається з лаймовим кільцем: підсвітка
+     самого поля надто схожа на звичайний hover, щоб замінити його. */
   .field input:focus, .field select:focus, .field textarea:focus {
-    outline: none; border-color: var(--ch);
+    border-color: var(--ch);
     background: rgba(255,255,255,0.06);
   }
-  .field select option { background: var(--night-2); }
+  .field input:focus:not(:focus-visible),
+  .field select:focus:not(:focus-visible),
+  .field textarea:focus:not(:focus-visible) { outline: none; }
+  .field input[aria-invalid="true"],
+  .field select[aria-invalid="true"],
+  .field textarea[aria-invalid="true"] { border-color: #ff5470; }
+  /* Windows у темній темі малює список <select> своїм кольором, якщо не задати
+     обидва — і тло, і текст. */
+  .field select option { background: var(--night-2); color: #fff; }
+  .form-error {
+    margin: 0 0 14px;
+    font-size: 13px; line-height: 1.5;
+    color: #ff8098;
+  }
   .calc-summary-note {
     border: 1px solid var(--ch);
     background: var(--ch-soft);
@@ -3044,6 +3090,9 @@
     --step: calc(var(--vh) * 9 / 16 + 26px);
     display: none;
     position: fixed; inset: 0; z-index: 600;
+    /* Догортавши вміст вікна до краю, палець інакше починає гортати сторінку
+       під ним — і по закритті користувач опиняється зовсім не там, де був. */
+    overscroll-behavior: contain;
   }
   .vbox.show { display: block; }
   .vbox-backdrop {
@@ -3182,6 +3231,7 @@
     position: fixed; inset: 0; z-index: 500;
     align-items: center; justify-content: center;
     padding: 24px;
+    overscroll-behavior: contain;
   }
   .lead-modal.show { display: flex; }
   .lead-modal-backdrop {

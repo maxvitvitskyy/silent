@@ -1401,6 +1401,7 @@ const I18N = window.SILENT_I18N;
         if (other !== item) {
           other.classList.remove('open');
           other.querySelector('.faq-a').style.maxHeight = null;
+          other.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
         }
       });
       if (isOpen) {
@@ -1410,6 +1411,9 @@ const I18N = window.SILENT_I18N;
         item.classList.add('open');
         a.style.maxHeight = a.scrollHeight + 'px';
       }
+      // Плюсик, що обертається в хрестик, бачить лише той, хто дивиться на
+      // екран. Читач з озвучкою дізнається про стан пункту тільки звідси.
+      q.setAttribute('aria-expanded', String(!isOpen));
     };
     q.addEventListener('click', toggle);
     q.addEventListener('keydown', (e) => {
@@ -1938,13 +1942,37 @@ const I18N = window.SILENT_I18N;
   // цього прапорця повторний клік чи гонка подій дали б два events на один лід.
   let leadEventSent = false;
 
+  // alert() забирає фокус у діалог браузера, нічого не каже про те, яке саме
+  // поле порожнє, і на телефоні перекриває всю форму. Повідомлення тепер
+  // стоїть над кнопкою (role="alert", тож озвучується само), порожні поля
+  // позначаються aria-invalid, а фокус іде в перше з них.
+  const errBox = document.getElementById('formError');
+  const nameEl = document.getElementById('name');
+  const contactEl = document.getElementById('contact');
+
+  function clearError(){
+    errBox.hidden = true;
+    errBox.textContent = '';
+    nameEl.removeAttribute('aria-invalid');
+    contactEl.removeAttribute('aria-invalid');
+  }
+  [nameEl, contactEl].forEach(el => el.addEventListener('input', () => {
+    if (!errBox.hidden) clearError();
+  }));
+
   document.getElementById('submitBtn').addEventListener('click', () => {
-    const name = document.getElementById('name').value.trim();
-    const contact = document.getElementById('contact').value.trim();
+    const name = nameEl.value.trim();
+    const contact = contactEl.value.trim();
     if (!name || !contact){
-      alert(I18N.form.required);
+      clearError();
+      errBox.textContent = I18N.form.required;
+      errBox.hidden = false;
+      if (!name) nameEl.setAttribute('aria-invalid', 'true');
+      if (!contact) contactEl.setAttribute('aria-invalid', 'true');
+      (!name ? nameEl : contactEl).focus();
       return;
     }
+    clearError();
 
     const formData = {
       name: name,

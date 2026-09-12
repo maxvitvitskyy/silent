@@ -31,7 +31,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SILENT — one party. Three worlds of music.</title>
 <meta name="description" content="Full-service silent disco in Kyiv and across Ukraine: wireless LED headphones, 3 music channels, delivery, setup and on-site support.">
-<meta name="theme-color" content="#05070d">
+<meta name="theme-color" content="#0a0a0b">
 <!-- sizes="any": файл зараз 473×470 (не квадрат 512×512, як було раніше) —
      фіксований розмір тут був би недостовірним, браузер сам масштабує PNG. -->
 <link rel="icon" type="image/png" sizes="any" href="../images/favicon.png">
@@ -41,7 +41,7 @@
 <meta property="og:title" content="SILENT — one party. Three worlds of music.">
 <meta property="og:description" content="Full-service silent disco in Kyiv and across Ukraine: wireless LED headphones, 3 music channels, delivery, setup and on-site support.">
 <!-- og:image і og:url мусять бути абсолютними: Facebook, Telegram та інші
-     скребачки прев'ю не розв'язують відносні шляхи й просто лишаються без
+     скребачки прев’ю не розв’язують відносні шляхи й просто лишаються без
      картинки. Канонічний адрес — на власному домені, щоб пошук не індексував
      ще й дублікат на github.io. -->
 <meta property="og:url" content="https://silent.org.ua/en/">
@@ -60,7 +60,7 @@
 <link rel="alternate" hreflang="uk" href="https://silent.org.ua/">
 <link rel="alternate" hreflang="en" href="https://silent.org.ua/en/">
 <link rel="alternate" hreflang="x-default" href="https://silent.org.ua/">
-<!-- Structured data: Organization + Service, пов'язані через @id. Без
+<!-- Structured data: Organization + Service, пов’язані через @id. Без
      LocalBusiness (немає фізичної адреси, куди приходить клієнт), без
      Review/AggregateRating (немає реальних відгуків із перевірюваним
      джерелом) і без Event (сайт продає послугу організації, а не
@@ -141,8 +141,12 @@
 </head>
 <body id="top">
 
+<!-- Перше, на що стає фокус із клавіатури: меню й hero стоять перед
+     контентом, і без цієї ланки до тексту треба протабувати всю навігацію. -->
+<a class="skip-link" href="#main">Skip to content</a>
+
 <nav>
-  <a href="#top" class="logo" aria-label="Back to top">SILENT<b>.</b></a>
+  <a href="#top" class="logo" aria-label="Back to top" translate="no">SILENT<b>.</b></a>
   <div class="nav-links">
     <a href="#how">How it works</a>
     <a href="#offer">What's included</a>
@@ -155,6 +159,8 @@
     <a href="#book" class="nav-cta" data-cta="header_check_date">Check a date</a>
   </div>
 </nav>
+
+<main id="main" tabindex="-1">
 
 <!-- HERO -->
 <section class="hero">
@@ -223,7 +229,7 @@
       <div class="ch-toggle active" data-ch="0" style="--sw-color:var(--red)">
         <div class="ch-toggle-top">
           <div class="ch-toggle-label">
-            <span class="ch-toggle-name" style="color:var(--red)">RED</span>
+            <span class="ch-toggle-name" style="color:var(--red)" translate="no">RED</span>
             <span class="ch-toggle-desc">Deep &amp; Dance — electronic, house, rhythm</span>
           </div>
           <button class="ch-switch" type="button" aria-pressed="true" style="--sw-color:var(--red)"><span class="ch-switch-knob"></span></button>
@@ -232,7 +238,7 @@
       <div class="ch-toggle" data-ch="1" style="--sw-color:var(--green)">
         <div class="ch-toggle-top">
           <div class="ch-toggle-label">
-            <span class="ch-toggle-name" style="color:var(--green)">GREEN</span>
+            <span class="ch-toggle-name" style="color:var(--green)" translate="no">GREEN</span>
             <span class="ch-toggle-desc">Pop &amp; Throwback — the hits everyone knows the words to</span>
           </div>
           <button class="ch-switch" type="button" aria-pressed="false" style="--sw-color:var(--green)"><span class="ch-switch-knob"></span></button>
@@ -241,7 +247,7 @@
       <div class="ch-toggle" data-ch="2" style="--sw-color:var(--blue)">
         <div class="ch-toggle-top">
           <div class="ch-toggle-label">
-            <span class="ch-toggle-name" style="color:var(--blue)">BLUE</span>
+            <span class="ch-toggle-name" style="color:var(--blue)" translate="no">BLUE</span>
             <span class="ch-toggle-desc">Chill &amp; Soul — slow, warm, close</span>
           </div>
           <button class="ch-switch" type="button" aria-pressed="false" style="--sw-color:var(--blue)"><span class="ch-switch-knob"></span></button>
@@ -264,7 +270,7 @@
   <div class="shift-grid">
     <div class="shift-card old reveal">
       <div class="shift-photo">
-        <img src="../images/shift-old.webp" loading="lazy" decoding="async" alt="Black-and-white shot: a stage with speakers and a dark room of guests">
+        <img src="../images/shift-old.webp" width="1180" height="620" loading="lazy" decoding="async" alt="Black-and-white shot: a stage with speakers and a dark room of guests">
       </div>
       <div class="shift-body">
         <div class="tag">The usual way</div>
@@ -274,7 +280,7 @@
     </div>
     <div class="shift-card new reveal">
       <div class="shift-photo">
-        <img src="../images/shift-new.webp" loading="lazy" decoding="async" alt="A group of friends laughing in glowing green headphones">
+        <img src="../images/shift-new.webp" width="1180" height="620" loading="lazy" decoding="async" alt="A group of friends laughing in glowing green headphones">
       </div>
       <div class="shift-body">
         <div class="tag">With silent disco</div>
@@ -936,7 +942,7 @@
           </div>
           <div style="text-align:right;">
             <span>Estimate</span>
-            <div class="calc-price"><strong id="calcTotal">9,800</strong> <small>UAH</small></div>
+            <div class="calc-price" aria-live="polite" aria-atomic="true"><strong id="calcTotal">9,800</strong> <small>UAH</small></div>
           </div>
         </div>
         <div class="calc-slider">
@@ -1075,38 +1081,38 @@
     <div class="faq-list">
       <div class="faq-col">
         <div class="faq-item reveal">
-          <div class="faq-q" role="button" tabindex="0"><h3>How much dancefloor space do we need?</h3><div class="faq-icon">+</div></div>
-          <div class="faq-a"><p>Roughly <strong>1 m² per person</strong> for active dancing, less if some of the guests will be seated. Tell us the size of the room and the number of guests and we'll work out whether there's enough space, then suggest how many headsets to take.</p></div>
+          <div class="faq-q" role="button" tabindex="0" aria-expanded="false" aria-controls="faqA1"><h3>How much dancefloor space do we need?</h3><div class="faq-icon">+</div></div>
+          <div class="faq-a" id="faqA1" role="region"><p>Roughly <strong>1 m² per person</strong> for active dancing, less if some of the guests will be seated. Tell us the size of the room and the number of guests and we'll work out whether there's enough space, then suggest how many headsets to take.</p></div>
         </div>
         <div class="faq-item reveal">
-          <div class="faq-q" role="button" tabindex="0"><h3>Can it be outdoors?</h3><div class="faq-icon">+</div></div>
-          <div class="faq-a"><p>Yes, but the equipment needs power and doesn't like damp. In rain, or with no socket nearby, you need a backup plan — a tent, a canopy or moving indoors. We work that out in advance, once we know the venue.</p></div>
+          <div class="faq-q" role="button" tabindex="0" aria-expanded="false" aria-controls="faqA2"><h3>Can it be outdoors?</h3><div class="faq-icon">+</div></div>
+          <div class="faq-a" id="faqA2" role="region"><p>Yes, but the equipment needs power and doesn't like damp. In rain, or with no socket nearby, you need a backup plan — a tent, a canopy or moving indoors. We work that out in advance, once we know the venue.</p></div>
         </div>
         <div class="faq-item reveal">
-          <div class="faq-q" role="button" tabindex="0"><h3>Is it really quiet from the outside?</h3><div class="faq-icon">+</div></div>
-          <div class="faq-a"><p>Guests dance, sing and laugh, so it isn't soundless. But the total noise from even a hundred people in headphones is a small fraction of what ordinary speakers make. And when someone wants to talk, they simply slide the headphones down to their neck and speak at a normal voice.</p></div>
+          <div class="faq-q" role="button" tabindex="0" aria-expanded="false" aria-controls="faqA3"><h3>Is it really quiet from the outside?</h3><div class="faq-icon">+</div></div>
+          <div class="faq-a" id="faqA3" role="region"><p>Guests dance, sing and laugh, so it isn't soundless. But the total noise from even a hundred people in headphones is a small fraction of what ordinary speakers make. And when someone wants to talk, they simply slide the headphones down to their neck and speak at a normal voice.</p></div>
         </div>
         <div class="faq-item reveal">
-          <div class="faq-q" role="button" tabindex="0"><h3>How long does the battery last?</h3><div class="faq-icon">+</div></div>
-          <div class="faq-a"><p>The headphones run <strong>10+ hours</strong> on one charge — enough for any evening with room to spare. We arrive with the kit fully charged, so it isn't something you need to think about.</p></div>
+          <div class="faq-q" role="button" tabindex="0" aria-expanded="false" aria-controls="faqA4"><h3>How long does the battery last?</h3><div class="faq-icon">+</div></div>
+          <div class="faq-a" id="faqA4" role="region"><p>The headphones run <strong>10+ hours</strong> on one charge — enough for any evening with room to spare. We arrive with the kit fully charged, so it isn't something you need to think about.</p></div>
         </div>
       </div>
       <div class="faq-col">
         <div class="faq-item reveal">
-          <div class="faq-q" role="button" tabindex="0"><h3>Do we need a DJ as well?</h3><div class="faq-icon">+</div></div>
-          <div class="faq-a"><p>Not necessarily. Hiring a live DJ is a separate line in the budget, usually a sizeable one for the evening. We prepare three playlists in advance to match your mood, so a DJ is only needed if you want a live mix on the night.</p></div>
+          <div class="faq-q" role="button" tabindex="0" aria-expanded="false" aria-controls="faqA5"><h3>Do we need a DJ as well?</h3><div class="faq-icon">+</div></div>
+          <div class="faq-a" id="faqA5" role="region"><p>Not necessarily. Hiring a live DJ is a separate line in the budget, usually a sizeable one for the evening. We prepare three playlists in advance to match your mood, so a DJ is only needed if you want a live mix on the night.</p></div>
         </div>
         <div class="faq-item reveal">
-          <div class="faq-q" role="button" tabindex="0"><h3>Is it suitable for children?</h3><div class="faq-icon">+</div></div>
-          <div class="faq-a"><p>Yes. Every guest has their own volume, so it's easy to keep children's hearing away from too much sound. For events with small children we suggest capping the volume lower from the outset — we take care of that before it starts.</p></div>
+          <div class="faq-q" role="button" tabindex="0" aria-expanded="false" aria-controls="faqA6"><h3>Is it suitable for children?</h3><div class="faq-icon">+</div></div>
+          <div class="faq-a" id="faqA6" role="region"><p>Yes. Every guest has their own volume, so it's easy to keep children's hearing away from too much sound. For events with small children we suggest capping the volume lower from the outset — we take care of that before it starts.</p></div>
         </div>
         <div class="faq-item reveal">
-          <div class="faq-q" role="button" tabindex="0"><h3>How do the headphones come back at the end?</h3><div class="faq-icon">+</div></div>
-          <div class="faq-a"><p>We set up a single hand-out and return point at the entrance so nothing goes astray. If needed we use a simple tracking system, so by the end of the evening we know for certain everything is back — without awkward questions to guests.</p></div>
+          <div class="faq-q" role="button" tabindex="0" aria-expanded="false" aria-controls="faqA7"><h3>How do the headphones come back at the end?</h3><div class="faq-icon">+</div></div>
+          <div class="faq-a" id="faqA7" role="region"><p>We set up a single hand-out and return point at the entrance so nothing goes astray. If needed we use a simple tracking system, so by the end of the evening we know for certain everything is back — without awkward questions to guests.</p></div>
         </div>
         <div class="faq-item reveal">
-          <div class="faq-q" role="button" tabindex="0"><h3>What if headphones get lost or damaged?</h3><div class="faq-icon">+</div></div>
-          <div class="faq-a"><p>It happens at live parties, so we take a small refundable deposit on the kit, returned as soon as all the equipment is handed back intact. If one or two headsets don't come back or are damaged, we cover it from the deposit, with nothing further to sort out on your side. We agree the amount and the terms in advance, before the event itself.</p></div>
+          <div class="faq-q" role="button" tabindex="0" aria-expanded="false" aria-controls="faqA8"><h3>What if headphones get lost or damaged?</h3><div class="faq-icon">+</div></div>
+          <div class="faq-a" id="faqA8" role="region"><p>It happens at live parties, so we take a small refundable deposit on the kit, returned as soon as all the equipment is handed back intact. If one or two headsets don't come back or are damaged, we cover it from the deposit, with nothing further to sort out on your side. We agree the amount and the terms in advance, before the event itself.</p></div>
         </div>
       </div>
     </div>
@@ -1144,15 +1150,15 @@
           <div class="calc-summary-note" id="calcSummaryNote" style="display:none;"></div>
           <div class="field">
             <label for="name">Your name</label>
-            <input type="text" id="name" placeholder="Name">
+            <input type="text" id="name" name="name" autocomplete="name" placeholder="Name…">
           </div>
           <div class="field">
             <label for="contact">Phone or Instagram</label>
-            <input type="text" id="contact" placeholder="+380… or @handle">
+            <input type="text" id="contact" name="contact" autocomplete="tel" spellcheck="false" placeholder="+380… or @handle">
           </div>
           <div class="field">
             <label for="type">What are you planning?</label>
-            <select id="type">
+            <select id="type" name="eventType">
               <option>I want to know the price</option>
               <option>I'm planning an event</option>
               <option>Looking for a format for a client</option>
@@ -1167,7 +1173,7 @@
           </div>
           <div class="field">
             <label for="guests">Roughly how many guests</label>
-            <select id="guests">
+            <select id="guests" name="guests">
               <option>40–60</option>
               <option>60–80</option>
               <option>80–100</option>
@@ -1176,11 +1182,11 @@
           </div>
           <div class="field">
             <label for="date">Preferred date</label>
-            <input type="date" id="date">
+            <input type="date" id="date" name="eventDate" autocomplete="off">
           </div>
           <div class="field">
             <label for="source">How did you hear about us? (optional)</label>
-            <select id="source">
+            <select id="source" name="discovery">
               <option value="">Choose one</option>
               <option>Instagram</option>
               <option>TikTok</option>
@@ -1195,12 +1201,13 @@
           </div>
           <div class="field">
             <label for="comment">Comment (optional)</label>
-            <textarea id="comment" placeholder="Tell us more about the event, the venue you have in mind, the timing and anything else" rows="3"></textarea>
+            <textarea id="comment" name="comment" placeholder="Tell us more about the event, the venue you have in mind, the timing and anything else…" rows="3"></textarea>
           </div>
-          <button class="form-submit" id="submitBtn">Send the request</button>
+          <p class="form-error" id="formError" role="alert" hidden></p>
+          <button class="form-submit" id="submitBtn" type="button">Send the request</button>
           <div class="form-note">By sending this you agree that we may contact you about the event.</div>
         </div>
-        <div class="form-success" id="formSuccess">
+        <div class="form-success" id="formSuccess" role="status">
           <div class="big">Request received ✦</div>
           <p>Thank you. We'll be in touch shortly to agree the details and confirm the date of your evening.</p>
         </div>
@@ -1208,6 +1215,8 @@
     </div>
   </div>
 </section>
+
+</main>
 
 <footer class="site-footer">
   <div class="footer-aurora" aria-hidden="true">
@@ -1221,7 +1230,7 @@
     <div class="footer-inner">
       <div class="footer-cols">
       <div class="f-col f-brand">
-        <a href="#top" class="f-logo" aria-label="Back to top">SILENT<b>.</b></a>
+        <a href="#top" class="f-logo" aria-label="Back to top" translate="no">SILENT<b>.</b></a>
         <p class="f-tagline">Quiet outside, everything happening inside. Full-service silent disco in Kyiv and across Ukraine.</p>
         <a href="#book" class="btn-primary f-cta" data-cta="footer_leave_request">Send a request</a>
       </div>
@@ -1275,7 +1284,7 @@
 </footer>
 
 <!-- Спливне вікно після відправки заявки. Не замінює formSuccess у самій
-     формі — з'являється разом з ним, поверх усієї сторінки. Close можна
+     формі — з’являється разом з ним, поверх усієї сторінки. Close можна
      хрестиком, кліком по затемненому фону або Escape; сама заявка й
      formSuccess при цьому ніяк не змінюються. -->
 <!-- Лайтбокс-карусель для роликів галереї.
