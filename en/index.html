@@ -1268,8 +1268,11 @@
           <div class="form-note">By sending this you agree that we may contact you about the event.</div>
         </div>
         <div class="form-success" id="formSuccess" role="status">
-          <div class="big">Request received ✦</div>
-          <p>Thank you. We'll be in touch shortly to agree the details and confirm the date of your evening.</p>
+          <!-- Та сама позначка, що й у вікні: два підтвердження одної дії
+               мусять виглядати як одне. Тут вона теж замінила символ ✦. -->
+          <div class="sig-eq" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="big">Request received</div>
+          <p>Thank you. We will write as soon as we have checked the date, and we answer within the day.</p>
         </div>
       </div>
     </div>
@@ -1371,8 +1374,18 @@
   <div class="lead-modal-backdrop" id="leadModalBackdrop"></div>
   <div class="lead-modal-card glass-panel" role="dialog" aria-modal="true" aria-labelledby="leadModalTitle">
     <button class="lead-modal-close" id="leadModalClose" aria-label="Close">✕</button>
-    <div class="lead-modal-big" id="leadModalTitle">Request received ✦</div>
-    <p class="lead-modal-text">Thank you. We'll be in touch shortly to agree the details and confirm the date of your evening.</p>
+    <!-- П'ять смужок еквалайзера замість готової юнікодної зірочки ✦, яка
+         стояла тут раніше й не мала спільного ні з цим продуктом, ні з його
+         системою іконок. Смужки — та сама позначка «сигнал живий», що й у
+         панелі каналів: заявка пішла в ефір. Виростають один раз і лишаються
+         стояти, тож при повторному надсиланні не набридають. -->
+    <div class="sig-eq" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="lead-modal-big" id="leadModalTitle">Request received</div>
+    <!-- Дату підставляє скрипт із поля форми, якщо її вказали. Це головне, що
+         людина хоче почути у відповідь: при одному комплекті на вечір саме
+         дата і є вся угода, а тут видно, що ми зрозуміли її правильно. -->
+    <p class="lead-modal-date" id="leadModalDate" hidden></p>
+    <p class="lead-modal-text">Thank you. We will write as soon as we have checked the date, and we answer within the day.</p>
     <div class="lead-modal-divider"></div>
     <p class="lead-modal-sub">Stay in touch — follow upcoming events and what happens behind the scenes at SILENT:</p>
     <div class="lead-modal-socials">
@@ -1455,7 +1468,10 @@ window.SILENT_I18N = {
   },
   cal: { foot: 'Date in the form: ' },
   video: { clip: (n) => 'Clip ' + n, prev: 'Previous video', next: 'Next video' },
-  form: { required: 'Please leave a name and a contact so we can get back to you.' }
+  form: {
+    required: 'Please leave a name and a contact so we can get back to you.',
+    checking: (d) => `Checking <b>${d}</b>`
+  }
 };
 </script>
 <script src="../assets/site.js"></script>

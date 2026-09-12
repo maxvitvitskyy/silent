@@ -1268,8 +1268,11 @@
           <div class="form-note">Натискаючи, ви погоджуєтесь, що ми зв’яжемося з вами щодо події.</div>
         </div>
         <div class="form-success" id="formSuccess" role="status">
-          <div class="big">Заявку прийнято ✦</div>
-          <p>Дякуємо! Ми зв’яжемося найближчим часом, щоб узгодити деталі й підтвердити дату вашого вечора.</p>
+          <!-- Та сама позначка, що й у вікні: два підтвердження одної дії
+               мусять виглядати як одне. Тут вона теж замінила символ ✦. -->
+          <div class="sig-eq" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="big">Заявку прийнято</div>
+          <p>Дякуємо. Напишемо вам, щойно перевіримо дату — відповідаємо протягом дня.</p>
         </div>
       </div>
     </div>
@@ -1371,8 +1374,18 @@
   <div class="lead-modal-backdrop" id="leadModalBackdrop"></div>
   <div class="lead-modal-card glass-panel" role="dialog" aria-modal="true" aria-labelledby="leadModalTitle">
     <button class="lead-modal-close" id="leadModalClose" aria-label="Закрити">✕</button>
-    <div class="lead-modal-big" id="leadModalTitle">Заявку прийнято ✦</div>
-    <p class="lead-modal-text">Дякуємо! Ми зв’яжемося найближчим часом, щоб узгодити деталі й підтвердити дату вашого вечора.</p>
+    <!-- П'ять смужок еквалайзера замість готової юнікодної зірочки ✦, яка
+         стояла тут раніше й не мала спільного ні з цим продуктом, ні з його
+         системою іконок. Смужки — та сама позначка «сигнал живий», що й у
+         панелі каналів: заявка пішла в ефір. Виростають один раз і лишаються
+         стояти, тож при повторному надсиланні не набридають. -->
+    <div class="sig-eq" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="lead-modal-big" id="leadModalTitle">Заявку прийнято</div>
+    <!-- Дату підставляє скрипт із поля форми, якщо її вказали. Це головне, що
+         людина хоче почути у відповідь: при одному комплекті на вечір саме
+         дата і є вся угода, а тут видно, що ми зрозуміли її правильно. -->
+    <p class="lead-modal-date" id="leadModalDate" hidden></p>
+    <p class="lead-modal-text">Дякуємо. Напишемо вам, щойно перевіримо дату — відповідаємо протягом дня.</p>
     <div class="lead-modal-divider"></div>
     <p class="lead-modal-sub">Залишайтесь на зв’язку — стежте за майбутніми подіями та кулісами SILENT:</p>
     <div class="lead-modal-socials">
@@ -1456,7 +1469,10 @@ window.SILENT_I18N = {
   },
   cal: { foot: 'Дата у формі: ' },
   video: { clip: (n) => 'Ролик ' + n, prev: 'Попереднє відео', next: 'Наступне відео' },
-  form: { required: 'Будь ласка, вкажіть імʼя і контакт, щоб ми могли звʼязатися.' }
+  form: {
+    required: 'Будь ласка, вкажіть імʼя і контакт, щоб ми могли звʼязатися.',
+    checking: (d) => `Перевіряємо <b>${d}</b>`
+  }
 };
 </script>
 <script src="assets/site.js"></script>

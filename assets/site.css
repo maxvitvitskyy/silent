@@ -3479,6 +3479,60 @@
     font-family: 'Unbounded', sans-serif; font-size: 21px; font-weight: 600;
     color: var(--lime); margin-bottom: 10px; letter-spacing: -0.01em;
   }
+  /* Позначка «сигнал прийнято»: ті самі смужки еквалайзера, що в панелі
+     каналів. Раніше тут стояв символ ✦ — готова юнікодна зірочка, яка не має
+     спільного ні з продуктом, ні з його системою іконок.
+
+     Висоти в спокої задані на самих смужках, а рух — це scaleY від низу. Тому
+     при вимкненому системно руху смужки просто стоять на своїх висотах, а не
+     зникають: анімації немає, а висота є. Транформація, а не height, ще й
+     тому, що height — властивість розкладки.
+
+     Рух одноразовий і без повторення: це позначка, а не нескінченна анімація.
+     Вона не набридає при повторному надсиланні й не потребує спинятись, коли
+     вікно сховане. */
+  .sig-eq {
+    display: flex; align-items: flex-end; justify-content: center;
+    gap: 4px; height: 26px; margin-bottom: 14px;
+  }
+  .sig-eq span {
+    width: 3px; border-radius: 1.5px;
+    background: var(--lime);
+    box-shadow: 0 0 12px -2px rgba(198,255,0,0.6);
+    transform-origin: bottom;
+  }
+  .sig-eq span:nth-child(1){ height: 34%; }
+  .sig-eq span:nth-child(2){ height: 72%; }
+  .sig-eq span:nth-child(3){ height: 100%; }
+  .sig-eq span:nth-child(4){ height: 58%; }
+  .sig-eq span:nth-child(5){ height: 26%; }
+  @keyframes sigEqIn { from { transform: scaleY(0.12); opacity: 0; } }
+  /* Два тригери, бо позначка стоїть у двох підтвердженнях: у вікні поверх
+     сторінки й у самій формі — те, що лишається на місці кнопки, коли вікно
+     закрили. Обидва з'являються один раз, тож одноразовий рух тут доречний. */
+  .lead-modal.show .sig-eq span,
+  .form-success.show .sig-eq span {
+    animation: sigEqIn 0.5s var(--ease-arrive) backwards;
+  }
+  .lead-modal.show .sig-eq span:nth-child(1),
+  .form-success.show .sig-eq span:nth-child(1){ animation-delay: 0.10s; }
+  .lead-modal.show .sig-eq span:nth-child(2),
+  .form-success.show .sig-eq span:nth-child(2){ animation-delay: 0.16s; }
+  .lead-modal.show .sig-eq span:nth-child(3),
+  .form-success.show .sig-eq span:nth-child(3){ animation-delay: 0.22s; }
+  .lead-modal.show .sig-eq span:nth-child(4),
+  .form-success.show .sig-eq span:nth-child(4){ animation-delay: 0.28s; }
+  .lead-modal.show .sig-eq span:nth-child(5),
+  .form-success.show .sig-eq span:nth-child(5){ animation-delay: 0.34s; }
+
+  /* Дата, яку людина вказала, повернута їй назад. Лайм тільки на самій даті —
+     вона тут єдине, що варте виділення. */
+  .lead-modal-date {
+    font-size: 13.5px; color: rgba(255,255,255,0.82);
+    margin-bottom: 8px;
+  }
+  .lead-modal-date b { color: var(--lime); font-weight: 600; }
+
   .lead-modal-text { color: var(--muted); font-size: 14px; }
   .lead-modal-divider {
     height: 1px; margin: 24px 0 20px;

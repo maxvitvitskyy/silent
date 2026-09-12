@@ -1979,7 +1979,31 @@ const I18N = window.SILENT_I18N;
     const closeBtn = document.getElementById('leadModalClose');
     if (!modal) return;
 
+    // Дата з форми повертається людині назад. Це не декор: при одному
+    // комплекті на вечір дата і є вся угода, і побачити її написаною — єдине
+    // справжнє підтвердження, що заявку зрозуміли правильно. Дата
+    // необов'язкова, тож коли її не вказали, рядка просто немає — вигадувати
+    // замість неї нічого.
+    //
+    // Формат дає Intl за локаллю сторінки, тим самим викликом, що в підписі
+    // календаря вище: 'T00:00:00' у розборі — щоб рядок YYYY-MM-DD читався як
+    // місцева дата, а не як UTC, інакше на схід від Гринвіча підставлявся б
+    // попередній день.
+    const dateInput = document.getElementById('date');
+    const dateRow = document.getElementById('leadModalDate');
+    function fillLeadDate() {
+      if (!dateRow) return;
+      const v = dateInput && dateInput.value;
+      if (!v || !I18N.form || !I18N.form.checking) { dateRow.hidden = true; return; }
+      const d = new Date(v + 'T00:00:00');
+      if (isNaN(d)) { dateRow.hidden = true; return; }
+      dateRow.innerHTML = I18N.form.checking(new Intl.DateTimeFormat(I18N.locale,
+        { day: 'numeric', month: 'long', year: 'numeric' }).format(d));
+      dateRow.hidden = false;
+    }
+
     function openLeadModal() {
+      fillLeadDate();
       modal.classList.add('show');
       modal.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';

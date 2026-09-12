@@ -105,6 +105,12 @@ T = {
 # --- меню й підвал -------------------------------------------------------
 'Перейти до вмісту': 'Skip to content',
 
+# --- вікно після надсилання заявки ----------------------------------------
+'Заявку прийнято': 'Request received',
+'Дякуємо. Напишемо вам, щойно перевіримо дату — відповідаємо протягом дня.':
+  'Thank you. We will write as soon as we have checked the date, and we answer within the day.',
+
+
 # --- сторінка 404 --------------------------------------------------------
 'Помилка 404': 'Error 404',
 'Тут тиша — і цього разу не тому, що ми так задумали.':
@@ -619,7 +625,10 @@ window.SILENT_I18N = {
   },
   cal: { foot: 'Date in the form: ' },
   video: { clip: (n) => 'Clip ' + n, prev: 'Previous video', next: 'Next video' },
-  form: { required: 'Please leave a name and a contact so we can get back to you.' }
+  form: {
+    required: 'Please leave a name and a contact so we can get back to you.',
+    checking: (d) => `Checking <b>${d}</b>`
+  }
 };
 </script>
 <script src="../assets/site.js"></script>"""
