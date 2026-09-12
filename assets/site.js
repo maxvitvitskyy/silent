@@ -1230,15 +1230,35 @@ const I18N = window.SILENT_I18N;
   })();
 
   // ---- Scroll reveal ----
+  // Коли поява відіграла, з елемента знімається і затримка, і саме правило
+  // появи (клас rv-done). Доти правило появи перебиває власний transition
+  // елемента: у плашок «Що входить» наведення миттєво клацало рамкою й тінню
+  // замість своїх 0.55s, а затримка черги (до 0.28s) тягнулася і на підйом
+  // картки, через що він майже не встигав відіграти, поки курсор переходив
+  // між плашками. Поява — разова річ і не має лишатися на елементі назавжди.
+  const REVEAL_MS = 700;
+  function settleReveal(el){
+    const delay = (parseFloat(el.style.transitionDelay) || 0) * 1000;
+    setTimeout(() => {
+      el.style.transitionDelay = '';
+      el.classList.add('rv-done');
+    }, delay + REVEAL_MS + 60);
+  }
   const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+      settleReveal(e.target);
+    });
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(el => {
     // Усередині нескінченних стрічок поодинокі появи заборонені: там сотні
     // клонованих карток, і кожна проявлялась би окремо — при вертикальній
     // прокрутці порядно, при горизонтальній по одній, збиваючи паралакс.
     // Стрічка проявляється цілком, одним контейнером.
-    if (el.closest('.uc-grid, .gallery-grid')) { el.classList.add('in'); return; }
+    // Ці нічого не програють, тож і чекати їм нема чого.
+    if (el.closest('.uc-grid, .gallery-grid')) { el.classList.add('in', 'rv-done'); return; }
     // Черга рахується серед сусідів у своїй групі, а не за номером елемента на
     // всій сторінці. Раніше було i % 4 від глобального індексу: сусідні
     // картки однієї сітки отримували затримки 0.18 і 0, тобто черга була
