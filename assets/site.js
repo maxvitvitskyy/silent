@@ -1233,13 +1233,23 @@ const I18N = window.SILENT_I18N;
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach((el, i) => {
+  document.querySelectorAll('.reveal').forEach(el => {
     // Усередині нескінченних стрічок поодинокі появи заборонені: там сотні
     // клонованих карток, і кожна проявлялась би окремо — при вертикальній
     // прокрутці порядно, при горизонтальній по одній, збиваючи паралакс.
     // Стрічка проявляється цілком, одним контейнером.
     if (el.closest('.uc-grid, .gallery-grid')) { el.classList.add('in'); return; }
-    el.style.transitionDelay = (Math.min(i%4,3)*0.06)+'s';
+    // Черга рахується серед сусідів у своїй групі, а не за номером елемента на
+    // всій сторінці. Раніше було i % 4 від глобального індексу: сусідні
+    // картки однієї сітки отримували затримки 0.18 і 0, тобто черга була
+    // випадковою, і сітка приходила рвано. Тепер шість карток одного блоку
+    // приходять групою, одна за одною, а стеля 0.28s не дає останній у
+    // великій сітці приїхати помітно пізніше за першу.
+    const group = el.parentElement
+      ? Array.prototype.filter.call(el.parentElement.children, n => n.classList.contains('reveal'))
+      : [];
+    const k = Math.max(0, group.indexOf(el));
+    el.style.transitionDelay = (Math.min(k, 4) * 0.07).toFixed(2) + 's';
     io.observe(el);
   });
 
@@ -2027,3 +2037,9 @@ const I18N = window.SILENT_I18N;
     }
   });
 
+  // Прапорець для страхувальника в <head>: він доводить, що цей файл не просто
+  // доїхав, а виконався до кінця. Якщо скрипт заблокували, обірвали або він
+  // упав десь вище, прапорця не буде — і страхувальник знімає клас js, після
+  // чого всі блоки .reveal стають видимі самі, без появи. Півсайту порожнім не
+  // лишається ні за яких обставин.
+  window.__siteJs = true;

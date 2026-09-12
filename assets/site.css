@@ -12,6 +12,10 @@
     --muted-2: rgba(255,255,255,0.40);
     --line: rgba(255,255,255,0.08);
     --err: #ff5470;
+    /* Крива, якою на цьому сайті все прибуває: різкий старт, довге м'яке
+       гальмування. Вона вже була зашита в переходи заголовка при зміні
+       каналу — тепер це один токен, а не четверта копія тих самих чисел. */
+    --ease-arrive: cubic-bezier(.16,.84,.44,1);
     --lime: #c6ff00;
     --lime-glow: rgba(198,255,0,0.35);
     --glass: rgba(255,255,255,0.03);
@@ -520,7 +524,31 @@
     letter-spacing: -0.015em;
     margin-bottom: 24px;
   }
-  .hero-lines > span { display: block; opacity: 0; animation: rise 0.8s forwards; }
+  /* ---------- КОЛИ ГРАЄ ВХІД ----------
+     Послідовність появи hero описана нижче й лишається тією самою. Проблема
+     була не в ній, а в тому, коли вона грає: перша фарба о 300 мс, шрифти
+     готові о 600 — уся поява відігравала підставним шрифтом і аж у кінці
+     перемальовувалась справжнім.
+
+     hold ставить паузу на самі анімації. У нульовому кадрі в них уже opacity 0,
+     тож поки пауза тримається, вхід просто не починався. Знімається — і
+     послідовність грає з початку, разом із затримками, бо пауза зупиняє й фазу
+     delay. Жодного нового стану: механізм лише зсуває в часі те, що вже є. */
+  html.hold .hero-facts,
+  html.hold .hero-lines > span,
+  html.hold .hero-sub,
+  html.hold .hero-actions,
+  html.hold .hero-strip { animation-play-state: paused; }
+
+  /* Заголовок приходить із розфокуса: рядок спочатку розмитий, тоді різкий.
+     Це не декор — це те саме налаштування каналу, на якому стоїть продукт,
+     тільки в типографіці. Розмиття лишається тільки тут: на підзаголовку й
+     кнопках воно читалося б як дефект рендеру, а не як намір. */
+  @keyframes riseFocus {
+    from { opacity: 0; transform: translateY(24px); filter: blur(9px); }
+    to   { opacity: 1; transform: none; filter: blur(0); }
+  }
+  .hero-lines > span { display: block; opacity: 0; animation: riseFocus 0.72s var(--ease-arrive) forwards; }
   /* Each of the three headline lines stays on a single row — no internal wrap,
      so "в одному вечорі" never breaks onto a third line. Inner accent spans
      must stay inline (not inherit the block rule) or a word drops to its own line. */
@@ -528,28 +556,28 @@
   .hero-lines > span > span { display: inline; white-space: nowrap; }
   /* П'ять кроків, а не три: у мобільному наборі рядків більше, і без цих затримок
      четвертий і п'ятий проявлялись би раніше за перший. */
-  .hero-lines span:nth-child(1){ animation-delay: 0.18s; }
-  .hero-lines span:nth-child(2){ animation-delay: 0.27s; }
-  .hero-lines span:nth-child(3){ animation-delay: 0.36s; }
-  .hero-lines span:nth-child(4){ animation-delay: 0.45s; }
-  .hero-lines span:nth-child(5){ animation-delay: 0.54s; }
+  .hero-lines span:nth-child(1){ animation-delay: 0.12s; }
+  .hero-lines span:nth-child(2){ animation-delay: 0.19s; }
+  .hero-lines span:nth-child(3){ animation-delay: 0.26s; }
+  .hero-lines span:nth-child(4){ animation-delay: 0.33s; }
+  .hero-lines span:nth-child(5){ animation-delay: 0.40s; }
   .accent-lime { color: var(--lime); }
   /* Вузька міра рядка: на ескізі підзаголовок стоїть колонкою в чотири рядки,
      а не тягнеться на пів екрана. */
   .hero-sub {
     font-size: 15.5px; line-height: 1.65; color: var(--muted);
     max-width: 38ch; margin-bottom: 44px; font-weight: 400;
-    opacity: 0; animation: rise 0.8s 0.55s forwards;
+    opacity: 0; animation: rise 0.68s 0.42s var(--ease-arrive) forwards;
   }
   .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; align-items: center;
-    opacity: 0; animation: rise 0.8s 0.68s forwards; }
+    opacity: 0; animation: rise 0.68s 0.50s var(--ease-arrive) forwards; }
   /* Короткий факт-рядок над заголовком, замість надзаголовка, що раніше
      мінявся по каналах: ціна й формат одразу, ще до заголовка. Перший у
      черзі появи — та сама роль, що мав старий eyebrow. */
   .hero-facts {
     margin-bottom: 20px;
     font-size: 13px; color: var(--muted-2);
-    opacity: 0; animation: rise 0.7s 0.1s forwards;
+    opacity: 0; animation: rise 0.62s 0.04s var(--ease-arrive) forwards;
   }
   .hero-facts b { color: var(--lime); font-weight: 600; }
   .hero-facts .hf-dot { margin: 0 2px; opacity: 0.5; }
@@ -635,7 +663,7 @@
     border-radius: var(--r-md);
     padding: 22px 26px;
     width: auto;
-    opacity: 0; animation: rise 0.8s 0.9s forwards;
+    opacity: 0; animation: rise 0.72s 0.52s var(--ease-arrive) forwards;
   }
   .ch-strip-glow-blob {
     /* Базова коробка фіксована, а рух і розмір задає transform: раніше тут
@@ -2396,12 +2424,19 @@
   }
 
 
-  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
-  .reveal.in { opacity: 1; transform: none; }
+  /* Приховане лише тоді, коли є кому показати. Раніше 54 блоки з 55 мали
+     opacity: 0 просто в CSS, і будь-яка причина, через яку не виконався
+     site.js — помилка, блокувальник, обрив мережі — лишала півсайту порожнім.
+     Клас js ставить скрипт у <head>, тож без нього всі блоки видимі відразу.
+     Крива тут та сама, що була: сама поява секцій не змінюється. */
+  html.js .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+  html.js .reveal.in { opacity: 1; transform: none; }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
-    .reveal { opacity: 1; transform: none; }
+    /* html.js .reveal специфічніше за просте .reveal, тож тут теж !important —
+       інакше при вимкненому руху блоки лишалися б прихованими. */
+    .reveal, html.js .reveal { opacity: 1 !important; transform: none !important; }
     /* These start at opacity:0 and reveal themselves through the `rise`
        animation. With animations off they would stay invisible forever — the
        entire hero (headline, sub, CTAs, channel panel) would never appear. */

@@ -126,6 +126,45 @@
   ]
 }
 </script>
+<!-- Вхід у hero тримається, поки не приїде Unbounded. Без цього перші 300 мс
+     (на мобільному інтернеті — значно більше) заголовок їде вгору підставним
+     шрифтом і аж тоді перемальовується справжнім: уся поява встигала відіграти
+     не тим кеглем, і саме це читалось як «сайт негарно прогружається».
+
+     Клас ставить сам скрипт, тож без JS нічого не тримається й нічого не
+     ховається — сторінка просто з'являється одразу. Два незалежні шляхи
+     звільнення: справжня готовність шрифтів і стеля 900 мс, якщо Google Fonts
+     мовчить.
+
+     __fontsIn викликає onload шрифтового <link> нижче, а не цей скрипт: доти
+     @font-face ще не існує, і document.fonts.load() відповів би одразу й ні
+     про що. Коментарі до цього скрипта живуть тут, а не в ньому: збирач
+     англійської версії перевіряє на неперекладену кирилицю весь текст поза
+     HTML-коментарями, зокрема й // всередині <script>.
+
+     Другий таймер — страхувальник для класу js. Саме він тримає блоки .reveal
+     прихованими до появи, тож якщо site.js заблокували, обірвали або він упав,
+     без цього рядка півсайту лишилося б порожнім. Прапорець window.__siteJs
+     ставиться в самому кінці site.js, тобто доводить, що файл виконався
+     цілком; через 5 секунд без нього клас знімається й усі блоки стають
+     видимі — без появи, зате видимі. -->
+<script>
+(function(){
+  var r = document.documentElement;
+  r.className = (r.className + ' js hold').trim();
+  var done = false;
+  function go(){ if (done) return; done = true; r.classList.remove('hold'); }
+  window.__fontsIn = function(){
+    if (!document.fonts || !document.fonts.load) return go();
+    Promise.all([
+      document.fonts.load('500 1rem Unbounded'),
+      document.fonts.load('400 1rem Manrope')
+    ]).then(go, go);
+  };
+  setTimeout(go, 900);
+  setTimeout(function(){ if (!window.__siteJs) r.classList.remove('js'); }, 5000);
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Звичайний rel="stylesheet" блокує перший paint, доки браузер не отримає
@@ -134,7 +173,7 @@
      його паралельно й підключає, коли готовий; noscript — той самий файл для
      браузерів без JS, щоб шрифти не зникли зовсім. Самі шрифти й swap-поведінка
      не змінились — лише те, чи чекає на них перший кадр сторінки. -->
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet';window.__fontsIn&amp;&amp;window.__fontsIn()">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
 <!-- Стилі спільні для української та англомовної версій — один файл на дві -->
 <link rel="stylesheet" href="assets/site.css">
