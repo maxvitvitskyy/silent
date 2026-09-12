@@ -1990,17 +1990,21 @@ const I18N = window.SILENT_I18N;
     // місцева дата, а не як UTC, інакше на схід від Гринвіча підставлявся б
     // попередній день.
     const dateInput = document.getElementById('date');
-    const dateRow = document.getElementById('leadModalDate');
+    const dateRows = document.querySelectorAll('[data-checking-date]');
     function fillLeadDate() {
-      if (!dateRow) return;
       const v = dateInput && dateInput.value;
-      if (!v || !I18N.form || !I18N.form.checking) { dateRow.hidden = true; return; }
-      const d = new Date(v + 'T00:00:00');
-      if (isNaN(d)) { dateRow.hidden = true; return; }
-      dateRow.innerHTML = I18N.form.checking(new Intl.DateTimeFormat(I18N.locale,
-        { day: 'numeric', month: 'long', year: 'numeric' }).format(d));
-      dateRow.hidden = false;
+      const d = v ? new Date(v + 'T00:00:00') : null;
+      const ok = d && !isNaN(d) && I18N.form && I18N.form.checking;
+      const html = ok ? I18N.form.checking(new Intl.DateTimeFormat(I18N.locale,
+        { day: 'numeric', month: 'long', year: 'numeric' }).format(d)) : '';
+      dateRows.forEach(row => {
+        if (ok) row.innerHTML = html;
+        row.hidden = !ok;
+      });
     }
+    // Підтвердження всередині форми показується навіть тоді, коли вікно поверх
+    // сторінки закрили, тож рядок дати мусить заповнитись і для нього.
+    window.__fillCheckingDate = fillLeadDate;
 
     function openLeadModal() {
       fillLeadDate();
@@ -2087,7 +2091,11 @@ const I18N = window.SILENT_I18N;
       mode: 'no-cors'
     }).catch(err => console.error('Помилка при відправці заявки:', err));
 
-    document.getElementById('formFields').style.display = 'none';
+    // Клас, а не style.display: поля мусять лишити за собою місце, бо від їхніх
+    // прямокутників рахується висота календаря в лівій колонці. Деталі — у
+    // коментарі до .form-right у site.css.
+    if (typeof window.__fillCheckingDate === 'function') window.__fillCheckingDate();
+    document.getElementById('formFields').classList.add('is-sent');
     document.getElementById('formSuccess').classList.add('show');
     if (typeof window.__openLeadModal === 'function') window.__openLeadModal();
 

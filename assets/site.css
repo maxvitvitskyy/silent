@@ -2337,10 +2337,36 @@
   }
   .form-submit:hover { transform: translateY(-2px); box-shadow: 0 14px 34px -6px var(--lime-glow); }
   .form-note { font-size: 12px; color: var(--muted-2); margin-top: 14px; text-align: center; }
+  /* Обидва стани правої колонки стоять в одній клітинці сітки, а поля після
+     відправки не зникають, а стають невидимими. Причина не косметична:
+     висоту календаря ліворуч рахує alignCalendarToForm() від верху поля
+     «Скільки гостей» і низу кнопки «Надіслати заявку». Коли їх ховав
+     display: none, обидві прив'язки давали нульові прямокутники — картка
+     складалась, а календар лишався розтягнутим на висоту, якої вже не було.
+     visibility зберігає геометрію, тож і ширина картки, і пропорції календаря
+     лишаються ті самі, що до відправки.
+
+     Поля при цьому справді недоступні: visibility: hidden виймає їх і з
+     порядку табуляції, і з озвучування, а pointer-events страхує від кліку
+     по місцю, де вони стояли. */
   .form-success {
     display: none; text-align: center; padding: 20px;
   }
   .form-success.show { display: block; }
+  #formFields.is-sent { display: none; }
+  /* Резервувати місце є сенс лише там, де ліворуч стоїть календар: нижче 761px
+     картка одноколонкова, календар схований, і тримати під полями порожні
+     700px означало б повісити коротке підтвердження посеред пустки. Там поля
+     просто зникають, як і було. */
+  @media (min-width: 761px){
+    .form-right { display: grid; }
+    .form-right > #formFields,
+    .form-right > .form-success { grid-area: 1 / 1; }
+    #formFields.is-sent { display: block; visibility: hidden; pointer-events: none; }
+    /* Підтвердження стоїть по центру того самого боксу, який займали поля. */
+    .form-success.show { display: grid; align-content: center; justify-items: center; }
+    .form-success > * { max-width: 34ch; }
+  }
   .form-success .big { font-family:'Unbounded'; font-size: 22px; font-weight: 600; margin-bottom: 10px; color: var(--lime); }
   .form-success p { color: var(--muted); font-size: 14px; }
 
@@ -3526,12 +3552,13 @@
   .form-success.show .sig-eq span:nth-child(5){ animation-delay: 0.34s; }
 
   /* Дата, яку людина вказала, повернута їй назад. Лайм тільки на самій даті —
-     вона тут єдине, що варте виділення. */
-  .lead-modal-date {
+     вона тут єдине, що варте виділення. Клас спільний: той самий рядок стоїть
+     і у вікні поверх сторінки, і в підтвердженні всередині форми. */
+  .checking-date {
     font-size: 13.5px; color: rgba(255,255,255,0.82);
     margin-bottom: 8px;
   }
-  .lead-modal-date b { color: var(--lime); font-weight: 600; }
+  .checking-date b { color: var(--lime); font-weight: 600; }
 
   .lead-modal-text { color: var(--muted); font-size: 14px; }
   .lead-modal-divider {
