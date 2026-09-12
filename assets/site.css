@@ -11,6 +11,7 @@
     --muted: rgba(255,255,255,0.62);
     --muted-2: rgba(255,255,255,0.40);
     --line: rgba(255,255,255,0.08);
+    --err: #ff5470;
     --lime: #c6ff00;
     --lime-glow: rgba(198,255,0,0.35);
     --glass: rgba(255,255,255,0.03);
@@ -201,7 +202,7 @@
     transition: background 0.25s ease, color 0.25s ease;
   }
   .nav-links .lang-switch .lang-cur {
-    color: #fff;
+    color: var(--lime);
     background: rgba(255,255,255,0.11);
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
   }
@@ -576,13 +577,20 @@
     transition: transform 0.2s, box-shadow 0.2s;
   }
   .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 38px -4px var(--lime-glow); }
+  /* Рамка кольору --line (8% білого) губилася на знімку hero: друга кнопка
+     читалась як текст без кнопки. На телефоні це вже виправляло матове скло
+     нижче, десктоп лишався без нічого. Тепер підкладка є скрізь, а різниця з
+     лаймовою кнопкою тримається на кольорі, не на тому, видно її чи ні. */
   .btn-ghost {
     padding: 12px 22px; border-radius: 999px;
-    border: 1px solid var(--line); color: #fff;
+    border: 1px solid rgba(255,255,255,0.28); color: #fff;
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(16px) saturate(1.3);
+    -webkit-backdrop-filter: blur(16px) saturate(1.3);
     font-weight: 500; font-size: 14px;
     transition: border-color 0.2s, background 0.2s;
   }
-  .btn-ghost:hover { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.04); }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.55); background: rgba(255,255,255,0.12); }
   .lbl-tight { display: none; }
 
   @keyframes rise { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: none; } }
@@ -2118,17 +2126,27 @@
     margin: 0;
     min-height: 20px;
   }
-  /* the native date picker ships a black glyph, invisible on a dark field */
+  /* Інверсія тут була потрібна, поки сторінка не оголошувала color-scheme:
+     браузер малював чорний значок на темному полі. Тепер він приходить світлим
+     сам, і те саме invert(1) робило його чорним — лишилась тільки прозорість. */
   .field input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(1) opacity(0.62);
+    filter: opacity(0.62);
     cursor: pointer;
     margin-right: 2px;
   }
-  .field input[type="date"]::-webkit-calendar-picker-indicator:hover { filter: invert(1) opacity(1); }
+  .field input[type="date"]::-webkit-calendar-picker-indicator:hover { filter: opacity(1); }
   .field input::placeholder, .field textarea::placeholder { color: var(--muted-2); }
-  /* :not(:focus-visible) — щоб зняття рамки стосувалося лише кліку мишею.
-     Той, хто прийшов сюди клавіатурою, лишається з лаймовим кільцем: підсвітка
-     самого поля надто схожа на звичайний hover, щоб замінити його. */
+  /* Правило на всі стани поля: видимий контур завжди рівно один, а його колір
+     і каже, що зараз відбувається. Два контури одночасно (рамка плюс кільце,
+     ще й різного кольору) читаються як помилка верстки, а не як стан.
+
+     мишею        — лаймова рамка, кільця немає
+     з клавіатури — лаймове кільце, рамка повертається до спокійної
+     не заповнено — червона рамка
+     не заповнено + клавіатура — червоне кільце, рамка спокійна
+
+     Помилка важливіша за фокус, тож у спільних станах перемагає червоний:
+     інакше поле, у яке щойно стрибнув фокус, виглядало б заповненим як слід. */
   .field input:focus, .field select:focus, .field textarea:focus {
     border-color: var(--ch);
     background: rgba(255,255,255,0.06);
@@ -2136,16 +2154,28 @@
   .field input:focus:not(:focus-visible),
   .field select:focus:not(:focus-visible),
   .field textarea:focus:not(:focus-visible) { outline: none; }
+  .field input:focus-visible,
+  .field select:focus-visible,
+  .field textarea:focus-visible { border-color: var(--line); }
   .field input[aria-invalid="true"],
   .field select[aria-invalid="true"],
-  .field textarea[aria-invalid="true"] { border-color: #ff5470; }
+  .field textarea[aria-invalid="true"],
+  .field input[aria-invalid="true"]:focus,
+  .field select[aria-invalid="true"]:focus,
+  .field textarea[aria-invalid="true"]:focus { border-color: var(--err); }
+  .field input[aria-invalid="true"]:focus-visible,
+  .field select[aria-invalid="true"]:focus-visible,
+  .field textarea[aria-invalid="true"]:focus-visible {
+    border-color: var(--line);
+    outline-color: var(--err);
+  }
   /* Windows у темній темі малює список <select> своїм кольором, якщо не задати
      обидва — і тло, і текст. */
   .field select option { background: var(--night-2); color: #fff; }
   .form-error {
     margin: 0 0 14px;
     font-size: 13px; line-height: 1.5;
-    color: #ff8098;
+    color: var(--err);
   }
   .calc-summary-note {
     border: 1px solid var(--ch);
@@ -2831,9 +2861,23 @@
   /* Підказка про горизонтальний скрол закінчується лаймовою стрілкою, яка ледь
      помітно ходить вправо: сам текст легко проґавити, а рух у бік прокрутки
      показує напрямок без слів. Через ::after, тож у розмітку нічого не додається. */
+  /* display: flex, а не inline-flex: рядковий елемент тягне за собою стійку
+     батьківського рядка, і його верх опинявся ще на 20px нижче за власне поле
+     — на телефоні, де стійка вища, підказка через це стояла інакше, ніж на
+     десктопі. Блоковий елемент відміряє рівно своє поле на будь-якій ширині,
+     а fit-content лишає його завширшки з текст, як і було. */
   .uc-hint {
     margin-top: 12px; font-size: 11.5px; color: var(--muted-2);
-    display: inline-flex; align-items: center; gap: 7px;
+    display: flex; width: fit-content; align-items: center; gap: 7px;
+  }
+  /* Нижній падінг стрічок — це запас під тінь активної картки, а не відступ.
+     У галереї та сценаріїв він 72px (70px на телефоні), у відгуків фактично
+     41px, тож при однаковому полі підказка стояла на 84px від карток замість
+     53px. Від'ємне поле зрівнює всі три, не чіпаючи запас під тінь:
+     -19px = 53 - 72, на телефоні -15px = 55 - 70. */
+  .gallery .uc-hint, .usecases .uc-hint { margin-top: -19px; }
+  @media (max-width: 640px){
+    .gallery .uc-hint, .usecases .uc-hint { margin-top: -15px; }
   }
   .uc-hint::after {
     content: '→';
