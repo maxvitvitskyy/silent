@@ -28,6 +28,22 @@
      визначає LCP; без цього рядка він стартував на ~13 мс пізніше за crowd і
      без пріоритету, тобто в спільній черзі з галереєю сценаріїв. -->
 <link rel="preload" as="image" href="../images/hero-crowd.webp" fetchpriority="high">
+<!-- Фігура — найважчий файл сторінки й теж фон у CSS, тож браузер знаходив її
+     лише після того, як приїхав і розібрався весь site.css: у вимірі це 695 мс
+     замість 470. Тут її адреса оголошена ще до зовнішнього файла, тож пошук
+     починається з перших байтів сторінки.
+
+     Через preload з media зробити це не вийшло: Chrome тягнув обидва файли
+     одразу — і мобільний, і десктопний, — тобто ставало гірше, ніж було.
+     Звичайне правило такої вади не має: браузер вантажить лише той файл, чиє
+     оголошення виграло.
+
+     Специфічність тут найнижча, тож зовнішній site.css далі перекриває це
+     правило своїми — і мобільне (.hero .hero-dancer) лишається за ним. -->
+<style>
+.hero-dancer{background-image:url('../images/hero-dancer.webp')}
+@media (max-width:760px){.hero-dancer{background-image:url('../images/hero-dancer-m.webp')}}
+</style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SILENT — one party. Three worlds of music.</title>
 <meta name="description" content="Full-service silent disco in Kyiv and across Ukraine: wireless LED headphones, 3 music channels, delivery, setup and on-site support.">
@@ -206,8 +222,13 @@
   <!-- Три знімки одним стосом: активний тримає .active, решта прозорі. Зміна
        каналу перемикає клас, а перехід opacity у CSS дає плавний кросфейд. -->
   <div class="hero-photo active" id="heroPhoto0" style="background-image:url('../images/hero-crowd.webp')"></div>
-  <div class="hero-photo" id="heroPhoto1" style="background-image:url('../images/bg-2.webp')"></div>
-  <div class="hero-photo" id="heroPhoto2" style="background-image:url('../images/bg-3.webp')"></div>
+  <!-- Знімки другого й третього каналів названі в data-src, а не в style:
+       інакше браузер тягнув їх у першій хвилі разом із критичними файлами —
+       91 КБ на те, чого на старті ніхто не бачить. Перше автоперемикання
+       каналу відбувається через 6.5 с, тож site.js встигає підставити їх
+       після завантаження сторінки, а при ручному перемиканні — одразу. -->
+  <div class="hero-photo" id="heroPhoto1" data-src="../images/bg-2.webp"></div>
+  <div class="hero-photo" id="heroPhoto2" data-src="../images/bg-3.webp"></div>
   <!-- Танцівниця окремим шаром і повністю в кадрі: background-size: contain не
        може її обрізати за визначенням, тож голова й руки завжди на місці.
        На десктопі фігура абсолютна й у потік не входить, тож порядок у розмітці
