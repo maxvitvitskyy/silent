@@ -916,6 +916,25 @@
     .ch-toggle-label { align-items: center; }
     .ch-toggle-name { font-size: 16px; }
     .ch-toggle-desc { display: none; }
+    /* Крайні канали рівняються по краях панелі, а не по центрах своїх третин.
+       Колонки тут однакові (flex: 1 1 0), тож при центруванні RED і BLUE
+       стояли втягнутими всередину, хоч над ними по цих самих краях уже стоять
+       надпис «Оберіть канал» і кнопка звуку. Тепер ліва межа RED збігається з
+       початком надпису, а права межа BLUE — з кінцем кнопки: у панелі
+       з'являється спільна вертикаль замість трьох випадкових.
+
+       Вирівнювання задається на .ch-toggle-top, тобто на колонці «назва плюс
+       тумблер», — тому тумблер їде до краю разом із назвою й лишається під
+       нею. GREEN лишається по центру своєї третини, тобто по центру панелі.
+
+       Проміжки між назвами через це стають нерівними — так і має бути: рівняємо
+       по краях тексту, а не по кроку сітки. */
+    .ch-toggle:first-child { align-items: flex-start; text-align: left; }
+    .ch-toggle:last-child { align-items: flex-end; text-align: right; }
+    .ch-toggle:first-child .ch-toggle-top,
+    .ch-toggle:first-child .ch-toggle-label { align-items: flex-start; }
+    .ch-toggle:last-child .ch-toggle-top,
+    .ch-toggle:last-child .ch-toggle-label { align-items: flex-end; }
     /* Headline lines are nowrap on desktop so each stays on its own row. On a
        phone a single line could end up wider than the screen, and because .hero
        is a flex column that stretched .wrap past the viewport — dragging the
