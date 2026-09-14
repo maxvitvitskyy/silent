@@ -163,7 +163,7 @@ T = {
 'Компанія друзів сміється у світних зелених навушниках':
   'A group of friends laughing in glowing green headphones',
 'Із silent disco': 'With silent disco',
-'Вечір, який кожен збирає собі': 'A night everyone puts together for themselves',
+'Вечір, який кожен налаштовує під себе': 'A night everyone tunes their own way',
 'Сайлент Диско — формат, де кожен чує своє, але всі разом: три канали під різний настрій, гучність під себе, світло LED у кожному кадрі.':
   'Silent disco is a format where everyone hears their own thing and still stays together: three channels for different moods, volume set by each guest, LED light in every shot.',
 
@@ -627,6 +627,10 @@ window.SILENT_I18N = {
   video: { clip: (n) => 'Clip ' + n, prev: 'Previous video', next: 'Next video' },
   form: {
     required: 'Please leave a name and a contact so we can get back to you.',
+    contactBad: 'That contact does not look right. Leave a phone number, an @handle or an email so we can reach you.',
+    datePast: 'That date has already passed. Pick the nearest one that works, or leave the field empty.',
+    sending: 'Sending…',
+    netFail: 'Could not send — the connection seems to be gone. Try again or call +380 96 333 90 68.',
     checking: (d) => `Checking <b>${d}</b>`
   }
 };
