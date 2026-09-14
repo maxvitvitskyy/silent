@@ -10,7 +10,7 @@
 Запуск:  python3 tools/build_en.py
 Після зміни тексту в index.html прогнати ще раз.
 """
-import io, os, re, sys
+import hashlib, io, os, re, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -668,8 +668,47 @@ def assert_translated(s, name):
         sys.exit(1)
 
 
+# ------------------------------------------------------- позначка версії
+# Браузер кешує site.css і site.js на 10 хвилин за заголовком GitHub Pages, а
+# далі тримає їх за власними міркуваннями. Через це після кожного деплою
+# лишалося питання «це вже нова версія чи ще стара?», і відповісти на нього
+# можна було тільки жорстким перезавантаженням. Тепер в адресі стоїть перші
+# вісім символів хешу самого файла: зміст не змінився — адреса та сама й кеш
+# працює як слід; зміст змінився — адреса інша, і браузерові нема що
+# підставляти зі старого.
+STAMPED = re.compile(r'(assets/site\.(?:css|js))(\?v=[0-9a-f]+)?')
+
+
+def unstamp(text):
+    """Прибирає позначку. Потрібно до збірки: PATHS шукає точні рядки
+    href="assets/site.css", і з хвостом ?v= вони б не збіглися."""
+    return STAMPED.sub(lambda m: m.group(1), text)
+
+
+def stamp(text, hashes):
+    return STAMPED.sub(lambda m: m.group(1) + '?v=' + hashes[m.group(1).rsplit('.', 1)[1]], text)
+
+
+def stamp_files():
+    hashes = {}
+    for ext in ('css', 'js'):
+        path = os.path.join(ROOT, 'assets', 'site.' + ext)
+        hashes[ext] = hashlib.sha1(io.open(path, 'rb').read()).hexdigest()[:8]
+    targets = [SRC, DST, SRC404, DST404]
+    for path in targets:
+        if not os.path.exists(path):
+            continue
+        text = io.open(path, encoding='utf-8').read()
+        # Спершу рахуємо, потім відкриваємо на запис. Навпаки не можна: open у
+        # режимі 'w' обнуляє файл одразу, і будь-яка помилка нижче лишила б на
+        # диску порожнечу замість сторінки.
+        out = stamp(unstamp(text), hashes)
+        io.open(path, 'w', encoding='utf-8').write(out)
+    print('версію активів проставлено: css=%s js=%s' % (hashes['css'], hashes['js']))
+
+
 def build():
-    s = io.open(SRC, encoding='utf-8').read()
+    s = unstamp(io.open(SRC, encoding='utf-8').read())
 
     for old, new in HEAD + PATHS:
         if s.count(old) < 1:
@@ -705,7 +744,7 @@ def build_404():
     голова (noindex, свій title) і свій перемикач мови — з неіснуючої адреси
     він веде на головну іншої мови, а не на її таку саму помилку.
     """
-    s = io.open(SRC404, encoding='utf-8').read()
+    s = unstamp(io.open(SRC404, encoding='utf-8').read())
 
     for old, new in HEAD404:
         if s.count(old) < 1:
@@ -727,3 +766,6 @@ def build_404():
 if __name__ == '__main__':
     build()
     build_404()
+    # Останнім кроком, коли обидві англійські сторінки вже на диску: позначка
+    # лягає на всі чотири файли одразу.
+    stamp_files()
