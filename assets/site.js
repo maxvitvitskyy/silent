@@ -2188,6 +2188,43 @@ const I18N = window.SILENT_I18N;
     });
   });
 
+  // ---- Поява плаваючого контакту ----
+  // Кнопка чекає, доки людина дійде до середини блоку «Чому silent disco»: у
+  // першому вікні вже є лаймова «Перевірити дату», і другий заклик поруч із
+  // нею лише ділив би увагу. До того моменту її ховає CSS під html.js.
+  (function(){
+    const btn = document.querySelector('.tg-float');
+    if (!btn) return;
+    const idea = document.getElementById('idea');
+    // Якщо блоку на сторінці немає, показуємо одразу: краще кнопка без затримки,
+    // ніж кнопка, схована назавжди через відсутній орієнтир.
+    if (!idea) { btn.classList.add('is-in'); return; }
+
+    let ticking = false;
+    function check(){
+      ticking = false;
+      const r = idea.getBoundingClientRect();
+      // Середина блоку піднялась до середини екрана.
+      if (r.top + r.height / 2 > window.innerHeight / 2) return;
+      btn.classList.add('is-in');
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    }
+    function onScroll(){
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(check);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    // Сторінку могли відкрити вже прокрученою — переходом за якорем або
+    // поверненням назад із відновленою позицією. Перевіряємо двічі: зараз і
+    // після load, бо браузер відновлює позицію не обов'язково до цього рядка,
+    // а подія scroll при відновленні гарантована не в кожному русі.
+    check();
+    window.addEventListener('load', check, { once: true });
+  })();
+
   // Прапорець для страхувальника в <head>: він доводить, що цей файл не просто
   // доїхав, а виконався до кінця. Якщо скрипт заблокували, обірвали або він
   // упав десь вище, прапорця не буде — і страхувальник знімає клас js, після

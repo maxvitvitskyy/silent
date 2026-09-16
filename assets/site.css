@@ -3701,7 +3701,36 @@
     border-top-color: var(--glass-edge);
     box-shadow: 0 8px 32px -12px rgba(0,0,0,0.5);
     transition: transform 0.2s var(--ease-arrive), border-color 0.25s ease,
-                box-shadow 0.25s ease;
+                box-shadow 0.25s ease, opacity 0.45s var(--ease-arrive),
+                translate 0.45s var(--ease-arrive);
+  }
+
+  /* До середини блоку «Чому silent disco» кнопки на екрані немає: у першому
+     вікні свою роботу робить лаймова «Перевірити дату», і другий заклик поруч
+     із нею лише ділив би увагу. Клас додає скрипт, коли середина того блоку
+     піднімається до середини екрана.
+
+     Ховаємо лише під html.js, тобто тільки тоді, коли скрипт справді працює.
+     Якщо site.js не доїхав, страхувальник у <head> знімає клас js — і кнопка
+     просто стоїть на місці як звичайне посилання, а не зникає назавжди.
+
+     Рух узятий на translate, а не на transform: transform лишається за
+     наведенням, і якби поява їхала на ньому, підйом на -2px перетирав би її.
+     Перехід на visibility навмисно відсутній — шлях тут односторонній, і на
+     вході властивість мусить перемкнутись одразу, а не через 0.45s. При
+     увімкненій економії руху глобальне правило гасить усі переходи, тож
+     кнопка просто зʼявляється без появи. */
+  html.js .tg-float {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    translate: 0 8px;
+  }
+  html.js .tg-float.is-in {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    translate: none;
   }
   .tg-float-icon {
     flex: none;
