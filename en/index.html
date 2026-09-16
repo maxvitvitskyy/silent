@@ -192,7 +192,7 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet';window.__fontsIn&amp;&amp;window.__fontsIn()">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
 <!-- Стилі спільні для української та англомовної версій — один файл на дві -->
-<link rel="stylesheet" href="../assets/site.css?v=c78006b1">
+<link rel="stylesheet" href="../assets/site.css?v=1080fbba">
 </head>
 <body id="top">
 
@@ -1346,6 +1346,17 @@
     </div>
   </div>
 </footer>
+
+<!-- Плаваючий контакт у Telegram. Свідомо поза <main>: за роллю це те саме, що
+     й фіксована навігація вгорі — хром сторінки, а не її вміст. Жодного JS:
+     звичайне посилання працює навіть тоді, коли скрипт не доїхав. Іконка — та
+     сама, що в соцмережах футера, щоб на сторінці не з'явилось другої манери
+     малювати іконки. -->
+<a class="tg-float" href="https://t.me/silent_ukraine?text=Hi%21%20I%20would%20like%20to%20know%20more%20about%20running%20a%20SILENT%20DISCO%20at%20my%20event."
+   target="_blank" rel="noopener noreferrer" aria-label="Message us on Telegram">
+  <svg class="tg-float-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.2 4.5 2.9 11.4a.5.5 0 0 0 .04.94l4.6 1.44 1.77 5.3a.5.5 0 0 0 .88.14l2.5-2.9 4.6 3.4a.5.5 0 0 0 .78-.3l3.05-14a.5.5 0 0 0-.66-.58Z"/><path d="m7.54 13.78 11.1-7.4-8.34 8.36-.36 3.9"/></svg>
+  <span class="tg-float-label">Message us</span>
+</a>
 
 <!-- Спливне вікно після відправки заявки. Не замінює formSuccess у самій
      формі — з’являється разом з ним, поверх усієї сторінки. Close можна

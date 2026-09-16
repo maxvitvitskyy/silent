@@ -78,6 +78,9 @@ SWITCH_EN_404 = """    <span class="lang-switch" role="group" aria-label="Site l
 # Сторінка лежить на рівень глибше за корінь, тож усі відносні адреси
 # піднімаються на крок вище. Абсолютні (http, #, mailto:) не чіпаємо.
 PATHS = [
+ # Заздалегідь написаний текст у посиланні Telegram: кирилиці в ньому немає
+ # (відсоткове кодування), тож assert_translated його не спіймав би.
+ ('?text=%D0%9F%D1%80%D0%B8%D0%B2%D1%96%D1%82%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B4%D1%96%D0%B7%D0%BD%D0%B0%D1%82%D0%B8%D1%81%D1%8F%20%D0%B1%D1%96%D0%BB%D1%8C%D1%88%D0%B5%20%D0%BF%D1%80%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%BD%D1%8F%20SILENT%20DISCO%20%D0%B4%D0%BB%D1%8F%20%D0%BC%D0%BE%D1%94%D1%97%20%D0%BF%D0%BE%D0%B4%D1%96%D1%97.', '?text=Hi%21%20I%20would%20like%20to%20know%20more%20about%20running%20a%20SILENT%20DISCO%20at%20my%20event.'),
  ('href="assets/site.css"', 'href="../assets/site.css"'),
  ('src="assets/site.js"',   'src="../assets/site.js"'),
  ('href="images/',  'href="../images/'),
@@ -102,6 +105,8 @@ SWITCH_EN = """    <span class="lang-switch" role="group" aria-label="Site langu
 # застосовуються від найдовших до найкоротших, щоб короткий рядок не з'їв
 # частину довшого.
 T = {
+'Написати нам у Telegram': 'Message us on Telegram',
+'Написати нам': 'Message us',
 # --- меню й підвал -------------------------------------------------------
 'Перейти до вмісту': 'Skip to content',
 

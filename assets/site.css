@@ -3667,3 +3667,67 @@
     .nf-lead { font-size: 15px; }
     .nf-actions { flex-direction: column; align-items: stretch; }
   }
+
+  /* ---------- ПЛАВАЮЧИЙ КОНТАКТ У TELEGRAM ---------- */
+  /* Єдиний інший фіксований елемент сторінки — навігаційна пігулка вгорі, тож
+     рецепт скла узятий буквально з неї: та сама заливка, той самий блюр, та
+     сама рамка зі світлішим верхнім краєм, та сама тінь і той самий відступ
+     18px від краю. Кнопка мусить читатись як другий уламок того самого скла,
+     а не як віджет, принесений ззовні.
+     Лайм — тільки в іконці, рівно як у соцмережах футера (0.72 у спокої, повний
+     при наведенні). Залити лаймом усю кнопку означало б зробити її помітнішою
+     за «Перевірити дату», а вона супровідна дія, не головна. */
+  .tg-float {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    /* Другим оголошенням, а не єдиним: там, де env() не підтримується, рядок
+       просто відкидається й лишається 18px вище. Зараз у viewport немає
+       viewport-fit=cover, тож інсети дорівнюють нулю — це запас на потім. */
+    right: max(18px, env(safe-area-inset-right, 0px));
+    bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+    /* Нижче навігації (50), модалки заявки (500) і відеолайтбока (600): коли
+       відкривається діалог, кнопка йде під його підкладку, а не поверх неї. */
+    z-index: 40;
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 12px 20px 12px 16px;
+    border-radius: 999px;
+    color: #fff;
+    font-size: 13.5px; font-weight: 500; line-height: 1;
+    background: var(--glass-fill-1);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--line);
+    border-top-color: var(--glass-edge);
+    box-shadow: 0 8px 32px -12px rgba(0,0,0,0.5);
+    transition: transform 0.2s var(--ease-arrive), border-color 0.25s ease,
+                box-shadow 0.25s ease;
+  }
+  .tg-float-icon {
+    flex: none;
+    color: rgba(198,255,0,0.72);
+    transition: color 0.25s ease, filter 0.25s ease;
+  }
+  /* Наведення тільки там, де воно справді є: на дотику :hover залипає після
+     тапу, і кнопка лишалась би підсвіченою до наступного дотику деінде. */
+  @media (hover: hover) {
+    .tg-float:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,0.20);
+      border-top-color: rgba(255,255,255,0.34);
+      box-shadow: 0 14px 38px -14px rgba(0,0,0,0.6);
+    }
+    .tg-float:hover .tg-float-icon {
+      color: var(--lime);
+      filter: drop-shadow(0 0 8px rgba(198,255,0,0.45));
+    }
+  }
+  /* Телефон: лише іконка, коло 52px — з запасом над порогом дотику 44×44. */
+  @media (max-width: 720px) {
+    .tg-float {
+      gap: 0; padding: 0;
+      width: 52px; height: 52px;
+      justify-content: center;
+    }
+    .tg-float-label { display: none; }
+  }
