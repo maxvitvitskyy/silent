@@ -3760,3 +3760,239 @@
     }
     .tg-float-label { display: none; }
   }
+
+  /* ================= СТОРІНКА ДОСВІДУ ================= */
+  /* Перша з серії: наступні досвіди беруть ці самі класи й міняють лише вміст.
+     Власного світу тут немає — усе з токенів головної. Різниця тільки в
+     композиції: обкладинка на весь екран, далі мало розділів, кожен великий,
+     між ними повітря. Ніяких сіток однакових карток: саме вони перетворюють
+     таку сторінку на каталог блоків. */
+
+  /* ---------- Обкладинка ---------- */
+  .exp-cover {
+    position: relative;
+    /* НЕ на всю висоту екрана. Знімок горизонтальний, 1180x620 — у портретний
+       кадр 100svh він входить лише через двохкратне збільшення, і від компанії
+       людей лишається одне обличчя не в фокусі. Смуга з пропорцією, близькою до
+       самого знімка, показує групу цілком і не розтягує пікселі. */
+    min-height: clamp(520px, 74svh, 700px);
+    display: flex; align-items: flex-end;
+    /* Знизу лишаємо смугу, у якій уже видно край наступного розділу: сторінка
+       сама каже, що вона довга, і жодної «стрілочки вниз» для цього не треба. */
+    /* Нижній відступ навмисно скромний: під смужкою фактів лишалось близько
+       165px мертвої землі, і перший екран закінчувався нічим. Тепер під неї
+       заходить верх наступного розділу — сторінка показує, що триває. */
+    padding: 116px 0 clamp(36px, 5vh, 56px);
+    overflow: hidden;
+  }
+  .exp-cover-shot {
+    position: absolute; inset: 0;
+    background: url('../images/shift-new.webp') center 42% / cover no-repeat;
+    /* Знімок ширший за кадр, тож повільний наїзд не оголює краю. */
+    transform: scale(1.06);
+  }
+  /* Вуаль двошарова: вертикальний градієнт садить текст у темряву внизу, а
+     горизонтальний лишає праву частину кадру світлою — там обличчя, і воно
+     мусить читатись. Один суцільний шар забив би знімок рівно настільки, що
+     він перестав би бути знімком. */
+  .exp-cover-veil {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(10,10,11,0.82) 0%, rgba(10,10,11,0.30) 38%, rgba(10,10,11,0.86) 88%, var(--night) 100%),
+      linear-gradient(90deg, rgba(10,10,11,0.88) 0%, rgba(10,10,11,0.45) 46%, rgba(10,10,11,0.10) 100%);
+  }
+  .exp-cover-inner { position: relative; z-index: 1; }
+
+  .exp-crumb {
+    font-size: 13.5px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 26px;
+  }
+  .exp-crumb a { color: var(--muted); border-bottom: 1px solid rgba(255,255,255,0.22); }
+  .exp-crumb a:hover { color: #fff; border-bottom-color: var(--lime); }
+
+  .exp-title {
+    font-family: 'Unbounded', sans-serif; font-weight: 800;
+    font-size: clamp(38px, 6.4vw, 92px);
+    line-height: 0.98; letter-spacing: -0.03em;
+    max-width: 16ch; margin: 0 0 24px;
+  }
+  .exp-lead {
+    font-size: clamp(15px, 1.35vw, 18px); line-height: 1.55;
+    color: var(--muted); max-width: 54ch; margin: 0 0 32px;
+  }
+  .exp-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 44px; }
+
+  /* Факти стоять у рядок на тонкій лінії — не плитками: три плитки тут читались
+     би як ще одна сітка карток, а це підпис під заголовком, не окремий блок. */
+  .exp-facts {
+    display: flex; flex-wrap: wrap; gap: 0 clamp(28px, 5vw, 64px);
+    list-style: none; padding: 22px 0 0; margin: 0;
+    border-top: 1px solid var(--line);
+    max-width: 780px;
+  }
+  .exp-facts li { display: flex; flex-direction: column; gap: 4px; }
+  .exp-facts b {
+    font-family: 'Unbounded', sans-serif; font-weight: 600;
+    font-size: clamp(19px, 2vw, 25px); letter-spacing: -0.02em;
+  }
+  /* Було 12.5px на --muted-2 — 3.76:1, тобто нижче порога, і це на найбільш
+     читаному екрані сторінки. --muted дає ~7.5:1 на тому самому тлі. */
+  .exp-facts span { font-size: 13.5px; color: var(--muted); }
+
+  /* ---------- Розділи ---------- */
+  .exp-section { padding: clamp(72px, 11vh, 132px) 0; }
+  /* Розділ одразу під обкладинкою має менший верхній відступ за решту: його
+     заголовок мусить зайти в перший екран, інакше обкладинка закінчується
+     нічим. При 900px спільні 11vh давали 99px і відсували заголовок рівно за
+     межу кадру. Далі по сторінці ритм лишається звичайним. */
+  .exp-cover + .exp-section { padding-top: clamp(52px, 7.5vh, 96px); }
+  .exp-section-alt { background: var(--night-2); }
+  .exp-h2 {
+    font-family: 'Unbounded', sans-serif; font-weight: 700;
+    font-size: clamp(27px, 3.8vw, 52px); line-height: 1.06; letter-spacing: -0.03em;
+    max-width: 20ch; margin: 0 0 clamp(36px, 5vh, 64px);
+  }
+  .exp-sub { font-size: 15.5px; line-height: 1.6; color: var(--muted); max-width: 44ch; }
+
+  /* Три твердження як широкі рядки на лініях, а не як три однакові картки.
+     Канальний колір — вертикальна риска ліворуч: той самий словник, що й
+     у панелі каналів на головній, але без жодного світіння. */
+  .exp-claims { display: grid; gap: 0; }
+  .exp-claim {
+    display: grid; grid-template-columns: minmax(0, 24ch) minmax(0, 1fr);
+    gap: clamp(24px, 5vw, 72px);
+    padding: clamp(28px, 4vh, 44px) 0 clamp(28px, 4vh, 44px) 26px;
+    border-top: 1px solid var(--line);
+    position: relative;
+  }
+  .exp-claim:last-child { border-bottom: 1px solid var(--line); }
+  .exp-claim::before {
+    content: ''; position: absolute; left: 0; top: clamp(28px, 4vh, 44px);
+    /* 1px, не 2: кольорова лінія товщою за пікселя на елементі списку —
+       рівно той прийом, який видає шаблон. Канал тут лишається світлом. */
+    width: 1px; height: 2.1em;
+    background: var(--ch-mark, var(--lime));
+  }
+  .exp-claim h3 {
+    font-family: 'Unbounded', sans-serif; font-weight: 600;
+    font-size: clamp(18px, 1.9vw, 24px); line-height: 1.2; letter-spacing: -0.02em;
+    margin: 0;
+  }
+  .exp-claim p { font-size: 15.5px; line-height: 1.62; color: var(--muted); margin: 0; max-width: 62ch; }
+
+  /* ---------- Логістика ---------- */
+  .exp-two { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 88px); align-items: start; }
+  .exp-two-head { position: sticky; top: 112px; }
+  .exp-two-head .exp-h2 { margin-bottom: 18px; }
+  .exp-shot {
+    margin-top: 32px; border-radius: var(--r-md); overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .exp-shot img { display: block; width: 100%; height: 260px; object-fit: cover; }
+
+  /* Порядок тут несе зміст: це послідовність вечора, а не перелік переваг —
+     тому нумерація видима. Дрібна й на своєму місці, а не гігантські 01/02/03. */
+  .exp-steps { list-style: none; counter-reset: s; margin: 0; padding: 0; }
+  .exp-steps li {
+    counter-increment: s;
+    padding: clamp(22px, 3.4vh, 34px) 0 clamp(22px, 3.4vh, 34px) 54px;
+    border-top: 1px solid var(--line);
+    position: relative;
+  }
+  .exp-steps li:last-child { border-bottom: 1px solid var(--line); }
+  .exp-steps li::before {
+    content: counter(s, decimal-leading-zero);
+    position: absolute; left: 0; top: clamp(22px, 3.4vh, 34px);
+    font-family: 'Unbounded', sans-serif; font-size: 13.5px; font-weight: 600;
+    color: var(--lime); letter-spacing: 0.04em;
+  }
+  .exp-steps h3 {
+    font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: 20px;
+    letter-spacing: -0.01em; margin: 0 0 8px;
+  }
+  .exp-steps p { font-size: 15px; line-height: 1.6; color: var(--muted); margin: 0; max-width: 56ch; }
+
+  /* ---------- Умови ---------- */
+  .exp-notes { display: grid; gap: clamp(20px, 3vh, 30px); max-width: 78ch; }
+  .exp-notes p { font-size: clamp(15.5px, 1.5vw, 18px); line-height: 1.62; color: var(--muted); margin: 0; }
+  .exp-notes b { color: var(--ink-inv); font-weight: 600; }
+
+  /* ---------- Стрічка інших досвідів ---------- */
+  /* Секція та сама, що на головній, тож стилі .usecases працюють як є. Тут лише
+     верхня межа: на головній над нею йде інший блок, а тут — форма заявки. */
+  .exp-more { border-top: 1px solid var(--line); }
+  /* На головній ця пляма стоїть сама. Тут одразу під нею починається світіння
+     футера, і два джерела разом заливали лаймом ґрунт цілої секції — під самою
+     кнопкою дії, якій лайм і мусить належати. Прибираємо: тло лишається нічним. */
+  .exp-more .uc-aurora { display: none; }
+
+  @media (max-width: 900px){
+    .exp-two { grid-template-columns: 1fr; }
+    .exp-two-head { position: static; }
+    .exp-claim { grid-template-columns: 1fr; gap: 12px; }
+  }
+  @media (max-width: 600px){
+    /* На телефоні кадр портретний за визначенням, тож обрізання неминуче:
+       ведемо фокус трохи лівіше, де в кадрі стоїть більше людей. Висоту
+       лишаємо помітною — при min-height:0 обкладинка стискалась до висоти
+       тексту, і від знімка лишалася смужка, тобто зникала сама обкладинка.
+       Нижній відступ прибираємо: разом із верхнім відступом наступного
+       розділу він давав майже двісті пікселів порожнечі, і це читалось як
+       діра, а не як повітря. */
+    .exp-cover { min-height: 72svh; padding-top: 96px; padding-bottom: 40px; }
+    .exp-cover-shot { background-position: 38% 34%; }
+    /* Бокового градієнта тут не треба: композиції «текст ліворуч, обличчя
+       праворуч» на телефоні не існує, а темний лівий край просто ховав знімок. */
+    .exp-cover-veil {
+      background: linear-gradient(180deg, rgba(10,10,11,0.82) 0%, rgba(10,10,11,0.30) 34%, rgba(10,10,11,0.86) 86%, var(--night) 100%);
+    }
+    .exp-section { padding: 64px 0; }
+    .exp-title { font-size: clamp(31px, 9.4vw, 44px); max-width: 13ch; }
+    .exp-actions { gap: 10px; }
+    .exp-actions .btn-primary, .exp-actions .btn-ghost { flex: 1 1 100%; text-align: center; }
+    .exp-facts { gap: 18px 32px; }
+    .exp-shot img { height: 200px; }
+  }
+
+  /* ---------- Пояснювальний блок і комплект ---------- */
+  /* Сторінка-приклад тримає пояснення формату одним зв'язним текстом, а не
+     переліком переваг. Тут так само: спершу абзаци, і лише потім три рядки,
+     які підсумовують сказане. */
+  .exp-intro { display: grid; gap: 20px; max-width: 74ch; margin-bottom: clamp(36px, 5vh, 56px); }
+  .exp-intro p { font-size: clamp(15.5px, 1.5vw, 18px); line-height: 1.62; color: var(--muted); margin: 0; }
+  .exp-intro-lead { color: var(--ink-inv) !important; font-size: clamp(17px, 1.9vw, 22px) !important; line-height: 1.5 !important; }
+
+  /* Один рядок, який на сторінці-прикладі стоїть окремим твердженням між
+     абзацом і наступним блоком. Не цитата: це властивість формату, тож без
+     лапок і без курсиву — просто більший кегль на власній лінії. */
+  .exp-pull {
+    font-family: 'Unbounded', sans-serif; font-weight: 500;
+    font-size: clamp(19px, 2.4vw, 30px); line-height: 1.28; letter-spacing: -0.02em;
+    max-width: 24ch; margin: 0 0 clamp(40px, 6vh, 72px);
+    padding-left: 22px; border-left: 1px solid var(--lime);
+  }
+
+  .exp-kit { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.62fr); gap: clamp(32px, 5vw, 72px); align-items: start; }
+  .exp-kit-list { list-style: none; margin: 0; padding: 0; }
+  .exp-kit-list li {
+    display: grid; gap: 6px;
+    padding: clamp(18px, 2.6vh, 26px) 0;
+    border-top: 1px solid var(--line);
+  }
+  .exp-kit-list li:last-child { border-bottom: 1px solid var(--line); }
+  .exp-kit-list b {
+    font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: 16px;
+    letter-spacing: -0.01em;
+  }
+  .exp-kit-list span { font-size: 15px; line-height: 1.55; color: var(--muted); max-width: 54ch; }
+  .exp-kit-shot { border-radius: var(--r-md); overflow: hidden; border: 1px solid var(--line); position: sticky; top: 112px; }
+  .exp-kit-shot img { display: block; width: 100%; height: auto; }
+
+  /* Секція питань успадковує компонент із головної; тут лише верхня межа й
+     трохи менший відступ, бо над нею вже стоїть розділ на темнішому тлі. */
+  .exp-faq { border-top: 1px solid var(--line); }
+
+  @media (max-width: 900px){
+    .exp-kit { grid-template-columns: 1fr; }
+    .exp-kit-shot { position: static; order: -1; }
+  }

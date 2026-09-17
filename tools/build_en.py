@@ -717,12 +717,72 @@ def stamp(text, hashes):
     return STAMPED.sub(lambda m: m.group(1) + '?v=' + hashes[m.group(1)], text)
 
 
+# ------------------------------------------------- стрічка сценаріїв
+# Сторінки досвідів показують ті самі картки, що й головна, за винятком власної.
+# Тримати їхню копію в кожному файлі означало б, що перша ж правка тексту на
+# головній розійдеться з п'ятьма копіями. Тому джерело одне — index.html, а
+# сторінка досвіду містить лише маркер із назвою картки, яку треба прибрати.
+#
+# Коли з'явиться англійська версія цих сторінок, переклад карток заходить саме
+# сюди: рядки беруться з того самого T, що й решта сайту.
+UC_START = '<!-- UC-STRIP:START'
+UC_END = '<!-- UC-STRIP:END -->'
+UC_CARD = re.compile(r'      <article class="uc-card"[\s\S]*?\n      </article>\n')
+
+EXPERIENCE_PAGES = [
+    os.path.join('experiences', 'corporate', 'index.html'),
+]
+
+
+def build_experience_strips():
+    home = io.open(SRC, encoding='utf-8').read()
+    cards = UC_CARD.findall(home)
+    if not cards:
+        sys.exit('картки сценаріїв не знайдені в index.html')
+
+    for rel in EXPERIENCE_PAGES:
+        path = os.path.join(ROOT, rel)
+        if not os.path.exists(path):
+            continue
+        text = io.open(path, encoding='utf-8').read()
+        if UC_START not in text:
+            sys.exit('немає маркера UC-STRIP: ' + rel)
+
+        head = text.index(UC_START)
+        tail = text.index(UC_END) + len(UC_END)
+        marker = text[head:text.index('-->', head) + 3]
+        m = re.search(r'exclude="([^"]*)"', marker)
+        skip = m.group(1) if m else ''
+
+        # Сторінка лежить на два рівні глибше за головну.
+        depth = '../' * (rel.count(os.sep))
+        kept = [c.replace('src="images/', 'src="%simages/' % depth)
+                for c in cards if ('data-uc="%s"' % skip) not in c]
+
+        # Обгортка .uc-row обов'язкова: скрипт стрічки шукає саме її, а без неї
+        # .uc-grid (flex-column) кладе картки стовпчиком — горизонтальної
+        # прокрутки не існує, і сторінка виростає вдвічі. Ряд тут один: на
+        # головній їх два зі зсувом, на сторінці досвіду — рівно один.
+        inner = ''.join('  ' + ln + '\n' if ln else '\n'
+                        for ln in ''.join(kept).split('\n')[:-1])
+        body = (marker + '\n'
+                + '        <div class="uc-row" data-row="a">\n'
+                + inner
+                + '        </div>\n'
+                + '        ' + UC_END)
+        io.open(path, 'w', encoding='utf-8').write(text[:head] + body + text[tail:])
+        print('стрічка зібрана: %s — %d карток, без «%s»' % (rel, len(kept), skip))
+
+
 def stamp_files():
     hashes = {}
     for rel in STAMPED_FILES:
         path = os.path.join(ROOT, *rel.split('/'))
         hashes[rel] = hashlib.sha1(io.open(path, 'rb').read()).hexdigest()[:8]
-    for path in [SRC, DST, SRC404, DST404]:
+    # Сторінки досвідів теж проходять через версіонування: вони тягнуть той
+    # самий site.css і site.js, і без позначки лишалися б зі старими копіями.
+    extra = [os.path.join(ROOT, 'experiences', 'corporate', 'index.html')]
+    for path in [SRC, DST, SRC404, DST404] + extra:
         if not os.path.exists(path):
             continue
         text = io.open(path, encoding='utf-8').read()
@@ -794,6 +854,9 @@ def build_404():
 if __name__ == '__main__':
     build()
     build_404()
+    # Стрічку сценаріїв збираємо до позначки версій: вона переписує сторінки
+    # досвідів, і хеш активів має лягти вже на готовий вміст.
+    build_experience_strips()
     # Останнім кроком, коли обидві англійські сторінки вже на диску: позначка
     # лягає на всі чотири файли одразу.
     stamp_files()
