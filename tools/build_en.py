@@ -685,7 +685,26 @@ def assert_translated(s, name):
 # вісім символів хешу самого файла: зміст не змінився — адреса та сама й кеш
 # працює як слід; зміст змінився — адреса інша, і браузерові нема що
 # підставляти зі старого.
-STAMPED = re.compile(r'(assets/site\.(?:css|js))(\?v=[0-9a-f]+)?')
+# Версіоновані активи. Іконки тут нарівні зі скриптом і стилями, і потребують
+# цього навіть більше: файли замінюють, лишаючи те саме ім'я, а favicon браузери
+# тримають у кеші впертіше за будь-що інше — без позначки версії постійний
+# відвідувач місяцями бачив би стару.
+#
+# Шлях шукаємо без початку, тож під правило підпадають усі написання відразу:
+# images/…, ../images/… і /images/…
+STAMPED = re.compile(
+    r'((?:assets/site\.(?:css|js))|(?:images/(?:favicon|apple-touch-icon)\.png))'
+    r'(\?v=[0-9a-f]+)?')
+
+# Ключем служить сам шлях, а не розширення. Це не дрібниця: іконок дві, обидві
+# .png, і на ключі-розширенні вони мовчки ділили б один хеш — тобто зміна однієї
+# збивала б адресу іншої.
+STAMPED_FILES = (
+    'assets/site.css',
+    'assets/site.js',
+    'images/favicon.png',
+    'images/apple-touch-icon.png',
+)
 
 
 def unstamp(text):
@@ -695,16 +714,15 @@ def unstamp(text):
 
 
 def stamp(text, hashes):
-    return STAMPED.sub(lambda m: m.group(1) + '?v=' + hashes[m.group(1).rsplit('.', 1)[1]], text)
+    return STAMPED.sub(lambda m: m.group(1) + '?v=' + hashes[m.group(1)], text)
 
 
 def stamp_files():
     hashes = {}
-    for ext in ('css', 'js'):
-        path = os.path.join(ROOT, 'assets', 'site.' + ext)
-        hashes[ext] = hashlib.sha1(io.open(path, 'rb').read()).hexdigest()[:8]
-    targets = [SRC, DST, SRC404, DST404]
-    for path in targets:
+    for rel in STAMPED_FILES:
+        path = os.path.join(ROOT, *rel.split('/'))
+        hashes[rel] = hashlib.sha1(io.open(path, 'rb').read()).hexdigest()[:8]
+    for path in [SRC, DST, SRC404, DST404]:
         if not os.path.exists(path):
             continue
         text = io.open(path, encoding='utf-8').read()
@@ -713,7 +731,8 @@ def stamp_files():
         # диску порожнечу замість сторінки.
         out = stamp(unstamp(text), hashes)
         io.open(path, 'w', encoding='utf-8').write(out)
-    print('версію активів проставлено: css=%s js=%s' % (hashes['css'], hashes['js']))
+    print('версію активів проставлено: ' +
+          ', '.join(rel.rsplit('/', 1)[1] + '=' + hashes[rel] for rel in STAMPED_FILES))
 
 
 def build():

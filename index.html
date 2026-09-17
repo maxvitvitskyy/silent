@@ -48,9 +48,14 @@
 <title>SILENT — одна вечірка. Три музичні світи.</title>
 <meta name="description" content="Silent Disco під ключ у Києві та по Україні: бездротові LED-навушники, 3 канали музики, доставка, налаштування та супровід.">
 <meta name="theme-color" content="#0a0a0b">
-<!-- sizes="any": файл зараз 473×470 (не квадрат 512×512, як було раніше) —
-     фіксований розмір тут був би недостовірним, браузер сам масштабує PNG. -->
-<link rel="icon" type="image/png" sizes="any" href="images/favicon.png">
+<!-- sizes="any" лишається навмисно: іконку тут заміняють, лишаючи те саме ім'я,
+     і жорстко вписаний розмір застарівав би щоразу. Браузер масштабує PNG сам.
+     Обидва файли версіонуються за хешем вмісту — інакше favicon, який браузери
+     кешують упертіше за все, лишався б старим після заміни. -->
+<link rel="icon" type="image/png" sizes="any" href="images/favicon.png?v=990ab5cf">
+<!-- Окремий файл, а не той самий: iOS кладе іконку на домашній екран без
+     прозорості, тож тут знак на суцільному чорному, а не на прозорому тлі. -->
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png?v=937edc04">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="SILENT">
 <meta property="og:locale" content="uk_UA">
