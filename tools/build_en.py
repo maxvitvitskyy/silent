@@ -729,6 +729,8 @@ UC_START = '<!-- UC-STRIP:START'
 UC_END = '<!-- UC-STRIP:END -->'
 # Сторінка-список використовує ті самі картки, але сіткою, а не стрічкою:
 # обгортка .uc-row там зайва, бо нічого не прокручується вбік.
+UC_FILTER_START = '<!-- UC-FILTER:START -->'
+UC_FILTER_END = '<!-- UC-FILTER:END -->'
 UC_GRID_START = '<!-- UC-GRID:START'
 UC_GRID_END = '<!-- UC-GRID:END -->'
 
@@ -748,6 +750,28 @@ EXPERIENCE_URLS = {
 #
 # Це єдине місце, де порядок задається: щоб переставити, досить посунути рядок.
 # Формати, яких тут немає, стають у кінець у порядку з index.html.
+# Теми фільтра на сторінці-списку. Кожен формат належить рівно одній темі:
+# картка, що трапляється у двох, збиває лічильники й змушує людину переглядати
+# те саме двічі. Збірка падає, якщо якийсь формат лишиться без теми або тема
+# назве неіснуючий формат — інакше картка мовчки зникла б із фільтра.
+EXPERIENCE_CATEGORIES = [
+    ('business',  'Бізнес',            ['Корпоративи', 'Конференції', 'Презентація релізу',
+                                        'Благодійні гала']),
+    ('party',     'Свята',             ['Весілля', 'Дні народження', 'Silent disco',
+                                        'Діджей-сет наживо']),
+    ('education', 'Навчальні заклади', ['Шкільні свята', 'Студентські події',
+                                        'Музичні коледжі']),
+    ('faith',     'Церкви й табори',   ['Церковні служби та зібрання',
+                                        'Церковні та молодіжні табори',
+                                        'Табори та молодіжні збори']),
+    ('culture',   'Культура',          ['Музеї та галереї', 'Екскурсії', 'Іммерсивні театри',
+                                        'Камерні концерти', 'Кіно просто неба',
+                                        'Драйв-ін формат']),
+    ('community', 'Міські події',      ['Фестивалі', 'Громадські зібрання',
+                                        'Ярмарки та маркети', 'Спортивні події',
+                                        'Йога та ecstatic dance', 'Інклюзивні події']),
+]
+
 EXPERIENCE_ORDER = [
     'Корпоративи',
     'Весілля',
@@ -794,11 +818,48 @@ def _link_card(card, name, depth):
         '<a class="uc-order" href="%s">Дивитися досвід</a>' % url)
 
 
+def _category_of(name):
+    for key, _title, items in EXPERIENCE_CATEGORIES:
+        if name in items:
+            return key
+    return ''
+
+
+def _check_categories(cards):
+    """Кожен формат рівно в одній темі — інакше фільтр бреше про кількість."""
+    names = [re.search(r'data-uc="([^"]*)"', c).group(1) for c in cards]
+    listed = [n for _k, _t, items in EXPERIENCE_CATEGORIES for n in items]
+    dupes = sorted({n for n in listed if listed.count(n) > 1})
+    orphan = [n for n in names if n not in listed]
+    ghost = [n for n in listed if n not in names]
+    if dupes:
+        sys.exit('формат у двох темах одразу: ' + ', '.join(dupes))
+    if orphan:
+        sys.exit('формати без теми, вони зникли б із фільтра: ' + ', '.join(orphan))
+    if ghost:
+        sys.exit('теми називають формати, яких немає в index.html: ' + ', '.join(ghost))
+
+
+def _filter_markup(cards):
+    counts = {}
+    for c in cards:
+        counts[_category_of(re.search(r'data-uc="([^"]*)"', c).group(1))] = \
+            counts.get(_category_of(re.search(r'data-uc="([^"]*)"', c).group(1)), 0) + 1
+    out = ['        <button type="button" class="exp-chip is-on" data-cat="all" '
+           'aria-pressed="true">Усі <span>%d</span></button>' % len(cards)]
+    for key, title, _items in EXPERIENCE_CATEGORIES:
+        out.append('        <button type="button" class="exp-chip" data-cat="%s" '
+                   'aria-pressed="false">%s <span>%d</span></button>'
+                   % (key, title, counts.get(key, 0)))
+    return '\n'.join(out)
+
+
 def build_experience_strips():
     home = io.open(SRC, encoding='utf-8').read()
     cards = UC_CARD.findall(home)
     if not cards:
         sys.exit('картки сценаріїв не знайдені в index.html')
+    _check_categories(cards)
 
     for rel in EXPERIENCE_PAGES:
         path = os.path.join(ROOT, rel)
@@ -825,8 +886,12 @@ def build_experience_strips():
             nm = nm.group(1) if nm else ''
             if nm == skip:
                 continue
-            kept.append(_link_card(c.replace('src="images/', 'src="%simages/' % depth),
-                                   nm, depth))
+            card = _link_card(c.replace('src="images/', 'src="%simages/' % depth),
+                              nm, depth)
+            if grid:
+                card = card.replace('<article class="uc-card"',
+                                    '<article class="uc-card" data-cat="%s"' % _category_of(nm), 1)
+            kept.append(card)
 
         if grid:
             # Сітка — це покажчик, і в ньому порядок має значення: зверху те,
@@ -853,7 +918,14 @@ def build_experience_strips():
                     + inner
                     + '        </div>\n'
                     + '        ' + end_tag)
-        io.open(path, 'w', encoding='utf-8').write(text[:head] + body + text[tail:])
+        text = text[:head] + body + text[tail:]
+
+        if UC_FILTER_START in text:
+            fh = text.index(UC_FILTER_START) + len(UC_FILTER_START)
+            ft = text.index(UC_FILTER_END)
+            text = text[:fh] + '\n' + _filter_markup(kept) + '\n      ' + text[ft:]
+
+        io.open(path, 'w', encoding='utf-8').write(text)
         print('картки зібрані: %s — %d, %s%s'
               % (rel, len(kept), 'сітка' if grid else 'стрічка',
                  (', без «%s»' % skip) if skip else ''))

@@ -2241,6 +2241,57 @@ const I18N = window.SILENT_I18N;
       window.addEventListener('load', check, { once: true });
     })();
 
+  // ---- Фільтр тем на сторінці-списку досвідів ----
+  // Кнопки й теми на картках проставляє збірник, тож тут лишається саме
+  // перемикання. Стан за замовчуванням — усі картки: якщо цей блок не
+  // виконається, сторінка просто лишиться повним списком, а не порожньою.
+  (function(){
+    const bar = document.querySelector('.exp-filter');
+    const grid = document.querySelector('.exp-grid');
+    if (!bar || !grid) return;
+    const chips = [...bar.querySelectorAll('.exp-chip')];
+    const cards = [...grid.querySelectorAll('.uc-card')];
+    const count = document.querySelector('.exp-count');
+    if (!chips.length || !cards.length) return;
+
+    // Відмінок для числа: 1 формат, 2-4 формати, решта форматів.
+    function word(n){
+      const t = n % 100, o = n % 10;
+      if (t > 10 && t < 20) return 'форматів';
+      if (o === 1) return 'формат';
+      if (o >= 2 && o <= 4) return 'формати';
+      return 'форматів';
+    }
+
+    function apply(cat){
+      let shown = 0;
+      cards.forEach(c => {
+        const on = cat === 'all' || c.dataset.cat === cat;
+        // hidden, а не клас: картка зникає і з потоку, і з дерева доступності,
+        // тож її не прочитає скрінрідер і не спіймає табуляція.
+        c.hidden = !on;
+        if (on) shown++;
+      });
+      chips.forEach(ch => {
+        const on = ch.dataset.cat === cat;
+        ch.classList.toggle('is-on', on);
+        ch.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      // Клас вмикає появу лише після першого вибору: на завантаженні сторінки
+      // двадцять шість карток не мусять проявлятися по одній.
+      grid.classList.toggle('is-filtered', cat !== 'all');
+      if (count){
+        count.textContent = cat === 'all'
+          ? '' : shown + ' ' + word(shown) + ' у цій темі';
+      }
+    }
+
+    bar.addEventListener('click', (e) => {
+      const chip = e.target.closest('.exp-chip');
+      if (chip) apply(chip.dataset.cat);
+    });
+  })();
+
   // Прапорець для страхувальника в <head>: він доводить, що цей файл не просто
   // доїхав, а виконався до кінця. Якщо скрипт заблокували, обірвали або він
   // упав десь вище, прапорця не буде — і страхувальник знімає клас js, після
