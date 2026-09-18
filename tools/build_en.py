@@ -750,26 +750,35 @@ EXPERIENCE_URLS = {
 #
 # Це єдине місце, де порядок задається: щоб переставити, досить посунути рядок.
 # Формати, яких тут немає, стають у кінець у порядку з index.html.
-# Теми фільтра на сторінці-списку. Кожен формат належить рівно одній темі:
-# картка, що трапляється у двох, збиває лічильники й змушує людину переглядати
-# те саме двічі. Збірка падає, якщо якийсь формат лишиться без теми або тема
-# назве неіснуючий формат — інакше картка мовчки зникла б із фільтра.
+# Теми фільтра на сторінці-списку. Формат може належати кільком темам одразу:
+# табір — це і церква, і діти; екскурсія — і культура, і навчальний заклад.
+# Тому лічильник біля назви — це обсяг теми, а не частка від двадцяти шести, і
+# сума кнопок навмисно більша за кількість карток.
+# Вимога одна: кожен формат має потрапити щонайменше в одну тему, інакше він
+# зникне з фільтра. Збірка це перевіряє.
 EXPERIENCE_CATEGORIES = [
     ('business',  'Бізнес',            ['Корпоративи', 'Конференції', 'Презентація релізу',
                                         'Благодійні гала']),
     ('party',     'Свята',             ['Весілля', 'Дні народження', 'Silent disco',
-                                        'Діджей-сет наживо']),
+                                        'Діджей-сет наживо', 'Студентські події']),
+    ('kids',      'Для дітей',         ['Шкільні свята', 'Дні народження',
+                                        'Табори та молодіжні збори',
+                                        'Церковні та молодіжні табори',
+                                        'Кіно просто неба']),
     ('education', 'Навчальні заклади', ['Шкільні свята', 'Студентські події',
-                                        'Музичні коледжі']),
+                                        'Музичні коледжі', 'Екскурсії',
+                                        'Музеї та галереї']),
     ('faith',     'Церкви й табори',   ['Церковні служби та зібрання',
                                         'Церковні та молодіжні табори',
                                         'Табори та молодіжні збори']),
     ('culture',   'Культура',          ['Музеї та галереї', 'Екскурсії', 'Іммерсивні театри',
                                         'Камерні концерти', 'Кіно просто неба',
-                                        'Драйв-ін формат']),
+                                        'Драйв-ін формат', 'Презентація релізу',
+                                        'Музичні коледжі']),
+    ('sport',     'Спорт',             ['Спортивні події', 'Йога та ecstatic dance']),
     ('community', 'Міські події',      ['Фестивалі', 'Громадські зібрання',
-                                        'Ярмарки та маркети', 'Спортивні події',
-                                        'Йога та ecstatic dance', 'Інклюзивні події']),
+                                        'Ярмарки та маркети', 'Інклюзивні події',
+                                        'Благодійні гала']),
 ]
 
 EXPERIENCE_ORDER = [
@@ -818,22 +827,17 @@ def _link_card(card, name, depth):
         '<a class="uc-order" href="%s">Дивитися досвід</a>' % url)
 
 
-def _category_of(name):
-    for key, _title, items in EXPERIENCE_CATEGORIES:
-        if name in items:
-            return key
-    return ''
+def _categories_of(name):
+    """Усі теми формату. Перетини дозволені: табір — і церква, і діти."""
+    return [key for key, _title, items in EXPERIENCE_CATEGORIES if name in items]
 
 
 def _check_categories(cards):
-    """Кожен формат рівно в одній темі — інакше фільтр бреше про кількість."""
+    """Формат без теми зник би з фільтра — це єдине, чого не можна допустити."""
     names = [re.search(r'data-uc="([^"]*)"', c).group(1) for c in cards]
-    listed = [n for _k, _t, items in EXPERIENCE_CATEGORIES for n in items]
-    dupes = sorted({n for n in listed if listed.count(n) > 1})
+    listed = {n for _k, _t, items in EXPERIENCE_CATEGORIES for n in items}
     orphan = [n for n in names if n not in listed]
-    ghost = [n for n in listed if n not in names]
-    if dupes:
-        sys.exit('формат у двох темах одразу: ' + ', '.join(dupes))
+    ghost = sorted(n for n in listed if n not in names)
     if orphan:
         sys.exit('формати без теми, вони зникли б із фільтра: ' + ', '.join(orphan))
     if ghost:
@@ -841,16 +845,13 @@ def _check_categories(cards):
 
 
 def _filter_markup(cards):
-    counts = {}
-    for c in cards:
-        counts[_category_of(re.search(r'data-uc="([^"]*)"', c).group(1))] = \
-            counts.get(_category_of(re.search(r'data-uc="([^"]*)"', c).group(1)), 0) + 1
+    names = [re.search(r'data-uc="([^"]*)"', c).group(1) for c in cards]
     out = ['        <button type="button" class="exp-chip is-on" data-cat="all" '
-           'aria-pressed="true">Усі <span>%d</span></button>' % len(cards)]
-    for key, title, _items in EXPERIENCE_CATEGORIES:
+           'aria-pressed="true">Усі <span>%d</span></button>' % len(names)]
+    for key, title, items in EXPERIENCE_CATEGORIES:
+        n = sum(1 for nm in names if nm in items)
         out.append('        <button type="button" class="exp-chip" data-cat="%s" '
-                   'aria-pressed="false">%s <span>%d</span></button>'
-                   % (key, title, counts.get(key, 0)))
+                   'aria-pressed="false">%s <span>%d</span></button>' % (key, title, n))
     return '\n'.join(out)
 
 
@@ -889,8 +890,9 @@ def build_experience_strips():
             card = _link_card(c.replace('src="images/', 'src="%simages/' % depth),
                               nm, depth)
             if grid:
-                card = card.replace('<article class="uc-card"',
-                                    '<article class="uc-card" data-cat="%s"' % _category_of(nm), 1)
+                card = card.replace(
+                    '<article class="uc-card"',
+                    '<article class="uc-card" data-cats="%s"' % ' '.join(_categories_of(nm)), 1)
             kept.append(card)
 
         if grid:

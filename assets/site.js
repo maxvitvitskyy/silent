@@ -2266,7 +2266,9 @@ const I18N = window.SILENT_I18N;
     function apply(cat){
       let shown = 0;
       cards.forEach(c => {
-        const on = cat === 'all' || c.dataset.cat === cat;
+        // Тем у картки може бути кілька, тож звіряємо зі списком, а не з одним
+        // значенням: табір належить і церквам, і дітям, і мусить знайтись в обох.
+        const on = cat === 'all' || (c.dataset.cats || '').split(' ').indexOf(cat) !== -1;
         // hidden, а не клас: картка зникає і з потоку, і з дерева доступності,
         // тож її не прочитає скрінрідер і не спіймає табуляція.
         c.hidden = !on;
