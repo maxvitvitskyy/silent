@@ -3996,3 +3996,52 @@
     .exp-kit { grid-template-columns: 1fr; }
     .exp-kit-shot { position: static; order: -1; }
   }
+
+  /* ---------- Сторінка-список досвідів ---------- */
+  /* Шапка без повнокадрового знімка: нижче двадцять шість фотографій, і ще одна
+     зверху відбирала б у них увагу. Тут працює набір і повітря. */
+  .exp-head { padding: 148px 0 clamp(40px, 6vh, 68px); }
+  .exp-head-title {
+    font-family: 'Unbounded', sans-serif; font-weight: 800;
+    font-size: clamp(38px, 7vw, 96px); line-height: 0.98; letter-spacing: -0.03em;
+    margin: 0 0 24px;
+  }
+  .exp-head-lead {
+    font-size: clamp(16px, 1.7vw, 21px); line-height: 1.55;
+    color: var(--muted); max-width: 62ch; margin: 0 0 18px;
+  }
+  .exp-head-note { font-size: 15px; line-height: 1.6; color: var(--muted-2); max-width: 52ch; margin: 0; }
+
+  .exp-list { padding: 0 0 clamp(72px, 10vh, 120px); }
+  /* Сітка, а не стрічка: це покажчик, і кожен формат мусить бути видимий без
+     прокрутки вбік. Колонка задається мінімальною шириною картки, тож на
+     проміжних ширинах ряд перебудовується сам, без окремих брейкпоінтів. */
+  .exp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
+    gap: clamp(14px, 1.6vw, 22px);
+  }
+  /* Картка тут не переставна, тому матове скло їй можна: у стрічці від нього
+     відмовились саме через перестановку під час прокрутки. */
+  .exp-grid .uc-card {
+    flex: initial;
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+  }
+  /* Картка з власною сторінкою: та сама кнопка, але посилання. */
+  .exp-grid a.uc-order { display: inline-block; text-align: center; }
+
+  @media (max-width: 600px){
+    .exp-head { padding-top: 124px; }
+    .exp-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+  }
+
+  /* Заклик у кінці сторінки-списку. Сторінка коротка, тож футерне світіння
+     дістає вище за звичне й заливає лаймом і текст, і саму кнопку — та
+     перестає читатись як головна дія. Власне непрозоре тло й свій шар
+     ставлять межу: нижче починається футер зі своїм світлом, вище воно не йде. */
+  .exp-close {
+    position: relative; z-index: 1;
+    background: var(--night);
+    padding-bottom: clamp(56px, 8vh, 96px);
+  }

@@ -727,11 +727,33 @@ def stamp(text, hashes):
 # сюди: рядки беруться з того самого T, що й решта сайту.
 UC_START = '<!-- UC-STRIP:START'
 UC_END = '<!-- UC-STRIP:END -->'
+# Сторінка-список використовує ті самі картки, але сіткою, а не стрічкою:
+# обгортка .uc-row там зайва, бо нічого не прокручується вбік.
+UC_GRID_START = '<!-- UC-GRID:START'
+UC_GRID_END = '<!-- UC-GRID:END -->'
+
+# Досвіди, у яких уже є власна сторінка. Їхня картка в сітці веде на неї, решта
+# лишаються кнопкою, що підставляє формат у заявку. Список росте разом зі
+# сторінками — і це єдине місце, де його треба поповнити.
+EXPERIENCE_URLS = {
+    'Корпоративи': '/experiences/corporate/',
+}
 UC_CARD = re.compile(r'      <article class="uc-card"[\s\S]*?\n      </article>\n')
 
 EXPERIENCE_PAGES = [
+    os.path.join('experiences', 'index.html'),
     os.path.join('experiences', 'corporate', 'index.html'),
 ]
+
+
+def _link_card(card, name, depth):
+    """Картка досвіду, що має власну сторінку, веде на неї замість кнопки."""
+    url = EXPERIENCE_URLS.get(name)
+    if not url:
+        return card
+    return card.replace(
+        '<button type="button" class="uc-order">Замовити цей досвід</button>',
+        '<a class="uc-order" href="%s">Дивитися досвід</a>' % url)
 
 
 def build_experience_strips():
@@ -745,33 +767,46 @@ def build_experience_strips():
         if not os.path.exists(path):
             continue
         text = io.open(path, encoding='utf-8').read()
-        if UC_START not in text:
-            sys.exit('немає маркера UC-STRIP: ' + rel)
 
-        head = text.index(UC_START)
-        tail = text.index(UC_END) + len(UC_END)
+        grid = UC_GRID_START in text
+        start_tag = UC_GRID_START if grid else UC_START
+        end_tag = UC_GRID_END if grid else UC_END
+        if start_tag not in text:
+            sys.exit('немає маркера карток: ' + rel)
+
+        head = text.index(start_tag)
+        tail = text.index(end_tag) + len(end_tag)
         marker = text[head:text.index('-->', head) + 3]
         m = re.search(r'exclude="([^"]*)"', marker)
         skip = m.group(1) if m else ''
 
-        # Сторінка лежить на два рівні глибше за головну.
         depth = '../' * (rel.count(os.sep))
-        kept = [c.replace('src="images/', 'src="%simages/' % depth)
-                for c in cards if ('data-uc="%s"' % skip) not in c]
+        kept = []
+        for c in cards:
+            nm = re.search(r'data-uc="([^"]*)"', c)
+            nm = nm.group(1) if nm else ''
+            if nm == skip:
+                continue
+            kept.append(_link_card(c.replace('src="images/', 'src="%simages/' % depth),
+                                   nm, depth))
 
-        # Обгортка .uc-row обов'язкова: скрипт стрічки шукає саме її, а без неї
-        # .uc-grid (flex-column) кладе картки стовпчиком — горизонтальної
-        # прокрутки не існує, і сторінка виростає вдвічі. Ряд тут один: на
-        # головній їх два зі зсувом, на сторінці досвіду — рівно один.
         inner = ''.join('  ' + ln + '\n' if ln else '\n'
                         for ln in ''.join(kept).split('\n')[:-1])
-        body = (marker + '\n'
-                + '        <div class="uc-row" data-row="a">\n'
-                + inner
-                + '        </div>\n'
-                + '        ' + UC_END)
+        if grid:
+            body = marker + '\n' + inner + '      ' + end_tag
+        else:
+            # Обгортка .uc-row обов'язкова: скрипт стрічки шукає саме її, а без
+            # неї .uc-grid (flex-column) кладе картки стовпчиком — горизонтальної
+            # прокрутки не існує, і сторінка виростає вдвічі.
+            body = (marker + '\n'
+                    + '        <div class="uc-row" data-row="a">\n'
+                    + inner
+                    + '        </div>\n'
+                    + '        ' + end_tag)
         io.open(path, 'w', encoding='utf-8').write(text[:head] + body + text[tail:])
-        print('стрічка зібрана: %s — %d карток, без «%s»' % (rel, len(kept), skip))
+        print('картки зібрані: %s — %d, %s%s'
+              % (rel, len(kept), 'сітка' if grid else 'стрічка',
+                 (', без «%s»' % skip) if skip else ''))
 
 
 def stamp_files():
@@ -781,7 +816,7 @@ def stamp_files():
         hashes[rel] = hashlib.sha1(io.open(path, 'rb').read()).hexdigest()[:8]
     # Сторінки досвідів теж проходять через версіонування: вони тягнуть той
     # самий site.css і site.js, і без позначки лишалися б зі старими копіями.
-    extra = [os.path.join(ROOT, 'experiences', 'corporate', 'index.html')]
+    extra = [os.path.join(ROOT, rel) for rel in EXPERIENCE_PAGES]
     for path in [SRC, DST, SRC404, DST404] + extra:
         if not os.path.exists(path):
             continue

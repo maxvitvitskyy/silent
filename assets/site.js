@@ -600,13 +600,20 @@ const I18N = window.SILENT_I18N;
     if (el) el.addEventListener('input', updateCalculator);
     if (el) el.addEventListener('change', updateCalculator);
   });
-  hourMinus.addEventListener('click', () => {
-    if (hours > MIN_HOURS){ hours--; hoursValueEl.textContent = hours; updateCalculator(); }
-  });
-  hourPlus.addEventListener('click', () => {
-    if (hours < MAX_HOURS){ hours++; hoursValueEl.textContent = hours; updateCalculator(); }
-  });
-  updateCalculator();
+  // На сторінках без калькулятора цих кнопок немає. Раніше звертання до них
+  // напряму валило весь site.js, а з ним і все, що нижче за текстом файла:
+  // поява блоків, стрічка, плаваючий контакт і прапорець __siteJs. Решта
+  // елементів калькулятора вже перевіряється через `if (el)` вище — ці дві
+  // лишались єдиним незахищеним місцем.
+  if (hourMinus && hourPlus && hoursValueEl) {
+    hourMinus.addEventListener('click', () => {
+      if (hours > MIN_HOURS){ hours--; hoursValueEl.textContent = hours; updateCalculator(); }
+    });
+    hourPlus.addEventListener('click', () => {
+      if (hours < MAX_HOURS){ hours++; hoursValueEl.textContent = hours; updateCalculator(); }
+    });
+    updateCalculator();
+  }
 
   // ---- Передаємо параметри калькулятора у форму заявки ----
   const calcSubmit = document.getElementById('calcSubmit');
@@ -2031,199 +2038,208 @@ const I18N = window.SILENT_I18N;
     });
   })();
 
-  // Захист від дубля generate_lead: форму технічно можна надіслати повторно
-  // (кнопка ховається лише після успіху, а не блокується одразу), тож без
-  // цього прапорця повторний клік чи гонка подій дали б два events на один лід.
-  let leadEventSent = false;
+  // Уся робота з формою жила на верхньому рівні файла й припускала, що поля
+  // існують. На сторінках без форми — як список досвідів — перше ж звертання
+  // до неіснуючого поля валило site.js цілком, а з ним і все, що нижче за
+  // текстом: поява блоків, стрічка, плаваючий контакт, прапорець __siteJs.
+  // Тепер це власна обгортка з перевіркою на вході, як і решта блоків.
+  (function(){
+    if (!document.getElementById('formError') || !document.getElementById('submitBtn')) return;
+    // Захист від дубля generate_lead: форму технічно можна надіслати повторно
+    // (кнопка ховається лише після успіху, а не блокується одразу), тож без
+    // цього прапорця повторний клік чи гонка подій дали б два events на один лід.
+    let leadEventSent = false;
 
-  // alert() забирає фокус у діалог браузера, нічого не каже про те, яке саме
-  // поле порожнє, і на телефоні перекриває всю форму. Повідомлення тепер
-  // стоїть над кнопкою (role="alert", тож озвучується само), порожні поля
-  // позначаються aria-invalid, а фокус іде в перше з них.
-  const errBox = document.getElementById('formError');
-  const nameEl = document.getElementById('name');
-  const contactEl = document.getElementById('contact');
+    // alert() забирає фокус у діалог браузера, нічого не каже про те, яке саме
+    // поле порожнє, і на телефоні перекриває всю форму. Повідомлення тепер
+    // стоїть над кнопкою (role="alert", тож озвучується само), порожні поля
+    // позначаються aria-invalid, а фокус іде в перше з них.
+    const errBox = document.getElementById('formError');
+    const nameEl = document.getElementById('name');
+    const contactEl = document.getElementById('contact');
 
-  const dateEl = document.getElementById('date');
+    const dateEl = document.getElementById('date');
 
-  function clearError(){
-    errBox.hidden = true;
-    errBox.textContent = '';
-    nameEl.removeAttribute('aria-invalid');
-    contactEl.removeAttribute('aria-invalid');
-    dateEl.removeAttribute('aria-invalid');
-  }
-  [nameEl, contactEl, dateEl].forEach(el => el.addEventListener('input', () => {
-    if (!errBox.hidden) clearError();
-  }));
-  // Дата зі сітки календаря приходить як change, а не input.
-  dateEl.addEventListener('change', () => { if (!errBox.hidden) clearError(); });
-
-  // Одне спільне повідомлення казало «вкажіть імʼя і контакт» навіть тоді, коли
-  // обидва поля заповнені, а не подобалась дата. Тепер текст називає саме те, що
-  // не так, і фокус іде в те саме поле.
-  function showError(msg, el){
-    clearError();
-    errBox.textContent = msg;
-    errBox.hidden = false;
-    if (el){ el.setAttribute('aria-invalid', 'true'); el.focus(); }
-  }
-
-  // Навмисно поблажливо: хибно відхилений живий контакт коштує заявки, а хибно
-  // пропущений — лише одного дзвінка в нікуди. Приймаємо три форми, якими люди
-  // справді користуються, рівно ті, що обіцяє плейсхолдер поля.
-  function contactLooksReal(v){
-    const digits = v.replace(/[\s()\-+.]/g, '');
-    if (/^\d{9,}$/.test(digits)) return true;
-    if (/^@[^\s@]{2,}$/.test(v)) return true;
-    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
-  }
-
-  // min на полі відсікає вибір із пікера, але значення можна вписати з клавіатури
-  // повз нього — тож те саме правило повторюємо перед надсиланням.
-  function isPastDate(v){
-    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v || '');
-    if (!m) return false;
-    const d = new Date(+m[1], +m[2]-1, +m[3]); d.setHours(0,0,0,0);
-    const t = new Date(); t.setHours(0,0,0,0);
-    return d < t;
-  }
-
-  const submitBtn = document.getElementById('submitBtn');
-  const submitLabel = submitBtn.textContent;
-  let submitting = false;
-
-  submitBtn.addEventListener('click', () => {
-    if (submitting) return;
-    const name = nameEl.value.trim();
-    const contact = contactEl.value.trim();
-    if (!name || !contact){
-      clearError();
-      errBox.textContent = I18N.form.required;
-      errBox.hidden = false;
-      if (!name) nameEl.setAttribute('aria-invalid', 'true');
-      if (!contact) contactEl.setAttribute('aria-invalid', 'true');
-      (!name ? nameEl : contactEl).focus();
-      return;
+    function clearError(){
+      errBox.hidden = true;
+      errBox.textContent = '';
+      nameEl.removeAttribute('aria-invalid');
+      contactEl.removeAttribute('aria-invalid');
+      dateEl.removeAttribute('aria-invalid');
     }
-    if (!contactLooksReal(contact)){ showError(I18N.form.contactBad, contactEl); return; }
-    if (isPastDate(dateEl.value)){ showError(I18N.form.datePast, dateEl); return; }
-    clearError();
+    [nameEl, contactEl, dateEl].forEach(el => el.addEventListener('input', () => {
+      if (!errBox.hidden) clearError();
+    }));
+    // Дата зі сітки календаря приходить як change, а не input.
+    dateEl.addEventListener('change', () => { if (!errBox.hidden) clearError(); });
 
-    const formData = {
-      name: name,
-      contact: contact,
-      eventType: document.getElementById('type').value,
-      guests: document.getElementById('guests').value,
-      eventDate: document.getElementById('date').value,
-      discovery: document.getElementById('source').value,
-      comment: document.getElementById('comment').value.trim(),
-      leadId: sessionStorage.getItem('lead_id'),
-      submittedDate: new Date().toISOString().split('T')[0],
-      submittedTime: new Date().toTimeString().split(' ')[0],
-      status: 'Нова',
-    };
+    // Одне спільне повідомлення казало «вкажіть імʼя і контакт» навіть тоді, коли
+    // обидва поля заповнені, а не подобалась дата. Тепер текст називає саме те, що
+    // не так, і фокус іде в те саме поле.
+    function showError(msg, el){
+      clearError();
+      errBox.textContent = msg;
+      errBox.hidden = false;
+      if (el){ el.setAttribute('aria-invalid', 'true'); el.focus(); }
+    }
 
-    const utm = JSON.parse(sessionStorage.getItem('lead_utm') || '{}');
-    const tech = JSON.parse(sessionStorage.getItem('lead_tech') || '{}');
-    const referrer = document.referrer || '';
-    const landingPage = window.location.pathname;
-    Object.assign(formData, utm, tech, { referrer, landingPage });
+    // Навмисно поблажливо: хибно відхилений живий контакт коштує заявки, а хибно
+    // пропущений — лише одного дзвінка в нікуди. Приймаємо три форми, якими люди
+    // справді користуються, рівно ті, що обіцяє плейсхолдер поля.
+    function contactLooksReal(v){
+      const digits = v.replace(/[\s()\-+.]/g, '');
+      if (/^\d{9,}$/.test(digits)) return true;
+      if (/^@[^\s@]{2,}$/.test(v)) return true;
+      return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+    }
 
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwdSqc1-M0KmHBwIE8_EANY7dbPbqVcOmdTbl-gfDxyASabYJXW55mGQIXhlOBRRLwS/exec';
-    submitting = true;
-    submitBtn.disabled = true;
-    submitBtn.textContent = I18N.form.sending;
+    // min на полі відсікає вибір із пікера, але значення можна вписати з клавіатури
+    // повз нього — тож те саме правило повторюємо перед надсиланням.
+    function isPastDate(v){
+      const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v || '');
+      if (!m) return false;
+      const d = new Date(+m[1], +m[2]-1, +m[3]); d.setHours(0,0,0,0);
+      const t = new Date(); t.setHours(0,0,0,0);
+      return d < t;
+    }
 
-    // Раніше показ успіху стояв наступним рядком після fetch і не залежав від
-    // нього взагалі: заявка, яка не доїхала, все одно отримувала «Заявку
-    // прийнято». Тепер гілки розходяться.
-    //
-    // Межу треба знати точно: mode:'no-cors' як не давав прочитати відповідь,
-    // так і не дає — помилку на боці Apps Script (500, вичерпана квота,
-    // зламаний скрипт) ця перевірка НЕ побачить, такий запит резолвиться
-    // непрозоро й піде в .then. Ловиться обрив зв'язку: мертва мережа,
-    // заблокований запит, зниклий Wi-Fi. Це і є найчастіший реальний випадок
-    // втрати заявки — телефон у дорозі.
-    fetch(GOOGLE_SCRIPT_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(formData),
-      mode: 'no-cors'
-    }).then(() => {
-      // Клас, а не style.display: поля мусять лишити за собою місце, бо від їхніх
-      // прямокутників рахується висота календаря в лівій колонці. Деталі — у
-      // коментарі до .form-right у site.css.
-      if (typeof window.__fillCheckingDate === 'function') window.__fillCheckingDate();
-      document.getElementById('formFields').classList.add('is-sent');
-      document.getElementById('formSuccess').classList.add('show');
-      if (typeof window.__openLeadModal === 'function') window.__openLeadModal();
+    const submitBtn = document.getElementById('submitBtn');
+    const submitLabel = submitBtn.textContent;
+    let submitting = false;
 
-      // GA4: generate_lead — саме тут, у гілці успіху, а не одразу після кліку.
-      // Подія тепер рахує лише ті надсилання, які реально пішли: у звітах лідів
-      // стане трохи менше, і це правдивіша цифра, а не втрата.
-      // Жодних персональних даних: ні імʼя, ні контакт, ні коментар сюди не йдуть.
-      if (!leadEventSent && typeof gtag === 'function') {
-        leadEventSent = true;
-        gtag('event', 'generate_lead', {
-          event_type: formData.eventType,
-          guests: formData.guests,
-          discovery: formData.discovery,
-          utm_source: utm.utmSource || '',
-          utm_medium: utm.utmMedium || '',
-          utm_campaign: utm.utmCampaign || '',
-          device: tech.device || '',
-          os: tech.os || '',
-          browser: tech.browser || ''
-        });
+    submitBtn.addEventListener('click', () => {
+      if (submitting) return;
+      const name = nameEl.value.trim();
+      const contact = contactEl.value.trim();
+      if (!name || !contact){
+        clearError();
+        errBox.textContent = I18N.form.required;
+        errBox.hidden = false;
+        if (!name) nameEl.setAttribute('aria-invalid', 'true');
+        if (!contact) contactEl.setAttribute('aria-invalid', 'true');
+        (!name ? nameEl : contactEl).focus();
+        return;
       }
-    }).catch(err => {
-      console.error('Помилка при відправці заявки:', err);
-      // Введене лишається на місці. Людина вже вибрала дату й дописала коментар —
-      // змусити її зробити це вдруге найгірше саме після збою.
-      submitting = false;
-      submitBtn.disabled = false;
-      submitBtn.textContent = submitLabel;
-      showError(I18N.form.netFail, null);
+      if (!contactLooksReal(contact)){ showError(I18N.form.contactBad, contactEl); return; }
+      if (isPastDate(dateEl.value)){ showError(I18N.form.datePast, dateEl); return; }
+      clearError();
+
+      const formData = {
+        name: name,
+        contact: contact,
+        eventType: document.getElementById('type').value,
+        guests: document.getElementById('guests').value,
+        eventDate: document.getElementById('date').value,
+        discovery: document.getElementById('source').value,
+        comment: document.getElementById('comment').value.trim(),
+        leadId: sessionStorage.getItem('lead_id'),
+        submittedDate: new Date().toISOString().split('T')[0],
+        submittedTime: new Date().toTimeString().split(' ')[0],
+        status: 'Нова',
+      };
+
+      const utm = JSON.parse(sessionStorage.getItem('lead_utm') || '{}');
+      const tech = JSON.parse(sessionStorage.getItem('lead_tech') || '{}');
+      const referrer = document.referrer || '';
+      const landingPage = window.location.pathname;
+      Object.assign(formData, utm, tech, { referrer, landingPage });
+
+      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwdSqc1-M0KmHBwIE8_EANY7dbPbqVcOmdTbl-gfDxyASabYJXW55mGQIXhlOBRRLwS/exec';
+      submitting = true;
+      submitBtn.disabled = true;
+      submitBtn.textContent = I18N.form.sending;
+
+      // Раніше показ успіху стояв наступним рядком після fetch і не залежав від
+      // нього взагалі: заявка, яка не доїхала, все одно отримувала «Заявку
+      // прийнято». Тепер гілки розходяться.
+      //
+      // Межу треба знати точно: mode:'no-cors' як не давав прочитати відповідь,
+      // так і не дає — помилку на боці Apps Script (500, вичерпана квота,
+      // зламаний скрипт) ця перевірка НЕ побачить, такий запит резолвиться
+      // непрозоро й піде в .then. Ловиться обрив зв'язку: мертва мережа,
+      // заблокований запит, зниклий Wi-Fi. Це і є найчастіший реальний випадок
+      // втрати заявки — телефон у дорозі.
+      fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(formData),
+        mode: 'no-cors'
+      }).then(() => {
+        // Клас, а не style.display: поля мусять лишити за собою місце, бо від їхніх
+        // прямокутників рахується висота календаря в лівій колонці. Деталі — у
+        // коментарі до .form-right у site.css.
+        if (typeof window.__fillCheckingDate === 'function') window.__fillCheckingDate();
+        document.getElementById('formFields').classList.add('is-sent');
+        document.getElementById('formSuccess').classList.add('show');
+        if (typeof window.__openLeadModal === 'function') window.__openLeadModal();
+
+        // GA4: generate_lead — саме тут, у гілці успіху, а не одразу після кліку.
+        // Подія тепер рахує лише ті надсилання, які реально пішли: у звітах лідів
+        // стане трохи менше, і це правдивіша цифра, а не втрата.
+        // Жодних персональних даних: ні імʼя, ні контакт, ні коментар сюди не йдуть.
+        if (!leadEventSent && typeof gtag === 'function') {
+          leadEventSent = true;
+          gtag('event', 'generate_lead', {
+            event_type: formData.eventType,
+            guests: formData.guests,
+            discovery: formData.discovery,
+            utm_source: utm.utmSource || '',
+            utm_medium: utm.utmMedium || '',
+            utm_campaign: utm.utmCampaign || '',
+            device: tech.device || '',
+            os: tech.os || '',
+            browser: tech.browser || ''
+          });
+        }
+      }).catch(err => {
+        console.error('Помилка при відправці заявки:', err);
+        // Введене лишається на місці. Людина вже вибрала дату й дописала коментар —
+        // змусити її зробити це вдруге найгірше саме після збою.
+        submitting = false;
+        submitBtn.disabled = false;
+        submitBtn.textContent = submitLabel;
+        showError(I18N.form.netFail, null);
+      });
     });
-  });
+
+    })();
 
   // ---- Поява плаваючого контакту ----
-  // Кнопка чекає, доки людина дійде до середини блоку «Чому silent disco»: у
-  // першому вікні вже є лаймова «Перевірити дату», і другий заклик поруч із
-  // нею лише ділив би увагу. До того моменту її ховає CSS під html.js.
-  (function(){
-    const btn = document.querySelector('.tg-float');
-    if (!btn) return;
-    const idea = document.getElementById('idea');
-    // Якщо блоку на сторінці немає, показуємо одразу: краще кнопка без затримки,
-    // ніж кнопка, схована назавжди через відсутній орієнтир.
-    if (!idea) { btn.classList.add('is-in'); return; }
+    // Кнопка чекає, доки людина дійде до середини блоку «Чому silent disco»: у
+    // першому вікні вже є лаймова «Перевірити дату», і другий заклик поруч із
+    // нею лише ділив би увагу. До того моменту її ховає CSS під html.js.
+    (function(){
+      const btn = document.querySelector('.tg-float');
+      if (!btn) return;
+      const idea = document.getElementById('idea');
+      // Якщо блоку на сторінці немає, показуємо одразу: краще кнопка без затримки,
+      // ніж кнопка, схована назавжди через відсутній орієнтир.
+      if (!idea) { btn.classList.add('is-in'); return; }
 
-    let ticking = false;
-    function check(){
-      ticking = false;
-      const r = idea.getBoundingClientRect();
-      // Середина блоку піднялась до середини екрана.
-      if (r.top + r.height / 2 > window.innerHeight / 2) return;
-      btn.classList.add('is-in');
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
-    }
-    function onScroll(){
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(check);
-    }
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-    // Сторінку могли відкрити вже прокрученою — переходом за якорем або
-    // поверненням назад із відновленою позицією. Перевіряємо двічі: зараз і
-    // після load, бо браузер відновлює позицію не обов'язково до цього рядка,
-    // а подія scroll при відновленні гарантована не в кожному русі.
-    check();
-    window.addEventListener('load', check, { once: true });
-  })();
+      let ticking = false;
+      function check(){
+        ticking = false;
+        const r = idea.getBoundingClientRect();
+        // Середина блоку піднялась до середини екрана.
+        if (r.top + r.height / 2 > window.innerHeight / 2) return;
+        btn.classList.add('is-in');
+        window.removeEventListener('scroll', onScroll);
+        window.removeEventListener('resize', onScroll);
+      }
+      function onScroll(){
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(check);
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      // Сторінку могли відкрити вже прокрученою — переходом за якорем або
+      // поверненням назад із відновленою позицією. Перевіряємо двічі: зараз і
+      // після load, бо браузер відновлює позицію не обов'язково до цього рядка,
+      // а подія scroll при відновленні гарантована не в кожному русі.
+      check();
+      window.addEventListener('load', check, { once: true });
+    })();
 
   // Прапорець для страхувальника в <head>: він доводить, що цей файл не просто
   // доїхав, а виконався до кінця. Якщо скрипт заблокували, обірвали або він
