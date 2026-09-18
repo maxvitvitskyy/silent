@@ -2038,6 +2038,35 @@ const I18N = window.SILENT_I18N;
     });
   })();
 
+  // ---- Спільне для надісланої й недописаної заявки ----
+  // Обидва шляхи мусять слати рівно ті самі поля в тому самому порядку: у
+  // таблиці колонки фіксовані, і зайве або відсутнє поле зсуває рядок.
+  const LEAD_URL = 'https://script.google.com/macros/s/AKfycbwdSqc1-M0KmHBwIE8_EANY7dbPbqVcOmdTbl-gfDxyASabYJXW55mGQIXhlOBRRLwS/exec';
+
+  function buildLead(name, contact, status){
+    const val = (id) => { const el = document.getElementById(id); return el ? el.value : ''; };
+    const lead = {
+      name: name,
+      contact: contact,
+      eventType: val('type'),
+      guests: val('guests'),
+      eventDate: val('date'),
+      discovery: val('source'),
+      comment: (val('comment') || '').trim(),
+      leadId: sessionStorage.getItem('lead_id'),
+      submittedDate: new Date().toISOString().split('T')[0],
+      submittedTime: new Date().toTimeString().split(' ')[0],
+      status: status,
+    };
+    const utm = JSON.parse(sessionStorage.getItem('lead_utm') || '{}');
+    const tech = JSON.parse(sessionStorage.getItem('lead_tech') || '{}');
+    Object.assign(lead, utm, tech, {
+      referrer: document.referrer || '',
+      landingPage: window.location.pathname
+    });
+    return lead;
+  }
+
   // Уся робота з формою жила на верхньому рівні файла й припускала, що поля
   // існують. На сторінках без форми — як список досвідів — перше ж звертання
   // до неіснуючого поля валило site.js цілком, а з ним і все, що нижче за
@@ -2124,27 +2153,11 @@ const I18N = window.SILENT_I18N;
       if (isPastDate(dateEl.value)){ showError(I18N.form.datePast, dateEl); return; }
       clearError();
 
-      const formData = {
-        name: name,
-        contact: contact,
-        eventType: document.getElementById('type').value,
-        guests: document.getElementById('guests').value,
-        eventDate: document.getElementById('date').value,
-        discovery: document.getElementById('source').value,
-        comment: document.getElementById('comment').value.trim(),
-        leadId: sessionStorage.getItem('lead_id'),
-        submittedDate: new Date().toISOString().split('T')[0],
-        submittedTime: new Date().toTimeString().split(' ')[0],
-        status: 'Нова',
-      };
-
+      const formData = buildLead(name, contact, 'Нова');
       const utm = JSON.parse(sessionStorage.getItem('lead_utm') || '{}');
       const tech = JSON.parse(sessionStorage.getItem('lead_tech') || '{}');
-      const referrer = document.referrer || '';
-      const landingPage = window.location.pathname;
-      Object.assign(formData, utm, tech, { referrer, landingPage });
 
-      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwdSqc1-M0KmHBwIE8_EANY7dbPbqVcOmdTbl-gfDxyASabYJXW55mGQIXhlOBRRLwS/exec';
+      const GOOGLE_SCRIPT_URL = LEAD_URL;
       submitting = true;
       submitBtn.disabled = true;
       submitBtn.textContent = I18N.form.sending;
@@ -2202,7 +2215,51 @@ const I18N = window.SILENT_I18N;
       });
     });
 
+  
+    // ---- Недописана заявка ----
+    // Людина ввела контакт, але пішла, не натиснувши кнопку. Зберігаємо введене
+    // зі статусом «Не надіслана», щоб можна було передзвонити. Ця практика
+    // описана в політиці конфіденційності — саме тому вона й зʼявилась.
+    //
+    // sendBeacon, а не fetch: при закритті вкладки браузер обриває звичайні
+    // запити, а маячок він зобовʼязаний доставити. fetch з keepalive лишається
+    // запасним шляхом для старих рушіїв.
+    //
+    // visibilitychange, а не beforeunload: на iOS beforeunload не спрацьовує
+    // при закритті вкладки взагалі, і саме мобільні випадки губилися б.
+    (function(){
+      let sentKey = '';
+
+      function maybeSave(){
+        if (submitting || leadEventSent) return;          // вже надіслано по-справжньому
+        const name = nameEl.value.trim();
+        const contact = contactEl.value.trim();
+        // Без контакту звертатися нема куди, а кривий контакт — це сміття в
+        // таблиці. Той самий поблажливий фільтр, що й на кнопці.
+        if (!contact || !contactLooksReal(contact)) return;
+        // Один запис на один набір даних: перемикання вкладок туди-сюди не має
+        // класти в таблицю десять однакових рядків.
+        const key = name + '|' + contact + '|' + (document.getElementById('date') || {}).value;
+        if (key === sentKey) return;
+        sentKey = key;
+
+        const body = JSON.stringify(buildLead(name, contact, 'Не надіслана'));
+        try {
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon(LEAD_URL, new Blob([body], { type: 'text/plain;charset=utf-8' }));
+          } else {
+            fetch(LEAD_URL, { method: 'POST', body: body, mode: 'no-cors', keepalive: true,
+                              headers: { 'Content-Type': 'text/plain;charset=utf-8' } });
+          }
+        } catch (e) { /* мовчки: це фоновий запис, він не має нічого ламати */ }
+      }
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') maybeSave();
+      });
+      window.addEventListener('pagehide', maybeSave);
     })();
+  })();
 
   // ---- Поява плаваючого контакту ----
     // Кнопка чекає, доки людина дійде до середини блоку «Чому silent disco»: у

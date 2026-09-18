@@ -105,6 +105,10 @@ SWITCH_EN = """    <span class="lang-switch" role="group" aria-label="Site langu
 # застосовуються від найдовших до найкоротших, щоб короткий рядок не з'їв
 # частину довшого.
 T = {
+'Натискаючи, ви погоджуєтесь, що ми зв’яжемося з вами щодо події. Якщо ви заповните контакт і не надішлете заявку, введене теж зберігається — ':
+ 'By sending this you agree that we may contact you about your event. If you fill in a contact and do not send the request, what you typed is still saved — ',
+'як саме, написано в політиці': 'the privacy policy explains how',
+'Політика конфіденційності': 'Privacy policy',
 'Написати нам у Telegram': 'Message us on Telegram',
 'Написати нам': 'Message us',
 # --- меню й підвал -------------------------------------------------------
@@ -941,6 +945,7 @@ def stamp_files():
     # Сторінки досвідів теж проходять через версіонування: вони тягнуть той
     # самий site.css і site.js, і без позначки лишалися б зі старими копіями.
     extra = [os.path.join(ROOT, rel) for rel in EXPERIENCE_PAGES]
+    extra.append(os.path.join(ROOT, 'privacy', 'index.html'))
     for path in [SRC, DST, SRC404, DST404] + extra:
         if not os.path.exists(path):
             continue
