@@ -4171,3 +4171,57 @@
     transition: border-color .2s ease;
   }
   .legal a:hover { border-bottom-color: var(--lime); }
+
+  /* ---------- Блок переваг із мальованими іконками ---------- */
+  /* Іконки намальовані, а не емодзі: емодзі малюються по-різному на кожній
+     системі, збиваються з кольору сторінки й видають шаблон. Обводка 1.15 і
+     круглі кінці — той самий словник, що в .b-icon на головній. */
+  .feat-grid {
+    display: grid;
+    /* Рівно три колонки на широкому екрані, а не auto-fit: карток шість, і при
+       автопідборі на 1440 вони лягали 4+2 з діркою в останньому ряду. Три дають
+       два повні ряди. Нижче сітка сама переходить у дві колонки й одну. */
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(16px, 2vw, 26px);
+  }
+  @media (max-width: 980px){ .feat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 620px){ .feat-grid { grid-template-columns: 1fr; } }
+  .feat {
+    padding: clamp(24px, 3vh, 32px);
+    border: 1px solid var(--line);
+    border-top-color: var(--glass-edge);
+    border-radius: var(--r-md);
+    background: var(--glass-fill-dark);
+  }
+  .feat-icon { width: 34px; height: 34px; margin-bottom: 18px; color: var(--lime); }
+  .feat-icon svg { width: 100%; height: 100%; display: block; }
+  .feat h3 {
+    font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: 17px;
+    letter-spacing: -0.01em; line-height: 1.25; margin: 0 0 10px;
+  }
+  .feat p { font-size: 15px; line-height: 1.58; color: var(--muted); margin: 0; }
+
+  /* Абзац одразу після виділеного рядка продовжує його, тож без відступу зверху. */
+  .exp-after-pull {
+    font-size: clamp(15.5px, 1.5vw, 18px); line-height: 1.62;
+    color: var(--muted); max-width: 62ch; margin: -18px 0 0;
+  }
+
+  /* ---------- Відгуки ---------- */
+  /* Без зірок, аватарів і нахилів: це три короткі репліки, і будь-яка додаткова
+     атрибутика додавала б ваги тому, чого в них немає. */
+  .quote-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: clamp(16px, 2vw, 26px);
+  }
+  .quote { margin: 0; padding: clamp(24px, 3vh, 32px) 0 0; border-top: 1px solid var(--line); }
+  .quote blockquote {
+    margin: 0 0 14px;
+    font-family: 'Lora', Georgia, serif; font-style: italic;
+    font-size: clamp(16px, 1.6vw, 19px); line-height: 1.52; color: var(--ink-inv);
+  }
+  .quote figcaption { font-size: 13px; color: var(--muted-2); }
+
+  .exp-ready { padding-bottom: 0; }
+  .exp-ready-note { color: var(--muted-2) !important; margin-top: 10px !important; }
