@@ -4419,3 +4419,19 @@
   .tst-static .tst-card { min-height: 210px; padding: 30px 28px; }
   .tst-static .tst-quote { font-size: 15px; line-height: 1.55; }
   .tst-static .tst-author { margin-top: auto; }
+
+  /* ---------- Картка без фотографії ---------- */
+  /* Доки знімка немає, місце під нього займає тематична іконка, а не порожнє
+     поле: порожнеча читалась як зламане зображення. Іконка мальована в тій
+     самій манері, що решта на сайті, і одразу каже, про що картка. */
+  .uc-ph {
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+    background:
+      radial-gradient(120% 120% at 50% 0%, rgba(198,255,0,0.07), transparent 62%),
+      var(--night-2);
+    color: rgba(198,255,0,0.42);
+  }
+  .uc-ph svg { width: 34%; max-width: 78px; height: auto; }
+  .uc-card:hover .uc-ph { color: rgba(198,255,0,0.62); }
+  .uc-ph, .uc-card:hover .uc-ph { transition: color 0.3s ease; }
