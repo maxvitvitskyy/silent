@@ -59,7 +59,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="../../assets/site.css?v=2dbade10">
+<link rel="stylesheet" href="../../assets/site.css?v=69d2f27f">
 </head>
 <body id="top">
 
@@ -93,9 +93,10 @@
       <a href="#price" class="btn-ghost">Порахувати вартість</a>
     </div>
     <ul class="exp-facts">
-      <li><b>3</b><span>канали одночасно</span></li>
-      <li><b>Офіс, тераса, ресторан</b><span>або будь-яка інша локація</span></li>
-      <li><b>Без шуму</b><span>для сусідів</span></li>
+      <li><b class="f-ch"><i style="--ch:var(--red)">RED</i><i style="--ch:var(--green)">GREEN</i><i style="--ch:var(--blue)">BLUE</i></b><span>три канали одночасно</span></li>
+      <li><b>Офіс, лофт, дах</b><span>або будь-яка локація</span></li>
+      <li><b>Тиша для сусідів</b><span>музика лише в навушниках</span></li>
+      <li><b>Від 40 навушників</b><span>мінімальний комплект</span></li>
     </ul>
   </div>
 </section>
@@ -103,24 +104,23 @@
 <!-- ПРО ФОРМАТ -->
 <section class="exp-section" id="about">
   <div class="wrap">
-    <h2 class="exp-h2 reveal">Незвичайний корпоративний формат</h2>
-    <p class="exp-standfirst reveal">Хочете трохи розрядити атмосферу в команді та влаштувати корпоратив, який справді запамʼятається? Спробуйте Silent Disco.</p>
-
-    <div class="exp-spread">
-      <div class="exp-columns reveal">
-        <p>Новий рік, день народження компанії, тімбілдинг, корпоративний виїзд або просто вечірка для команди — Silent Disco легко адаптувати під ваш формат.</p>
+    <div class="exp-duo">
+      <div class="exp-duo-left reveal">
+        <h2 class="exp-h2">Незвичайний корпоративний формат</h2>
+        <p class="exp-standfirst">Хочете трохи розрядити атмосферу в команді та влаштувати корпоратив, який справді запамʼятається? Спробуйте Silent Disco.</p>
+      </div>
+      <div class="exp-duo-right reveal">
+        <p class="exp-duo-open">Новий рік, день народження компанії, тімбілдинг, корпоративний виїзд або просто вечірка для команди — Silent Disco легко адаптувати під ваш формат.</p>
         <p>Музика звучить у навушниках, а не в колонках. Тому вечірку можна провести в офісі, на терасі, у ресторані, заміському комплексі чи просто неба — без гучної музики для сусідів.</p>
+        <p class="exp-duo-mark">А ще кожен гість може сам обрати, що слухати.</p>
         <p>Наші навушники підтримують до трьох музичних каналів, тому різні музичні смаки більше не проблема.</p>
       </div>
-      <aside class="exp-aside reveal">
-        <p class="exp-pull">А ще кожен гість може сам обрати, що слухати.</p>
-      </aside>
     </div>
   </div>
 </section>
 
 <!-- ЩО ЦЕ ДАЄ -->
-<section class="exp-section exp-section-alt" id="features">
+<section class="exp-section exp-feat-part" id="features">
   <div class="wrap">
     <h2 class="exp-h2 reveal">Що це дає вашій команді</h2>
     <div class="feat-grid">
@@ -434,19 +434,21 @@
 <section class="exp-section" id="reviews">
   <div class="wrap">
     <h2 class="exp-h2 reveal">Що кажуть наші клієнти</h2>
-    <div class="quote-spread">
-      <figure class="quote quote-lead reveal">
-        <blockquote>Спочатку всі просто цікавилися, як це працює. А через годину вже ніхто не хотів знімати навушники.</blockquote>
-        <figcaption>клієнт Silent Disco</figcaption>
-      </figure>
-      <figure class="quote reveal">
-        <blockquote>Найсмішніше — дивитися на людей збоку. Всі танцюють, а навколо майже повна тиша.</blockquote>
-        <figcaption>клієнт Silent Disco</figcaption>
-      </figure>
-      <figure class="quote reveal">
-        <blockquote>Дуже зручно, що можна провести вечірку навіть там, де звичайну гучну музику використовувати не можна.</blockquote>
-        <figcaption>клієнт Silent Disco</figcaption>
-      </figure>
+    <div class="tst-wrap tst-static">
+      <div class="tst-strip">
+        <article class="tst-card reveal">
+          <p class="tst-quote">Спочатку всі просто цікавилися, як це працює. А через годину вже ніхто не хотів знімати навушники.</p>
+          <div class="tst-author"><div class="tst-role">клієнт Silent Disco</div></div>
+        </article>
+        <article class="tst-card reveal">
+          <p class="tst-quote">Найсмішніше — дивитися на людей збоку. Всі танцюють, а навколо майже повна тиша.</p>
+          <div class="tst-author"><div class="tst-role">клієнт Silent Disco</div></div>
+        </article>
+        <article class="tst-card reveal">
+          <p class="tst-quote">Дуже зручно, що можна провести вечірку навіть там, де звичайну гучну музику використовувати не можна.</p>
+          <div class="tst-author"><div class="tst-role">клієнт Silent Disco</div></div>
+        </article>
+      </div>
     </div>
   </div>
 </section>
@@ -552,7 +554,6 @@
     <div class="band band-bare reveal">
       <h2>Готові спробувати?</h2>
       <p>Розкажіть нам про свій корпоратив — кількість гостей, дату та локацію. Ми підберемо оптимальний комплект Silent Disco та розрахуємо вартість для вашої події.</p>
-      <p class="exp-ready-note">А далі залишиться тільки одне питання: під який канал танцюватиме ваша команда?</p>
     </div>
   </div>
 </section>

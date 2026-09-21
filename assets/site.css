@@ -4326,3 +4326,96 @@
     .exp-columns { columns: 1; }
     .exp-aside { border-top-width: 1px; }
   }
+
+  /* ================= ДООПРАЦЮВАННЯ СТОРІНКИ ДОСВІДУ ================= */
+
+  /* ---------- Смуга фактів у герої ---------- */
+  /* На всю ширину й обмежена лініями згори та знизу — це підсумок першого
+     екрана, а не приписка збоку від тексту. Чотири пункти навмисно близькі за
+     довжиною заголовків: нерівні довжини робили з рядка гребінку. */
+  @media (min-width: 901px) {
+    .exp-cover-mag .exp-facts {
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0 clamp(20px, 2.4vw, 40px);
+      max-width: none; width: 100%;
+    }
+  }
+  .exp-facts {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 20px 0;
+  }
+  /* Три канали названі своїми іменами й своїми кольорами: сама цифра «3» нічого
+     не показувала, а тут одразу видно, що саме їх три і які вони. */
+  .exp-facts .f-ch { display: flex; flex-wrap: wrap; gap: 0 10px; align-items: baseline; }
+  .exp-facts .f-ch i {
+    font-style: normal; color: var(--ch);
+    font-family: 'Unbounded', sans-serif; font-weight: 700;
+    font-size: clamp(15px, 1.5vw, 19px); letter-spacing: 0.01em;
+  }
+
+  /* ---------- Дві колонки у вступному розділі ---------- */
+  .exp-duo {
+    display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+    gap: clamp(30px, 5vw, 86px); align-items: start;
+  }
+  .exp-duo-left .exp-h2 { margin-bottom: 20px; }
+  .exp-duo-left .exp-standfirst { margin: 0; max-width: 26ch; }
+  /* Права колонка має власну ієрархію: перший абзац крупніший за решту, а
+     ключове речення винесене на лаймову лінію. Інакше це була б рівна стіна
+     тексту, у якій усі речення важать однаково. */
+  .exp-duo-right p { font-size: 15.5px; line-height: 1.64; color: var(--muted); margin: 0 0 16px; }
+  .exp-duo-right p:last-child { margin-bottom: 0; }
+  .exp-duo-open { font-size: 17px !important; color: var(--ink-inv) !important; }
+  .exp-duo-mark {
+    color: var(--ink-inv) !important;
+    font-family: 'Unbounded', sans-serif; font-weight: 500;
+    font-size: clamp(16px, 1.6vw, 19px) !important; line-height: 1.34 !important;
+    border-left: 1px solid var(--lime); padding-left: 18px;
+    margin: 24px 0 24px !important;
+  }
+
+  /* ---------- «Що це дає» як продовження, а не окремий блок ---------- */
+  /* Без власного тла й без жорсткої межі: розділ читається далі тим самим
+     диханням, а не починається наново. */
+  .exp-feat-part { padding-top: clamp(40px, 6vh, 72px); }
+  .exp-feat-part .exp-h2 { margin-bottom: clamp(28px, 4vh, 44px); }
+
+  /* ---------- Стрічка форматів: без стрілок ---------- */
+  /* Дві смужки внизу ліворуч — це стрілки гортання, які на цій сторінці нікуди
+     не ведуть оком: стрічка й так гортається пальцем і колесом. */
+  .exp-more .uc-arrow { display: none; }
+
+  /* ---------- Відгуки в манері головної ---------- */
+  /* Ті самі картки, що на головній, але три й нерухомі: гортати нема чого.
+     Зірок немає навмисно — оцінок разом із цими репліками нам не давали, а
+     домалювати п'ять зірок означало б вигадати дані. */
+  .tst-static { margin-top: clamp(28px, 4vh, 44px); }
+  .tst-static .tst-strip {
+    display: flex; flex-wrap: nowrap;
+    overflow: visible; padding: 34px 0 44px;
+  }
+  .tst-static > .tst-strip > .tst-card { flex: 1 1 0; }
+  .tst-static::before, .tst-static::after { display: none; }
+  @media (max-width: 860px) {
+    /* На вузькому нашарування з'їдає текст: картки стають одна під одною. */
+    .tst-static .tst-strip { flex-direction: column; gap: 16px; padding: 10px 0 0; }
+    .tst-static > .tst-strip > .tst-card,
+    .tst-static > .tst-strip > .tst-card:nth-child(even) { transform: none; margin-left: 0; }
+  }
+
+  @media (max-width: 900px) {
+    .exp-duo { grid-template-columns: 1fr; }
+    .exp-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 24px; }
+  }
+
+  /* Назви каналів мусять важити стільки ж, скільки сусідні заголовки в смузі:
+     інакше перший пункт читається як підпис, а не як факт. */
+  .exp-facts .f-ch i { font-size: clamp(17px, 1.9vw, 23px); }
+
+  /* Картка відгуку тут несе лише репліку й підпис — без зірок і аватара, тож
+     без мінімальної висоти вона сплющувалась удвічі проти головної, і нахил із
+     нашаруванням не мали на чому показатись. */
+  .tst-static .tst-card { min-height: 210px; padding: 30px 28px; }
+  .tst-static .tst-quote { font-size: 15px; line-height: 1.55; }
+  .tst-static .tst-author { margin-top: auto; }
