@@ -3944,7 +3944,16 @@
     /* Бокового градієнта тут не треба: композиції «текст ліворуч, обличчя
        праворуч» на телефоні не існує, а темний лівий край просто ховав знімок. */
     .exp-cover-veil {
-      background: linear-gradient(180deg, rgba(10,10,11,0.82) 0%, rgba(10,10,11,0.30) 34%, rgba(10,10,11,0.86) 86%, var(--night) 100%);
+      /* Текст на телефоні займає верхні ~45% кадру, тож саме там вуаль мусить
+         тримати щільність. Світле вікно лишається нижче, між текстом і низом —
+         знімок там читається як люди, а не як темна текстура. */
+      background: linear-gradient(180deg,
+        rgba(10,10,11,0.88) 0%,
+        rgba(10,10,11,0.80) 30%,
+        rgba(10,10,11,0.54) 48%,
+        rgba(10,10,11,0.24) 64%,
+        rgba(10,10,11,0.82) 88%,
+        var(--night) 100%);
     }
     .exp-section { padding: 64px 0; }
     .exp-title { font-size: clamp(31px, 9.4vw, 44px); max-width: 13ch; }
@@ -4225,3 +4234,95 @@
 
   .exp-ready { padding-bottom: 0; }
   .exp-ready-note { color: var(--muted-2) !important; margin-top: 10px !important; }
+
+  /* ================= ЖУРНАЛЬНА КОМПОЗИЦІЯ СТОРІНКИ ДОСВІДУ ================= */
+  /* Світ і структура ті самі. Змінюється лише те, як текст стоїть у кадрі:
+     замість рівномірного затемнення — визначене темне поле, через край якого
+     переходить заголовок; замість одного стовпця — вступ, дві колонки й врізка
+     на полі. Це журнальні прийоми, і вони не чіпають ні порядок розділів, ні
+     формулювання. */
+
+  /* ---------- Обкладинка ---------- */
+  /* Раніше вуаль рівно гасила весь кадр, і знімок був однаково тьмяний скрізь.
+     Тепер ліворуч суцільне поле ночі з коротким спадом, праворуч знімок майже
+     чистий — як розворот, де текст лежить на фарбі, а фотографія дихає. */
+  @media (min-width: 901px) {
+    .exp-cover-mag .exp-cover-veil {
+      background:
+        linear-gradient(180deg, rgba(10,10,11,0.72) 0%, rgba(10,10,11,0.12) 30%, rgba(10,10,11,0.30) 72%, var(--night) 100%),
+        linear-gradient(90deg, var(--night) 0%, var(--night) 34%, rgba(10,10,11,0.86) 46%, rgba(10,10,11,0.28) 62%, rgba(10,10,11,0.06) 100%);
+    }
+    .exp-cover-mag .exp-cover-shot { background-position: 78% 40%; }
+    /* Заголовок навмисно ширший за темне поле: його хвіст лягає на знімок, і
+       саме цей перехід робить композицію розворотом, а не колонкою на тлі. */
+    .exp-cover-mag .exp-title { max-width: none; width: min(62vw, 980px); }
+    .exp-cover-mag .exp-lead { max-width: 44%; }
+    /* Три колонки, а не рядок із переносами: «Офіс, тераса, ресторан» довший за
+       сусідів, і в рядку він ламав трійку на 2+1. У колонках кожен факт має
+       свою смугу й переноситься всередині неї, не зачіпаючи інших. */
+    .exp-cover-mag .exp-facts {
+      display: grid; grid-template-columns: auto 1fr auto;
+      gap: 0 clamp(26px, 3vw, 52px);
+      max-width: 62%;
+    }
+  }
+
+  /* Два ваги в одному заголовку: назва продукту важка, уточнення легке. Одна
+     родина, різна вага — контраст, який не потребує другого шрифту. */
+  .exp-title .t-lead,
+  .exp-title .t-sub { display: block; }
+  .exp-title .t-sub {
+    font-weight: 300;
+    font-size: 0.66em;
+    letter-spacing: -0.02em;
+    color: var(--muted);
+    margin-top: 0.06em;
+  }
+
+  /* ---------- Вступ і дві колонки ---------- */
+  /* Вступний абзац крупніший за основний текст — так журнал відділяє «про що
+     це» від самого тексту, не вдаючись до ярлика над заголовком. */
+  .exp-standfirst {
+    font-size: clamp(19px, 2.3vw, 29px); line-height: 1.38; letter-spacing: -0.015em;
+    color: var(--ink-inv); max-width: 30ch;
+    margin: 0 0 clamp(32px, 4.5vh, 52px);
+  }
+  .exp-spread {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.42fr);
+    gap: clamp(28px, 4vw, 72px); align-items: start;
+  }
+  /* Дві колонки тільки там, де текст короткий: три абзаци вкладаються в один
+     екран, тож читач не мусить вертатися вгору по другу колонку. Це єдина
+     умова, за якої газетний набір на екрані працює. */
+  .exp-columns { columns: 2; column-gap: clamp(24px, 3vw, 44px); }
+  .exp-columns p {
+    font-size: 15.5px; line-height: 1.62; color: var(--muted);
+    margin: 0 0 15px; break-inside: avoid;
+  }
+  .exp-columns p:last-child { margin-bottom: 0; }
+
+  /* Врізка стоїть на полі, а не в потоці — так її читають як репліку збоку. */
+  .exp-aside { border-top: 1px solid var(--lime); padding-top: 18px; }
+  .exp-aside .exp-pull {
+    border: 0; padding: 0; margin: 0;
+    font-size: clamp(18px, 1.9vw, 24px); line-height: 1.3; max-width: none;
+  }
+
+  /* ---------- Відгуки ---------- */
+  /* Не три однакові картки: перша репліка велика й на всю ширину, дві інші —
+     під нею меншим кеглем. Це та сама ієрархія, що в журналі між винесеною
+     цитатою і підписами до неї. */
+  .quote-spread { display: grid; gap: clamp(26px, 3.4vw, 46px); }
+  .quote-spread .quote-lead { grid-column: 1 / -1; }
+  .quote-spread .quote-lead blockquote { font-size: clamp(22px, 3.1vw, 40px); line-height: 1.24; }
+  .quote-spread .quote-lead { border-top-color: rgba(198,255,0,0.5); }
+  @media (min-width: 761px) {
+    .quote-spread { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .quote-spread .quote-lead blockquote { max-width: 22ch; }
+  }
+
+  @media (max-width: 900px) {
+    .exp-spread { grid-template-columns: 1fr; }
+    .exp-columns { columns: 1; }
+    .exp-aside { border-top-width: 1px; }
+  }
