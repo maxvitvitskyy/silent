@@ -4420,6 +4420,97 @@
   .tst-static .tst-quote { font-size: 15px; line-height: 1.55; }
   .tst-static .tst-author { margin-top: auto; }
 
+  /* ---------- Hero з метрикою (велика цифра) ---------- */
+  .exp-cover-hero-metric .exp-cover-inner { display: flex; flex-direction: column; align-items: flex-start; }
+
+  .exp-hero-metric {
+    margin-bottom: 44px;
+    display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
+  }
+  .exp-metric-number {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(120px, 18vw, 200px);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--lime);
+    text-shadow: 0 0 40px rgba(198, 255, 0, 0.25);
+  }
+  .exp-metric-label {
+    font-size: clamp(14px, 2.2vw, 18px);
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: -0.02em;
+  }
+
+  @media (max-width: 860px) {
+    .exp-metric-number { font-size: 80px; }
+    .exp-metric-label { font-size: 14px; }
+  }
+
+  /* ---------- Сценарій вечірки: 4 кроки ---------- */
+  .exp-scenario { padding: clamp(60px, 10vh, 100px) 0; }
+
+  .scenario-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: clamp(24px, 4vw, 40px);
+    margin-top: clamp(40px, 6vh, 60px);
+  }
+  .scenario-step {
+    position: relative;
+    padding: clamp(24px, 4vw, 32px);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: rgba(14, 14, 15, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: all 0.35s ease;
+  }
+  .scenario-step:hover {
+    border-color: var(--lime);
+    background: rgba(14, 14, 15, 0.6);
+  }
+
+  .step-num {
+    position: absolute; top: clamp(12px, 2vw, 20px); right: clamp(16px, 3vw, 24px);
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(32px, 8vw, 48px);
+    font-weight: 700;
+    color: rgba(198, 255, 0, 0.15);
+    line-height: 1;
+  }
+
+  .scenario-step h3 {
+    font-size: clamp(16px, 2.5vw, 20px);
+    font-weight: 700;
+    color: var(--lime);
+    margin-bottom: 12px;
+    margin-top: 8px;
+  }
+  .scenario-step p {
+    font-size: clamp(13px, 1.8vw, 15px);
+    line-height: 1.6;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .step-icon {
+    position: absolute; bottom: clamp(16px, 3vw, 24px); right: clamp(16px, 3vw, 24px);
+    width: clamp(40px, 8vw, 56px);
+    height: clamp(40px, 8vw, 56px);
+    opacity: 0.2;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .step-icon svg { width: 100%; height: 100%; stroke: currentColor; }
+
+  @media (max-width: 720px) {
+    .scenario-steps { grid-template-columns: 1fr; }
+    .scenario-step { padding: 20px; }
+    .step-num { font-size: 28px; }
+    .scenario-step h3 { font-size: 16px; margin-bottom: 10px; }
+    .scenario-step p { font-size: 13px; }
+  }
+
   /* ---------- Картка без фотографії ---------- */
   /* Доки знімка немає, місце під нього займає тематична іконка, а не порожнє
      поле: порожнеча читалась як зламане зображення. Іконка мальована в тій
