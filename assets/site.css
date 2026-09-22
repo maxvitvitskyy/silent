@@ -4950,3 +4950,54 @@
   nav { will-change: backdrop-filter; }
   .exp-cover-gallery .btn-ghost { will-change: backdrop-filter; }
   .exp-cover-gallery .gallery-columns { transform: translateZ(0); }
+
+
+  /* ---------- Корпоративна тиха дискотека: знімки + текст ---------- */
+  .exp-story-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(28px, 4.5vw, 72px);
+    align-items: center;
+  }
+  /* Великий знімок тримає обидва рядки, два менші стоять стовпчиком
+     праворуч від нього. Рядки рівні, тож висоту задає саме він. */
+  .exp-story-shots {
+    display: grid;
+    grid-template-columns: 1.12fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: clamp(10px, 1.1vw, 16px);
+  }
+  .exp-story-shots img {
+    display: block; width: 100%; height: 100%;
+    object-fit: cover;
+    border-radius: clamp(16px, 1.8vw, 26px);
+  }
+  .exp-story-shots .s-main { grid-row: 1 / span 2; aspect-ratio: 3 / 4; height: 100%; }
+  .story-eyebrow {
+    font-family: 'Unbounded', sans-serif; font-weight: 600;
+    font-size: clamp(10.5px, 0.8vw, 12px);
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--lime);
+    margin: 0 0 clamp(14px, 2vh, 20px);
+  }
+  .exp-story-text { container-type: inline-size; }
+  /* Розмір міряється від колонки, а не від екрана: на 52px рядок
+     «для корпоративних» просив 641px при колонці 603, і «для» лишалось
+     самотнім посеред заголовка. 7.8cqw тримає його цілим на всіх ширинах. */
+  .exp-story .exp-h2 {
+    max-width: none;
+    font-size: min(7.8cqw, 47px);
+    margin-bottom: clamp(20px, 3vh, 30px);
+  }
+  .exp-story-text p + p { margin-top: clamp(14px, 2vh, 20px); }
+  .exp-story-text p:not(.story-eyebrow) {
+    font-size: clamp(15px, 1.35vw, 17.5px); line-height: 1.62;
+    color: var(--muted); max-width: 54ch; margin-bottom: 0;
+  }
+
+  /* На вужчому екрані колонки лягають одна під одну, а знімки лишаються
+     колажем: три в ряд там читались би як смужка. */
+  @media (max-width: 900px) {
+    .exp-story-grid { grid-template-columns: minmax(0, 1fr); gap: clamp(26px, 4vh, 40px); }
+    .exp-story-shots .s-main { aspect-ratio: 4 / 5; }
+  }
