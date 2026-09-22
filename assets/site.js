@@ -2430,6 +2430,47 @@ const I18N = window.SILENT_I18N;
     sync();
   })();
 
+  // Підсвітка карток за курсором. Саму плашку малює CSS, звідси приходять
+  // тільки координати. Слухач один на документ, а не по одному на картці:
+  // їх на сторінці до сорока. Читання розмірів і запис властивостей зведені
+  // в один кадр — інакше кожен рух миші змушував би браузер рахувати
+  // розкладку просто посеред обробника.
+  (function(){
+    if (!window.matchMedia) return;
+    if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    // Хто просив менше руху, дістає нерухому пляму по центру картки: її
+    // малює те саме правило зі значеннями --spot-x/--spot-y за умовчанням.
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const SEL = '.uc-card, .benefit-card, .pb-card:not(.pb-card-accent)';
+    let card = null, cx = 0, cy = 0, queued = false;
+
+    function draw(){
+      queued = false;
+      if (!card) return;
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--spot-x', (cx - r.left).toFixed(1) + 'px');
+      card.style.setProperty('--spot-y', (cy - r.top).toFixed(1) + 'px');
+    }
+
+    document.addEventListener('pointermove', function(e){
+      if (e.pointerType && e.pointerType !== 'mouse') return;
+      const hit = e.target && e.target.closest ? e.target.closest(SEL) : null;
+      if (hit !== card){
+        // Картка, яку лишили, вертається до свого центру: інакше наступного
+        // разу вона спалахнула б із плямою там, де курсор пішов геть.
+        if (card){
+          card.style.removeProperty('--spot-x');
+          card.style.removeProperty('--spot-y');
+        }
+        card = hit;
+      }
+      if (!card) return;
+      cx = e.clientX; cy = e.clientY;
+      if (!queued){ queued = true; requestAnimationFrame(draw); }
+    }, { passive: true });
+  })();
+
   // Прапорець для страхувальника в <head>: він доводить, що цей файл не просто
   // доїхав, а виконався до кінця. Якщо скрипт заблокували, обірвали або він
   // упав десь вище, прапорця не буде — і страхувальник знімає клас js, після

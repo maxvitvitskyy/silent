@@ -2854,8 +2854,18 @@
   }
   /* Те саме, що й при наведенні: обводка спалахує, коли картка проходить
      середину екрана, і гасне, щойно її змінює наступна. */
-  .benefit-card:hover,
-  .benefit-card.is-lit { border-color: var(--ch); transform: translateY(-4px); box-shadow: var(--glass-shadow-2), 0 0 40px -22px var(--ch-glow), inset 0 1px 0 rgba(255,255,255,0.1); }
+  /* Підсвітка на прокрутці лишилась тільки там, де курсора нема: пальцем
+     інакше картки стояли б мертві, бо навести нема чим. На миші вона
+     заважала — підсвічувала картку, повз яку тільки проїхали, одночасно з
+     фоновим градієнтом, що теж іде за мишею. На десктопі картка тепер
+     відповідає однією річчю: дугою на обводці рівно там, де вказівник.
+     Ні спалаху рамки, ні підйому — усе це тягнуло увагу на себе. */
+  @media (hover: none), (pointer: coarse) {
+    .benefit-card.is-lit {
+      border-color: var(--ch); transform: translateY(-4px);
+      box-shadow: var(--glass-shadow-2), 0 0 40px -22px var(--ch-glow), inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+  }
   /* Прозорість картки була підібрана під фото, яке тут стояло раніше: скло
      навмисно зробили світлим, щоб крізь нього читався знімок натовпу. Замість
      фото тепер яскраві плями, і на тій самій прозорості вони світили крізь
@@ -2980,8 +2990,12 @@
     box-shadow: var(--glass-shadow-1), inset 0 1px 0 rgba(255,255,255,0.07);
     transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
   }
+  /* Обводки під курсором тут навмисно нема. Раніше вона спалахувала лаймовою
+     по всьому периметру й забирала всю увагу — підсвітка під вказівником на
+     її тлі не читалась зовсім. Тепер за наведення відповідає сама підсвітка:
+     пляма всередині й дуга на рамці рівно там, де стоїть курсор. Підйом і
+     тінь лишились — вони кажуть, що картку можна взяти. */
   .uc-card:hover {
-    border-color: var(--lime);
     transform: translateY(-3px);
     box-shadow: var(--glass-shadow-2), 0 0 40px -18px var(--lime-glow), inset 0 1px 0 rgba(255,255,255,0.09);
   }
@@ -5410,4 +5424,60 @@
       left: 0; right: 0; top: 50%;
       height: 44px; transform: translateY(-50%);
     }
+  }
+
+  /* ── Підсвітка за курсором ──────────────────────────────────────────────
+     Картка ловить світло там, де стоїть вказівник. Колір не власний, а --ch —
+     той самий канальний токен, що веде плями у футері, тож підсвітка міняє
+     відтінок разом із каналом.
+
+     Шарів було два — дуга на обводці й пляма всередині, — але пляма лишилась
+     тільки в бенто. Під картками вражень і досвідів лежить аврора, яка вже
+     йде за мишею; друге світло під курсором читалось як збій, а не як
+     відповідь картки. Під бенто аврори нема, там пляма єдина й доречна.
+
+     Радіус дуги міряється від картки, а не від сторінки. На спільних 260px
+     коло виходило ширшим за картку досвіду (272px): світло лягало по всьому
+     периметру рівно й переставало читатись як рух — ведеш мишею, а нічого
+     не змінюється. Згасання має вміщатись усередині картки.
+
+     Лаймова акцентна картка бенто поза грою: на світлому тлі сяйва не видно.
+
+     Шари лежать поверх вмісту, не під ним. Під вміст довелося б класти через
+     position на кожному нащадку, а серед нащадків карток досвідів є
+     абсолютно спозиціоновані — правило зламало б їм розкладку. Поверх
+     безпечно: вони наскрізні для миші. */
+  :is(.uc-card, .benefit-card, .pb-card:not(.pb-card-accent)) {
+    --spot-x: 50%; --spot-y: 50%; --spot-ring-r: 260px;
+  }
+  .uc-card { --spot-ring-r: 150px; }
+  .benefit-card { --spot-ring-r: 200px; }
+  .pb-card { position: relative; }
+
+  :is(.uc-card, .benefit-card, .pb-card:not(.pb-card-accent))::after,
+  .pb-card:not(.pb-card-accent)::before {
+    content: ''; position: absolute; inset: 0; z-index: 3;
+    border-radius: inherit; pointer-events: none;
+    opacity: 0; transition: opacity 0.4s ease;
+  }
+  /* Дуга: та сама пляма, але лишається сама рамка — маска вирізає все, крім
+     смужки завтовшки в padding. */
+  :is(.uc-card, .benefit-card, .pb-card:not(.pb-card-accent))::after {
+    padding: 1.5px;
+    background: radial-gradient(var(--spot-ring-r) circle at var(--spot-x) var(--spot-y),
+      color-mix(in srgb, var(--ch) 75%, transparent), transparent 68%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+  }
+  .pb-card:not(.pb-card-accent)::before {
+    background: radial-gradient(380px circle at var(--spot-x) var(--spot-y),
+      color-mix(in srgb, var(--ch) 13%, transparent), transparent 72%);
+  }
+  /* Тільки миша: пальцем «наведення» залипає після дотику, і картка лишалась
+     би підсвіченою доти, доки не торкнешся іншої. */
+  @media (hover: hover) and (pointer: fine) {
+    :is(.uc-card, .benefit-card, .pb-card:not(.pb-card-accent)):hover::after,
+    .pb-card:not(.pb-card-accent):hover::before { opacity: 1; }
   }
