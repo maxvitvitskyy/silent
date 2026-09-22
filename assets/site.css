@@ -4917,7 +4917,12 @@
   /* Планшет і телефон: колонки лягають на бік і стають двома рядами.
      Композиції «текст ліворуч, плитки праворуч» тут немає, тож стрічки
      йдуть на всю ширину екрана, а не по краях тексту. */
-  @media (max-width: 1024px) {
+  /* Межа одна для всіх двоколонкових блоків сторінки: 1000px, та сама, на
+     якій .wrap переходить на геометрію меню. Раніше герой складався на
+     1024, а блок одразу під ним лишався у дві колонки до 900 — на
+     планшеті сторінка встигала двічі змінити розкладку.
+     ЯКЩО МІНЯЄШ ЦЮ МЕЖУ — МІНЯЙ УСІ ЧОТИРИ РАЗОМ. */
+  @media (max-width: 999px) {
     .exp-cover-gallery {
       --cover-top: clamp(128px, 16vh, 156px);
       min-height: 0;
@@ -5018,7 +5023,7 @@
 
   /* На вужчому екрані колонки лягають одна під одну, а знімки лишаються
      колажем: три в ряд там читались би як смужка. */
-  @media (max-width: 900px) {
+  @media (max-width: 999px) {
     .exp-story-grid { grid-template-columns: minmax(0, 1fr); gap: clamp(26px, 4vh, 40px); }
     .exp-story-shots .s-main { aspect-ratio: 4 / 5; }
   }
@@ -5099,7 +5104,7 @@
   }
   .pb-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -12px rgba(0,0,0,0.7); }
 
-  @media (max-width: 900px) {
+  @media (max-width: 999px) {
     .process-head { grid-template-columns: minmax(0, 1fr); gap: clamp(16px, 3vh, 24px); align-items: start; }
     .process-bento { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .pb-shot { height: clamp(200px, 40vw, 300px); }
@@ -5230,6 +5235,50 @@
     .hp-gear { bottom: -48px; }
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 999px) {
     .exp-gear .hp-stage { max-width: 520px; margin-inline: auto; width: 100%; }
+  }
+
+
+  /* ---------- Телефон лежачи ---------- */
+  /* Той самий запит, що й для hero на головній. Тут він потрібен не менше:
+     у 390px висоти обкладинка виходила на 1352px, тобто три з половиною
+     екрани прокрутки до першого розділу. Екран удвічі ширший і втричі
+     нижчий за вертикальний, тож тиснемо саме висоту: заголовок з 92 до
+     50px, стрічку плиток удвічі, відступи до мінімуму. */
+  @media (max-width: 900px) and (max-height: 480px) and (orientation: landscape) {
+    .exp-cover-gallery {
+      /* 94, не 82: на 82 рубрика заходила під плашку меню, яка тут
+         закінчується на 76px. */
+      --cover-top: 94px;
+      padding-bottom: 24px;
+    }
+    .exp-cover-gallery .exp-title { font-size: min(13.4cqw, 50px); }
+    .exp-cover-gallery .exp-crumb { margin-bottom: 10px; }
+    .exp-cover-gallery .exp-lead { max-width: 70ch; margin-bottom: 20px; }
+    .exp-cover-grid { gap: 20px; }
+    .exp-actions { margin-bottom: 0; }
+    .exp-cover-gallery .exp-facts { margin-top: 18px; gap: 8px; }
+    .exp-cover-gallery .exp-facts li { padding: 10px 12px; }
+    .gallery-col img { width: clamp(112px, 15vw, 148px); }
+
+    /* Розділи нижче теж тиснуться: у цій висоті кожен зайвий відступ
+       коштує чверть екрана. */
+    .exp-section { padding: 40px 0; }
+    .exp-story-grid, .exp-gear .exp-story-grid { gap: 22px; }
+  }
+
+  /* Кнопка звуку лишалась 42px заввишки — на два пікселі нижче порога, і
+     єдина на сторінці, кого не діставали наявні правила для пальця. */
+  @media (pointer: coarse) {
+    .ch-mute { padding-block: 9px; }
+    /* Рубрика — єдине навігаційне посилання обкладинки, а заввишки воно 13px.
+       Зона розширюється накладкою, як у .ch-switch поруч: padding на самому
+       посиланні розтягував би рядок і з'їдав відступ під заголовком. */
+    .exp-cover-gallery .exp-crumb a { position: relative; }
+    .exp-cover-gallery .exp-crumb a::after {
+      content: ''; position: absolute;
+      left: 0; right: 0; top: 50%;
+      height: 44px; transform: translateY(-50%);
+    }
   }
