@@ -3803,8 +3803,8 @@
   }
   .exp-cover-inner { position: relative; z-index: 1; }
 
-  /* Marquee Hero: рухомі плитки */
-  .exp-cover-marquee {
+  /* Gallery Hero: вертикальні рухомі колонки */
+  .exp-cover-gallery {
     min-height: clamp(600px, 85svh, 800px);
     background: linear-gradient(135deg, rgba(20,20,20,1) 0%, rgba(25,25,30,0.95) 100%);
     display: grid;
@@ -3815,7 +3815,7 @@
     overflow: hidden;
     position: relative;
   }
-  .exp-cover-marquee .exp-cover-inner {
+  .exp-cover-gallery .exp-cover-inner {
     grid-column: 1;
   }
   .exp-cover-content {
@@ -3825,76 +3825,81 @@
     padding-left: clamp(20px, 3vw, 40px);
   }
 
-  .marquee-group {
+  .gallery-columns {
     grid-column: 2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(12px, 2vw, 24px);
+    height: 100%;
+    perspective: 1000px;
+  }
+  .gallery-col {
     display: flex;
     flex-direction: column;
-    gap: clamp(16px, 3vw, 28px);
-    height: 100%;
-    justify-content: center;
-  }
-  .marquee {
-    overflow: hidden;
-    height: clamp(180px, 20vw, 280px);
-    display: flex;
-    align-items: center;
-    border-radius: var(--r-lg);
-  }
-  .marquee-track {
-    display: flex;
     gap: clamp(12px, 2vw, 20px);
-    animation: marquee-scroll 40s linear infinite;
-    will-change: transform;
-  }
-  .marquee-track img {
-    flex-shrink: 0;
-    width: clamp(140px, 16vw, 220px);
     height: 100%;
+    overflow: hidden;
+    perspective: 1000px;
+  }
+  .gallery-col-1 {
+    animation: scroll-up 20s linear infinite;
+  }
+  .gallery-col-2 {
+    animation: scroll-down 24s linear infinite;
+    margin-top: clamp(60px, 10vh, 100px);
+  }
+  .gallery-col-3 {
+    animation: scroll-up 22s linear infinite;
+  }
+
+  .gallery-col img {
+    width: 100%;
+    aspect-ratio: 1;
     object-fit: cover;
-    border-radius: var(--r-md);
-    opacity: 0.9;
+    border-radius: clamp(12px, 2vw, 20px);
+    flex-shrink: 0;
+    opacity: 0.85;
     transition: opacity 0.3s;
   }
-  .marquee-track img:hover {
+  .gallery-col img:hover {
     opacity: 1;
   }
 
-  .marquee-top .marquee-track {
-    animation: marquee-left 40s linear infinite;
+  @keyframes scroll-up {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-50%); }
   }
-  .marquee-bottom .marquee-track {
-    animation: marquee-right 45s linear infinite;
-  }
-
-  @keyframes marquee-left {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
-  @keyframes marquee-right {
-    0% { transform: translateX(-50%); }
-    100% { transform: translateX(0); }
+  @keyframes scroll-down {
+    0% { transform: translateY(-50%); }
+    100% { transform: translateY(0); }
   }
 
   @media (max-width: 1024px) {
-    .exp-cover-marquee {
+    .exp-cover-gallery {
       grid-template-columns: 1fr;
     }
-    .exp-cover-marquee .exp-cover-inner {
+    .exp-cover-gallery .exp-cover-inner {
       grid-column: 1;
     }
-    .marquee-group {
+    .gallery-columns {
       grid-column: 1;
-      gap: clamp(12px, 2vw, 20px);
-      height: clamp(300px, 50vh, 450px);
-    }
-    .marquee {
-      height: clamp(120px, 12vw, 160px);
+      grid-template-columns: repeat(2, 1fr);
+      height: clamp(300px, 40vh, 450px);
     }
   }
 
   @media (max-width: 640px) {
-    .marquee-group {
-      display: none;
+    .gallery-columns {
+      grid-template-columns: 1fr;
+      height: auto;
+      max-height: clamp(240px, 50vh, 400px);
+    }
+    .gallery-col {
+      max-height: 200px;
+    }
+    .gallery-col img {
+      aspect-ratio: auto;
+      height: 160px;
     }
   }
 
