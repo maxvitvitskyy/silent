@@ -1806,8 +1806,13 @@ const I18N = window.SILENT_I18N;
   // ---- Лайтбокс-карусель для роликів галереї ----
   (function(){
     const box  = document.getElementById('vbox');
+    if (!box) return;
+    // Стрічка галереї є тільки на головній. Сторінки досвідів дають той самий
+    // список окремим прихованим вузлом: він не має класу .gallery-grid, тож
+    // його не чіпає ні оформлення стрічки, ні її клонування.
     const grid = document.getElementById('galGrid');
-    if (!box || !grid) return;
+    const listSrc = grid || document.getElementById('vboxList');
+    if (!listSrc) return;
     const stage  = document.getElementById('vboxStage');
     const dots   = document.getElementById('vboxDots');
     const toggle = document.getElementById('vboxToggle');
@@ -1822,7 +1827,7 @@ const I18N = window.SILENT_I18N;
     function collect(){
       const seen = new Set();
       list = [];
-      grid.querySelectorAll('.gal-play').forEach(b => {
+      listSrc.querySelectorAll('.gal-play').forEach(b => {
         const src = b.dataset.video;
         if (!src || seen.has(src)) return;
         seen.add(src);
@@ -1925,6 +1930,7 @@ const I18N = window.SILENT_I18N;
     // scrollLeft звіряємо, бо стрічка горизонтальна: палець, що дотягнув її й
     // зупинився на плитці, не повинен відкривати ролик.
     let gx = 0;
+    if (grid) {
     grid.addEventListener('pointerdown', () => { gx = grid.scrollLeft; }, { passive: true });
     grid.addEventListener('click', (e) => {
       const item = e.target.closest('.gallery-item.is-video');
@@ -1935,6 +1941,7 @@ const I18N = window.SILENT_I18N;
       if (Math.abs(grid.scrollLeft - gx) > 8) return;
       open(btn.dataset.video);
     });
+    }
 
     // Кнопка поза стрічкою. Сторінки досвідів не мають власної галереї, але
     // відкривають ту саму карусель зі свого блоку: список вони оголошують

@@ -55,7 +55,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="../../assets/site.css?v=37f41d4e">
+<link rel="stylesheet" href="../../assets/site.css?v=e13813df">
 </head>
 <body id="top">
 
@@ -152,13 +152,17 @@
 <!-- КОРПОРАТИВНА ТИХА ДИСКОТЕКА: знімки ліворуч, текст праворуч -->
 <section class="exp-section exp-story" id="corporate">
   <div class="wrap exp-story-grid">
-    <div class="exp-story-shots reveal">
-      <div class="s-main story-play-wrap">
-        <img src="../../images/gal/17_tall.webp" alt="Гості корпоративу танцюють у навушниках Silent Disco" loading="lazy" decoding="async">
-        <button class="gal-play" type="button" data-vbox-open aria-label="Дивитися відео з подій"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg></button>
+    <!-- Клітинка не має власної висоти, тож висоту рядка задає текст
+         поруч, а колаж усередині просто заповнює її. -->
+    <div class="exp-story-cell">
+      <div class="exp-story-shots reveal">
+        <div class="s-main story-play-wrap">
+          <img src="../../images/gal/17_tall.webp" alt="Гості корпоративу танцюють у навушниках Silent Disco" loading="lazy" decoding="async">
+          <button class="gal-play" type="button" data-vbox-open aria-label="Дивитися відео з подій"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg></button>
+        </div>
+        <img class="s-a" src="../../images/gal/13_sq.webp" alt="Команда слухає виступ у навушниках" loading="lazy" decoding="async">
+        <img class="s-b" src="../../images/gal/29_wide.webp" alt="Зал корпоративу в навушниках Silent Disco" loading="lazy" decoding="async">
       </div>
-      <img class="s-a" src="../../images/gal/13_sq.webp" alt="Команда слухає виступ у навушниках" loading="lazy" decoding="async">
-      <img class="s-b" src="../../images/gal/29_wide.webp" alt="Зал корпоративу в навушниках Silent Disco" loading="lazy" decoding="async">
     </div>
 
     <div class="exp-story-text reveal">
@@ -1020,8 +1024,9 @@
 
 <!-- Список роликів для каруселі. Карусель збирає його зі самої розмітки,
      тож сторінка оголошує, які ролики показує, а не дублює масив у скрипті.
-     Показувати тут нема чого: галереї на цій сторінці немає, є одна кнопка. -->
-<div class="gallery-grid" id="galGrid" hidden aria-hidden="true">
+     Без класу .gallery-grid навмисно: той клас має власний display, який
+     перебиває атрибут hidden, і вузол рендерився б на сторінці. -->
+<div id="vboxList" hidden aria-hidden="true">
   <button class="gal-play" type="button" data-video="../../video/web/silent-1.mp4" data-poster="../../images/gal/101_tall.webp" aria-label="Дивитися відео: Гості танцюють у червоному світлі" tabindex="-1"></button>
   <button class="gal-play" type="button" data-video="../../video/web/silent-2.mp4" data-poster="../../images/gal/102_tall.webp" aria-label="Дивитися відео: Танцпол просто неба" tabindex="-1"></button>
   <button class="gal-play" type="button" data-video="../../video/web/silent-3.mp4" data-poster="../../images/gal/103_tall.webp" aria-label="Дивитися відео: Повний двір у навушниках" tabindex="-1"></button>
@@ -1254,6 +1259,6 @@ window.SILENT_I18N = {
   }
 };
 </script>
-<script src="../../assets/site.js?v=f98b993a"></script>
+<script src="../../assets/site.js?v=06c0c5bb"></script>
 </body>
 </html>
