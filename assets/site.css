@@ -5148,47 +5148,49 @@
   }
 
   .hp-stage { display: flex; flex-direction: column; gap: clamp(10px, 1.2vw, 16px); }
-  .hp-top {
-    aspect-ratio: 16 / 9; overflow: hidden;
-    border-radius: var(--r-md);
-  }
-  .hp-top img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
-  /* Смуга кольорів каналів. Верхній відступ навмисно великий: у нього
-     заходять навушники, і кнопки лишаються нижче, не під ними. */
-  .hp-switch {
-    position: relative;
-    border-radius: var(--r-md);
-    background: linear-gradient(90deg, var(--red) 0%, var(--green) 52%, var(--blue) 100%);
-    padding: clamp(74px, 10vw, 116px) clamp(12px, 1.4vw, 18px) clamp(14px, 1.6vw, 20px);
+  /* Знімок теж міняється з каналом: у кожного кадру навушники свого кольору. */
+  .hp-top { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--r-md); }
+  .hp-top-img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; object-fit: cover;
+    opacity: 0; transition: opacity 0.55s ease;
   }
+  .hp-top-img.is-on { opacity: 1; }
+
+  /* Та сама скляна панель, що на головній: матеріал, розмиття й рамка
+     приходять із .glass-panel, а кольором грає тільки glow, який їздить за
+     активним каналом. Кольорової заливки тут нема навмисно — під веселкою
+     цього glow було б не видно. Верхній відступ тримає навушники. */
+  .hp-switch {
+    position: relative; overflow: hidden;
+    border-radius: var(--r-md);
+    padding: clamp(66px, 9vw, 104px) clamp(14px, 1.6vw, 20px) clamp(14px, 1.6vw, 18px);
+    will-change: backdrop-filter;
+  }
+  .hp-switch .ch-strip-head { margin-bottom: clamp(10px, 1.4vh, 14px); }
+  /* Ті самі три правила, що й для .hero-strip: без класу .hero-strip вимкнений
+     звук не мав би на чому відбитись. */
+  .hp-switch.is-silent .ch-toggle.active .ch-switch { background: rgba(255,255,255,0.12); box-shadow: none; }
+  .hp-switch.is-silent .ch-toggle.active .ch-switch-knob { transform: none; }
+  .hp-switch.is-silent .ch-toggle.active .ch-toggle-name { text-shadow: 0 0 0 transparent; }
+
+  .hp-top-wrap { position: relative; }
   .hp-gear {
-    position: absolute; z-index: 2;
+    position: absolute; z-index: 4;
     left: 50%; transform: translateX(-50%);
     width: clamp(190px, 52%, 330px); aspect-ratio: 1;
-    /* Низ навушників опускається в смугу рівно на цю величину, решта
-       лишається над нею, на знімку. */
-    bottom: calc(100% - clamp(62px, 8.4vw, 96px));
+    bottom: calc(-1 * clamp(62px, 8.4vw, 96px));
   }
+  /* Кадри не гаснуть по черзі, а накладаються: новий з'являється поверх
+     попереднього, який лишається щільним. Інакше посередині переходу обидва
+     напівпрозорі, і навушники на мить провалюються у фон. */
   .hp-img {
     position: absolute; inset: 0;
     width: 100%; height: 100%; object-fit: contain;
     opacity: 0; transition: opacity 0.55s ease;
   }
   .hp-img.is-on { opacity: 1; }
-
-  .hp-btns { position: relative; z-index: 3; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(8px, 1vw, 12px); }
-  .hp-btn {
-    padding: 11px 6px; border-radius: 999px; cursor: pointer;
-    background: rgba(10,10,11,0.40);
-    border: 1px solid rgba(255,255,255,0.30);
-    color: #fff;
-    font-family: 'Unbounded', sans-serif; font-weight: 700;
-    font-size: clamp(10.5px, 0.95vw, 12.5px); letter-spacing: 0.1em; line-height: 1;
-    transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
-  }
-  .hp-btn:hover { background: rgba(10,10,11,0.62); }
-  .hp-btn.is-on { background: var(--night); border-color: var(--night); color: var(--sw); }
 
   @media (max-width: 900px) {
     .exp-gear .hp-stage { max-width: 520px; margin-inline: auto; width: 100%; }

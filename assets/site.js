@@ -2351,31 +2351,47 @@ const I18N = window.SILENT_I18N;
     });
   })();
 
-  // Демонстрація каналів на сторінці «Тихі враження». Власна, а не спільна з
-  // головною: там перемикач тягне за собою звук, еквалайзер і знімки hero, а
-  // тут потрібно лише перефарбувати навушники. Три кадри лежать один на
-  // одному й міняються прозорістю, тож перехід читається як зміна кольору, а
-  // не як підміна картинки.
+  // Знімок і навушники на сторінці «Тихі враження» йдуть за активним каналом.
+  // Самим перемиканням тут не керуємо: панель має id="channels", тож звук,
+  // еквалайзер і glow бере на себе той самий код, що й на головній. Лишається
+  // стежити за тим, який канал став активним, — і автоперемикання теж.
   (function(){
     const stage = document.querySelector('.hp-stage');
     if (!stage) return;
-    const btns = Array.from(stage.querySelectorAll('.hp-btn'));
-    const imgs = Array.from(stage.querySelectorAll('.hp-img'));
-    if (!btns.length || !imgs.length) return;
+    const row = stage.querySelector('.ch-toggle-row');
+    const sets = [
+      Array.from(stage.querySelectorAll('.hp-img')),
+      Array.from(stage.querySelectorAll('.hp-top-img'))
+    ].filter(function(a){ return a.length; });
+    if (!row || !sets.length) return;
 
-    function select(i){
-      btns.forEach(function(b){
-        const on = Number(b.dataset.ch) === i;
-        b.classList.toggle('is-on', on);
-        b.setAttribute('aria-pressed', on ? 'true' : 'false');
-      });
-      imgs.forEach(function(im){
-        im.classList.toggle('is-on', Number(im.dataset.ch) === i);
+    // Кадр, що йде, лишається щільним, а новий проявляється поверх нього. Якщо
+    // натомість гасити попередній одночасно, посередині переходу обидва
+    // напівпрозорі й зображення на мить провалюється у фон.
+    let z = 2;
+    function paint(i){
+      sets.forEach(function(set){
+        for (let k = 0; k < set.length; k++){
+          if (Number(set[k].dataset.ch) !== i) continue;
+          z += 1;
+          set[k].style.zIndex = String(z);
+          set[k].classList.add('is-on');
+        }
       });
     }
-    btns.forEach(function(b){
-      b.addEventListener('click', function(){ select(Number(b.dataset.ch)); });
+
+    let cur = -1;
+    function sync(){
+      const on = row.querySelector('.ch-toggle.active');
+      const i = on ? Number(on.dataset.ch) : 0;
+      if (i === cur) return;
+      cur = i;
+      paint(i);
+    }
+    new MutationObserver(sync).observe(row, {
+      subtree: true, attributes: true, attributeFilter: ['class']
     });
+    sync();
   })();
 
   // Прапорець для страхувальника в <head>: він доводить, що цей файл не просто

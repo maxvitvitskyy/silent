@@ -55,7 +55,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="../../assets/site.css?v=b6ddde6a">
+<link rel="stylesheet" href="../../assets/site.css?v=67c1382f">
 </head>
 <body id="top">
 
@@ -122,24 +122,24 @@
         <img src="../../images/gal/16_tall.webp" alt="">
         <img src="../../images/gal/33_sq.webp" alt="">
         <img src="../../images/gal/31_tall.webp" alt="">
-        <img src="../../images/gal/25_sq.webp" alt="">
+        <img src="../../images/gal/21_sq.webp" alt="">
         <img src="../../images/gal/03_wide.webp" alt="">
         <img src="../../images/gal/22_sq.webp" alt="">
         <img src="../../images/gal/16_tall.webp" alt="">
         <img src="../../images/gal/33_sq.webp" alt="">
         <img src="../../images/gal/31_tall.webp" alt="">
-        <img src="../../images/gal/25_sq.webp" alt="">
+        <img src="../../images/gal/21_sq.webp" alt="">
         <img src="../../images/gal/03_wide.webp" alt="">
       </div>
       <div class="gallery-col gallery-col-2">
         <img src="../../images/gal/34_sq.webp" alt="">
-        <img src="../../images/gal/02_sq.webp" alt="">
+        <img src="../../images/gal/19_wide.webp" alt="">
         <img src="../../images/gal/35_sq.webp" alt="">
         <img src="../../images/gal/15_tall.webp" alt="">
         <img src="../../images/gal/23_sq.webp" alt="">
         <img src="../../images/gal/30_wide.webp" alt="">
         <img src="../../images/gal/34_sq.webp" alt="">
-        <img src="../../images/gal/02_sq.webp" alt="">
+        <img src="../../images/gal/19_wide.webp" alt="">
         <img src="../../images/gal/35_sq.webp" alt="">
         <img src="../../images/gal/15_tall.webp" alt="">
         <img src="../../images/gal/23_sq.webp" alt="">
@@ -182,20 +182,62 @@
     </div>
 
     <div class="hp-stage reveal">
-      <div class="hp-top"><img src="../../images/gal/19_wide.webp" alt="" loading="lazy" decoding="async"></div>
+      <!-- Обгортка не ріже вміст, тож навушники можуть звисати з кадру
+           на панель. Саму панель обрізає overflow — там їздить glow. -->
+      <div class="hp-top-wrap">
+        <div class="hp-top">
+            <img class="hp-top-img is-on" data-ch="0" src="../../images/gal/02_sq.webp" alt="" loading="lazy" decoding="async">
+            <img class="hp-top-img" data-ch="1" src="../../images/gal/25_sq.webp" alt="" loading="lazy" decoding="async">
+            <img class="hp-top-img" data-ch="2" src="../../images/gal/18_wide.webp" alt="" loading="lazy" decoding="async">
+        </div>
 
-      <div class="hp-switch">
-        <!-- Навушники заходять на знімок згори й на смугу знизу. Кнопки
-             лишаються нижче за них завдяки верхньому відступу смуги. -->
-        <div class="hp-gear" aria-hidden="true">
+      <div class="hp-gear" aria-hidden="true">
         <img class="hp-img is-on" data-ch="0" src="../../images/ch-red.webp" alt="" loading="lazy" decoding="async">
         <img class="hp-img" data-ch="1" src="../../images/ch-green.webp" alt="" loading="lazy" decoding="async">
         <img class="hp-img" data-ch="2" src="../../images/ch-blue.webp" alt="" loading="lazy" decoding="async">
+      </div>
+      </div>
+
+      <!-- id="channels" навмисно: site.js шукає саме його й приносить сюди
+           звук, еквалайзер і біжучий glow тієї ж панелі, що на головній. -->
+      <div class="hp-switch glass-panel" id="channels">
+        <div class="ch-strip-glow-blob" id="chGlowBlob"></div>
+        <div class="ch-outline-eq" id="chOutlineEq"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+        <div class="ch-strip-head">
+          <span class="ch-strip-title">Оберіть канал</span>
+          <button class="ch-mute" type="button" id="chMute" aria-pressed="true" title="Увімкнути звук">
+            <svg class="ic-sound" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+            <svg class="ic-mute" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+            <span class="ch-mute-label">Увімкнути звук</span>
+          </button>
         </div>
-        <div class="hp-btns" role="group" aria-label="Оберіть канал">
-        <button type="button" class="hp-btn is-on" data-ch="0" aria-pressed="true" style="--sw:var(--red)" translate="no">RED</button>
-        <button type="button" class="hp-btn" data-ch="1" aria-pressed="false" style="--sw:var(--green)" translate="no">GREEN</button>
-        <button type="button" class="hp-btn" data-ch="2" aria-pressed="false" style="--sw:var(--blue)" translate="no">BLUE</button>
+
+        <div class="ch-toggle-row">
+          <div class="ch-toggle active" data-ch="0" style="--sw-color:var(--red)">
+            <div class="ch-toggle-top">
+              <div class="ch-toggle-label">
+                <span class="ch-toggle-name" style="color:var(--red)" translate="no">RED</span>
+              </div>
+              <button class="ch-switch" type="button" aria-pressed="true" style="--sw-color:var(--red)"><span class="ch-switch-knob"></span></button>
+            </div>
+          </div>
+          <div class="ch-toggle" data-ch="1" style="--sw-color:var(--green)">
+            <div class="ch-toggle-top">
+              <div class="ch-toggle-label">
+                <span class="ch-toggle-name" style="color:var(--green)" translate="no">GREEN</span>
+              </div>
+              <button class="ch-switch" type="button" aria-pressed="false" style="--sw-color:var(--green)"><span class="ch-switch-knob"></span></button>
+            </div>
+          </div>
+          <div class="ch-toggle" data-ch="2" style="--sw-color:var(--blue)">
+            <div class="ch-toggle-top">
+              <div class="ch-toggle-label">
+                <span class="ch-toggle-name" style="color:var(--blue)" translate="no">BLUE</span>
+              </div>
+              <button class="ch-switch" type="button" aria-pressed="false" style="--sw-color:var(--blue)"><span class="ch-switch-knob"></span></button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1110,7 +1152,7 @@
      нижче. Оголошується ДО site.js: той читає window.SILENT_I18N при старті. -->
 <script>
 window.SILENT_I18N = {
-  base: '',
+  base: '../../',
   locale: 'uk-UA',
   currency: 'грн',
   hero: [
@@ -1177,6 +1219,6 @@ window.SILENT_I18N = {
   }
 };
 </script>
-<script src="../../assets/site.js?v=7a5fbdaf"></script>
+<script src="../../assets/site.js?v=4ba7001f"></script>
 </body>
 </html>
