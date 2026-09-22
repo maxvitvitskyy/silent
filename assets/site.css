@@ -4738,10 +4738,12 @@
      перекрити їх можна лише порядком, а не специфічністю.
      ====================================================================== */
   .exp-cover-gallery {
+    --cover-top: clamp(150px, 17vh, 190px);
+    --gal-h: clamp(460px, 74svh, 740px);
     display: block;
     min-height: clamp(620px, 88svh, 880px);
     background: var(--night);
-    padding: clamp(150px, 17vh, 190px) 0 clamp(56px, 8vh, 96px);
+    padding: var(--cover-top) 0 clamp(56px, 8vh, 96px);
     overflow: hidden;
   }
 
@@ -4800,10 +4802,15 @@
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--gal-gap);
-    height: clamp(460px, 74svh, 740px);
+    /* Стрічка піднята до самого верху секції, а не стоїть під відступом:
+       плитки пропливають під плашкою меню, а розчинення встигає добігти до
+       щільного саме там, де меню закінчується. Від'ємний margin повертає
+       висоту в розкладку, тож низ стрічки лишається там, де був. */
+    margin-top: calc(var(--cover-top) * -1);
+    height: calc(var(--gal-h) + var(--cover-top));
     overflow: hidden;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 13%, #000 87%, transparent 100%);
-    mask-image: linear-gradient(to bottom, transparent 0%, #000 13%, #000 87%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 87%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 87%, transparent 100%);
   }
   .gallery-col { will-change: transform; }
   .gallery-col-1 { animation: gal-up   46s linear infinite; }
@@ -4833,8 +4840,9 @@
      йдуть на всю ширину екрана, а не по краях тексту. */
   @media (max-width: 1024px) {
     .exp-cover-gallery {
+      --cover-top: clamp(128px, 16vh, 156px);
       min-height: 0;
-      padding: clamp(128px, 16vh, 156px) 0 clamp(48px, 7vh, 72px);
+      padding-bottom: clamp(48px, 7vh, 72px);
     }
     .exp-cover-grid {
       grid-template-columns: minmax(0, 1fr);
@@ -4843,6 +4851,7 @@
     .gallery-columns {
       display: flex;
       flex-direction: column;
+      margin-top: 0;
       height: auto;
       width: 100vw;
       margin-inline: calc(50% - 50vw);
@@ -4860,5 +4869,5 @@
   }
 
   @media (max-width: 640px) {
-    .exp-cover-gallery { padding-top: clamp(120px, 20vh, 148px); }
+    .exp-cover-gallery { --cover-top: clamp(120px, 20vh, 148px); }
   }
