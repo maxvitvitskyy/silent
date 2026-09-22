@@ -1936,6 +1936,17 @@ const I18N = window.SILENT_I18N;
       open(btn.dataset.video);
     });
 
+    // Кнопка поза стрічкою. Сторінки досвідів не мають власної галереї, але
+    // відкривають ту саму карусель зі свого блоку: список вони оголошують
+    // прихованим #galGrid, а сюди приходять лише за відкриттям. Порожній
+    // data-vbox-open означає «з першого ролика» — open() сам так і зробить.
+    document.addEventListener('click', (e) => {
+      const t = e.target.closest('[data-vbox-open]');
+      if (!t) return;
+      e.preventDefault();
+      open(t.getAttribute('data-vbox-open') || '');
+    });
+
     toggle.addEventListener('click', () => {
       const v = slides[active] && slides[active].querySelector('video');
       if (!v) return;

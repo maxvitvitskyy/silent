@@ -4999,6 +4999,12 @@
     border-radius: clamp(16px, 1.8vw, 26px);
   }
   .exp-story-shots .s-main { grid-row: 1 / span 2; aspect-ratio: 3 / 4; height: 100%; }
+  /* Висока картка веде до тієї ж каруселі роликів, що на головній. Кнопка
+     буквально та сама .gal-play: клас, а не копія стилів, щоб вона не
+     розійшлась із галереєю при наступній правці. Обгортка дає їй точку
+     відліку й тримає скруглення кадру. */
+  .story-play-wrap { position: relative; overflow: hidden; border-radius: clamp(16px, 1.8vw, 26px); }
+  .story-play-wrap img { border-radius: 0; }
   .story-eyebrow {
     font-family: 'Unbounded', sans-serif; font-weight: 600;
     font-size: clamp(10.5px, 0.8vw, 12px);
