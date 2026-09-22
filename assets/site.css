@@ -5188,19 +5188,32 @@
   /* ---------- «Як це влаштовано»: демонстрація каналів ---------- */
   /* Дзеркало до .exp-story: текст стоїть у розмітці першим, тож сам
      потрапляє в ліву колонку, а сцена з навушниками — у праву. */
-  /* Без нумерації: це чотири незалежні причини, а не кроки за порядком, і
-     цифри обіцяли б послідовність, якої немає. */
   .gear-steps {
     list-style: none; margin: clamp(22px, 3vh, 30px) 0 0; padding: 0;
     display: grid; gap: clamp(18px, 2.4vh, 26px);
+    counter-reset: gear;
   }
-  .gear-steps li { display: block; }
-  .gear-steps b {
-    display: block; font-family: 'Unbounded', sans-serif; font-weight: 600;
-    font-size: clamp(15px, 1.25vw, 17px); letter-spacing: -0.01em; margin-bottom: 5px;
+  .gear-steps li {
+    display: grid; grid-template-columns: auto minmax(0, 1fr);
+    gap: 14px; align-items: start; counter-increment: gear;
+  }
+  /* Номер, назва й пояснення — три окремі елементи в потоці, тож обидва
+     текстові явно просяться в другу колонку. Без цього пояснення падало
+     в новий рядок під номер і розтягувалось на всю ширину. */
+  .gear-steps li::before {
+    content: counter(gear, decimal-leading-zero);
+    grid-row: span 2;
+    font-family: 'Unbounded', sans-serif; font-weight: 700;
+    font-size: clamp(13px, 1.1vw, 15px); line-height: 1.4;
     color: var(--lime);
   }
+  .gear-steps b {
+    grid-column: 2;
+    display: block; font-family: 'Unbounded', sans-serif; font-weight: 600;
+    font-size: clamp(15px, 1.25vw, 17px); letter-spacing: -0.01em; margin-bottom: 5px;
+  }
   .gear-steps span {
+    grid-column: 2;
     display: block; font-size: clamp(14px, 1.05vw, 15.5px);
     line-height: 1.55; color: var(--muted);
   }
