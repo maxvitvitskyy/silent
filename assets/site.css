@@ -3803,92 +3803,7 @@
   }
   .exp-cover-inner { position: relative; z-index: 1; }
 
-  /* Gallery Hero: дві вертикальні колонки, що їдуть назустріч */
-  .exp-cover-gallery {
-    min-height: clamp(600px, 85svh, 800px);
-    background: linear-gradient(135deg, rgba(20,20,20,1) 0%, rgba(25,25,30,0.95) 100%);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(32px, 5vw, 60px);
-    align-items: center;
-    padding: clamp(40px, 6vh, 80px) 0;
-    overflow: hidden;
-    position: relative;
-  }
-  .exp-cover-gallery .exp-cover-inner {
-    grid-column: 1;
-  }
-  .exp-cover-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-left: clamp(20px, 3vw, 40px);
-  }
 
-  .gallery-columns {
-    grid-column: 2;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--gal-gap);
-    height: clamp(420px, 68svh, 660px);
-    overflow: hidden;
-    padding-right: clamp(20px, 3vw, 40px);
-    --gal-gap: clamp(12px, 1.6vw, 22px);
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%);
-    mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%);
-  }
-  .gallery-col {
-    will-change: transform;
-  }
-  .gallery-col-1 { animation: gal-up 44s linear infinite; }
-  .gallery-col-2 { animation: gal-down 44s linear infinite; }
-
-  /* margin, а не flex-gap: інакше половина треку не збігається і на стику смикає */
-  .gallery-col img {
-    display: block;
-    width: 100%;
-    aspect-ratio: 1;
-    object-fit: cover;
-    border-radius: clamp(14px, 1.6vw, 22px);
-    margin-bottom: var(--gal-gap);
-    opacity: 0.88;
-    transition: opacity 0.3s;
-  }
-  .gallery-col img:hover { opacity: 1; }
-
-  @keyframes gal-up {
-    from { transform: translateY(0); }
-    to   { transform: translateY(-50%); }
-  }
-  @keyframes gal-down {
-    from { transform: translateY(-50%); }
-    to   { transform: translateY(0); }
-  }
-
-  @media (max-width: 1024px) {
-    .exp-cover-gallery {
-      grid-template-columns: 1fr;
-    }
-    .exp-cover-gallery .exp-cover-inner,
-    .gallery-columns {
-      grid-column: 1;
-    }
-    .gallery-columns {
-      height: clamp(320px, 42vh, 460px);
-      padding: 0 clamp(16px, 4vw, 32px);
-    }
-  }
-
-  @media (max-width: 640px) {
-    .gallery-columns {
-      height: clamp(260px, 36vh, 340px);
-    }
-  }
-
-  .exp-crumb {
-    font-size: 13.5px; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--muted); margin-bottom: 26px;
-  }
   .exp-crumb a { color: var(--muted); border-bottom: 1px solid rgba(255,255,255,0.22); }
   .exp-crumb a:hover { color: #fff; border-bottom-color: var(--lime); }
 
@@ -4810,4 +4725,125 @@
      іконку, назву й уточнення в один ряд. */
   .exp-cover-field .exp-facts .f-txt {
     display: flex; flex-direction: column; gap: 4px; min-width: 0;
+  }
+
+
+  /* ======================================================================
+     ОБКЛАДИНКА КОРПОРАТИВІВ
+     Дві стрічки плиток, що їдуть назустріч одна одній: колонками вгору/вниз
+     на десктопі, рядами вліво/вправо на планшеті й телефоні.
+
+     Блок навмисно стоїть у кінці файлу. Мобільні правила .exp-cover
+     (padding-top: 96px) лежать вище і мають ту саму вагу селектора, тож
+     перекрити їх можна лише порядком, а не специфічністю.
+     ====================================================================== */
+  .exp-cover-gallery {
+    display: block;
+    min-height: clamp(620px, 88svh, 880px);
+    background: var(--night);
+    padding: clamp(150px, 17vh, 190px) 0 clamp(56px, 8vh, 96px);
+    overflow: hidden;
+  }
+
+  /* Та сама аврора, що у футері: лайм веде, малиновий підсвічує збоку.
+     Канал тут не перемикається, тому обидва кольори фіксовані. */
+  .cover-aurora {
+    position: absolute; inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    filter: blur(100px) saturate(1.35);
+    opacity: 0.5;
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 58%, transparent 96%);
+    mask-image: linear-gradient(180deg, #000 0%, #000 58%, transparent 96%);
+  }
+  .ca-blob { position: absolute; border-radius: 50%; }
+  .ca-blob.c1 { width: 64%; height: 82%; left: -18%; top: -18%; background: radial-gradient(circle, rgba(198,255,0,0.52), transparent 66%); animation: caDrift1 23s ease-in-out infinite alternate; }
+  .ca-blob.c2 { width: 52%; height: 68%; left:   6%; top:  26%; background: radial-gradient(circle, rgba(255,71,87,0.50), transparent 64%); animation: caDrift2 19s ease-in-out infinite alternate; }
+  .ca-blob.c3 { width: 46%; height: 60%; left:  34%; top: -14%; background: radial-gradient(circle, rgba(198,255,0,0.34), transparent 66%); animation: caDrift3 27s ease-in-out infinite alternate; }
+  .ca-blob.c4 { width: 44%; height: 58%; left: -10%; top:  46%; background: radial-gradient(circle, rgba(255,71,87,0.34), transparent 68%); animation: caDrift4 21s ease-in-out infinite alternate; }
+  @keyframes caDrift1 { from { transform: translate(0,0) scale(1); }    to { transform: translate(8%, 6%) scale(1.14); } }
+  @keyframes caDrift2 { from { transform: translate(0,0) scale(1.06); } to { transform: translate(-9%, -7%) scale(0.94); } }
+  @keyframes caDrift3 { from { transform: translate(0,0) scale(0.96); } to { transform: translate(-7%, 9%) scale(1.12); } }
+  @keyframes caDrift4 { from { transform: translate(0,0) scale(1); }    to { transform: translate(10%, -8%) scale(1.08); } }
+
+  /* .wrap задає геометрію меню, тому заголовок стає рівно під логотипом,
+     а права колонка плиток — рівно під краєм кнопки «Перевірити дату». */
+  .exp-cover-grid {
+    position: relative; z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(32px, 5vw, 64px);
+    align-items: center;
+  }
+  .exp-cover-gallery .exp-cover-content {
+    display: flex; flex-direction: column; justify-content: center;
+    padding-left: 0;
+  }
+
+  .gallery-columns {
+    --gal-gap: clamp(12px, 1.4vw, 20px);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--gal-gap);
+    height: clamp(460px, 74svh, 740px);
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 13%, #000 87%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 13%, #000 87%, transparent 100%);
+  }
+  .gallery-col { will-change: transform; }
+  .gallery-col-1 { animation: gal-up   46s linear infinite; }
+  .gallery-col-2 { animation: gal-down 46s linear infinite; }
+
+  /* Відступ живе на самій плитці, а не в gap: інакше половина треку
+     припадає на піввідступу і на стику циклу помітно смикає. */
+  .gallery-col img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: clamp(24px, 2.9vw, 42px);
+    margin: 0 0 var(--gal-gap);
+    opacity: 0.9;
+    transition: opacity 0.3s;
+  }
+  .gallery-col img:hover { opacity: 1; }
+
+  @keyframes gal-up    { from { transform: translateY(0); }    to { transform: translateY(-50%); } }
+  @keyframes gal-down  { from { transform: translateY(-50%); } to { transform: translateY(0); } }
+  @keyframes gal-left  { from { transform: translateX(0); }    to { transform: translateX(-50%); } }
+  @keyframes gal-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+  /* Планшет і телефон: колонки лягають на бік і стають двома рядами.
+     Композиції «текст ліворуч, плитки праворуч» тут немає, тож стрічки
+     йдуть на всю ширину екрана, а не по краях тексту. */
+  @media (max-width: 1024px) {
+    .exp-cover-gallery {
+      min-height: 0;
+      padding: clamp(128px, 16vh, 156px) 0 clamp(48px, 7vh, 72px);
+    }
+    .exp-cover-grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: clamp(30px, 5vh, 52px);
+    }
+    .gallery-columns {
+      display: flex;
+      flex-direction: column;
+      height: auto;
+      width: 100vw;
+      margin-inline: calc(50% - 50vw);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 9%, #000 91%, transparent 100%);
+      mask-image: linear-gradient(to right, transparent 0%, #000 9%, #000 91%, transparent 100%);
+    }
+    .gallery-col { display: flex; width: max-content; }
+    .gallery-col img {
+      width: clamp(158px, 34vw, 236px);
+      margin: 0 var(--gal-gap) 0 0;
+      border-radius: clamp(20px, 4.4vw, 32px);
+    }
+    .gallery-col-1 { animation-name: gal-left; }
+    .gallery-col-2 { animation-name: gal-right; }
+  }
+
+  @media (max-width: 640px) {
+    .exp-cover-gallery { padding-top: clamp(120px, 20vh, 148px); }
   }
