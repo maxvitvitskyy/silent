@@ -5015,3 +5015,84 @@
     .exp-story-grid { grid-template-columns: minmax(0, 1fr); gap: clamp(26px, 4vh, 40px); }
     .exp-story-shots .s-main { aspect-ratio: 4 / 5; }
   }
+
+
+  /* ---------- «Як це працює»: бенто з чотирьох кроків ---------- */
+  .process-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: clamp(20px, 4vw, 64px);
+    align-items: end;
+    margin-bottom: clamp(30px, 4.5vh, 54px);
+  }
+  .exp-process .exp-h2 { max-width: 15ch; margin-bottom: 0; }
+  .process-lead {
+    font-size: clamp(15px, 1.3vw, 17.5px); line-height: 1.6;
+    color: var(--muted); max-width: 46ch; margin: 0;
+  }
+
+  /* Три колонки: знімок займає дві клітинки першого ряду, четверта
+     картка стає під ним третьою в другому ряду. */
+  .process-bento {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(12px, 1.3vw, 20px);
+  }
+  .pb-shot {
+    grid-column: span 2;
+    margin: 0; overflow: hidden;
+    border-radius: var(--r-md);
+    min-height: clamp(240px, 26vw, 360px);
+  }
+  .pb-shot img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+  .pb-card {
+    display: flex; flex-direction: column;
+    padding: clamp(20px, 2.1vw, 32px);
+    background: var(--glass-fill-dark);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    min-height: clamp(210px, 22vw, 290px);
+  }
+  /* Номер угорі, назва й пояснення притиснуті донизу: у бенто картки
+     різної висоти, і так їхні заголовки стають на одну лінію. */
+  .pb-num {
+    font-family: 'Unbounded', sans-serif; font-weight: 800;
+    font-size: clamp(30px, 3vw, 44px); line-height: 1;
+    color: var(--lime); margin-bottom: auto;
+  }
+  .pb-card h3 {
+    font-family: 'Unbounded', sans-serif; font-weight: 600;
+    font-size: clamp(17px, 1.45vw, 21px); letter-spacing: -0.02em;
+    margin: clamp(18px, 2vw, 28px) 0 10px;
+  }
+  .pb-card p {
+    font-size: clamp(14px, 1.05vw, 15.5px); line-height: 1.55;
+    color: var(--muted); margin: 0;
+  }
+
+  /* Остання картка лаймова: на ній закінчується перелік і починається дія. */
+  .pb-card-accent { background: var(--lime); border-color: var(--lime); }
+  .pb-card-accent .pb-num { color: rgba(18,16,10,0.42); }
+  .pb-card-accent h3 { color: #12100a; }
+  .pb-card-accent p { color: rgba(18,16,10,0.76); }
+  .pb-cta {
+    align-self: flex-start;
+    margin-top: clamp(16px, 2vw, 24px);
+    padding: 13px 22px; border-radius: 999px;
+    background: var(--night); color: #fff;
+    font-weight: 600; font-size: 14.5px; line-height: 1;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .pb-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -12px rgba(0,0,0,0.7); }
+
+  @media (max-width: 900px) {
+    .process-head { grid-template-columns: minmax(0, 1fr); gap: clamp(16px, 3vh, 24px); align-items: start; }
+    .process-bento { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .pb-shot { min-height: clamp(200px, 40vw, 300px); }
+  }
+  @media (max-width: 560px) {
+    .process-bento { grid-template-columns: minmax(0, 1fr); }
+    .pb-shot { grid-column: span 1; min-height: 220px; }
+    .pb-card { min-height: 0; }
+  }
