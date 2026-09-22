@@ -5177,12 +5177,14 @@
      потрапляє в ліву колонку, а сцена з навушниками — у праву. */
   .gear-steps {
     list-style: none; margin: clamp(22px, 3vh, 30px) 0 0; padding: 0;
-    display: grid; gap: clamp(18px, 2.4vh, 26px);
+    display: grid; gap: clamp(10px, 1.2vh, 14px);
     counter-reset: gear;
   }
+  /* Проміжок лише між колонками: рядковий додавався до відступу під назвою,
+     і разом вони розсували пункт удвічі більше, ніж треба. */
   .gear-steps li {
     display: grid; grid-template-columns: auto minmax(0, 1fr);
-    gap: 14px; align-items: start; counter-increment: gear;
+    gap: 0 14px; align-items: start; counter-increment: gear;
   }
   /* Номер, назва й пояснення — три окремі елементи в потоці, тож обидва
      текстові явно просяться в другу колонку. Без цього пояснення падало
@@ -5197,7 +5199,7 @@
   .gear-steps b {
     grid-column: 2;
     display: block; font-family: 'Unbounded', sans-serif; font-weight: 600;
-    font-size: clamp(15px, 1.25vw, 17px); letter-spacing: -0.01em; margin-bottom: 5px;
+    font-size: clamp(15px, 1.25vw, 17px); letter-spacing: -0.01em; margin-bottom: 8px;
   }
   .gear-steps span {
     grid-column: 2;
