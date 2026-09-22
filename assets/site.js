@@ -2373,7 +2373,7 @@ const I18N = window.SILENT_I18N;
     // доходить.
     const GLOW = ['var(--red)', 'var(--green)', 'var(--blue)'];
 
-    let z = 2;
+    let z = 2, hideTimer = null;
     function paint(i){
       if (GLOW[i]) stage.style.setProperty('--hp-glow', GLOW[i]);
       sets.forEach(function(set){
@@ -2384,6 +2384,18 @@ const I18N = window.SILENT_I18N;
           set[k].classList.add('is-on');
         }
       });
+      // Попередній кадр лишається щільним, поки новий проявляється, інакше
+      // посередині переходу обидва напівпрозорі. Але тільки поки: далі його
+      // треба прибрати. Силуети трьох рендерів збігаються не піксель у
+      // піксель, і нижній визирав з-під верхнього тонким обідком.
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(function(){
+        sets.forEach(function(set){
+          for (let k = 0; k < set.length; k++){
+            if (Number(set[k].dataset.ch) !== i) set[k].classList.remove('is-on');
+          }
+        });
+      }, 620);
     }
 
     let cur = -1;
