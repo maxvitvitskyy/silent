@@ -55,7 +55,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="../../assets/site.css?v=e13813df">
+<link rel="stylesheet" href="../../assets/site.css?v=95e93788">
 </head>
 <body id="top">
 
@@ -198,10 +198,6 @@
             <img class="hp-top-img" data-ch="2" src="../../images/gal/18_wide.webp" alt="" loading="lazy" decoding="async">
         </div>
 
-        <!-- Підпис панелі, перенесений на картку: видно лише на телефоні,
-             де в самій панелі для нього немає рядка. -->
-        <span class="hp-card-title" aria-hidden="true">Оберіть канал</span>
-
       <div class="hp-gear" aria-hidden="true">
         <span class="hp-glow"></span>
         <img class="hp-img is-on" data-ch="0" src="../../images/ch-red.webp" alt="" loading="lazy" decoding="async">
@@ -213,8 +209,12 @@
       <!-- id="channels" навмисно: site.js шукає саме його й приносить сюди
            звук, еквалайзер і біжучий glow тієї ж панелі, що на головній. -->
       <div class="hp-switch glass-panel" id="channels">
+        <!-- Обрізання переїхало сюди з панелі: інакше рядок із підписом і
+             кнопкою звуку не міг би вийти на картку зі знімком. -->
+        <div class="hp-switch-fx" aria-hidden="true">
         <div class="ch-strip-glow-blob" id="chGlowBlob"></div>
         <div class="ch-outline-eq" id="chOutlineEq"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
 
         <div class="ch-strip-head">
           <span class="ch-strip-title">Оберіть канал</span>

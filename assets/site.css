@@ -5210,13 +5210,19 @@
      активним каналом. Кольорової заливки тут нема навмисно — під веселкою
      цього glow було б не видно. Верхній відступ тримає навушники. */
   .hp-switch {
-    position: relative; overflow: hidden;
+    position: relative;
     border-radius: var(--r-md);
     /* Висота тримається на верхньому відступі: у нього заходять навушники.
        Відступ рівно такий, щоб вони не дістали до заголовка панелі, і не
        більший — інакше під ними лишається смуга порожнечі. */
     padding: clamp(11px, 1.3vw, 16px) clamp(14px, 1.6vw, 20px) clamp(10px, 1.2vw, 13px);
     will-change: backdrop-filter;
+  }
+  /* Шар, що тримає glow і еквалайзер у межах панелі. Раніше обрізала сама
+     панель, але тоді з неї не міг вийти рядок із підписом і кнопкою. */
+  .hp-switch-fx {
+    position: absolute; inset: 0; z-index: 0;
+    overflow: hidden; border-radius: inherit; pointer-events: none;
   }
   .hp-switch .ch-strip-head { margin-bottom: clamp(4px, 0.7vh, 7px); }
   /* Ті самі три правила, що й для .hero-strip: без класу .hero-strip вимкнений
@@ -5270,10 +5276,6 @@
 
   /* На телефоні панель та сама, а кадр утричі вужчий: навушники дістають до
      кнопки звуку. Заходять менше, решта пропорцій лишається. */
-  /* Підпис на картці — тільки для телефона. На ширших екранах його роль
-     виконує рядок у самій панелі. */
-  .hp-card-title { display: none; }
-
   @media (max-width: 560px) {
     /* У панелі на телефоні немає місця на окремий рядок із підписом і
        кнопкою: він з'їдав висоту, якої бракувало навушникам. Підпис
@@ -5282,30 +5284,32 @@
     .hp-top { aspect-ratio: 3 / 2; }
     .hp-stage { gap: 20px; }
 
-    .hp-card-title {
-      display: block; position: absolute; z-index: 3;
-      left: 14px; top: 12px;
-      font-family: 'Unbounded', sans-serif; font-weight: 600;
-      font-size: 10.5px; letter-spacing: 2px; text-transform: uppercase;
-      color: rgba(255,255,255,0.78);
-      text-shadow: 0 1px 10px rgba(0,0,0,0.6);
-    }
-
+    /* Рядок із підписом і кнопкою звуку виходить із панелі на картку зі
+       знімком. Зсув рахується, а не підбирається: картка має пропорцію 3:2
+       і ширину сцени, тобто (100vw - 56px) від падінгів .wrap, тож її
+       висота — дві третини цієї ширини, плюс розрив до панелі. */
     .hp-switch .ch-strip-head {
       position: absolute; z-index: 5;
-      top: 6px; right: 12px;
-      width: auto; margin: 0;
+      left: 14px; right: 12px; margin: 0; width: auto;
+      top: calc(-1 * (100vw - 56px) * 2 / 3 - 8px);
     }
-    .hp-switch .ch-strip-title { display: none; }
+    .hp-switch .ch-strip-title {
+      display: block;
+      font-family: 'Unbounded', sans-serif; font-weight: 500;
+      font-size: 10.5px; letter-spacing: 1.1px;
+      color: rgba(255,255,255,0.8);
+      text-shadow: 0 1px 10px rgba(0,0,0,0.65);
+    }
     .hp-switch .ch-mute {
       width: 40px; height: 40px; padding: 0;
       justify-content: center; border-radius: 50%;
     }
     .hp-switch .ch-mute-label { display: none; }
 
-    /* 46px: рівно стільки, щоб іконка звуку (6..46) стала над рядом
-       перемикачів, а не на колонку BLUE. */
-    .hp-switch { padding-top: 46px; }
+    /* Рядок пішов на картку, тож верхній відступ лишився тільки під
+       навушники. Нижній більший: під перемикачами йде еквалайзер, і назви
+       не повинні на нього налазити. */
+    .hp-switch { padding: 16px 14px 26px; }
     .hp-gear { width: 75%; bottom: -58px; }
   }
 
