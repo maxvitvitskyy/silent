@@ -5045,13 +5045,19 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: clamp(12px, 1.3vw, 20px);
   }
+  /* height, а не min-height: при auto-висоті height:100% на знімку нема від
+     чого рахуватись, і кадр починає диктувати висоту рядка власними
+     пропорціями. Старий знімок був 2.61:1 і в цю смугу вкладався, новий
+     1.5:1 розсунув її. Задана висота повертає смугу й віддає обрізання
+     object-fit. */
   .pb-shot {
     grid-column: span 2;
     margin: 0; overflow: hidden;
     border-radius: var(--r-md);
-    min-height: clamp(240px, 26vw, 360px);
+    height: clamp(240px, 26vw, 360px);
   }
-  .pb-shot img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  /* Трохи вище центру: там обличчя, а внизу кадру тільки темний одяг. */
+  .pb-shot img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
 
   .pb-card {
     display: flex; flex-direction: column;
@@ -5096,10 +5102,10 @@
   @media (max-width: 900px) {
     .process-head { grid-template-columns: minmax(0, 1fr); gap: clamp(16px, 3vh, 24px); align-items: start; }
     .process-bento { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .pb-shot { min-height: clamp(200px, 40vw, 300px); }
+    .pb-shot { height: clamp(200px, 40vw, 300px); }
   }
   @media (max-width: 560px) {
     .process-bento { grid-template-columns: minmax(0, 1fr); }
-    .pb-shot { grid-column: span 1; min-height: 220px; }
+    .pb-shot { grid-column: span 1; height: clamp(200px, 52vw, 250px); }
     .pb-card { min-height: 0; }
   }
