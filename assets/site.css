@@ -5147,7 +5147,7 @@
     font-size: clamp(13px, 1vw, 14.5px); color: var(--muted-2, rgba(255,255,255,0.45));
   }
 
-  .hp-stage { display: flex; flex-direction: column; gap: clamp(18px, 2.2vw, 30px); }
+  .hp-stage { display: flex; flex-direction: column; gap: clamp(36px, 4.4vw, 60px); }
 
   /* Знімок теж міняється з каналом: у кожного кадру навушники свого кольору. */
   /* isolation замикає z-index кадрів усередині картки. Без цього лічильник,
@@ -5188,8 +5188,11 @@
   .hp-gear {
     position: absolute; z-index: 4;
     left: 50%; transform: translateX(-50%);
-    width: clamp(240px, 48%, 420px); aspect-ratio: 1;
-    bottom: calc(-1 * clamp(42px, 4.8vw, 64px));
+    width: clamp(280px, 56%, 500px); aspect-ratio: 1;
+    bottom: calc(-1 * clamp(72px, 8vw, 104px));
+    /* Кадр декоративний (aria-hidden), тож він не має перехоплювати кліки
+       нізащо: на телефоні його коробка накривала кнопку звуку. */
+    pointer-events: none;
   }
   /* Кадри не гаснуть по черзі, а накладаються: новий з'являється поверх
      попереднього, який лишається щільним. Інакше посередині переходу обидва
@@ -5219,6 +5222,12 @@
   @keyframes hpPulse {
     0%, 100% { opacity: 0.45; transform: translate(-50%, -50%) scale(0.94); }
     50%      { opacity: 0.85; transform: translate(-50%, -50%) scale(1.07); }
+  }
+
+  /* На телефоні панель та сама, а кадр утричі вужчий: навушники дістають до
+     кнопки звуку. Заходять менше, решта пропорцій лишається. */
+  @media (max-width: 560px) {
+    .hp-gear { bottom: -48px; }
   }
 
   @media (max-width: 900px) {
