@@ -5059,6 +5059,23 @@
     font-size: min(7.8cqw, 47px);
     margin-bottom: clamp(20px, 3vh, 30px);
   }
+  /* Заголовок блоку з каналами — ціле речення, а не назва з двох слів. На
+     спільних 47px він розсипався на чотири рядки й перевішував сцену
+     поруч. */
+  .exp-gear .exp-h2 { font-size: min(6.2cqw, 37px); }
+  /* Сцена дорівнює текстовій колонці, і різницю забирає картка зі знімком:
+     панель унизу має свою висоту, а кадр займає все, що лишилось. Тому
+     блок лишається рівним навіть коли текст поруч зміниться. Тільки на
+     двоколонковій розкладці — нижче 1000px колонки йдуть одна за одною. */
+  @media (min-width: 1000px) {
+    .exp-gear .exp-story-grid { align-items: stretch; }
+    .exp-gear .hp-stage { height: 100%; }
+    .exp-gear .hp-top {
+      aspect-ratio: auto;
+      flex: 1 1 auto;
+      min-height: clamp(240px, 24vw, 380px);
+    }
+  }
   .exp-story-text p + p { margin-top: clamp(14px, 2vh, 20px); }
   .exp-story-text p:not(.story-eyebrow) {
     font-size: clamp(15px, 1.35vw, 17.5px); line-height: 1.62;
@@ -5171,31 +5188,19 @@
   /* ---------- «Як це влаштовано»: демонстрація каналів ---------- */
   /* Дзеркало до .exp-story: текст стоїть у розмітці першим, тож сам
      потрапляє в ліву колонку, а сцена з навушниками — у праву. */
+  /* Без нумерації: це чотири незалежні причини, а не кроки за порядком, і
+     цифри обіцяли б послідовність, якої немає. */
   .gear-steps {
     list-style: none; margin: clamp(22px, 3vh, 30px) 0 0; padding: 0;
-    display: grid; gap: clamp(16px, 2vh, 22px);
-    counter-reset: gear;
+    display: grid; gap: clamp(18px, 2.4vh, 26px);
   }
-  .gear-steps li {
-    display: grid; grid-template-columns: auto minmax(0, 1fr);
-    gap: 14px; align-items: start; counter-increment: gear;
-  }
-  .gear-steps li::before {
-    content: counter(gear, decimal-leading-zero);
-    font-family: 'Unbounded', sans-serif; font-weight: 700;
-    font-size: clamp(13px, 1.1vw, 15px); line-height: 1.4;
-    color: var(--lime);
-  }
-  /* Номер, назва й пояснення — три окремі елементи в потоці, тож обидва
-     текстові явно просяться в другу колонку. Без цього пояснення падало
-     в новий рядок під номер і розтягувалось на всю ширину. */
+  .gear-steps li { display: block; }
   .gear-steps b {
-    grid-column: 2;
     display: block; font-family: 'Unbounded', sans-serif; font-weight: 600;
     font-size: clamp(15px, 1.25vw, 17px); letter-spacing: -0.01em; margin-bottom: 5px;
+    color: var(--lime);
   }
   .gear-steps span {
-    grid-column: 2;
     display: block; font-size: clamp(14px, 1.05vw, 15.5px);
     line-height: 1.55; color: var(--muted);
   }
@@ -5254,7 +5259,7 @@
     /* 64% і 92px разом ставлять видимий верх навушників приблизно на 15%
        висоти кадру, а низ — на 46px усередину панелі. Рахунок такий: у PNG
        вміст займає 2%..96% квадрата, тож видима висота = 0.94 ширини. */
-    width: clamp(240px, 67%, 580px); aspect-ratio: 1;
+    width: clamp(240px, 71%, 620px); aspect-ratio: 1;
     bottom: calc(-1 * clamp(72px, 7.6vw, 110px));
     /* Кадр декоративний (aria-hidden), тож він не має перехоплювати кліки
        нізащо: на телефоні його коробка накривала кнопку звуку. */
