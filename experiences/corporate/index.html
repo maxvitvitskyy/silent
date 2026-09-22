@@ -20,10 +20,6 @@
     y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
 })(window, document, "clarity", "script", "ybmupsein1");
 </script>
-<!-- Обкладинка — найбільший видимий елемент першого екрана, тобто саме вона
-     визначає LCP. Задана фоном у CSS, тож preload-сканер знайшов би її лише
-     після побудови CSSOM; явний preload тягне файл під час парсингу <head>. -->
-<link rel="preload" as="image" href="../../images/shift-new.webp" fetchpriority="high">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Silent Disco для корпоративів — SILENT</title>
 <meta name="description" content="Корпоратив чи тімбілдинг у навушниках: три канали музики, гучність у кожного своя, ззовні тиша. Комплект, доставка, збірка й супровід у Києві та по Україні.">
@@ -59,7 +55,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="../../assets/site.css?v=7f1fcaa2">
+<link rel="stylesheet" href="../../assets/site.css?v=98102e95">
 </head>
 <body id="top">
 
@@ -78,35 +74,50 @@
 
 <main id="main" tabindex="-1">
 
-<main id="main" tabindex="-1">
-
-<!-- HERO: Велика цифра як якорь -->
-<section class="exp-cover exp-cover-hero-metric">
-  <div class="exp-cover-shot" aria-hidden="true"></div>
-  <div class="exp-cover-veil" aria-hidden="true"></div>
-  <div class="wrap exp-cover-inner">
-    <p class="exp-crumb"><a href="/experiences/">Тихі враження</a> <span aria-hidden="true">·</span> Корпоративи</p>
-
-    <!-- Метричний якорь -->
-    <div class="exp-hero-metric">
-      <div class="exp-metric-number">3</div>
-      <div class="exp-metric-label">музичні канали паралельно</div>
+<!-- HERO: рухомі плитки + текст -->
+<section class="exp-cover exp-cover-marquee">
+  <div class="exp-cover-inner">
+    <div class="exp-cover-content">
+      <p class="exp-crumb"><a href="/experiences/">Тихі враження</a> <span aria-hidden="true">&middot;</span> Корпоративи</p>
+      <h1 class="exp-title"><span class="t-lead">Silent Disco</span><span class="t-sub">для корпоративів</span></h1>
+      <p class="exp-lead">Музика, яка обʼєднує команду. Три канали, безліч смаків, одна чудова вечірка.</p>
+      <div class="exp-actions">
+        <a href="#book" class="btn-primary" data-cta="corporate_hero_order">Замовити Silent Disco</a>
+        <a href="#scenario" class="btn-ghost">Дивитися, як це працює</a>
+      </div>
     </div>
+  </div>
 
-    <h1 class="exp-title"><span class="t-lead">Silent Disco</span><span class="t-sub">для корпоративів</span></h1>
-    <p class="exp-lead">Покажіть своїй команді, як добре ви вмієте святкувати.</p>
-
-    <div class="exp-actions">
-      <a href="#book" class="btn-primary" data-cta="corporate_hero_order">Замовити Silent Disco</a>
-      <a href="#scenario" class="btn-ghost">Дивитися, як це працює</a>
+  <!-- Рухомі смуги: верхня (←) та нижня (→) -->
+  <div class="marquee-group">
+    <div class="marquee marquee-top" aria-hidden="true">
+      <div class="marquee-track">
+        <img src="../../images/gal/22_sq.webp" alt="">
+        <img src="../../images/gal/09_tall.webp" alt="">
+        <img src="../../images/gal/13_sq.webp" alt="">
+        <img src="../../images/gal/27_sq.webp" alt="">
+        <img src="../../images/gal/29_wide.webp" alt="">
+        <img src="../../images/gal/33_sq.webp" alt="">
+        <img src="../../images/gal/22_sq.webp" alt="">
+        <img src="../../images/gal/09_tall.webp" alt="">
+        <img src="../../images/gal/13_sq.webp" alt="">
+        <img src="../../images/gal/27_sq.webp" alt="">
+      </div>
     </div>
-
-    <ul class="exp-facts">
-      <li><b class="f-ch"><i style="--ch:var(--red)">RED</i><i style="--ch:var(--green)">GREEN</i><i style="--ch:var(--blue)">BLUE</i></b><span>три канали одночасно</span></li>
-      <li><b>Офіс, лофт, дах</b><span>або будь-яка локація</span></li>
-      <li><b>Тиша для сусідів</b><span>музика лише в навушниках</span></li>
-      <li><b>Від 40 навушників</b><span>мінімальний комплект</span></li>
-    </ul>
+    <div class="marquee marquee-bottom" aria-hidden="true">
+      <div class="marquee-track">
+        <img src="../../images/gal/07_tall.webp" alt="">
+        <img src="../../images/gal/08_tall.webp" alt="">
+        <img src="../../images/gal/20_sq.webp" alt="">
+        <img src="../../images/gal/25_sq.webp" alt="">
+        <img src="../../images/gal/28_wide.webp" alt="">
+        <img src="../../images/gal/32_sq.webp" alt="">
+        <img src="../../images/gal/07_tall.webp" alt="">
+        <img src="../../images/gal/08_tall.webp" alt="">
+        <img src="../../images/gal/20_sq.webp" alt="">
+        <img src="../../images/gal/25_sq.webp" alt="">
+      </div>
+    </div>
   </div>
 </section>
 

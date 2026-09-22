@@ -3803,6 +3803,101 @@
   }
   .exp-cover-inner { position: relative; z-index: 1; }
 
+  /* Marquee Hero: рухомі плитки */
+  .exp-cover-marquee {
+    min-height: clamp(600px, 85svh, 800px);
+    background: linear-gradient(135deg, rgba(20,20,20,1) 0%, rgba(25,25,30,0.95) 100%);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(32px, 5vw, 60px);
+    align-items: center;
+    padding: clamp(40px, 6vh, 80px) 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .exp-cover-marquee .exp-cover-inner {
+    grid-column: 1;
+  }
+  .exp-cover-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: clamp(20px, 3vw, 40px);
+  }
+
+  .marquee-group {
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(16px, 3vw, 28px);
+    height: 100%;
+    justify-content: center;
+  }
+  .marquee {
+    overflow: hidden;
+    height: clamp(180px, 20vw, 280px);
+    display: flex;
+    align-items: center;
+    border-radius: var(--r-lg);
+  }
+  .marquee-track {
+    display: flex;
+    gap: clamp(12px, 2vw, 20px);
+    animation: marquee-scroll 40s linear infinite;
+    will-change: transform;
+  }
+  .marquee-track img {
+    flex-shrink: 0;
+    width: clamp(140px, 16vw, 220px);
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--r-md);
+    opacity: 0.9;
+    transition: opacity 0.3s;
+  }
+  .marquee-track img:hover {
+    opacity: 1;
+  }
+
+  .marquee-top .marquee-track {
+    animation: marquee-left 40s linear infinite;
+  }
+  .marquee-bottom .marquee-track {
+    animation: marquee-right 45s linear infinite;
+  }
+
+  @keyframes marquee-left {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  @keyframes marquee-right {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0); }
+  }
+
+  @media (max-width: 1024px) {
+    .exp-cover-marquee {
+      grid-template-columns: 1fr;
+    }
+    .exp-cover-marquee .exp-cover-inner {
+      grid-column: 1;
+    }
+    .marquee-group {
+      grid-column: 1;
+      gap: clamp(12px, 2vw, 20px);
+      height: clamp(300px, 50vh, 450px);
+    }
+    .marquee {
+      height: clamp(120px, 12vw, 160px);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .marquee-group {
+      display: none;
+    }
+  }
+
   .exp-crumb {
     font-size: 13.5px; letter-spacing: 0.08em; text-transform: uppercase;
     color: var(--muted); margin-bottom: 26px;
@@ -4526,3 +4621,206 @@
   .uc-ph svg { width: 34%; max-width: 78px; height: auto; }
   .uc-card:hover .uc-ph { color: rgba(198,255,0,0.62); }
   .uc-ph, .uc-card:hover .uc-ph { transition: color 0.3s ease; }
+
+  /* ================= ОБКЛАДИНКА-ПОЛЕ ================= */
+  /* Попередня обкладинка (.exp-cover-shot + .exp-cover-veil + велика цифра)
+     була одним знімком на весь кадр під вуаллю. Проблема не в знімку, а в
+     арифметиці: вуаль, достатня, щоб заголовок читався, гасила саме те, заради
+     чого знімок стоїть, а один кадр не показує, що вечірок було багато.
+
+     Тут кадр розібраний на шари. Темне поле замість коробки: у секції немає ні
+     рамки, ні власного фону, ні заокруглення — вона просто ділянка ночі.
+     Ліворуч текст на затемненій половині, праворуч стрічка з восьми знімків,
+     що течуть назустріч одна одній, під ними живий градієнт — той самий
+     .aurora-liquid, що й на головній, не друга його копія. Краї стрічки
+     зроблені маскою, а не лінією: знімки виходять із темряви й у темряву
+     йдуть, тож у кадрі немає жодного різаного краю. */
+
+  .exp-cover-field {
+    /* Вище за попередню обкладинку: стрічці потрібна висота, інакше в кадр
+       входить півтора знімка і рух читається як смикання, а не як течія. */
+    min-height: clamp(560px, 86svh, 880px);
+    align-items: center;
+    padding: clamp(104px, 13vh, 136px) 0 clamp(28px, 4vh, 48px);
+    background: var(--night);
+  }
+
+  /* Обгортка градієнта живе за тими самими правилами, що .benefits-aurora:
+     коробка більша за секцію, спільне розмиття, край розчинений маскою. Ліва
+     межа стоїть на 34%, щоб світло піднімалось під стрічкою й лише краєм
+     заходило під заголовок — під самим текстом воно має бути вже майже
+     згаслим, інакше падає контраст. */
+  .exp-field-aurora {
+    position: absolute; inset: -22% -8% -26% 34%; z-index: 0;
+    overflow: hidden;
+    filter: blur(64px) saturate(1.25);
+    opacity: 1;
+  }
+
+  /* Ширма горизонтальна, а не суцільна: ліва половина мусить бути майже
+     чорною під заголовком, права — лишити і градієнт, і знімки видимими. Одне
+     рівне затемнення забрало б і те, і те. */
+  .exp-field-scrim {
+    position: absolute; inset: 0; z-index: 0;
+    background: linear-gradient(90deg,
+      var(--night) 0%, var(--night) 37%,
+      rgba(10,10,11,0.80) 52%, rgba(10,10,11,0.26) 72%, rgba(10,10,11,0) 88%);
+  }
+
+  .exp-cover-field .exp-cover-inner {
+    display: grid; align-items: center;
+    grid-template-columns: minmax(0, 46%) minmax(0, 1fr);
+    grid-template-areas: 'text strip' 'facts facts';
+    column-gap: clamp(24px, 3vw, 56px);
+    row-gap: clamp(30px, 5vh, 56px);
+  }
+  .exp-field-text { grid-area: text; }
+  .exp-marquee    { grid-area: strip; }
+  .exp-cover-field .exp-facts { grid-area: facts; }
+
+  /* Хлібна крихта стає пігулкою. На полі без рамок дрібний текст у розрядку
+     губиться між заголовком і градієнтом, а заповнена пігулка читається як
+     об'єкт — і при цьому лишається справжнім посиланням угору по ієрархії,
+     тобто не перетворюється на декорацію. */
+  .exp-cover-field .exp-crumb {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(198,255,0,0.14); color: var(--lime);
+    font-family: 'Unbounded', sans-serif; font-weight: 600;
+    font-size: 10.5px; letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .exp-cover-field .exp-crumb a { color: inherit; border-bottom-color: rgba(198,255,0,0.4); }
+  .exp-cover-field .exp-crumb a:hover { color: #fff; border-bottom-color: #fff; }
+
+  .exp-cover-field .exp-title { max-width: 12ch; margin-bottom: 22px; }
+  .exp-cover-field .exp-lead  { max-width: 38ch; }
+
+  /* ---------- Стрічка знімків ---------- */
+  /* Дві колонки, що їдуть у протилежні боки: одна вгору, друга вниз. Рух
+     повільний і рівний (linear), бо будь-яке пом'якшення на нескінченній петлі
+     читається як ривок на стику. Набір плиток у кожній колонці подвоєний, і
+     зсув на половину висоти повертає стрічку рівно в початок — шва немає.
+     Половина вимагає поправки на півпроміжка: 50% висоти доріжки — це набір
+     плюс 7.5 проміжків, а повний оберт — набір плюс 8. */
+  .exp-marquee {
+    --mq-gap: clamp(12px, 1.4vw, 20px);
+    position: relative; overflow: hidden;
+    height: clamp(420px, 64svh, 680px);
+    display: flex; gap: var(--mq-gap);
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 15%, #000 70%, transparent 100%);
+            mask-image: linear-gradient(180deg, transparent 0%, #000 15%, #000 70%, transparent 100%);
+  }
+  /* Стрічка виходить за контейнер до самого краю екрана. Інакше права колонка
+     обривається рівною вертикаллю на межі .wrap — тобто тим самим різаним
+     краєм, якого ми позбулись зверху і знизу маскою. Відступ рахуємо з
+     геометрії контейнера: 18px поля + 25px внутрішнього відступу, а ширше
+     1356px — половина різниці до 1320px плюс ті самі 25px. Секція обрізає
+     надлишок, тож горизонтальної прокрутки не з'являється. */
+  @media (min-width: 901px) {
+    .exp-cover-field .exp-marquee {
+      margin-right: calc(-1 * max(43px, (100vw - 1320px) / 2 + 25px));
+    }
+  }
+
+  .exp-marquee-col { position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; }
+  .exp-marquee-track {
+    position: absolute; inset: 0 0 auto 0;
+    display: flex; flex-direction: column; gap: var(--mq-gap);
+    will-change: transform;
+  }
+  .exp-marquee-up   .exp-marquee-track { animation: expMarqUp   26s linear infinite; }
+  .exp-marquee-down .exp-marquee-track { animation: expMarqDown 26s linear infinite; }
+  @keyframes expMarqUp {
+    from { transform: translateY(0); }
+    to   { transform: translateY(calc(-50% - var(--mq-gap) / 2)); }
+  }
+  @keyframes expMarqDown {
+    from { transform: translateY(calc(-50% - var(--mq-gap) / 2)); }
+    to   { transform: translateY(0); }
+  }
+
+  .exp-tile { flex: none; width: 100%; overflow: hidden; background: var(--night-2); }
+  .exp-tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  /* Два силуети по черзі: коло і м'який прямокутник. Однакові плитки читались
+     би як сітка каталогу, а чергування робить зі стрічки композицію. */
+  .exp-tile-round { border-radius: 50%; aspect-ratio: 1 / 1; }
+  .exp-tile-soft  { border-radius: var(--r-lg); aspect-ratio: 3 / 4; }
+
+  /* ---------- Факти ---------- */
+  /* Без верхньої лінії й без плашки: рівна лінія під заголовком читається як
+     верхній край коробки, а рівно цього на полі бути не мусить. Іконка стоїть
+     прямо на полі, без круглої підкладки — підкладка потрібна там, де таких
+     пунктів шість і більше й повторення дисків робить із них чекліст. */
+  .exp-cover-field .exp-facts {
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(16px, 2vw, 28px);
+    /* Жодної лінії: і верхньої, і нижньої. Рівна волосінь під фактами
+       читається як край коробки — рівно те, чого на полі бути не мусить. */
+    border: 0; padding-top: 0; padding-bottom: 0; max-width: none;
+  }
+  .exp-cover-field .exp-facts li { flex-direction: row; align-items: flex-start; gap: 14px; }
+  .exp-fact-ico {
+    flex: none; width: clamp(26px, 2.2vw, 34px); height: auto;
+    color: var(--lime); margin-top: 2px;
+  }
+  .exp-cover-field .exp-facts b { font-size: clamp(15px, 1.4vw, 18px); }
+  .exp-cover-field .exp-facts span { font-size: 13px; }
+
+  /* ---------- Вузький екран ---------- */
+  @media (max-width: 900px) {
+    .exp-cover-field {
+      min-height: 0;
+      padding: clamp(92px, 12vh, 112px) 0 clamp(28px, 4vh, 40px);
+    }
+    .exp-cover-field .exp-cover-inner {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: 'text' 'strip' 'facts';
+      row-gap: clamp(26px, 4vh, 38px);
+    }
+    /* Світло переїжджає під стрічку: на вузькому екрані текст і знімки стоять
+       один під одним, тож затемнювати половину кадру вже нічого. */
+    .exp-field-aurora { inset: 30% -24% -22% -24%; opacity: 1; }
+    .exp-field-scrim {
+      background: linear-gradient(180deg,
+        var(--night) 0%, var(--night) 30%, rgba(10,10,11,0.45) 46%, rgba(10,10,11,0) 72%);
+    }
+    .exp-cover-field .exp-title { max-width: 11ch; }
+    .exp-cover-field .exp-lead  { max-width: none; }
+
+    /* Стрічка кладеться набік: у портреті вертикальний рух з'їдає висоту,
+       якої на телефоні й так немає, тож ті самі дві доріжки їдуть
+       горизонтально — одна вліво, друга вправо. Розмітка та сама. */
+    .exp-marquee {
+      height: clamp(200px, 28svh, 260px);
+      flex-direction: column;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+              mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+    }
+    .exp-marquee-track {
+      inset: 0 auto 0 0; height: 100%;
+      flex-direction: row;
+    }
+    .exp-marquee-up   .exp-marquee-track { animation-name: expMarqLeft; }
+    .exp-marquee-down .exp-marquee-track { animation-name: expMarqRight; }
+    .exp-tile { width: auto; height: 100%; }
+    .exp-tile-soft { border-radius: var(--r-md); }
+
+    .exp-cover-field .exp-facts { grid-template-columns: 1fr 1fr; gap: 20px 16px; }
+    .exp-fact-ico { width: 24px; }
+  }
+  @keyframes expMarqLeft {
+    from { transform: translateX(0); }
+    to   { transform: translateX(calc(-50% - var(--mq-gap) / 2)); }
+  }
+  @keyframes expMarqRight {
+    from { transform: translateX(calc(-50% - var(--mq-gap) / 2)); }
+    to   { transform: translateX(0); }
+  }
+
+  /* Іконка стоїть у рядок із текстом, а сам текст лишається стовпчиком:
+     заголовок факту й уточнення під ним. Без цієї обгортки flex розкладав би
+     іконку, назву й уточнення в один ряд. */
+  .exp-cover-field .exp-facts .f-txt {
+    display: flex; flex-direction: column; gap: 4px; min-width: 0;
+  }
