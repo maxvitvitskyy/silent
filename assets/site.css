@@ -5234,12 +5234,43 @@
 
   /* На телефоні панель та сама, а кадр утричі вужчий: навушники дістають до
      кнопки звуку. Заходять менше, решта пропорцій лишається. */
+  /* Підпис на картці — тільки для телефона. На ширших екранах його роль
+     виконує рядок у самій панелі. */
+  .hp-card-title { display: none; }
+
   @media (max-width: 560px) {
-    /* На телефоні кадр 16:9 виходить лише 188px заввишки — смужка, з якої
-       навушники вилазять угору. Тут пропорція 4:3: кадр стає 250px, і вони
-       вміщаються в нього цілком. */
-    .hp-top { aspect-ratio: 4 / 3; }
-    .hp-gear { width: 76%; bottom: -66px; }
+    /* У панелі на телефоні немає місця на окремий рядок із підписом і
+       кнопкою: він з'їдав висоту, якої бракувало навушникам. Підпис
+       переїхав на картку, кнопка звуку стала іконкою в кутку панелі, і
+       панель лишилась із самими перемикачами. */
+    .hp-top { aspect-ratio: 3 / 2; }
+    .hp-stage { gap: 20px; }
+
+    .hp-card-title {
+      display: block; position: absolute; z-index: 3;
+      left: 14px; top: 12px;
+      font-family: 'Unbounded', sans-serif; font-weight: 600;
+      font-size: 10.5px; letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(255,255,255,0.78);
+      text-shadow: 0 1px 10px rgba(0,0,0,0.6);
+    }
+
+    .hp-switch .ch-strip-head {
+      position: absolute; z-index: 5;
+      top: 6px; right: 12px;
+      width: auto; margin: 0;
+    }
+    .hp-switch .ch-strip-title { display: none; }
+    .hp-switch .ch-mute {
+      width: 40px; height: 40px; padding: 0;
+      justify-content: center; border-radius: 50%;
+    }
+    .hp-switch .ch-mute-label { display: none; }
+
+    /* 46px: рівно стільки, щоб іконка звуку (6..46) стала над рядом
+       перемикачів, а не на колонку BLUE. */
+    .hp-switch { padding-top: 46px; }
+    .hp-gear { width: 75%; bottom: -58px; }
   }
 
   @media (max-width: 999px) {
