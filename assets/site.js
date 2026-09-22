@@ -1671,7 +1671,7 @@ const I18N = window.SILENT_I18N;
     const LIME = [198, 255, 0], ACID = [255, 20, 120];
 
     const zones = [];
-    document.querySelectorAll('.benefits-aurora, .uc-aurora, .band-aurora').forEach(box => {
+    document.querySelectorAll('.benefits-aurora, .uc-aurora, .band-aurora, .cover-aurora').forEach(box => {
       // Порядок важливий: розрідження додається ПЕРШИМ, тож ланки шлейфу
       // лягають поверх нього, а не зникають під ним.
       const hole = document.createElement('span');

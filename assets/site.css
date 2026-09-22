@@ -4749,26 +4749,34 @@
 
   /* Та сама аврора, що у футері: лайм веде, малиновий підсвічує збоку.
      Канал тут не перемикається, тому обидва кольори фіксовані. */
-  /* Блюр лишається, дрейф — ні. Дорогим був не сам filter, а те, що плями
-     під ним рухались: через це вся площа 1227x988 (на retina вчетверо
-     більша) переблюрювалась щокадру й підвішувала GPU, аж блимало все
-     композитне на сторінці. Нерухому аврору браузер растеризує один раз
-     і далі просто показує готову текстуру. Без блюру, самими градієнтами,
-     це не відтворюється: на телефоні проступали краї плям. */
+  /* Той самий рідкий градієнт, що в «Досвіді гостя» на головній: не окремі
+     плями, а два шари тайльованих радіальних градієнтів, які обертаються в
+     різні боки й ніколи не дають той самий візерунок двічі. Тут лише своя
+     коробка й свій силует; сама рідина, кольори та шлейф за курсором —
+     спільні, з .aurora-liquid і site.js. */
   .cover-aurora {
     position: absolute; inset: 0;
     overflow: hidden;
     pointer-events: none;
-    filter: blur(70px) saturate(1.4);
-    opacity: 0.78;
+    filter: blur(64px) saturate(1.25);
+    opacity: 0.92;
     -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 58%, transparent 96%);
     mask-image: linear-gradient(180deg, #000 0%, #000 58%, transparent 96%);
   }
-  .ca-blob { position: absolute; border-radius: 50%; }
-  .ca-blob.c1 { width: 78%; height: 108%; left: -34%; top: -28%; background: radial-gradient(circle, rgba(198,255,0,0.62) 0%, rgba(198,255,0,0.34) 26%, rgba(198,255,0,0.12) 48%, rgba(198,255,0,0.03) 68%, transparent 82%); }
-  .ca-blob.c2 { width: 64%; height: 92%;  left: -14%; top:  18%; background: radial-gradient(circle, rgba(255,71,87,0.58) 0%, rgba(255,71,87,0.31) 26%, rgba(255,71,87,0.11) 48%, rgba(255,71,87,0.03) 68%, transparent 82%); }
-  .ca-blob.c3 { width: 56%; height: 80%;  left:   6%; top: -24%; background: radial-gradient(circle, rgba(198,255,0,0.40) 0%, rgba(198,255,0,0.21) 28%, rgba(198,255,0,0.07) 50%, transparent 78%); }
-  .ca-blob.c4 { width: 56%; height: 78%;  left: -28%; top:  40%; background: radial-gradient(circle, rgba(255,71,87,0.40) 0%, rgba(255,71,87,0.20) 28%, rgba(255,71,87,0.07) 50%, transparent 78%); }
+  /* Силует під пропорції обкладинки: праворуч стоїть стрічка знімків, тож
+     поле тримається лівої половини й тане, не дійшовши до неї. */
+  .cover-aurora .aurora-liquid {
+    -webkit-mask-image:
+      radial-gradient(48% 54% at 8% 24%, #000 0, transparent 72%),
+      radial-gradient(42% 48% at 26% 64%, #000 0, transparent 72%),
+      radial-gradient(34% 42% at 2% 82%, #000 0, transparent 72%),
+      radial-gradient(30% 38% at 42% 12%, #000 0, transparent 74%);
+    mask-image:
+      radial-gradient(48% 54% at 8% 24%, #000 0, transparent 72%),
+      radial-gradient(42% 48% at 26% 64%, #000 0, transparent 72%),
+      radial-gradient(34% 42% at 2% 82%, #000 0, transparent 72%),
+      radial-gradient(30% 38% at 42% 12%, #000 0, transparent 74%);
+  }
 
   /* .wrap задає геометрію меню, тому заголовок стає рівно під логотипом,
      а права колонка плиток — рівно під краєм кнопки «Перевірити дату». */
