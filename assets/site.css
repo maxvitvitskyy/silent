@@ -5070,11 +5070,11 @@
   @media (min-width: 1000px) {
     .exp-gear .exp-story-grid { align-items: stretch; }
     .exp-gear .hp-stage { height: 100%; }
-    .exp-gear .hp-top {
-      aspect-ratio: auto;
-      flex: 1 1 auto;
-      min-height: clamp(240px, 24vw, 380px);
-    }
+    /* Розтягується обгортка, бо прямий нащадок сцени саме вона, а не кадр.
+       Кадр усередині заповнює її: інакше він лишався на своєму мінімумі, а
+       вільна висота осідала порожнечею всередині обгортки. */
+    .exp-gear .hp-top-wrap { flex: 1 1 auto; min-height: clamp(240px, 24vw, 380px); }
+    .exp-gear .hp-top { aspect-ratio: auto; height: 100%; }
   }
   .exp-story-text p + p { margin-top: clamp(14px, 2vh, 20px); }
   .exp-story-text p:not(.story-eyebrow) {
