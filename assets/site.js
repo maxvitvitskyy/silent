@@ -2368,8 +2368,14 @@ const I18N = window.SILENT_I18N;
     // Кадр, що йде, лишається щільним, а новий проявляється поверх нього. Якщо
     // натомість гасити попередній одночасно, посередині переходу обидва
     // напівпрозорі й зображення на мить провалюється у фон.
+    // Пульс під навушниками бере колір каналу звідси: сам він живе поза
+    // панеллю, тож --ch, який site.js ставить на #channels, до нього не
+    // доходить.
+    const GLOW = ['var(--red)', 'var(--green)', 'var(--blue)'];
+
     let z = 2;
     function paint(i){
+      if (GLOW[i]) stage.style.setProperty('--hp-glow', GLOW[i]);
       sets.forEach(function(set){
         for (let k = 0; k < set.length; k++){
           if (Number(set[k].dataset.ch) !== i) continue;

@@ -5147,7 +5147,7 @@
     font-size: clamp(13px, 1vw, 14.5px); color: var(--muted-2, rgba(255,255,255,0.45));
   }
 
-  .hp-stage { display: flex; flex-direction: column; gap: clamp(10px, 1.2vw, 16px); }
+  .hp-stage { display: flex; flex-direction: column; gap: clamp(18px, 2.2vw, 30px); }
 
   /* Знімок теж міняється з каналом: у кожного кадру навушники свого кольору. */
   /* isolation замикає z-index кадрів усередині картки. Без цього лічильник,
@@ -5174,7 +5174,7 @@
     /* Висота тримається на верхньому відступі: у нього заходять навушники.
        Відступ рівно такий, щоб вони не дістали до заголовка панелі, і не
        більший — інакше під ними лишається смуга порожнечі. */
-    padding: clamp(20px, 2.3vw, 30px) clamp(14px, 1.6vw, 20px) clamp(10px, 1.2vw, 13px);
+    padding: clamp(11px, 1.3vw, 16px) clamp(14px, 1.6vw, 20px) clamp(10px, 1.2vw, 13px);
     will-change: backdrop-filter;
   }
   .hp-switch .ch-strip-head { margin-bottom: clamp(4px, 0.7vh, 7px); }
@@ -5189,7 +5189,7 @@
     position: absolute; z-index: 4;
     left: 50%; transform: translateX(-50%);
     width: clamp(240px, 48%, 420px); aspect-ratio: 1;
-    bottom: calc(-1 * clamp(24px, 2.7vw, 36px));
+    bottom: calc(-1 * clamp(42px, 4.8vw, 64px));
   }
   /* Кадри не гаснуть по черзі, а накладаються: новий з'являється поверх
      попереднього, який лишається щільним. Інакше посередині переходу обидва
@@ -5200,6 +5200,26 @@
     opacity: 0; transition: opacity 0.55s ease;
   }
   .hp-img.is-on { opacity: 1; }
+
+  /* Пульс під навушниками в колір каналу. Без filter: blur() — радіальний
+     градієнт і так м'який, а рухомий блюр довелось би перераховувати щокадру.
+     Рухаються тільки opacity й transform, тобто чиста композиція. */
+  .hp-glow {
+    position: absolute; z-index: 0;
+    left: 50%; top: 54%;
+    width: 84%; aspect-ratio: 1; border-radius: 50%;
+    pointer-events: none;
+    background: radial-gradient(circle,
+      color-mix(in srgb, var(--hp-glow, var(--red)) 58%, transparent) 0%,
+      color-mix(in srgb, var(--hp-glow, var(--red)) 24%, transparent) 40%,
+      transparent 70%);
+    transition: background 0.55s ease;
+    animation: hpPulse 3.4s ease-in-out infinite;
+  }
+  @keyframes hpPulse {
+    0%, 100% { opacity: 0.45; transform: translate(-50%, -50%) scale(0.94); }
+    50%      { opacity: 0.85; transform: translate(-50%, -50%) scale(1.07); }
+  }
 
   @media (max-width: 900px) {
     .exp-gear .hp-stage { max-width: 520px; margin-inline: auto; width: 100%; }
