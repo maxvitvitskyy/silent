@@ -646,9 +646,12 @@
     .hero-facts .hf-phrase.active { animation: none; }
   }
 
+  /* Прозора рамка тримає коробку однаковою з .btn-ghost: у тієї рамка
+     справжня, і без цього лаймова кнопка виходила на 2px нижчою. Поруч у
+     рядку це непомітно, а одна під одною на телефоні — видно. */
   .btn-primary {
     background: var(--lime); color: #12100a;
-    padding: 12px 24px; border-radius: 999px;
+    padding: 12px 24px; border: 1px solid transparent; border-radius: 999px;
     font-weight: 600; font-size: 14px;
     box-shadow: 0 0 0 0 transparent, 0 8px 28px -6px var(--lime-glow);
     transition: transform 0.2s, box-shadow 0.2s;
@@ -3837,18 +3840,35 @@
   .exp-facts span { font-size: 13.5px; color: var(--muted); }
 
   /* ---------- Розділи ---------- */
-  .exp-section { padding: clamp(72px, 11vh, 132px) 0; }
+  /* Сторінка досвіду дихає одним ритмом. Власні розділи раніше жили на
+     11vh (105px), а принесені з бібліотеки — на спільних --sec-pad (72px),
+     і прокрутка через них збивалася з кроку. Тепер сторінка перевизначає
+     сам токен, тож обидві родини рахуються від нього. Міра — ширина, а не
+     висота: висота екрана однакова в телефона й ноутбука, ширина ні. */
+  .exp-page { --sec-pad: clamp(64px, 7.3vw, 132px); }
+  .exp-section { padding: var(--sec-pad) 0; }
   /* Розділ одразу під обкладинкою має менший верхній відступ за решту: його
      заголовок мусить зайти в перший екран, інакше обкладинка закінчується
      нічим. При 900px спільні 11vh давали 99px і відсували заголовок рівно за
      межу кадру. Далі по сторінці ритм лишається звичайним. */
-  .exp-cover + .exp-section { padding-top: clamp(52px, 7.5vh, 96px); }
+  .exp-cover + .exp-section { padding-top: calc(var(--sec-pad) * 0.68); }
   .exp-section-alt { background: var(--night-2); }
   .exp-h2 {
     font-family: 'Unbounded', sans-serif; font-weight: 700;
     font-size: clamp(27px, 3.8vw, 52px); line-height: 1.06; letter-spacing: -0.03em;
     max-width: 20ch; margin: 0 0 clamp(36px, 5vh, 64px);
   }
+  /* Розділи, принесені з бібліотеки, титулуються класом .h2 (34px) — на
+     головній це вірний розмір, бо там уся сторінка на ньому. Тут поруч
+     стоять .exp-h2 на 52px, і однакові за роллю заголовки читались як два
+     рівні. Перевизначення живе тільки на сторінках досвіду, головної не
+     торкається. */
+  .exp-page .h2 {
+    font-size: clamp(27px, 3.8vw, 52px); line-height: 1.06;
+    letter-spacing: -0.03em; max-width: 20ch;
+    margin-bottom: clamp(36px, 5vh, 64px);
+  }
+
   .exp-sub { font-size: 15.5px; line-height: 1.6; color: var(--muted); max-width: 44ch; }
 
   /* Три твердження як широкі рядки на лініях, а не як три однакові картки.
@@ -3952,7 +3972,6 @@
         rgba(10,10,11,0.82) 88%,
         var(--night) 100%);
     }
-    .exp-section { padding: 64px 0; }
     .exp-title { font-size: clamp(31px, 9.4vw, 44px); max-width: 13ch; }
     .exp-actions { gap: 10px; }
     .exp-actions .btn-primary, .exp-actions .btn-ghost { flex: 1 1 100%; text-align: center; }
@@ -5014,7 +5033,7 @@
   .exp-story-shots img {
     display: block; width: 100%; height: 100%;
     object-fit: cover;
-    border-radius: clamp(16px, 1.8vw, 26px);
+    border-radius: var(--r-md);
   }
   /* Висоту рядків задає висока картка своєю пропорцією. Без min-height: 0
      праві знімки впираються у власну і роблять колонку вищою за неї —
@@ -5028,7 +5047,7 @@
      буквально та сама .gal-play: клас, а не копія стилів, щоб вона не
      розійшлась із галереєю при наступній правці. Обгортка дає їй точку
      відліку й тримає скруглення кадру. */
-  .story-play-wrap { position: relative; overflow: hidden; border-radius: clamp(16px, 1.8vw, 26px); }
+  .story-play-wrap { position: relative; overflow: hidden; border-radius: var(--r-md); }
   .story-play-wrap img { border-radius: 0; }
   .story-eyebrow {
     font-family: 'Unbounded', sans-serif; font-weight: 600;
@@ -5043,13 +5062,9 @@
      самотнім посеред заголовка. 7.8cqw тримає його цілим на всіх ширинах. */
   .exp-story .exp-h2 {
     max-width: none;
-    font-size: min(7.8cqw, 47px);
+    font-size: min(7.2cqw, 44px);
     margin-bottom: clamp(20px, 3vh, 30px);
   }
-  /* Заголовок блоку з каналами — ціле речення, а не назва з двох слів. На
-     спільних 47px він розсипався на чотири рядки й перевішував сцену
-     поруч. */
-  .exp-gear .exp-h2 { font-size: min(6.2cqw, 37px); }
   /* Сцена дорівнює текстовій колонці, і різницю забирає картка зі знімком:
      панель унизу має свою висоту, а кадр займає все, що лишилось. Тому
      блок лишається рівним навіть коли текст поруч зміниться. Тільки на
@@ -5153,9 +5168,9 @@
   .pb-cta {
     align-self: flex-start;
     margin-top: clamp(16px, 2vw, 24px);
-    padding: 13px 22px; border-radius: 999px;
+    padding: 12px 24px; border: 1px solid transparent; border-radius: 999px;
     background: var(--night); color: #fff;
-    font-weight: 600; font-size: 14.5px; line-height: 1;
+    font-weight: 600; font-size: 14px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
   .pb-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -12px rgba(0,0,0,0.7); }
