@@ -4783,7 +4783,21 @@
     container-type: inline-size;
   }
   /* Рубрика відходить від заголовка: раніше вона лежала просто на ньому. */
-  .exp-cover-gallery .exp-crumb { margin: 0 0 clamp(20px, 3.4vh, 38px); }
+  /* Рубрика набрана як надзаголовок, у тій самій мові, що й на сусідніх
+     сторінках вражень: Unbounded капсом із розрядкою. Підкреслення знято —
+     поточний розділ і так видно за лаймовим. */
+  .exp-cover-gallery .exp-crumb {
+    margin: 0 0 clamp(20px, 3.4vh, 38px);
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 600;
+    font-size: clamp(10.5px, 0.8vw, 12px);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .exp-cover-gallery .exp-crumb a { border-bottom: 0; color: var(--muted); }
+  .exp-cover-gallery .exp-crumb a:hover { color: #fff; }
+  .exp-cover-gallery .exp-crumb .crumb-now { color: var(--lime); }
 
   /* Обидва рядки заголовка тримаються в один рядок кожен. Межу диктує не
      екран, а своя колонка, тож розмір заданий у cqw: найдовший рядок
