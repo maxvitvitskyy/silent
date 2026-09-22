@@ -4811,17 +4811,24 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: clamp(10px, 1.1vw, 15px);
     margin: clamp(26px, 3.6vh, 40px) 0 0;
-    padding-top: 0;
-    border-top: 0;
+    /* Пізніше правило .exp-facts обводить перелік рискою згори й знизу та
+       дає йому власні відступи. Тут це зайве: кожен пункт і так у своїй
+       картці, а риска знизу читалась як межа секції. */
+    padding: 0;
+    border: 0;
     max-width: none;
   }
   /* Підкладка темна, а не світла: під нею проходить аврора, і світле скло
      на ній каламутніло б замість того, щоб відділяти текст. */
+  /* Підкладка без темної основи, яку має --glass-fill-dark: там під
+     rgba(14,14,15,0.58) картки читались як окремі панелі поверх аврори.
+     Лишився тільки світлий градієнт зі скляної мови сайту, тож вони
+     ледь відділяються від тла, а не сидять на ньому. */
   .exp-cover-gallery .exp-facts li {
     flex-direction: row; align-items: flex-start; gap: 13px; min-width: 0;
     padding: clamp(13px, 1.2vw, 17px) clamp(14px, 1.3vw, 19px);
-    background: var(--glass-fill-dark);
-    border: 1px solid var(--line);
+    background: linear-gradient(158deg, rgba(226,230,238,0.055), rgba(210,216,228,0.02) 55%, rgba(210,216,228,0.012));
+    border: 1px solid rgba(255,255,255,0.06);
     border-radius: var(--r-sm);
   }
   /* Розмір узятий під висоту обох рядків тексту. Саме розміром, а не
