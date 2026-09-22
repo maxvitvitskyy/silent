@@ -2351,6 +2351,33 @@ const I18N = window.SILENT_I18N;
     });
   })();
 
+  // Демонстрація каналів на сторінці «Тихі враження». Власна, а не спільна з
+  // головною: там перемикач тягне за собою звук, еквалайзер і знімки hero, а
+  // тут потрібно лише перефарбувати навушники. Три кадри лежать один на
+  // одному й міняються прозорістю, тож перехід читається як зміна кольору, а
+  // не як підміна картинки.
+  (function(){
+    const stage = document.querySelector('.hp-stage');
+    if (!stage) return;
+    const btns = Array.from(stage.querySelectorAll('.hp-btn'));
+    const imgs = Array.from(stage.querySelectorAll('.hp-img'));
+    if (!btns.length || !imgs.length) return;
+
+    function select(i){
+      btns.forEach(function(b){
+        const on = Number(b.dataset.ch) === i;
+        b.classList.toggle('is-on', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      imgs.forEach(function(im){
+        im.classList.toggle('is-on', Number(im.dataset.ch) === i);
+      });
+    }
+    btns.forEach(function(b){
+      b.addEventListener('click', function(){ select(Number(b.dataset.ch)); });
+    });
+  })();
+
   // Прапорець для страхувальника в <head>: він доводить, що цей файл не просто
   // доїхав, а виконався до кінця. Якщо скрипт заблокували, обірвали або він
   // упав десь вище, прапорця не буде — і страхувальник знімає клас js, після

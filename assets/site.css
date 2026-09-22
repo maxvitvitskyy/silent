@@ -5109,3 +5109,87 @@
     .pb-shot { grid-column: span 1; height: clamp(200px, 52vw, 250px); }
     .pb-card { min-height: 0; }
   }
+
+
+  /* ---------- «Як це влаштовано»: демонстрація каналів ---------- */
+  /* Дзеркало до .exp-story: текст стоїть у розмітці першим, тож сам
+     потрапляє в ліву колонку, а сцена з навушниками — у праву. */
+  .gear-steps {
+    list-style: none; margin: clamp(22px, 3vh, 30px) 0 0; padding: 0;
+    display: grid; gap: clamp(16px, 2vh, 22px);
+    counter-reset: gear;
+  }
+  .gear-steps li {
+    display: grid; grid-template-columns: auto minmax(0, 1fr);
+    gap: 14px; align-items: start; counter-increment: gear;
+  }
+  .gear-steps li::before {
+    content: counter(gear, decimal-leading-zero);
+    font-family: 'Unbounded', sans-serif; font-weight: 700;
+    font-size: clamp(13px, 1.1vw, 15px); line-height: 1.4;
+    color: var(--lime);
+  }
+  /* Номер, назва й пояснення — три окремі елементи в потоці, тож обидва
+     текстові явно просяться в другу колонку. Без цього пояснення падало
+     в новий рядок під номер і розтягувалось на всю ширину. */
+  .gear-steps b {
+    grid-column: 2;
+    display: block; font-family: 'Unbounded', sans-serif; font-weight: 600;
+    font-size: clamp(15px, 1.25vw, 17px); letter-spacing: -0.01em; margin-bottom: 5px;
+  }
+  .gear-steps span {
+    grid-column: 2;
+    display: block; font-size: clamp(14px, 1.05vw, 15.5px);
+    line-height: 1.55; color: var(--muted);
+  }
+  .gear-hint {
+    margin: clamp(22px, 3vh, 30px) 0 0;
+    font-size: clamp(13px, 1vw, 14.5px); color: var(--muted-2, rgba(255,255,255,0.45));
+  }
+
+  .hp-stage { display: flex; flex-direction: column; gap: clamp(10px, 1.2vw, 16px); }
+  .hp-top {
+    aspect-ratio: 16 / 9; overflow: hidden;
+    border-radius: var(--r-md);
+  }
+  .hp-top img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+  /* Смуга кольорів каналів. Верхній відступ навмисно великий: у нього
+     заходять навушники, і кнопки лишаються нижче, не під ними. */
+  .hp-switch {
+    position: relative;
+    border-radius: var(--r-md);
+    background: linear-gradient(90deg, var(--red) 0%, var(--green) 52%, var(--blue) 100%);
+    padding: clamp(74px, 10vw, 116px) clamp(12px, 1.4vw, 18px) clamp(14px, 1.6vw, 20px);
+  }
+  .hp-gear {
+    position: absolute; z-index: 2;
+    left: 50%; transform: translateX(-50%);
+    width: clamp(190px, 52%, 330px); aspect-ratio: 1;
+    /* Низ навушників опускається в смугу рівно на цю величину, решта
+       лишається над нею, на знімку. */
+    bottom: calc(100% - clamp(62px, 8.4vw, 96px));
+  }
+  .hp-img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; object-fit: contain;
+    opacity: 0; transition: opacity 0.55s ease;
+  }
+  .hp-img.is-on { opacity: 1; }
+
+  .hp-btns { position: relative; z-index: 3; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(8px, 1vw, 12px); }
+  .hp-btn {
+    padding: 11px 6px; border-radius: 999px; cursor: pointer;
+    background: rgba(10,10,11,0.40);
+    border: 1px solid rgba(255,255,255,0.30);
+    color: #fff;
+    font-family: 'Unbounded', sans-serif; font-weight: 700;
+    font-size: clamp(10.5px, 0.95vw, 12.5px); letter-spacing: 0.1em; line-height: 1;
+    transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  }
+  .hp-btn:hover { background: rgba(10,10,11,0.62); }
+  .hp-btn.is-on { background: var(--night); border-color: var(--night); color: var(--sw); }
+
+  @media (max-width: 900px) {
+    .exp-gear .hp-stage { max-width: 520px; margin-inline: auto; width: 100%; }
+  }

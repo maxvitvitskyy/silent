@@ -55,7 +55,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="../../assets/site.css?v=dd0d7723">
+<link rel="stylesheet" href="../../assets/site.css?v=b6ddde6a">
 </head>
 <body id="top">
 
@@ -163,6 +163,41 @@
       <h2 class="exp-h2">Тиха дискотека для корпоративних заходів</h2>
       <p>Три канали звучать одночасно, і кожен гість перемикає той, який хоче слухати. Це працює і на різдвяній вечірці, і на церемонії нагородження, і на звичайному зборі команди. Гучномовців немає, тому вечір триває стільки, скільки вам потрібно, і сусіди про нього не дізнаються.</p>
       <p>Танцполом це не обмежується. На конференціях і семінарах ті самі навушники дають чистий звук без жодної колонки. В одному залі можуть паралельно йти кілька сесій, і жодна не перекрикує іншу.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ЯК ЦЕ ВЛАШТОВАНО: текст ліворуч, жива демонстрація каналів праворуч -->
+<section class="exp-section exp-story exp-gear" id="how">
+  <div class="wrap exp-story-grid">
+    <div class="exp-story-text reveal">
+      <p class="story-eyebrow">Як це влаштовано</p>
+      <h2 class="exp-h2">Три канали, одні навушники</h2>
+      <ol class="gear-steps">
+        <li><b>Передавач роздає три канали</b><span>Пульт пускає три музичні доріжки одночасно, кожну на своїй частоті.</span></li>
+        <li><b>Звук іде в навушники, а не в колонки</b><span>Кожен гість отримує пару. У залі при цьому тиша.</span></li>
+        <li><b>Канал перемикає сам гість</b><span>Кнопка на чашці міняє доріжку, колесо — гучність. Будь-коли за вечір.</span></li>
+      </ol>
+      <p class="gear-hint">Перемкніть канал і подивіться, що бачить гість.</p>
+    </div>
+
+    <div class="hp-stage reveal">
+      <div class="hp-top"><img src="../../images/gal/19_wide.webp" alt="" loading="lazy" decoding="async"></div>
+
+      <div class="hp-switch">
+        <!-- Навушники заходять на знімок згори й на смугу знизу. Кнопки
+             лишаються нижче за них завдяки верхньому відступу смуги. -->
+        <div class="hp-gear" aria-hidden="true">
+        <img class="hp-img is-on" data-ch="0" src="../../images/ch-red.webp" alt="" loading="lazy" decoding="async">
+        <img class="hp-img" data-ch="1" src="../../images/ch-green.webp" alt="" loading="lazy" decoding="async">
+        <img class="hp-img" data-ch="2" src="../../images/ch-blue.webp" alt="" loading="lazy" decoding="async">
+        </div>
+        <div class="hp-btns" role="group" aria-label="Оберіть канал">
+        <button type="button" class="hp-btn is-on" data-ch="0" aria-pressed="true" style="--sw:var(--red)" translate="no">RED</button>
+        <button type="button" class="hp-btn" data-ch="1" aria-pressed="false" style="--sw:var(--green)" translate="no">GREEN</button>
+        <button type="button" class="hp-btn" data-ch="2" aria-pressed="false" style="--sw:var(--blue)" translate="no">BLUE</button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1142,6 +1177,6 @@ window.SILENT_I18N = {
   }
 };
 </script>
-<script src="../../assets/site.js?v=680c0aee"></script>
+<script src="../../assets/site.js?v=7a5fbdaf"></script>
 </body>
 </html>
