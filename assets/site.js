@@ -918,7 +918,8 @@ const I18N = window.SILENT_I18N;
           text: par ? par.textContent : '',
           src: img ? img.getAttribute('src') : null,
           lqip: img ? img.style.getPropertyValue('--lqip') : '',
-          alt: img ? img.getAttribute('alt') : ''
+          alt: img ? img.getAttribute('alt') : '',
+          cats: c.dataset.cats || ''
         };
       }),
       offset: ri === 1 ? 0.5 : 0,       // нижній ряд зсунутий на пів картки
@@ -997,7 +998,13 @@ const I18N = window.SILENT_I18N;
       });
     }
 
+    // Запит на перемальовування летить через requestAnimationFrame, тож
+    // клік на тему може прийти між плануванням і виконанням: у момент
+    // виклику пул уже спорожнений buildSimple(), а fill() усе ще тягне його
+    // за старою адресою. Прапорець ловить саме цей проміжок.
+    let virtualized = true;
     function fill(){
+      if (!virtualized) return;
       const from = Math.floor(view.scrollLeft / step) - BUFFER;
       for (const r of rows){
         const n = r.items.length;
@@ -1116,6 +1123,88 @@ const I18N = window.SILENT_I18N;
     // start() усередині захищений `if (period)`, тож до побудови він тихо
     // нічого не робить — колбек прогріву кешу лишається безпечним.
     warmStripCache(document.getElementById('cases'), urls, () => { if (!touched) start(); });
+
+    // ---- Фільтр тем над стрічкою (лише де є панель) ----
+    // На «Усі» стрічка лишається тим самим нескінченним пулом, що й досі:
+    // build()/fill() вище цього не знають і не мають знати. Обраної теми
+    // пул не витримує чесно — там лишається 3-5 карток, і подвоєння такої
+    // жмені на всю ширину «нескінченної» доріжки миттю видало б повтор.
+    // Тому для теми ряд перемальовується один раз звичайними картками у
+    // потоці, без пулу й без петлі: рівно стільки елементів, скільки в темі
+    // є, прокрутка лишається рідною.
+    (function(){
+      const filterBar = document.querySelector('.exp-filter');
+      if (!filterBar) return;
+      const chips = [...filterBar.querySelectorAll('.exp-chip')];
+      const countEl = document.querySelector('.exp-count');
+      if (!chips.length) return;
+
+      // Той самий відмінок, що на сторінці-списку — форма слова від числа.
+      function word(n){
+        const t = n % 100, o = n % 10;
+        if (t > 10 && t < 20) return 'форматів';
+        if (o === 1) return 'формат';
+        if (o >= 2 && o <= 4) return 'формати';
+        return 'форматів';
+      }
+
+      let simple = false; // чи ряди зараз у звичайному, нефільтрованому режимі
+
+      function buildSimple(cat){
+        rows.forEach(r => {
+          r.el.textContent = '';
+          // Пул малював ряд абсолютною розкладкою з фіксованою висотою —
+          // обом властивостям тут більше нема чого робити: картки повертаються
+          // у звичайний потік і самі задають висоту рядка.
+          r.el.style.position = '';
+          r.el.style.height = '';
+          r.el.style.transform = '';
+          r.pool = []; r.slot = [];
+          const items = r.items.filter(it => (it.cats || '').split(' ').indexOf(cat) !== -1);
+          items.forEach(it => {
+            const c = document.createElement('article');
+            c.className = 'uc-card';
+            c.dataset.uc = it.name;
+            c.innerHTML = SKELETON;
+            c.querySelector('h3').textContent = it.title;
+            c.querySelector('.uc-body p').textContent = it.text;
+            const media = c.querySelector('.uc-media');
+            if (it.lqip) media.style.setProperty('--lqip', it.lqip);
+            const img = c.querySelector('img');
+            if (it.src){
+              img.setAttribute('src', it.src);
+              img.setAttribute('alt', it.alt || it.name);
+              img.loading = 'lazy';
+            }
+            r.el.appendChild(c);
+          });
+        });
+        view.scrollLeft = 0;
+      }
+
+      function apply(cat){
+        chips.forEach(ch => {
+          const on = ch.dataset.cat === cat;
+          ch.classList.toggle('is-on', on);
+          ch.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        if (cat === 'all'){
+          if (simple){ simple = false; virtualized = true; build(); start(); }
+          if (countEl) countEl.textContent = '';
+          return;
+        }
+        simple = true;
+        virtualized = false;
+        buildSimple(cat);
+        const shown = rows.reduce((n, r) => n + r.el.children.length, 0);
+        if (countEl) countEl.textContent = shown + ' ' + word(shown) + ' у цій темі';
+      }
+
+      filterBar.addEventListener('click', (e) => {
+        const chip = e.target.closest('.exp-chip');
+        if (chip) apply(chip.dataset.cat);
+      });
+    })();
   })();
 
   // ---- Плашки «Що входить»: підсвітка за прокруткою ----
@@ -2430,45 +2519,79 @@ const I18N = window.SILENT_I18N;
     sync();
   })();
 
-  // Підсвітка карток за курсором. Саму плашку малює CSS, звідси приходять
-  // тільки координати. Слухач один на документ, а не по одному на картці:
-  // їх на сторінці до сорока. Читання розмірів і запис властивостей зведені
-  // в один кадр — інакше кожен рух миші змушував би браузер рахувати
-  // розкладку просто посеред обробника.
+  // Підсвітка карток. Миша веде дугу за курсором, палець засвічує цілу
+  // обводку, доки тримає картку. Обидві гілки живуть в одному модулі, бо
+  // ділять селектор і не мають знати одна про одну.
+  //
+  // .exp-facts li в тому самому списку навмисно: у нього нема ні дуги, ні
+  // обводки (CSS-правила спотлайту про нього не знають), лише дотик
+  // потрібен — той самий держак is-pressed, яким факти геро на корпоративах
+  // вмикають анімацію своїх іконок, той самий, що й у карток. Заводити
+  // окремий слухач заради одного класу було б дублюванням того, що вже
+  // працює рядком нижче.
   (function(){
     if (!window.matchMedia) return;
-    if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-    // Хто просив менше руху, дістає нерухому пляму по центру картки: її
-    // малює те саме правило зі значеннями --spot-x/--spot-y за умовчанням.
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const SEL = '.uc-card, .benefit-card, .pb-card:not(.pb-card-accent), .exp-facts li';
 
-    const SEL = '.uc-card, .benefit-card, .pb-card:not(.pb-card-accent)';
-    let card = null, cx = 0, cy = 0, queued = false;
+    // ---- Миша: координати для дуги ----
+    // Саму плашку малює CSS, звідси приходять тільки координати. Слухач один
+    // на документ, а не по одному на кожній із сорока карток. Читання
+    // розмірів і запис властивостей зведені в один кадр — інакше кожен рух
+    // миші змушував би браузер рахувати розкладку посеред обробника.
+    // Хто просив менше руху, дістає нерухому дугу по центру картки: її малює
+    // те саме правило зі значеннями --spot-x/--spot-y за умовчанням.
+    if (matchMedia('(hover: hover) and (pointer: fine)').matches &&
+        !matchMedia('(prefers-reduced-motion: reduce)').matches){
+      let card = null, cx = 0, cy = 0, queued = false;
 
-    function draw(){
-      queued = false;
-      if (!card) return;
-      const r = card.getBoundingClientRect();
-      card.style.setProperty('--spot-x', (cx - r.left).toFixed(1) + 'px');
-      card.style.setProperty('--spot-y', (cy - r.top).toFixed(1) + 'px');
+      function draw(){
+        queued = false;
+        if (!card) return;
+        const r = card.getBoundingClientRect();
+        card.style.setProperty('--spot-x', (cx - r.left).toFixed(1) + 'px');
+        card.style.setProperty('--spot-y', (cy - r.top).toFixed(1) + 'px');
+      }
+
+      document.addEventListener('pointermove', function(e){
+        if (e.pointerType && e.pointerType !== 'mouse') return;
+        const hit = e.target && e.target.closest ? e.target.closest(SEL) : null;
+        if (hit !== card){
+          // Картка, яку лишили, вертається до свого центру: інакше наступного
+          // разу вона спалахнула б із дугою там, де курсор пішов геть.
+          if (card){
+            card.style.removeProperty('--spot-x');
+            card.style.removeProperty('--spot-y');
+          }
+          card = hit;
+        }
+        if (!card) return;
+        cx = e.clientX; cy = e.clientY;
+        if (!queued){ queued = true; requestAnimationFrame(draw); }
+      }, { passive: true });
     }
 
-    document.addEventListener('pointermove', function(e){
-      if (e.pointerType && e.pointerType !== 'mouse') return;
+    // ---- Палець: обводка, доки картку тримають ----
+    // Гілка не за медіазапитом, а за типом вказівника: на ноутбуці з
+    // сенсорним екраном працюють обидві, кожна своєму вказівнику.
+    let held = null;
+    const drop = function(){
+      if (held){ held.classList.remove('is-pressed'); held = null; }
+    };
+    document.addEventListener('pointerdown', function(e){
+      if (e.pointerType === 'mouse') return;
       const hit = e.target && e.target.closest ? e.target.closest(SEL) : null;
-      if (hit !== card){
-        // Картка, яку лишили, вертається до свого центру: інакше наступного
-        // разу вона спалахнула б із плямою там, де курсор пішов геть.
-        if (card){
-          card.style.removeProperty('--spot-x');
-          card.style.removeProperty('--spot-y');
-        }
-        card = hit;
-      }
-      if (!card) return;
-      cx = e.clientX; cy = e.clientY;
-      if (!queued){ queued = true; requestAnimationFrame(draw); }
+      if (!hit) return;
+      drop();
+      held = hit;
+      hit.classList.add('is-pressed');
     }, { passive: true });
+    ['pointerup', 'pointercancel'].forEach(function(t){
+      document.addEventListener(t, drop, { passive: true });
+    });
+    // Прокрутка забирає палець собі, і pointercancel приходить не всюди
+    // однаково: без цього картка лишалась би підсвіченою після того, як її
+    // змахнули з екрана.
+    window.addEventListener('scroll', drop, { passive: true });
   })();
 
   // Прапорець для страхувальника в <head>: він доводить, що цей файл не просто

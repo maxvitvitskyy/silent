@@ -296,6 +296,7 @@ T = {
 'Попередні кадри': 'Previous shots',
 'Наступні кадри': 'Next shots',
 'Дивитися відео: ': 'Watch video: ',
+'ДИВИТИСЯ · ДИВИТИСЯ · ДИВИТИСЯ · ': 'WATCH · WATCH · WATCH · ',
 'Навушники для гостей на вході': 'Headphones waiting for guests at the entrance',
 'Гості танцюють у червоному світлі': 'Guests dancing in red light',
 'Дискокуля над залою': 'A mirror ball above the room',
@@ -1029,10 +1030,12 @@ def build_experience_strips():
                 continue
             card = _link_card(c.replace('src="images/', 'src="%simages/' % depth),
                               nm, depth)
-            if grid:
-                card = card.replace(
-                    '<article class="uc-card"',
-                    '<article class="uc-card" data-cats="%s"' % ' '.join(_categories_of(nm)), 1)
+            # Теми проставляємо завжди, не лише в сітці: сторінка досвіду теж
+            # може захотіти фільтр над стрічкою — і тоді дані вже готові, без
+            # окремого проходу.
+            card = card.replace(
+                '<article class="uc-card"',
+                '<article class="uc-card" data-cats="%s"' % ' '.join(_categories_of(nm)), 1)
             kept.append(card)
 
         # Порядок скрізь один — за популярністю формату. У сітці це видно

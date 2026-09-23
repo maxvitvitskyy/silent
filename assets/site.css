@@ -3949,13 +3949,9 @@
   .exp-notes b { color: var(--ink-inv); font-weight: 600; }
 
   /* ---------- Стрічка інших досвідів ---------- */
-  /* Секція та сама, що на головній, тож стилі .usecases працюють як є. Тут лише
-     верхня межа: на головній над нею йде інший блок, а тут — форма заявки. */
-  .exp-more { border-top: 1px solid var(--line); }
-  /* На головній ця пляма стоїть сама. Тут одразу під нею починається світіння
-     футера, і два джерела разом заливали лаймом ґрунт цілої секції — під самою
-     кнопкою дії, якій лайм і мусить належати. Прибираємо: тло лишається нічним. */
-  .exp-more .uc-aurora { display: none; }
+  /* Секція та сама, що на головній, тож стилі .usecases працюють як є —
+     включно з плямою: тут вона нічому не заважає, під блоком просто йдуть
+     відгуки, а не кнопка дії, тож другого джерела лайму поруч немає. */
 
   @media (max-width: 900px){
     .exp-two { grid-template-columns: 1fr; }
@@ -4027,9 +4023,7 @@
   .exp-kit-shot { border-radius: var(--r-md); overflow: hidden; border: 1px solid var(--line); position: sticky; top: 112px; }
   .exp-kit-shot img { display: block; width: 100%; height: auto; }
 
-  /* Секція питань успадковує компонент із головної; тут лише верхня межа й
-     трохи менший відступ, бо над нею вже стоїть розділ на темнішому тлі. */
-  .exp-faq { border-top: 1px solid var(--line); }
+  /* Секція питань успадковує компонент із головної. */
 
   @media (max-width: 900px){
     .exp-kit { grid-template-columns: 1fr; }
@@ -5461,15 +5455,34 @@
     opacity: 0; transition: opacity 0.4s ease;
   }
   /* Дуга: та сама пляма, але лишається сама рамка — маска вирізає все, крім
-     смужки завтовшки в padding. */
+     смужки завтовшки в padding.
+
+     Скруглення на піксель менше за карткове навмисно. inset:0 відміряє не
+     від зовнішнього краю картки, а від внутрішнього краю її рамки, тож дуга
+     й так лежить на піксель усередині. На спільному радіусі її криву зрізало
+     по кутах, і світло там рвалося.
+
+     Товщина 2.5px, а не 1.5: власна рамка картки лишається зовні дуги —
+     overflow: hidden не дає псевдоелементу на неї вийти — і тонка смужка
+     читалась як бліда лінія поруч із тьмяною, а не як засвічений край.
+     У верхній половині картки вона до того ж лягає на яскраве фото. */
   :is(.uc-card, .benefit-card, .pb-card:not(.pb-card-accent))::after {
-    padding: 1.5px;
+    padding: 2.5px;
+    border-radius: calc(var(--r-md) - 1px);
     background: radial-gradient(var(--spot-ring-r) circle at var(--spot-x) var(--spot-y),
-      color-mix(in srgb, var(--ch) 75%, transparent), transparent 68%);
+      color-mix(in srgb, var(--ch) 92%, transparent), transparent 62%);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask-composite: exclude;
+  }
+  /* Там, де картка не обрізає вміст, дуга виходить на саму рамку: inset:-1px
+     накриває її піксель, і засвічений край стає самим краєм картки, а не
+     світлою лінією поруч із тьмяною. Картка досвіду так не вміє — у неї
+     overflow: hidden під фото, і псевдоелемент за внутрішній край не пускає. */
+  :is(.benefit-card, .pb-card:not(.pb-card-accent))::after {
+    inset: -1px;
+    border-radius: var(--r-md);
   }
   .pb-card:not(.pb-card-accent)::before {
     background: radial-gradient(380px circle at var(--spot-x) var(--spot-y),
@@ -5481,3 +5494,189 @@
     :is(.uc-card, .benefit-card, .pb-card:not(.pb-card-accent)):hover::after,
     .pb-card:not(.pb-card-accent):hover::before { opacity: 1; }
   }
+
+  /* Палець замість курсора. Дуга під вказівником пальцю не годиться: вести
+     нема чим, а те місце, де світло, накрите самим пальцем. Тому на дотик
+     картка відповідає цілою обводкою, як відповідала колись на наведення —
+     і рівно доти, доки її тримають.
+
+     Клас вішає JS лише для не-мишачого вказівника, тому медіазапиту тут
+     нема навмисно: на ноутбуці з сенсорним екраном палець дістане свою
+     обводку, а миша на тій самій машині — свою дугу. Медіазапит одне з двох
+     відрізав би, бо вирішує наперед за весь пристрій. */
+  :is(.uc-card, .benefit-card, .pb-card:not(.pb-card-accent)).is-pressed {
+    border-color: var(--ch);
+    transform: translateY(-3px);
+    box-shadow: var(--glass-shadow-2), 0 0 40px -20px var(--ch-glow), inset 0 1px 0 rgba(255,255,255,0.09);
+  }
+  /* У сусідів перехід уже свій; бенто його не мала, бо досі ні на що не
+     відповідала. */
+  .pb-card { transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; }
+
+  /* ── Іконки, що оживають ───────────────────────────────────────────────
+     Форми з відкритого набору Lucide (ISC), рух власний і на CSS — тією
+     самою мовою, що й уся решта анімації сайту, без зовнішніх бібліотек.
+
+     Кожен рух показує те, що іконка означає, а не просто «щось ворушиться»:
+     смуги еквалайзера дихають урозбіг, повзунок їде й вертається, хвилі
+     гучності розходяться одна за одною, кадр камери кліпає, колеса фургона
+     котяться. Анімація грає лише поки на картці курсор або палець — далі
+     іконка стоїть, інакше сторінка перетворилась би на ялинку.
+
+     Глобальне правило для prefers-reduced-motion гасить усе це саме, окремих
+     заглушок писати не треба. */
+  .b-icon svg [class^="bi-"],
+  .flow-node svg [class^="fn-"],
+  .f-ico svg [class^="bi-"],
+  .f-ico svg [class^="fn-"],
+  .f-ico svg [class^="fi-"],
+  .uc-arrow svg path {
+    transform-box: fill-box; transform-origin: center;
+  }
+
+  .b-icon.i-bars .bi-bar, .f-ico.i-bars .bi-bar { animation: icBar 1.15s ease-in-out infinite paused; }
+  .b-icon.i-bars .bi-bar:nth-child(2), .f-ico.i-bars .bi-bar:nth-child(2) { animation-delay: .09s; }
+  .b-icon.i-bars .bi-bar:nth-child(3), .f-ico.i-bars .bi-bar:nth-child(3) { animation-delay: .18s; }
+  .b-icon.i-bars .bi-bar:nth-child(4), .f-ico.i-bars .bi-bar:nth-child(4) { animation-delay: .27s; }
+  .b-icon.i-bars .bi-bar:nth-child(5), .f-ico.i-bars .bi-bar:nth-child(5) { animation-delay: .36s; }
+  .b-icon.i-bars .bi-bar:nth-child(6), .f-ico.i-bars .bi-bar:nth-child(6) { animation-delay: .45s; }
+  @keyframes icBar { 0%, 100% { scale: 1 0.55; } 50% { scale: 1 1.25; } }
+
+  .b-icon.i-toggle .bi-knob { animation: icKnob 1.5s cubic-bezier(.65,0,.35,1) infinite paused; }
+  @keyframes icKnob { 0%, 100% { translate: 0 0; } 45%, 55% { translate: -8px 0; } }
+
+  .b-icon.i-volume .bi-wave { animation: icWave 1.5s ease-out infinite paused; }
+  .b-icon.i-volume .bi-wave:nth-child(3) { animation-delay: .22s; }
+  @keyframes icWave { 0% { opacity: .25; translate: -2px 0; } 45% { opacity: 1; translate: 0 0; } 100% { opacity: .25; translate: -2px 0; } }
+
+  .b-icon.i-chat .bi-b1 { animation: icB1 1.6s ease-in-out infinite paused; }
+  .b-icon.i-chat .bi-b2 { animation: icB2 1.6s ease-in-out infinite paused; animation-delay: .2s; }
+  @keyframes icB1 { 0%, 100% { translate: 0 0; } 50% { translate: -1.2px -1.2px; } }
+  @keyframes icB2 { 0%, 100% { translate: 0 0; } 50% { translate: 1.2px 1.2px; } }
+
+  .b-icon.i-camera .bi-lens { animation: icLens 1.8s ease-in-out infinite paused; }
+  @keyframes icLens { 0%, 70%, 100% { scale: 1; } 82% { scale: 0.45; } }
+
+  .b-icon.i-spark .bi-star { animation: icStar 2.4s ease-in-out infinite paused; }
+  .b-icon.i-spark .bi-spk  { animation: icTwinkle 1.6s ease-in-out infinite paused; }
+  .b-icon.i-spark .bi-spk2 { animation: icTwinkle 1.6s ease-in-out infinite paused; animation-delay: .5s; }
+  @keyframes icStar { 0%, 100% { rotate: 0deg; scale: 1; } 50% { rotate: 18deg; scale: 1.08; } }
+  @keyframes icTwinkle { 0%, 100% { opacity: .3; scale: .7; } 50% { opacity: 1; scale: 1.15; } }
+
+  /* Кроки процесу. */
+  .flow-node.i-cal .fn-day { animation: icTwinkle 1.4s ease-in-out infinite paused; }
+  .flow-node.i-cal .fn-day:nth-child(6)  { animation-delay: .08s; }
+  .flow-node.i-cal .fn-day:nth-child(7)  { animation-delay: .16s; }
+  .flow-node.i-cal .fn-day:nth-child(8)  { animation-delay: .24s; }
+  .flow-node.i-cal .fn-day:nth-child(9)  { animation-delay: .32s; }
+  .flow-node.i-cal .fn-day:nth-child(10) { animation-delay: .40s; }
+  .flow-node.i-cal .fn-peg { animation: icPeg 1.4s ease-in-out infinite paused; }
+  @keyframes icPeg { 0%, 100% { translate: 0 0; } 50% { translate: 0 -1.4px; } }
+
+  .flow-node.i-msg .fn-dot { animation: icType 1.05s ease-in-out infinite paused; }
+  .flow-node.i-msg .fn-dot:nth-child(3) { animation-delay: .13s; }
+  .flow-node.i-msg .fn-dot:nth-child(4) { animation-delay: .26s; }
+  @keyframes icType { 0%, 60%, 100% { translate: 0 0; opacity: .45; } 30% { translate: 0 -2px; opacity: 1; } }
+
+  .flow-node.i-truck .fn-wheel { animation: icWheel 1.1s linear infinite paused; }
+  @keyframes icWheel { to { rotate: 360deg; } }
+
+  /* Навушники грають ритм: чашки б'ють у такт зі зсувом одна від одної, дужка
+     трохи стискається на тому ж такті, а хвиля звуку між ними пульсує окремо
+     в опозиції — так, наче музика справді йде. */
+  /* Базове правило без :nth-child навмисно: додавання псевдокласу підняло б
+     специфічність вище за вмикач нижче (той самий трюк, що й у смуг
+     еквалайзера) — .fn-cup:nth-child(3) переміг би паузу назавжди, і чашка
+     ніколи не била б у такт. */
+  .flow-node.i-phones .fn-cup, .f-ico.i-phones .fn-cup { animation: icCupBeat 1.3s ease-in-out infinite paused; }
+  .flow-node.i-phones .fn-cup:nth-child(3), .f-ico.i-phones .fn-cup:nth-child(3) { animation-delay: .12s; }
+  .flow-node.i-phones .fn-band, .f-ico.i-phones .fn-band { animation: icBandFlex 1.3s ease-in-out infinite paused; }
+  .flow-node.i-phones .fn-beat, .f-ico.i-phones .fn-beat { animation: icBeatPulse 1.3s ease-in-out infinite paused; animation-delay: .3s; }
+  @keyframes icCupBeat  { 0%, 100% { scale: 1; } 35% { scale: 1.2; } 60% { scale: .92; } }
+  @keyframes icBandFlex { 0%, 100% { scale: 1 1; } 40% { scale: 1.04 .96; } }
+  @keyframes icBeatPulse { 0%, 100% { opacity: .35; scale: .85; } 50% { opacity: 1; scale: 1.1; } }
+
+  /* Стрілки стрічки підштовхуються в бік, куди ведуть. */
+  .uc-arrow svg path { transition: translate 0.25s cubic-bezier(.22,1,.36,1); }
+  .uc-prev:hover svg path { translate: -2px 0; }
+  .uc-next:hover svg path { translate: 2px 0; }
+
+  /* Вмикачі стоять НАПРИКІНЦІ навмисно. Вага в них така сама, як в
+     оголошень вище (три класи), а `paused` там прописаний скороченим
+     записом animation — тож якби вмикачі стояли раніше, пауза щоразу
+     перемагала б їх за порядком, і жодна іконка не рушила б з місця.
+     Миша веде десктоп, палець — дотик; кроки процесу приєднуються до
+     підсвітки, яка в них уже є. */
+  .benefit-card:hover .b-icon > svg > *,
+  .benefit-card.is-pressed .b-icon > svg > *,
+  .flow-step:hover .flow-node > svg > *,
+  .flow-step.is-lit .flow-node > svg > *,
+  .exp-facts li:hover .f-ico > svg > *,
+  .exp-facts li.is-pressed .f-ico > svg > * { animation-play-state: running; }
+
+  /* Плюс у FAQ став справжньою іконкою замість друкарського знака: та сама
+     роль, але однакова товщина ліній із рештою набору. Поворот на 135°, що
+     перетворює його на хрестик, лишився без змін. Розмір у відсотках, щоб
+     іконка їхала за кружком на вузькому екрані. */
+  .faq-icon svg { width: 44%; height: 44%; display: block; }
+
+  /* ── Текст по колу навколо кнопки плей ────────────────────────────────
+     Тонкий лаймовий напис обертається довкола кнопки безперервно — той
+     самий безумовний цикл, що й у playGlow/playPulse на самій кнопці
+     (grep .gal-play), а не жест на наведення: кнопка вже сигналить сама
+     собою постійно, кільце просто приєднується до тієї ж мови.
+
+     viewBox 132×132 при всіх розмірах: CSS width/height лише масштабує
+     готове зображення, тож текст, лінія кола й товщина рядка стискаються
+     разом, пропорційно, на вужчому екрані. Обертається сам <span>, а не
+     текст у SVG, — rotate як окрема властивість, не transform, щоб не
+     конфліктувати з translate(-50%,-50%), яким кільце центрується. */
+  .gal-ring {
+    position: absolute; z-index: 1;
+    left: 50%; top: 50%;
+    width: 138px; height: 138px;
+    translate: -50% -50%;
+    pointer-events: none;
+    animation: galRingSpin 26s linear infinite;
+  }
+  .gal-ring svg { display: block; width: 100%; height: 100%; overflow: visible; }
+  /* 93% довжини кола — навмисно не всі 100: замір getComputedTextLength()
+     показав, що текст, який рівно дорівнює або перевищує довжину шляху,
+     у деяких браузерах обрізається без попередження, а невеликий проміжок
+     між кінцем і початком рядка читається як пряма ознака зшивки, не як
+     помилка. */
+  .gal-ring text {
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 400;
+    font-size: 10.5px;
+    letter-spacing: 0.23em;
+    fill: var(--lime);
+    opacity: 0.82;
+  }
+  @keyframes galRingSpin { to { rotate: 360deg; } }
+
+  @media (max-width: 640px) {
+    .gal-ring { width: 108px; height: 108px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .gal-ring { animation: none; }
+  }
+
+  /* ── Іконки фактів у геро корпоративів ────────────────────────────────
+     Спершу ці чотири крутились самі, безумовно, — але поруч, на головній,
+     та сама сім'я іконок грає лише під курсором чи пальцем, і різниця в
+     мові впадала в очі: тут вони або торохтіли безперестанку, або й
+     виглядали спокійніше за родичів. Тепер тригер той самий: вмикач нижче
+     охоплює й ці іконки, а еквалайзер і навушники буквально ті самі
+     оголошення, що на головній (icBar, icCupBeat/icBandFlex/icBeatPulse) —
+     просто з другим селектором поруч, без дублювання keyframes. Кут і хрестик
+     унікальні для цієї сторінки, тож дістають власні оголошення тут, у тому
+     самому темпі й з тією самою амплітудою, що й решта інтерактивної родини
+     (~1.1–1.6s, paused за замовчуванням). */
+  .f-ico.i-pin .fi-drop { animation: icPinDrop 1.5s cubic-bezier(.33,0,.2,1) infinite paused; }
+  .f-ico.i-pin .fi-eye   { animation: icTwinkle 1.6s ease-in-out infinite paused; }
+  @keyframes icPinDrop { 0%, 100% { translate: 0 0; } 35% { translate: 0 -3.4px; } 60% { translate: 0 .8px; } }
+
+  .f-ico.i-mute .fi-x { animation: icMuteFlash 1.3s ease-in-out infinite paused; }
+  .f-ico.i-mute .fi-x:nth-child(3) { animation-delay: .11s; }
+  @keyframes icMuteFlash { 0%, 100% { opacity: .3; scale: .85; } 50% { opacity: 1; scale: 1.05; } }
