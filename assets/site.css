@@ -2926,6 +2926,15 @@
     overflow: hidden;
     filter: blur(64px) saturate(1.25);
     opacity: 0.95;
+    /* Коробка навмисно виступає за межі секції (-30%/-35%), але сама
+       рідина досі обривалась на цьому виступі рівною лінією — overflow:
+       hidden ріже її без жодного згасання. На сторінках, де відразу під
+       usecases стоїть напівпрозора картка з backdrop-filter (відгуки на
+       корпоративах), той обрив прозирав крізь неї чіткою рискою. Маска
+       гасить рідину до прозорості ще до краю коробки, тож перехід більше
+       ніде не впирається в лінію. */
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 16%, #000 78%, transparent 100%);
+    mask-image: linear-gradient(180deg, transparent 0%, #000 16%, #000 78%, transparent 100%);
   }
   .usecases > .wrap { position: relative; z-index: 1; }
 
