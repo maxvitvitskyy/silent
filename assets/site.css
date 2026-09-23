@@ -2926,15 +2926,6 @@
     overflow: hidden;
     filter: blur(64px) saturate(1.25);
     opacity: 0.95;
-    /* Коробка навмисно виступає за межі секції (-30%/-35%), але сама
-       рідина досі обривалась на цьому виступі рівною лінією — overflow:
-       hidden ріже її без жодного згасання. На сторінках, де відразу під
-       usecases стоїть напівпрозора картка з backdrop-filter (відгуки на
-       корпоративах), той обрив прозирав крізь неї чіткою рискою. Маска
-       гасить рідину до прозорості ще до краю коробки, тож перехід більше
-       ніде не впирається в лінію. */
-    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 16%, #000 78%, transparent 100%);
-    mask-image: linear-gradient(180deg, transparent 0%, #000 16%, #000 78%, transparent 100%);
   }
   .usecases > .wrap { position: relative; z-index: 1; }
 
@@ -3169,6 +3160,27 @@
     .gallery-grid { --fade: 190px; }
     .uc-prev, .gal-prev { left: 10px; }
     .uc-next, .gal-next { right: 10px; }
+    /* Відгуки на корпоративах: та сама full-bleed стрічка, що в сценаріїв —
+       вісім карток на нерухомому рядку впритул одна до одної виглядали
+       затиснутими, а курсорне світіння з блоку над ними впиралось у їхню
+       напівпрозору поверхню чіткою лінією (backdrop-filter картки сумлінно
+       відбивав межу маски). На всю ширину монітора картки виходять за
+       правий край екрана природно, тож тієї різкої межі просто нема на чому
+       проявитись. */
+    .exp-section#reviews { overflow-x: clip; }
+    .tst-static {
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+    }
+    .tst-static .tst-strip {
+      padding-left: 24px;
+      padding-right: 24px;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 190px, #000 calc(100% - 190px), transparent 100%);
+      mask-image: linear-gradient(90deg, transparent 0, #000 190px, #000 calc(100% - 190px), transparent 100%);
+    }
+    .tst-static .tst-prev { left: 10px; }
+    .tst-static .tst-next { right: 10px; }
     /* Тему обрано: стрічка більше не безкінечна, ряд стає звичайним
        скінченним списком (site.js перемикає .exp-filter у simple-режим і
        додає цей клас на .uc-gallery). Full-bleed мав сенс лише для
@@ -4493,15 +4505,14 @@
   .exp-more .uc-arrow { display: none; }
 
   /* ---------- Відгуки в манері головної ---------- */
-  /* Ті самі картки, що на головній: той самий нахил і нашарування, тільки
-     три й без зірок чи аватара — оцінок разом із цими репліками нам не
-     давали, а домалювати п'ять зірок означало б вигадати дані. */
+  /* Контент тут той самий набір, що на головній (зірки, аватар, ім'я), тож
+     .tst-static лише додає верхній відступ і вимикає колірну розтушовку
+     країв (::before/::after) — на full-bleed від 1240px її заміняє маска на
+     .tst-strip, як у стрічки сценаріїв. Решта — нахил, нашарування, сам
+     скрол — успадковується від базових .tst-strip/.tst-card, без окремих
+     правил тут: коли карток вісім, а не три, стискати їх в один нерухомий
+     ряд уже нема сенсу. */
   .tst-static { margin-top: clamp(28px, 4vh, 44px); }
-  .tst-static .tst-strip {
-    display: flex; flex-wrap: nowrap;
-    overflow: visible; padding: 34px 0 44px;
-  }
-  .tst-static > .tst-strip > .tst-card { flex: 1 1 0; }
   .tst-static::before, .tst-static::after { display: none; }
   /* Нижче — той самий приймач, що в .testimonials на головній (720px):
      статичний ряд не влазить утрьох, тож стрічка йде на всю ширину екрана й
@@ -4545,13 +4556,6 @@
   /* Назви каналів мусять важити стільки ж, скільки сусідні заголовки в смузі:
      інакше перший пункт читається як підпис, а не як факт. */
   .exp-facts .f-ch i { font-size: clamp(17px, 1.9vw, 23px); }
-
-  /* Картка відгуку тут несе лише репліку й підпис — без зірок і аватара, тож
-     без мінімальної висоти вона сплющувалась удвічі проти головної, і нахил із
-     нашаруванням не мали на чому показатись. */
-  .tst-static .tst-card { min-height: 210px; padding: 30px 28px; }
-  .tst-static .tst-quote { font-size: 15px; line-height: 1.55; }
-  .tst-static .tst-author { margin-top: auto; }
 
   /* ---------- Hero з метрикою (велика цифра) ---------- */
   .exp-cover-hero-metric .exp-cover-inner { display: flex; flex-direction: column; align-items: flex-start; }
