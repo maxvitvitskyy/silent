@@ -3186,6 +3186,11 @@
       -webkit-mask-image: none;
       mask-image: none;
     }
+    /* Лише блок «Silent-досвіди» на сторінці корпоративів: там картки йдуть
+       одним рядком, і за замовчуванням 232px лишали забагато порожнього поля
+       обабіч. Десктопне значення (272px) заповнює екран краще, а сусідня
+       картка й так виглядає з-за краю — підказки-стрілки достатньо. */
+    #more .uc-gallery { --uc-col: 272px; }
   }
 
 
@@ -4422,9 +4427,9 @@
   .exp-more .uc-arrow { display: none; }
 
   /* ---------- Відгуки в манері головної ---------- */
-  /* Ті самі картки, що на головній, але три й нерухомі: гортати нема чого.
-     Зірок немає навмисно — оцінок разом із цими репліками нам не давали, а
-     домалювати п'ять зірок означало б вигадати дані. */
+  /* Ті самі картки, що на головній: той самий нахил і нашарування, тільки
+     три й без зірок чи аватара — оцінок разом із цими репліками нам не
+     давали, а домалювати п'ять зірок означало б вигадати дані. */
   .tst-static { margin-top: clamp(28px, 4vh, 44px); }
   .tst-static .tst-strip {
     display: flex; flex-wrap: nowrap;
@@ -4432,11 +4437,38 @@
   }
   .tst-static > .tst-strip > .tst-card { flex: 1 1 0; }
   .tst-static::before, .tst-static::after { display: none; }
-  @media (max-width: 860px) {
-    /* На вузькому нашарування з'їдає текст: картки стають одна під одною. */
-    .tst-static .tst-strip { flex-direction: column; gap: 16px; padding: 10px 0 0; }
-    .tst-static > .tst-strip > .tst-card,
-    .tst-static > .tst-strip > .tst-card:nth-child(even) { transform: none; margin-left: 0; }
+  /* Нижче — той самий приймач, що в .testimonials на головній (720px):
+     статичний ряд не влазить утрьох, тож стрічка йде на всю ширину екрана й
+     гортається пальцем, з тим самим нахилом і нахлистом карток одна на одну. */
+  @media (max-width: 720px) {
+    .exp-section#reviews { overflow-x: clip; }
+    .tst-static {
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+    }
+    .tst-static .tst-strip {
+      overflow-x: auto; overflow-y: hidden;
+      overscroll-behavior: auto;
+      touch-action: pan-x pan-y;
+      scroll-behavior: auto;
+      scroll-snap-type: x mandatory;
+      scroll-padding-left: 28px;
+      padding: 50px 28px 44px;
+      scrollbar-width: none;
+      -webkit-mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 40px), transparent 100%);
+      mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 40px), transparent 100%);
+    }
+    .tst-static .tst-strip::-webkit-scrollbar { display: none; }
+    .tst-static > .tst-strip > .tst-card {
+      flex: 0 0 calc(100vw - 96px);
+      scroll-snap-align: start;
+      transform: rotateY(-6deg) rotateZ(-1.2deg);
+    }
+    .tst-static > .tst-strip > .tst-card:nth-child(even) {
+      transform: rotateY(-6deg) rotateZ(1deg) translateY(12px);
+    }
+    .tst-static > .tst-strip > .tst-card + .tst-card { margin-left: -62px; }
   }
 
   @media (max-width: 900px) {
