@@ -3882,6 +3882,12 @@
     letter-spacing: -0.03em; max-width: 20ch;
     margin-bottom: clamp(36px, 5vh, 64px);
   }
+  /* Де за заголовком одразу йде .section-lead (зараз лише «Інші формати
+     Silent Disco»), великий відступ вище лишає підзаголовок відірваним —
+     та сама пара, що на головній тримається на 16px, тут розповзалася на
+     48. Заголовку й підпису тримати відстань самим, як скрізь на сайті;
+     велике повітря лишається там, де за заголовком одразу йдуть картки. */
+  .exp-page .h2:has(+ .section-lead) { margin-bottom: 16px; }
 
   .exp-sub { font-size: 15.5px; line-height: 1.6; color: var(--muted); max-width: 44ch; }
 
@@ -4134,6 +4140,11 @@
     display: flex; flex-wrap: wrap; gap: 10px;
     margin-bottom: 18px;
   }
+  /* Де панель стоїть одразу під підзаголовком (стрічка «Інші формати» на
+     корпоративах) — без цього текст і перший рядок кнопок торкалися впритул.
+     На сторінці-списку перед панеллю нема абзацу в тому самому блоці, тож
+     правило там мовчить. */
+  .section-lead + .exp-filter { margin-top: 16px; }
   .exp-chip {
     display: inline-flex; align-items: center; gap: 8px;
     padding: 10px 18px;
