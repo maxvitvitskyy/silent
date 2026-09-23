@@ -4060,6 +4060,10 @@
     mask-image: linear-gradient(180deg, #000 0, #000 42%, rgba(0,0,0,0.45) 64%, transparent 92%);
   }
   .exp-head > .wrap { position: relative; z-index: 1; }
+  /* Крихта тут — звичайний підписаний текст (на відміну від лаймової
+     пігулки чи капс-рубрики в геро вражень), і в базовому .exp-crumb немає
+     власного відступу знизу: він упирався просто в заголовок. */
+  .exp-head .exp-crumb { margin-bottom: 14px; }
   .exp-head-title {
     font-family: 'Unbounded', sans-serif; font-weight: 800;
     font-size: clamp(38px, 7vw, 96px); line-height: 0.98; letter-spacing: -0.03em;
@@ -4211,6 +4215,10 @@
      виходить той самий відступ, що й над кнопками. */
   @media (max-width: 640px) {
     .exp-count + .uc-gallery { margin-top: 0; }
+    /* Сторінка-каталог («Тихі враження») картки не стрічкою, а звичайною
+       CSS grid (.exp-grid) без жодного власного відступу згори — без цього
+       правила кнопки й перша картка стояли впритул. */
+    .exp-count + .exp-grid { margin-top: 24px; }
   }
 
   /* Приховану картку виймаємо з потоку повністю: сітка тоді змикається сама,
