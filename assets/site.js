@@ -1045,13 +1045,25 @@ const I18N = window.SILENT_I18N;
     view.addEventListener('pointerdown', () => { held = 1; }, { passive: true });
     ['pointerup','pointercancel','touchend','touchcancel'].forEach(ev =>
       window.addEventListener(ev, () => { held = 0; }, { passive: true }));
-    view.addEventListener('scroll', () => { normalise(); sync(); }, { passive: true });
+    // normalise() підтримує ілюзію нескінченної петлі: коли scrollLeft
+    // підходить до краю, він перестрибує на period — величину, пораховану
+    // під усі 43 картки. У простому режимі теми (buildSimple) така петля не
+    // існує: рядок короткий, period лишається старим і набагато більшим за
+    // реальну прокрутку. Перший же скрол після перемикання теми читався як
+    // «біля краю» (scrollLeft стартує з 0, поріг EDGE_GUARD — 420px) і
+    // guard() додавав старий period — стрічку жбурляло в сам кінець.
+    view.addEventListener('scroll', () => { if (virtualized) normalise(); sync(); }, { passive: true });
 
     let touched = false;
     ['pointerdown','touchstart','wheel','keydown'].forEach(ev =>
       view.addEventListener(ev, () => { touched = true; }, { passive: true }));
 
-    function nudge(dir){ view.scrollBy({ left: dir * step * 2, behavior: 'smooth' }); }
+    // step рахує build(), а build() тепер лінивий (whenNear чекає наближення
+    // секції) — клік по стрілці чи темі до того, як користувач доскролив,
+    // заставав step на початковому 0, і стрілка мовчки нікуди не гортала.
+    // metrics() важить копійки, тож рахуємо крок напряму, коли build() ще
+    // не встиг.
+    function nudge(dir){ view.scrollBy({ left: dir * (step || metrics().reduce((a,b)=>a+b)) * 2, behavior: 'smooth' }); }
     if (prev) prev.addEventListener('click', () => nudge(-1));
     if (next) next.addEventListener('click', () => nudge(1));
 

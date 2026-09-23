@@ -5545,13 +5545,27 @@
     transform-box: fill-box; transform-origin: center;
   }
 
-  .b-icon.i-bars .bi-bar, .f-ico.i-bars .bi-bar { animation: icBar 1.15s ease-in-out infinite paused; }
-  .b-icon.i-bars .bi-bar:nth-child(2), .f-ico.i-bars .bi-bar:nth-child(2) { animation-delay: .09s; }
-  .b-icon.i-bars .bi-bar:nth-child(3), .f-ico.i-bars .bi-bar:nth-child(3) { animation-delay: .18s; }
-  .b-icon.i-bars .bi-bar:nth-child(4), .f-ico.i-bars .bi-bar:nth-child(4) { animation-delay: .27s; }
-  .b-icon.i-bars .bi-bar:nth-child(5), .f-ico.i-bars .bi-bar:nth-child(5) { animation-delay: .36s; }
-  .b-icon.i-bars .bi-bar:nth-child(6), .f-ico.i-bars .bi-bar:nth-child(6) { animation-delay: .45s; }
+  .b-icon.i-bars .bi-bar { animation: icBar 1.15s ease-in-out infinite paused; }
+  .b-icon.i-bars .bi-bar:nth-child(2) { animation-delay: .09s; }
+  .b-icon.i-bars .bi-bar:nth-child(3) { animation-delay: .18s; }
+  .b-icon.i-bars .bi-bar:nth-child(4) { animation-delay: .27s; }
+  .b-icon.i-bars .bi-bar:nth-child(5) { animation-delay: .36s; }
+  .b-icon.i-bars .bi-bar:nth-child(6) { animation-delay: .45s; }
   @keyframes icBar { 0%, 100% { scale: 1 0.55; } 50% { scale: 1 1.25; } }
+
+  /* Факти в геро корпоративів стоять на власному ритмі спокою: 0%-кадр
+     paused-анімації — це і є вигляд іконки, доки на неї не навели, тож
+     спільний icBar (де спокій — сплющені на 55% риски) тут не годиться:
+     піктограма мала виглядати недомальованою, поки її не торкнулися. Тут
+     риски в спокої на повну висоту, а рух додається зверху, не забираючи
+     нічого. */
+  .f-ico.i-bars .bi-bar { animation: icBarFull 1.15s ease-in-out infinite paused; }
+  .f-ico.i-bars .bi-bar:nth-child(2) { animation-delay: .09s; }
+  .f-ico.i-bars .bi-bar:nth-child(3) { animation-delay: .18s; }
+  .f-ico.i-bars .bi-bar:nth-child(4) { animation-delay: .27s; }
+  .f-ico.i-bars .bi-bar:nth-child(5) { animation-delay: .36s; }
+  .f-ico.i-bars .bi-bar:nth-child(6) { animation-delay: .45s; }
+  @keyframes icBarFull { 0%, 100% { scale: 1 1; } 50% { scale: 1 1.3; } }
 
   .b-icon.i-toggle .bi-knob { animation: icKnob 1.5s cubic-bezier(.65,0,.35,1) infinite paused; }
   @keyframes icKnob { 0%, 100% { translate: 0 0; } 45%, 55% { translate: -8px 0; } }
@@ -5602,9 +5616,14 @@
   .flow-node.i-phones .fn-cup, .f-ico.i-phones .fn-cup { animation: icCupBeat 1.3s ease-in-out infinite paused; }
   .flow-node.i-phones .fn-cup:nth-child(3), .f-ico.i-phones .fn-cup:nth-child(3) { animation-delay: .12s; }
   .flow-node.i-phones .fn-band, .f-ico.i-phones .fn-band { animation: icBandFlex 1.3s ease-in-out infinite paused; }
-  .flow-node.i-phones .fn-beat, .f-ico.i-phones .fn-beat { animation: icBeatPulse 1.3s ease-in-out infinite paused; animation-delay: .3s; }
+  .flow-node.i-phones .fn-beat { animation: icBeatPulse 1.3s ease-in-out infinite paused; animation-delay: .3s; }
+  /* Той самий рядок звуку, але для геро корпоративів: у спокої повна
+     непрозорість замість притишеної 0.35 — та сама причина, що й у смуг
+     еквалайзера вище. */
+  .f-ico.i-phones .fn-beat { animation: icBeatPulseFull 1.3s ease-in-out infinite paused; animation-delay: .3s; }
   @keyframes icCupBeat  { 0%, 100% { scale: 1; } 35% { scale: 1.2; } 60% { scale: .92; } }
   @keyframes icBandFlex { 0%, 100% { scale: 1 1; } 40% { scale: 1.04 .96; } }
+  @keyframes icBeatPulseFull { 0%, 100% { opacity: 1; scale: 1; } 50% { opacity: 1; scale: 1.15; } }
   @keyframes icBeatPulse { 0%, 100% { opacity: .35; scale: .85; } 50% { opacity: 1; scale: 1.1; } }
 
   /* Стрілки стрічки підштовхуються в бік, куди ведуть. */
@@ -5651,16 +5670,17 @@
     animation: galRingSpin 26s linear infinite;
   }
   .gal-ring svg { display: block; width: 100%; height: 100%; overflow: visible; }
-  /* 93% довжини кола — навмисно не всі 100: замір getComputedTextLength()
-     показав, що текст, який рівно дорівнює або перевищує довжину шляху,
-     у деяких браузерах обрізається без попередження, а невеликий проміжок
-     між кінцем і початком рядка читається як пряма ознака зшивки, не як
-     помилка. */
+  /* 98% довжини кола, не 100: getComputedTextLength() показав, що текст, який
+     рівно дорівнює або перевищує довжину шляху, у деяких браузерах
+     обрізається без попередження. Раніше тут стояло 93% — з місцем на цілий
+     зайвий проміжок, який не мав пари серед проміжків між «·» і читався як
+     розрив кола, а не як його продовження. 98% лишає проміжок того самого
+     розміру, що й решта, і кільце змикається на око. */
   .gal-ring text {
     font-family: 'Unbounded', sans-serif;
     font-weight: 400;
-    font-size: 10.5px;
-    letter-spacing: 0.23em;
+    font-size: 11px;
+    letter-spacing: 0.24em;
     fill: var(--lime);
     opacity: 0.82;
   }
@@ -5683,11 +5703,19 @@
      просто з другим селектором поруч, без дублювання keyframes. Кут і хрестик
      унікальні для цієї сторінки, тож дістають власні оголошення тут, у тому
      самому темпі й з тією самою амплітудою, що й решта інтерактивної родини
-     (~1.1–1.6s, paused за замовчуванням). */
-  .f-ico.i-pin .fi-drop { animation: icPinDrop 1.5s cubic-bezier(.33,0,.2,1) infinite paused; }
-  .f-ico.i-pin .fi-eye   { animation: icTwinkle 1.6s ease-in-out infinite paused; }
-  @keyframes icPinDrop { 0%, 100% { translate: 0 0; } 35% { translate: 0 -3.4px; } 60% { translate: 0 .8px; } }
+     (~1.1–1.6s, paused за замовчуванням).
 
-  .f-ico.i-mute .fi-x { animation: icMuteFlash 1.3s ease-in-out infinite paused; }
+     Але 0%-кадр в icTwinkle/icMuteFlash притишений (opacity .3) — той самий
+     компроміс, що вище: цей 0%-кадр і є виглядом іконки в спокої, поки
+     курсор не навели, а фактам у геро мигтіти наполовину не можна: «Тиша
+     ззовні» з напівпрозорим хрестиком читається як «десь тут щось не
+     працює», а не як властивість формату. Тому вічко пінка й хрестик мьюту
+     дістають власні кадри, де спокій — повна непрозорість. */
+  .f-ico.i-pin .fi-drop { animation: icPinDrop 1.5s cubic-bezier(.33,0,.2,1) infinite paused; }
+  .f-ico.i-pin .fi-eye   { animation: icPinEyeFull 1.6s ease-in-out infinite paused; }
+  @keyframes icPinDrop { 0%, 100% { translate: 0 0; } 35% { translate: 0 -3.4px; } 60% { translate: 0 .8px; } }
+  @keyframes icPinEyeFull { 0%, 100% { opacity: 1; scale: 1; } 50% { opacity: 1; scale: 1.25; } }
+
+  .f-ico.i-mute .fi-x { animation: icMuteFlashFull 1.3s ease-in-out infinite paused; }
   .f-ico.i-mute .fi-x:nth-child(3) { animation-delay: .11s; }
-  @keyframes icMuteFlash { 0%, 100% { opacity: .3; scale: .85; } 50% { opacity: 1; scale: 1.05; } }
+  @keyframes icMuteFlashFull { 0%, 100% { opacity: 1; scale: 1; } 50% { opacity: 1; scale: 1.15; } }
