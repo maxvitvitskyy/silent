@@ -1119,10 +1119,16 @@ const I18N = window.SILENT_I18N;
       rt = setTimeout(() => { build(); start(); remember(); }, 200);
     }, { passive: true });
 
-    whenNear(document.getElementById('cases'), boot);
+    // Секція, а не жорстке id="cases": на головній стрічка живе в #cases, на
+    // сторінці досвіду — в #more. Раніше guard шукав саме #cases, і на іншій
+    // сторінці whenNear(null, ...) вважав це «елемента нема, запускай одразу»
+    // — стрічка з сорока з гаком картками будувалась і тягла зображення eager
+    // просто при завантаженні, хоч сама секція стоїть нижче середини сторінки.
+    const stripSection = view.closest('section');
+    whenNear(stripSection, boot);
     // start() усередині захищений `if (period)`, тож до побудови він тихо
     // нічого не робить — колбек прогріву кешу лишається безпечним.
-    warmStripCache(document.getElementById('cases'), urls, () => { if (!touched) start(); });
+    warmStripCache(stripSection, urls, () => { if (!touched) start(); });
 
     // ---- Фільтр тем над стрічкою (лише де є панель) ----
     // На «Усі» стрічка лишається тим самим нескінченним пулом, що й досі:
