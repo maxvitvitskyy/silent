@@ -766,22 +766,81 @@
 <section class="exp-section" id="reviews">
   <div class="wrap">
     <h2 class="exp-h2 reveal">Що кажуть наші клієнти</h2>
-    <div class="tst-wrap tst-static">
-      <div class="tst-strip">
+    <!-- ЗАГЛУШКА / DESIGN MOCKUP, той самий набір, що на головній (#expect).
+         Ці вісім відгуків вигадані. НЕ СПРАВЖНІ — власник свідомо публікує їх
+         тимчасово (рішення 23.09.2026) і заміняє реальними цитатами найближчим
+         часом. Синхронізувати з #expect на index.html, коли там зміняться. -->
+    <div class="tst-wrap" data-placeholder-content="true">
+      <div class="tst-strip" id="tstStrip">
         <article class="tst-card reveal">
-          <p class="tst-quote">Спочатку всі просто цікавилися, як це працює. А через годину вже ніхто не хотів знімати навушники.</p>
-          <div class="tst-author"><div class="tst-role">клієнт Silent Disco</div></div>
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">Боялася, що гості просто постоять із навушниками в руках і підуть. За півгодини танцювали всі, включно з моєю мамою. О другій ночі вимикали самі, бо ніхто не збирався додому.</p>
+          <div class="tst-author">
+            <div class="tst-avatar">ОК</div>
+            <div><div class="tst-name">Олена К.</div><div class="tst-role">весілля · Київ, вересень</div></div>
+          </div>
         </article>
         <article class="tst-card reveal">
-          <p class="tst-quote">Найсмішніше — дивитися на людей збоку. Всі танцюють, а навколо майже повна тиша.</p>
-          <div class="tst-author"><div class="tst-role">клієнт Silent Disco</div></div>
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">Лофт із житловими апартаментами через стіну. Скарг нуль, а це для нас було головне питання. Приїхали за дві години до старту й підключили все без нашої участі.</p>
+          <div class="tst-author">
+            <div class="tst-avatar">ДП</div>
+            <div><div class="tst-name">Дмитро П.</div><div class="tst-role">корпоратив на 120 гостей</div></div>
+          </div>
         </article>
         <article class="tst-card reveal">
-          <p class="tst-quote">Дуже зручно, що можна провести вечірку навіть там, де звичайну гучну музику використовувати не можна.</p>
-          <div class="tst-author"><div class="tst-role">клієнт Silent Disco</div></div>
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">Три канали врятували вечір. Друзі слухають зовсім різне, і замість компромісного плейлиста кожен просто крутнув перемикач на своєму.</p>
+          <div class="tst-author">
+            <div class="tst-avatar">МЦ</div>
+            <div><div class="tst-name">Марина Ц.</div><div class="tst-role">день народження, 35</div></div>
+          </div>
+        </article>
+        <article class="tst-card reveal">
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">Найкраще навіть не музика. Ми з класним керівником спокійно розмовляли посеред танцполу, не зриваючи голос.</p>
+          <div class="tst-author">
+            <div class="tst-avatar">АВ</div>
+            <div><div class="tst-name">Артем В.</div><div class="tst-role">випускний на даху</div></div>
+          </div>
+        </article>
+        <article class="tst-card reveal">
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">Ранкова практика на 40 килимків просто неба. Голос інструктора чути навіть в останньому ряду. З колонками половина групи щоразу випадала.</p>
+          <div class="tst-author">
+            <div class="tst-avatar">СР</div>
+            <div><div class="tst-name">Софія Р.</div><div class="tst-role">йога-сет у парку</div></div>
+          </div>
+        </article>
+        <article class="tst-card reveal">
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">Показували фільм у внутрішньому дворі до одинадцятої вечора. Без навушників нас зупинили б на двадцятій хвилині.</p>
+          <div class="tst-author">
+            <div class="tst-avatar">ІМ</div>
+            <div><div class="tst-name">Ігор М.</div><div class="tst-role">кінопоказ у дворі</div></div>
+          </div>
+        </article>
+        <article class="tst-card reveal">
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">Боялася, що дівич-вечір на сорок людей — це вже занадто гучно для затишної компанії. З навушниками вийшло навпаки: кожна чула тільки свою музику, а разом все одно танцювали як одна команда.</p>
+          <div class="tst-author">
+            <div class="tst-avatar">КЛ</div>
+            <div><div class="tst-name">Катерина Л.</div><div class="tst-role">дівич-вечір, 40 гостей</div></div>
+          </div>
+        </article>
+        <article class="tst-card reveal">
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">Брали як активність на виїзд. Ефект неочікуваний: люди, які на корпоративах зазвичай сидять у кутку, того вечора танцювали.</p>
+          <div class="tst-author">
+            <div class="tst-avatar">БШ</div>
+            <div><div class="tst-name">Богдан Ш.</div><div class="tst-role">тимбілдинг для команди</div></div>
+          </div>
         </article>
       </div>
+      <button class="gal-nav tst-prev" type="button" aria-label="Попередні відгуки">‹</button>
+      <button class="gal-nav tst-next" type="button" aria-label="Наступні відгуки">›</button>
     </div>
+    <p class="uc-hint">Гортайте вбік, щоб побачити більше відгуків</p>
   </div>
 </section>
 
