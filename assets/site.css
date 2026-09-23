@@ -3160,6 +3160,22 @@
     .gallery-grid { --fade: 190px; }
     .uc-prev, .gal-prev { left: 10px; }
     .uc-next, .gal-next { right: 10px; }
+    /* Тему обрано: стрічка більше не безкінечна, ряд стає звичайним
+       скінченним списком (site.js перемикає .exp-filter у simple-режим і
+       додає цей клас на .uc-gallery). Full-bleed мав сенс лише для
+       нескінченної «Усі» — тут картки натомість лишаються в межах тієї ж
+       колонки, що текст і заголовок над ними, а не тікають до країв
+       монітора. */
+    .uc-gallery.is-simple { width: auto; margin-left: 0; margin-right: 0; }
+    .uc-gallery.is-simple .uc-grid {
+      padding-left: 0; padding-right: 0;
+      -webkit-mask-image:
+        linear-gradient(90deg, transparent 0, #000 68px, #000 calc(100% - 68px), transparent 100%),
+        linear-gradient(180deg, #000 0, #000 calc(100% - 30px), transparent 100%);
+      mask-image:
+        linear-gradient(90deg, transparent 0, #000 68px, #000 calc(100% - 68px), transparent 100%),
+        linear-gradient(180deg, #000 0, #000 calc(100% - 30px), transparent 100%);
+    }
   }
 
 

@@ -1155,6 +1155,7 @@ const I18N = window.SILENT_I18N;
       if (!filterBar) return;
       const chips = [...filterBar.querySelectorAll('.exp-chip')];
       const countEl = document.querySelector('.exp-count');
+      const galleryEl = view.closest('.uc-gallery');
       if (!chips.length) return;
 
       // Той самий відмінок, що на сторінці-списку — форма слова від числа.
@@ -1209,10 +1210,12 @@ const I18N = window.SILENT_I18N;
         if (cat === 'all'){
           if (simple){ simple = false; virtualized = true; build(); start(); }
           if (countEl) countEl.textContent = '';
+          if (galleryEl) galleryEl.classList.remove('is-simple');
           return;
         }
         simple = true;
         virtualized = false;
+        if (galleryEl) galleryEl.classList.add('is-simple');
         buildSimple(cat);
         const shown = rows.reduce((n, r) => n + r.el.children.length, 0);
         if (countEl) countEl.textContent = shown + ' ' + word(shown) + ' у цій темі';
