@@ -1381,6 +1381,10 @@ const I18N = window.SILENT_I18N;
     function pick(){
       ticking = false;
       if (hovering || manual) return;
+      // Бенто «Як це працює» попросили лишити тільки на дотик: на десктопі
+      // підсвітка мигтіла по черзі просто від прокрутки коліщатком, без
+      // жодної дії користувача, і це заважало, а не підказувало.
+      if (o.touchOnly && !window.matchMedia('(hover: none)').matches){ clear(); return; }
       const best = o.mode === 'progress' ? byProgress() : nearest();
       if (best === lit) return;
       if (lit) lit.classList.remove('is-lit');
@@ -1431,7 +1435,7 @@ const I18N = window.SILENT_I18N;
   litOnScroll(document.querySelector('.benefits-grid'), '.benefit-card', { mode: 'progress' });
   // «Як це працює»: той самий прийом, що в переваг — на дотик картки бенто
   // раніше не відповідали взагалі нічим, доки палець саме на них.
-  litOnScroll(document.querySelector('.process-bento'), '.pb-card:not(.pb-card-accent)', { mode: 'progress' });
+  litOnScroll(document.querySelector('.process-bento'), '.pb-card:not(.pb-card-accent)', { mode: 'progress', touchOnly: true });
 
   // ---- Стрічка сценаріїв: тап перемикає підсвітку картки ----
   // Спершу підсвітку прив'язали до прокрутки (яка картка по центру), але
