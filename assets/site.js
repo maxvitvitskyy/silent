@@ -1017,6 +1017,11 @@ const I18N = window.SILENT_I18N;
           const it = r.items[((s % n) + n) % n];
           const c = r.pool[i];
           if (c.dataset.uc !== it.name){
+            // Пул переставний: той самий вузол DOM за мить показує зовсім
+            // інший сценарій. Тап-підсвітка тримається на класі, а не на
+            // ідентичності картки, тож без цього скидання вона «перестрибувала»
+            // на нову картку, яка щойно посіла місце підсвіченої.
+            c.classList.remove('is-lit');
             c.dataset.uc = it.name;
             c._h3.textContent = it.title;
             c._p.textContent = it.text;
@@ -1262,6 +1267,10 @@ const I18N = window.SILENT_I18N;
             c.style.top = (r.top - gridBefore.top) + 'px';
             c.style.width = r.width + 'px';
             c.classList.add('is-leaving');
+            // Тап-підсвітка не мусить пережити тему, у якій її поставили:
+            // інакше картка, що ховається зараз, наступного разу вигулькне
+            // під іншою темою вже «активною» без жодного тапу по ній.
+            c.classList.remove('is-lit');
             const t = setTimeout(() => {
               c.hidden = true;
               c.classList.remove('is-leaving');
@@ -1424,42 +1433,24 @@ const I18N = window.SILENT_I18N;
   // раніше не відповідали взагалі нічим, доки палець саме на них.
   litOnScroll(document.querySelector('.process-bento'), '.pb-card:not(.pb-card-accent)', { mode: 'progress' });
 
-  // ---- Стрічка сценаріїв: активна картка на прокрутку вбік ----
-  // Той самий принцип, що в стрічки відгуків (нижче): на дотик — палець не
-  // курсор, гортати нема чим, тож підсвічує сама прокрутка. Universal для
-  // будь-якої .uc-grid на сторінці: і нескінченного пулу «Усі», і простого
-  // ряду обраної теми — DOM під капотом міняється, тож картки читаємо живцем
-  // при кожному кадрі, а не раз при завантаженні.
-  const mqTouchUc = window.matchMedia('(hover: none)');
+  // ---- Стрічка сценаріїв: тап перемикає підсвітку картки ----
+  // Спершу підсвітку прив'язали до прокрутки (яка картка по центру), але
+  // власник це приміряв і захотів простішого: тап по картці фіксує обводку,
+  // повторний тап по тій самій — знімає. Прокрутка сама по собі більше
+  // нічого не підсвічує й не гасить. Delegation на .uc-grid: у
+  // нескінченному пулі й у простому ряді обраної теми самі елементи-картки
+  // час від часу підмінюються, слухач на контейнері переживає будь-яку з
+  // цих підмін.
   document.querySelectorAll('.uc-grid').forEach((grid) => {
-    let cur = null, ticking = false;
-    const drop = () => { if (cur){ cur.classList.remove('is-lit'); cur = null; } };
-    function pick(){
-      ticking = false;
-      // На мишачому пристрої за наведення вже відповідає дуга-спотлайт —
-      // тут лише палець, тож на hover-пристрої нічого не підсвічуємо.
-      if (!mqTouchUc.matches){ drop(); return; }
-      const r = grid.getBoundingClientRect();
-      const mid = r.left + r.width / 2;
-      let best = null, bestD = Infinity;
-      for (const c of grid.querySelectorAll('.uc-card')){
-        if (c.hidden) continue;
-        const cr = c.getBoundingClientRect();
-        if (cr.right < r.left || cr.left > r.right) continue;
-        const d = Math.abs(cr.left + cr.width / 2 - mid);
-        if (d < bestD){ bestD = d; best = c; }
-      }
-      if (best === cur) return;
-      if (cur) cur.classList.remove('is-lit');
-      if (best) best.classList.add('is-lit');
-      cur = best;
-    }
-    const queue = () => { if (!ticking){ ticking = true; requestAnimationFrame(pick); } };
-    grid.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') drop(); });
-    grid.addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse') drop(); }, { passive: true });
-    grid.addEventListener('scroll', queue, { passive: true });
-    window.addEventListener('resize', queue, { passive: true });
-    queue();
+    grid.addEventListener('click', (e) => {
+      if (!window.matchMedia('(hover: none)').matches) return;
+      const card = e.target.closest('.uc-card');
+      if (!card || !grid.contains(card)) return;
+      const was = card.classList.contains('is-lit');
+      const prev = grid.querySelector('.uc-card.is-lit');
+      if (prev) prev.classList.remove('is-lit');
+      if (!was) card.classList.add('is-lit');
+    });
   });
 
   // ---- Стрічка відгуків: стрілки й активна картка ----
