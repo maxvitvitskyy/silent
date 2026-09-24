@@ -1420,6 +1420,47 @@ const I18N = window.SILENT_I18N;
   litOnScroll(document.querySelector('.slabs'), '.slab', { pinOnTap: true });
   litOnScroll(document.querySelector('.flow'), '.flow-step', { mode: 'progress' });
   litOnScroll(document.querySelector('.benefits-grid'), '.benefit-card', { mode: 'progress' });
+  // «Як це працює»: той самий прийом, що в переваг — на дотик картки бенто
+  // раніше не відповідали взагалі нічим, доки палець саме на них.
+  litOnScroll(document.querySelector('.process-bento'), '.pb-card:not(.pb-card-accent)', { mode: 'progress' });
+
+  // ---- Стрічка сценаріїв: активна картка на прокрутку вбік ----
+  // Той самий принцип, що в стрічки відгуків (нижче): на дотик — палець не
+  // курсор, гортати нема чим, тож підсвічує сама прокрутка. Universal для
+  // будь-якої .uc-grid на сторінці: і нескінченного пулу «Усі», і простого
+  // ряду обраної теми — DOM під капотом міняється, тож картки читаємо живцем
+  // при кожному кадрі, а не раз при завантаженні.
+  const mqTouchUc = window.matchMedia('(hover: none)');
+  document.querySelectorAll('.uc-grid').forEach((grid) => {
+    let cur = null, ticking = false;
+    const drop = () => { if (cur){ cur.classList.remove('is-lit'); cur = null; } };
+    function pick(){
+      ticking = false;
+      // На мишачому пристрої за наведення вже відповідає дуга-спотлайт —
+      // тут лише палець, тож на hover-пристрої нічого не підсвічуємо.
+      if (!mqTouchUc.matches){ drop(); return; }
+      const r = grid.getBoundingClientRect();
+      const mid = r.left + r.width / 2;
+      let best = null, bestD = Infinity;
+      for (const c of grid.querySelectorAll('.uc-card')){
+        if (c.hidden) continue;
+        const cr = c.getBoundingClientRect();
+        if (cr.right < r.left || cr.left > r.right) continue;
+        const d = Math.abs(cr.left + cr.width / 2 - mid);
+        if (d < bestD){ bestD = d; best = c; }
+      }
+      if (best === cur) return;
+      if (cur) cur.classList.remove('is-lit');
+      if (best) best.classList.add('is-lit');
+      cur = best;
+    }
+    const queue = () => { if (!ticking){ ticking = true; requestAnimationFrame(pick); } };
+    grid.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') drop(); });
+    grid.addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse') drop(); }, { passive: true });
+    grid.addEventListener('scroll', queue, { passive: true });
+    window.addEventListener('resize', queue, { passive: true });
+    queue();
+  });
 
   // ---- Стрічка відгуків: стрілки й активна картка ----
   (function(){
