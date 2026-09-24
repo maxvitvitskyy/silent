@@ -3176,8 +3176,13 @@
     .tst-static .tst-strip {
       padding-left: 24px;
       padding-right: 24px;
-      -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 190px, #000 calc(100% - 190px), transparent 100%);
-      mask-image: linear-gradient(90deg, transparent 0, #000 190px, #000 calc(100% - 190px), transparent 100%);
+      /* 190px — запозичене з .uc-grid — там влаштовує щільний ряд дрібних
+         карток по 272px, а тут картка 320px і лежить першою, майже без
+         нашарування зверху: та сама ширина з'їдала більш ніж половину її
+         власного тексту, і той самий backdrop-filter під розтушованим краєм
+         читався як «зникло скло». Вужчий згін лише пом'якшує сам край. */
+      -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 56px, #000 calc(100% - 56px), transparent 100%);
+      mask-image: linear-gradient(90deg, transparent 0, #000 56px, #000 calc(100% - 56px), transparent 100%);
     }
     .tst-static .tst-prev { left: 10px; }
     .tst-static .tst-next { right: 10px; }
