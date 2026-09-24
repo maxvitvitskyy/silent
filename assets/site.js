@@ -2448,16 +2448,42 @@ const I18N = window.SILENT_I18N;
       return 'форматів';
     }
 
+    // Картка, яку фільтр щойно виключив, не зникає миттю: клас is-leaving
+    // запускає короткий вихід у CSS, і лише тоді, коли він добіжить, картка
+    // йде з потоку (hidden). Мапа тримає той таймер per картка — повторний
+    // клік до завершення виходу мусить скасувати попередній, інакше картка,
+    // яку щойно знову ввімкнули, могла б за стару команду сховатись.
+    const leaveTimers = new Map();
+
     function apply(cat){
       let shown = 0;
+      let i = 0;
       cards.forEach(c => {
         // Тем у картки може бути кілька, тож звіряємо зі списком, а не з одним
         // значенням: табір належить і церквам, і дітям, і мусить знайтись в обох.
         const on = cat === 'all' || (c.dataset.cats || '').split(' ').indexOf(cat) !== -1;
-        // hidden, а не клас: картка зникає і з потоку, і з дерева доступності,
-        // тож її не прочитає скрінрідер і не спіймає табуляція.
-        c.hidden = !on;
         if (on) shown++;
+
+        const pending = leaveTimers.get(c);
+        if (pending) { clearTimeout(pending); leaveTimers.delete(c); }
+
+        if (on){
+          // hidden знімаємо одразу: якщо картка саме дограє вихід, це його
+          // й перериває (opacity/transform повертає base-стиль transition'ом).
+          c.hidden = false;
+          c.classList.remove('is-leaving');
+          // Стагер лічить лише картки, що фактично з'являються цього кадру:
+          // каскад тоді завжди йде з нуля, а не з випадкового номера в сітці.
+          c.style.setProperty('--stagger', i++);
+        } else if (!c.hidden){
+          c.classList.add('is-leaving');
+          const t = setTimeout(() => {
+            c.hidden = true;
+            c.classList.remove('is-leaving');
+            leaveTimers.delete(c);
+          }, 180);
+          leaveTimers.set(c, t);
+        }
       });
       chips.forEach(ch => {
         const on = ch.dataset.cat === cat;
