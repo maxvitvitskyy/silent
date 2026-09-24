@@ -1168,37 +1168,114 @@ const I18N = window.SILENT_I18N;
       }
 
       let simple = false; // чи ряди зараз у звичайному, нефільтрованому режимі
+      const row = rows[0]; // на сторінках із фільтром рядок завжди один
+      // Картки будуються один раз persistant-набором (а не пересотворюються
+      // на кожен клік, як раніше) — інакше FLIP нема чим ловити: браузер не
+      // може плавно перевіршувати елемент, якого щойно не існувало. Той
+      // самий підхід, що на сторінці-каталозі «Тихі враження».
+      let simpleCards = null;
+      const leaveTimers = new Map();
 
-      function buildSimple(cat){
-        rows.forEach(r => {
-          r.el.textContent = '';
-          // Пул малював ряд абсолютною розкладкою з фіксованою висотою —
-          // обом властивостям тут більше нема чого робити: картки повертаються
-          // у звичайний потік і самі задають висоту рядка.
-          r.el.style.position = '';
-          r.el.style.height = '';
-          r.el.style.transform = '';
-          r.pool = []; r.slot = [];
-          const items = r.items.filter(it => (it.cats || '').split(' ').indexOf(cat) !== -1);
-          items.forEach(it => {
-            const c = document.createElement('article');
-            c.className = 'uc-card';
-            c.dataset.uc = it.name;
-            c.innerHTML = SKELETON;
-            c.querySelector('h3').textContent = it.title;
-            c.querySelector('.uc-body p').textContent = it.text;
-            const media = c.querySelector('.uc-media');
-            if (it.lqip) media.style.setProperty('--lqip', it.lqip);
-            const img = c.querySelector('img');
-            if (it.src){
-              img.setAttribute('src', it.src);
-              img.setAttribute('alt', it.alt || it.name);
-              img.loading = 'lazy';
-            }
-            r.el.appendChild(c);
-          });
+      function clearLeaveStyles(c){
+        c.style.position = ''; c.style.left = ''; c.style.top = ''; c.style.width = '';
+      }
+
+      function ensureSimpleCards(){
+        if (simpleCards) return;
+        row.el.textContent = '';
+        row.el.style.position = 'relative';
+        row.el.style.paddingLeft = '';
+        row.el.style.height = '';
+        row.el.style.transform = '';
+        row.pool = []; row.slot = [];
+        simpleCards = row.items.map(it => {
+          const c = document.createElement('article');
+          c.className = 'uc-card';
+          c.dataset.uc = it.name;
+          c.dataset.cats = it.cats;
+          c.hidden = true;
+          c.innerHTML = SKELETON;
+          c.querySelector('h3').textContent = it.title;
+          c.querySelector('.uc-body p').textContent = it.text;
+          const media = c.querySelector('.uc-media');
+          if (it.lqip) media.style.setProperty('--lqip', it.lqip);
+          const img = c.querySelector('img');
+          if (it.src){
+            img.setAttribute('src', it.src);
+            img.setAttribute('alt', it.alt || it.name);
+            img.loading = 'lazy';
+          }
+          row.el.appendChild(c);
+          return c;
         });
+      }
+
+      // FLIP — той самий прийом, що на сторінці-каталозі: картка, що
+      // лишається видимою, не стрибає на нове місце, а плавно туди їде.
+      function flip(before){
+        simpleCards.forEach(c => {
+          if (c.hidden || c.classList.contains('is-leaving')) return;
+          const first = before.get(c);
+          if (!first) return;
+          const last = c.getBoundingClientRect();
+          const dx = first.left - last.left, dy = first.top - last.top;
+          if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) return;
+          c.style.transition = 'none';
+          c.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
+          void c.offsetWidth;
+          c.style.transition = 'transform .34s var(--ease-arrive)';
+          c.style.transform = '';
+          clearTimeout(c._flipCleanup);
+          c._flipCleanup = setTimeout(() => { c.style.transition = ''; }, 380);
+        });
+      }
+
+      function applyCat(cat){
+        ensureSimpleCards();
+        const before = new Map();
+        simpleCards.forEach(c => { if (!c.hidden) before.set(c, c.getBoundingClientRect()); });
+        const gridBefore = row.el.getBoundingClientRect();
+
+        let shown = 0, i = 0;
+        simpleCards.forEach(c => {
+          const on = (c.dataset.cats || '').split(' ').indexOf(cat) !== -1;
+          if (on) shown++;
+
+          const pending = leaveTimers.get(c);
+          if (pending){ clearTimeout(pending); leaveTimers.delete(c); }
+
+          if (on){
+            const wasHidden = c.hidden;
+            c.hidden = false;
+            c.classList.remove('is-leaving');
+            clearLeaveStyles(c);
+            if (wasHidden){
+              c.style.setProperty('--stagger', i++);
+              c.classList.add('is-entering');
+              clearTimeout(c._enterCleanup);
+              c._enterCleanup = setTimeout(() => c.classList.remove('is-entering'), 400);
+            }
+          } else if (!c.hidden){
+            const r = before.get(c);
+            c.style.position = 'absolute';
+            c.style.left = (r.left - gridBefore.left) + 'px';
+            c.style.top = (r.top - gridBefore.top) + 'px';
+            c.style.width = r.width + 'px';
+            c.classList.add('is-leaving');
+            const t = setTimeout(() => {
+              c.hidden = true;
+              c.classList.remove('is-leaving');
+              clearLeaveStyles(c);
+              leaveTimers.delete(c);
+            }, 180);
+            leaveTimers.set(c, t);
+          }
+        });
+        flip(before);
+        // Нова тема завжди починається з початку ряду — саме там він рівний
+        // з текстом над стрічкою, і саме це мало бути видно одразу.
         view.scrollLeft = 0;
+        return shown;
       }
 
       function apply(cat){
@@ -1208,7 +1285,13 @@ const I18N = window.SILENT_I18N;
           ch.setAttribute('aria-pressed', on ? 'true' : 'false');
         });
         if (cat === 'all'){
-          if (simple){ simple = false; virtualized = true; build(); start(); }
+          if (simple){
+            simple = false;
+            simpleCards = null;
+            leaveTimers.forEach(t => clearTimeout(t));
+            leaveTimers.clear();
+            virtualized = true; build(); start();
+          }
           if (countEl) countEl.textContent = '';
           if (galleryEl) galleryEl.classList.remove('is-simple');
           return;
@@ -1216,8 +1299,7 @@ const I18N = window.SILENT_I18N;
         simple = true;
         virtualized = false;
         if (galleryEl) galleryEl.classList.add('is-simple');
-        buildSimple(cat);
-        const shown = rows.reduce((n, r) => n + r.el.children.length, 0);
+        const shown = applyCat(cat);
         if (countEl) countEl.textContent = shown + ' ' + word(shown) + ' у цій темі';
       }
 

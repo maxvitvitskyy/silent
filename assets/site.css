@@ -3196,20 +3196,28 @@
     .tst-static .tst-next { right: 10px; }
     /* Тему обрано: стрічка більше не безкінечна, ряд стає звичайним
        скінченним списком (site.js перемикає .exp-filter у simple-режим і
-       додає цей клас на .uc-gallery). Full-bleed мав сенс лише для
-       нескінченної «Усі» — тут картки натомість лишаються в межах тієї ж
-       колонки, що текст і заголовок над ними, а не тікають до країв
-       монітора. */
-    .uc-gallery.is-simple { width: auto; margin-left: 0; margin-right: 0; }
+       додає цей клас на .uc-gallery). Той самий прийом, що у відгуків на
+       цій же сторінці: лівий край рівний з текстом над стрічкою (та сама
+       формула, якою рахує власний відступ .wrap), а справа картки й далі
+       виходять за екран — саме так власник попросив: «крайня плитка на
+       рівні тексту, а решта, якщо забагато, за край екрана». */
+    .uc-gallery.is-simple {
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+    }
     .uc-gallery.is-simple .uc-grid {
-      padding-left: 0; padding-right: 0;
+      padding-left: max(43px, calc((100vw - 1320px) / 2 + 25px));
+      padding-right: 24px;
       -webkit-mask-image:
-        linear-gradient(90deg, transparent 0, #000 68px, #000 calc(100% - 68px), transparent 100%),
+        linear-gradient(90deg, transparent 0, #000 56px, #000 calc(100% - 56px), transparent 100%),
         linear-gradient(180deg, #000 0, #000 calc(100% - 30px), transparent 100%);
       mask-image:
-        linear-gradient(90deg, transparent 0, #000 68px, #000 calc(100% - 68px), transparent 100%),
+        linear-gradient(90deg, transparent 0, #000 56px, #000 calc(100% - 56px), transparent 100%),
         linear-gradient(180deg, #000 0, #000 calc(100% - 30px), transparent 100%);
     }
+    .uc-gallery.is-simple .uc-prev { left: 10px; }
+    .uc-gallery.is-simple .uc-next { right: 10px; }
   }
 
 
@@ -3340,15 +3348,13 @@
        і сходить нанівець, щоб не заважати читати цитату */
     background:
       radial-gradient(150% 125% at 12% -12%, rgba(198,255,0,0.24), rgba(198,255,0,0.08) 46%, rgba(198,255,0,0.03) 76%, transparent 100%),
-      rgba(14,14,15,0.20);
-    /* Сильніше за загальне скло: картки лежать одна на одній, і саме тут видно,
-       наскільки розмита сусідня під нею. Тло трохи прозоріше — інакше розмиття
-       нема крізь що показати. */
-    /* Скло навмисно слабке: сусідня картка має читатись крізь нього як розмита
-       форма, а не зникати. Сильніше розмиття тут виглядає як суцільна заливка —
-       матовості не видно саме тому, що вона з'їдає все, що під нею. */
-    backdrop-filter: blur(9px) saturate(1.25);
-    -webkit-backdrop-filter: blur(9px) saturate(1.25);
+      rgba(14,14,15,0.42);
+    /* 9px/0.20 читались як майже чиста прозорість — власник підтвердив, що на
+       десктопі ефекту скла не видно взагалі. Піднято до відчутного матового
+       скла; сусідня картка під переднім планом і далі проступає — просто
+       розмитою, а не зниклою, як і було задумано. */
+    backdrop-filter: blur(18px) saturate(1.3);
+    -webkit-backdrop-filter: blur(18px) saturate(1.3);
     box-shadow: var(--glass-shadow-2), 0 26px 60px -34px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.09);
     transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
   }
@@ -4278,7 +4284,7 @@
   /* Приховану картку виймаємо з потоку повністю: сітка тоді змикається сама,
      без дірок. Поява — коротке проявлення, щоб зміна читалась як фільтрування,
      а не як перезавантаження. Економія руху глобальним правилом вимикає її. */
-  .exp-grid .uc-card[hidden] { display: none; }
+  :is(.exp-grid, .uc-row) .uc-card[hidden] { display: none; }
   @keyframes expChipIn { from { opacity: 0; transform: translateY(6px); } }
   /* Картки, яких нова тема стосується, проявляються не всі разом, а внахлист
      одна за одною — той самий каскад, що дав референс власника. Крок і
@@ -4287,8 +4293,10 @@
      з'явились (is-entering) — не на всіх видимих: перше приводило до того,
      що при кожному перемиканні тему заново «влітали» навіть картки, які й
      так уже стояли на екрані, а FLIP-зсув, який site.js рахує паралельно,
-     ця сама анімація щоразу перебивала. */
-  .exp-grid .uc-card.is-entering {
+     ця сама анімація щоразу перебивала. Той самий клас і на .uc-row —
+     фільтр у «Silent-досвідах» на корпоративах працює за тим самим
+     принципом, що на сторінці-каталозі. */
+  :is(.exp-grid, .uc-row) .uc-card.is-entering {
     animation: expChipIn .32s var(--ease-arrive) backwards;
     animation-delay: calc(var(--stagger, 0) * 32ms);
   }
@@ -4296,7 +4304,7 @@
      цього вони зникали миттєво, а сусідні картки, що лишаються, стрибали на
      їхнє місце тим самим кадром. site.js знімає [hidden] лише після того, як
      цей перехід добіжить. */
-  .exp-grid .uc-card.is-leaving {
+  :is(.exp-grid, .uc-row) .uc-card.is-leaving {
     animation: none;
     opacity: 0; transform: translateY(-6px);
     transition: opacity .18s ease, transform .18s ease;
