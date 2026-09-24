@@ -83,6 +83,14 @@
   html {
     scroll-behavior: smooth;
     color-scheme: dark;
+    /* Стрічка сценаріїв на корпоративах при першому перемиканні теми одним
+       кадром звільняє рядок від фіксованої висоти віртуалізованого пулу —
+       браузер це трактує як «вміст над в'юпортом стиснувся» і сам підкручує
+       прокрутку, компенсуючи зниклий вузол-якір. overflow-anchor: none на
+       самій стрічці цього не ловив (якорем міг бути вузол глибше, який ми й
+       прибрали), тож вимикаємо якорення на весь документ — на статичному
+       сайті без асинхронно довантаженого контенту йому й нема що рятувати. */
+    overflow-anchor: none;
     /* Сірий прямокутник, який Android малює під пальцем на кожному дотику.
        Свої стани натискання в кнопок є, тож він тільки заважає. Раніше це
        правило стояло всередині одного медіа-запиту, тобто діяло не скрізь. */
@@ -2932,10 +2940,17 @@
   /* Horizontal gallery: two rows that scroll together, the lower one offset by
      half a card so the grid reads as a woven strip rather than a plain table.
      Contents are cloned in JS so the strip loops endlessly in both directions. */
-  .uc-gallery { position: relative; margin-top: 40px; --uc-col: 272px; --uc-gap: 14px; }
+  /* overflow-anchor: none — перший клік на тему одноразово звільняє рядок
+     від фіксованої висоти віртуалізованого пулу (сотні px, порахованих
+     tallest()) і повертає auto. Без цього правила Chrome/Safari трактують
+     ту різницю як «вміст над в'юпортом стиснувся» і самі підкручують
+     scrollY, щоб компенсувати — саме той стрибок екрана вгору, який
+     власник побачив рівно на першому перемиканні фільтра. */
+  .uc-gallery { position: relative; margin-top: 40px; --uc-col: 272px; --uc-gap: 14px; overflow-anchor: none; }
   .uc-grid {
     display: flex; flex-direction: column; gap: var(--uc-gap);
     overflow-x: auto;
+    overflow-anchor: none;
     /* overflow-y must be pinned: left to compute as auto the strip also captures
        vertical wheel/touch, and the page stops scrolling over it. Chaining is
        left on because an endless strip never reaches an edge to hand back at,
@@ -2969,7 +2984,7 @@
     mask-composite: intersect;
   }
   .uc-grid::-webkit-scrollbar { display: none; }
-  .uc-row { display: flex; gap: var(--uc-gap); width: max-content; }
+  .uc-row { display: flex; gap: var(--uc-gap); width: max-content; overflow-anchor: none; }
   .uc-row[data-row="b"] { padding-left: calc(var(--uc-col) / 2 + var(--uc-gap) / 2); }
 
   .uc-card {

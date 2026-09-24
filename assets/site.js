@@ -1278,6 +1278,21 @@ const I18N = window.SILENT_I18N;
         return shown;
       }
 
+      // Перший перехід із нескінченного пулу в простий режим одноразово чистить
+      // rows[0].el (сотні px фіксованої висоти зникають) — і саме на цьому кадрі
+      // Chrome/Safari іноді самі підкручують scrollY, «компенсуючи» зниклий
+      // вузол, який вважали якорем прокрутки. overflow-anchor: none на самих
+      // контейнерах це не завжди ловить (вузол-якір міг бути карткою всередині,
+      // яку ми щойно видалили), тож тут просто силоміць повертаємо позицію, яку
+      // мав документ до кліку — після кадру, яким браузер встиг її підкрутити.
+      function holdScroll(fn){
+        const y = window.scrollY;
+        fn();
+        requestAnimationFrame(() => {
+          if (window.scrollY !== y) window.scrollTo(0, y);
+        });
+      }
+
       function apply(cat){
         chips.forEach(ch => {
           const on = ch.dataset.cat === cat;
@@ -1286,11 +1301,13 @@ const I18N = window.SILENT_I18N;
         });
         if (cat === 'all'){
           if (simple){
-            simple = false;
-            simpleCards = null;
-            leaveTimers.forEach(t => clearTimeout(t));
-            leaveTimers.clear();
-            virtualized = true; build(); start();
+            holdScroll(() => {
+              simple = false;
+              simpleCards = null;
+              leaveTimers.forEach(t => clearTimeout(t));
+              leaveTimers.clear();
+              virtualized = true; build(); start();
+            });
           }
           if (countEl) countEl.textContent = '';
           if (galleryEl) galleryEl.classList.remove('is-simple');
@@ -1299,7 +1316,8 @@ const I18N = window.SILENT_I18N;
         simple = true;
         virtualized = false;
         if (galleryEl) galleryEl.classList.add('is-simple');
-        const shown = applyCat(cat);
+        let shown = 0;
+        holdScroll(() => { shown = applyCat(cat); });
         if (countEl) countEl.textContent = shown + ' ' + word(shown) + ' у цій темі';
       }
 
