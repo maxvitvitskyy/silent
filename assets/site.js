@@ -2448,14 +2448,59 @@ const I18N = window.SILENT_I18N;
       return 'форматів';
     }
 
-    // Картка, яку фільтр щойно виключив, не зникає миттю: клас is-leaving
-    // запускає короткий вихід у CSS, і лише тоді, коли він добіжить, картка
-    // йде з потоку (hidden). Мапа тримає той таймер per картка — повторний
-    // клік до завершення виходу мусить скасувати попередній, інакше картка,
-    // яку щойно знову ввімкнули, могла б за стару команду сховатись.
+    // Картка, яку фільтр щойно виключив, не зникає миттю, але й не тримає
+    // сітку заручником: одразу переходить на position:absolute за власними
+    // поточними координатами (offsetLeft/offsetTop відносно .exp-grid, який
+    // тому й position:relative) — це виймає її з потоку негайно, сітка
+    // навколо перевіршовується цим самим кадром, а картка тим часом стоїть
+    // на тому самому місці й просто гасне. Лише коли згасання добіжить,
+    // hidden прибирає й ці інлайнові стилі. Мапа тримає той таймер per
+    // картка — повторний клік до завершення виходу мусить скасувати
+    // попередній, інакше картка, яку щойно знову ввімкнули, могла б за стару
+    // команду сховатись.
     const leaveTimers = new Map();
 
+    function clearLeaveStyles(c){
+      c.style.position = ''; c.style.left = ''; c.style.top = ''; c.style.width = '';
+    }
+
+    // FLIP: усе, що лишається на екрані, саме нікуди в DOM не рухається —
+    // рухається те, що звільняється чи додається навколо нього, а сітка
+    // миттю перевіршовує рештки на нове місце. Без цього перемикання
+    // виглядало як п'ятнашки: те саме різке перескакування, тільки з
+    // красивою появою нових карток поверх. FLIP бере різницю між «де картка
+    // була» і «де вона опинилась після перевіршовки» і одразу компенсує її
+    // transform'ом, а потім одним кадром знімає — картка їде, а не стрибає.
+    function flip(before){
+      cards.forEach(c => {
+        if (c.hidden || c.classList.contains('is-leaving')) return;
+        const first = before.get(c);
+        if (!first) return; // картка щойно з'явилась — про неї подбає expChipIn
+        const last = c.getBoundingClientRect();
+        const dx = first.left - last.left, dy = first.top - last.top;
+        if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) return;
+        c.style.transition = 'none';
+        c.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
+        // Читання layout-властивості змушує браузер застосувати стилі вище
+        // до того, як нижче увімкнеться transition — інакше обидва правила
+        // злипаються в один кадр, і ковзання просто не встигає початись.
+        void c.offsetWidth;
+        c.style.transition = 'transform .34s var(--ease-arrive)';
+        c.style.transform = '';
+        clearTimeout(c._flipCleanup);
+        c._flipCleanup = setTimeout(() => { c.style.transition = ''; }, 380);
+      });
+    }
+
     function apply(cat){
+      const before = new Map();
+      cards.forEach(c => { if (!c.hidden) before.set(c, c.getBoundingClientRect()); });
+      // Координати картки, що йде, рахуємо від цього ж знімка «до», а не від
+      // offsetLeft/offsetTop у момент виходу: цикл нижче міняє сітку по ходу,
+      // і картка, оброблена пізніше за сусідню, інакше зчитала б уже трохи
+      // перевіршовану позицію.
+      const gridBefore = grid.getBoundingClientRect();
+
       let shown = 0;
       let i = 0;
       cards.forEach(c => {
@@ -2468,18 +2513,33 @@ const I18N = window.SILENT_I18N;
         if (pending) { clearTimeout(pending); leaveTimers.delete(c); }
 
         if (on){
-          // hidden знімаємо одразу: якщо картка саме дограє вихід, це його
-          // й перериває (opacity/transform повертає base-стиль transition'ом).
+          const wasHidden = c.hidden;
+          // hidden і абсолютне позиціювання знімаємо одразу: якщо картка саме
+          // дограє вихід, це його й перериває.
           c.hidden = false;
           c.classList.remove('is-leaving');
-          // Стагер лічить лише картки, що фактично з'являються цього кадру:
-          // каскад тоді завжди йде з нуля, а не з випадкового номера в сітці.
-          c.style.setProperty('--stagger', i++);
+          clearLeaveStyles(c);
+          if (wasHidden){
+            // Картка справді нова цього разу — влітає каскадом. Стагер лічить
+            // лише такі картки: каскад тоді йде з нуля, а не з випадкового
+            // номера в сітці. clearTimeout/remove — щоб клас не лишався
+            // навічно й не заважав майбутньому FLIP цієї ж картки.
+            c.style.setProperty('--stagger', i++);
+            c.classList.add('is-entering');
+            clearTimeout(c._enterCleanup);
+            c._enterCleanup = setTimeout(() => c.classList.remove('is-entering'), 400);
+          }
         } else if (!c.hidden){
+          const r = before.get(c);
+          c.style.position = 'absolute';
+          c.style.left = (r.left - gridBefore.left) + 'px';
+          c.style.top = (r.top - gridBefore.top) + 'px';
+          c.style.width = r.width + 'px';
           c.classList.add('is-leaving');
           const t = setTimeout(() => {
             c.hidden = true;
             c.classList.remove('is-leaving');
+            clearLeaveStyles(c);
             leaveTimers.delete(c);
           }, 180);
           leaveTimers.set(c, t);
@@ -2497,6 +2557,7 @@ const I18N = window.SILENT_I18N;
         count.textContent = cat === 'all'
           ? '' : shown + ' ' + word(shown) + ' у цій темі';
       }
+      flip(before);
     }
 
     bar.addEventListener('click', (e) => {
