@@ -2725,13 +2725,28 @@ const I18N = window.SILENT_I18N;
       backdrop.classList.remove('show');
       nav.classList.remove('menu-open');
       burger.setAttribute('aria-expanded', 'false');
+      // Порядок тут критичний. scrollTo нічого не робить, доки лишається
+      // хоч одне з двох: position:fixed на body (в нього тоді просто нема
+      // куди прокручувати — html звужена до висоти вікна) або
+      // overflow:hidden на html (сама прокрутка вимкнена). Тому спершу
+      // знімаємо ОБИДВА обмеження — це самі по собі лише стилі, без
+      // проміжного перемальовування між ними — і тільки тоді ставимо
+      // scrollTo. Всі три рядки виконуються в одному синхронному такті, тож
+      // браузер малює вже кінцевий, правильний кадр, а не проміжний з
+      // scrollY=0.
       document.body.style.position = '';
       document.body.style.top = '';
       document.body.style.left = '';
       document.body.style.right = '';
       document.body.style.width = '';
-      window.scrollTo(0, lockedY);
       document.documentElement.style.overflow = '';
+      // { top, behavior: 'instant' }, не (0, lockedY): у html стоїть
+      // scroll-behavior:smooth (для якірних посилань), і звичайний
+      // виклик з тими самими координатами через нього самe і став видимою
+      // прокруткою — сторінка спершу показувала 0, а тоді плавно
+      // «доїжджала» до lockedY. Тут це не рух користувача, а повернення
+      // на місце, і воно мусить бути миттєвим.
+      window.scrollTo({ top: lockedY, left: 0, behavior: 'instant' });
     }
     burger.addEventListener('click', () => {
       if (drawer.classList.contains('show')) closeDrawer(); else openDrawer();
