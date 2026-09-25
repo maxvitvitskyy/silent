@@ -4707,6 +4707,38 @@
   }
   .legal a:hover { border-bottom-color: var(--lime); }
 
+  /* ---------- Сторінка «Питання-відповіді» ---------- */
+  /* Прив'язка до категорій. Не .exp-filter: та панель зчеплена з JS-фільтром
+     карток (data-cat/is-on перемикають видимість), тут кожна кнопка — просто
+     якірне посилання на свій блок нижче, сторінка одна й та сама. .exp-chip
+     лишається — та сама пігулка, тільки в ролі навігації, а не фільтра. */
+  .faq-nav {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    margin-top: 32px;
+  }
+  .faq-nav .exp-chip { cursor: pointer; }
+  .faq-nav .exp-chip span {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 15px; font-weight: 700; color: var(--lime);
+    line-height: 1;
+  }
+  /* Категорії йдуть одна під одною, кожна зі своєю наскрізною нумерацією
+     (counter-reset живе на .faq-list, тож 01–0N рахуються заново в кожній). */
+  .faq-cats { margin-top: 8px; }
+  .faq-cat { padding-top: clamp(56px, 8vh, 88px); scroll-margin-top: 96px; }
+  .faq-cat:first-child { padding-top: clamp(28px, 4vh, 44px); }
+  .faq-cat-head { display: flex; align-items: baseline; gap: 14px; }
+  .faq-cat-num {
+    font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: 14px;
+    color: var(--lime); flex-shrink: 0;
+  }
+
+  @media (max-width: 640px) {
+    .faq-nav { margin-top: 26px; gap: 8px; }
+    .faq-cat { padding-top: 48px; scroll-margin-top: 84px; }
+    .faq-cat:first-child { padding-top: 20px; }
+  }
+
   /* ---------- Блок переваг із мальованими іконками ---------- */
   /* Іконки намальовані, а не емодзі: емодзі малюються по-різному на кожній
      системі, збиваються з кольору сторінки й видають шаблон. Обводка 1.15 і

@@ -184,6 +184,7 @@ T = {
 'Що входить': "What's included",
 'Сценарії': 'Scenarios',
 'Ціна': 'Pricing',
+'Питання': 'FAQ',
 'Перевірити дату': 'Check a date',
 'Перевірити доступність дати': 'Check if your date is free',
 
@@ -1088,6 +1089,7 @@ def stamp_files():
     # самий site.css і site.js, і без позначки лишалися б зі старими копіями.
     extra = [os.path.join(ROOT, rel) for rel in EXPERIENCE_PAGES]
     extra.append(os.path.join(ROOT, 'privacy', 'index.html'))
+    extra.append(os.path.join(ROOT, 'faq', 'index.html'))
     for path in [SRC, DST, SRC404, DST404] + extra:
         if not os.path.exists(path):
             continue
