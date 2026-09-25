@@ -76,30 +76,6 @@ const I18N = window.SILENT_I18N;
     { color:'#3da8ff', soft:'rgba(var(--blue-rgb), 0.14)', glow:'rgba(var(--blue-rgb), 0.45)' }
   ];
   const btns = Array.from(document.querySelectorAll('.ch-toggle'));
-  const heroPhotos = [0,1,2].map(i => document.getElementById('heroPhoto' + i)).filter(Boolean);
-
-  // Знімки другого й третього каналів більше не стоять у style="" у розмітці:
-  // там вони потрапляли в першу хвилю завантаження разом із критичними
-  // файлами — 91 КБ на те, чого на старті ніхто не бачить. Адреса лежить у
-  // data-src, і підставляється двома шляхами: на вимогу, коли канал стає
-  // активним, і завчасно після завантаження сторінки, щоб перше
-  // автоперемикання (через 6.5 с) уже мало готовий знімок і не блимнуло
-  // порожнім кадром.
-  function armHeroPhoto(i){
-    const el = heroPhotos[i];
-    if (!el) return;
-    const src = el.dataset.src;
-    if (!src) return;
-    el.style.backgroundImage = "url('" + src + "')";
-    delete el.dataset.src;
-  }
-  function armHeroPhotosSoon(){
-    const arm = () => heroPhotos.forEach((_, i) => armHeroPhoto(i));
-    if ('requestIdleCallback' in window) requestIdleCallback(arm, { timeout: 2500 });
-    else setTimeout(arm, 1200);
-  }
-  if (document.readyState === 'complete') armHeroPhotosSoon();
-  else window.addEventListener('load', armHeroPhotosSoon, { once: true });
   const heroDancerEl = document.getElementById('heroDancer');
   // Background position is controlled by CSS (focal point on the dancer, with a
   // mobile media-query variant) — do not override it here.
@@ -265,9 +241,9 @@ const I18N = window.SILENT_I18N;
 
   // deferGlow: тільки для початкового виклику на завантаженні. litStrip()
   // читає getBoundingClientRect() і тим форсує синхронний layout усього
-  // документа — на старті сторінки це заважає першому paint. Класи ж
-  // (heroPhoto/heroDancer .active) мають лишитись синхронними: якщо
-  // додати їх пізніше, ПІСЛЯ того як браузер уже намалював кадр без них,
+  // документа — на старті сторінки це заважає першому paint. Клас
+  // heroDancer.active має лишитись синхронним: якщо додати його пізніше,
+  // ПІСЛЯ того як браузер уже намалював кадр без нього,
   // CSS-transition на opacity вперше реально запуститься з 0 замість
   // миттєвого фінального стану — і рендер спотвориться (перевірено:
   // саме так і сталось, коли відкладався весь setChannel()).
@@ -292,12 +268,8 @@ const I18N = window.SILENT_I18N;
         b.style.setProperty('--active-glow', c.glow);
       }
     });
-    // Знімок цього каналу мусить бути підставлений до того, як він стане
-    // видимим. У розмітці адреса лежить у data-src саме для того, щоб браузер
-    // не тягнув усі три в першій хвилі; тут вона підставляється на вимогу.
-    armHeroPhoto(i);
-    // Активний лишається один — інакше три знімки світилися б один крізь одного.
-    heroPhotos.forEach((p, idx) => p.classList.toggle('active', idx === i));
+    // Фон більше не залежить від каналу (одне зациклене відео замість трьох
+    // знімків), тож тут лишається тільки фігура.
     if (heroDancerEl) heroDancerEl.classList.add('active');
     updateHeroText(i);
     if (deferGlow) requestAnimationFrame(() => litStrip(c.color, i));

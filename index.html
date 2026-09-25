@@ -20,13 +20,17 @@
     y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
 })(window, document, "clarity", "script", "ybmupsein1");
 </script>
-<!-- Обидва зображення першого екрана задані через CSS background-image, тому
-     preload-сканер знаходить їх лише після побудови CSSOM — пізніше, ніж
-     потрібно. Явний preload з fetchpriority=high змушує браузер тягнути файли
-     одразу, під час парсингу <head>, не чіпаючи самі div-и чи їхні стилі.
-     heroDancer вагою ~284 КБ — найбільший видимий елемент екрана і саме він
-     визначає LCP; без цього рядка він стартував на ~13 мс пізніше за crowd і
-     без пріоритету, тобто в спільній черзі з галереєю сценаріїв. -->
+<!-- Танцівниця задана через CSS background-image, тому preload-сканер
+     знаходить її лише після побудови CSSOM — пізніше, ніж потрібно. Явний
+     preload з fetchpriority=high змушує браузер тягнути файл одразу, під час
+     парсингу <head>, не чіпаючи сам div чи його стилі. heroDancer вагою
+     ~284 КБ — найбільший видимий елемент екрана і саме він визначає LCP; без
+     цього рядка він стартував на ~13 мс пізніше за crowd і без пріоритету,
+     тобто в спільній черзі з галереєю сценаріїв.
+     hero-crowd.webp той самий кадр, що раніше стояв фоном hero — тепер це
+     постер відео (<video poster>): видно одразу, поки сам ролик іще не
+     доїхав чи не почав програватись, і той самий рядок preload прискорює й
+     цю першу картинку. -->
 <link rel="preload" as="image" href="images/hero-crowd.webp" fetchpriority="high">
 <!-- Фігура — найважчий файл сторінки й теж фон у CSS, тож браузер знаходив її
      лише після того, як приїхав і розібрався весь site.css: у вимірі це 695 мс
@@ -197,7 +201,7 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet';window.__fontsIn&amp;&amp;window.__fontsIn()">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
 <!-- Стилі спільні для української та англомовної версій — один файл на дві -->
-<link rel="stylesheet" href="assets/site.css?v=7b052b4a">
+<link rel="stylesheet" href="assets/site.css?v=eac1d1f4">
 </head>
 <body id="top">
 
@@ -224,16 +228,23 @@
 
 <!-- HERO -->
 <section class="hero">
-  <!-- Три знімки одним стосом: активний тримає .active, решта прозорі. Зміна
-       каналу перемикає клас, а перехід opacity у CSS дає плавний кросфейд. -->
-  <div class="hero-photo active" id="heroPhoto0" style="background-image:url('images/hero-crowd.webp')"></div>
-  <!-- Знімки другого й третього каналів названі в data-src, а не в style:
-       інакше браузер тягнув їх у першій хвилі разом із критичними файлами —
-       91 КБ на те, чого на старті ніхто не бачить. Перше автоперемикання
-       каналу відбувається через 6.5 с, тож site.js встигає підставити їх
-       після завантаження сторінки, а при ручному перемиканні — одразу. -->
-  <div class="hero-photo" id="heroPhoto1" data-src="images/bg-2.webp"></div>
-  <div class="hero-photo" id="heroPhoto2" data-src="images/bg-3.webp"></div>
+  <!-- Раніше тут стояли три фонові знімки, що кросфейдили один в інший при
+       зміні каналу (.active перемикав клас). Тепер це одне зациклене відео,
+       що не залежить від каналу взагалі — перемикач і далі міняє лише текст
+       і підсвітку панелі, як і раніше. muted+playsinline обов'язкові для
+       автозапуску на телефоні; loop — без жодного JS. poster — той самий
+       кадр, що стояв фоном раніше: видно одразу, доки відео не почало грати. -->
+  <div class="hero-photo active" id="heroVideoWrap">
+    <!-- Власна рамка навколо відео, окремо від оверхенг-коробки .hero-photo:
+         затемнення країв (у CSS) прив'язане саме до неї, тож завжди сходиться
+         з реальним краєм кадру на будь-якій ширині — а не з довільним
+         відсотком від завищеної під паралакс висоти. -->
+    <div class="hero-video-frame">
+      <video autoplay muted loop playsinline preload="auto" poster="images/hero-crowd.webp" aria-hidden="true">
+        <source src="video/web/hero-bg.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
   <!-- Танцівниця окремим шаром і повністю в кадрі: background-size: contain не
        може її обрізати за визначенням, тож голова й руки завжди на місці.
        На десктопі фігура абсолютна й у потік не входить, тож порядок у розмітці
@@ -245,8 +256,7 @@
       <!-- Три SEO-формулювання (RED/GREEN/BLUE) — усі одразу в статичному
            HTML, а не через JS innerHTML, як у H1 нижче: лише так Google
            гарантовано бачить усі три, а не тільки активний на момент
-           рендеру. Той самий патерн, що й у #heroPhoto0/1/2 — усі в DOM,
-           видимий лише .active. -->
+           рендеру. -->
       <span class="hf-full"><span class="hf-phrase active" data-ch="0">Silent Disco під ключ</span><span class="hf-phrase" data-ch="1">Сайлент Диско в навушниках</span><span class="hf-phrase" data-ch="2">Тиха вечірка під ключ</span> <span class="hf-dot">·</span> від <b>9 800 грн</b> <span class="hf-dot">·</span> від <b>40 гостей</b> <span class="hf-dot">·</span> Київ та Україна</span>
       <!-- Мобільний варіант теж перемикається за каналом: ті самі три
            формулювання, лише коротші. Розбитий на дві сходинки — інакше
@@ -1677,6 +1687,6 @@ window.SILENT_I18N = {
   }
 };
 </script>
-<script src="assets/site.js?v=cd1faf21"></script>
+<script src="assets/site.js?v=5856dc09"></script>
 </body>
 </html>
