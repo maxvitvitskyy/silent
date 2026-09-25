@@ -85,8 +85,13 @@ PATHS = [
  ('src="assets/site.js"',   'src="../assets/site.js"'),
  ('href="images/',  'href="../images/'),
  ('src="images/',   'src="../images/'),
+ # data-poster ПЕРЕД звичайним poster=: рядок "poster=\"images/" — це
+ # підрядок "data-poster=\"images/", тож у зворотному порядку перше правило
+ # вже підмінило б усі data-poster, і друге не знайшло б свій текст.
  ('data-poster="images/', 'data-poster="../images/'),
+ ('poster="images/', 'poster="../images/'),
  ('data-video="video/',   'data-video="../video/'),
+ ('src="video/',    'src="../video/'),
  ("url('images/",  "url('../images/"),
 ]
 
