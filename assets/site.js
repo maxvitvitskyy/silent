@@ -2679,8 +2679,10 @@ const I18N = window.SILENT_I18N;
     drawer.innerHTML =
       '<div class="nav-drawer-panel" role="dialog" aria-modal="true" aria-label="Меню">' +
         '<nav class="nav-drawer-links" aria-label="Розділи сторінки">' + linksHtml + '</nav>' +
-        langHtml +
-        '<div class="nav-drawer-socials">' + socialsHtml + '</div>' +
+        '<div class="nav-drawer-bottom">' +
+          '<div class="nav-drawer-socials">' + socialsHtml + '</div>' +
+          (langHtml ? '<span class="nav-drawer-divider" aria-hidden="true"></span>' + langHtml : '') +
+        '</div>' +
       '</div>';
     const backdrop = document.createElement('div');
     backdrop.className = 'nav-drawer-backdrop';

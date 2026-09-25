@@ -437,24 +437,29 @@
   .nav-drawer-links a:active { color: var(--lime); padding-left: 8px; }
   .nav-drawer-links a:last-child { border-bottom: none; }
 
+  /* Мова — в одному рядку з соцмережами: праворуч, де інакше лишалось би
+     порожньо, а не окремим блоком над ним. Тонкий вертикальний роздільник
+     відділяє її від іконок, а не просто пробіл. */
+  .nav-drawer-bottom {
+    display: flex; align-items: center; gap: 10px;
+    margin-top: auto; padding-top: 18px;
+    border-top: 1px solid var(--line);
+  }
+  .nav-drawer-divider { width: 1px; height: 20px; flex: none; background: var(--line); }
   .nav-drawer-lang {
-    display: inline-flex; align-self: flex-start; align-items: center;
-    padding: 3px; margin-bottom: 24px;
+    display: inline-flex; align-items: center; flex: none; margin-left: auto;
+    padding: 3px;
     border: 1px solid var(--line); border-radius: 999px;
     background: rgba(255,255,255,0.03);
     font-size: 12px; font-weight: 700; letter-spacing: 0.06em; line-height: 1;
   }
-  .nav-drawer-lang > * { padding: 7px 14px; border-radius: 999px; }
+  .nav-drawer-lang > * { padding: 6px 10px; border-radius: 999px; }
   .nav-drawer-lang .lang-cur { color: var(--lime); background: rgba(255,255,255,0.11); }
   .nav-drawer-lang a { color: var(--muted-2); }
 
   /* Іконки соцмереж — лаймові завжди, не лише на дотик: власник попросив
      кольором, а не лише станом наведення. */
-  .nav-drawer-socials {
-    display: flex; align-items: center; gap: 16px;
-    margin-top: auto; padding-top: 18px;
-    border-top: 1px solid var(--line);
-  }
+  .nav-drawer-socials { display: flex; align-items: center; gap: 11px; min-width: 0; }
   .nav-drawer-socials .f-soc { padding: 2px; color: var(--lime); transition: opacity 0.2s ease; }
   .nav-drawer-socials .f-soc:hover { opacity: 0.7; }
   .nav-drawer-socials .f-soc svg { width: 24px; height: 24px; }
@@ -470,7 +475,11 @@
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     box-shadow: 0 8px 32px -12px rgba(0,0,0,0.5);
-    border-radius: 999px 999px 0 0;
+    /* Той самий радіус, що й у панелі знизу (var(--r-lg)) — не повна
+       пігулка: на висоті 60px 999px дає дуже круту дугу, яка впритул
+       підрізає іконку лого. Однакове скруглення зверху й знизу — і є
+       ознакою «однієї картки», а не половинки капсули на іншій формі. */
+    border-radius: var(--r-lg) var(--r-lg) 0 0;
     gap: 0;
   }
   nav.menu-open .logo, nav.menu-open .nav-links {
