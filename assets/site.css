@@ -304,8 +304,13 @@
       width: 0; opacity: 0; overflow: hidden; flex: none;
       transition: width 0.45s var(--ease-arrive), opacity 0.3s ease, margin 0.45s var(--ease-arrive);
     }
+    /* width:100% від обгортки, а не власний px: обгортка сама міняє
+       ширину (0 / 38.5px тут / 22px у .menu-open нижче), і раніше
+       картинка трималась одного розміру, тоді як контейнер звужувався —
+       overflow:hidden на .logo-icon просто зрізав їй край. Тепер
+       картинка завжди рівно така, як контейнер, у будь-якому стані. */
     .logo-icon img {
-      width: 38.5px; height: 38.5px; display: block;
+      width: 100%; height: auto; aspect-ratio: 1 / 1; display: block;
       filter: drop-shadow(0 0 0 transparent);
       transition: filter 0.4s ease;
     }
