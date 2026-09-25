@@ -183,6 +183,7 @@
     background: var(--lime); color: #12100a !important;
     padding: 11px 24px; border-radius: 999px;
     font-weight: 700; font-size: 13px;
+    white-space: nowrap; flex: none;
     border: none;
     box-shadow: 0 6px 20px -6px var(--lime-glow);
     transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
@@ -366,67 +367,64 @@
     nav.is-morphing { animation: none; }
   }
 
-  /* ---------- МОБІЛЬНЕ МЕНЮ (drawer), що відкриває гамбургер вище ----------
+  /* ---------- МОБІЛЬНЕ МЕНЮ: витікає вниз із самої шапки ----------
+     Гамбургер відкриває не бічну панель, а продовження самої пігулки: клас
+     .menu-open на <nav> примусово зливає її назад в один рядок — лого
+     (іконка+слово), кнопка «Перевірити дату» й гамбургер, що вже
+     розвернувся в хрестик — незалежно від того, розділена вона зараз
+     скролом чи ні. Це і є «верхня частина» меню, той самий скляний
+     матеріал. Панель .nav-drawer-panel росте одразу під нею впритул
+     (top = верх шапки + її висота, без проміжку), квадратна зверху й
+     скруглена знизу — тому разом вони читаються як одна ціла картка, а не
+     дві різні поверхні.
+
      Панель — прямий нащадок <body>, а не <nav>: інакше вона застрягла б у
-     стековому контексті шапки (backdrop-filter/z-index), як і .lead-modal чи
-     .vbox нижче з тієї самої причини. Опис без власного медіа-запиту:
+     стековому контексті шапки (backdrop-filter/z-index), як і .lead-modal
+     чи .vbox нижче з тієї самої причини. Опис без власного медіа-запиту:
      тригер (гамбургер) прихований на десктопі CSS вище, тож ширше за 720px
      панель просто ніколи не отримує show. */
-  .nav-drawer {
-    position: fixed; inset: 0; z-index: 90;
-    display: flex; justify-content: flex-end;
-    visibility: hidden;
-  }
-  .nav-drawer.show { visibility: visible; }
+  /* Підкладка — окремий елемент, НЕ всередині .nav-drawer: той стоїть на
+     z-index 90 (вище за саму шапку, z-index 50), і будь-який нащадок,
+     навіть з від'ємним z-index, усе одно малювався б у межах цього шару —
+     тобто поверх шапки, розмиваючи заразом і її. Підкладці потрібен рівень
+     МІЖ сторінкою і шапкою (45 < 50), щоб тьмянити й розмивати сторінку
+     позаду, а сама пігулка нагорі лишалась чіткою — вона й є верхом меню. */
   .nav-drawer-backdrop {
-    position: absolute; inset: 0;
-    background: rgba(10,10,11,0.62);
-    backdrop-filter: blur(14px) saturate(1.1);
-    -webkit-backdrop-filter: blur(14px) saturate(1.1);
-    opacity: 0; transition: opacity 0.35s ease;
+    position: fixed; inset: 0; z-index: 45;
+    background: rgba(10,10,11,0.55);
+    backdrop-filter: blur(10px) saturate(1.05);
+    -webkit-backdrop-filter: blur(10px) saturate(1.05);
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0.35s;
+    pointer-events: none;
   }
-  .nav-drawer.show .nav-drawer-backdrop { opacity: 1; }
+  .nav-drawer-backdrop.show { opacity: 1; visibility: visible; pointer-events: auto; }
+  .nav-drawer {
+    position: fixed; z-index: 90;
+    top: calc(18px + var(--nav-pod-h, 60px));
+    left: 18px; right: 18px; max-width: 1320px; margin: 0 auto;
+    visibility: hidden; pointer-events: none;
+  }
+  .nav-drawer.show { visibility: visible; pointer-events: auto; }
   .nav-drawer-panel {
     position: relative;
-    width: min(86vw, 360px); height: 100%;
+    max-height: calc(100vh - 18px - var(--nav-pod-h, 60px) - 24px);
     overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
     display: flex; flex-direction: column;
-    padding: 66px 22px calc(26px + env(safe-area-inset-bottom, 0px));
+    padding: 18px 22px calc(22px + env(safe-area-inset-bottom, 0px));
     background: var(--glass-fill-dark);
-    border-left: 1px solid var(--line);
+    border: 1px solid var(--line);
+    border-top: none;
+    border-radius: 0 0 var(--r-lg) var(--r-lg);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    box-shadow: -30px 0 70px -30px rgba(0,0,0,0.8);
-    transform: translateX(100%);
-    transition: transform 0.45s var(--ease-arrive);
+    box-shadow: 0 30px 70px -30px rgba(0,0,0,0.8);
+    transform-origin: top center;
+    transform: scaleY(0.86) translateY(-4px);
+    opacity: 0;
+    transition: transform 0.45s var(--ease-arrive), opacity 0.35s ease;
   }
-  .nav-drawer.show .nav-drawer-panel { transform: translateX(0); }
-
-  /* Хрестик — окремо в кутку, а не в одному рядку з лого й кнопкою: коли він
-     стояв поряд, ряд «лого + Перевірити дату» звужувався й читався так, ніби
-     кнопку відірвало від лого. У кутку він нікому не заважає, а рядок нижче
-     вільно повторює композицію самої шапки — той самий логотип поруч із тією
-     самою кнопкою, впритул, як у злитій пігулці на старті сторінки. */
-  .nav-drawer-close {
-    position: absolute; top: 16px; right: 16px; z-index: 1;
-    width: 36px; height: 36px; border-radius: 50%; flex: none;
-    border: 1px solid var(--line); background: var(--glass-2);
-    color: var(--muted); font-size: 15px; line-height: 1;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: color 0.2s, border-color 0.2s, transform 0.2s;
-  }
-  .nav-drawer-close:hover { color: var(--lime); border-color: rgba(198,255,0,0.4); transform: rotate(90deg); }
-
-  .nav-drawer-head {
-    display: flex; align-items: center; gap: 14px;
-    margin-bottom: 30px;
-  }
-  .nav-drawer-brand {
-    display: flex; align-items: center; gap: 8px; flex: none;
-    font-family: 'Unbounded'; font-weight: 700; font-size: 16px; letter-spacing: 0.02em;
-  }
-  .nav-drawer-brand img { width: 24px; height: 24px; display: block; }
-  .nav-drawer-brand b { color: var(--ch); }
+  .nav-drawer.show .nav-drawer-panel { transform: scaleY(1) translateY(0); opacity: 1; }
 
   .nav-drawer-links { display: flex; flex-direction: column; margin-bottom: 22px; }
   .nav-drawer-links a {
@@ -439,17 +437,6 @@
   .nav-drawer-links a:active { color: var(--lime); padding-left: 8px; }
   .nav-drawer-links a:last-child { border-bottom: none; }
 
-  /* Та сама кнопка, що в шапці, лише трохи більша — тут це рядок поруч із
-     лого, а не пункт у списку, тож розмір той самий, що в .nav-cta. */
-  .nav-drawer-cta {
-    display: inline-flex; align-items: center; justify-content: center;
-    white-space: nowrap;
-    background: var(--lime); color: #12100a !important;
-    padding: 11px 18px; border-radius: 999px;
-    font-weight: 700; font-size: 13px;
-    box-shadow: 0 6px 20px -6px var(--lime-glow);
-  }
-
   .nav-drawer-lang {
     display: inline-flex; align-self: flex-start; align-items: center;
     padding: 3px; margin-bottom: 24px;
@@ -461,14 +448,41 @@
   .nav-drawer-lang .lang-cur { color: var(--lime); background: rgba(255,255,255,0.11); }
   .nav-drawer-lang a { color: var(--muted-2); }
 
+  /* Іконки соцмереж — лаймові завжди, не лише на дотик: власник попросив
+     кольором, а не лише станом наведення. */
   .nav-drawer-socials {
     display: flex; align-items: center; gap: 16px;
     margin-top: auto; padding-top: 18px;
     border-top: 1px solid var(--line);
   }
-  .nav-drawer-socials .f-soc { padding: 2px; color: var(--muted); transition: color 0.2s ease; }
-  .nav-drawer-socials .f-soc:hover { color: var(--lime); }
+  .nav-drawer-socials .f-soc { padding: 2px; color: var(--lime); transition: opacity 0.2s ease; }
+  .nav-drawer-socials .f-soc:hover { opacity: 0.7; }
   .nav-drawer-socials .f-soc svg { width: 24px; height: 24px; }
+
+  /* Меню відкрите: пігулка знову зливається в один рядок — лого з іконкою
+     і словом разом, кнопка, гамбургер-хрестик — незалежно від .nav-split.
+     Селектори йдуть після .nav-split-правил і з тією самою вагою (клас на
+     <nav> + один нащадок), тож порядок у файлі й вирішує, хто переможе. */
+  nav.menu-open {
+    background: var(--glass-fill-1);
+    border: 1px solid var(--line);
+    border-top-color: var(--glass-edge);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    box-shadow: 0 8px 32px -12px rgba(0,0,0,0.5);
+    border-radius: 999px 999px 0 0;
+    gap: 0;
+  }
+  nav.menu-open .logo, nav.menu-open .nav-links {
+    background: none; border-color: transparent; border-top-color: transparent;
+    box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none;
+  }
+  nav.menu-open .logo { padding: 0 0 0 10px; }
+  nav.menu-open .nav-links { padding: 0 6px 0 8px; gap: 6px; }
+  nav.menu-open .logo-icon { width: 22px; opacity: 1; margin-right: 6px; }
+  nav.menu-open .logo-icon img { filter: drop-shadow(0 0 5px rgba(198,255,0,0.4)); }
+  nav.menu-open .logo-word { max-width: 140px; opacity: 1; }
+  nav.menu-open .nav-burger { width: 40px; opacity: 1; visibility: visible; pointer-events: auto; }
 
   @media (min-width: 721px){ .nav-drawer { display: none; } }
 

@@ -2670,22 +2670,23 @@ const I18N = window.SILENT_I18N;
       + '<a class="f-soc" href="https://www.youtube.com/channel/UCYJcmOSbk5MDaNXDLjchVyQ" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="5.6" width="18.8" height="12.8" rx="4"/><path d="m10.2 9.4 5 2.6-5 2.6z"/></svg></a>'
       + '<a class="f-soc" href="mailto:hello.silent.ua@gmail.com" aria-label="Пошта" title="Пошта"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="5.2" width="18.8" height="13.6" rx="2.6"/><path d="m3.4 7 8.05 5.6a1 1 0 0 0 1.1 0L20.6 7"/></svg></a>';
 
+    // Свого верху в панелі більше немає: лого, кнопка й гамбургер — це сама
+    // шапка (nav.menu-open зливає її назад в один рядок, CSS вище), а
+    // гамбургер, обернений у хрестик, і є кнопкою закриття. Панель — лише
+    // те, що під нею: пункти, мова, соцмережі. Підкладка — окремий елемент
+    // (не всередині .nav-drawer): їй потрібен свій, нижчий z-index, щоб
+    // тьмянити сторінку, не зачіпаючи саму шапку — деталі в CSS.
     drawer.innerHTML =
-      '<div class="nav-drawer-backdrop" id="navDrawerBackdrop"></div>' +
       '<div class="nav-drawer-panel" role="dialog" aria-modal="true" aria-label="Меню">' +
-        '<button class="nav-drawer-close" id="navDrawerClose" type="button" aria-label="Закрити меню">✕</button>' +
-        '<div class="nav-drawer-head">' +
-          '<span class="nav-drawer-brand" aria-hidden="true"><img src="/images/silent-mark.webp" alt="" width="24" height="24">SILENT<b>.</b></span>' +
-          '<a class="nav-drawer-cta" href="' + cta.getAttribute('href') + '">' + cta.textContent + '</a>' +
-        '</div>' +
         '<nav class="nav-drawer-links" aria-label="Розділи сторінки">' + linksHtml + '</nav>' +
         langHtml +
         '<div class="nav-drawer-socials">' + socialsHtml + '</div>' +
       '</div>';
+    const backdrop = document.createElement('div');
+    backdrop.className = 'nav-drawer-backdrop';
+    backdrop.id = 'navDrawerBackdrop';
+    document.body.appendChild(backdrop);
     document.body.appendChild(drawer);
-
-    const backdrop = drawer.querySelector('.nav-drawer-backdrop');
-    const closeBtn = drawer.querySelector('.nav-drawer-close');
 
     // Просте overflow:hidden на body тут не годиться: меню відкривають уже
     // прокрученою сторінкою (сам гамбургер з'являється лише після скролу), а
@@ -2697,6 +2698,8 @@ const I18N = window.SILENT_I18N;
     function openDrawer(){
       lockedY = window.scrollY;
       drawer.classList.add('show');
+      backdrop.classList.add('show');
+      nav.classList.add('menu-open');
       burger.setAttribute('aria-expanded', 'true');
       document.body.style.position = 'fixed';
       document.body.style.top = -lockedY + 'px';
@@ -2705,6 +2708,8 @@ const I18N = window.SILENT_I18N;
     }
     function closeDrawer(){
       drawer.classList.remove('show');
+      backdrop.classList.remove('show');
+      nav.classList.remove('menu-open');
       burger.setAttribute('aria-expanded', 'false');
       document.body.style.position = '';
       document.body.style.top = '';
@@ -2715,7 +2720,6 @@ const I18N = window.SILENT_I18N;
     burger.addEventListener('click', () => {
       if (drawer.classList.contains('show')) closeDrawer(); else openDrawer();
     });
-    closeBtn.addEventListener('click', closeDrawer);
     backdrop.addEventListener('click', closeDrawer);
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && drawer.classList.contains('show')) closeDrawer();
