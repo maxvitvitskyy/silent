@@ -296,7 +296,7 @@ T = {
 'Попередні кадри': 'Previous shots',
 'Наступні кадри': 'Next shots',
 'Дивитися відео: ': 'Watch video: ',
-'ДИВИТИСЯ · ДИВИТИСЯ · ДИВИТИСЯ · ': 'WATCH · WATCH · WATCH · ',
+'ДИВИТИСЯ · ДИВИТИСЯ · ДИВИТИСЯ · ': 'WATCH · WATCH · WATCH · WATCH · ',
 'Навушники для гостей на вході': 'Headphones waiting for guests at the entrance',
 'Гості танцюють у червоному світлі': 'Guests dancing in red light',
 'Дискокуля над залою': 'A mirror ball above the room',
