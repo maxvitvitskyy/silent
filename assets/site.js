@@ -2562,6 +2562,178 @@ const I18N = window.SILENT_I18N;
       window.addEventListener('load', check, { once: true });
     })();
 
+  // ---- Мобільна шапка: рідке скло, розʼєднання пігулки при скролі ----
+  // На старті шапка — одна пігулка, як і зараз. Після невеликого скролу
+  // з'являється nav.nav-split — і вся анімація вище (CSS) розводить капсули,
+  // ховає слово «SILENT» за іконку й стискає кнопку, звільняючи місце
+  // гамбургеру. Тут же одразу збирається й саме мобільне меню (drawer):
+  // посилання клонуються з .nav-links поточної сторінки (вони вже правильні
+  // для неї — інших досвідів на сторінці корпоративів, якорів на головній),
+  // перемикач мов — так само клон, лише якщо він узагалі є в шапці (є не на
+  // кожній сторінці — переклад поки тільки в головної й 404).
+  (function(){
+    const nav = document.querySelector('body > nav');
+    if (!nav) return;
+    const logo = nav.querySelector('.logo');
+    const navLinks = nav.querySelector('.nav-links');
+    const cta = navLinks && navLinks.querySelector('.nav-cta');
+    if (!logo || !navLinks || !cta) return;
+
+    // --- Іконка + слово всередині .logo ---
+    if (!logo.querySelector('.logo-icon')){
+      const iconWrap = document.createElement('span');
+      iconWrap.className = 'logo-icon';
+      iconWrap.setAttribute('aria-hidden', 'true');
+      const img = document.createElement('img');
+      img.src = '/images/silent-mark.webp';
+      img.alt = '';
+      img.width = 24; img.height = 24;
+      img.loading = 'eager'; img.decoding = 'async';
+      iconWrap.appendChild(img);
+      logo.insertBefore(iconWrap, logo.firstChild);
+
+      const word = document.createElement('span');
+      word.className = 'logo-word';
+      while (logo.childNodes.length > 1) word.appendChild(logo.childNodes[1]);
+      logo.appendChild(word);
+    }
+
+    // --- Гамбургер одразу після кнопки дати ---
+    let burger = navLinks.querySelector('.nav-burger');
+    if (!burger){
+      burger = document.createElement('button');
+      burger.type = 'button';
+      burger.className = 'nav-burger';
+      burger.setAttribute('aria-label', 'Меню');
+      burger.setAttribute('aria-haspopup', 'true');
+      burger.setAttribute('aria-expanded', 'false');
+      burger.setAttribute('aria-controls', 'navDrawer');
+      burger.innerHTML = '<span class="nav-burger-lines" aria-hidden="true"><span></span><span></span><span></span></span>';
+      navLinks.appendChild(burger);
+    }
+
+    // --- Розʼєднання при скролі ---
+    // Поріг — фіксована відстань, а не орієнтир на якийсь блок сторінки:
+    // такий блок є не всюди (наприклад, немає на «Тихих враженнях»), а
+    // шапка спільна для всіх сторінок.
+    const SPLIT_AT = 64;
+    let split = false;
+    let morphTimer = null;
+    function setSplit(on){
+      if (on === split) return;
+      split = on;
+      nav.classList.add('is-morphing');
+      nav.classList.toggle('nav-split', split);
+      clearTimeout(morphTimer);
+      morphTimer = setTimeout(() => nav.classList.remove('is-morphing'), 520);
+    }
+    let ticking = false;
+    function check(){
+      ticking = false;
+      setSplit(window.scrollY > SPLIT_AT);
+    }
+    function onScroll(){
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(check);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    check();
+
+    // --- Меню-панель (drawer) ---
+    if (document.getElementById('navDrawer')) return;
+    const drawer = document.createElement('div');
+    drawer.className = 'nav-drawer';
+    drawer.id = 'navDrawer';
+
+    const linkEls = [].slice.call(navLinks.querySelectorAll('a')).filter(a => !a.classList.contains('nav-cta') && !a.closest('.lang-switch'));
+    const langSwitch = navLinks.querySelector('.lang-switch');
+
+    let linksHtml = '';
+    linkEls.forEach(a => {
+      linksHtml += '<a href="' + a.getAttribute('href') + '">' + a.textContent + '</a>';
+    });
+
+    let langHtml = '';
+    if (langSwitch){
+      langHtml = '<div class="nav-drawer-lang" role="group" aria-label="Мова сайту">' + langSwitch.innerHTML + '</div>';
+    }
+
+    // Іконки соцмереж — той самий набір SVG, що у футері (Instagram, TikTok,
+    // Telegram, YouTube, пошта), тут окремим написом: розмітка футера ще не
+    // обов'язково дійшла до цього місця сторінки, клонувати її звідти було б
+    // крихко.
+    const socialsHtml = ''
+      + '<a class="f-soc" href="https://www.instagram.com/silent_ukraine/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.05" fill="currentColor" stroke="none"/></svg></a>'
+      + '<a class="f-soc" href="https://www.tiktok.com/@silent.ukraine" target="_blank" rel="noopener noreferrer" aria-label="TikTok" title="TikTok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.6 3.2v11.3a3.6 3.6 0 1 1-3.1-3.57"/><path d="M14.6 3.2a5 5 0 0 0 5 5"/></svg></a>'
+      + '<a class="f-soc" href="https://t.me/silent_ukraine" target="_blank" rel="noopener noreferrer" aria-label="Telegram" title="Telegram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.2 4.5 2.9 11.4a.5.5 0 0 0 .04.94l4.6 1.44 1.77 5.3a.5.5 0 0 0 .88.14l2.5-2.9 4.6 3.4a.5.5 0 0 0 .78-.3l3.05-14a.5.5 0 0 0-.66-.58Z"/><path d="m7.54 13.78 11.1-7.4-8.34 8.36-.36 3.9"/></svg></a>'
+      + '<a class="f-soc" href="https://www.youtube.com/channel/UCYJcmOSbk5MDaNXDLjchVyQ" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="5.6" width="18.8" height="12.8" rx="4"/><path d="m10.2 9.4 5 2.6-5 2.6z"/></svg></a>'
+      + '<a class="f-soc" href="mailto:hello.silent.ua@gmail.com" aria-label="Пошта" title="Пошта"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="5.2" width="18.8" height="13.6" rx="2.6"/><path d="m3.4 7 8.05 5.6a1 1 0 0 0 1.1 0L20.6 7"/></svg></a>';
+
+    drawer.innerHTML =
+      '<div class="nav-drawer-backdrop" id="navDrawerBackdrop"></div>' +
+      '<div class="nav-drawer-panel" role="dialog" aria-modal="true" aria-label="Меню">' +
+        '<button class="nav-drawer-close" id="navDrawerClose" type="button" aria-label="Закрити меню">✕</button>' +
+        '<div class="nav-drawer-head">' +
+          '<span class="nav-drawer-brand" aria-hidden="true"><img src="/images/silent-mark.webp" alt="" width="24" height="24">SILENT<b>.</b></span>' +
+          '<a class="nav-drawer-cta" href="' + cta.getAttribute('href') + '">' + cta.textContent + '</a>' +
+        '</div>' +
+        '<nav class="nav-drawer-links" aria-label="Розділи сторінки">' + linksHtml + '</nav>' +
+        langHtml +
+        '<div class="nav-drawer-socials">' + socialsHtml + '</div>' +
+      '</div>';
+    document.body.appendChild(drawer);
+
+    const backdrop = drawer.querySelector('.nav-drawer-backdrop');
+    const closeBtn = drawer.querySelector('.nav-drawer-close');
+
+    // Просте overflow:hidden на body тут не годиться: меню відкривають уже
+    // прокрученою сторінкою (сам гамбургер з'являється лише після скролу), а
+    // overflow:hidden на body в цьому русі скидає window.scrollY на нуль —
+    // під панеллю сторінка стрибала б угору, і після закриття людина
+    // опинялась би не там, де була. Тому блокуємо скрол фіксацією body з
+    // компенсацією через top, а по закритті повертаємо точну позицію назад.
+    let lockedY = 0;
+    function openDrawer(){
+      lockedY = window.scrollY;
+      drawer.classList.add('show');
+      burger.setAttribute('aria-expanded', 'true');
+      document.body.style.position = 'fixed';
+      document.body.style.top = -lockedY + 'px';
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+    }
+    function closeDrawer(){
+      drawer.classList.remove('show');
+      burger.setAttribute('aria-expanded', 'false');
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      window.scrollTo(0, lockedY);
+    }
+    burger.addEventListener('click', () => {
+      if (drawer.classList.contains('show')) closeDrawer(); else openDrawer();
+    });
+    closeBtn.addEventListener('click', closeDrawer);
+    backdrop.addEventListener('click', closeDrawer);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && drawer.classList.contains('show')) closeDrawer();
+    });
+    // Тап по посиланню всередині закриває саму панель — інакше перехід за
+    // якорем ховається за ще відкритим меню.
+    drawer.addEventListener('click', (e) => {
+      if (e.target.closest('a')) closeDrawer();
+    });
+    // Ресайз у десктопну ширину (поворот пристрою, DevTools): гамбургер там
+    // все одно ховає CSS-медіа-запит, але відкриту панель теж закриваємо —
+    // інакше вона лишається на весь екран без способу закрити (гамбургер
+    // зник разом із шапкою).
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 720 && drawer.classList.contains('show')) closeDrawer();
+    });
+  })();
+
   // ---- Фільтр тем на сторінці-списку досвідів ----
   // Кнопки й теми на картках проставляє збірник, тож тут лишається саме
   // перемикання. Стан за замовчуванням — усі картки: якщо цей блок не

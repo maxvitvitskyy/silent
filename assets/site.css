@@ -225,6 +225,253 @@
      десктопної розкладки, а не на власній довільній ширині. */
   @media (max-width: 1100px){ .nav-links .lang-switch { display: none; } }
 
+  /* Іконка-логотип і гамбургер живуть у DOM завжди (їх додає JS у site.js),
+     але на десктопі це не повинно бути видно ніколи — там пігулка не
+     розʼєднується, і сам елемент лишається просто не намальованим. */
+  .logo-icon, .nav-burger { display: none; }
+
+  /* ---------- NAV: РІДКЕ СКЛО НА МОБІЛЬНІЙ (розʼєднання шапки при скролі) ----------
+     На старті хром (фон/рамка/розмиття) лежить на самому <nav> — це один
+     справжній елемент, тож жодного шва всередині бути не може: саме так
+     виглядає пігулка й зараз, без жодної зміни. Спроба тримати хром окремо
+     на .logo й .nav-links навіть у злитому стані (два елементи впритул із
+     однаковим фоном) на практиці лишає ледь помітну лінію на стику — кожен
+     власний backdrop-filter семплить фон під собою незалежно від сусіда.
+     Тому хром на .logo/.nav-links вмикається лише в стані nav-split, коли
+     між ними й так росте справжній проміжок.
+
+     Висота — та сама змінна --nav-pod-h на <nav> ЗАВЖДИ і на капсулах лише
+     в nav-split: не залежить від padding, тож не «стрибає» на переході.
+     Коли капсули беруть на себе власний хром, <nav> одночасно гасить свій
+     власний (background/border/backdrop-filter — усі три, не тільки фон):
+     інакше порожнеча між капсулами лишалась би під тим самим розмиттям, що
+     й сам <nav>, і читалась би як розмита смуга, а не чистий простір.
+
+     Свідомо без SVG goo/metaball-фільтра: ця техніка разом із backdrop-filter
+     нестабільна й повільна на мобільному Safari, а тут — живий продакшн-сайт,
+     не демо. Замість неї — керований перехід (border-radius/gap на
+     --ease-arrive) плюс короткий сквош-стреч рівно на момент перемикання
+     (.is-morphing, знімається JS після переходу) — того самого відчуття
+     текучості без фільтрового ризику.
+
+     Поріг у JS — фіксована відстань скролу, не прив'язка до якогось блоку:
+     такий блок є не на кожній сторінці, а шапка спільна для всіх. */
+  @media (max-width: 720px){
+    body > nav {
+      --nav-pod-h: 60px;
+      height: var(--nav-pod-h);
+      padding: 0 6px;
+      transition: background 0.4s ease, border-color 0.3s ease, box-shadow 0.4s ease,
+                  backdrop-filter 0.4s ease, gap 0.5s var(--ease-arrive);
+      gap: 0;
+    }
+    nav.nav-split {
+      background: none; border-color: transparent; border-top-color: transparent;
+      box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none;
+      gap: 8px;
+    }
+
+    .logo, .nav-links {
+      height: var(--nav-pod-h);
+      border-radius: 999px;
+      transition: border-radius 0.5s var(--ease-arrive), padding 0.5s var(--ease-arrive),
+                  background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+    }
+    nav.nav-split .logo, nav.nav-split .nav-links {
+      background: var(--glass-fill-1);
+      border: 1px solid var(--line);
+      border-top-color: var(--glass-edge);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      box-shadow: 0 8px 32px -12px rgba(0,0,0,0.5);
+    }
+    .logo { padding: 0 0 0 10px; }
+    .nav-links { padding: 0 0 0 12px; gap: 8px; }
+    /* Відступ від скляного краю до вмісту — однаковий з усіх боків капсули:
+       12px навколо іконки (60px висота − 36px іконка = 24, порівну по 12) і
+       10px навколо кнопки/гамбургера (60 − 40 «доріжка вмісту» = 20, теж
+       порівну). Іконкова капсула через це виходить рівним колом: ширина
+       12+36+12 = висота 60. */
+    nav.nav-split .logo { padding: 12px; }
+    nav.nav-split .nav-links { padding: 0 10px; }
+
+    /* Слово згортається через max-width, не width: той не тримає значення
+       auto, звідки його було б анімувати. Іконка розкривається тим самим
+       прийомом у інший бік. Обидві завжди в DOM — це крос-фейд, не заміна. */
+    .logo-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 0; opacity: 0; overflow: hidden; flex: none;
+      transition: width 0.45s var(--ease-arrive), opacity 0.3s ease, margin 0.45s var(--ease-arrive);
+    }
+    .logo-icon img {
+      width: 36px; height: 36px; display: block;
+      filter: drop-shadow(0 0 0 transparent);
+      transition: filter 0.4s ease;
+    }
+    nav.nav-split .logo-icon { width: 36px; opacity: 1; }
+    nav.nav-split .logo-icon img { filter: drop-shadow(0 0 7px rgba(198,255,0,0.5)); }
+
+    .logo-word {
+      display: inline-flex; align-items: center; white-space: nowrap;
+      max-width: 140px; overflow: hidden;
+      transition: max-width 0.45s var(--ease-arrive), opacity 0.3s ease;
+    }
+    nav.nav-split .logo-word { max-width: 0; opacity: 0; }
+
+    /* Кнопка — одного розміру в обох станах навмисно: слідом за розділенням
+       вона лише зсувається (їде разом зі своєю капсулою й звільняє місце
+       гамбургеру), а не стискається — «зменшення на переході» саме це й
+       було раніше й відчувалось як тремтіння. Падінг/кегль тут мобільні —
+       трохи компактніші за десктопні 24px/13px, з запасом влізають поруч із
+       гамбургером навіть на вузьких 320px екранах, і однакові що до, що
+       після розділення. Гамбургер з'являється поруч тим самим прийомом, що
+       й плаваючий Telegram (opacity/visibility/pointer-events разом із width). */
+    .nav-cta { padding: 11px 18px; font-size: 13px; }
+
+    .nav-burger {
+      width: 0; height: 40px; opacity: 0; visibility: hidden; pointer-events: none;
+      overflow: hidden; display: inline-flex; align-items: center; justify-content: center;
+      border: none; background: transparent; padding: 0; cursor: pointer; flex: none;
+      -webkit-tap-highlight-color: transparent;
+      transition: width 0.45s var(--ease-arrive), opacity 0.3s ease, visibility 0.45s;
+    }
+    nav.nav-split .nav-burger { width: 40px; opacity: 1; visibility: visible; pointer-events: auto; }
+
+    .nav-burger-lines { position: relative; width: 18px; height: 13px; flex: none; }
+    .nav-burger-lines span {
+      position: absolute; left: 0; right: 0; height: 2px; border-radius: 2px;
+      background: #fff;
+      transition: transform 0.35s var(--ease-arrive), opacity 0.25s ease, background 0.25s ease;
+    }
+    .nav-burger-lines span:nth-child(1){ top: 0; }
+    .nav-burger-lines span:nth-child(2){ top: 50%; margin-top: -1px; }
+    .nav-burger-lines span:nth-child(3){ bottom: 0; }
+    .nav-burger[aria-expanded="true"] .nav-burger-lines span:nth-child(1){ transform: translateY(5.5px) rotate(45deg); background: var(--lime); }
+    .nav-burger[aria-expanded="true"] .nav-burger-lines span:nth-child(2){ opacity: 0; }
+    .nav-burger[aria-expanded="true"] .nav-burger-lines span:nth-child(3){ transform: translateY(-5.5px) rotate(-45deg); background: var(--lime); }
+
+    @keyframes navLiquidMorph {
+      0% { transform: scale(1, 1); }
+      35% { transform: scale(0.985, 1.05); }
+      65% { transform: scale(1.01, 0.97); }
+      100% { transform: scale(1, 1); }
+    }
+    /* Без сплеску розмиття тут: матеріал капсул — той самий скляний фон, що
+       й на старті, завжди, без жодної зміни під час переходу. Рухається
+       тільки форма (радіус/gap), сквош-стреч додає лише відчуття пружності. */
+    nav.is-morphing { animation: navLiquidMorph 0.5s var(--ease-arrive); transform-origin: center top; }
+  }
+  @media (max-width: 720px) and (prefers-reduced-motion: reduce){
+    body > nav, .logo, .nav-links, .logo-icon, .logo-word, .nav-cta, .nav-burger { transition: none !important; }
+    nav.is-morphing { animation: none; }
+  }
+
+  /* ---------- МОБІЛЬНЕ МЕНЮ (drawer), що відкриває гамбургер вище ----------
+     Панель — прямий нащадок <body>, а не <nav>: інакше вона застрягла б у
+     стековому контексті шапки (backdrop-filter/z-index), як і .lead-modal чи
+     .vbox нижче з тієї самої причини. Опис без власного медіа-запиту:
+     тригер (гамбургер) прихований на десктопі CSS вище, тож ширше за 720px
+     панель просто ніколи не отримує show. */
+  .nav-drawer {
+    position: fixed; inset: 0; z-index: 90;
+    display: flex; justify-content: flex-end;
+    visibility: hidden;
+  }
+  .nav-drawer.show { visibility: visible; }
+  .nav-drawer-backdrop {
+    position: absolute; inset: 0;
+    background: rgba(10,10,11,0.62);
+    backdrop-filter: blur(14px) saturate(1.1);
+    -webkit-backdrop-filter: blur(14px) saturate(1.1);
+    opacity: 0; transition: opacity 0.35s ease;
+  }
+  .nav-drawer.show .nav-drawer-backdrop { opacity: 1; }
+  .nav-drawer-panel {
+    position: relative;
+    width: min(86vw, 360px); height: 100%;
+    overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
+    display: flex; flex-direction: column;
+    padding: 66px 22px calc(26px + env(safe-area-inset-bottom, 0px));
+    background: var(--glass-fill-dark);
+    border-left: 1px solid var(--line);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    box-shadow: -30px 0 70px -30px rgba(0,0,0,0.8);
+    transform: translateX(100%);
+    transition: transform 0.45s var(--ease-arrive);
+  }
+  .nav-drawer.show .nav-drawer-panel { transform: translateX(0); }
+
+  /* Хрестик — окремо в кутку, а не в одному рядку з лого й кнопкою: коли він
+     стояв поряд, ряд «лого + Перевірити дату» звужувався й читався так, ніби
+     кнопку відірвало від лого. У кутку він нікому не заважає, а рядок нижче
+     вільно повторює композицію самої шапки — той самий логотип поруч із тією
+     самою кнопкою, впритул, як у злитій пігулці на старті сторінки. */
+  .nav-drawer-close {
+    position: absolute; top: 16px; right: 16px; z-index: 1;
+    width: 36px; height: 36px; border-radius: 50%; flex: none;
+    border: 1px solid var(--line); background: var(--glass-2);
+    color: var(--muted); font-size: 15px; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: color 0.2s, border-color 0.2s, transform 0.2s;
+  }
+  .nav-drawer-close:hover { color: var(--lime); border-color: rgba(198,255,0,0.4); transform: rotate(90deg); }
+
+  .nav-drawer-head {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 30px;
+  }
+  .nav-drawer-brand {
+    display: flex; align-items: center; gap: 8px; flex: none;
+    font-family: 'Unbounded'; font-weight: 700; font-size: 16px; letter-spacing: 0.02em;
+  }
+  .nav-drawer-brand img { width: 24px; height: 24px; display: block; }
+  .nav-drawer-brand b { color: var(--ch); }
+
+  .nav-drawer-links { display: flex; flex-direction: column; margin-bottom: 22px; }
+  .nav-drawer-links a {
+    padding: 15px 2px;
+    border-bottom: 1px solid var(--line);
+    font-family: 'Unbounded'; font-weight: 600; font-size: 15.5px;
+    color: #fff;
+    transition: color 0.2s ease, padding-left 0.2s ease;
+  }
+  .nav-drawer-links a:active { color: var(--lime); padding-left: 8px; }
+  .nav-drawer-links a:last-child { border-bottom: none; }
+
+  /* Та сама кнопка, що в шапці, лише трохи більша — тут це рядок поруч із
+     лого, а не пункт у списку, тож розмір той самий, що в .nav-cta. */
+  .nav-drawer-cta {
+    display: inline-flex; align-items: center; justify-content: center;
+    white-space: nowrap;
+    background: var(--lime); color: #12100a !important;
+    padding: 11px 18px; border-radius: 999px;
+    font-weight: 700; font-size: 13px;
+    box-shadow: 0 6px 20px -6px var(--lime-glow);
+  }
+
+  .nav-drawer-lang {
+    display: inline-flex; align-self: flex-start; align-items: center;
+    padding: 3px; margin-bottom: 24px;
+    border: 1px solid var(--line); border-radius: 999px;
+    background: rgba(255,255,255,0.03);
+    font-size: 12px; font-weight: 700; letter-spacing: 0.06em; line-height: 1;
+  }
+  .nav-drawer-lang > * { padding: 7px 14px; border-radius: 999px; }
+  .nav-drawer-lang .lang-cur { color: var(--lime); background: rgba(255,255,255,0.11); }
+  .nav-drawer-lang a { color: var(--muted-2); }
+
+  .nav-drawer-socials {
+    display: flex; align-items: center; gap: 16px;
+    margin-top: auto; padding-top: 18px;
+    border-top: 1px solid var(--line);
+  }
+  .nav-drawer-socials .f-soc { padding: 2px; color: var(--muted); transition: color 0.2s ease; }
+  .nav-drawer-socials .f-soc:hover { color: var(--lime); }
+  .nav-drawer-socials .f-soc svg { width: 24px; height: 24px; }
+
+  @media (min-width: 721px){ .nav-drawer { display: none; } }
+
   /* ---------- HERO ---------- */
   .hero {
     min-height: auto;
