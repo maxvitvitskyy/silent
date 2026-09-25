@@ -512,7 +512,7 @@
   }
   nav.menu-open .logo { padding: 0 0 0 10px; }
   nav.menu-open .nav-links { padding: 0 6px 0 8px; gap: 6px; }
-  nav.menu-open .logo-icon { width: 22px; opacity: 1; margin-right: 6px; }
+  nav.menu-open .logo-icon { width: 28px; opacity: 1; margin-right: 7px; }
   nav.menu-open .logo-icon img { filter: drop-shadow(0 0 5px rgba(198,255,0,0.4)); }
   nav.menu-open .logo-word { max-width: 140px; opacity: 1; }
   nav.menu-open .nav-burger { width: 40px; opacity: 1; visibility: visible; pointer-events: auto; }
