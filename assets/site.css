@@ -292,8 +292,8 @@
        12px навколо іконки (60px висота − 36px іконка = 24, порівну по 12) і
        10px навколо кнопки/гамбургера (60 − 40 «доріжка вмісту» = 20, теж
        порівну). Іконкова капсула через це виходить рівним колом: ширина
-       12+36+12 = висота 60. */
-    nav.nav-split .logo { padding: 12px; }
+       10.75+38.5+10.75 = висота 60. */
+    nav.nav-split .logo { padding: 10.75px; }
     nav.nav-split .nav-links { padding: 0 10px; }
 
     /* Слово згортається через max-width, не width: той не тримає значення
@@ -305,11 +305,11 @@
       transition: width 0.45s var(--ease-arrive), opacity 0.3s ease, margin 0.45s var(--ease-arrive);
     }
     .logo-icon img {
-      width: 36px; height: 36px; display: block;
+      width: 38.5px; height: 38.5px; display: block;
       filter: drop-shadow(0 0 0 transparent);
       transition: filter 0.4s ease;
     }
-    nav.nav-split .logo-icon { width: 36px; opacity: 1; }
+    nav.nav-split .logo-icon { width: 38.5px; opacity: 1; }
     nav.nav-split .logo-icon img { filter: drop-shadow(0 0 7px rgba(198,255,0,0.5)); }
 
     .logo-word {
@@ -365,6 +365,8 @@
   @media (max-width: 720px) and (prefers-reduced-motion: reduce){
     body > nav, .logo, .nav-links, .logo-icon, .logo-word, .nav-cta, .nav-burger { transition: none !important; }
     nav.is-morphing { animation: none; }
+    .nav-drawer-panel { transition: opacity 0.2s ease !important; }
+    .nav-drawer.show .nav-drawer-links a, .nav-drawer.show .nav-drawer-bottom { animation: none !important; }
   }
 
   /* ---------- МОБІЛЬНЕ МЕНЮ: витікає вниз із самої шапки ----------
@@ -420,11 +422,28 @@
     -webkit-backdrop-filter: var(--glass-blur);
     box-shadow: 0 30px 70px -30px rgba(0,0,0,0.8);
     transform-origin: top center;
-    transform: scaleY(0.86) translateY(-4px);
+    transform: scaleY(0.7) scaleX(0.95) translateY(-14px);
     opacity: 0;
-    transition: transform 0.45s var(--ease-arrive), opacity 0.35s ease;
+    /* Довша й із невеликим перебігом (крива йде за 1, тоді осідає назад) —
+       саме це й читається як крапля, що витекла й лягла, а не як картка, що
+       просто зʼявилась. Opacity — окремо й коротше: вміст встигає стати
+       видимим ще до того, як форма домалюється, інакше перші кадри були б
+       порожньою рамкою. */
+    transition: transform 0.62s cubic-bezier(.32,1.65,.4,1), opacity 0.35s ease;
   }
-  .nav-drawer.show .nav-drawer-panel { transform: scaleY(1) translateY(0); opacity: 1; }
+  .nav-drawer.show .nav-drawer-panel { transform: scaleY(1) scaleX(1) translateY(0); opacity: 1; }
+
+  /* Вміст зʼявляється зі своєю невеликою хвилею вслід за формою — не одразу
+     весь і не одночасно з нею: --stagger проставляє JS на кожному пункті й
+     на нижньому рядку (0, 1, 2…), 120ms — це запас, за який встигає піти
+     сама крапля, перш ніж усередині щось порухається. Той самий приймальний
+     keyframe, що й на картках досвідів (expChipIn) — не множимо однакові
+     оголошення. */
+  .nav-drawer.show .nav-drawer-links a,
+  .nav-drawer.show .nav-drawer-bottom {
+    animation: expChipIn 0.36s var(--ease-arrive) backwards;
+    animation-delay: calc(120ms + var(--stagger, 0) * 55ms);
+  }
 
   .nav-drawer-links { display: flex; flex-direction: column; margin-bottom: 22px; }
   .nav-drawer-links a {

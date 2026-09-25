@@ -2649,10 +2649,13 @@ const I18N = window.SILENT_I18N;
     const linkEls = [].slice.call(navLinks.querySelectorAll('a')).filter(a => !a.classList.contains('nav-cta') && !a.closest('.lang-switch'));
     const langSwitch = navLinks.querySelector('.lang-switch');
 
+    // --stagger нумерує пункти для хвилі появи в CSS (.nav-drawer.show ...);
+    // нижній рядок (соцмережі + мова) іде наступним кроком за посиланнями.
     let linksHtml = '';
-    linkEls.forEach(a => {
-      linksHtml += '<a href="' + a.getAttribute('href') + '">' + a.textContent + '</a>';
+    linkEls.forEach((a, i) => {
+      linksHtml += '<a href="' + a.getAttribute('href') + '" style="--stagger:' + i + '">' + a.textContent + '</a>';
     });
+    const bottomStagger = linkEls.length;
 
     let langHtml = '';
     if (langSwitch){
@@ -2679,7 +2682,7 @@ const I18N = window.SILENT_I18N;
     drawer.innerHTML =
       '<div class="nav-drawer-panel" role="dialog" aria-modal="true" aria-label="Меню">' +
         '<nav class="nav-drawer-links" aria-label="Розділи сторінки">' + linksHtml + '</nav>' +
-        '<div class="nav-drawer-bottom">' +
+        '<div class="nav-drawer-bottom" style="--stagger:' + bottomStagger + '">' +
           '<div class="nav-drawer-socials">' + socialsHtml + '</div>' +
           (langHtml ? '<span class="nav-drawer-divider" aria-hidden="true"></span>' + langHtml : '') +
         '</div>' +
@@ -2696,6 +2699,13 @@ const I18N = window.SILENT_I18N;
     // під панеллю сторінка стрибала б угору, і після закриття людина
     // опинялась би не там, де була. Тому блокуємо скрол фіксацією body з
     // компенсацією через top, а по закритті повертаємо точну позицію назад.
+    //
+    // Саму лише body: коли body виходить із normal flow (position:fixed),
+    // <html> лишається з висотою вже без body, і браузер може примусово
+    // підтягнути її власний scrollTop під нову, меншу межу прокрутки — той
+    // самий стрибок екрана вгору-вниз, тільки на рівні html, а не body, тож
+    // компенсація через top на body його не ловить. overflow:hidden на
+    // <html> лишає її scrollTop недоторканим, доки body заблокований.
     let lockedY = 0;
     function openDrawer(){
       lockedY = window.scrollY;
@@ -2703,10 +2713,12 @@ const I18N = window.SILENT_I18N;
       backdrop.classList.add('show');
       nav.classList.add('menu-open');
       burger.setAttribute('aria-expanded', 'true');
+      document.documentElement.style.overflow = 'hidden';
       document.body.style.position = 'fixed';
       document.body.style.top = -lockedY + 'px';
       document.body.style.left = '0';
       document.body.style.right = '0';
+      document.body.style.width = '100%';
     }
     function closeDrawer(){
       drawer.classList.remove('show');
@@ -2717,7 +2729,9 @@ const I18N = window.SILENT_I18N;
       document.body.style.top = '';
       document.body.style.left = '';
       document.body.style.right = '';
+      document.body.style.width = '';
       window.scrollTo(0, lockedY);
+      document.documentElement.style.overflow = '';
     }
     burger.addEventListener('click', () => {
       if (drawer.classList.contains('show')) closeDrawer(); else openDrawer();
