@@ -370,6 +370,7 @@
   @media (max-width: 720px) and (prefers-reduced-motion: reduce){
     body > nav, .logo, .nav-links, .logo-icon, .logo-word, .nav-cta, .nav-burger { transition: none !important; }
     nav.is-morphing { animation: none; }
+    .nav-drawer { transition: none !important; }
     .nav-drawer-panel { transition: opacity 0.2s ease !important; }
     .nav-drawer.show .nav-drawer-links a, .nav-drawer.show .nav-drawer-bottom { animation: none !important; }
   }
@@ -411,6 +412,14 @@
     top: calc(18px + var(--nav-pod-h, 60px));
     left: 18px; right: 18px; max-width: 1320px; margin: 0 auto;
     visibility: hidden; pointer-events: none;
+    /* Той самий прийом, що й на підкладці вище: тривалість дорівнює
+       закриттю (0.32s — коротше за відкриття зумисно, нижче). visibility
+       має особливу браузерну поведінку для переходів — на «зникнення» вона
+       перемикається аж НАПРИКІНЦІ вказаного часу, на «появу» — одразу на
+       старті. Без цього рядка контейнер ховався миттєво разом зі зняттям
+       .show, обрізаючи власний перехід панелі, перш ніж той встигав
+       домалюватись — воно й читалось як різке, «необроблене» закриття. */
+    transition: visibility 0.32s;
   }
   .nav-drawer.show { visibility: visible; pointer-events: auto; }
   .nav-drawer-panel {
@@ -429,14 +438,21 @@
     transform-origin: top center;
     transform: scaleY(0.7) scaleX(0.95) translateY(-14px);
     opacity: 0;
-    /* Довша й із невеликим перебігом (крива йде за 1, тоді осідає назад) —
-       саме це й читається як крапля, що витекла й лягла, а не як картка, що
-       просто зʼявилась. Opacity — окремо й коротше: вміст встигає стати
-       видимим ще до того, як форма домалюється, інакше перші кадри були б
-       порожньою рамкою. */
+    /* Закриття — власний, коротший перехід тут, на базовому стані: вихід
+       має бути швидшим за вхід і без пружного перебігу, інакше краплю
+       ніби засмоктує назад під шапку ривком. --ease-arrive — та сама
+       крива впевненого прибуття, що й по всьому сайту, без відскоку. */
+    transition: transform 0.32s var(--ease-arrive), opacity 0.24s ease;
+  }
+  .nav-drawer.show .nav-drawer-panel {
+    transform: scaleY(1) scaleX(1) translateY(0);
+    opacity: 1;
+    /* Відкриття отримує свій, довший і пружніший перехід — саме тут, а не
+       на базовому стані: коли клас .show додається, застосовується
+       transition з ЦЬОГО правила, а не з базового. Перебіг (крива йде за 1
+       і сідає назад) читається як крапля, що витекла й лягла. */
     transition: transform 0.62s cubic-bezier(.32,1.65,.4,1), opacity 0.35s ease;
   }
-  .nav-drawer.show .nav-drawer-panel { transform: scaleY(1) scaleX(1) translateY(0); opacity: 1; }
 
   /* Вміст зʼявляється зі своєю невеликою хвилею вслід за формою — не одразу
      весь і не одночасно з нею: --stagger проставляє JS на кожному пункті й
