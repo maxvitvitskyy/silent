@@ -2618,16 +2618,56 @@ const I18N = window.SILENT_I18N;
     drawer.className = 'nav-drawer';
     drawer.id = 'navDrawer';
 
-    const linkEls = [].slice.call(navLinks.querySelectorAll('a')).filter(a => !a.classList.contains('nav-cta') && !a.closest('.lang-switch'));
+    // Прохід іде по прямих дітях .nav-links, не по всіх <a> всередині:
+    // .nav-item-mega несе власну десктопну mega-панель із пʼятьма
+    // посиланнями-категоріями (.nav-mega-cat) — плаский querySelectorAll('a')
+    // підхопив би і їх, розсипавши мобільне меню зайвими пунктами. Той самий
+    // .nav-item-mega тут розгортається в один пункт-акордеон: сам напис
+    // веде на /faq/, стрілка поруч розкриває ті ж пʼять розділів підпунктами
+    // — контент один, джерело правди єдине (десктопна панель), тут лише
+    // читаємо його заново.
+    const topEls = [].slice.call(navLinks.children).filter(el =>
+      (el.tagName === 'A' && !el.classList.contains('nav-cta')) || el.classList.contains('nav-item-mega')
+    );
     const langSwitch = navLinks.querySelector('.lang-switch');
 
     // --stagger нумерує пункти для хвилі появи в CSS (.nav-drawer.show ...);
     // нижній рядок (соцмережі + мова) іде наступним кроком за посиланнями.
     let linksHtml = '';
-    linkEls.forEach((a, i) => {
-      linksHtml += '<a href="' + a.getAttribute('href') + '" style="--stagger:' + i + '">' + a.textContent + '</a>';
+    topEls.forEach((el, i) => {
+      if (el.classList.contains('nav-item-mega')){
+        // Сам рядок — тепер повністю кнопка-перемикач, не посилання: тап по
+        // напису більше нікуди не веде, лише розгортає підпункти (власник
+        // явно попросив прибрати випадкову навігацію тут). Дістатись самої
+        // сторінки можна першим підпунктом — тим самим CTA, що на фото в
+        // десктопній панелі («Всі питання» / «Усі формати»), і звідти й
+        // бере текст та посилання, а не з окремого хардкоду.
+        const trigger = el.querySelector('.nav-mega-trigger');
+        const cats = [].slice.call(el.querySelectorAll('.nav-mega-cat'));
+        // .nav-mega-cta сам по собі <span> без href — посилання на всю
+        // сторінку несе його предок .nav-mega-visual (фото-картка обгорнута
+        // в <a>), звідти й href, а текст усе одно з .nav-mega-cta.
+        const ctaLink = el.querySelector('.nav-mega-visual');
+        const ctaLabel = el.querySelector('.nav-mega-cta');
+        let subHtml = '';
+        if (ctaLink && ctaLabel){
+          subHtml += '<a href="' + ctaLink.getAttribute('href') + '" class="nav-drawer-sub-all">' + ctaLabel.textContent.trim() + '</a>';
+        }
+        cats.forEach(c => {
+          const icon = c.parentElement.querySelector('.nav-mega-icon');
+          subHtml += '<a href="' + c.getAttribute('href') + '">' + (icon ? icon.outerHTML : '') + '<span>' + c.textContent + '</span></a>';
+        });
+        linksHtml +=
+          '<button type="button" class="nav-drawer-item-expand" style="--stagger:' + i + '" aria-expanded="false">' +
+            '<span>' + trigger.textContent + '</span>' +
+            '<span class="nav-drawer-expand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>' +
+          '</button>' +
+          '<div class="nav-drawer-sub">' + subHtml + '</div>';
+      } else {
+        linksHtml += '<a href="' + el.getAttribute('href') + '" style="--stagger:' + i + '">' + el.textContent + '</a>';
+      }
     });
-    const bottomStagger = linkEls.length;
+    const bottomStagger = topEls.length;
 
     let langHtml = '';
     if (langSwitch){
@@ -2664,6 +2704,18 @@ const I18N = window.SILENT_I18N;
     backdrop.id = 'navDrawerBackdrop';
     document.body.appendChild(backdrop);
     document.body.appendChild(drawer);
+
+    // Увесь рядок — кнопка-перемикач; сусідній .nav-drawer-sub, що йде
+    // одразу за .nav-drawer-item-expand в розмітці, розгортається чи
+    // згортається разом з нею.
+    drawer.querySelectorAll('.nav-drawer-item-expand').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const sub = btn.nextElementSibling;
+        const open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+        sub.classList.toggle('is-open', !open);
+      });
+    });
 
     // Просте overflow:hidden на body тут не годиться: меню відкривають уже
     // прокрученою сторінкою (сам гамбургер з'являється лише після скролу), а
@@ -2879,6 +2931,13 @@ const I18N = window.SILENT_I18N;
       const chip = e.target.closest('.exp-chip');
       if (chip) apply(chip.dataset.cat);
     });
+
+    // ?cat=business із mega-меню «Тихі враження» в шапці — та сама тема,
+    // яку відкрив би клік по чіпу, тільки одразу при заході на сторінку.
+    // Невідома чи відсутня тема — сторінка просто лишається на «Усі», без
+    // помилки.
+    const wanted = new URLSearchParams(window.location.search).get('cat');
+    if (wanted && chips.some(ch => ch.dataset.cat === wanted)) apply(wanted);
   })();
 
   // Знімок і навушники на сторінці «Тихі враження» йдуть за активним каналом.

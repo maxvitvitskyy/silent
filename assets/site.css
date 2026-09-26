@@ -190,7 +190,7 @@
     cursor: pointer;
   }
   .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 26px -4px var(--lime-glow); color: #12100a !important; background: var(--lime); }
-  @media (max-width: 720px){ .nav-links a:not(.nav-cta){ display:none; } }
+  @media (max-width: 1040px){ .nav-links a:not(.nav-cta){ display:none; } }
 
   /* Перемикач мови — один сегментний тумблер, а не два написи поруч. Спільна
      обводка з падінгом усередині збирає обидві мови в один елемент керування:
@@ -257,7 +257,7 @@
 
      Поріг у JS — фіксована відстань скролу, не прив'язка до якогось блоку:
      такий блок є не на кожній сторінці, а шапка спільна для всіх. */
-  @media (max-width: 720px){
+  @media (max-width: 1040px){
     body > nav {
       --nav-pod-h: 60px;
       height: var(--nav-pod-h);
@@ -367,7 +367,7 @@
        тільки форма (радіус/gap), сквош-стреч додає лише відчуття пружності. */
     nav.is-morphing { animation: navLiquidMorph 0.5s var(--ease-arrive); transform-origin: center top; }
   }
-  @media (max-width: 720px) and (prefers-reduced-motion: reduce){
+  @media (max-width: 1040px) and (prefers-reduced-motion: reduce){
     body > nav, .logo, .nav-links, .logo-icon, .logo-word, .nav-cta, .nav-burger { transition: none !important; }
     nav.is-morphing { animation: none; }
     .nav-drawer { transition: none !important; }
@@ -533,7 +533,354 @@
   nav.menu-open .logo-word { max-width: 140px; opacity: 1; }
   nav.menu-open .nav-burger { width: 40px; opacity: 1; visibility: visible; pointer-events: auto; }
 
-  @media (min-width: 721px){ .nav-drawer { display: none; } }
+  @media (min-width: 1041px){ .nav-drawer { display: none; } }
+
+  /* ---------- NAV: mega-меню «Питання» (тільки десктоп) ----------
+     Чиста CSS-наводка, без JS. Дві частини рішення для «мертвої зони» між
+     словом «Питання» і панеллю нижче:
+     1) .nav-mega-trigger сам стає лаймовим під час :hover/:focus-within —
+        видима ознака «активного» пункту, яку просив власник.
+     2) Місток для наведення — не падінг на .nav-item-mega (той залежав від
+        фактичної висоти сусідів у флекс-рядку й у певних випадках не сягав
+        країв шапки), а invisible ::before на самій панелі: розширює її
+        власний hover-бокс на 60px вгору, з нахлистом і на слово, і на
+        внутрішній падінг <nav>. Поки курсор десь у цьому розширеному
+        боксі — .nav-item-mega лишається :hover, панель не зникає. */
+  /* Без свого position: панель усередині лишається абсолютною відносно
+     НАЙБЛИЖЧОГО позиціонованого предка — самого <nav> (fixed), а не цього
+     вузького <span> навколо слова. Якщо дати тут position:relative, панель
+     розтягнеться на всю ширину слова «Питання», а не шапки. */
+  .nav-item-mega { display: inline-flex; align-items: center; }
+  .nav-mega-trigger { display: inline-flex; transition: color 0.2s ease; }
+  .nav-item-mega:hover .nav-mega-trigger,
+  .nav-item-mega:focus-within .nav-mega-trigger { color: var(--lime) !important; }
+
+  /* На всю ширину шапки: left/right:0 замість фіксованої ширини — панель
+     завжди рівно повторює геометрію самої пігулки nav (найближчий
+     позиціонований предок), на будь-якій ширині екрана й без ручного
+     підрахунку. Заокруглене з усіх боків, і НЕ впритул до шапки: перша
+     спроба зшити прямі кути панелі з круглою пігулкою (top:100%, без
+     проміжку) на стику давала візуальний «розрив форми» — коло й прямий
+     кут ніколи не збігаються чисто. Тут навпаки: свідомий зазор (14px),
+     і панель читається як окрема картка під шапкою, а не як продовження
+     її контуру. */
+  .nav-mega-panel {
+    position: absolute; top: calc(100% + 14px); left: 0; right: 0;
+    padding: 12px;
+    background: var(--glass-fill-dark);
+    border: 1px solid var(--line);
+    border-top-color: var(--glass-edge);
+    border-radius: var(--r-lg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    box-shadow: var(--glass-shadow-2), 0 30px 70px -30px rgba(0,0,0,0.85);
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transform: translateY(-8px) scale(0.98);
+    transform-origin: top center;
+    /* Закриття — базовий стан, тож саме тут стоїть коротший, без затримки
+       перехід: та сама асиметрія входу/виходу, що й у мобільній панелі. */
+    transition: opacity 0.16s ease, transform 0.16s ease, visibility 0s linear 0.16s;
+    z-index: 5;
+  }
+  /* Невидимий місток над панеллю: покриває і сам зазор (14px), і внутрішній
+     падінг шапки, тож курсор може вільно пройти від слова «Питання» вниз
+     до панелі, не втрачаючи :hover на .nav-item-mega по дорозі. */
+  .nav-mega-panel::before {
+    content: ''; position: absolute; left: 0; right: 0; top: -74px; height: 74px;
+  }
+  .nav-item-mega:hover .nav-mega-panel,
+  .nav-item-mega:focus-within .nav-mega-panel {
+    opacity: 1; visibility: visible; pointer-events: auto;
+    transform: translateY(0) scale(1);
+    /* Відкриття отримує невелику затримку (не спалахує на швидкому проході
+       курсора повз пункт меню) і довший, впевнений прихід тією ж кривою,
+       що й по всьому сайту. */
+    transition: opacity 0.28s var(--ease-arrive) 0.08s, transform 0.3s var(--ease-arrive) 0.08s, visibility 0s linear 0s;
+  }
+  /* Підкладка — окремий елемент, прямий нащадок <body> (та сама причина, що
+     й у мобільної: власний, нижчий за шапку z-index, щоб тьмянити сторінку
+     позаду, не чіпаючи саму панель). Вмикається чистим CSS :has(), без JS:
+     поки курсор чи фокус лишається десь усередині .nav-item-mega — байдуже,
+     на слові «Питання» чи вже в самій панелі — body несе цей стан. */
+  .nav-mega-backdrop {
+    position: fixed; inset: 0; z-index: 45;
+    background: rgba(10,10,11,0.5);
+    backdrop-filter: blur(8px) saturate(1.05);
+    -webkit-backdrop-filter: blur(8px) saturate(1.05);
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity 0.22s ease, visibility 0.22s;
+  }
+  body:has(.nav-item-mega:hover) .nav-mega-backdrop,
+  body:has(.nav-item-mega:focus-within) .nav-mega-backdrop {
+    opacity: 1; visibility: visible;
+    transition: opacity 0.3s ease 0.06s, visibility 0s;
+  }
+  @media (max-width: 900px){ .nav-mega-backdrop { display: none; } }
+
+  /* ---- Сітка розділів: фото на два рядки зліва (той самий прийом, що й у
+     «Тихі враження» — тепер обидва mega-меню мають однакову форму), шість
+     розділів FAQ праворуч у 3×2. Без окремих карток-«скелець» — колонки
+     розділені лише тонкою лінією. grid за замовчуванням розтягує всі
+     колонки на висоту найвищої, а min-height додатково гарантує «на всю
+     висоту», а не лише на висоту тексту. */
+  .nav-mega-grid {
+    display: grid; grid-template-columns: repeat(6, 1fr);
+    gap: 0;
+  }
+  .nav-mega-col {
+    display: flex; min-width: 0;
+    padding: 4px 18px;
+  }
+  .nav-mega-col:first-child { padding-left: 4px; }
+  /* align-self:start вимикає розтяг лише для фотоколонки: інакше сітка
+     тягне картинку на висоту сусідів, і aspect-ratio на .nav-mega-visual
+     нижче нічого не важить — тут формат 4:5 має лишатись точним. */
+  .nav-item-mega:not(.nav-item-mega--exp) .nav-mega-col:first-child { align-self: start; }
+  /* Трохи більше повітря від краю панелі, ніж усередині між колонками —
+     інакше останній блок читався як притиснутий до рамки. */
+  .nav-mega-col:last-child { padding-right: 12px; }
+  /* «Питання»: фото на два рядки зліва (grid-row:1/3), шість розділів у
+     3×2 праворуч — координати по DOM-порядку (:nth-child), та сама логіка,
+     що в «Тихі враження» нижче: явна розстановка, бо DOM-сусідство після
+     grid-row не збігається з візуальним. */
+  .nav-item-mega:not(.nav-item-mega--exp) .nav-mega-grid {
+    grid-template-columns: 1.15fr repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    row-gap: 20px;
+  }
+  .nav-item-mega:not(.nav-item-mega--exp) .nav-mega-col:first-child { grid-row: 1 / 3; }
+  .nav-item-mega:not(.nav-item-mega--exp) .nav-mega-col:nth-child(2) { grid-column: 2; grid-row: 1; }
+  .nav-item-mega:not(.nav-item-mega--exp) .nav-mega-col:nth-child(3) { grid-column: 3; grid-row: 1; }
+  .nav-item-mega:not(.nav-item-mega--exp) .nav-mega-col:nth-child(4) { grid-column: 4; grid-row: 1; }
+  .nav-item-mega:not(.nav-item-mega--exp) .nav-mega-col:nth-child(5) { grid-column: 2; grid-row: 2; }
+  .nav-item-mega:not(.nav-item-mega--exp) .nav-mega-col:nth-child(6) { grid-column: 3; grid-row: 2; }
+  .nav-item-mega:not(.nav-item-mega--exp) .nav-mega-col:nth-child(7) { grid-column: 4; grid-row: 2; }
+  /* Вертикальні лінії — лише між сусідніми розділами в тому самому рядку,
+     не між фото й першим розділом кожного рядка. */
+  .nav-item-mega:not(.nav-item-mega--exp) .nav-mega-col:nth-child(3),
+  .nav-item-mega:not(.nav-item-mega--exp) .nav-mega-col:nth-child(4),
+  .nav-item-mega:not(.nav-item-mega--exp) .nav-mega-col:nth-child(6),
+  .nav-item-mega:not(.nav-item-mega--exp) .nav-mega-col:nth-child(7) { border-left: 1px solid var(--line); }
+  .nav-item-mega:not(.nav-item-mega--exp) .nav-mega-col:nth-child(n+5) { border-top: 1px solid var(--line); padding-top: 20px; }
+  .nav-mega-card {
+    flex: 1; display: flex; flex-direction: column;
+    min-height: 250px;
+  }
+  /* Іконка й заголовок — один рядок по центру одне одного: у назви в один
+     рядок вона просто центрується навпроти тексту, а в назви в два рядки
+     сам рядок росте, і та сама align-items:center центрує іконку вже
+     навпроти обох рядків разом — жодної окремої логіки на «скільки рядків»
+     не треба, флекс рахує це сам. min-height тут — не для вирівнювання
+     іконки, а щоб розділова лінія нижче завжди починалась з однієї й тієї
+     самої висоти незалежно від довжини назви. */
+  .nav-mega-cat-head {
+    display: flex; align-items: center; gap: 10px;
+    min-height: 36px;
+  }
+  .nav-mega-icon { width: 26px; height: 26px; color: var(--lime); flex: none; }
+  .nav-mega-icon svg { width: 100%; height: 100%; }
+  .nav-mega-cat {
+    display: block;
+    font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: 12.5px;
+    letter-spacing: -0.01em; line-height: 1.3;
+    color: #fff; transition: color 0.2s ease;
+  }
+  .nav-mega-col:hover .nav-mega-cat { color: var(--lime); }
+  /* Розділова лінія одразу після заголовка (фіксована відстань, не
+     margin-top:auto донизу) — саме це тримає її на однаковій висоті в усіх
+     картках: earlier-версія притискала блок питань до низу картки, і лінія
+     «стрибала» залежно від того, скільки рядків питань під нею. */
+  .nav-mega-qs {
+    display: flex; flex-direction: column; gap: 12px;
+    margin-top: 14px; padding-top: 18px;
+    border-top: 1px solid var(--line);
+  }
+  .nav-mega-q {
+    display: flex; align-items: flex-start; gap: 7px;
+    font-size: 11.5px; line-height: 1.42; color: var(--muted-2);
+    transition: color 0.2s ease;
+  }
+  .nav-mega-q:hover { color: var(--muted); }
+  .nav-mega-q::before {
+    content: ''; flex: none; width: 4px; height: 4px; border-radius: 50%;
+    margin-top: 5px; background: var(--lime); opacity: 0.75;
+  }
+
+  /* ---- Остання картка ряду: фото на всю площу, підпис зверху й кнопка
+     знизу — обидва прямо на зображенні (як і було до цього, власник
+     попросив повернути підпис назад). Два градієнти в одному шарі:
+     темніє і зверху (під заголовок), і знизу (під кнопку), середина
+     лишається читабельним фото. ---- */
+  .nav-mega-visual {
+    position: relative; flex: 1; display: flex; flex-direction: column;
+    aspect-ratio: 4 / 5; min-height: 250px;
+    border-radius: var(--r-sm); overflow: hidden;
+  }
+  .nav-mega-visual img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    transition: transform 0.5s var(--ease-arrive);
+  }
+  .nav-mega-visual:hover img { transform: scale(1.04); }
+  .nav-mega-visual::after {
+    content: ''; position: absolute; inset: 0;
+    background:
+      linear-gradient(0deg, rgba(10,10,11,0.88) 0%, transparent 32%),
+      linear-gradient(180deg, rgba(10,10,11,0.85) 0%, transparent 38%);
+  }
+  .nav-mega-visual-text { position: relative; z-index: 1; padding: 14px 14px 0; }
+  .nav-mega-visual-text h3 {
+    font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: 14px;
+    line-height: 1.3; letter-spacing: -0.01em; color: #fff;
+    margin: 0;
+  }
+  /* .nav-links a:hover{color:#fff} інакше переважує задуманий темний
+     текст на лаймовій кнопці (вища специфічність через :hover) — тут те
+     саме !important, що вже стоїть на .nav-cta з тієї ж причини. Коротший
+     напис в один рядок — кнопка тепер завжди однієї висоти з рештою
+     дрібних елементів, а не розтягнута на два рядки тексту. */
+  .nav-mega-cta {
+    position: absolute; left: 12px; right: 12px; bottom: 12px; z-index: 1;
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    padding: 13px 14px; border-radius: 999px;
+    background: var(--lime); color: #12100a !important;
+    font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 12.5px;
+    white-space: nowrap;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .nav-mega-cta svg { width: 14px; height: 14px; flex: none; transition: transform 0.25s var(--ease-arrive); }
+  .nav-mega-visual:hover .nav-mega-cta { transform: translateY(-2px); box-shadow: 0 8px 20px -6px var(--lime-glow); color: #12100a !important; }
+  .nav-mega-visual:hover .nav-mega-cta svg { transform: translateX(3px); }
+
+  @media (prefers-reduced-motion: reduce){
+    .nav-mega-panel, .nav-item-mega:hover .nav-mega-panel, .nav-item-mega:focus-within .nav-mega-panel,
+    .nav-mega-backdrop, body:has(.nav-item-mega:hover) .nav-mega-backdrop, body:has(.nav-item-mega:focus-within) .nav-mega-backdrop,
+    .nav-mega-visual img {
+      transition: opacity 0.12s linear !important; transform: none !important;
+    }
+  }
+  /* Нижче 1180px картці й розділам уже тісно на одній горизонталі — картка
+     ховається (вона декоративна), лишаються самі шість розділів у 3
+     колонки, порядок природний (auto-flow), той самий поріг, де ховається
+     сам lang-switch (та сама причина: тут закінчується десктопна ширина
+     шапки). */
+  @media (max-width: 1180px){
+    .nav-item-mega:not(.nav-item-mega--exp) .nav-mega-grid { grid-template-columns: repeat(3, 1fr); grid-template-rows: none; row-gap: 18px; }
+    .nav-item-mega:not(.nav-item-mega--exp) .nav-mega-col:first-child { display: none; }
+    .nav-item-mega:not(.nav-item-mega--exp) .nav-mega-col:not(:first-child) { grid-column: auto; grid-row: auto; }
+    /* Жодного окремого правила для колонки 5 не треба: у 3-колонковому
+       авто-потоці вона стає першою в другому РЯДКУ (не сусідить із фото
+       горизонтально, як на десктопі, а стоїть під «Про формат» вертикально)
+       — і горизонтальна лінія над нею з десктопного правила (nth-child(n+5))
+       тут якраз доречна, вона відділяє один ряд карток від іншого. Раніше
+       тут стояв override, що її прибирав, — тому «Про формат» і
+       «Обладнання» виглядали зліпленими без жодного розриву. */
+  }
+  @media (max-width: 900px){
+    .nav-mega-panel { display: none; }
+  }
+
+  /* ---------- NAV: mega-меню «Тихі враження» — інший варіант тієї самої
+     панелі ----------
+     Той самий словник класів, що й у «Питання» (.nav-mega-card/-cat/-qs/
+     -visual/-cta) — спільний матеріал, спільна анімація, спільний місток
+     для наведення. Відрізняється лише розкладка сітки: вісім тем каталогу
+     замість пʼяти розділів FAQ не влазять в один рядок, тож фото стає на
+     обидва рядки зліва (grid-row:1/3), а теми йдуть 4×2 праворуч —
+     координати рахуються по DOM-порядку (:nth-child), не auto-flow, щоб
+     точно знати, де прибрати зайву лінію-розділювач і де провести
+     горизонтальну між рядками тем. */
+  .nav-item-mega--exp .nav-mega-grid {
+    grid-template-columns: 1fr repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    row-gap: 20px;
+  }
+  .nav-item-mega--exp .nav-mega-col:first-child { grid-row: 1 / 3; align-self: stretch; }
+  .nav-item-mega--exp .nav-mega-col:nth-child(2) { grid-column: 2; grid-row: 1; }
+  .nav-item-mega--exp .nav-mega-col:nth-child(3) { grid-column: 3; grid-row: 1; }
+  .nav-item-mega--exp .nav-mega-col:nth-child(4) { grid-column: 4; grid-row: 1; }
+  .nav-item-mega--exp .nav-mega-col:nth-child(5) { grid-column: 5; grid-row: 1; }
+  .nav-item-mega--exp .nav-mega-col:nth-child(6) { grid-column: 2; grid-row: 2; }
+  .nav-item-mega--exp .nav-mega-col:nth-child(7) { grid-column: 3; grid-row: 2; }
+  .nav-item-mega--exp .nav-mega-col:nth-child(8) { grid-column: 4; grid-row: 2; }
+  .nav-item-mega--exp .nav-mega-col:nth-child(9) { grid-column: 5; grid-row: 2; }
+  /* Вертикальні лінії — лише між сусідніми темами в тому самому рядку, не
+     між фото й першою темою кожного рядка (та сама логіка, що в «Питання»:
+     лінія впритул до фото зайва). */
+  .nav-item-mega--exp .nav-mega-col:nth-child(3),
+  .nav-item-mega--exp .nav-mega-col:nth-child(4),
+  .nav-item-mega--exp .nav-mega-col:nth-child(5),
+  .nav-item-mega--exp .nav-mega-col:nth-child(7),
+  .nav-item-mega--exp .nav-mega-col:nth-child(8),
+  .nav-item-mega--exp .nav-mega-col:nth-child(9) { border-left: 1px solid var(--line); }
+  .nav-item-mega--exp .nav-mega-col:nth-child(n+6) { border-top: 1px solid var(--line); padding-top: 20px; }
+  @media (max-width: 1180px){
+    .nav-item-mega--exp .nav-mega-grid { grid-template-columns: repeat(4, 1fr); grid-template-rows: none; row-gap: 18px; }
+    .nav-item-mega--exp .nav-mega-col:first-child { display: none; }
+    .nav-item-mega--exp .nav-mega-col:not(:first-child) { grid-column: auto; grid-row: auto; }
+    /* Так само, як у «Питання» нижче: жодного override для колонки 6 не
+       треба — у 4-колонковому авто-потоці вона стає першою в другому ряду
+       (вертикально під «Бізнес»), і горизонтальна лінія над нею з
+       десктопного правила (nth-child(n+6)) саме там і потрібна. */
+  }
+
+  /* ---------- Мобільне меню: розділи «Питання»/«Тихі враження» розгортаються підпунктами ----------
+     Той самий контент, що в десктопній mega-панелі, але без прикладів —
+     на телефоні досить самих розділів (плюс іконки з тих самих категорій
+     і посилання «переглянути всі», взяте з CTA на фото в mega-панелі).
+     Увесь рядок — одна кнопка-перемикач: тап по напису більше нікуди не
+     веде, лише розгортає й згортає список під ним. Дістатись самої
+     сторінки можна першим підпунктом (nav-drawer-sub-all). */
+  .nav-drawer-item-expand {
+    display: flex; align-items: center; justify-content: space-between;
+    width: 100%; gap: 12px;
+    padding: 15px 2px;
+    border-bottom: 1px solid var(--line);
+    background: none; border-top: none; border-left: none; border-right: none;
+    font-family: 'Unbounded'; font-weight: 600; font-size: 15.5px;
+    color: #fff; text-align: left; cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  .nav-drawer-item-expand[aria-expanded="true"] { color: var(--lime); }
+  /* Без фону й рамки кнопки — інакше нативний вигляд <button> лишає сірий
+     заокруглений прямокутник навколо стрілки замість чистої іконки. */
+  .nav-drawer-expand {
+    flex: none;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--lime);
+    background: none; border: none; padding: 0;
+  }
+  .nav-drawer-expand svg { width: 32px; height: 32px; transition: transform 0.3s var(--ease-arrive); }
+  .nav-drawer-item-expand[aria-expanded="true"] .nav-drawer-expand svg { transform: rotate(180deg); }
+  .nav-drawer-sub {
+    max-height: 0; overflow: hidden; opacity: 0;
+    transition: max-height 0.32s var(--ease-arrive), opacity 0.24s ease;
+    display: flex; flex-direction: column;
+  }
+  .nav-drawer-sub.is-open {
+    /* 460px — з запасом під довший список («Тихі враження», 8 тем +
+       посилання «переглянути всі»), не лише під пʼять розділів «Питання». */
+    max-height: 460px; opacity: 1;
+    transition: max-height 0.38s var(--ease-arrive), opacity 0.3s ease;
+  }
+  .nav-drawer-sub a {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 2px 12px 18px;
+    border-bottom: 1px solid var(--line);
+    font-family: 'Manrope', sans-serif; font-weight: 500; font-size: 13.5px;
+    color: var(--muted); transition: color 0.2s ease, padding-left 0.2s ease;
+  }
+  .nav-drawer-sub a:last-child { border-bottom: none; }
+  .nav-drawer-sub a:active { color: var(--lime); padding-left: 22px; }
+  .nav-drawer-sub a .nav-mega-icon { width: 20px; height: 20px; color: var(--lime); flex: none; }
+  .nav-drawer-sub a .nav-mega-icon svg { width: 100%; height: 100%; }
+  /* Перший підпункт — не категорія, а пряме посилання на сторінку цілком
+     («Всі питання» / «Усі формати»): виділене лаймовим і жирнішим
+     написом, щоб читалось як інша роль у списку, не просто ще одна тема. */
+  .nav-drawer-sub-all {
+    font-family: 'Unbounded'; font-weight: 600; font-size: 13.5px;
+    color: var(--lime) !important;
+  }
 
   /* ---------- HERO ---------- */
   .hero {
