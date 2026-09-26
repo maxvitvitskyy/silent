@@ -590,7 +590,15 @@
     background: var(--glass-fill-dark);
     border: 1px solid var(--line);
     border-top-color: var(--glass-edge);
-    border-radius: var(--r-lg);
+    /* 36px, не спільний --r-lg (28px): власник попросив, щоб рамка панелі
+       гармоніювала зі скругленням лаймової кнопки (999px = ефективно
+       ~half-height, тобто круглі краї), а не виглядала прямокутнішою поруч
+       із нею. 36 = радіус фотокартки нижче (24px) + цей самий падінг
+       (12px) — то самий центр дуги в обох, тож кути читаються як одна
+       безперервна крива, не два різні скруглення один в одному. Це також
+       майже точно радіус самої пігулки шапки (~36px при її висоті), тож
+       мова заокруглень лишається одна на всю шапку. */
+    border-radius: 36px;
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     box-shadow: var(--glass-shadow-2), 0 30px 70px -30px rgba(0,0,0,0.85);
@@ -686,7 +694,23 @@
   .nav-item-mega:not(.nav-item-mega--exp) .nav-mega-col:nth-child(4),
   .nav-item-mega:not(.nav-item-mega--exp) .nav-mega-col:nth-child(6),
   .nav-item-mega:not(.nav-item-mega--exp) .nav-mega-col:nth-child(7) { border-left: 1px solid var(--line); }
-  .nav-item-mega:not(.nav-item-mega--exp) .nav-mega-col:nth-child(n+5) { border-top: 1px solid var(--line); padding-top: 20px; }
+  /* Лінія — не border-top комірки (той сидить рівно на її верхньому краю,
+     впритул до вертикальних ліній сусідніх колонок, які починаються там
+     же), а ::before, підведений на половину row-gap (10px із 20)
+     всередину порожнього проміжку між рядками. Так вона однаково не
+     торкається ні вертикальної лінії рядка 1 (та закінчується на початку
+     проміжку), ні вертикальної лінії рядка 2 (та починається в кінці
+     проміжку) — власник побачив скріншотом, що лінія «прилипала» саме до
+     нижніх вертикальних розділювачів. padding-top лишається базовим 4px
+     (як в усіх комірок): «top:-10px» у псевдоелемента нижче вже рахується
+     від верху padding-box комірки, тож ці 10px і так додаються до
+     відступу від лінії до тексту — окремо ще раз їх додавати не треба
+     (симетрія: 4+10=14px в обидва боки, і зверху, і знизу від лінії). */
+  .nav-item-mega:not(.nav-item-mega--exp) .nav-mega-col:nth-child(n+5) { position: relative; }
+  .nav-item-mega:not(.nav-item-mega--exp) .nav-mega-col:nth-child(n+5)::before {
+    content: ''; position: absolute; top: -10px; left: 0; right: 0; height: 1px;
+    background: var(--line);
+  }
   .nav-mega-card {
     flex: 1; display: flex; flex-direction: column;
     min-height: 250px;
@@ -739,7 +763,13 @@
   .nav-mega-visual {
     position: relative; flex: 1; display: flex; flex-direction: column;
     aspect-ratio: 4 / 5; min-height: 250px;
-    border-radius: var(--r-sm); overflow: hidden;
+    /* 24px, не спільний --r-sm (16px): та висота, на якій лаймова
+       .nav-mega-cta всередині рендериться круглою (999px клампається до
+       height/2 ≈ 23px за її реальних розмірів) — картка мала виглядати
+       гострішою/прямокутнішою поруч із нею. 24 + падінг .nav-mega-panel
+       (12px) = 36 — радіус зовнішньої рамки вище, тож обидва скруглення
+       мають той самий центр дуги. */
+    border-radius: 24px; overflow: hidden;
   }
   .nav-mega-visual img {
     position: absolute; inset: 0; width: 100%; height: 100%;
@@ -754,10 +784,22 @@
       linear-gradient(180deg, rgba(10,10,11,0.85) 0%, transparent 38%);
   }
   .nav-mega-visual-text { position: relative; z-index: 1; padding: 14px 14px 0; }
+  /* Постерна пара ваг — той самий прийом, що й .exp-title .t-lead/.t-sub
+     на сторінках досвідів (одна гарнітура Unbounded, важкий рядок + легке
+     уточнення замість другого шрифту): .t-lead успадковує вагу 800 від h3,
+     .t-sub — 300 і менший кегль. Фото тепер на всю висоту панелі (окрема
+     правка вище), тож великому заголовку є куди рости, не впираючись у
+     кнопку внизу. */
   .nav-mega-visual-text h3 {
-    font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: 14px;
-    line-height: 1.3; letter-spacing: -0.01em; color: #fff;
+    font-family: 'Unbounded', sans-serif; font-weight: 800; font-size: 19px;
+    line-height: 1.15; letter-spacing: -0.02em; color: #fff;
     margin: 0;
+  }
+  .nav-mega-visual-text h3 .t-lead,
+  .nav-mega-visual-text h3 .t-sub { display: block; }
+  .nav-mega-visual-text h3 .t-sub {
+    font-weight: 300; font-size: 0.72em; letter-spacing: -0.01em;
+    color: var(--muted); margin-top: 0.2em;
   }
   /* .nav-links a:hover{color:#fff} інакше переважує задуманий темний
      текст на лаймовій кнопці (вища специфічність через :hover) — тут те
@@ -800,6 +842,11 @@
        тут якраз доречна, вона відділяє один ряд карток від іншого. Раніше
        тут стояв override, що її прибирав, — тому «Про формат» і
        «Обладнання» виглядали зліпленими без жодного розриву. */
+    /* row-gap тут 18px, не 20 — половина (::before top) перерахована під
+       нього, щоб лінія так само лишалась точно посередині проміжку.
+       padding-top міняти не треба (та сама логіка, що вище: він і так
+       базовий 4px, половина проміжку рахується самим top псевдоелемента). */
+    .nav-item-mega:not(.nav-item-mega--exp) .nav-mega-col:nth-child(n+5)::before { top: -9px; }
   }
   @media (max-width: 900px){
     .nav-mega-panel { display: none; }
@@ -815,11 +862,11 @@
      координати рахуються по DOM-порядку (:nth-child), не auto-flow, щоб
      точно знати, де прибрати зайву лінію-розділювач і де провести
      горизонтальну між рядками тем. */
-  /* Фотоколонка на 7% ширша за решту (1.07fr замість 1fr при тих самих
-     чотирьох 1fr-колонках тем праворуч) — власник попросив трішки додати
-     повітря картинці, не перебудовуючи сітку. */
+  /* Фотоколонка на 17% ширша за решту (1.17fr замість 1fr при тих самих
+     чотирьох 1fr-колонках тем праворуч) — власник накопичив це в три
+     заходи: спершу 7%, тоді ще до 10%, тепер ще +7% зверху. */
   .nav-item-mega--exp .nav-mega-grid {
-    grid-template-columns: 1.07fr repeat(4, 1fr);
+    grid-template-columns: 1.17fr repeat(4, 1fr);
     grid-template-rows: repeat(2, 1fr);
     row-gap: 20px;
   }
@@ -841,7 +888,18 @@
   .nav-item-mega--exp .nav-mega-col:nth-child(7),
   .nav-item-mega--exp .nav-mega-col:nth-child(8),
   .nav-item-mega--exp .nav-mega-col:nth-child(9) { border-left: 1px solid var(--line); }
-  .nav-item-mega--exp .nav-mega-col:nth-child(n+6) { border-top: 1px solid var(--line); padding-top: 20px; }
+  /* ::before замість border-top — той самий прийом і те саме число, що й у
+     «Питання» вище (10px = половина row-gap 20px, лінія по центру
+     проміжку, однаково не торкається вертикальних ліній ні рядка 1, ні
+     рядка 2). padding-top лишається базовим 4px — top:-10px псевдоелемента
+     рахується від верху padding-box комірки, тож ці 10px і так додаються
+     до відступу від лінії до тексту (разом 4+10=14px, симетрично з обох
+     боків лінії). */
+  .nav-item-mega--exp .nav-mega-col:nth-child(n+6) { position: relative; }
+  .nav-item-mega--exp .nav-mega-col:nth-child(n+6)::before {
+    content: ''; position: absolute; top: -10px; left: 0; right: 0; height: 1px;
+    background: var(--line);
+  }
   @media (max-width: 1180px){
     .nav-item-mega--exp .nav-mega-grid { grid-template-columns: repeat(4, 1fr); grid-template-rows: none; row-gap: 18px; }
     .nav-item-mega--exp .nav-mega-col:first-child { display: none; }
@@ -850,6 +908,7 @@
        треба — у 4-колонковому авто-потоці вона стає першою в другому ряду
        (вертикально під «Бізнес»), і горизонтальна лінія над нею з
        десктопного правила (nth-child(n+6)) саме там і потрібна. */
+    .nav-item-mega--exp .nav-mega-col:nth-child(n+6)::before { top: -9px; }
   }
 
   /* ---------- Мобільне меню: розділи «Питання»/«Тихі враження» розгортаються підпунктами ----------
