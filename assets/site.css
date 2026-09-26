@@ -551,7 +551,27 @@
      вузького <span> навколо слова. Якщо дати тут position:relative, панель
      розтягнеться на всю ширину слова «Питання», а не шапки. */
   .nav-item-mega { display: inline-flex; align-items: center; }
-  .nav-mega-trigger { display: inline-flex; transition: color 0.2s ease; }
+  /* .nav-item-mega — це <div>, не <a>, тож правило рядком вище
+     (`.nav-links a:not(.nav-cta){display:none}`) його не ловить: без цього
+     рядка порожній (нульової ширини) блок лишається display:flex і далі
+     бере участь у flex-gap капсули .nav-links, зсуваючи кнопку й гамбургер
+     праворуч на два зайві gap (по 8px з кожного боку блоку) — звідси
+     видимий нерівний бордюр зліва від кнопки в зʼєднаному мобільному стані.
+     Мусить стояти ПІСЛЯ базового `.nav-item-mega{display:inline-flex}` вище
+     (та сама специфічність — виграє порядок у каскаді, не медіа-запит). */
+  @media (max-width: 1040px){ .nav-item-mega { display: none; } }
+  /* z-index без position: усі троє (обидва тригери + звичайні .nav-links a/
+     .nav-cta нижче) лишаються флекс-елементами без власного stacking
+     context, тож z-index спрацьовує (за специфікацією для флекс-елементів)
+     і напряму порівнюється з .nav-mega-panel (z-index:5) у контексті <nav>.
+     Без цього рядка сусідня відкрита mega-панель (вона на всю ширину шапки,
+     і її невидимий hover-місток ::before ще на 74px вище за неї, п.2 нижче)
+     лежить у стеку ПОВЕРХ усіх інших пунктів шапки — курсор на «Питання»,
+     «Ціну» чи саму кнопку CTA фізично влучає в панель сусіда, а не в них,
+     поки та відкрита. Симптом власника: щоб перемкнутись на інший пункт
+     меню, доводилось спершу повністю закрити поточну mega-панель. */
+  .nav-mega-trigger { display: inline-flex; transition: color 0.2s ease; z-index: 6; }
+  .nav-links > a { z-index: 6; }
   .nav-item-mega:hover .nav-mega-trigger,
   .nav-item-mega:focus-within .nav-mega-trigger { color: var(--lime) !important; }
 
@@ -632,10 +652,15 @@
     padding: 4px 18px;
   }
   .nav-mega-col:first-child { padding-left: 4px; }
-  /* align-self:start вимикає розтяг лише для фотоколонки: інакше сітка
-     тягне картинку на висоту сусідів, і aspect-ratio на .nav-mega-visual
-     нижче нічого не важить — тут формат 4:5 має лишатись точним. */
-  .nav-item-mega:not(.nav-item-mega--exp) .nav-mega-col:first-child { align-self: start; }
+  /* align-self:stretch — фото тягнеться на всю висоту обох рядків сітки,
+     до самого низу відкритої панелі (власник попросив прибрати «недотягнуту»
+     картинку в «Питання»), той самий прийом, що вже стояв у «Тихі
+     враження» нижче. aspect-ratio 4:5 на .nav-mega-visual тут не заважає:
+     flex:1 на головній осі колонки (ширина) і stretch на поперечній
+     (висота) обидва стають визначеними самим флексом, тож aspect-ratio
+     нічого не досораховує — фото просто заповнює бокс, а object-fit:cover
+     ховає будь-яку різницю пропорцій кадру. */
+  .nav-item-mega:not(.nav-item-mega--exp) .nav-mega-col:first-child { align-self: stretch; }
   /* Трохи більше повітря від краю панелі, ніж усередині між колонками —
      інакше останній блок читався як притиснутий до рамки. */
   .nav-mega-col:last-child { padding-right: 12px; }
@@ -790,8 +815,11 @@
      координати рахуються по DOM-порядку (:nth-child), не auto-flow, щоб
      точно знати, де прибрати зайву лінію-розділювач і де провести
      горизонтальну між рядками тем. */
+  /* Фотоколонка на 7% ширша за решту (1.07fr замість 1fr при тих самих
+     чотирьох 1fr-колонках тем праворуч) — власник попросив трішки додати
+     повітря картинці, не перебудовуючи сітку. */
   .nav-item-mega--exp .nav-mega-grid {
-    grid-template-columns: 1fr repeat(4, 1fr);
+    grid-template-columns: 1.07fr repeat(4, 1fr);
     grid-template-rows: repeat(2, 1fr);
     row-gap: 20px;
   }

@@ -203,6 +203,10 @@ T = {
 'Оплата й умови': 'Payment & terms',
 'Дослідити всі питання': 'Explore all questions',
 'Усе про SILENT — заздалегідь': 'Everything about SILENT — in advance',
+'Один формат тиші — безліч приводів його ввімкнути: весілля, офіс чи шкільне свято.':
+  'One quiet format — countless reasons to switch it on: a wedding, an office, a school party.',
+'Жодних сюрпризів у день Х. Відповіді про ціну, обладнання й форс-мажори — ще до бронювання.':
+  'No surprises on the day itself. Answers on pricing, gear and force majeure — before you even book.',
 'Формат, організація, ціна, обладнання, умови — коротко й по суті.': 'Format, logistics, pricing, equipment, terms — short and to the point.',
 'Формат, організація, ціна, обладнання, умови.': 'Format, logistics, pricing, equipment, terms.',
 'Не знайшли своє питання серед прикладів?': "Don't see your question in the examples?",
