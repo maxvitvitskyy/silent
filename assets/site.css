@@ -2713,6 +2713,28 @@
   }
   .faq-a p strong { color: rgba(255,255,255,0.9); }
 
+  /* Кнопка всередині відповіді — лише там, де питання торкається дати,
+     оплати чи заявки: веде або на форму бронювання (#book), або на
+     калькулятор (/#price), залежно від суті питання. Той самий лівий
+     відступ, що й у тексту відповіді (calc з --faq-num/--faq-gap), тож
+     кнопка читається як продовження речення, а не окремий чужий блок.
+     :has() знімає власний нижній падінг параграфа, коли за ним іде кнопка
+     — інакше висота посередині збиралась би з двох відступів підряд. */
+  .faq-a p:has(+ .faq-cta) { padding-bottom: 16px; }
+  .faq-cta {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin: 0 var(--faq-pad) 24px calc(var(--faq-pad) + var(--faq-num) + var(--faq-gap));
+    padding: 9px 16px; border-radius: 999px;
+    border: 1px solid rgba(198,255,0,0.35); color: var(--lime);
+    background: rgba(198,255,0,0.08);
+    font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: 12.5px;
+    white-space: nowrap;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  }
+  .faq-cta:hover { border-color: var(--lime); background: rgba(198,255,0,0.16); transform: translateY(-1px); }
+  .faq-cta svg { width: 13px; height: 13px; flex: none; transition: transform 0.25s var(--ease-arrive); }
+  .faq-cta:hover svg { transform: translateX(3px); }
+
   @media (max-width: 640px){
     .faq { --faq-pad: 18px; --faq-gap: 14px; }
     .faq-item { border-radius: var(--r-md); }
@@ -2721,6 +2743,44 @@
     .faq-q h3 { font-size: 14.5px; }
     .faq-icon { width: 42px; height: 42px; font-size: 20px; }
     .faq-a p { font-size: 13.5px; padding-bottom: 20px; }
+    /* Мобільний відступ картки — 18px (--faq-pad вужчий тут), а колонка
+       номера й проміжок теж свої на цій ширині, тож той самий calc()
+       перерахується сам через CSS-змінні. Ліву прив'язку кнопки чіпати
+       не треба; тільки бічний margin звужуємо до нового --faq-pad. */
+    .faq-cta { margin-right: var(--faq-pad); }
+  }
+
+  /* ---- Тизер на головній: останній рядок питань «згасає» в темряву, а
+     під нею — кнопка на повний /faq/. ::after лежить ПОВЕРХ карток
+     (z-index вищий), але pointer-events:none — курсор і клік проходять
+     крізь градієнт до самої картки, тож навіть притемнене останнє питання
+     лишається клікабельним. Колір згасання — --night, той самий, що й фон
+     сторінки, тож картка нібито тоне в тлі, а не в довільно-сірому шарі. */
+  .faq-teaser { position: relative; }
+  /* Пікселі, не відсотки, у стопах градієнта — свідомо: два незалежні
+     параметри, які не можна виразити однією часткою від висоти.
+     0→130px — та сама крива, що й у першій версії (текст останньої картки
+     й далі частково читається, гасне поступово, не зникає різко). Далі,
+     130px→кінець — суцільний --night: цей «хвіст» навмисно довший, ніж
+     потрібно для самої картки, — він тягнеться під проміжок і під кнопку
+     нижче, тож немає межі/тіні між «кінцем картки» і «кнопкою»: обидва
+     тонуть в одному й тому самому суцільному тлі. .faq-more тепер знову
+     ВСЕРЕДИНІ .faq-teaser (а не окремим блоком після) — інакше цьому
+     суцільному хвосту нема на чому лежати під кнопкою. */
+  .faq-teaser::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 230px;
+    background: linear-gradient(180deg, transparent 0, var(--night) 130px, var(--night) 100%);
+    pointer-events: none; z-index: 2;
+  }
+  /* position/z-index — щоб кнопка малювалась ПОВЕРХ суцільного хвоста
+     градієнта вище (той інакше лежав би зверху й ховав би її повністю,
+     як прозора на вигляд, а насправді непрозора --night заливка). */
+  .faq-more { position: relative; z-index: 3; display: flex; justify-content: center; margin-top: 16px; }
+  .faq-more .btn-ghost { display: inline-flex; align-items: center; gap: 8px; }
+  .faq-more .btn-ghost svg { width: 14px; height: 14px; flex: none; transition: transform 0.25s var(--ease-arrive); }
+  .faq-more .btn-ghost:hover svg { transform: translateX(3px); }
+  @media (max-width: 640px){
+    .faq-teaser::after { height: 190px; background: linear-gradient(180deg, transparent 0, var(--night) 100px, var(--night) 100%); }
   }
 
   /* ---------- CALCULATOR ---------- */

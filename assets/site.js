@@ -42,9 +42,19 @@ const I18N = window.SILENT_I18N;
       const vh = vhCache;
       for (const l of layers){
         const r = l.section.getBoundingClientRect();
-        // progress: how far the section center is from the viewport center
-        const sectionCenter = r.top + r.height / 2;
-        let delta = (sectionCenter - vh / 2) * -l.speed;
+        // delta = швидкість × scrollY, а не «відстань від центру секції до
+        // центру вікна» (як було): та версія давала нульовий зсув лише коли
+        // висота секції рівно дорівнює висоті вікна. .hero має
+        // min-height: min(100svh, 1040px) — на вікнах вищих за 1040px секція
+        // коротша за viewport, і навіть при scrollY=0 (сторінка щойно
+        // завантажилась, ще ніхто не скролив) формула видавала ненульовий
+        // зсув — фотографія/відео стартували вже зсунутими вниз, і згори
+        // з'являлась чорна смуга під шапкою (рамка .hero-video-frame
+        // розрахована на зсув=0 у стані спокою). Обидві формули лінійні за
+        // scrollY з однаковим нахилом (швидкість), відрізняються лише
+        // константою зсуву — тож ця версія дає ту саму швидкість дрейфу під
+        // час скролу, просто без хибного стартового зміщення.
+        let delta = l.speed * window.scrollY;
         // never travel further than the overhang, or the layer's edge appears
         let MAX = 150;
         if (l.autoMax){

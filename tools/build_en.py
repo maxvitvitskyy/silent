@@ -338,24 +338,24 @@ T = {
 'Silent disco під ключ — комплект обладнання, логістика й супровід у межах однієї послуги.':
   'Full-service silent disco — the equipment, the logistics and the on-site support all within one service.',
 'Обладнання': 'Equipment',
-'Від 40 бездротових LED-навушників, 3 канали, передавачі та запасні навушники в комплекті.':
-  'From 40 wireless LED headphones, 3 channels, transmitters and spare headsets included.',
+'40 бездротових навушників з\xa0LED-підсвіткою, три канали грають одночасно. Передавачі та\xa0запасні навушники в\xa0комплекті.':
+  'Forty wireless headphones with LED backlighting, three channels playing at once. Transmitters and spare headphones included.',
 'Доставка й монтаж': 'Delivery and setup',
-'Привозимо, збираємо систему, налаштовуємо канали й тестуємо сигнал до старту.':
-  'We deliver, assemble the system, set up the channels and test the signal before the start.',
+'Приїжджаємо заздалегідь, збираємо систему й\xa0перевіряємо сигнал ще\xa0до\xa0першого гостя\xa0— вам не\xa0треба цим перейматися.':
+  "We arrive early, assemble the system and check the signal before your first guest — you don't need to worry about it.",
 'Підготовлені плейлисти': 'Playlists prepared in advance',
-"Три канали, зібрані під ваш настрій і формат події — діджей не обов'язковий.":
-  'Three channels put together for your mood and the type of event — a DJ is optional.',
+'Три готові плейлисти під настрій вечора. DJ можна не\xa0наймати\xa0— музика вже підібрана.':
+  'Three playlists ready for the evening’s mood. Skip the DJ — the music is already sorted.',
 'Супровід і демонтаж': 'On-site support and teardown',
-'Ведемо технічну частину протягом вечора, а після завершення забираємо все обладнання.':
-  'We run the technical side through the evening and take all the equipment away afterwards.',
+'Весь вечір поруч\xa0— стежимо за\xa0технікою. Наприкінці забираємо все самі, вам нічого не\xa0лишається робити.':
+  'We stay all evening, watching the equipment. At the end we pack everything up ourselves — nothing left for you to do.',
 'Короткий reels': 'A short reel',
-'Ролик вашого вечора, готовий до сторіз і публікації.':
-  'A clip of your evening, ready for stories and posts.',
+'Короткий ролик вечора\xa0— можна одразу викласти в\xa0сторіз.':
+  'A short clip of the evening — ready to post straight to stories.',
 'у базовій ціні': 'in the base price',
 'за бажанням': 'optional',
-'Колонки, підсилювачі та окремий звук орендувати додатково не потрібно — комплект замінює всю звукову частину вечора.':
-  "There's no need to rent speakers, amplifiers or separate sound — the kit replaces the whole audio side of the evening.",
+'Окремо орендувати колонки чи\xa0підсилювачі не\xa0треба\xa0— цей комплект закриває весь звук вечора.':
+  "No need to rent speakers or amps separately — this kit covers the whole evening's sound.",
 
 # --- галерея -------------------------------------------------------------
 'Атмосфера події, гортайте вбік': 'Event atmosphere, scroll sideways',
@@ -500,6 +500,7 @@ T = {
 
 # --- калькулятор ---------------------------------------------------------
 'Калькулятор': 'Calculator',
+'Порахувати вартість': 'Work out the cost',
 'Порахуйте бюджет вечора до заявки.': 'Work out the budget for the evening before you enquire.',
 'Мінімальне замовлення — 40 навушників на 4 години. Посуньте повзунок і додайте опції, щоб побачити орієнтовний бюджет для вашої події.':
   'The minimum order is 40 headphones for 4 hours. Move the slider and add options to see a rough budget for your event.',
@@ -536,8 +537,8 @@ T = {
 # --- відгуки -------------------------------------------------------------
 'Відгуки': 'Reviews',
 'Що кажуть ті, хто це відчув.': "What people who've felt it say.",
-'Короткі враження гостей і організаторів після київських подій.':
-  'Short impressions from guests and organisers after events in Kyiv.',
+'Короткі враження людей, які вже мали цей досвід.':
+  "Short impressions from people who've already had this experience.",
 'Боялася, що гості просто постоять із навушниками в руках і підуть. За півгодини танцювали всі, включно з моєю мамою. О другій ночі вимикали самі, бо ніхто не збирався додому.':
   'I was afraid the guests would just stand around holding the headphones and leave. Half an hour in, everyone was dancing, my mum included. At two in the morning we were the ones switching it off, because nobody was going home.',
 'Олена К.': 'Olena K.',
