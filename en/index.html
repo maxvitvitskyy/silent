@@ -49,7 +49,7 @@
 @media (max-width:760px){.hero-dancer{background-image:url('../images/hero-dancer-m.webp')}}
 </style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SILENT — one party. Three worlds of music.</title>
+<title>Full-service silent disco in Kyiv and across Ukraine — SILENT</title>
 <meta name="description" content="Full-service silent disco in Kyiv and across Ukraine: wireless LED headphones, 3 music channels, delivery, setup and on-site support.">
 <meta name="theme-color" content="#0a0a0b">
 <!-- sizes="any" лишається навмисно: іконку тут заміняють, лишаючи те саме ім'я,
@@ -126,9 +126,9 @@
     {
       "@type": "Service",
       "@id": "https://silent.org.ua/#service",
-      "name": "Silent Events",
-      "serviceType": "Silent Disco Events",
-      "description": "Silent disco and event production",
+      "name": "Full-service silent disco",
+      "serviceType": "Silent disco",
+      "description": "Wireless LED headphones with three music channels, delivery, on-site setup, technical support through the evening, teardown and removal — as one service.",
       "provider": {
         "@id": "https://silent.org.ua/#organization"
       },
@@ -144,8 +144,12 @@
       ],
       "offers": {
         "@type": "Offer",
-        "price": "9800",
-        "priceCurrency": "UAH"
+        "description": "From 9,800 UAH: 40 headphones for 4 hours. The final price depends on the date, location, duration and format.",
+        "priceSpecification": {
+          "@type": "PriceSpecification",
+          "minPrice": "9800",
+          "priceCurrency": "UAH"
+        }
       }
     }
   ]
@@ -201,7 +205,7 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet';window.__fontsIn&amp;&amp;window.__fontsIn()">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
 <!-- Стилі спільні для української та англомовної версій — один файл на дві -->
-<link rel="stylesheet" href="../assets/site.css?v=c364ad95">
+<link rel="stylesheet" href="../assets/site.css?v=c8773bf9">
 </head>
 <body id="top">
 
@@ -559,7 +563,7 @@
             <span class="ch-toggle-name" style="color:var(--red)" translate="no">RED</span>
             <span class="ch-toggle-desc">Deep &amp; Dance — electronic, house, rhythm</span>
           </div>
-          <button class="ch-switch" type="button" aria-pressed="true" style="--sw-color:var(--red)"><span class="ch-switch-knob"></span></button>
+          <button class="ch-switch" type="button" aria-label="Channel RED" aria-pressed="true" style="--sw-color:var(--red)"><span class="ch-switch-knob"></span></button>
         </div>
       </div>
       <div class="ch-toggle" data-ch="1" style="--sw-color:var(--green)">
@@ -568,7 +572,7 @@
             <span class="ch-toggle-name" style="color:var(--green)" translate="no">GREEN</span>
             <span class="ch-toggle-desc">Pop &amp; Throwback — the hits everyone knows the words to</span>
           </div>
-          <button class="ch-switch" type="button" aria-pressed="false" style="--sw-color:var(--green)"><span class="ch-switch-knob"></span></button>
+          <button class="ch-switch" type="button" aria-label="Channel GREEN" aria-pressed="false" style="--sw-color:var(--green)"><span class="ch-switch-knob"></span></button>
         </div>
       </div>
       <div class="ch-toggle" data-ch="2" style="--sw-color:var(--blue)">
@@ -577,7 +581,7 @@
             <span class="ch-toggle-name" style="color:var(--blue)" translate="no">BLUE</span>
             <span class="ch-toggle-desc">Chill &amp; Soul — slow, warm, close</span>
           </div>
-          <button class="ch-switch" type="button" aria-pressed="false" style="--sw-color:var(--blue)"><span class="ch-switch-knob"></span></button>
+          <button class="ch-switch" type="button" aria-label="Channel BLUE" aria-pressed="false" style="--sw-color:var(--blue)"><span class="ch-switch-knob"></span></button>
         </div>
       </div>
       </div>
@@ -1636,7 +1640,7 @@
         </div>
         <div class="faq-item reveal">
           <div class="faq-q" role="button" tabindex="0" aria-expanded="false" aria-controls="faqA8"><h3>What if headphones get lost or damaged?</h3><div class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></div></div>
-          <div class="faq-a" id="faqA8" role="region"><p>It happens at live parties, so we take a small refundable deposit on the kit, returned as soon as all the equipment is handed back intact. If one or two headsets don't come back or are damaged, we cover it from the deposit, with nothing further to sort out on your side. We agree the amount and the terms in advance, before the event itself.</p></div>
+          <div class="faq-a" id="faqA8" role="region"><p>It happens at real parties. The set includes spare headphones as replacements, and if equipment isn't returned, gets lost or is damaged, the client pays the agreed value of that item. The terms for this are set out in the contract for the specific booking.</p></div>
         </div>
       </div>
     </div>
@@ -1687,16 +1691,20 @@
           <div class="field">
             <label for="type">What are you planning?</label>
             <select id="type" name="eventType">
-              <option>I want to know the price</option>
-              <option>I'm planning an event</option>
-              <option>Looking for a format for a client</option>
-              <option>I'd like to discuss something out of the ordinary</option>
-              <option>Wedding</option>
-              <option>Birthday</option>
-              <option>Company party</option>
-              <option>Graduation</option>
-              <option>Team building</option>
-              <option>Festival</option>
+              <optgroup label="What you need">
+                <option>I want to know the price</option>
+                <option>I'm planning an event</option>
+                <option>Looking for a format for a client</option>
+                <option>I'd like to discuss something out of the ordinary</option>
+              </optgroup>
+              <optgroup label="Event type">
+                <option>Wedding</option>
+                <option>Birthday</option>
+                <option>Company party</option>
+                <option>Graduation</option>
+                <option>Team building</option>
+                <option>Festival</option>
+              </optgroup>
             </select>
           </div>
           <div class="field">
@@ -1779,10 +1787,10 @@
       <nav class="f-col">
         <h4>Before you book</h4>
         <ul>
-          <li><a href="#cases">Silent experiences</a></li>
+          <li><a href="/experiences/">Quiet Experiences</a></li>
+          <li><a href="/experiences/corporate/">Corporate events</a></li>
           <li><a href="#price">Calculator</a></li>
-          <li><a href="#expect">What to expect</a></li>
-          <li><a href="#faq">Questions up front</a></li>
+          <li><a href="/en/faq/">Questions and answers</a></li>
           <li><a href="#book" data-cta="footer_nav_leave_request">Send a request</a></li>
         </ul>
       </nav>
@@ -1804,6 +1812,7 @@
           <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="5.2" width="18.8" height="13.6" rx="2.6"/><path d="m3.4 7 8.05 5.6a1 1 0 0 0 1.1 0L20.6 7"/></svg>
         </a>
         </div>
+        <a class="f-phone" href="tel:+380963339068">+380 96 333 90 68</a>
         <p class="f-note">Message us on any of these — we reply quickly.</p>
       </div>
       </div>

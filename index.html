@@ -49,7 +49,7 @@
 @media (max-width:760px){.hero-dancer{background-image:url('images/hero-dancer-m.webp')}}
 </style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SILENT — одна вечірка. Три музичні світи.</title>
+<title>Silent disco під ключ у Києві та по Україні — SILENT</title>
 <meta name="description" content="Silent Disco під ключ у Києві та по Україні: бездротові LED-навушники, 3 канали музики, доставка, налаштування та супровід.">
 <meta name="theme-color" content="#0a0a0b">
 <!-- sizes="any" лишається навмисно: іконку тут заміняють, лишаючи те саме ім'я,
@@ -126,9 +126,9 @@
     {
       "@type": "Service",
       "@id": "https://silent.org.ua/#service",
-      "name": "Silent Events",
-      "serviceType": "Silent Disco Events",
-      "description": "Організація Silent Disco та інших подій",
+      "name": "Silent disco під ключ",
+      "serviceType": "Silent disco",
+      "description": "Бездротові LED-навушники з трьома каналами музики, доставка, збірка на місці, технічний супровід протягом вечора, демонтаж і вивіз — однією послугою.",
       "provider": {
         "@id": "https://silent.org.ua/#organization"
       },
@@ -144,8 +144,12 @@
       ],
       "offers": {
         "@type": "Offer",
-        "price": "9800",
-        "priceCurrency": "UAH"
+        "description": "Від 9 800 грн: 40 навушників на 4 години. Фінальна ціна залежить від дати, локації, тривалості й формату.",
+        "priceSpecification": {
+          "@type": "PriceSpecification",
+          "minPrice": "9800",
+          "priceCurrency": "UAH"
+        }
       }
     }
   ]
@@ -201,7 +205,7 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet';window.__fontsIn&amp;&amp;window.__fontsIn()">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
 <!-- Стилі спільні для української та англомовної версій — один файл на дві -->
-<link rel="stylesheet" href="assets/site.css?v=c364ad95">
+<link rel="stylesheet" href="assets/site.css?v=c8773bf9">
 </head>
 <body id="top">
 
@@ -559,7 +563,7 @@
             <span class="ch-toggle-name" style="color:var(--red)" translate="no">RED</span>
             <span class="ch-toggle-desc">Deep &amp; Dance — електроніка, хаус, ритм</span>
           </div>
-          <button class="ch-switch" type="button" aria-pressed="true" style="--sw-color:var(--red)"><span class="ch-switch-knob"></span></button>
+          <button class="ch-switch" type="button" aria-label="Канал RED" aria-pressed="true" style="--sw-color:var(--red)"><span class="ch-switch-knob"></span></button>
         </div>
       </div>
       <div class="ch-toggle" data-ch="1" style="--sw-color:var(--green)">
@@ -568,7 +572,7 @@
             <span class="ch-toggle-name" style="color:var(--green)" translate="no">GREEN</span>
             <span class="ch-toggle-desc">Pop &amp; Throwback — хіти, під які всі знають слова</span>
           </div>
-          <button class="ch-switch" type="button" aria-pressed="false" style="--sw-color:var(--green)"><span class="ch-switch-knob"></span></button>
+          <button class="ch-switch" type="button" aria-label="Канал GREEN" aria-pressed="false" style="--sw-color:var(--green)"><span class="ch-switch-knob"></span></button>
         </div>
       </div>
       <div class="ch-toggle" data-ch="2" style="--sw-color:var(--blue)">
@@ -577,7 +581,7 @@
             <span class="ch-toggle-name" style="color:var(--blue)" translate="no">BLUE</span>
             <span class="ch-toggle-desc">Chill &amp; Soul — повільне, тепле, близьке</span>
           </div>
-          <button class="ch-switch" type="button" aria-pressed="false" style="--sw-color:var(--blue)"><span class="ch-switch-knob"></span></button>
+          <button class="ch-switch" type="button" aria-label="Канал BLUE" aria-pressed="false" style="--sw-color:var(--blue)"><span class="ch-switch-knob"></span></button>
         </div>
       </div>
       </div>
@@ -1636,7 +1640,7 @@
         </div>
         <div class="faq-item reveal">
           <div class="faq-q" role="button" tabindex="0" aria-expanded="false" aria-controls="faqA8"><h3>Що якщо навушники загубляться або пошкодяться?</h3><div class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></div></div>
-          <div class="faq-a" id="faqA8" role="region"><p>Таке трапляється на живих вечірках, тому ми закладаємо невеликий заставний внесок за комплект, який повертається одразу після того, як усе обладнання здано в цілості. Якщо один-два навушники не повернули чи пошкодили — покриваємо це із застави, без додаткових розбирань із вами. Про суму й умови домовляємось заздалегідь, до самого івенту.</p></div>
+          <div class="faq-a" id="faqA8" role="region"><p>Таке трапляється на живих вечірках. У комплекті є запасні навушники на заміну, а якщо обладнання не повернули, загубили чи пошкодили — замовник компенсує погоджену вартість одиниці обладнання. Умови такого випадку прописані в договорі до конкретного замовлення.</p></div>
         </div>
       </div>
     </div>
@@ -1687,16 +1691,20 @@
           <div class="field">
             <label for="type">Що ви плануєте?</label>
             <select id="type" name="eventType">
-              <option>Хочу дізнатися ціну</option>
-              <option>Планую подію</option>
-              <option>Шукаю формат для клієнта</option>
-              <option>Хочу обговорити нестандартний сценарій</option>
-              <option>Весілля</option>
-              <option>День народження</option>
-              <option>Корпоратив</option>
-              <option>Випускний</option>
-              <option>Тімбілдинг</option>
-              <option>Фестиваль</option>
+              <optgroup label="Що вас цікавить">
+                <option>Хочу дізнатися ціну</option>
+                <option>Планую подію</option>
+                <option>Шукаю формат для клієнта</option>
+                <option>Хочу обговорити нестандартний сценарій</option>
+              </optgroup>
+              <optgroup label="Тип події">
+                <option>Весілля</option>
+                <option>День народження</option>
+                <option>Корпоратив</option>
+                <option>Випускний</option>
+                <option>Тімбілдинг</option>
+                <option>Фестиваль</option>
+              </optgroup>
             </select>
           </div>
           <div class="field">
@@ -1779,10 +1787,10 @@
       <nav class="f-col">
         <h4>Перед замовленням</h4>
         <ul>
-          <li><a href="#cases">Silent-досвіди</a></li>
+          <li><a href="/experiences/">Тихі враження</a></li>
+          <li><a href="/experiences/corporate/">Для корпоративів</a></li>
           <li><a href="#price">Калькулятор</a></li>
-          <li><a href="#expect">Чого очікувати</a></li>
-          <li><a href="#faq">Питання наперед</a></li>
+          <li><a href="/faq/">Питання і відповіді</a></li>
           <li><a href="#book" data-cta="footer_nav_leave_request">Залишити заявку</a></li>
         </ul>
       </nav>
@@ -1804,6 +1812,7 @@
           <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="5.2" width="18.8" height="13.6" rx="2.6"/><path d="m3.4 7 8.05 5.6a1 1 0 0 0 1.1 0L20.6 7"/></svg>
         </a>
         </div>
+        <a class="f-phone" href="tel:+380963339068">+380 96 333 90 68</a>
         <p class="f-note">Пишіть у будь-який месенджер — відповідаємо швидко.</p>
       </div>
       </div>

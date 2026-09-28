@@ -24,7 +24,7 @@
      визначає LCP. Задана фоном у CSS, тож preload-сканер знайшов би її лише
      після побудови CSSOM; явний preload тягне файл під час парсингу <head>. -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Тихі враження — усі формати SILENT</title>
+<title>Тихі враження — формати silent disco від SILENT</title>
 <meta name="description" content="Усі формати, де працює тихий звук: від корпоративу й весілля до екскурсії музеєм та йоги. Три канали в навушниках кожного гостя, ззовні тиша.">
 <meta name="theme-color" content="#0a0a0b">
 <link rel="icon" type="image/png" sizes="any" href="../images/favicon.png?v=990ab5cf">
@@ -32,7 +32,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="SILENT">
 <meta property="og:locale" content="uk_UA">
-<meta property="og:title" content="Тихі враження — усі формати SILENT">
+<meta property="og:title" content="Тихі враження — формати silent disco від SILENT">
 <meta property="og:description" content="Три канали музики в навушниках кожного гостя, гучність у кожного своя, ззовні тиша. Комплект, доставка, збірка й супровід.">
 <meta property="og:url" content="https://silent.org.ua/experiences/">
 <meta property="og:image" content="https://silent.org.ua/images/promo.png">
@@ -40,7 +40,7 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Тихі враження — усі формати SILENT">
+<meta name="twitter:title" content="Тихі враження — формати silent disco від SILENT">
 <meta name="twitter:description" content="Усі формати, де працює тихий звук: корпоративи, весілля, конференції, екскурсії, йога, кіно просто неба.">
 <meta name="twitter:image" content="https://silent.org.ua/images/promo.png">
 <link rel="canonical" href="https://silent.org.ua/experiences/">
@@ -58,7 +58,32 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="../assets/site.css?v=c364ad95">
+<link rel="stylesheet" href="../assets/site.css?v=c8773bf9">
+<!-- Хлібні крихти — ті самі, що видимі над заголовком («Головна · Тихі враження»). -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Головна",
+          "item": "https://silent.org.ua/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Тихі враження",
+          "item": "https://silent.org.ua/experiences/"
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body id="top" class="page-close-cta">
 
@@ -907,16 +932,20 @@
           <div class="field">
             <label for="type">Що ви плануєте?</label>
             <select id="type" name="eventType">
-              <option>Хочу дізнатися ціну</option>
-              <option>Планую подію</option>
-              <option>Шукаю формат для клієнта</option>
-              <option>Хочу обговорити нестандартний сценарій</option>
-              <option>Весілля</option>
-              <option>День народження</option>
-              <option>Корпоратив</option>
-              <option>Випускний</option>
-              <option>Тімбілдинг</option>
-              <option>Фестиваль</option>
+              <optgroup label="Що вас цікавить">
+                <option>Хочу дізнатися ціну</option>
+                <option>Планую подію</option>
+                <option>Шукаю формат для клієнта</option>
+                <option>Хочу обговорити нестандартний сценарій</option>
+              </optgroup>
+              <optgroup label="Тип події">
+                <option>Весілля</option>
+                <option>День народження</option>
+                <option>Корпоратив</option>
+                <option>Випускний</option>
+                <option>Тімбілдинг</option>
+                <option>Фестиваль</option>
+              </optgroup>
             </select>
           </div>
           <div class="field">
@@ -999,10 +1028,10 @@
       <nav class="f-col">
         <h4>Перед замовленням</h4>
         <ul>
-          <li><a href="/#cases">Silent-досвіди</a></li>
-          <li><a href="#price">Калькулятор</a></li>
-          <li><a href="/#expect">Чого очікувати</a></li>
-          <li><a href="/#faq">Питання наперед</a></li>
+          <li><a href="/experiences/" aria-current="page">Тихі враження</a></li>
+          <li><a href="/experiences/corporate/">Для корпоративів</a></li>
+          <li><a href="/#price">Калькулятор</a></li>
+          <li><a href="/faq/">Питання і відповіді</a></li>
           <li><a href="#book" data-cta="footer_nav_leave_request">Залишити заявку</a></li>
         </ul>
       </nav>
@@ -1024,6 +1053,7 @@
           <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="5.2" width="18.8" height="13.6" rx="2.6"/><path d="m3.4 7 8.05 5.6a1 1 0 0 0 1.1 0L20.6 7"/></svg>
         </a>
         </div>
+        <a class="f-phone" href="tel:+380963339068">+380 96 333 90 68</a>
         <p class="f-note">Пишіть у будь-який месенджер — відповідаємо швидко.</p>
       </div>
       </div>

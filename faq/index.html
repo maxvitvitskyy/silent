@@ -55,7 +55,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="../assets/site.css?v=c364ad95">
+<link rel="stylesheet" href="../assets/site.css?v=c8773bf9">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -70,6 +70,31 @@
     { "@type": "Question", "name": "Яка схема оплати?", "acceptedAnswer": { "@type": "Answer", "text": "50% вартості — передоплата, яка бронює дату; решта 50% — до проведення заходу. Дата вважається підтвердженою одразу після першої частини оплати." } },
     { "@type": "Question", "name": "Що буде, якщо я захочу скасувати захід?", "acceptedAnswer": { "@type": "Answer", "text": "Залежить від того, за скільки днів до події: за 14+ днів повертаємо всю передоплату, за 7-13 днів — половину, менш ніж за 7 днів передоплата не повертається." } },
     { "@type": "Question", "name": "Що буде, якщо подію неможливо провести через форс-мажор?", "acceptedAnswer": { "@type": "Answer", "text": "Ідеться про повітряну тривогу, відключення світла та інші обставини. Спершу шукаємо нову дату; якщо перенесення неможливе, домовляємось із урахуванням того, що вже фактично зроблено." } }
+  ]
+}
+</script>
+<!-- Хлібні крихти — ті самі, що видимі над заголовком. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Головна",
+          "item": "https://silent.org.ua/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Питання і відповіді",
+          "item": "https://silent.org.ua/faq/"
+        }
+      ]
+    }
   ]
 }
 </script>
@@ -682,16 +707,20 @@
           <div class="field">
             <label for="type">Що ви плануєте?</label>
             <select id="type" name="eventType">
-              <option>Хочу дізнатися ціну</option>
-              <option>Планую подію</option>
-              <option>Шукаю формат для клієнта</option>
-              <option>Хочу обговорити нестандартний сценарій</option>
-              <option>Весілля</option>
-              <option>День народження</option>
-              <option>Корпоратив</option>
-              <option>Випускний</option>
-              <option>Тімбілдинг</option>
-              <option>Фестиваль</option>
+              <optgroup label="Що вас цікавить">
+                <option>Хочу дізнатися ціну</option>
+                <option>Планую подію</option>
+                <option>Шукаю формат для клієнта</option>
+                <option>Хочу обговорити нестандартний сценарій</option>
+              </optgroup>
+              <optgroup label="Тип події">
+                <option>Весілля</option>
+                <option>День народження</option>
+                <option>Корпоратив</option>
+                <option>Випускний</option>
+                <option>Тімбілдинг</option>
+                <option>Фестиваль</option>
+              </optgroup>
             </select>
           </div>
           <div class="field">
@@ -772,10 +801,10 @@
       <nav class="f-col">
         <h4>Перед замовленням</h4>
         <ul>
-          <li><a href="/#cases">Silent-досвіди</a></li>
+          <li><a href="/experiences/">Тихі враження</a></li>
+          <li><a href="/experiences/corporate/">Для корпоративів</a></li>
           <li><a href="/#price">Калькулятор</a></li>
-          <li><a href="/#expect">Чого очікувати</a></li>
-          <li><a href="/faq/">Усі питання</a></li>
+          <li><a href="/faq/" aria-current="page">Питання і відповіді</a></li>
           <li><a href="#book" data-cta="footer_nav_leave_request">Залишити заявку</a></li>
         </ul>
       </nav>
@@ -797,6 +826,7 @@
           <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="5.2" width="18.8" height="13.6" rx="2.6"/><path d="m3.4 7 8.05 5.6a1 1 0 0 0 1.1 0L20.6 7"/></svg>
         </a>
         </div>
+        <a class="f-phone" href="tel:+380963339068">+380 96 333 90 68</a>
         <p class="f-note">Пишіть у будь-який месенджер — відповідаємо швидко.</p>
       </div>
       </div>

@@ -24,8 +24,8 @@ NB = ' '   # нерозривний пробіл, яким в українсь�
 # ---------------------------------------------------------------- SEO / head
 HEAD = [
  ('<html lang="uk">', '<html lang="en">'),
- ('<title>SILENT — одна вечірка. Три музичні світи.</title>',
-  '<title>SILENT — one party. Three worlds of music.</title>'),
+ ('<title>Silent disco під ключ у Києві та по Україні — SILENT</title>',
+  '<title>Full-service silent disco in Kyiv and across Ukraine — SILENT</title>'),
  ('<meta name="description" content="Silent Disco під ключ у Києві та по Україні: бездротові LED-навушники, 3 канали музики, доставка, налаштування та супровід.">',
   '<meta name="description" content="Full-service silent disco in Kyiv and across Ukraine: wireless LED headphones, 3 music channels, delivery, setup and on-site support.">'),
  ('<meta property="og:locale" content="uk_UA">', '<meta property="og:locale" content="en_US">'),
@@ -45,8 +45,11 @@ HEAD = [
  ('"description": "SILENT — Silent Disco під ключ у Києві та по Україні: LED-навушники, 3 канали музики, доставка, налаштування та супровід. Для весіль, корпоративів, вечірок, фестивалів, таборів і приватних подій.",',
   '"description": "SILENT — full-service silent disco in Kyiv and across Ukraine: LED headphones, 3 music channels, delivery, setup and on-site support. For weddings, company parties, private events, festivals and camps.",'),
  ('"knowsLanguage": "uk-UA"', '"knowsLanguage": ["uk-UA", "en"]'),
- ('"description": "Організація Silent Disco та інших подій",',
-  '"description": "Silent disco and event production",'),
+ ('"name": "Silent disco під ключ",', '"name": "Full-service silent disco",'),
+ ('"description": "Бездротові LED-навушники з трьома каналами музики, доставка, збірка на місці, технічний супровід протягом вечора, демонтаж і вивіз — однією послугою.",',
+  '"description": "Wireless LED headphones with three music channels, delivery, on-site setup, technical support through the evening, teardown and removal — as one service.",'),
+ ('"description": "Від 9 800 грн: 40 навушників на 4 години. Фінальна ціна залежить від дати, локації, тривалості й формату.",',
+  '"description": "From 9,800 UAH: 40 headphones for 4 hours. The final price depends on the date, location, duration and format.",'),
 ]
 
 # ------------------------------------------------------- SEO / head 404
@@ -504,6 +507,9 @@ T = {
 
 # --- калькулятор ---------------------------------------------------------
 'Калькулятор': 'Calculator',
+# Підвал: посилання на сторінки замість дублів якорів головної.
+'Для корпоративів': 'Corporate events',
+'Питання і відповіді': 'Questions and answers',
 'Порахувати вартість': 'Work out the cost',
 'Порахуйте бюджет вечора до заявки.': 'Work out the budget for the evening before you enquire.',
 'Мінімальне замовлення — 40 навушників на 4 години. Посуньте повзунок і додайте опції, щоб побачити орієнтовний бюджет для вашої події.':
@@ -604,8 +610,11 @@ T = {
 'Ставимо один пункт видачі й повернення на вході, щоб нічого не губилося. При потребі використовуємо просту систему обліку, щоб наприкінці вечора точно знати, що все зібрано — без незручних питань до гостей.':
   'We set up a single hand-out and return point at the entrance so nothing goes astray. If needed we use a simple tracking system, so by the end of the evening we know for certain everything is back — without awkward questions to guests.',
 'Що якщо навушники загубляться або пошкодяться?': 'What if headphones get lost or damaged?',
-'Таке трапляється на живих вечірках, тому ми закладаємо невеликий заставний внесок за комплект, який повертається одразу після того, як усе обладнання здано в цілості. Якщо один-два навушники не повернули чи пошкодили — покриваємо це із застави, без додаткових розбирань із вами. Про суму й умови домовляємось заздалегідь, до самого івенту.':
-  "It happens at live parties, so we take a small refundable deposit on the kit, returned as soon as all the equipment is handed back intact. If one or two headsets don't come back or are damaged, we cover it from the deposit, with nothing further to sort out on your side. We agree the amount and the terms in advance, before the event itself.",
+# Відповідь дослівно та сама, що на /faq/ (узгоджена з договором v2.0): стара
+# обіцяла заставу щоразу й «покриваємо із застави, без розбирань» — договір
+# каже інакше (депозит не обов'язковий, компенсує замовник).
+'Таке трапляється на живих вечірках. У комплекті є запасні навушники на заміну, а якщо обладнання не повернули, загубили чи пошкодили — замовник компенсує погоджену вартість одиниці обладнання. Умови такого випадку прописані в договорі до конкретного замовлення.':
+  "It happens at real parties. The set includes spare headphones as replacements, and if equipment isn't returned, gets lost or is damaged, the client pays the agreed value of that item. The terms for this are set out in the contract for the specific booking.",
 
 # --- форма ---------------------------------------------------------------
 'Перевірте дату <span class="em">своєї</span> події': 'Check the date of <span class="em">your</span> event',
@@ -626,6 +635,15 @@ T = {
 '+380… або @нік': '+380… or @handle',
 'Що ви плануєте?': 'What are you planning?',
 'Хочу дізнатися ціну': 'I want to know the price',
+# Групи в полі «Що ви плануєте?»: наміри й типи подій раніше стояли одним
+# списком упереміш.
+'Що вас цікавить': 'What you need',
+'Тип події': 'Event type',
+# Назви перемикачів каналів для читалки екрана (aria-label): без них кнопка
+# оголошувалась як «перемикач, натиснуто» без жодного слова, який саме.
+'Канал RED': 'Channel RED',
+'Канал GREEN': 'Channel GREEN',
+'Канал BLUE': 'Channel BLUE',
 'Планую подію': "I'm planning an event",
 'Шукаю формат для клієнта': 'Looking for a format for a client',
 'Хочу обговорити нестандартний сценарій': "I'd like to discuss something out of the ordinary",
@@ -1556,6 +1574,9 @@ def build_faq():
     # чіпати не можна.
     s = re.sub(r'href="/(#[^"]*)?"', lambda m: 'href="/en/' + (m.group(1) or '') + '"', s)
     s = s.replace('href="/faq/', 'href="/en/faq/')
+    # Хлібні крихти в JSON-LD — на англійські адреси, як і видимі посилання.
+    s = s.replace('"item": "https://silent.org.ua/"', '"item": "https://silent.org.ua/en/"')
+    s = s.replace('"item": "https://silent.org.ua/faq/"', '"item": "https://silent.org.ua/en/faq/"')
 
     if s.count(SWITCH_UA_FAQ) != 1:
         sys.exit('перемикач мови в faq/index.html не знайдено')

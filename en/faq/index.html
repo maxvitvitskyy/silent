@@ -55,7 +55,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="../../assets/site.css?v=c364ad95">
+<link rel="stylesheet" href="../../assets/site.css?v=c8773bf9">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -70,6 +70,31 @@
     { "@type": "Question", "name": "What's the payment schedule?", "acceptedAnswer": { "@type": "Answer", "text": "50% of the cost is a prepayment that secures the date; the remaining 50% is paid before the event. The date counts as confirmed as soon as the first part of the payment arrives." } },
     { "@type": "Question", "name": "What happens if I want to cancel the event?", "acceptedAnswer": { "@type": "Answer", "text": "It depends on how many days before the event you cancel: 14+ days out, we refund the full prepayment; 7–13 days out, half of it; less than 7 days out, the prepayment is not refunded." } },
     { "@type": "Question", "name": "What happens if the event can't go ahead because of force majeure?", "acceptedAnswer": { "@type": "Answer", "text": "This covers air raid alerts, power cuts and other such circumstances. First we look for a new date; if rescheduling isn't possible, we agree on terms that take into account what has already been done." } }
+  ]
+}
+</script>
+<!-- Хлібні крихти — ті самі, що видимі над заголовком. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://silent.org.ua/en/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Questions and answers",
+          "item": "https://silent.org.ua/en/faq/"
+        }
+      ]
+    }
   ]
 }
 </script>
@@ -682,16 +707,20 @@
           <div class="field">
             <label for="type">What are you planning?</label>
             <select id="type" name="eventType">
-              <option>I want to know the price</option>
-              <option>I'm planning an event</option>
-              <option>Looking for a format for a client</option>
-              <option>I'd like to discuss something out of the ordinary</option>
-              <option>Wedding</option>
-              <option>Birthday</option>
-              <option>Company party</option>
-              <option>Graduation</option>
-              <option>Team building</option>
-              <option>Festival</option>
+              <optgroup label="What you need">
+                <option>I want to know the price</option>
+                <option>I'm planning an event</option>
+                <option>Looking for a format for a client</option>
+                <option>I'd like to discuss something out of the ordinary</option>
+              </optgroup>
+              <optgroup label="Event type">
+                <option>Wedding</option>
+                <option>Birthday</option>
+                <option>Company party</option>
+                <option>Graduation</option>
+                <option>Team building</option>
+                <option>Festival</option>
+              </optgroup>
             </select>
           </div>
           <div class="field">
@@ -772,10 +801,10 @@
       <nav class="f-col">
         <h4>Before you book</h4>
         <ul>
-          <li><a href="/en/#cases">Silent experiences</a></li>
+          <li><a href="/experiences/">Quiet Experiences</a></li>
+          <li><a href="/experiences/corporate/">Corporate events</a></li>
           <li><a href="/en/#price">Calculator</a></li>
-          <li><a href="/en/#expect">What to expect</a></li>
-          <li><a href="/en/faq/">All questions</a></li>
+          <li><a href="/en/faq/" aria-current="page">Questions and answers</a></li>
           <li><a href="#book" data-cta="footer_nav_leave_request">Send a request</a></li>
         </ul>
       </nav>
@@ -797,6 +826,7 @@
           <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="5.2" width="18.8" height="13.6" rx="2.6"/><path d="m3.4 7 8.05 5.6a1 1 0 0 0 1.1 0L20.6 7"/></svg>
         </a>
         </div>
+        <a class="f-phone" href="tel:+380963339068">+380 96 333 90 68</a>
         <p class="f-note">Message us on any of these — we reply quickly.</p>
       </div>
       </div>
