@@ -3137,7 +3137,8 @@ function orderExperience(name){
     window.addEventListener('scroll', drop, { passive: true });
   })();
 
-  // ---- Барабан «Silent + формат» у геро /experiences/ (тільки десктоп) ----
+  // ---- Барабан «Silent + формат» у геро /experiences/ (одна картка на всі
+  // ширини) ----
   // Список у DOM потроєний навмисно: рахунок «active» лише росте вперед,
   // ніколи не обнуляється по колу — тому translateY завжди рухається в
   // один бік, без миттєвого скидання назад, яке виглядало б як заїкання.
@@ -3146,19 +3147,31 @@ function orderExperience(name){
   // список повторює той самий порядок слів, картинка на екрані від цього
   // віднімання не змінюється ні на піксель, лише сам лічильник більше не
   // росте нескінченно.
+  //
+  // Геометрія ЖОДНОГО числа не бере фіксованим (раніше було окремо
+  // desktop/mobile — і двічі ламалось, коли реальні пропорції на екрані
+  // розходились з тим, що уявлялось на папері): LINE, CENTER і RADIUS усі
+  // виміряні з фактичного розміру картки на екрані (CSS малює її у cqw/%,
+  // тобто пропорційно її власній ширині на БУДЬ-якому розмірі), а не
+  // вгадані під один конкретний брейкпоінт. applyGeometry() перераховує їх
+  // при кожній зміні розміру вікна — та сама логіка на 300px і на 650px.
   (function(){
     const list = document.getElementById('expReelList');
     if (!list) return;
     const words = [].slice.call(list.children).map(function(li){ return li.textContent.trim(); });
     const n = words.length;
     if (n < 2) return;
-    const LINE = 56;      // px, = висота .exp-reel-list li
-    const CENTER = 4;     // скільки рядків над активним лишає вікно (9 видно: -4..+4)
-    const TILT = 5.5;     // deg на d — нахил слова (тангенс до кола в цій точці)
-    const RADIUS = 64;    // px — наскільки далеко «в глибину» (вліво) відходить найдальший рядок
+    // Найбільший нахил слова на самому краю дуги, у градусах (кут, не
+    // піксель, тож розміру картки не стосується). Ділимо його на кількість
+    // видимих рядків, а не множимо фіксований крок на відстань: на високій
+    // картці рядків 13+, і фіксований крок 5° давав би 30°+ на краях.
+    const MAX_TILT = 22;
+    let LINE, CENTER, RADIUS;
     list.innerHTML = words.concat(words, words)
       .map(function(w){ return '<li><span>' + w + '</span></li>'; }).join('');
     const items = [].slice.call(list.children);
+    const winEl = list.parentElement;
+    const cardEl = winEl.parentElement;
     let active = n;
     // Дуга кола, не поворот на місці: активне слово — найближча до глядача
     // точка кола (0 зсуву вбік), і в обидва боки — вгору чи вниз — рядки
@@ -3166,30 +3179,101 @@ function orderExperience(name){
     // кута (1-cos: 0 у центрі, росте до RADIUS на краях), а не просто
     // нахиляються на місці навколо лівого краю. rotate лишається — це вже
     // дотична до кола в тій точці, а не сам рух по ній.
+    //
+    // VIS = CENTER+1: на один рядок більше, ніж цілком вміщається у вікно —
+    // крайній рядок стоїть уже частково за краєм картки й заходить під
+    // нього, а не з'являється/зникає на видноті. Прозорість і розмиття —
+    // плавна крива від відносної відстані t (0 у центрі → 1 на краю), а не
+    // дискретні сходинки в CSS: кожен наступний рядок трохи блідіший і
+    // розмитіший за попередній, скільки б їх не влізло. Розмиття — частка
+    // LINE, щоб на дрібній мобільній картці воно не з'їдало літери так
+    // само, як на великій десктопній.
     function paint(){
+      const VIS = CENTER + 1;
       items.forEach(function(li, i){
         const raw = i - active;
         const span = li.firstElementChild;
-        if (Math.abs(raw) > CENTER){
+        const a = Math.abs(raw);
+        if (a > VIS){
           li.setAttribute('data-d', 'gone');
-          span.style.transform = '';
+          span.style.transform = ''; span.style.opacity = ''; span.style.filter = '';
           return;
         }
         li.setAttribute('data-d', String(raw));
-        if (raw === 0){ span.style.transform = ''; return; }
-        const angle = (raw / CENTER) * (Math.PI / 2);
+        if (raw === 0){
+          span.style.transform = ''; span.style.opacity = ''; span.style.filter = '';
+          return;
+        }
+        const t = a / VIS;
+        const angle = (raw / VIS) * (Math.PI / 2);
         const bow = -RADIUS * (1 - Math.cos(angle));
-        span.style.transform = 'translateX(' + bow.toFixed(1) + 'px) rotate(' + (raw * TILT) + 'deg)';
+        span.style.transform = 'translateX(' + bow.toFixed(1) + 'px) rotate(' + (raw * MAX_TILT / VIS).toFixed(2) + 'deg)';
+        span.style.opacity = (0.92 - 0.7 * t).toFixed(3);
+        span.style.filter = 'blur(' + (LINE * (0.008 + 0.07 * t * t)).toFixed(2) + 'px)';
       });
     }
+    // CENTER_OFFSET — дробовий залишок у px, коли ціле CENTER (потрібне
+    // paint()-у для «скільки сусідів показувати») не влучає точно в центр
+    // вікна: висота картки — не наперед відоме число, кратне LINE, тож
+    // округлення (напр. 4.52 → 5) саме по собі зсунуло б активний рядок на
+    // частку рядка вище чи нижче фактичного центру, помітно не в лінію з
+    // «SILENT.» поруч (те саме align-items:center на рядку картки центрує
+    // й тег, і — через це число — активне слово).
+    let CENTER_OFFSET = 0;
     function place(withTransition){
       list.style.transition = withTransition ? '' : 'none';
-      list.style.transform = 'translateY(' + ((CENTER - active) * LINE) + 'px)';
+      list.style.transform = 'translateY(' + ((CENTER - active) * LINE + CENTER_OFFSET) + 'px)';
     }
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function applyGeometry(){
+      const cs = getComputedStyle(cardEl);
+      // Вікно — від рамки до рамки по вертикалі: від'ємні margin рівно на
+      // padding картки (не відсотком у CSS: відсоток margin рахується від
+      // ширини флекс-контейнера, а padding — від ширини предка картки, і
+      // вони розходяться на кілька пікселів). Симетрично згори й знизу,
+      // тож центр вікна лишається центром картки — там, де й «SILENT.».
+      // Ставимо ДО замірів нижче: висота вікна від цього залежить.
+      winEl.style.marginTop = '-' + cs.paddingTop;
+      winEl.style.marginBottom = '-' + cs.paddingBottom;
+      // LINE — фактична висота рядка (CSS: 10.8cqw), не вгадане число:
+      // читаємо готовий рендер замість дублювання відсотка тут і ризику
+      // розсинхронитись з CSS.
+      LINE = items[0].getBoundingClientRect().height || 1;
+      const h = winEl.getBoundingClientRect().height;
+      const ideal = h > 0 ? (h / LINE - 1) / 2 : 4;
+      CENTER = Math.max(1, Math.round(ideal));
+      CENTER_OFFSET = (ideal - CENTER) * LINE;
+      // Буфер дуги (margin-left вікна) і компенсаційний зсув списку МУСЯТЬ
+      // бути тим самим пікселем — у CSS це були дві окремі відсоткові
+      // величини (margin-left вікна — % від ШИРИНИ КАРТКИ, бо то відсоток
+      // margin флекс-елемента; left списку — % від ширини САМОГО вікна,
+      // яке вужче за картку на тег+gap) і сходились тільки випадково, на
+      // одній конкретній ширині. Рахуємо обидва від ширини картки (R) і
+      // проставляємо inline — так вони гарантовано рівні на будь-якому
+      // розмірі. RADIUS — менша частка того самого R, з запасом під буфер.
+      const R = cardEl.getBoundingClientRect().width
+        - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight)
+        - parseFloat(cs.borderLeftWidth) - parseFloat(cs.borderRightWidth);
+      RADIUS = R * 0.10;
+      const buffer = R * 0.13;
+      winEl.style.marginLeft = '-' + buffer.toFixed(2) + 'px';
+      list.style.left = buffer.toFixed(2) + 'px';
+      list.style.width = 'calc(100% - ' + buffer.toFixed(2) + 'px)';
+    }
+    applyGeometry();
     paint();
     place(false);
-    const mqDesktop = window.matchMedia('(min-width: 1100px)');
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Перший рендер міряє LINE/RADIUS з розкладки, яка щойно існує — а на
+    // завантаженні сторінки шрифт Unbounded ще міг не встигнути підʼїхати
+    // (рядки тоді трохи іншої висоти на системному шрифті) чи aspect-ratio
+    // не встиг порахуватись до першого кадру. Обидва перерахунки нижче
+    // ловлять цей момент без чекання на ресайз від користувача: без них
+    // «SILENT.» і активне слово розходились по вертикалі рівно до першого
+    // ручного зменшення вікна браузера.
+    if (document.fonts && document.fonts.ready){
+      document.fonts.ready.then(function(){ applyGeometry(); paint(); place(false); });
+    }
+    window.addEventListener('load', function(){ applyGeometry(); paint(); place(false); });
     let timer = null;
     function tick(){
       active++;
@@ -3204,15 +3288,37 @@ function orderExperience(name){
         // позиції (active-n) лишались позначені як "gone" (opacity:0) —
         // без повторного paint() список миттєво «зникав» і з'являвся
         // заново саме в момент цього непомітного відкату лічильника.
-        setTimeout(function(){ active -= n; paint(); place(false); }, 650);
+        // is-rebasing вимикає переходи й на самих словах, не лише на
+        // списку: після відкату на коло назад видимими стають ІНШІ <li>
+        // (ті самі слова, але з іншої копії), які до цього були «gone»
+        // з opacity:0 — і без цього класу вони пів секунди проявлялись з
+        // нуля (0.5с transition на opacity/filter/transform), що читалось
+        // як блимання на стику кола. Знімаємо клас лише після примусового
+        // reflow і наступного кадру — інакше браузер злиє обидва стани в
+        // один і перехід таки запуститься.
+        setTimeout(function(){
+          list.classList.add('is-rebasing');
+          active -= n; paint(); place(false);
+          void list.offsetWidth;
+          requestAnimationFrame(function(){ list.classList.remove('is-rebasing'); });
+        }, 650);
       }
     }
     function start(){ if (!timer) timer = setInterval(tick, 2400); }
-    function stop(){ if (timer) { clearInterval(timer); timer = null; } }
-    if (!reduceMotion && mqDesktop.matches) start();
-    mqDesktop.addEventListener('change', function(e){
-      if (e.matches && !reduceMotion) start(); else stop();
-    });
+    if (!reduceMotion) start();
+    // Картка масштабується безперервно з шириною вікна браузера (aspect-
+    // ratio + cqw/% у CSS), не по брейкпоінтах, тож геометрію перераховуємо
+    // на кожен resize (debounce той самий, що в інших resize-обробниках
+    // цього файлу), а не лише при переході через якийсь конкретний поріг.
+    let geomResizeTimer = null;
+    window.addEventListener('resize', function(){
+      clearTimeout(geomResizeTimer);
+      geomResizeTimer = setTimeout(function(){
+        applyGeometry();
+        paint();
+        place(false);
+      }, 120);
+    }, { passive: true });
   })();
 
   // ---- Прийом ?uc=... після переходу зі сторінки-каталогу /experiences/ ----
