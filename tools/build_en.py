@@ -1336,12 +1336,24 @@ T_FAQ = {
 # --- шапка сторінки
 "Головна": "Home",
 "Питання і відповіді": "Questions and answers",
-"Питання,<br>які ставлять перед SILENT": "Questions<br>people ask before SILENT",
-"Формат, організація, ціна, оплата, обладнання, форс-мажор — зібрали те, що найчастіше питають на етапі заявки, ще до дзвінка.":
-  "Format, organising, price, payment, equipment, force majeure — we've gathered what people ask most often at the request stage, before they even call.",
+"Жодного «а якщо?»<br>без відповіді": "No “what if?”<br>left unanswered",
+"Дощ і вулиця, кількість гостей, оплата, перенесення дати — тут усе, про що питають ще до першого дзвінка. Не знайшли свого — напишіть нам, розберемося разом.":
+  "Rain and outdoor venues, guest numbers, payment, moving the date — everything people ask before the first call. Can't find yours? Message us and we'll figure it out together.",
 "Категорії питань": "Question categories",
-"<span>2</span> Організація": "<span>2</span> Logistics",
-"<span>3</span> Ціна й бронювання": "<span>3</span> Pricing & booking",
+# Короткі версії питань для барабана в геро (рядки ведуть на повні питання
+# нижче через data-q; повні формулювання перекладені окремо).
+"Скільки це коштує?": "How much is it?",
+"А якщо дощ?": "What if it rains?",
+"Їдете за межі Києва?": "Travel outside Kyiv?",
+"Що входить у ціну?": "What's in the price?",
+"Кому це підходить?": "Who is it for?",
+"Скільки тримає заряд?": "Battery life?",
+"Від чого залежить ціна?": "What affects the price?",
+"Коли бронювати дату?": "When should we book?",
+"Скільки каналів музики?": "How many music channels?",
+"Як оплатити?": "How do I pay?",
+"</span> Організація</a>": "</span> Logistics</a>",
+"</span> Ціна й бронювання</a>": "</span> Pricing & booking</a>",
 "Оплата, скасування та відповідальність": "Payment, cancellation & liability",
 "Усі питання": "All questions",
 

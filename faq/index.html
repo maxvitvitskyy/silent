@@ -55,7 +55,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="../assets/site.css?v=f4a039e2">
+<link rel="stylesheet" href="../assets/site.css?v=c364ad95">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -347,7 +347,7 @@
 
 <main id="main" tabindex="-1">
 
-<section class="exp-head">
+<section class="exp-head faq-head">
   <!-- Той самий контейнер, що й у секціях головної: скрипт сам знаходить
        .uc-aurora і монтує в нього шлейф за курсором, а .aurora-liquid дає
        повільний градієнт під ним. Жодного окремого коду сторінці не треба. -->
@@ -355,17 +355,48 @@
     <div class="aurora-liquid"></div>
   </div>
   <div class="wrap">
-    <p class="exp-crumb"><a href="/">Головна</a> <span aria-hidden="true">·</span> Питання і відповіді</p>
-    <h1 class="exp-head-title">Питання,<br>які ставлять перед SILENT</h1>
-    <p class="exp-head-lead">Формат, організація, ціна, оплата, обладнання, форс-мажор — зібрали те, що найчастіше питають на етапі заявки, ще до дзвінка.</p>
+    <div class="exp-head-row">
+      <!-- Барабан питань — той самий віджет, що «Silent + формат» на
+           /experiences/ (initReel у site.js, режим data-reel="questions"). Лише
+           десктоп: нижче 1100px картку ховає CSS. Рядки — дослівні
+           заголовки питань із цієї сторінки, тож англійська збірка
+           перекладає їх тим самим словником. aria-hidden: це прев'ю, усі
+           питання й відповіді — нижче, читалці вони не потрібні двічі. -->
+      <div class="exp-head-reel exp-head-reel--q" aria-hidden="true">
+        <div class="exp-reel-window">
+          <ul class="exp-reel-list" id="faqReelList" data-reel="questions">
+            <li data-q="faqA-f1">Що таке silent disco?</li>
+            <li data-q="faqA-p1">Скільки це коштує?</li>
+            <li data-q="faqA-f4">Чи потрібен діджей?</li>
+            <li data-q="faqA-o4">А якщо дощ?</li>
+            <li data-q="faqA-o5">Їдете за межі Києва?</li>
+            <li data-q="faqA-p2">Що входить у ціну?</li>
+            <li data-q="faqA-f5">Кому це підходить?</li>
+            <li data-q="faqA-p5">Як забронювати дату?</li>
+            <li data-q="faqA-g2">Скільки тримає заряд?</li>
+            <li data-q="faqA-p6">Від чого залежить ціна?</li>
+            <li data-q="faqA-o1">Коли бронювати дату?</li>
+            <li data-q="faqA-g1">Скільки каналів музики?</li>
+            <li data-q="faqA-p8">Як оплатити?</li>
+            <li data-q="faqA-t4">Чи потрібен депозит?</li>
+            <li data-q="faqA-t3">Чи можна перенести дату?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="exp-head-copy">
+        <p class="exp-crumb"><a href="/">Головна</a> <span aria-hidden="true">·</span> Питання і відповіді</p>
+        <h1 class="exp-head-title">Жодного «а якщо?»<br>без відповіді</h1>
+        <p class="exp-head-lead">Дощ і вулиця, кількість гостей, оплата, перенесення дати — тут усе, про що питають ще до першого дзвінка. Не знайшли свого — напишіть нам, розберемося разом.</p>
+      </div>
+    </div>
 
     <nav class="faq-nav" aria-label="Категорії питань">
-      <a class="exp-chip" href="#format"><span>1</span> Про формат</a>
-      <a class="exp-chip" href="#organizing"><span>2</span> Організація</a>
-      <a class="exp-chip" href="#price"><span>3</span> Ціна й бронювання</a>
-      <a class="exp-chip" href="#gear"><span>4</span> Обладнання</a>
-      <a class="exp-chip" href="#terms"><span>5</span> Оплата й умови</a>
-      <a class="exp-chip" href="#safety"><span>6</span> Форс-мажор і безпека</a>
+      <a class="exp-chip" href="#format"><span class="faq-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13v-1a8 8 0 0 1 16 0v1"/><rect x="2.5" y="13" width="5" height="7" rx="2.5"/><rect x="16.5" y="13" width="5" height="7" rx="2.5"/></svg></span> Про формат</a>
+      <a class="exp-chip" href="#organizing"><span class="faq-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-7.58 7-12a7 7 0 1 0-14 0c0 4.42 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg></span> Організація</a>
+      <a class="exp-chip" href="#price"><span class="faq-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12.5 12.5 20a1.5 1.5 0 0 1-2.12 0l-6.38-6.38a1.5 1.5 0 0 1 0-2.12L11.5 4H20v8.5Z"/><circle cx="15.6" cy="8.4" r="1.3" fill="currentColor" stroke="none"/></svg></span> Ціна й бронювання</a>
+      <a class="exp-chip" href="#gear"><span class="faq-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20V10M12 20V4M18 20v-7"/></svg></span> Обладнання</a>
+      <a class="exp-chip" href="#terms"><span class="faq-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3Z"/><path d="m9 12 2 2 4-4"/></svg></span> Оплата й умови</a>
+      <a class="exp-chip" href="#safety"><span class="faq-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 2.7 17a2 2 0 0 0 1.7 3h15.2a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/></svg></span> Форс-мажор і безпека</a>
     </nav>
   </div>
 </section>
@@ -376,7 +407,7 @@
 
       <div class="faq-cat" id="format">
         <div class="faq-cat-head">
-          <span class="faq-cat-num">01</span>
+          <span class="faq-cat-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13v-1a8 8 0 0 1 16 0v1"/><rect x="2.5" y="13" width="5" height="7" rx="2.5"/><rect x="16.5" y="13" width="5" height="7" rx="2.5"/></svg></span>
           <h2 class="h2">Про формат</h2>
         </div>
         <div class="faq-list">
@@ -413,7 +444,7 @@
 
       <div class="faq-cat" id="organizing">
         <div class="faq-cat-head">
-          <span class="faq-cat-num">02</span>
+          <span class="faq-cat-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-7.58 7-12a7 7 0 1 0-14 0c0 4.42 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg></span>
           <h2 class="h2">Організація та логістика</h2>
         </div>
         <div class="faq-list">
@@ -458,7 +489,7 @@
 
       <div class="faq-cat" id="price">
         <div class="faq-cat-head">
-          <span class="faq-cat-num">03</span>
+          <span class="faq-cat-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12.5 12.5 20a1.5 1.5 0 0 1-2.12 0l-6.38-6.38a1.5 1.5 0 0 1 0-2.12L11.5 4H20v8.5Z"/><circle cx="15.6" cy="8.4" r="1.3" fill="currentColor" stroke="none"/></svg></span>
           <h2 class="h2">Ціна та бронювання</h2>
         </div>
         <div class="faq-list">
@@ -499,7 +530,7 @@
 
       <div class="faq-cat" id="gear">
         <div class="faq-cat-head">
-          <span class="faq-cat-num">04</span>
+          <span class="faq-cat-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20V10M12 20V4M18 20v-7"/></svg></span>
           <h2 class="h2">Обладнання</h2>
         </div>
         <div class="faq-list">
@@ -536,7 +567,7 @@
 
       <div class="faq-cat" id="terms">
         <div class="faq-cat-head">
-          <span class="faq-cat-num">05</span>
+          <span class="faq-cat-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3Z"/><path d="m9 12 2 2 4-4"/></svg></span>
           <h2 class="h2">Оплата, скасування та відповідальність</h2>
         </div>
         <div class="faq-list">
@@ -573,7 +604,7 @@
 
       <div class="faq-cat" id="safety">
         <div class="faq-cat-head">
-          <span class="faq-cat-num">06</span>
+          <span class="faq-cat-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 2.7 17a2 2 0 0 0 1.7 3h15.2a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/></svg></span>
           <h2 class="h2">Форс-мажор і безпека</h2>
         </div>
         <div class="faq-list">
@@ -860,6 +891,6 @@ window.SILENT_I18N = {
   }
 };
 </script>
-<script src="../assets/site.js?v=d01959bc"></script>
+<script src="../assets/site.js?v=e5ccafec"></script>
 </body>
 </html>

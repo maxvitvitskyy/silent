@@ -5187,6 +5187,52 @@
     }
   }
 
+  /* ---- Той самий барабан у геро /faq/, режим «питання» ----
+     Картка, вікно, маска, дуга й покадровий рендер — спільні з барабаном
+     «Silent + формат» вище (initReel у site.js, data-reel="questions").
+     Різниця лише тут: без тега «SILENT.» — вікно на всю ширину картки
+     (буфер під дугу ліворуч JS рахує сам, як і для форматів); питання
+     звичайним регістром (капсом довге речення не читається), від лівого
+     краю, центральне трохи більше за сусідні. Розмір шрифту — від ширини
+     картки (cqw), помножений на --fit: JS зменшує його рівно настільки, щоб
+     найдовше питання вмістилось в один рядок. Лише десктоп (власник): на
+     вужчих екранах картки немає, питання — у списку й кнопках-розділах. */
+  .exp-head-reel--q { display: none; }
+  .exp-head-reel--q .exp-reel-list li { height: 8.6cqw; }
+  /* Unbounded, як і барабан форматів, але звичайного накреслення (400):
+     жирний широкий гротеск на цілому реченні читався важко. */
+  .exp-head-reel--q .exp-reel-list li span {
+    position: relative;
+    font-weight: 400; text-transform: none; letter-spacing: -0.01em;
+    font-size: calc(clamp(16px, 6cqw, 36px) * var(--fit, 1));
+  }
+  /* Центральне питання веде на свою відповідь (обробник у site.js). При
+     наведенні — кругла лаймова обводка навколо всього питання, як у
+     кнопок-розділів під заголовком. Псевдоелемент, а не padding на самому
+     рядку: розмір рядка не змінюється, і --fit рахується так само. */
+  .exp-head-reel--q .exp-reel-list li[data-d="0"] span { cursor: pointer; }
+  .exp-head-reel--q .exp-reel-list li span::after {
+    content: ''; position: absolute; inset: -0.5em -0.8em;
+    border: 1.5px solid rgba(198,255,0,0.6); border-radius: 999px;
+    background: rgba(198,255,0,0.06);
+    opacity: 0; transition: opacity .2s ease;
+    pointer-events: none;
+  }
+  .exp-head-reel--q .exp-reel-list li[data-d="0"] span:hover::after { opacity: 1; }
+  @media (min-width: 1100px){
+    .exp-head-reel--q { display: flex; }
+    /* Кнопки розділів під усім рядом (заголовок + картка), а не в колонці
+       тексту: там їм тісно і вони б переносились у два-три рядки. */
+    .faq-head .faq-nav { margin-top: 40px; }
+    /* Колонка тексту тут 620px, а поруч картка барабана — заголовок не
+       мусить виходити за колонку. Найширший нерозривний шматок в українській
+       — «а якщо?» (з нерозривним пробілом), 6.7 кегля: при звичних 96px він
+       виступав за колонку на 17px, тож стеля 88px. В англійській слово
+       «unanswered» — 7.7 кегля, тому там стеля 78px. */
+    .faq-head .exp-head-title { font-size: min(7vw, 88px); }
+    html[lang="en"] .faq-head .exp-head-title { font-size: min(7vw, 78px); }
+  }
+
   .exp-list { padding: 0 0 clamp(72px, 10vh, 120px); }
   /* Сітка, а не стрічка: це покажчик, і кожен формат мусить бути видимий без
      прокрутки вбік. Колонка задається мінімальною шириною картки, тож на
@@ -5439,25 +5485,50 @@
     margin-top: 32px;
   }
   .faq-nav .exp-chip { cursor: pointer; }
-  .faq-nav .exp-chip span {
-    font-family: 'Unbounded', sans-serif;
-    font-size: 15px; font-weight: 700; color: var(--lime);
-    line-height: 1;
-  }
+  /* Іконки розділів — ті самі, що біля цих розділів у меню «Питання»
+     (.nav-mega-icon): одна тема впізнається однаково і в меню, і тут. */
+  /* .faq-nav .faq-nav-icon, не просто .faq-nav-icon: загальне .exp-chip span
+     (приглушений колір лічильника в фільтрах тем) специфічніше й
+     перефарбовувало іконку в сірий. */
+  .faq-nav .faq-nav-icon { display: inline-flex; width: 18px; height: 18px; color: var(--lime); flex: none; }
+  .faq-nav .faq-nav-icon svg { width: 100%; height: 100%; }
   /* Категорії йдуть одна під одною, кожна зі своєю наскрізною нумерацією
      (counter-reset живе на .faq-list, тож 01–0N рахуються заново в кожній). */
   .faq-cats { margin-top: 8px; }
   .faq-cat { padding-top: clamp(56px, 8vh, 88px); scroll-margin-top: 96px; }
   .faq-cat:first-child { padding-top: clamp(28px, 4vh, 44px); }
-  .faq-cat-head { display: flex; align-items: baseline; gap: 14px; }
-  .faq-cat-num {
-    font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: 14px;
-    color: var(--lime); flex-shrink: 0;
-  }
+  /* Та сама іконка, що в кнопці розділу вгорі й у меню. center, не
+     baseline: у іконки немає базової лінії, і по ній вона сідала б нижче
+     за текст заголовка. */
+  /* Відступ до списку переносимо з h2 (.h2 дає margin-bottom:16px) на
+     сам рядок: інакше центрування враховувало б цей відступ, і іконка
+     сідала б на 8px нижче за середину тексту. */
+  .faq-cat-head { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+  .faq-cat-head .h2 { margin-bottom: 0; }
+  .faq-cat-icon { display: inline-flex; width: 32px; height: 32px; color: var(--lime); flex: none; }
+  .faq-cat-icon svg { width: 100%; height: 100%; }
 
   @media (max-width: 640px) {
-    .faq-nav { margin-top: 26px; gap: 8px; }
+    /* Та сама стрічка з прогортанням, що й у фільтра тем (.exp-filter, пошук
+       за «одна стрічка»): шість категорій у кілька рядків займали пів
+       першого екрана. Розміри ті самі: до країв екрана через мінус падінг
+       .wrap (28px), перша кнопка на вертикалі тексту, праве згасання
+       підказує продовження, 2px зверху/знизу — під рамку фокусу. */
+    .faq-nav {
+      margin-top: 26px; gap: 8px;
+      flex-wrap: nowrap;
+      overflow-x: auto; overscroll-behavior-x: contain;
+      scrollbar-width: none;
+      margin-inline: -28px; padding: 2px 28px;
+      scroll-padding-inline: 28px;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 20px, #000 calc(100% - 32px), transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 20px, #000 calc(100% - 32px), transparent);
+    }
+    .faq-nav::-webkit-scrollbar { display: none; }
+    .faq-nav .exp-chip { flex: none; white-space: nowrap; }
     .faq-cat { padding-top: 48px; scroll-margin-top: 84px; }
+    .faq-cat-icon { width: 26px; height: 26px; }
+    .faq-cat-head { gap: 12px; }
     .faq-cat:first-child { padding-top: 20px; }
   }
 

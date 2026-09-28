@@ -3207,9 +3207,16 @@ function orderExperience(name){
   // тобто пропорційно її власній ширині на БУДЬ-якому розмірі), а не
   // вгадані під один конкретний брейкпоінт. applyGeometry() перераховує їх
   // при кожній зміні розміру вікна — та сама логіка на 300px і на 650px.
-  (function(){
-    const list = document.getElementById('expReelList');
+  //
+  // Та сама механіка працює і в геро /faq/, лише в другому режимі
+  // (data-reel="questions" на списку): без «SILENT.» зліва, рядки — питання
+  // від лівого краю картки, дуга глибша, розмір шрифту підганяється так, щоб
+  // найдовше питання вмістилось в один рядок, а центральне питання можна
+  // натиснути — сторінка відкриває його відповідь. Усе інше (покадровий
+  // рендер, потроєний список) — спільне, тож функція одна на обидві сторінки.
+  function initReel(list){
     if (!list) return;
+    const questions = list.dataset.reel === 'questions';
     const words = [].slice.call(list.children).map(function(li){ return li.textContent.trim(); });
     const n = words.length;
     if (n < 2) return;
@@ -3217,10 +3224,19 @@ function orderExperience(name){
     // піксель, тож розміру картки не стосується). Ділимо його на кількість
     // видимих рядків, а не множимо фіксований крок на відстань: на високій
     // картці рядків 13+, і фіксований крок 5° давав би 30°+ на краях.
-    const MAX_TILT = 22;
+    // Питання вдвічі-втричі довші за слово-формат, і той самий кут на
+    // довгому рядку задирав би його кінець на кілька рядків угору — тож для
+    // них нахил трохи м'якший (вигин дуги дає глибший RADIUS нижче).
+    const MAX_TILT = questions ? 16 : 22;
     let LINE, CENTER, RADIUS;
+    // data-q (id відповіді, на яку веде рядок барабана питань) переносимо
+    // в усі три копії списку — інакше клік по копії не знав би, куди вести.
+    const keys = [].slice.call(list.children).map(function(li){ return li.getAttribute('data-q') || ''; });
     list.innerHTML = words.concat(words, words)
-      .map(function(w){ return '<li><span>' + w + '</span></li>'; }).join('');
+      .map(function(w, i){
+        const q = keys[i % n];
+        return '<li' + (q ? ' data-q="' + q + '"' : '') + '><span>' + w + '</span></li>';
+      }).join('');
     const items = [].slice.call(list.children);
     const winEl = list.parentElement;
     const cardEl = winEl.parentElement;
@@ -3295,7 +3311,11 @@ function orderExperience(name){
           : 'none';
         const angle = (raw / VIS) * (Math.PI / 2);
         const bow = -RADIUS * (1 - Math.cos(angle));
-        span.style.transform = 'translateX(' + bow.toFixed(1) + 'px) rotate(' + (raw * MAX_TILT / VIS).toFixed(2) + 'deg)';
+        // Питання в центрі — на повний розмір, сусіди трохи менші: як у
+        // колесі вибору, фокус видно не лише кольором. Для слів-форматів
+        // масштабу немає — там «SILENT. СЛОВО» мусить стояти одним рядком.
+        const zoom = questions ? ' scale(' + (0.84 + 0.16 * f).toFixed(3) + ')' : '';
+        span.style.transform = 'translateX(' + bow.toFixed(1) + 'px) rotate(' + (raw * MAX_TILT / VIS).toFixed(2) + 'deg)' + zoom;
       }
     }
     // Той самий характер руху, що був у CSS: cubic-bezier(.16,1,.3,1).
@@ -3338,11 +3358,31 @@ function orderExperience(name){
       const R = cardEl.getBoundingClientRect().width
         - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight)
         - parseFloat(cs.borderLeftWidth) - parseFloat(cs.borderRightWidth);
-      RADIUS = R * 0.10;
-      const buffer = R * 0.13;
+      // Питання: дуга вдвічі глибша, ніж у слів-форматів (власник попросив
+      // вигнутішу), і буфер ліворуч під неї відповідно більший — інакше
+      // рядки на краях упирались би в лівий край вікна.
+      RADIUS = R * (questions ? 0.2 : 0.10);
+      const buffer = R * (questions ? 0.22 : 0.13);
       winEl.style.marginLeft = '-' + buffer.toFixed(2) + 'px';
       list.style.left = buffer.toFixed(2) + 'px';
       list.style.width = 'calc(100% - ' + buffer.toFixed(2) + 'px)';
+      if (questions){
+        // Питання починаються не впритул до лівого краю вмісту, а з відступом
+        // (власник: блок був «затиснутий зліва») — 9% ширини вмісту. На
+        // рядок тоді лишається R мінус цей відступ і ще стільки ж справа,
+        // щоб обводка активного питання не впиралась у край картки. --fit
+        // масштабує CSS-розмір шрифту: скидаємо в 1, міряємо найширший
+        // рядок (offsetWidth — ширина розкладки, поворот і scale на неї не
+        // впливають) і зменшуємо рівно настільки, щоб він уліз.
+        const inset = R * 0.09;
+        list.style.left = (buffer + inset).toFixed(2) + 'px';
+        list.style.width = 'calc(100% - ' + (buffer + inset).toFixed(2) + 'px)';
+        list.style.setProperty('--fit', '1');
+        let widest = 0;
+        for (let k = 0; k < n; k++) widest = Math.max(widest, items[k].firstElementChild.offsetWidth);
+        const room = R - inset * 2;
+        list.style.setProperty('--fit', widest > room ? (room / widest).toFixed(4) : '1');
+      }
     }
     applyGeometry();
     render();
@@ -3357,12 +3397,20 @@ function orderExperience(name){
     window.addEventListener('load', function(){ applyGeometry(); render(); });
     const DURATION = 620;
     let timer = null;
+    // hovering — курсор на картці питань (режим керування мишею нижче): тоді
+    // автопрокрутка мовчить. anim — номер поточної анімації кроку: якщо
+    // курсор зайшов на картку посеред кроку, крок обривається там, де був,
+    // і далі барабан веде миша.
+    let hovering = false, anim = 0;
     function tick(){
+      if (hovering) return;
       const from = pos;
       active++;
       const to = active;
       const t0 = performance.now();
+      const my = ++anim;
       function frame(now){
+        if (my !== anim) return;
         const p = Math.min(1, (now - t0) / DURATION);
         pos = from + (to - from) * ease(p);
         render();
@@ -3378,8 +3426,101 @@ function orderExperience(name){
       }
       requestAnimationFrame(frame);
     }
-    function start(){ if (!timer) timer = setInterval(tick, 2400); }
+    // Питання читається довше за одне слово, тож і стоїть по центру довше.
+    function start(){ if (!timer) timer = setInterval(tick, questions ? 3200 : 2400); }
     if (!reduceMotion) start();
+
+    if (questions){
+      // ---- Керування мишею (лише барабан питань) ----
+      // Картка — як колесо під курсором: курсор у верхній половині крутить
+      // питання донизу (назад по списку), у нижній — угору (вперед), і тим
+      // швидше, чим ближче до краю; «вперед» трохи швидший за «назад», бо
+      // це природний напрям читання. Смуга посередині — мертва зона: там
+      // барабан плавно доводить найближче питання точно в центр і стоїть,
+      // тож його можна натиснути. Pointer, не touch: на сенсорі картки
+      // немає (вона лише для десктопу), а «наведення» пальцем не існує.
+      const DEAD = 0.2;          // половина мертвої зони, частка від пів висоти картки
+      const SPEED_DOWN = 7;      // рядків за секунду на самому краю, вперед
+      const SPEED_UP = 5;        // те саме назад
+      let v = 0, raf = 0, last = 0;
+      function loop(now){
+        const dt = Math.min(0.05, (now - last) / 1000);
+        last = now;
+        if (v !== 0){
+          pos += v * dt;
+        } else {
+          // Доводка до найближчого цілого — експоненційна, без ривка.
+          const target = Math.round(pos);
+          pos += (target - pos) * Math.min(1, dt * 10);
+          if (Math.abs(target - pos) < 0.002) pos = target;
+        }
+        // Той самий непомітний відкат на n, що й в автопрокрутці, в обидва
+        // боки: список потроєний, тож кадр до й після відкату однаковий.
+        if (pos >= n * 2) pos -= n;
+        if (pos < n) pos += n;
+        active = Math.round(pos);
+        render();
+        if (hovering) raf = requestAnimationFrame(loop);
+      }
+      cardEl.addEventListener('pointerenter', function(e){
+        if (e.pointerType !== 'mouse' || reduceMotion) return;
+        hovering = true;
+        anim++;                      // обриваємо крок автопрокрутки, якщо він іде
+        last = performance.now();
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(loop);
+      });
+      cardEl.addEventListener('pointermove', function(e){
+        if (!hovering) return;
+        const r = cardEl.getBoundingClientRect();
+        const dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
+        const a = Math.min(1, Math.abs(dy));
+        if (a < DEAD){ v = 0; return; }
+        const k = Math.pow((a - DEAD) / (1 - DEAD), 1.4);
+        v = dy > 0 ? k * SPEED_DOWN : -k * SPEED_UP;
+      });
+      cardEl.addEventListener('pointerleave', function(){
+        if (!hovering) return;
+        hovering = false; v = 0;
+        cancelAnimationFrame(raf);
+        // Картку покинули посеред руху — доводимо до цілого тим самим кроком,
+        // що й автопрокрутка, щоб наступний tick почав з рівного місця.
+        const from = pos, to = Math.round(pos), t0 = performance.now(), my = ++anim;
+        active = to;
+        (function settle(now){
+          if (my !== anim) return;
+          const p = Math.min(1, (now - t0) / 300);
+          pos = from + (to - from) * ease(p);
+          render();
+          if (p < 1) requestAnimationFrame(settle);
+        })(t0);
+      });
+
+      // Клік по центральному питанню відкриває його відповідь нижче. У
+      // барабані питання скорочені («А якщо дощ?»), тож рядок веде на повне
+      // питання не за текстом, а за id його відповіді (data-q). Картка
+      // aria-hidden: для клавіатури й читалки ті самі питання — у списку
+      // нижче, де вони й так відкриваються. Тут лише прискорення для миші.
+      list.addEventListener('click', function(e){
+        const li = e.target.closest('li');
+        if (!li || li.getAttribute('data-d') !== '0') return;
+        const ans = document.getElementById(li.getAttribute('data-q') || '');
+        const item = ans && ans.closest('.faq-item');
+        if (!item) return;
+        // Відкрите питання вище за це зараз згорнеться (акордеон тримає
+        // відкритим одне) — його висоту віднімаємо заздалегідь, інакше
+        // прокрутка приїхала б нижче, ніж треба.
+        let shift = 0;
+        document.querySelectorAll('.faq-item.open').forEach(function(o){
+          if (o !== item && (o.compareDocumentPosition(item) & Node.DOCUMENT_POSITION_FOLLOWING)){
+            shift += o.querySelector('.faq-a').offsetHeight;
+          }
+        });
+        if (!item.classList.contains('open')) item.querySelector('.faq-q').click();
+        const top = item.getBoundingClientRect().top + window.scrollY - shift - 110;
+        window.scrollTo({ top: top, behavior: reduceMotion ? 'instant' : 'smooth' });
+      });
+    }
     // Картка масштабується безперервно з шириною вікна браузера (aspect-
     // ratio + cqw/% у CSS), не по брейкпоінтах, тож геометрію перераховуємо
     // на кожен resize (debounce той самий, що в інших resize-обробниках
@@ -3392,7 +3533,9 @@ function orderExperience(name){
         render();
       }, 120);
     }, { passive: true });
-  })();
+  }
+  initReel(document.getElementById('expReelList'));
+  initReel(document.getElementById('faqReelList'));
 
   // ---- Прийом ?uc=... після переходу зі сторінки-каталогу /experiences/ ----
   // Та сторінка своєї форми не має, тож кнопка «Замовити цей досвід» веде
