@@ -6,6 +6,33 @@
    набір рядків. */
 const I18N = window.SILENT_I18N;
 
+// ---- Замовлення досвіду з картки (.uc-order) — спільне для всіх сторінок ----
+// Сторінки з власною формою (головна, /experiences/corporate/) заповнюють
+// #comment і скролять до #book на місці. Сторінка-каталог (/experiences/)
+// власної форми не має: та сама дія веде на головну через query-параметр
+// (?uc=<назва>#book) — а блок унизу файлу, що перевіряє цей параметр після
+// завантаження, викликає ту саму функцію другою гілкою (форма вже є) і
+// довершує префіл так, ніби це був клік на місці.
+function orderExperience(name){
+  const form = document.getElementById('book');
+  if (!form){
+    location.href = '/?uc=' + encodeURIComponent(name) + '#book';
+    return;
+  }
+  const line = I18N.uc.line(name);
+  const field = document.getElementById('comment');
+  if (field && !field.value.includes(line)){
+    field.value = field.value ? field.value + '\n' + line : line;
+  }
+  const note = document.getElementById('calcSummaryNote');
+  if (note){
+    note.style.display = 'block';
+    note.innerHTML = I18N.uc.note(name);
+  }
+  form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  setTimeout(() => { if (field) field.focus({ preventScroll: true }); }, 600);
+}
+
   // ---- Parallax on the hero background photos ----
   // Each layer drifts vertically at a fraction of scroll speed. Layers are
   // oversized in CSS so the translate never exposes an edge. Skipped entirely
@@ -1060,20 +1087,7 @@ const I18N = window.SILENT_I18N;
       if (!btn) return;
       const card = btn.closest('.uc-card');
       const name = card && card.dataset.uc;
-      if (!name) return;
-      const line = I18N.uc.line(name);
-      const field = document.getElementById('comment');
-      if (field && !field.value.includes(line)) {
-        field.value = field.value ? field.value + '\n' + line : line;
-      }
-      const note = document.getElementById('calcSummaryNote');
-      if (note) {
-        note.style.display = 'block';
-        note.innerHTML = I18N.uc.note(name);
-      }
-      const form = document.getElementById('book');
-      if (form) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setTimeout(() => { if (field) field.focus({ preventScroll: true }); }, 600);
+      if (name) orderExperience(name);
     });
 
     // ---- Паралакс між рядами ----
@@ -2965,6 +2979,20 @@ const I18N = window.SILENT_I18N;
       if (chip) apply(chip.dataset.cat);
     });
 
+    // Кнопки «Замовити цей досвід» у сітці: на відміну від стрічки на
+    // головній/сторінці досвіду, ця сторінка власної форми не має, тож
+    // orderExperience (assets/site.js, зверху файлу) сам піде гілкою
+    // редіректу на головну з назвою в query-параметрі.
+    grid.addEventListener('click', (e) => {
+      const btn = e.target.closest('.uc-order');
+      // Картка з власною сторінкою (зараз лише «Корпоративи») малює тут
+      // справжнє <a href>, не <button> — його рідну навігацію не чіпаємо.
+      if (!btn || btn.tagName !== 'BUTTON') return;
+      const card = btn.closest('.uc-card');
+      const name = card && card.dataset.uc;
+      if (name) orderExperience(name);
+    });
+
     // ?cat=business із mega-меню «Тихі враження» в шапці — та сама тема,
     // яку відкрив би клік по чіпу, тільки одразу при заході на сторінку.
     // Невідома чи відсутня тема — сторінка просто лишається на «Усі», без
@@ -3185,6 +3213,27 @@ const I18N = window.SILENT_I18N;
     mqDesktop.addEventListener('change', function(e){
       if (e.matches && !reduceMotion) start(); else stop();
     });
+  })();
+
+  // ---- Прийом ?uc=... після переходу зі сторінки-каталогу /experiences/ ----
+  // Та сторінка своєї форми не має, тож кнопка «Замовити цей досвід» веде
+  // сюди через query-параметр замість локального scrollIntoView (дивись
+  // orderExperience на початку файлу). Тут той самий виклик другою гілкою
+  // (форма вже є на сторінці) довершує префіл. #book у самому URL уже
+  // прокрутив сторінку туди рідною поведінкою браузера — виклик нижче лише
+  // заповнює коментар і фокусить поле, повторний scrollIntoView до тієї ж
+  // точки непомітний. history.replaceState прибирає параметр з адресного
+  // рядка, щоб перезавантаження чи шаринг посилання не повторювали префіл
+  // мовчки за спиною відвідувача.
+  (function(){
+    const params = new URLSearchParams(location.search);
+    const wanted = params.get('uc');
+    if (!wanted || !document.getElementById('book')) return;
+    orderExperience(wanted);
+    params.delete('uc');
+    const rest = params.toString();
+    const clean = location.pathname + (rest ? '?' + rest : '') + location.hash;
+    history.replaceState(null, '', clean);
   })();
 
   // Прапорець для страхувальника в <head>: він доводить, що цей файл не просто
