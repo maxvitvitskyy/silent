@@ -1054,7 +1054,9 @@ function orderExperience(name){
 
     let held = 0;
     const normalise = idleNormaliser(view, () => period, () => PERIODS, () => held);
-    const start = () => { if (period) { view.scrollLeft = MID * period; fill(); } };
+    // virtualized: у режимі теми (фільтр нижче) петлі немає, і scrollLeft
+    // посеред неіснуючої доріжки закинув би короткий ряд у самий кінець.
+    const start = () => { if (period && virtualized) { view.scrollLeft = MID * period; fill(); } };
 
     view.addEventListener('pointerdown', () => { held = 1; }, { passive: true });
     ['pointerup','pointercancel','touchend','touchcancel'].forEach(ev =>
@@ -1098,6 +1100,12 @@ function orderExperience(name){
       const DRIFT = 46;
       let ticking = false;
       function drift(){
+        // Обрано тему — ряди короткі й мусять стояти рівно від початку, на
+        // одній вертикалі з текстом над ними; зсув паралаксу її б ламав.
+        if (!virtualized){
+          rows.forEach(r => { r.el.style.transform = ''; });
+          ticking = false; return;
+        }
         const r = view.getBoundingClientRect();
         if (r.bottom < 0 || r.top > innerHeight){ ticking = false; return; }
         const p = 1 - (r.top + r.height / 2) / (innerHeight / 2 + r.height / 2);
@@ -1124,9 +1132,12 @@ function orderExperience(name){
     // адресного рядка) пройшов би повз перевірку ширини й побудував стрічку
     // достроково — а потім спостерігач побудував би її вдруге.
     let booted = false;
-    const boot = () => { if (booted) return; booted = true; build(); start(); remember(); };
+    // Якщо тему обрали раніше, ніж секція підійшла до екрана, пул не
+    // будуємо: він стер би картки теми. Повернення на «Усі» збудує його саме.
+    const boot = () => { if (booted) return; booted = true; if (!virtualized) return; build(); start(); remember(); };
     window.addEventListener('resize', () => {
       if (!booted) return;                 // ще нема чого перебудовувати
+      if (!virtualized) return;            // ряди теми — звичайний потік, перебудова не потрібна
       if (view.clientWidth === lastW && metrics()[0] === lastCol) return;
       clearTimeout(rt);
       rt = setTimeout(() => { build(); start(); remember(); }, 200);
@@ -1152,10 +1163,10 @@ function orderExperience(name){
     // потоці, без пулу й без петлі: рівно стільки елементів, скільки в темі
     // є, прокрутка лишається рідною.
     (function(){
-      const filterBar = document.querySelector('.exp-filter');
+      const filterBar = stripSection && stripSection.querySelector('.exp-filter');
       if (!filterBar) return;
       const chips = [...filterBar.querySelectorAll('.exp-chip')];
-      const countEl = document.querySelector('.exp-count');
+      const countEl = stripSection.querySelector('.exp-count');
       const galleryEl = view.closest('.uc-gallery');
       if (!chips.length) return;
 
@@ -1168,8 +1179,19 @@ function orderExperience(name){
         return 'форматів';
       }
 
+      // Англійська головна має власний рядок у I18N; українські сторінки —
+      // відмінювання вище.
+      const countText = n => (I18N.uc && I18N.uc.count)
+        ? I18N.uc.count(n) : n + ' ' + word(n) + ' у цій темі';
+
       let simple = false; // чи ряди зараз у звичайному, нефільтрованому режимі
-      const row = rows[0]; // на сторінках із фільтром рядок завжди один
+      // Рядів може бути кілька: на корпоративах один, на головній два. Спільний
+      // список — у порядку популярності. На головній ряди чергуються (зверху
+      // 1, 3, 5…, знизу 2, 4, 6…), тож склеюємо їх назад через одну; для
+      // одного ряду це просто його порядок.
+      const master = [];
+      const longest = Math.max(...rows.map(r => r.items.length));
+      for (let k = 0; k < longest; k++) rows.forEach(r => { if (r.items[k]) master.push(r.items[k]); });
       // Картки будуються один раз persistant-набором (а не пересотворюються
       // на кожен клік, як раніше) — інакше FLIP нема чим ловити: браузер не
       // може плавно перевіршувати елемент, якого щойно не існувало. Той
@@ -1183,13 +1205,17 @@ function orderExperience(name){
 
       function ensureSimpleCards(){
         if (simpleCards) return;
-        row.el.textContent = '';
-        row.el.style.position = 'relative';
-        row.el.style.paddingLeft = '';
-        row.el.style.height = '';
-        row.el.style.transform = '';
-        row.pool = []; row.slot = [];
-        simpleCards = row.items.map(it => {
+        // paddingLeft = '' повертає CSS-зсув нижнього ряду на пів картки
+        // (у пулі його замінював r.offset) — «шахівниця» лишається і в темі.
+        rows.forEach(r => {
+          r.el.textContent = '';
+          r.el.style.position = 'relative';
+          r.el.style.paddingLeft = '';
+          r.el.style.height = '';
+          r.el.style.transform = '';
+          r.pool = []; r.slot = [];
+        });
+        simpleCards = master.map(it => {
           const c = document.createElement('article');
           c.className = 'uc-card';
           c.dataset.uc = it.name;
@@ -1206,7 +1232,7 @@ function orderExperience(name){
             img.setAttribute('alt', it.alt || it.name);
             img.loading = 'lazy';
           }
-          row.el.appendChild(c);
+          rows[0].el.appendChild(c);
           return c;
         });
       }
@@ -1235,12 +1261,19 @@ function orderExperience(name){
         ensureSimpleCards();
         const before = new Map();
         simpleCards.forEach(c => { if (!c.hidden) before.set(c, c.getBoundingClientRect()); });
-        const gridBefore = row.el.getBoundingClientRect();
+        // Картку, що йде, тримаємо на місці відносно ТОГО ряду, де вона стоїть.
+        const rowBefore = new Map(rows.map(r => [r.el, r.el.getBoundingClientRect()]));
 
         let shown = 0, i = 0;
         simpleCards.forEach(c => {
           const on = (c.dataset.cats || '').split(' ').indexOf(cat) !== -1;
-          if (on) shown++;
+          if (on){
+            // Розкладка по рядах через одну, у порядку популярності. appendChild
+            // переносить наявний вузол, тож картка, що лишається, може
+            // перейти в інший ряд — FLIP нижче доведе її туди плавно.
+            rows[shown % rows.length].el.appendChild(c);
+            shown++;
+          }
 
           const pending = leaveTimers.get(c);
           if (pending){ clearTimeout(pending); leaveTimers.delete(c); }
@@ -1258,6 +1291,7 @@ function orderExperience(name){
             }
           } else if (!c.hidden){
             const r = before.get(c);
+            const gridBefore = rowBefore.get(c.parentNode);
             c.style.position = 'absolute';
             c.style.left = (r.left - gridBefore.left) + 'px';
             c.style.top = (r.top - gridBefore.top) + 'px';
@@ -1293,8 +1327,11 @@ function orderExperience(name){
       function holdScroll(fn){
         const y = window.scrollY;
         fn();
+        // behavior:'instant' обов'язково: на <html> стоїть scroll-behavior:
+        // smooth, і scrollTo(0, y) не повертав позицію, а плавно їхав до неї —
+        // сторінку помітно відкидало після кліку по темі.
         requestAnimationFrame(() => {
-          if (window.scrollY !== y) window.scrollTo(0, y);
+          if (window.scrollY !== y) window.scrollTo({ top: y, left: 0, behavior: 'instant' });
         });
       }
 
@@ -1323,15 +1360,30 @@ function orderExperience(name){
         if (galleryEl) galleryEl.classList.add('is-simple');
         let shown = 0;
         holdScroll(() => { shown = applyCat(cat); });
-        if (countEl) countEl.textContent = shown + ' ' + word(shown) + ' у цій темі';
+        if (countEl) countEl.textContent = countText(shown);
       }
 
       filterBar.addEventListener('click', (e) => {
         const chip = e.target.closest('.exp-chip');
-        if (chip) apply(chip.dataset.cat);
+        if (chip){ apply(chip.dataset.cat); centerChip(filterBar, chip); }
       });
     })();
   })();
+
+  // На телефоні фільтр тем — одна стрічка з прогортанням (site.css, пошук за
+  // «одна стрічка»). Обрана кнопка може стояти за краєм, тож після кліку
+  // прокручуємо саму стрічку так, щоб кнопка стала в центр. Не scrollIntoView:
+  // той заодно рухав би й сторінку по вертикалі. Там, де стрічка не
+  // прокручується (кнопки переносяться в рядки), нічого не робимо.
+  function centerChip(bar, chip){
+    if (!bar || !chip || bar.scrollWidth <= bar.clientWidth) return;
+    const br = bar.getBoundingClientRect(), cr = chip.getBoundingClientRect();
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    bar.scrollTo({
+      left: bar.scrollLeft + (cr.left - br.left) - (br.width - cr.width) / 2,
+      behavior: reduce ? 'instant' : 'smooth'
+    });
+  }
 
   // ---- Плашки «Що входить»: підсвітка за прокруткою ----
   // Підсвітка, що йде за прокруткою: активним стає той елемент групи, який
@@ -2976,7 +3028,7 @@ function orderExperience(name){
 
     bar.addEventListener('click', (e) => {
       const chip = e.target.closest('.exp-chip');
-      if (chip) apply(chip.dataset.cat);
+      if (chip){ apply(chip.dataset.cat); centerChip(bar, chip); }
     });
 
     // Кнопки «Замовити цей досвід» у сітці: на відміну від стрічки на

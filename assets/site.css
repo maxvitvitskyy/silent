@@ -1987,11 +1987,15 @@
       grid-template-rows: auto auto;
       align-items: start;
       gap: 0 14px;
-      padding: 20px 18px 24px;
-      /* Перекриття більше за відстань від краю картки до заголовка (27px), тож
-         під наступну плашку йде нижній падінг і приблизно останній рядок опису.
-         Там і так затемнення 94%, тож візуально втрата мала — але текст справді
-         недоступний. Свідомий розмін заради компактності стопки. */
+      /* Нижній падінг = перекриттю (48px). Раніше було 24px, і на вузькому
+         екрані, де описи тут 4–5 рядків, це мало дві ціни: у непідсвічених
+         плашках останній рядок опису лежав під наступною, а в підсвіченій
+         останні півтора рядки гасли під маскою (вона повністю непрозора лише
+         до calc(100% - 56px)). Тепер перекриття лягає на порожній падінг, а
+         кінець тексту припадає на самий початок згасання (~90%) — опис
+         читається повністю за будь-якої кількості рядків. Затемнення знизу
+         (::after) лишається, тож «вихід із темряви» працює, як і раніше. */
+      padding: 20px 18px 48px;
       margin-top: -48px;
       border-radius: var(--r-md);
     }
@@ -2659,10 +2663,18 @@
                 inset 0 1px 0 rgba(255,255,255,0.09);
   }
 
+  /* --faq-icon / --faq-q-fs — розмір кнопки «+» і кегль питання; --faq-q-inset
+     — на скільки перший рядок питання треба опустити, щоб його центр збігся
+     з центром кнопки. Раніше кнопка стояла по центру рядка сітки, а текст —
+     угорі: кнопка (48/42px) вища за рядок тексту (22/20px), тож однорядкове
+     питання сиділо на ~11px вище за «+» і виглядало зсунутим. Тепер і номер,
+     і текст, і кнопка вирівняні по ПЕРШОМУ рядку: однорядкове питання — точно
+     по центру кнопки, а в довгому номер і кнопка лишаються біля першого
+     рядка, не зависаючи посеред тексту. */
   .faq-q {
+    --faq-icon: 48px; --faq-q-fs: 16px;
+    --faq-q-inset: max(0px, calc((var(--faq-icon) - var(--faq-q-fs) * 1.4) / 2));
     display: grid; grid-template-columns: var(--faq-num) 1fr auto;
-    /* Від верху, а не по центру: довге питання переносить рядки, і при
-       центруванні номер зависав би десь посеред нього. */
     align-items: start; gap: var(--faq-gap);
     padding: 22px var(--faq-pad);
     cursor: pointer; user-select: none; width: 100%;
@@ -2674,15 +2686,18 @@
     font-family: 'Unbounded', sans-serif; font-size: 12px; font-weight: 600;
     font-variant-numeric: tabular-nums;
     color: var(--muted-2);
-    margin-top: 5px;                    /* сідає на перший рядок питання */
+    margin-top: calc(var(--faq-q-inset) + 5px);   /* сідає на перший рядок питання */
     transition: color 0.45s ease;
   }
   .faq-item.open .faq-q::before { color: var(--lime); }
-  .faq-q h3 { font-size: 16px; font-weight: 600; line-height: 1.4; }
+  .faq-q h3 {
+    font-size: var(--faq-q-fs); font-weight: 600; line-height: 1.4;
+    padding-block: var(--faq-q-inset);
+  }
 
   .faq-icon {
-    align-self: center;                 /* кнопка по центру картки, а не вгорі */
-    flex-shrink: 0; width: 48px; height: 48px; border-radius: 50%;
+    align-self: start;
+    flex-shrink: 0; width: var(--faq-icon); height: var(--faq-icon); border-radius: 50%;
     border: 1px solid rgba(198,255,0,0.22);
     background: rgba(198,255,0,0.07);
     display: flex; align-items: center; justify-content: center;
@@ -2739,9 +2754,8 @@
     .faq { --faq-pad: 18px; --faq-gap: 14px; }
     .faq-item { border-radius: var(--r-md); }
     .faq-list { gap: 10px; }
-    .faq-q { padding: 18px var(--faq-pad); }
-    .faq-q h3 { font-size: 14.5px; }
-    .faq-icon { width: 42px; height: 42px; font-size: 20px; }
+    .faq-q { padding: 18px var(--faq-pad); --faq-icon: 42px; --faq-q-fs: 14.5px; }
+    .faq-icon { font-size: 20px; }
     .faq-a p { font-size: 13.5px; padding-bottom: 20px; }
     /* Мобільний відступ картки — 18px (--faq-pad вужчий тут), а колонка
        номера й проміжок теж свої на цій ширині, тож той самий calc()
@@ -2875,7 +2889,10 @@
   .calc-labels { display:flex; justify-content:space-between; color: var(--muted-2); font-size: 11.5px; margin-top: 7px; }
   .calc-row { display:flex; justify-content:space-between; gap:18px; padding: 13px 0; border-top: 1px solid var(--line); font-size: 13.5px; }
   .calc-row span:first-child { color: var(--muted); }
-  .calc-row span:last-child { font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+  /* nowrap: на 390px довга назва рядка («База 40 навушників / 4 години»)
+     стискала суму, і «9 800» та «грн» розходились на два рядки. Сума — одне
+     ціле; переноситься назва ліворуч, не число. */
+  .calc-row span:last-child { font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
   .calc-checks { display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0 20px; }
   .calc-checks label {
     border: 1px solid var(--line);
@@ -2986,7 +3003,8 @@
      тоді його нижній край збігається з низом правої колонки сам, без підгонки
      відступів під поточну кількість полів. */
   .form-left { display: flex; flex-direction: column; }
-  .form-left h2 { font-size: clamp(24px, 3vw, 32px); font-weight: 700; line-height: 1.15; margin-bottom: 14px; }
+  /* balance: інакше на десктопі «події» падало в другий рядок саме. */
+  .form-left h2 { font-size: clamp(24px, 3vw, 32px); font-weight: 700; line-height: 1.15; margin-bottom: 14px; text-wrap: balance; }
   .form-left .em { color: var(--lime); }
   .form-left p { color: var(--muted); font-size: 15px; margin-bottom: 26px; }
   .form-assure { display: flex; flex-direction: column; gap: 12px; }
@@ -3920,7 +3938,9 @@
   }
 
   .uc-body { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 7px; padding: 20px 16px 16px; flex: 1; }
-  .uc-card h3 { font-size: 14.5px; font-weight: 700; }
+  /* balance: у вузькій картці двослівний хвіст назви («…молодіжні збори»)
+     лишав одне слово самотнім у другому рядку. */
+  .uc-card h3 { font-size: 14.5px; font-weight: 700; text-wrap: balance; }
   .uc-card p { font-size: 12px; color: var(--muted); line-height: 1.45; }
   .uc-order {
     margin-top: auto; align-self: flex-start;
@@ -5180,6 +5200,12 @@
        тримає її на місці, а сітку навколо це вже не обходить. */
     position: relative;
   }
+  /* Кнопка стоїть унизу через margin-top:auto, тож у картки з найдовшим
+     описом у ряду від тексту до кнопки лишався тільки gap .uc-body — 7px, і
+     кнопка тулилась до тексту (власник). Відступ під описом задає мінімум
+     ~19px; у картках із коротшим текстом auto й далі вирівнює кнопки по
+     низу ряду. */
+  .exp-grid .uc-card p { margin-bottom: 12px; }
   /* Картка тут не переставна, тому матове скло їй можна: у стрічці від нього
      відмовились саме через перестановку під час прокрутки. */
   .exp-grid .uc-card {
@@ -5266,11 +5292,28 @@
     html.js .exp-filter { flex-wrap: nowrap; }
     html.js .exp-chip { flex: 1 1 auto; justify-content: center; }
   }
-  /* На телефоні кнопки все одно переносяться в кілька рядків — розтягувати
-     нема на чому. Ліве вирівнювання лишається за замовчуванням (як і було),
-     тільки відступ згори трохи більший, щоб відділитись від тексту. */
+  /* На телефоні — одна стрічка з горизонтальним прогортанням (рішення
+     власника). Раніше кнопки переносились у чотири рядки й займали пів
+     екрана ще до першої картки. Стрічка виходить до країв екрана
+     (margin-inline мінус падінг .wrap, 28px), а внутрішній падінг ставить
+     першу кнопку на ту саму вертикаль, що й текст над нею. Праве згасання
+     маски підказує, що далі є ще; ліве починається в межах падінга, тож
+     першу кнопку в стані спокою не зачіпає. padding-block 2px — місце для
+     рамки фокусу, яку інакше обрізав би overflow. Обрану кнопку site.js
+     сам прокручує в центр стрічки. */
   @media (max-width: 640px) {
-    html.js .exp-filter { margin-top: 24px; margin-bottom: 0; }
+    html.js .exp-filter {
+      margin-top: 24px; margin-bottom: 0;
+      flex-wrap: nowrap;
+      overflow-x: auto; overscroll-behavior-x: contain;
+      scrollbar-width: none;
+      margin-inline: -28px; padding: 2px 28px;
+      scroll-padding-inline: 28px;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 20px, #000 calc(100% - 32px), transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 20px, #000 calc(100% - 32px), transparent);
+    }
+    html.js .exp-filter::-webkit-scrollbar { display: none; }
+    html.js .exp-chip { flex: none; white-space: nowrap; }
     .section-lead + .exp-filter { margin-top: 24px; }
   }
   .exp-chip {
@@ -5469,7 +5512,11 @@
   }
   .quote figcaption { font-size: 13px; color: var(--muted-2); }
 
-  .exp-ready { padding-bottom: 0; }
+  /* Нижній відступ заклику навмисно НЕ обнулено: калькулятор над ним, сам
+     заклик і форма під ним мають однаковий відступ секції, тож заголовок
+     стоїть рівно посередині між калькулятором і формою (як на /experiences/).
+     Раніше тут було padding-bottom:0 — і від тексту до форми виходило вдвічі
+     менше, ніж від калькулятора до заголовка. */
   .exp-ready-note { color: var(--muted-2) !important; margin-top: 10px !important; }
 
   /* ================= ЖУРНАЛЬНА КОМПОЗИЦІЯ СТОРІНКИ ДОСВІДУ ================= */
@@ -6444,8 +6491,12 @@
   /* Номер, назва й пояснення — три окремі елементи в потоці, тож обидва
      текстові явно просяться в другу колонку. Без цього пояснення падало
      в новий рядок під номер і розтягувалось на всю ширину. */
+  /* min-width — однакова колонка номера в усіх пунктах: кожен li окрема
+     сітка, і колонка auto бралась за шириною самих цифр («01» вужче за
+     «02»/«04» на ~4px), тож назви й пояснення пунктів стояли драбинкою. */
   .gear-steps li::before {
     content: counter(gear, decimal-leading-zero);
+    min-width: 1.9em;
     grid-row: span 2;
     font-family: 'Unbounded', sans-serif; font-weight: 700;
     font-size: clamp(13px, 1.1vw, 15px); line-height: 1.4;
@@ -6456,11 +6507,15 @@
     display: block; font-family: 'Unbounded', sans-serif; font-weight: 600;
     font-size: clamp(15px, 1.25vw, 17px); letter-spacing: -0.01em; margin-bottom: 8px;
   }
+  /* max-width 68ch: на планшеті (одна колонка на всю ширину) рядок пояснення
+     розтягувався до ~98 знаків — око губило початок наступного рядка. На
+     десктопі колонка й так вужча, тож обмеження там не спрацьовує. */
   .gear-steps span {
     grid-column: 2;
     display: block; font-size: clamp(14px, 1.05vw, 15.5px);
-    line-height: 1.55; color: var(--muted);
+    line-height: 1.55; color: var(--muted); max-width: 68ch;
   }
+  .exp-story-text > p { max-width: 68ch; }
   .gear-hint {
     margin: clamp(22px, 3vh, 30px) 0 0;
     font-size: clamp(13px, 1vw, 14.5px); color: var(--muted-2, rgba(255,255,255,0.45));

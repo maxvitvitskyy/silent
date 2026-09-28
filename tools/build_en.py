@@ -188,6 +188,10 @@ T = {
 'Тихі враження': 'Quiet Experiences',
 'Усі формати': 'All formats',
 'Бізнес': 'Business',
+# Фільтр тем над «Silent-досвідами». «Усі» окремим словом небезпечно: ключ
+# зачепив би «Усі формати» й будь-яке речення, тож беремо разом із розміткою.
+'>Усі <span>': '>All <span>',
+'Теми форматів': 'Format themes',
 'Свята': 'Celebrations',
 'Для дітей': 'For kids',
 'Навчальні заклади': 'Schools',
@@ -744,6 +748,7 @@ window.SILENT_I18N = {
   },
   uc: {
     order: 'Book this experience',
+    count: (n) => `${n} ${n === 1 ? 'format' : 'formats'} in this theme`,
     line: (name) => `Interested in: ${name}.`,
     note: (name) => `✓ Chosen experience: <b>${name}</b>. It is already in the comment below — add any details you like.`
   },
@@ -1066,6 +1071,39 @@ def _check_home_order(home):
                      % ('ab'[i], bad))
 
 
+def build_home_filter():
+    """Фільтр тем над двома рядами «Silent-досвідів» на головній.
+
+    Головна — джерело карток, тож теми (data-cats) проставляються прямо в
+    index.html, і вже звідти їх бачить і site.js, і англійська збірка, і
+    стрічки сторінок досвідів. Кнопки фільтра — з того самого
+    EXPERIENCE_CATEGORIES, що й на інших сторінках: лічильник біля назви не
+    може розійтися з картками. Крок ідемпотентний: повторний запуск дає той
+    самий файл. Мусить іти ДО build(), бо build() читає index.html.
+    """
+    path = SRC
+    text = io.open(path, encoding='utf-8').read()
+    cards = UC_CARD.findall(text)
+    if not cards:
+        sys.exit('картки сценаріїв не знайдені в index.html')
+    _check_categories(cards)
+
+    def stamp_cats(m):
+        return '<article class="uc-card" data-cats="%s" data-uc="%s"' % (
+            ' '.join(_categories_of(m.group(1))), m.group(1))
+    text = re.sub(r'<article class="uc-card"(?: data-cats="[^"]*")? data-uc="([^"]*)"',
+                  stamp_cats, text)
+
+    if UC_FILTER_START not in text:
+        sys.exit('немає маркера фільтра тем у index.html')
+    fh = text.index(UC_FILTER_START) + len(UC_FILTER_START)
+    ft = text.index(UC_FILTER_END)
+    text = text[:fh] + '\n' + _filter_markup(UC_CARD.findall(text)) + '\n      ' + text[ft:]
+
+    io.open(path, 'w', encoding='utf-8').write(text)
+    print('фільтр тем на головній: карток — %d' % len(cards))
+
+
 def build_experience_strips():
     home = io.open(SRC, encoding='utf-8').read()
     cards = UC_CARD.findall(home)
@@ -1104,6 +1142,9 @@ def build_experience_strips():
             # Теми проставляємо завжди, не лише в сітці: сторінка досвіду теж
             # може захотіти фільтр над стрічкою — і тоді дані вже готові, без
             # окремого проходу.
+            # У index.html теми вже стоять (build_home_filter), тож спершу
+            # знімаємо їх — інакше атрибут задвоївся б.
+            card = re.sub(r' data-cats="[^"]*"', '', card, count=1)
             card = card.replace(
                 '<article class="uc-card"',
                 '<article class="uc-card" data-cats="%s"' % ' '.join(_categories_of(nm)), 1)
@@ -1465,6 +1506,7 @@ window.SILENT_I18N = {
   },
   uc: {
     order: 'Book this experience',
+    count: (n) => `${n} ${n === 1 ? 'format' : 'formats'} in this theme`,
     line: (name) => `Interested in: ${name}.`,
     note: (name) => `✓ Chosen experience: <b>${name}</b>. It is already in the comment below — add any details you like.`
   },
@@ -1524,6 +1566,9 @@ def build_faq():
     print('en/faq/index.html зібрано:', len(s.split('\n')), 'рядків, неперекладеного немає')
 
 if __name__ == '__main__':
+    # Першим: дописує теми й кнопки фільтра в сам index.html, з якого далі
+    # збирається все інше.
+    build_home_filter()
     build()
     build_404()
     # Стрічку сценаріїв збираємо до позначки версій: вона переписує сторінки
