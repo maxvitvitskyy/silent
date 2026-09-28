@@ -58,7 +58,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="../assets/site.css?v=4de4507c">
+<link rel="stylesheet" href="../assets/site.css?v=269e148b">
 </head>
 <body id="top" class="page-close-cta">
 
@@ -340,10 +340,44 @@
     <div class="aurora-liquid"></div>
   </div>
   <div class="wrap">
-    <p class="exp-crumb"><a href="/">Головна</a> <span aria-hidden="true">·</span> Тихі враження</p>
-    <h1 class="exp-head-title">Тихі враження</h1>
-    <p class="exp-head-lead">Silent disco — лише один зі сценаріїв. Той самий комплект працює всюди, де звук має дійти до кожного, але не мусить лунати на всю залу: від корпоративу й весілля до екскурсії музеєм, конференції та йоги.</p>
-    <p class="exp-head-note">Оберіть формат, близький до вашого — або лишіть заявку, і ми підберемо його разом.</p>
+    <div class="exp-head-row">
+      <div class="exp-head-copy">
+        <p class="exp-crumb"><a href="/">Головна</a> <span aria-hidden="true">·</span> Тихі враження</p>
+        <h1 class="exp-head-title">Тихі враження</h1>
+        <p class="exp-head-lead">Silent disco — лише один зі сценаріїв. Той самий комплект працює всюди, де звук має дійти до кожного, але не мусить лунати на всю залу: від корпоративу й весілля до екскурсії музеєм, конференції та йоги.</p>
+        <p class="exp-head-note">Оберіть формат, близький до вашого — або лишіть заявку, і ми підберемо його разом.</p>
+      </div>
+      <!-- Тільки десктоп (@media 1100px у site.css) — прев'ю бренд-лінійки
+           «Silent + формат», якою поступово стануть називатись сторінки
+           окремих досвідів. aria-hidden: слова декоративні й повторюють
+           те саме, що вже сказано текстом ліворуч і в сітці нижче; текст
+           для читалок — .exp-reel-sr поруч. -->
+      <div class="exp-head-reel" aria-hidden="true">
+        <span class="exp-reel-tag">Silent<span class="exp-reel-dot">.</span></span>
+        <div class="exp-reel-window">
+          <ul class="exp-reel-list" id="expReelList">
+            <li>Disco</li>
+            <li>Fitness</li>
+            <li>Cinema</li>
+            <li>Wedding</li>
+            <li>Corporate</li>
+            <li>Festival</li>
+            <li>Comedy</li>
+            <li>Kids</li>
+            <li>Exhibitions</li>
+            <li>Spirit</li>
+            <li>Cultural</li>
+            <li>Worship</li>
+            <li>Business</li>
+            <li>Concert</li>
+            <li>Education</li>
+            <li>Camp</li>
+            <li>Meditation</li>
+          </ul>
+        </div>
+      </div>
+      <p class="exp-reel-sr">Формати: диско, фітнес, кіно, весілля, корпоративи, фестивалі, стендап, дитячі свята, виставки, духовні й культурні події, бізнес-заходи, концерти, освітні події, табори, медитації та інші — 44 сценарії нижче.</p>
+    </div>
   </div>
 </section>
 
@@ -1038,6 +1072,6 @@ window.SILENT_I18N = {
   }
 };
 </script>
-<script src="../assets/site.js?v=ec564b13"></script>
+<script src="../assets/site.js?v=3989ff48"></script>
 </body>
 </html>

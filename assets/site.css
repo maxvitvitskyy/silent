@@ -4989,6 +4989,175 @@
   }
   .exp-head-note { font-size: 15px; line-height: 1.6; color: var(--muted-2); max-width: 52ch; margin: 0; }
 
+  /* ---- Барабан «Silent + формат» у геро — прев'ю майбутньої бренд-лінійки
+     (Silent Fitness, Silent Cinema...), якою поступово стануть називатись
+     самі сторінки досвідів. Лише десктоп (нижче 1100px .exp-head-reel
+     display:none, .exp-head-row лишається звичайним блоком). aria-hidden
+     на самому віджеті + .exp-reel-sr поруч: слова, що змінюються без дії
+     користувача, для скрінрідера озвучувати не треба, натомість один
+     статичний абзац перелічує формати одним разом. */
+  .exp-head-reel { display: none; }
+  .exp-reel-sr {
+    position: absolute; width: 1px; height: 1px;
+    margin: -1px; padding: 0; overflow: hidden;
+    clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
+  @media (min-width: 1100px){
+    /* Права колонка бере всю решту ширини (текст — фіксований максимум,
+       не частка), а сама секція мусить бути ВИСОКОЮ, щоб панелі було де
+       рости: без min-height тут рядок сітки лишався б заввишки з короткий
+       абзац тексту, і stretch нижче просто не мав би куди тягнутись.
+       min(62vh,620px), не 100vh — це підзаголовок сторінки, не повноекранний
+       hero: не повинен виштовхувати сітку карток за перший екран повністю.
+       Текст лишається по центру своєї колонки (align-self:center) — саме
+       він, а не вся висота ряду, задає його звичну вертикальну позицію. */
+    .exp-head-row {
+      display: grid; grid-template-columns: minmax(0, 620px) 1fr;
+      gap: 48px; min-height: min(62vh, 620px);
+    }
+    .exp-head-copy { align-self: center; }
+    /* stretch, не center: панель мусить починатись під шапкою (відступ —
+       той самий padding-top:148px секції, що й у тексту — «не прилипати
+       до меню» вже забезпечено ним) і закінчуватись рівно на нижній межі
+       секції (padding-bottom секції), а не висіти карткою посередині. */
+    .exp-head-reel {
+      align-self: stretch;
+      /* justify-content:center — про запас: на випадок, якщо колись ця
+         картка стане ширшою за window-max-width+тег+paddings (зараз
+         .wrap обмежує .exp-head-row до 1320px, тож вікно завжди встигає
+         зʼїсти flex-grow:1 усе вільне місце ДО свого max-width і лишку
+         для center просто нема). Реальну асиметрію лівого/правого
+         відступу при поточних розмірах давав НЕ justify-content, а сам
+         padding: було 44px зліва й лише 32px справа (з часів
+         justify-content:flex-start, коли зайвий простір і так ішов
+         праворуч). Однакові 38px з обох боків — і «SILENT.»/останнє
+         слово тепер рівновіддалені від країв картки. */
+      /* gap:8px, було 18: проміжок між «SILENT.» і словом з'їдав частину
+         бюджету ширини, який іде на найдовше слово («Exhibitions») — на
+         вузькому кінці десктопного діапазону (~1100px) воно впиралось у
+         праву межу вікна й обрізалось. Зменшення gap повертає ці пікселі
+         слову напряму, без шкоди для дуги (RADIUS/буфер нижче не залежать
+         від gap — це геометрично незалежні речі, gap лише про зазор між
+         двома сусідніми написами в рядку). */
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 0 38px;
+      border-radius: var(--r-lg);
+      background: var(--glass-fill-1);
+      border: 1px solid var(--line); border-top-color: var(--glass-edge);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      box-shadow: var(--glass-shadow-1);
+      overflow: hidden;
+      /* inline-size — тег і слова нижче міряють свій font-size у cqw від
+         ФАКТИЧНОЇ ширини цієї картки (та сама одиниця для обох, тож вони
+         завжди лишаються синхронними за розміром), а не в vw від вікна
+         браузера: остання не знала різниці між «броузер вузький» і
+         «броузер широкий, але колонці все одно дісталось мало місця через
+         пропорції рядка» — і на другому випадку слово впиралось у праву
+         рамку картки замість зменшитись під неї. */
+      container-type: inline-size;
+    }
+    /* SILENT великими літерами — той самий регістр, що в лого шапки
+       (SILENT<b>.</b>): текст у розмітці лишається «Silent» для читності
+       коду, капс — суто візуальний, стилями. */
+    /* font-size/line-height/font-weight — рівно ті самі, що в .exp-reel-list
+       li span нижче (clamp(...)/1/700): «SILENT.» і активне слово — два
+       окремі елементи в одному flex-рядку, і будь-яка різниця метрик
+       шрифту між ними трохи зсуває їхні візуальні центри одне відносно
+       одного, попри align-items:center. Однакові числа — і рядок
+       читається суцільним. */
+    .exp-reel-tag {
+      /* Формула розміру пояснена біля .exp-reel-list li span нижче —
+         тут той самий вираз, тримати їх однаковими обов'язково. */
+      font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: clamp(19px, calc(7.32cqw - 0.59px), 38px); line-height: 1;
+      letter-spacing: -0.01em; text-transform: uppercase; color: #fff; flex: none;
+    }
+    .exp-reel-dot { color: var(--lime); }
+    /* Вікно на 9 рядків (активний по центру, по чотири сусіди згори й
+       знизу) — 11 виявилось забагато, дрібно й тісно; власник попросив
+       трохи менше й більшим шрифтом. Висота — РІВНО 9×LINE (у JS та сама
+       арифметика: (CENTER-active)*LINE), не 100%/max-height абияк: лише
+       так активний рядок опиняється точно посередині вікна, а не десь
+       вище її фактичного центру — і тому рівно навпроти «SILENT.» (той
+       центрований по висоті всієї панелі через align-items:center на
+       .exp-head-reel). Будь-яка неточність тут — і два рядки «SILENT.» й
+       активне слово помітно розходяться по вертикалі. */
+    /* Вікно розширене на 70px ліворуч (margin-left:-70), а сам список
+       усередині — рівно на ті самі 70px правіше свого краю (left:70, не
+       0): підказка absolute-позиціонування рахує left/top від padding-краю
+       предка, тож padding тут нічого не зсунув би — потрібен саме зсув
+       самого списку. Разом це не міняє видиму позицію тексту (сходиться
+       на нуль), але overflow:hidden лишається на 70px ширшим ліворуч —
+       рівно під запас, куди «йдуть углиб» слова на дузі (RADIUS=64 у JS).
+       Без цього кожне слово, що відходить ліворуч по колу, впиралось у
+       лівий край вікна й обрізалось замість плавного згасання в масці.
+       Рядок активного слова (translateX:0) це не зсуває — воно й далі
+       рівно навпроти «SILENT.». */
+    /* flex:1 1 auto + min-width:0 + max-width, не жорсткий width: на дуже
+       вузькій фактичній колонці (grid лишає .exp-head-reel менше місця,
+       ніж 46vw формально дозволяє — залежить від пропорцій вікна, не лише
+       від його ширини) вікно мусить саме стиснутись до того, що реально
+       лишилось після тега/gap/padding-right, а не наполягати на своїй
+       розрахунковій ширині й вилазити за праву межу картки — власник саме
+       так і побачив обрізане слово впритул до рамки. */
+    .exp-reel-window {
+      position: relative; flex: 1 1 auto; min-width: 0;
+      max-width: calc(min(46vw, 560px) + 70px); height: 504px;
+      margin-left: -70px; overflow: hidden;
+      -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+      mask-image: linear-gradient(180deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+    }
+    .exp-reel-list {
+      list-style: none; margin: 0; padding: 0;
+      position: absolute; left: 70px; top: 0; width: calc(100% - 70px);
+      transition: transform 0.62s cubic-bezier(.16,1,.3,1);
+    }
+    /* Ліве вирівнювання, не центр: активне слово починається одразу за
+       «SILENT.» як одне ціле («SILENT. FITNESS»), від тієї самої лівої
+       межі. Саму дугу — рух по колу, не поворот на місці — рахує JS через
+       translateX+rotate на слові (transform-origin:left — вісь дотичної
+       обертання, а не спосіб «начепити» слово на одну точку). */
+    .exp-reel-list li {
+      position: relative; height: 56px; display: flex; align-items: center; justify-content: flex-start;
+      text-align: left;
+    }
+    .exp-reel-list li span {
+      display: inline-block; transform-origin: left center;
+      /* Раніше просто 5.6cqw — чиста відсоткова частка ширини картки.
+         Проблема: бюджет ширини під саме СЛОВО — це ширина картки МІНУС
+         фіксовані paddings/gap/тег, а тег теж росте зі шрифтом, тож
+         реальна залежність «безпечний розмір шрифту від ширини картки»
+         лінійна з ВІД'ЄМНИМ зсувом (Fmax = (R-const)/(k_tag+k_word)), а
+         не пряма пропорція. Чиста відсоткова формула або занадто дрібна
+         на широкому кінці (запас даремно пропадає — власник це й просив
+         виправити), або на вузькому кінці (~1100px, R картки ~346px)
+         найдовше слово «Exhibitions» вже впиралось у праву межу вікна
+         (виміряно: за старою формулою полога 5.6cqw давала на цій ширині
+         підлогу 20px, а безпечний максимум для «Exhibitions» — лише
+         ~19px). calc(A·cqw - B) — це і є пряма з відповідним нахилом і
+         зсувом: підібрано так, щоб на всьому робочому діапазоні (R від
+         ~346px при 1100px viewport до ~602px, де впирається max-width
+         .wrap) лишалось твердих ~6% запасу над розрахунковим максимумом
+         для «Exhibitions» — не впритул, але й без зайвого дрібнення. */
+      font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: clamp(19px, calc(7.32cqw - 0.59px), 38px); line-height: 1;
+      letter-spacing: 0.01em; text-transform: uppercase; color: rgba(255,255,255,0.4);
+      white-space: nowrap;
+      transition: color 0.5s ease, opacity 0.5s ease, filter 0.5s ease, transform 0.62s cubic-bezier(.16,1,.3,1);
+    }
+    /* Активне слово — те, що читається разом із «SILENT.» ліворуч: лайм,
+       без розмиття, без нахилу — саме воно мусить лишатись чітким «якорем»
+       серед віяла. Шкала згасання навколо нього положиста (десять кроків,
+       не три): дальні рядки й далі трохи розмиті, але не зникають майже
+       одразу, як було раніше, — панель читається заповненою на всю висоту. */
+    .exp-reel-list li[data-d="0"] span { color: var(--lime); opacity: 1; filter: none; }
+    .exp-reel-list li[data-d="-1"] span, .exp-reel-list li[data-d="1"] span { opacity: 0.8; filter: blur(0.5px); }
+    .exp-reel-list li[data-d="-2"] span, .exp-reel-list li[data-d="2"] span { opacity: 0.6; filter: blur(1.2px); }
+    .exp-reel-list li[data-d="-3"] span, .exp-reel-list li[data-d="3"] span { opacity: 0.4; filter: blur(2px); }
+    .exp-reel-list li[data-d="-4"] span, .exp-reel-list li[data-d="4"] span { opacity: 0.22; filter: blur(2.8px); }
+    .exp-reel-list li:not([data-d="0"]) span { color: rgba(255,255,255,0.6); }
+    .exp-reel-list li[data-d="gone"] span { opacity: 0; }
+  }
+
   .exp-list { padding: 0 0 clamp(72px, 10vh, 120px); }
   /* Сітка, а не стрічка: це покажчик, і кожен формат мусить бути видимий без
      прокрутки вбік. Колонка задається мінімальною шириною картки, тож на

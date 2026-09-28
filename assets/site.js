@@ -3109,6 +3109,84 @@ const I18N = window.SILENT_I18N;
     window.addEventListener('scroll', drop, { passive: true });
   })();
 
+  // ---- Барабан «Silent + формат» у геро /experiences/ (тільки десктоп) ----
+  // Список у DOM потроєний навмисно: рахунок «active» лише росте вперед,
+  // ніколи не обнуляється по колу — тому translateY завжди рухається в
+  // один бік, без миттєвого скидання назад, яке виглядало б як заїкання.
+  // Раз на повне коло (active сягнув другої копії) непомітно віднімаємо
+  // довжину списку: з transition:none рівно на один кадр — бо потроєний
+  // список повторює той самий порядок слів, картинка на екрані від цього
+  // віднімання не змінюється ні на піксель, лише сам лічильник більше не
+  // росте нескінченно.
+  (function(){
+    const list = document.getElementById('expReelList');
+    if (!list) return;
+    const words = [].slice.call(list.children).map(function(li){ return li.textContent.trim(); });
+    const n = words.length;
+    if (n < 2) return;
+    const LINE = 56;      // px, = висота .exp-reel-list li
+    const CENTER = 4;     // скільки рядків над активним лишає вікно (9 видно: -4..+4)
+    const TILT = 5.5;     // deg на d — нахил слова (тангенс до кола в цій точці)
+    const RADIUS = 64;    // px — наскільки далеко «в глибину» (вліво) відходить найдальший рядок
+    list.innerHTML = words.concat(words, words)
+      .map(function(w){ return '<li><span>' + w + '</span></li>'; }).join('');
+    const items = [].slice.call(list.children);
+    let active = n;
+    // Дуга кола, не поворот на місці: активне слово — найближча до глядача
+    // точка кола (0 зсуву вбік), і в обидва боки — вгору чи вниз — рядки
+    // однаково «йдуть углиб» по колу, тобто відходять ліворуч за косинусом
+    // кута (1-cos: 0 у центрі, росте до RADIUS на краях), а не просто
+    // нахиляються на місці навколо лівого краю. rotate лишається — це вже
+    // дотична до кола в тій точці, а не сам рух по ній.
+    function paint(){
+      items.forEach(function(li, i){
+        const raw = i - active;
+        const span = li.firstElementChild;
+        if (Math.abs(raw) > CENTER){
+          li.setAttribute('data-d', 'gone');
+          span.style.transform = '';
+          return;
+        }
+        li.setAttribute('data-d', String(raw));
+        if (raw === 0){ span.style.transform = ''; return; }
+        const angle = (raw / CENTER) * (Math.PI / 2);
+        const bow = -RADIUS * (1 - Math.cos(angle));
+        span.style.transform = 'translateX(' + bow.toFixed(1) + 'px) rotate(' + (raw * TILT) + 'deg)';
+      });
+    }
+    function place(withTransition){
+      list.style.transition = withTransition ? '' : 'none';
+      list.style.transform = 'translateY(' + ((CENTER - active) * LINE) + 'px)';
+    }
+    paint();
+    place(false);
+    const mqDesktop = window.matchMedia('(min-width: 1100px)');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let timer = null;
+    function tick(){
+      active++;
+      paint();
+      place(true);
+      if (active >= n * 2){
+        // Транзишен на подив вище (620мс) устигне дограти до наступного
+        // тику (2400мс) — знімаємо лічильник рівно тоді, коли рух і так
+        // уже зупинився, тож transition:none нічого не обриває на льоту.
+        // paint() тут обов'язковий: він виставляв data-d/transform під
+        // СТАРИЙ active (ще на початку цього tick), і рядки навколо нової
+        // позиції (active-n) лишались позначені як "gone" (opacity:0) —
+        // без повторного paint() список миттєво «зникав» і з'являвся
+        // заново саме в момент цього непомітного відкату лічильника.
+        setTimeout(function(){ active -= n; paint(); place(false); }, 650);
+      }
+    }
+    function start(){ if (!timer) timer = setInterval(tick, 2400); }
+    function stop(){ if (timer) { clearInterval(timer); timer = null; } }
+    if (!reduceMotion && mqDesktop.matches) start();
+    mqDesktop.addEventListener('change', function(e){
+      if (e.matches && !reduceMotion) start(); else stop();
+    });
+  })();
+
   // Прапорець для страхувальника в <head>: він доводить, що цей файл не просто
   // доїхав, а виконався до кінця. Якщо скрипт заблокували, обірвали або він
   // упав десь вище, прапорця не буде — і страхувальник знімає клас js, після
