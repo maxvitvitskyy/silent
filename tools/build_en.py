@@ -280,15 +280,15 @@ T = {
 'Чорно-білий кадр: сцена з колонками і темна зала глядачів':
   'Black-and-white shot: a stage with speakers and a dark room of guests',
 'Як зазвичай': 'The usual way',
-'Колонки на всю залу': 'Speakers blasting the whole room',
-'Один плейлист на всіх. Хтось нудьгує, комусь голосно. О 23:00 — сусіди, охорона, «зробіть тихіше». Фото виходять темні й однакові.':
-  "One playlist for everybody. Some are bored, others find it too loud. At 11pm it's the neighbours, security, “turn it down”. The photos come out dark and all alike.",
+'Ти підлаштовуєшся під вечір': 'You adjust to the night',
+'Музику обирають за всіх. Якщо вона «не твоя» — залишається або терпіти, або йти. Комусь голосно, комусь нудно, комусь просто не хочеться танцювати.':
+  "The music is picked for everyone. If it's not your thing, you either put up with it or leave. It's too loud for some, boring for others, and some just don't feel like dancing.",
 'Компанія друзів сміється у світних зелених навушниках':
   'A group of friends laughing in glowing green headphones',
 'Із silent disco': 'With silent disco',
-'Вечір, який кожен налаштовує під себе': 'A night everyone tunes their own way',
-'Сайлент Диско — формат, де кожен чує своє, але всі разом: три канали під різний настрій, гучність під себе, світло LED у кожному кадрі.':
-  'Silent disco is a format where everyone hears their own thing and still stays together: three channels for different moods, volume set by each guest, LED light in every shot.',
+'Вечір підлаштовується під тебе': 'The night adjusts to you',
+'Ніхто не мусить підлаштовуватись. Три канали — і кожен обирає свій настрій. Танцюй, говори, відпочивай, перемикайся — і залишайся частиною спільної події. Разом, але по-своєму.':
+  'Nobody has to adjust. Three channels, and everyone picks their own mood. Dance, talk, rest, switch — and still be part of the same night. Together, your own way.',
 
 # --- як це працює --------------------------------------------------------
 'Як насправді влаштована тиха вечірка?': 'How does a quiet party actually work?',

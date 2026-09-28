@@ -3172,58 +3172,90 @@ function orderExperience(name){
     const items = [].slice.call(list.children);
     const winEl = list.parentElement;
     const cardEl = winEl.parentElement;
-    let active = n;
-    // Дуга кола, не поворот на місці: активне слово — найближча до глядача
-    // точка кола (0 зсуву вбік), і в обидва боки — вгору чи вниз — рядки
-    // однаково «йдуть углиб» по колу, тобто відходять ліворуч за косинусом
-    // кута (1-cos: 0 у центрі, росте до RADIUS на краях), а не просто
-    // нахиляються на місці навколо лівого краю. rotate лишається — це вже
-    // дотична до кола в тій точці, а не сам рух по ній.
+    let active = n;   // ціль: індекс слова, що стане/стоїть по центру
+    let pos = n;      // де список ФАКТИЧНО зараз (дробове під час руху)
+    // Рух і вигляд кожного рядка рахуємо в JS покадрово від pos, а не
+    // CSS-переходами (раніше: translateY списку — один transition, а
+    // прозорість/розмиття/колір слів — інші, з іншою тривалістю). Через
+    // той розсинхрон на iPhone видно було «стрибок → усе різко → потім
+    // розмиття»: Safari до того ж скидає filter на час анімації
+    // transform. Тепер кожен кадр кожен рядок отримує рівно той вигляд,
+    // який відповідає його поточній дробовій відстані до центру, — фокус
+    // перетікає з одного слова на наступне безперервно, разом із рухом.
     //
-    // VIS = CENTER+1: на один рядок більше, ніж цілком вміщається у вікно —
-    // крайній рядок стоїть уже частково за краєм картки й заходить під
-    // нього, а не з'являється/зникає на видноті. Прозорість і розмиття —
-    // плавна крива від відносної відстані t (0 у центрі → 1 на краю), а не
-    // дискретні сходинки в CSS: кожен наступний рядок трохи блідіший і
-    // розмитіший за попередній, скільки б їх не влізло. Розмиття — частка
-    // LINE, щоб на дрібній мобільній картці воно не з'їдало літери так
-    // само, як на великій десктопній.
-    function paint(){
+    // Розмиття — text-shadow, не filter:blur(). filter на десятку
+    // рухомих елементів під маскою й backdrop-filter картки змушував iOS
+    // виносити кожен у окремий GPU-шар, і Safari не встигав їх
+    // домальовувати — звідти фіолетові смужки між словами. text-shadow
+    // малюється разом із текстом, шарів не плодить. Прозорість — теж не
+    // opacity (той самий шар), а альфа кольору.
+    //
+    // Дуга кола, не поворот на місці: активне слово — найближча до
+    // глядача точка кола (0 зсуву вбік), і в обидва боки рядки однаково
+    // «йдуть углиб» — відходять ліворуч за косинусом кута (1-cos: 0 у
+    // центрі, RADIUS на краях). rotate — дотична до кола в тій точці.
+    // VIS = CENTER+1: на рядок більше, ніж цілком вміщається у вікно,
+    // щоб крайній заходив під край картки, а не з'являвся на видноті.
+    let LIME = [198, 255, 0];
+    (function(){
+      const dot = cardEl.querySelector('.exp-reel-dot');
+      const m = dot && getComputedStyle(dot).color.match(/\d+(\.\d+)?/g);
+      if (m && m.length >= 3) LIME = [+m[0], +m[1], +m[2]];
+    })();
+    const shown = items.map(function(){ return null; });
+    function render(){
+      list.style.transform = 'translateY(' + ((CENTER - pos) * LINE + CENTER_OFFSET).toFixed(2) + 'px)';
       const VIS = CENTER + 1;
-      items.forEach(function(li, i){
-        const raw = i - active;
+      for (let i = 0; i < items.length; i++){
+        const li = items[i];
         const span = li.firstElementChild;
+        const raw = i - pos;
         const a = Math.abs(raw);
-        if (a > VIS){
-          li.setAttribute('data-d', 'gone');
-          span.style.transform = ''; span.style.opacity = ''; span.style.filter = '';
-          return;
+        if (a > VIS + 1){
+          if (shown[i] !== false){
+            span.style.visibility = 'hidden';
+            li.setAttribute('data-d', 'gone');
+            shown[i] = false;
+          }
+          continue;
         }
-        li.setAttribute('data-d', String(raw));
-        if (raw === 0){
-          span.style.transform = ''; span.style.opacity = ''; span.style.filter = '';
-          return;
-        }
-        const t = a / VIS;
+        if (shown[i] !== true){ span.style.visibility = ''; shown[i] = true; }
+        const d = String(Math.round(raw));
+        if (li.getAttribute('data-d') !== d) li.setAttribute('data-d', d);
+        const t = Math.min(a / VIS, 1.15);
+        const f = Math.max(0, 1 - a);                  // 1 — у фокусі, 0 — від сусіда далі
+        const edge = Math.max(0, 0.92 - 0.7 * t);      // згасання до краю
+        const fade = a < 1 ? 1 + (0.92 - 0.7 / VIS - 1) * a : edge;
+        const alpha = (0.6 + 0.4 * f) * fade;
+        const r = Math.round(255 + (LIME[0] - 255) * f);
+        const g = Math.round(255 + (LIME[1] - 255) * f);
+        const b = Math.round(255 + (LIME[2] - 255) * f);
+        // Уже перший сусід помітно м'який, далі — плавно сильніше до краю:
+        // у фокусі лишається тільки одне слово. Числа вдвічі більші, ніж
+        // були для filter:blur — радіус розмиття text-shadow за стандартом
+        // це ~2σ, тобто той самий px у тіні розмиває вдвічі слабше.
+        const blur = LINE * (0.08 + 0.12 * t) * Math.min(1, a);
+        const s = Math.max(0, Math.min(1, (blur - 0.3) / 2));
+        const col = r + ',' + g + ',' + b + ',';
+        span.style.color = 'rgba(' + col + (alpha * (1 - s)).toFixed(3) + ')';
+        span.style.textShadow = s > 0
+          ? '0 0 ' + blur.toFixed(2) + 'px rgba(' + col + Math.min(1, alpha * (0.4 + 1.1 * s)).toFixed(3) + ')'
+          : 'none';
         const angle = (raw / VIS) * (Math.PI / 2);
         const bow = -RADIUS * (1 - Math.cos(angle));
         span.style.transform = 'translateX(' + bow.toFixed(1) + 'px) rotate(' + (raw * MAX_TILT / VIS).toFixed(2) + 'deg)';
-        span.style.opacity = (0.92 - 0.7 * t).toFixed(3);
-        span.style.filter = 'blur(' + (LINE * (0.008 + 0.07 * t * t)).toFixed(2) + 'px)';
-      });
+      }
     }
-    // CENTER_OFFSET — дробовий залишок у px, коли ціле CENTER (потрібне
-    // paint()-у для «скільки сусідів показувати») не влучає точно в центр
-    // вікна: висота картки — не наперед відоме число, кратне LINE, тож
-    // округлення (напр. 4.52 → 5) саме по собі зсунуло б активний рядок на
-    // частку рядка вище чи нижче фактичного центру, помітно не в лінію з
-    // «SILENT.» поруч (те саме align-items:center на рядку картки центрує
-    // й тег, і — через це число — активне слово).
+    // Той самий характер руху, що був у CSS: cubic-bezier(.16,1,.3,1).
+    function ease(x){
+      const p1x = .16, p1y = 1, p2x = .3, p2y = 1;
+      const bx = function(u){ return 3*p1x*u*(1-u)*(1-u) + 3*p2x*u*u*(1-u) + u*u*u; };
+      const by = function(u){ return 3*p1y*u*(1-u)*(1-u) + 3*p2y*u*u*(1-u) + u*u*u; };
+      let lo = 0, hi = 1, u = x;
+      for (let k = 0; k < 24; k++){ u = (lo + hi) / 2; if (bx(u) < x) lo = u; else hi = u; }
+      return by(u);
+    }
     let CENTER_OFFSET = 0;
-    function place(withTransition){
-      list.style.transition = withTransition ? '' : 'none';
-      list.style.transform = 'translateY(' + ((CENTER - active) * LINE + CENTER_OFFSET) + 'px)';
-    }
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     function applyGeometry(){
       const cs = getComputedStyle(cardEl);
@@ -3261,48 +3293,38 @@ function orderExperience(name){
       list.style.width = 'calc(100% - ' + buffer.toFixed(2) + 'px)';
     }
     applyGeometry();
-    paint();
-    place(false);
+    render();
     // Перший рендер міряє LINE/RADIUS з розкладки, яка щойно існує — а на
     // завантаженні сторінки шрифт Unbounded ще міг не встигнути підʼїхати
     // (рядки тоді трохи іншої висоти на системному шрифті) чи aspect-ratio
     // не встиг порахуватись до першого кадру. Обидва перерахунки нижче
-    // ловлять цей момент без чекання на ресайз від користувача: без них
-    // «SILENT.» і активне слово розходились по вертикалі рівно до першого
-    // ручного зменшення вікна браузера.
+    // ловлять цей момент без чекання на ресайз від користувача.
     if (document.fonts && document.fonts.ready){
-      document.fonts.ready.then(function(){ applyGeometry(); paint(); place(false); });
+      document.fonts.ready.then(function(){ applyGeometry(); render(); });
     }
-    window.addEventListener('load', function(){ applyGeometry(); paint(); place(false); });
+    window.addEventListener('load', function(){ applyGeometry(); render(); });
+    const DURATION = 620;
     let timer = null;
     function tick(){
+      const from = pos;
       active++;
-      paint();
-      place(true);
-      if (active >= n * 2){
-        // Транзишен на подив вище (620мс) устигне дограти до наступного
-        // тику (2400мс) — знімаємо лічильник рівно тоді, коли рух і так
-        // уже зупинився, тож transition:none нічого не обриває на льоту.
-        // paint() тут обов'язковий: він виставляв data-d/transform під
-        // СТАРИЙ active (ще на початку цього tick), і рядки навколо нової
-        // позиції (active-n) лишались позначені як "gone" (opacity:0) —
-        // без повторного paint() список миттєво «зникав» і з'являвся
-        // заново саме в момент цього непомітного відкату лічильника.
-        // is-rebasing вимикає переходи й на самих словах, не лише на
-        // списку: після відкату на коло назад видимими стають ІНШІ <li>
-        // (ті самі слова, але з іншої копії), які до цього були «gone»
-        // з opacity:0 — і без цього класу вони пів секунди проявлялись з
-        // нуля (0.5с transition на opacity/filter/transform), що читалось
-        // як блимання на стику кола. Знімаємо клас лише після примусового
-        // reflow і наступного кадру — інакше браузер злиє обидва стани в
-        // один і перехід таки запуститься.
-        setTimeout(function(){
-          list.classList.add('is-rebasing');
-          active -= n; paint(); place(false);
-          void list.offsetWidth;
-          requestAnimationFrame(function(){ list.classList.remove('is-rebasing'); });
-        }, 650);
+      const to = active;
+      const t0 = performance.now();
+      function frame(now){
+        const p = Math.min(1, (now - t0) / DURATION);
+        pos = from + (to - from) * ease(p);
+        render();
+        if (p < 1){ requestAnimationFrame(frame); return; }
+        pos = to;
+        // Раз на повне коло відкочуємо лічильник на n назад. Вигляд кожного
+        // рядка — неперервна функція від (i - pos), а список потроєний: ті
+        // самі слова стоять рівно на n позицій раніше, тож кадр до й після
+        // відкату піксель у піксель однаковий. Жодних переходів, які могли
+        // б «проявляти» нові рядки з нуля, більше немає — і блимання теж.
+        if (active >= n * 2){ active -= n; pos -= n; }
+        render();
       }
+      requestAnimationFrame(frame);
     }
     function start(){ if (!timer) timer = setInterval(tick, 2400); }
     if (!reduceMotion) start();
@@ -3315,8 +3337,7 @@ function orderExperience(name){
       clearTimeout(geomResizeTimer);
       geomResizeTimer = setTimeout(function(){
         applyGeometry();
-        paint();
-        place(false);
+        render();
       }, 120);
     }, { passive: true });
   })();
