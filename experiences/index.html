@@ -58,7 +58,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="../assets/site.css?v=695a36dd">
+<link rel="stylesheet" href="../assets/site.css?v=bc7acf0c">
 </head>
 <body id="top" class="page-close-cta">
 
@@ -323,7 +323,7 @@
         </div>
       </div>
     </div>
-    <a href="/#book" class="nav-cta" data-cta="header_check_date">Перевірити дату</a>
+    <a href="#book" class="nav-cta" data-cta="header_check_date">Перевірити дату</a>
   </div>
 </nav>
 
@@ -856,11 +856,114 @@
   <div class="wrap">
     <!-- Без band-aurora: одразу під цим блоком починається світіння футера, і
          два джерела разом заливають лаймом і тло, і саму кнопку — та перестає
-         читатись як головна дія. На головній ця пляма стоїть сама. -->
+         читатись як головна дія. На головній ця пляма стоїть сама.
+         Кнопки тут більше немає: одразу під блоком тепер сама форма (як на
+         сторінці корпоративів), і кнопка «Перевірити дату» просто вела б на
+         кілька сантиметрів нижче. -->
     <div class="band band-bare reveal">
-      <h2>Не знайшли свій формат? Він, найімовірніше, теж працює.</h2>
+      <h2>Не знайшли свій формат? Зробимо його сорок п’ятим.</h2>
       <p>Напишіть, що плануєте — скажемо, чи підходить тихий звук і скільки це коштуватиме.</p>
-      <a href="/#book" class="btn-primary" data-cta="experiences_leave_request">Перевірити дату</a>
+    </div>
+  </div>
+</section>
+
+<section class="form-section" id="book">
+  <div class="wrap">
+    <div class="form-card reveal">
+      <div class="form-left">
+        <h2>Перевірте дату <span class="em">своєї</span> події</h2>
+        <p>Залиште заявку — ми зв’яжемося, перевіримо, чи вільна дата, підберемо формат і підтвердимо бронь після узгодження.</p>
+        <div class="form-assure">
+          <div><span class="ok">✓</span> Відповідаємо протягом дня</div>
+          <div><span class="ok">✓</span> Один вечір — одна подія, тож дати розбирають наперед</div>
+          <div><span class="ok">✓</span> Заявка ні до чого не зобов’язує — це перевірка доступності</div>
+        </div>
+
+        <!-- Календар — візуальна зручність поверх поля «Бажана дата», а не заміна
+             йому: саме поле лишається доступним із клавіатури й на мобільному. -->
+        <div class="cal" id="cal">
+          <div class="cal-head">
+            <button type="button" class="cal-nav" id="calPrev" aria-label="Попередній місяць">‹</button>
+            <div class="cal-title"><span id="calMonth"></span><b id="calYear"></b></div>
+            <button type="button" class="cal-nav" id="calNext" aria-label="Наступний місяць">›</button>
+          </div>
+          <div class="cal-week"><span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Нд</span></div>
+          <div class="cal-grid" id="calGrid"></div>
+          <p class="cal-foot" id="calFoot">Оберіть дату — вона підставиться у форму</p>
+        </div>
+      </div>
+
+      <div class="form-right">
+        <div id="formFields">
+          <div class="calc-summary-note" id="calcSummaryNote" style="display:none;"></div>
+          <div class="field">
+            <label for="name">Як вас звати</label>
+            <input type="text" id="name" name="name" autocomplete="name" placeholder="Ім’я…">
+          </div>
+          <div class="field">
+            <label for="contact">Телефон або Instagram</label>
+            <input type="text" id="contact" name="contact" autocomplete="tel" spellcheck="false" placeholder="+380… або @нік">
+          </div>
+          <div class="field">
+            <label for="type">Що ви плануєте?</label>
+            <select id="type" name="eventType">
+              <option>Хочу дізнатися ціну</option>
+              <option>Планую подію</option>
+              <option>Шукаю формат для клієнта</option>
+              <option>Хочу обговорити нестандартний сценарій</option>
+              <option>Весілля</option>
+              <option>День народження</option>
+              <option>Корпоратив</option>
+              <option>Випускний</option>
+              <option>Тімбілдинг</option>
+              <option>Фестиваль</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="guests">Скільки гостей орієнтовно</label>
+            <select id="guests" name="guests">
+              <option>40–60</option>
+              <option>60–80</option>
+              <option>80–100</option>
+              <option>100+</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="date">Бажана дата</label>
+            <input type="date" id="date" name="eventDate" autocomplete="off">
+          </div>
+          <div class="field">
+            <label for="source">Як ви про нас дізналися? (необов’язково)</label>
+            <select id="source" name="discovery">
+              <option value="">Оберіть варіант</option>
+              <option>Instagram</option>
+              <option>TikTok</option>
+              <option>Google</option>
+              <option>Facebook</option>
+              <option>YouTube</option>
+              <option>OLX</option>
+              <option>Telegram</option>
+              <option>Рекомендація</option>
+              <option>Інше</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="comment">Коментар (необов’язково)</label>
+            <textarea id="comment" name="comment" placeholder="Розкажіть більше про подію, побажання щодо локації, часу тощо…" rows="3"></textarea>
+          </div>
+          <p class="form-error" id="formError" role="alert" hidden></p>
+          <button class="form-submit" id="submitBtn" type="button">Надіслати заявку</button>
+          <div class="form-note">Натискаючи, ви погоджуєтесь, що ми зв’яжемося з вами щодо події. Якщо ви заповните контакт і не надішлете заявку, введене теж зберігається — <a href="/privacy/">як саме, написано в політиці</a>.</div>
+        </div>
+        <div class="form-success" id="formSuccess" role="status">
+          <!-- Та сама позначка, що й у вікні: два підтвердження одної дії
+               мусять виглядати як одне. Тут вона теж замінила символ ✦. -->
+          <div class="sig-eq" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="big">Заявку прийнято</div>
+          <p class="checking-date" data-checking-date hidden></p>
+          <p>Дякуємо. Напишемо вам, щойно перевіримо дату — відповідаємо протягом дня.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -881,7 +984,7 @@
       <div class="f-col f-brand">
         <a href="#top" class="f-logo" aria-label="Нагору сторінки" translate="no">SILENT<b>.</b></a>
         <p class="f-tagline">Тиша ззовні, драйв усередині. Silent disco під ключ у Києві та по Україні.</p>
-        <a href="/#book" class="btn-primary f-cta" data-cta="footer_leave_request">Залишити заявку</a>
+        <a href="#book" class="btn-primary f-cta" data-cta="footer_leave_request">Залишити заявку</a>
       </div>
       <nav class="f-col">
         <h4>Про формат</h4>
@@ -900,7 +1003,7 @@
           <li><a href="#price">Калькулятор</a></li>
           <li><a href="/#expect">Чого очікувати</a></li>
           <li><a href="/#faq">Питання наперед</a></li>
-          <li><a href="/#book" data-cta="footer_nav_leave_request">Залишити заявку</a></li>
+          <li><a href="#book" data-cta="footer_nav_leave_request">Залишити заявку</a></li>
         </ul>
       </nav>
       <div class="f-col f-contact">

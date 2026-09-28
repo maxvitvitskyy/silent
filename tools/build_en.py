@@ -50,9 +50,9 @@ HEAD = [
 ]
 
 # ------------------------------------------------------- SEO / head 404
-# Шляхів тут немає: у 404.html усі адреси абсолютні (файл віддають замість
-# будь-якої неіснуючої адреси, тож відносні не працюють), і для англійської
-# версії їх міняти не треба.
+# У 404.html усі адреси абсолютні (файл віддають замість будь-якої
+# неіснуючої адреси, тож відносні не працюють). Посилання на головну та її
+# розділи build_404() переводить на /en/ — див. там.
 HEAD404 = [
  ('<html lang="uk">', '<html lang="en">'),
  ('<title>Сторінки немає — SILENT</title>', '<title>Page not found — SILENT</title>'),
@@ -1155,6 +1155,7 @@ def stamp_files():
     extra = [os.path.join(ROOT, rel) for rel in EXPERIENCE_PAGES]
     extra.append(os.path.join(ROOT, 'privacy', 'index.html'))
     extra.append(os.path.join(ROOT, 'faq', 'index.html'))
+    extra.append(DST_FAQ)
     for path in [SRC, DST, SRC404, DST404] + extra:
         if not os.path.exists(path):
             continue
@@ -1179,6 +1180,16 @@ def build():
     if s.count(SWITCH_UA) != 1:
         sys.exit('перемикач мови в меню не знайдено')
     s = s.replace(SWITCH_UA, SWITCH_EN)
+
+    # Меню й футер у index.html спільні з іншими сторінками сайту, тож
+    # якорі там абсолютні — /#book, /#price… На англійській головній такий
+    # якір вів на УКРАЇНСЬКУ головну: «Check a date» відкривав форму, але
+    # вже українською. Тут це розділи тієї самої сторінки. Посилання на
+    # /faq/, /experiences/, /privacy/ лишаються як є — англійських версій
+    # цих сторінок поки немає.
+    s = s.replace('href="/#', 'href="#')
+    # Англійська FAQ існує — посилання на неї з англійської головної.
+    s = s.replace('href="/faq/', 'href="/en/faq/')
 
     # блок рядків цілком
     m = re.search(r'<!-- Рядки, які скрипт виводить сам\.[\s\S]*?<script src="\.\./assets/site\.js"></script>', s)
@@ -1212,6 +1223,13 @@ def build_404():
             sys.exit('немає в 404.html: ' + old[:80])
         s = s.replace(old, new)
 
+    # Головна й її розділи — на англійську головну, а не українську. До
+    # заміни перемикача мови: в українському перемикачі 404 посилання на
+    # /en/, його регулярка не зачепить, а після заміни там з'явиться
+    # href="/" на українську, який саме й мусить лишитись як є.
+    s = re.sub(r'href="/(#[^"]*)?"', lambda m: 'href="/en/' + (m.group(1) or '') + '"', s)
+    s = s.replace('href="/faq/', 'href="/en/faq/')
+
     if s.count(SWITCH_UA_404) != 1:
         sys.exit('перемикач мови в 404.html не знайдено')
     s = s.replace(SWITCH_UA_404, SWITCH_EN_404)
@@ -1224,12 +1242,294 @@ def build_404():
     print('en/404.html зібрано:', len(s.split('\n')), 'рядків, неперекладеного немає')
 
 
+
+# ================================================================ FAQ (en/faq/)
+# Та сама схема, що й для головної: en/faq/index.html НЕ редагується руками,
+# а збирається з faq/index.html. Правка в українській FAQ → перезапуск цього
+# скрипта, інакше дві версії розійдуться.
+#
+# Власний словник, а не лише спільний T: у T є короткі ключі з головної
+# («Ціна», «Обладнання», «Питання»…), і без повних речень FAQ вони
+# вихоплювали б шматки з середини відповідей («Equipment одне», «Weddingsм»).
+# Тут кожне питання й відповідь — один цілий ключ. Об'єднаний словник
+# сортується від найдовших ключів, тож ці повні речення завжди спрацьовують
+# раніше за будь-який короткий ключ із T.
+#
+# Юридичні формулювання (оплата, скасування, перенесення, відповідальність,
+# форс-мажор) перекладені дослівно за змістом українських — без нових
+# обіцянок. Джерело правди для них — PRODUCT.md, не цей переклад.
+SRC_FAQ = os.path.join(ROOT, 'faq', 'index.html')
+DST_FAQ = os.path.join(ROOT, 'en', 'faq', 'index.html')
+
+HEAD_FAQ = [
+ ('<html lang="uk">', '<html lang="en">'),
+ ('<title>Питання і відповіді про SILENT — silent disco під ключ</title>',
+  '<title>Questions and answers about SILENT — full-service silent disco</title>'),
+ ('<meta name="description" content="Усе, що зазвичай питають перед замовленням SILENT: формат, організація, ціна, обладнання. Коротко й по суті, без брошурного тону.">',
+  '<meta name="description" content="Everything people usually ask before booking SILENT: the format, organising, price, equipment. Short and to the point, no brochure talk.">'),
+ ('<meta property="og:locale" content="uk_UA">', '<meta property="og:locale" content="en_US">'),
+ ('<meta property="og:title" content="Питання і відповіді про SILENT">',
+  '<meta property="og:title" content="Questions and answers about SILENT">'),
+ ('<meta property="og:description" content="Три канали музики в навушниках кожного гостя, гучність у кожного своя, ззовні тиша. Що варто знати перед замовленням.">',
+  '<meta property="og:description" content="Three channels of music in every guest\'s headphones, everyone sets their own volume, and it stays quiet outside. What to know before you book.">'),
+ ('<meta property="og:url" content="https://silent.org.ua/faq/">',
+  '<meta property="og:url" content="https://silent.org.ua/en/faq/">'),
+ ('<meta name="twitter:title" content="Питання і відповіді про SILENT">',
+  '<meta name="twitter:title" content="Questions and answers about SILENT">'),
+ ('<meta name="twitter:description" content="Усе, що зазвичай питають перед замовленням silent disco під ключ.">',
+  '<meta name="twitter:description" content="Everything people usually ask before booking a full-service silent disco.">'),
+ ('<link rel="canonical" href="https://silent.org.ua/faq/">',
+  '<link rel="canonical" href="https://silent.org.ua/en/faq/">'),
+]
+
+SWITCH_UA_FAQ = """    <span class="lang-switch" role="group" aria-label="Мова сайту">
+      <span class="lang-cur" aria-current="true">UA</span>
+      <a href="/en/faq/" hreflang="en" lang="en">EN</a>
+    </span>"""
+SWITCH_EN_FAQ = """    <span class="lang-switch" role="group" aria-label="Site language">
+      <a href="/faq/" hreflang="uk" lang="uk">UA</a>
+      <span class="lang-cur" aria-current="true">EN</span>
+    </span>"""
+
+T_FAQ = {
+# --- шапка сторінки
+"Головна": "Home",
+"Питання і відповіді": "Questions and answers",
+"Питання,<br>які ставлять перед SILENT": "Questions<br>people ask before SILENT",
+"Формат, організація, ціна, оплата, обладнання, форс-мажор — зібрали те, що найчастіше питають на етапі заявки, ще до дзвінка.":
+  "Format, organising, price, payment, equipment, force majeure — we've gathered what people ask most often at the request stage, before they even call.",
+"Категорії питань": "Question categories",
+"<span>2</span> Організація": "<span>2</span> Logistics",
+"<span>3</span> Ціна й бронювання": "<span>3</span> Pricing & booking",
+"Оплата, скасування та відповідальність": "Payment, cancellation & liability",
+"Усі питання": "All questions",
+
+# --- 01 формат
+"Що таке silent disco?": "What is silent disco?",
+"Вечірка, де музика йде не з колонок, а прямо в бездротові навушники кожного гостя. У навушниках одночасно грають три незалежні канали, тож кожен обирає свій — а ззовні лишається тиша.":
+  "A party where the music doesn't come from speakers but goes straight into each guest's wireless headphones. Three independent channels play in the headphones at once, so everyone picks their own — and outside it stays quiet.",
+"Вечірка, де музика йде не з колонок, а прямо в бездротові навушники кожного гостя. У навушниках три незалежні канали одночасно, тож кожен обирає свій — а ззовні тихо.":
+  "A party where the music doesn't come from speakers but goes straight into each guest's wireless headphones. Three independent channels play in the headphones at once, so everyone picks their own — and outside it's quiet.",
+"Всі гості чують одну й ту саму музику?": "Do all guests hear the same music?",
+"Ні. Три канали грають одночасно, і кожен перемикається сам просто на навушниках, коли захоче — без спільного компромісного плейлиста на весь зал.":
+  "No. Three channels play at once, and everyone switches right on their headphones whenever they like — no single compromise playlist for the whole room.",
+"Ні. Три канали грають одночасно, і кожен гість перемикається сам просто на навушниках коли захоче — без спільного компромісного плейлиста.":
+  "No. Three channels play at once, and each guest switches right on their headphones whenever they like — no shared compromise playlist.",
+"Це справді весело, чи це просто незвичний гаджет?": "Is it actually fun, or just an unusual gadget?",
+"Перші хвилини гості придивляються — бачити людей у навушниках незвично, поки сам не наведеш. Але щойно перемикаєш канал на свій смак і бачиш поруч когось у тому самому кольорі підсвітки — це і затягує. Ми настільки в цьому впевнені, що якщо за перші пів години гості не танцюють — знімаємо частину суми. Це наша гарантія, а не порожні слова.":
+  "For the first few minutes guests look around — people in headphones look unusual until you put a pair on yourself. But the moment you switch to a channel you like and spot someone nearby glowing the same colour, it pulls you in. We're so sure of it that if nobody is dancing in the first half hour, we take part of the fee off the bill. That's our guarantee, not just words.",
+"Не обов'язково. Ми наперед готуємо три плейлисти під формат і настрій вечора, тож живий діджей потрібен лише якщо хочете саме його мікс на місці.":
+  "Not necessarily. We prepare three playlists in advance for the format and mood of the night, so a live DJ is only needed if you specifically want their mix on the spot.",
+"Кому підходить такий формат?": "Who is this format for?",
+"Весіллям, днями народження й випускним так само, як корпоративам і тімбілдингам. Агенції та організатори теж замовляють SILENT під клієнтські події — формат однаково працює і для приватного свята, і для бізнесу.":
+  "Weddings, birthdays and graduations just as much as company parties and team-building events. Agencies and organisers also book SILENT for client events — the format works equally well for a private celebration and for business.",
+"Чим це відрізняється від вечірки зі звичайними колонками?": "How is it different from a party with regular speakers?",
+"Головна відмінність — звук іде не з колонок у залі, а прямо в навушники кожного гостя. Це дає тишу зовні, три незалежні канали одночасно замість одного спільного плейлиста й особисту гучність у кожного гостя.":
+  "The main difference is that the sound doesn't come from speakers in the room but goes straight into each guest's headphones. That means quiet outside, three independent channels at once instead of one shared playlist, and personal volume for every guest.",
+
+# --- 02 організація
+"За скільки часу бронювати дату?": "How far in advance should we book?",
+"Обладнання одне, тож на вечір ми беремо лише одну подію. Що раніше залишите заявку, то більше шансів, що бажана дата ще вільна — особливо у високий сезон.":
+  "We have one set of equipment, so we take only one event per night. The earlier you send a request, the better the chance your date is still free — especially in high season.",
+"Близько 30 хвилин на збірку й перевірку сигналу до старту. Приїжджаємо заздалегідь, щоб усе було готове до першого гостя.":
+  "About 30 minutes to set up and test the signal before the start. We arrive early so everything is ready for the first guest.",
+"Що потрібно підготувати з нашого боку?": "What do we need to prepare on our side?",
+"Місце для танців і розетку поруч, якщо це приміщення. Решту — навушники, передавачі, налаштування, супровід і вивіз — привозимо й забираємо самі.":
+  "Space to dance and a power socket nearby if it's indoors. Everything else — headphones, transmitters, setup, on-site support and removal — we bring and take away ourselves.",
+"Хто встановлює обладнання і чи лишається хтось на заході?": "Who sets up the equipment, and does anyone stay during the event?",
+"Усе встановлює й налаштовує команда SILENT — підключаємо аудіосистему, перевіряємо сигнал, видаємо навушники. Представник лишається на весь захід для технічного супроводу, а наприкінці сам збирає й перевіряє обладнання.":
+  "The SILENT team sets up and configures everything — we connect the audio system, check the signal and hand out the headphones. A representative stays for the whole event for technical support, and at the end packs up and checks the equipment.",
+"Можна провести на вулиці чи в дощ?": "Can we do it outdoors or in the rain?",
+"Так, але обладнання залежить від живлення і не любить вологу. Без розетки поруч або в дощ потрібен запасний план — намет, навіс або приміщення поруч. Обговорюємо це заздалегідь, щойно дізнаємось локацію.":
+  "Yes, but the equipment depends on power and doesn't like moisture. Without a socket nearby, or in the rain, you need a backup plan — a tent, a canopy or an indoor space nearby. We discuss this in advance as soon as we know the location.",
+"Так, база в Києві, але виїжджаємо по всій Україні. Напишіть локацію разом із заявкою — порахуємо формат і логістику під неї.":
+  "Yes. We're based in Kyiv but travel across Ukraine. Add the location to your request and we'll work out the format and logistics for it.",
+"Скільки триває подія і чи можна продовжити?": "How long does the event last, and can it be extended?",
+"Базово — 4 години, мінімум на 40 навушників. Додаткові години можна взяти вже при бронюванні — порахуйте орієнтир у калькуляторі на головній сторінці.":
+  "The base is 4 hours, with a minimum of 40 headphones. You can add extra hours when booking — get an estimate in the calculator on the home page.",
+"Чи потрібно мені самостійно роздавати й збирати навушники?": "Do I have to hand out and collect the headphones myself?",
+"Ні, це робить команда SILENT. Один пункт видачі й повернення на вході тримає процес простим, а наприкінці ми самі перевіряємо, що все зібрано.":
+  "No, the SILENT team does that. A single pick-up and return point at the entrance keeps it simple, and at the end we check ourselves that everything is back.",
+
+# --- 03 ціна
+"Від <strong>9 800 грн</strong> за мінімальний комплект — 40 навушників на 4 години. Далі ціна залежить від кількості навушників, тривалості й опцій — порахуйте свій варіант у калькуляторі на головній сторінці.":
+  "From <strong>9,800 UAH</strong> for the minimum set — 40 headphones for 4 hours. Beyond that, the price depends on the number of headphones, the duration and the options — work out your own version in the calculator on the home page.",
+"Від 9 800 грн за мінімальний комплект — 40 навушників на 4 години. Далі ціна залежить від кількості навушників, тривалості й опцій.":
+  "From 9,800 UAH for the minimum set — 40 headphones for 4 hours. Beyond that, the price depends on the number of headphones, the duration and the options.",
+"Що входить у цю вартість?": "What does this price include?",
+"Доставку обладнання на локацію, встановлення й налаштування, підключення аудіосистеми, видачу навушників гостям, технічний супровід представника SILENT протягом усього заходу, а також збір і вивіз обладнання наприкінці. Це одна послуга під ключ — обладнання лишається власністю SILENT, а не передається вам в оренду.":
+  "Delivery of the equipment to the venue, setup and configuration, connecting the audio system, handing out headphones to guests, technical support from a SILENT representative throughout the event, and packing up and removing the equipment at the end. It's a single full-service package — the equipment remains SILENT's property and is not rented out to you.",
+"Ціна на сайті — це остаточна сума?": "Is the price on the website final?",
+"Ні, це орієнтир. Фінальна ціна залежить від дати, локації, тривалості й формату — і не є публічною офертою. Точну суму назвемо, щойно дізнаємось деталі вашої події.":
+  "No, it's a guide. The final price depends on the date, location, duration and format — and is not a public offer. We'll give you the exact amount as soon as we know the details of your event.",
+"Як можна оплатити?": "How can I pay?",
+"Основний спосіб — безготівковий переказ на рахунок SILENT за реквізитами IBAN. Якщо для вашого замовлення можливі інші варіанти, скажемо про це одразу.":
+  "The main way is a bank transfer to SILENT's account using the IBAN details. If other options are possible for your booking, we'll tell you straight away.",
+"Залиште заявку на сайті — вкажіть дату, кількість гостей і формат. Після узгодження деталей дата бронюється, щойно надходить 50% передоплати; решта 50% сплачується до самого заходу.":
+  "Send a request on the website with the date, the number of guests and the format. Once the details are agreed, the date is booked as soon as the 50% prepayment arrives; the remaining 50% is paid before the event.",
+"Що впливає на фінальну ціну?": "What affects the final price?",
+"Кількість навушників, тривалість події, дата й локація, а також опції — виїзд по Україні, короткий reels-ролик, дим і світло. 9 800 грн — стартова точка для мінімального комплекту, а не фіксована сума для будь-якого формату.":
+  "The number of headphones, the length of the event, the date and location, plus options — travel across Ukraine, a short reel, smoke and lights. 9,800 UAH is the starting point for the minimum set, not a fixed price for every format.",
+"Скільки коштують додаткові навушники, години чи опції?": "How much do extra headphones, hours or options cost?",
+"Кожен пункт понад мінімум — додаткові навушники, зайві години, виїзд по Україні, reels-ролик, дим і світло — додається до базової ціни. Калькулятор на головній сторінці одразу перераховує суму під ваші параметри, тож точний орієнтир бачите ще до заявки.":
+  "Everything beyond the minimum — extra headphones, extra hours, travel across Ukraine, a reel, smoke and lights — is added to the base price. The calculator on the home page recalculates the total for your parameters instantly, so you see an accurate estimate before you even send a request.",
+
+# --- 04 обладнання
+"Три — RED, GREEN, BLUE. Кожен канал грає свою музику одночасно з іншими, а навушники світяться кольором обраного каналу, тож з боку видно, хто що слухає.":
+  "Three — RED, GREEN, BLUE. Each channel plays its own music at the same time as the others, and the headphones glow in the colour of the chosen channel, so you can see from the side who is listening to what.",
+"Три — RED, GREEN, BLUE. Кожен канал грає свою музику одночасно з іншими, а навушники світяться кольором обраного каналу.":
+  "Three — RED, GREEN, BLUE. Each channel plays its own music at the same time as the others, and the headphones glow in the colour of the chosen channel.",
+"<strong>10+ годин</strong> без підзарядки — вистачає на будь-який вечір із запасом. Комплект приїжджає вже зарядженим, разом із запасними навушниками про всяк випадок.":
+  "<strong>10+ hours</strong> without recharging — enough for any night with room to spare. The set arrives fully charged, along with spare headphones just in case.",
+"10+ годин без підзарядки — вистачає на будь-який вечір із запасом. Комплект приїжджає вже зарядженим, разом із запасними навушниками про всяк випадок.":
+  "10+ hours without recharging — enough for any night with room to spare. The set arrives fully charged, along with spare headphones just in case.",
+"Чи потрібне окреме джерело живлення для обладнання?": "Does the equipment need its own power supply?",
+"Так, передавачам і техніці потрібна розетка поруч. Якщо подія на вулиці або в місці без електрики — обговорюємо запасний варіант заздалегідь, щойно дізнаємось локацію.":
+  "Yes, the transmitters and equipment need a socket nearby. If the event is outdoors or somewhere without electricity, we discuss a backup option in advance as soon as we know the location.",
+"Що якщо навушники зламаються чи загубляться під час вечірки?": "What if headphones break or get lost during the party?",
+"Таке трапляється на живих вечірках. У комплекті є запасні навушники на заміну, а якщо обладнання не повернули, загубили чи пошкодили — замовник компенсує погоджену вартість одиниці обладнання. Умови такого випадку прописані в договорі до конкретного замовлення.":
+  "It happens at real parties. The set includes spare headphones as replacements, and if equipment isn't returned, gets lost or is damaged, the client pays the agreed value of that item. The terms for this are set out in the contract for the specific booking.",
+"Скільки навушників можна замовити?": "How many headphones can we order?",
+"Мінімум 40, на першому етапі — до 100 навушників і, відповідно, до 100 учасників одночасно. Якщо гостей більше, напишіть кількість у заявці — порадимо, як краще бути.":
+  "At least 40, and for now up to 100 headphones — so up to 100 participants at once. If you have more guests, put the number in your request and we'll advise on the best way to handle it.",
+"Чи заважають навушники спілкуватися?": "Do the headphones get in the way of talking?",
+"Ні. Гучність у кожного своя, тож коли хочеться поговорити — досить зняти навушники на шию й говорити звичайним голосом, поки музика в них тихо грає поряд.":
+  "No. Everyone sets their own volume, so when you want to talk, just slip the headphones down around your neck and talk normally while the music keeps playing quietly in them.",
+
+# --- 05 оплата й умови
+"50% вартості — передоплата, яка бронює дату; решта 50% — до проведення заходу. Дата вважається підтвердженою одразу після першої частини оплати.":
+  "50% of the cost is a prepayment that secures the date; the remaining 50% is paid before the event. The date counts as confirmed as soon as the first part of the payment arrives.",
+"Що буде, якщо я захочу скасувати захід?": "What happens if I want to cancel the event?",
+"Залежить від того, за скільки днів до події: за 14+ днів повертаємо всю передоплату, за 7–13 днів — половину, менш ніж за 7 днів передоплата не повертається. Напишіть нам, що змінилося, — по можливості шукаємо рішення разом.":
+  "It depends on how many days before the event you cancel: 14+ days out, we refund the full prepayment; 7–13 days out, half of it; less than 7 days out, the prepayment is not refunded. Write to us about what has changed — where possible, we look for a solution together.",
+"Залежить від того, за скільки днів до події: за 14+ днів повертаємо всю передоплату, за 7-13 днів — половину, менш ніж за 7 днів передоплата не повертається.":
+  "It depends on how many days before the event you cancel: 14+ days out, we refund the full prepayment; 7–13 days out, half of it; less than 7 days out, the prepayment is not refunded.",
+"Так, безкоштовно — якщо попередити щонайменше за 21 день до заходу і нова дата вільна в календарі. Одне перенесення входить у бронювання, наступні узгоджуємо окремо.":
+  "Yes, free of charge — if you let us know at least 21 days before the event and the new date is free in the calendar. One reschedule is included in the booking; any further ones are agreed separately.",
+"Не завжди. SILENT може попросити забезпечувальний депозит для конкретного замовлення — потреба і сума узгоджуються заздалегідь і фіксуються в підтвердженні бронювання.":
+  "Not always. SILENT may ask for a security deposit for a specific booking — whether it's needed and how much is agreed in advance and set out in the booking confirmation.",
+"Хто відповідає за навушники під час заходу?": "Who is responsible for the headphones during the event?",
+"Наш представник видає й забирає навушники особисто, тож контроль на місці — наш. Але за втрату чи пошкодження обладнання гостем відповідає замовник — незалежно від того, хто саме з гостей це спричинив.":
+  "Our representative hands out and collects the headphones personally, so on-site control is ours. But the client is responsible for any loss of or damage to the equipment caused by a guest — regardless of which guest caused it.",
+"Що буде, якщо навушник загублять або пошкодять?": "What happens if a headset is lost or damaged?",
+"Замовник компенсує повну погоджену вартість одиниці обладнання — не лише ремонт. Таке обладнання складно оперативно замінити в Україні, тож і для пошкодженого, і для втраченого діє однакова компенсація, узгоджена в договорі.":
+  "The client pays the full agreed value of the item — not just the repair. This kind of equipment is hard to replace quickly in Ukraine, so the same compensation, agreed in the contract, applies to both damaged and lost items.",
+
+# --- 06 форс-мажор і безпека
+"Що робити, якщо обладнання дасть збій під час вечірки?": "What if the equipment fails during the party?",
+"Одразу скажіть нашому представнику — він на місці протягом усього заходу саме для цього. Ми вживаємо всіх розумних заходів, щоб усунути несправність або на ходу замінити обладнання.":
+  "Tell our representative right away — they're on site for the whole event for exactly this reason. We take all reasonable steps to fix the fault or swap the equipment on the spot.",
+"Хто відповідає за музику, яку вмикають на події?": "Who is responsible for the music played at the event?",
+"За правомірність аудіо- чи відеоконтенту, який звучить на події, відповідає замовник. Ми відповідаємо за технічне відтворення звуку, а не за права на самі матеріали.":
+  "The client is responsible for the lawful use of any audio or video content played at the event. We are responsible for the technical playback of the sound, not for the rights to the material itself.",
+"Що буде, якщо подію неможливо провести через форс-мажор?": "What happens if the event can't go ahead because of force majeure?",
+"Ідеться про повітряну тривогу, відключення світла та інші обставини, які ми, на жаль, добре знаємо. Спершу шукаємо нову дату; якщо перенесення неможливе, домовляємось із урахуванням того, що вже фактично зроблено.":
+  "This covers air raid alerts, power cuts and other circumstances we unfortunately know all too well. First we look for a new date; if rescheduling isn't possible, we agree on terms that take into account what has already been done.",
+"Ідеться про повітряну тривогу, відключення світла та інші обставини. Спершу шукаємо нову дату; якщо перенесення неможливе, домовляємось із урахуванням того, що вже фактично зроблено.":
+  "This covers air raid alerts, power cuts and other such circumstances. First we look for a new date; if rescheduling isn't possible, we agree on terms that take into account what has already been done.",
+"Чи можна перенести подію через погану погоду?": "Can the event be moved because of bad weather?",
+"Так, якщо дощ, сніг чи інші умови роблять захід небезпечним для обладнання або людей — погоджуємо нову дату за тим самим принципом, що й будь-яке інше перенесення.":
+  "Yes. If rain, snow or other conditions make the event unsafe for the equipment or for people, we agree a new date on the same basis as any other reschedule.",
+"Хто відповідає за безпеку на самому заході?": "Who is responsible for safety at the event itself?",
+"Замовник відповідає за загальну організацію та безпеку події й майданчика. Ми відповідаємо за справну й безпечну роботу свого обладнання і маємо право зупинити його використання, якщо виникає реальна загроза людям чи техніці.":
+  "The client is responsible for the overall organisation and safety of the event and the venue. We are responsible for our equipment working properly and safely, and we have the right to stop using it if there is a real threat to people or equipment.",
+"Чи потрібно підписувати договір особисто, на папері?": "Do we have to sign the contract in person, on paper?",
+"Ні. Договір і підтвердження замовлення можна погодити електронно — листуванням, месенджером або іншим зручним способом, без особистої зустрічі.":
+  "No. The contract and the booking confirmation can be agreed electronically — by email, messenger or any other convenient way, with no need to meet in person.",
+
+# --- блок над формою
+'Не знайшли <span class="em">відповідь</span>?': "Didn't find <span class=\"em\">your answer</span>?",
+'Питайте напряму — <a href="mailto:hello.silent.ua@gmail.com">hello.silent.ua@gmail.com</a> або <a href="tel:+380963339068">+380&nbsp;96&nbsp;333&nbsp;90&nbsp;68</a>. А якщо вже готові, просто перевірте дату своєї події й залиште заявку.':
+  'Ask us directly — <a href="mailto:hello.silent.ua@gmail.com">hello.silent.ua@gmail.com</a> or <a href="tel:+380963339068">+380&nbsp;96&nbsp;333&nbsp;90&nbsp;68</a>. And if you\'re ready, just check the date of your event and send a request.',
+}
+
+# Рядки, які виводить site.js. На FAQ немає hero, тож hero порожній (як і в
+# українській версії цієї сторінки); решта — ті самі переклади, що й у
+# I18N_EN головної.
+I18N_FAQ_EN = """<script>
+window.SILENT_I18N = {
+  base: '',
+  locale: 'en-US',
+  currency: 'UAH',
+  hero: [],
+  sound: { on: 'Sound on', off: 'Turn sound on', mute: 'Turn sound off' },
+  calc: {
+    outside: 'travel across Ukraine',
+    reel: 'a short reel',
+    smoke: 'smoke and lights',
+    opts: (list) => `, options: ${list.join(', ')}`,
+    summary: (qty, hours, opts, total) =>
+      `From the calculator: ${qty} headphones, ${hours} hrs${opts}. Estimated budget: ${total} UAH.`,
+    note: (qty, hours, total) =>
+      `✓ Pulled in from the calculator: <b>${qty} headphones, ${hours} hrs, ~${total} UAH</b>. Check the comment below — you can add to it.`
+  },
+  uc: {
+    order: 'Book this experience',
+    line: (name) => `Interested in: ${name}.`,
+    note: (name) => `✓ Chosen experience: <b>${name}</b>. It is already in the comment below — add any details you like.`
+  },
+  cal: { foot: 'Date in the form: ' },
+  video: { clip: (n) => 'Clip ' + n, prev: 'Previous video', next: 'Next video' },
+  form: {
+    required: 'Please leave a name and a contact so we can get back to you.',
+    contactBad: 'That contact does not look right. Leave a phone number, an @handle or an email so we can reach you.',
+    datePast: 'That date has already passed. Pick the nearest one that works, or leave the field empty.',
+    sending: 'Sending…',
+    netFail: 'Could not send — the connection seems to be gone. Try again or call +380 96 333 90 68.',
+    checking: (d) => `Checking <b>${d}</b>`
+  }
+};
+</script>"""
+
+
+def build_faq():
+    s = unstamp(io.open(SRC_FAQ, encoding='utf-8').read())
+
+    for old, new in HEAD_FAQ:
+        if s.count(old) < 1:
+            sys.exit('немає в faq/index.html: ' + old[:80])
+        s = s.replace(old, new)
+
+    # Сторінка на рівень глибше за faq/: відносні шляхи до активів — на
+    # крок вище. Абсолютні (/images/…) і так працюють.
+    s = s.replace('href="../', 'href="../../').replace('src="../', 'src="../../')
+
+    # Посилання: головна та її розділи — на англійську головну, сама FAQ —
+    # на англійську FAQ. /experiences/ і /privacy/ лишаються українськими:
+    # англійських версій цих сторінок поки немає. ДО заміни перемикача мови:
+    # в українському перемикачі вже стоїть /en/faq/, регулярки його не
+    # зачеплять, а в англійському з'явиться /faq/ на українську — його
+    # чіпати не можна.
+    s = re.sub(r'href="/(#[^"]*)?"', lambda m: 'href="/en/' + (m.group(1) or '') + '"', s)
+    s = s.replace('href="/faq/', 'href="/en/faq/')
+
+    if s.count(SWITCH_UA_FAQ) != 1:
+        sys.exit('перемикач мови в faq/index.html не знайдено')
+    s = s.replace(SWITCH_UA_FAQ, SWITCH_EN_FAQ)
+
+    m = re.search(r'<script>\nwindow\.SILENT_I18N = \{[\s\S]*?\n\};\n</script>', s)
+    if not m:
+        sys.exit('блок SILENT_I18N у faq/index.html не знайдено')
+    s = s[:m.start()] + I18N_FAQ_EN + s[m.end():]
+
+    # Об'єднаний словник: повні речення FAQ + спільні рядки меню/футера/форми.
+    merged = dict(T)
+    merged.update(T_FAQ)
+    for k in sorted(merged, key=len, reverse=True):
+        s = flexible(k).sub(lambda mm, v=merged[k]: v, s)
+
+    os.makedirs(os.path.dirname(DST_FAQ), exist_ok=True)
+    io.open(DST_FAQ, 'w', encoding='utf-8').write(s)
+    assert_translated(s, 'en/faq/index.html')
+    print('en/faq/index.html зібрано:', len(s.split('\n')), 'рядків, неперекладеного немає')
+
 if __name__ == '__main__':
     build()
     build_404()
     # Стрічку сценаріїв збираємо до позначки версій: вона переписує сторінки
     # досвідів, і хеш активів має лягти вже на готовий вміст.
     build_experience_strips()
+    build_faq()
     # Останнім кроком, коли обидві англійські сторінки вже на диску: позначка
     # лягає на всі чотири файли одразу.
     stamp_files()
