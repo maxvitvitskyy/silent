@@ -790,7 +790,6 @@ window.SILENT_I18N = {
 </script>
 <script src="../assets/vendor/gsap.min.js"></script>
 <script src="../assets/vendor/ScrollTrigger.min.js"></script>
-<script src="../assets/vendor/Flip.min.js"></script>
 <script src="../assets/site.js"></script>"""
 
 

@@ -1385,30 +1385,8 @@ function orderExperience(name){
         });
       }
 
-      function applyCat(cat, wasSimple){
+      function applyCat(cat){
         ensureSimpleCards();
-        // Тема → тема: картки вже існують у звичайному потоці, тож Flip може
-        // провести їх «Flexbox Filtering». Перехід «Усі → тема» (пул був
-        // віртуалізований, елементів іще не існувало) лишається каскадом входу.
-        // Flip лише коли стрічка стоїть на початку: якщо її прогорнули вправо,
-        // «нова тема — з початку ряду» означає стрибок прокрутки, і картки
-        // пролітали б усю відстань збоку. Тоді працює швидкий перехід нижче.
-        if (wasSimple && view.scrollLeft <= 2){
-          let n = 0;
-          const ok = flipFilter(simpleCards, () => {
-            leaveTimers.forEach(t => clearTimeout(t)); leaveTimers.clear();
-            simpleCards.forEach(c => {
-              if (c.classList.contains('is-leaving')){ c.hidden = true; c.classList.remove('is-leaving'); }
-              clearLeaveStyles(c);
-              c.classList.remove('is-entering');
-              const on = (c.dataset.cats || '').split(' ').indexOf(cat) !== -1;
-              if (on){ rows[n % rows.length].el.appendChild(c); n++; }
-              else c.classList.remove('is-lit');
-              c.hidden = !on;
-            });
-          }, [view, ...rows.map(r => r.el)], stripSection);
-          if (ok) return n;
-        }
         const before = new Map();
         simpleCards.forEach(c => { if (!c.hidden) before.set(c, c.getBoundingClientRect()); });
         // Картку, що йде, тримаємо на місці відносно ТОГО ряду, де вона стоїть.
@@ -1505,12 +1483,11 @@ function orderExperience(name){
           if (galleryEl) galleryEl.classList.remove('is-simple');
           return;
         }
-        const wasSimple = simple;
         simple = true;
         virtualized = false;
         if (galleryEl) galleryEl.classList.add('is-simple');
         let shown = 0;
-        holdScroll(() => { shown = applyCat(cat, wasSimple); });
+        holdScroll(() => { shown = applyCat(cat); });
         if (countEl) countEl.textContent = countText(shown);
       }
 
@@ -3986,18 +3963,12 @@ function orderExperience(name){
   // демо має 0.7с рух і по 1с вхід/вихід, а на сторінці з десятками карток це
   // відчувалось як гальмування.
   let lastFlip = null, flipToken = 0;
-  function flipFilter(cards, mutate, containers, host){
+  function flipFilter(cards, mutate, containers){
     const G = window.gsap, F = window.Flip;
     if (!G || !F || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
     G.registerPlugin(F);
     if (lastFlip){ lastFlip.progress(1); lastFlip = null; }
     flipToken++;   // скасовує відкладене зняття gs-busy попереднього переходу
-    // host — секція з важким фоном (аврора). Її великий маскований шар із
-    // розмиттям під рухомими картками перемальовувався кожен кадр (виміряно:
-    // p95 кадру 75мс замість 9мс; призупинення анімацій не допомагає — дорога
-    // сама присутність шару). На час перетасовки приглушуємо саме його (CSS
-    // .is-shuffling) і плавно повертаємо після завершення.
-    if (host) host.classList.add('is-shuffling');
     const conts = (containers || []).filter(Boolean);
     const h0 = conts.map(e => e.getBoundingClientRect().height);
     // simple:true — режим Flip без обчислення матриць трансформацій кожного
@@ -4034,10 +4005,7 @@ function orderExperience(name){
         // а потім вилітала. Це і був стрибок після фільтра.
         const my = ++flipToken;
         requestAnimationFrame(() => requestAnimationFrame(() => {
-          if (my === flipToken){
-            cards.forEach(c => c.classList.remove('gs-busy'));
-            if (host) host.classList.remove('is-shuffling');
-          }
+          if (my === flipToken) cards.forEach(c => c.classList.remove('gs-busy'));
         }));
       }
     });
