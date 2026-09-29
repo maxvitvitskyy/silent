@@ -3699,14 +3699,6 @@
     background: linear-gradient(90deg, var(--lime), rgba(198,255,0,0));
     box-shadow: 0 0 14px 2px rgba(198,255,0,0.45);
   }
-  /* Лінія-сканер, що ковзає по фото картки, поки воно «завантажується». Живе
-     лише на час показу. */
-  .uc-scan {
-    position: absolute; left: 0; right: 0; top: 0; height: 2px; z-index: 3;
-    border-radius: 2px; pointer-events: none; opacity: 0;
-    background: linear-gradient(90deg, transparent, var(--lime) 30%, var(--lime) 70%, transparent);
-    box-shadow: 0 0 16px 3px rgba(198,255,0,0.6), 0 0 44px 10px rgba(198,255,0,0.22);
-  }
 
   @media (prefers-reduced-motion: reduce) {
     /* Рух і цикли гасимо, а короткий відгук кольору/прозорості лишаємо: HIG радить

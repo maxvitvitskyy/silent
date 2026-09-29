@@ -2025,9 +2025,9 @@ function orderExperience(name){
   //  • «Атмосфера»: кожен кадр «підіймається завісою» знизу вгору (clip-path),
   //    фото всередині повільно віддаляється зі збільшення, кнопка відео
   //    проявляється в кінці. Хвиля йде зліва направо.
-  //  • «Silent-досвіди»: картка «завантажується» — по фото зверху вниз ковзає
-  //    лаймова лінія-сканер, а кадр проявляється слідом за нею, як
-  //    проявлений знімок; потім заголовок, опис і кнопка.
+  //  • «Silent-досвіди»: картки плавно підіймаються й розправляються, фото в
+  //    них «доїжджає» з легкого зуму — той самий вхід, що в каталозі
+  //    /experiences/ (без ліній і спалахів).
   // До моменту показу контейнер тримає CSS-приховування .reveal, а елементи
   // усередині ховаємо в тому ж такті, коли контейнер відкриваємо, — миготіння
   // нема. Без GSAP загальна поява показує контейнер цілком, як раніше.
@@ -2074,54 +2074,65 @@ function orderExperience(name){
       });
       running.push(tl);
     }
-    function showCards(c){
-      const cards = order([].slice.call(c.querySelectorAll('.uc-card')).filter(el => !el.hidden && onScreen(el)));
+    // Картки, що на момент показу блоку ще нижче краю екрана (другий ряд, коли
+    // блок тільки заїхав у кадр), чекають своєї черги: їх ховаємо й проявляємо
+    // тим самим рухом, щойно вони самі потраплять в екран. Раніше грав лише
+    // верхній ряд, а нижній просто стояв — його анімація відбувалась би, поки
+    // його ще не видно.
+    const pendingCards = new Set();
+    let pendingQueue = [], pendingTimer = 0;
+    function animateCards(cards){
+      if (!cards.length) return;
       cards.forEach(el => el.classList.add('gs-busy'));
-      const parts = cards.map(el => ({
-        el: el, media: el.querySelector('.uc-media'), img: el.querySelector('.uc-media img'),
-        txt: [].slice.call(el.querySelectorAll('.uc-body h3, .uc-body p, .uc-body .uc-order')),
-        scan: null, o: { p: 0 }
-      }));
-      parts.forEach(t => {
-        G.set(t.el, { opacity: 0 });
-        G.set(t.txt, { opacity: 0 });
-        if (t.media){
-          t.scan = document.createElement('span');
-          t.scan.className = 'uc-scan'; t.scan.setAttribute('aria-hidden', 'true');
-          t.media.appendChild(t.scan);
-        }
-      });
-      c.classList.add('in', 'rv-done');
+      G.set(cards, { opacity: 0 });
       const tl = G.timeline({ onComplete: () => {
-        parts.forEach(t => {
-          t.el.classList.remove('gs-busy');
-          G.set(t.el, { clearProps: 'opacity,transform' });
-          G.set(t.txt, { clearProps: 'opacity,transform' });
-          if (t.media) t.media.style.clipPath = '';
-          if (t.img) G.set(t.img, { clearProps: 'transform' });
-          if (t.scan) t.scan.remove();
+        cards.forEach(el => {
+          el.classList.remove('gs-busy');
+          G.set(el, { clearProps: 'opacity,transform,scale' });
+          const img = el.querySelector('.uc-media img'); if (img) G.set(img, { clearProps: 'transform' });
         });
       } });
-      parts.forEach((t, i) => {
-        const at = Math.min(i * 0.09, 0.8);
-        tl.fromTo(t.el, { opacity: 0, y: 34 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, at);
-        if (t.media){
-          const mh = t.media.getBoundingClientRect().height;
-          const paint = () => {
-            // Знизу -110px у кінці: у фото є хвіст, що згасає під кадром,
-            // clip-path інакше зрізав би його різкою лінією.
-            t.media.style.clipPath = 'inset(-24px -24px calc(' + ((1 - t.o.p) * 100).toFixed(2) + '% - ' + (t.o.p * 110).toFixed(1) + 'px) -24px)';
-            t.scan.style.transform = 'translateY(' + (t.o.p * mh).toFixed(1) + 'px)';
-          };
-          paint();
-          tl.to(t.o, { p: 1, duration: 1.0, ease: 'power2.inOut', onUpdate: paint }, at + 0.05)
-            .fromTo(t.scan, { opacity: 0 }, { opacity: 1, duration: 0.15 }, at + 0.05)
-            .to(t.scan, { opacity: 0, duration: 0.3 }, at + 0.8);
-          if (t.img) tl.fromTo(t.img, { scale: 1.2 }, { scale: 1, duration: 1.5, ease: 'power3.out' }, at + 0.05);
-        }
-        tl.fromTo(t.txt, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out', stagger: 0.09 }, at + 0.5);
+      const step = Math.min(0.09, 0.45 / Math.max(cards.length, 1));
+      cards.forEach((el, i) => {
+        const at = i * step;
+        const img = el.querySelector('.uc-media img');
+        tl.fromTo(el, { opacity: 0, y: 42, scale: 0.975 }, { opacity: 1, y: 0, scale: 1, duration: 0.9, ease: 'power3.out' }, at);
+        if (img) tl.fromTo(img, { scale: 1.14 }, { scale: 1, duration: 1.3, ease: 'power3.out' }, at);
       });
       running.push(tl);
+    }
+    const ioPending = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        ioPending.unobserve(e.target);
+        if (!pendingCards.has(e.target)) return;
+        pendingCards.delete(e.target);
+        pendingQueue.push(e.target);
+        if (!pendingTimer) pendingTimer = setTimeout(() => {
+          pendingTimer = 0;
+          animateCards(order(pendingQueue.splice(0)));
+        }, 60);
+      });
+    }, { threshold: 0.12 });
+    function showCards(c){
+      // Той самий плавний вхід, що в картках каталогу на /experiences/: картка
+      // піднімається знизу й трохи збільшується до свого розміру, фото
+      // всередині повільно віддаляється з легкого зуму. Без ліній і спалахів.
+      const all = [].slice.call(c.querySelectorAll('.uc-card')).filter(el => {
+        if (el.hidden) return false;
+        const r = el.getBoundingClientRect();
+        return r.width > 0 && r.right > 0 && r.left < innerWidth;   // у межах екрана по горизонталі
+      });
+      const now = all.filter(onScreen), later = all.filter(el => !onScreen(el));
+      later.forEach(el => {
+        el.classList.add('gs-busy');
+        G.set(el, { opacity: 0 });
+        pendingCards.add(el);
+        ioPending.observe(el);
+      });
+      G.set(now, { opacity: 0 });
+      c.classList.add('in', 'rv-done');
+      animateCards(order(now));
     }
     const io2 = new IntersectionObserver((entries) => {
       entries.forEach(e => {
@@ -2146,6 +2157,13 @@ function orderExperience(name){
       // працював би по невидимому блоку.
       conts.forEach(c => { if (!c.classList.contains('rv-done')){ io2.unobserve(c); c.classList.add('in', 'rv-done'); } });
       running.splice(0).forEach(tl => tl.progress(1));
+      // Картки, що чекали своєї черги, показуємо одразу й чисто.
+      pendingCards.forEach(el => {
+        ioPending.unobserve(el);
+        el.classList.remove('gs-busy');
+        G.set(el, { clearProps: 'opacity,transform,scale' });
+      });
+      pendingCards.clear(); pendingQueue = [];
     };
     document.addEventListener('click', (e) => {
       if (e.target.closest && e.target.closest('.exp-chip')) window.__stripFinish();
