@@ -42,13 +42,13 @@ function orderExperience(name){
   // саме цього CSS-transition не вміє. Без GSAP — той самий зсув без пружини.
   (function(){
     const btns = [].slice.call(document.querySelectorAll(
-      '.hero-actions .btn-primary, .nav-cta, .band-cta-btn, .f-cta'));
+      '.hero-actions .btn-primary, .band-cta-btn, .f-cta'));
     if (!btns.length || !window.matchMedia('(hover: hover) and (pointer: fine)').matches ||
         window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const G = window.gsap;
     const RANGE = 110;
     const items = btns.map(function(btn){
-      const it = { btn: btn, pull: btn.classList.contains('nav-cta') ? 5 : 8, o: { x: 0, y: 0 } };
+      const it = { btn: btn, pull: 8, o: { x: 0, y: 0 } };
       btn.classList.add('magnet');
       const paint = function(){
         btn.style.setProperty('--mx', it.o.x.toFixed(2) + 'px');
@@ -1722,7 +1722,32 @@ function orderExperience(name){
   function gsKind(el){
     if (el.matches('h2, .h2, .exp-head-title')) return 'head';
     if (el.matches('.eyebrow, .section-lead, .how-lead, .slabs-foot')) return 'text';
+    if (el.matches('.benefit-card')) return 'benefit';
     return 'card';
+  }
+  // Картки «Досвіду гостя»: не просто виїзд, а невеличка вистава. Картка
+  // піднімається знизу з легким нахилом «від глядача» (rotationX із
+  // перспективою), розпрямляється й лягає; слідом іконка вистрибує з
+  // прокруткою, а заголовок і опис проявляються нашаруванням — око встигає
+  // прочитати картку по частинах. Хвиля йде за порядком у сітці, тож ряд
+  // приходить зліва направо, а другий — услід за першим.
+  function gsBenefit(el, i, narrow){
+    const G = window.gsap;
+    const icon = el.querySelector('.b-icon');
+    const h3 = el.querySelector('h3'), p = el.querySelector('p');
+    const at = i * 0.11;
+    G.fromTo(el,
+      narrow ? { opacity: 0, y: 46, scale: 0.96 }
+             : { opacity: 0, y: 70, scale: 0.93, rotationX: -14, transformPerspective: 900, transformOrigin: '50% 100%' },
+      { opacity: 1, y: 0, scale: 1, rotationX: 0, duration: 1.05, ease: 'expo.out', delay: at, overwrite: 'auto',
+        onComplete: () => {
+          el.classList.add('in', 'rv-done');
+          G.set(el, { clearProps: 'opacity,transform,translate,scale,rotation,transformOrigin,willChange' });
+        } });
+    if (h3) G.fromTo(h3, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', delay: at + 0.22, clearProps: 'opacity,transform' });
+    if (p)  G.fromTo(p,  { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.65, ease: 'power3.out', delay: at + 0.32, clearProps: 'opacity,transform' });
+    if (icon) G.fromTo(icon, { opacity: 0, scale: 0.3, rotation: -25 },
+      { opacity: 1, scale: 1, rotation: 0, duration: 0.8, ease: 'back.out(2.2)', delay: at + 0.38, clearProps: 'opacity,transform' });
   }
   function gsFlush(){
     gsTimer = 0;
@@ -1731,8 +1756,12 @@ function orderExperience(name){
     if (!els.length) return;
     const ease = 'power3.out';
     const step = Math.min(0.09, 0.45 / els.length);
+    // Вузька смуга — одноколонкова стрічка з нашаруванням і нахилами карток:
+    // 3D-нахил там зайвий, а нашарування з нахилом читається й без нього.
+    const narrow = window.matchMedia('(max-width: 560px)').matches;
     els.forEach((el, i) => {
       const kind = gsKind(el);
+      if (kind === 'benefit'){ gsBenefit(el, i, narrow); return; }
       const from = kind === 'head' ? { opacity: 0, y: 30, filter: 'blur(9px)' }
                  : kind === 'text' ? { opacity: 0, y: 14 }
                  :                   { opacity: 0, y: 42, scale: 0.975 };
@@ -1749,6 +1778,11 @@ function orderExperience(name){
           window.gsap.set(el, { clearProps: 'opacity,transform,translate,scale,filter,willChange' });
         }
       });
+      // Картки каталогу: фото всередині повільно «доїжджає» з легкого
+      // збільшення — картка з'являється не пласким прямокутником, а кадром.
+      const img = el.matches('.uc-card') && el.querySelector('.uc-media img');
+      if (img) window.gsap.fromTo(img, { scale: 1.14 },
+        { scale: 1, duration: 1.3, ease: 'power3.out', delay: i * step, clearProps: 'transform' });
     });
   }
   const io = new IntersectionObserver((entries) => {
@@ -1780,6 +1814,9 @@ function orderExperience(name){
     const group = el.parentElement
       ? Array.prototype.filter.call(el.parentElement.children, n => n.classList.contains('reveal'))
       : [];
+    // Таймлайн «Як це працює» проявляється власною хореографією (нижче), тож
+    // загальна поява його не чіпає.
+    if (gsapOn && el.matches('.flow')) return;
     if (gsapOn && !el.matches('.slab')){
       // Свій transition CSS-появи вимкнено (клас gs-rv), рух веде GSAP.
       el._gs = true;
@@ -1791,6 +1828,186 @@ function orderExperience(name){
     el.style.transitionDelay = (Math.min(k, 4) * 0.07).toFixed(2) + 's';
     io.observe(el);
   });
+
+  // ---- Картки каталогу на /experiences/: поява при прокрутці ----
+  // Сорок чотири картки раніше стояли одразу всі. Тепер ряд за рядом
+  // проявляються чергою (загальний механізм появи вище: тригер IO, рух GSAP),
+  // а фото в кожній додатково «доїжджає» з легкого збільшення.
+  // До першого кадру картки ховає CSS (html.js .exp-grid .uc-card:not(.rv-done)),
+  // тож без цього коду вони мусять бути показані — інакше каталог лишився б
+  // порожнім: без GSAP усі картки одразу позначаємо як готові.
+  // Фільтр тем (нижче) перед кожним перемиканням викликає __expFinish: він
+  // миттю доводить до кінця всі, що ще не встигли з'явитись, — інакше картка,
+  // яку фільтр показав уперше, лишалась би прозорою, а його власна анімація
+  // входу й FLIP-зсув лягали б на чужий transform.
+  (function(){
+    const cards = [].slice.call(document.querySelectorAll('.exp-grid .uc-card'));
+    if (!cards.length) return;
+    if (!gsapOn){
+      cards.forEach(c => c.classList.add('rv-done'));
+      return;
+    }
+    cards.forEach(c => { c._gs = true; c.classList.add('gs-rv'); io.observe(c); });
+    window.__expFinish = function(){
+      cards.forEach(c => {
+        if (c.classList.contains('rv-done')) return;
+        io.unobserve(c);
+        window.gsap.killTweensOf(c);
+        const img = c.querySelector('.uc-media img');
+        if (img) window.gsap.killTweensOf(img);
+        c.classList.add('in', 'rv-done');
+        window.gsap.set(c, { clearProps: 'opacity,transform,translate,scale,filter,willChange' });
+        if (img) window.gsap.set(img, { clearProps: 'transform' });
+      });
+      gsQueue.length = 0;
+    };
+  })();
+
+  // ---- «Як це працює»: таймлайн проявляється по ходу лінії (GSAP) ----
+  // Раніше весь блок виїжджав одним шматком. Тепер це одна історія: лінія
+  // малюється від першого кроку до останнього, а перед нею біжить світла
+  // іскра; щойно фронт лінії доходить до кружечка, той «вистрибує» зі
+  // спалахом, його іконка на мить оживає, і слідом проявляється сам крок —
+  // номер, заголовок, пункти, а галочки в них домальовуються.
+  // Момент кожного кроку рахується з ПОЛОЖЕННЯ його кружечка на лінії й
+  // з кривої руху лінії (обернена ease), а не задається на око, тож кружечок
+  // з'являється саме тоді, коли лінія до нього дійшла, за будь-якої ширини.
+  // Лінією керує CSS-змінна --p (0…1) на .flow: clip-path її ::before читає
+  // її (див. site.css, «Лінія таймлайна»). Три розкладки — три сценарії:
+  //   ≥1041px  горизонтальна лінія;  621–1040px  сітка 2×2 без спільної лінії,
+  //   кроки ідуть по черзі;  ≤620px  вертикальна лінія праворуч.
+  // Тригер — ScrollTrigger, одноразовий. Без GSAP і при reduce-motion блок
+  // показується як завжди (загальна поява).
+  (function(){
+    const G = window.gsap, ST = window.ScrollTrigger;
+    const flow = document.querySelector('.flow');
+    if (!G || !ST || !flow ||
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    G.registerPlugin(ST);
+    // Сам <ol> робимо видимим одразу: ховається лише вміст, тож між кадрами
+    // нема ні миготіння, ні порожнього блоку, якщо скрипт спізниться.
+    flow.classList.add('in', 'rv-done');
+
+    const steps = [].slice.call(flow.querySelectorAll('.flow-step'));
+    const P = steps.map(function(st){
+      return {
+        step: st,
+        node: st.querySelector('.flow-node'),
+        chip: st.querySelector('.flow-chip'),
+        h3: st.querySelector('h3'),
+        lis: [].slice.call(st.querySelectorAll('.step-list li')),
+        ticks: [].slice.call(st.querySelectorAll('.step-list li svg path'))
+      };
+    });
+    let triggered = false, played = false, tl = null;
+
+    // Вміст кроку: номер, заголовок, пункти черзі; галочки домальовуються.
+    function content(p, tlx, at){
+      tlx.fromTo(p.chip, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out' }, at)
+         .fromTo(p.h3,   { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.55, ease: 'power3.out' }, at + 0.08)
+         .fromTo(p.lis,  { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out', stagger: 0.12 }, at + 0.22)
+         .to(p.ticks,    { strokeDashoffset: 0, duration: 0.4, ease: 'power2.out', stagger: 0.12 }, at + 0.34);
+    }
+    // Кружечок: пружинний вистріл, спалах свічення й короткий «пульс» іконки.
+    function pop(p, tlx, at){
+      tlx.fromTo(p.node, { opacity: 0, scale: 0.2 },
+                 { opacity: 1, scale: 1, duration: 0.7, ease: 'back.out(2.4)' }, at)
+         .fromTo(p.node, { boxShadow: '0 0 0px 0px rgba(198,255,0,0), inset 0 0 0px 0px rgba(198,255,0,0)' },
+                 { boxShadow: '0 0 60px 8px rgba(198,255,0,0.8), inset 0 0 26px -4px rgba(198,255,0,0.7)',
+                   duration: 0.28, ease: 'power2.out', yoyo: true, repeat: 1 }, at + 0.05)
+         .call(function(){ p.step.classList.add('flow-pop'); }, null, at + 0.05)
+         .call(function(){ p.step.classList.remove('flow-pop'); }, null, at + 1.5);
+    }
+    function hideAll(){
+      P.forEach(function(p){
+        p.ticks.forEach(function(t){
+          const len = t.getTotalLength ? Math.ceil(t.getTotalLength()) : 20;
+          t.style.strokeDasharray = len; t.style.strokeDashoffset = len;
+        });
+      });
+    }
+    function cleanup(){
+      P.forEach(function(p){
+        G.set([p.node, p.chip, p.h3, p.lis, p.ticks, p.step], { clearProps: 'all' });
+      });
+      G.set(flow, { clearProps: '--p' });
+      const sp = flow.querySelector('.flow-spark'); if (sp) sp.remove();
+    }
+    function finish(){ played = true; cleanup(); }
+
+    G.matchMedia().add({
+      line: '(min-width: 1041px), (max-width: 620px)',
+      grid: '(min-width: 621px) and (max-width: 1040px)'
+    }, function(ctx){
+      if (played) return;
+      const vertical = window.matchMedia('(max-width: 620px)').matches;
+      hideAll();
+      tl = G.timeline({ paused: true, onComplete: finish });
+
+      if (ctx.conditions.line){
+        const fr = flow.getBoundingClientRect();
+        const total = vertical ? fr.height : fr.width;
+        const dur = vertical ? 1.9 : 2.1;
+        const ease = G.parseEase('power2.inOut');
+        // Момент, коли лінія дійшла до частки frac свого шляху: обернена ease.
+        function timeAt(frac){
+          let lo = 0, hi = 1;
+          for (let i = 0; i < 26; i++){ const m = (lo + hi) / 2; if (ease(m) < frac) lo = m; else hi = m; }
+          return ((lo + hi) / 2) * dur;
+        }
+        // Іскра на фронті лінії: лежить на тій самій осі, що й центри кружечків.
+        const c0 = P[0].node.getBoundingClientRect();
+        const spark = document.createElement('span');
+        spark.className = 'flow-spark'; spark.setAttribute('aria-hidden', 'true');
+        spark.style.left = vertical ? (c0.left + c0.width / 2 - fr.left) + 'px' : '0px';
+        spark.style.top  = vertical ? '0px' : (c0.top + c0.height / 2 - fr.top) + 'px';
+        flow.appendChild(spark);
+
+        G.set(flow, { '--p': 0 });
+        G.set(P.map(function(p){ return p.node; }), { opacity: 0, scale: 0.2 });
+        G.set(P.map(function(p){ return p.chip; }), { opacity: 0 });
+        G.set(P.map(function(p){ return p.h3; }), { opacity: 0 });
+        G.set([].concat.apply([], P.map(function(p){ return p.lis; })), { opacity: 0 });
+
+        tl.to(flow, { '--p': 1, duration: dur, ease: 'power2.inOut' }, 0);
+        tl.fromTo(spark, vertical ? { y: 0 } : { x: 0 }, vertical ? { y: total, duration: dur, ease: 'power2.inOut' }
+                                                                   : { x: total, duration: dur, ease: 'power2.inOut' }, 0);
+        tl.fromTo(spark, { opacity: 0 }, { opacity: 1, duration: 0.25 }, 0)
+          .to(spark, { opacity: 0, duration: 0.35 }, dur - 0.3);
+        P.forEach(function(p, i){
+          const r = p.node.getBoundingClientRect();
+          const frac = vertical ? (r.top + r.height / 2 - fr.top) / total
+                                : (r.left + r.width / 2 - fr.left) / total;
+          const t = timeAt(Math.min(Math.max(frac, 0), 1));
+          pop(p, tl, Math.max(0, t - 0.12));
+          content(p, tl, t + 0.06);
+        });
+      } else {
+        // Планшет: лінії немає (кожна картка з власною обводкою), тож кроки
+        // приходять по черзі — картка виїжджає, кружечок вистрибує, вміст
+        // проявляється.
+        G.set(P.map(function(p){ return p.step; }), { opacity: 0, y: 38 });
+        G.set(P.map(function(p){ return p.node; }), { opacity: 0, scale: 0.2 });
+        G.set(P.map(function(p){ return p.chip; }), { opacity: 0 });
+        G.set(P.map(function(p){ return p.h3; }), { opacity: 0 });
+        G.set([].concat.apply([], P.map(function(p){ return p.lis; })), { opacity: 0 });
+        P.forEach(function(p, i){
+          const at = i * 0.34;
+          tl.to(p.step, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, at);
+          pop(p, tl, at + 0.12);
+          content(p, tl, at + 0.3);
+        });
+      }
+      if (triggered) tl.play();
+      return function(){ if (tl) tl.kill(); };
+    });
+
+    ST.create({
+      trigger: flow, start: 'top 80%', end: 'bottom top', once: true,
+      onEnter: go, onLeave: go
+    });
+    function go(){ triggered = true; if (tl && !played) tl.play(); }
+  })();
 
   // ---- Календар у формі ----
   // Підставляє дату в поле «Бажана дата» і читає його назад, тож обидва способи
@@ -3019,11 +3236,50 @@ function orderExperience(name){
     // компенсація через top на body його не ловить. overflow:hidden на
     // <html> лишає її scrollTop недоторканим, доки body заблокований.
     let lockedY = 0;
+    // GSAP-поява панелі. Не пружна «крапля» CSS, а розкриття: панель ніби
+    // випливає з пігулки зверху донизу (clip-path), пункти по черзі
+    // виїжджають зліва з наведенням на різкість, нижній рядок — останнім.
+    // Клас gs-menu вимикає CSS-перехід і CSS-хвилю пунктів (site.css), інакше
+    // вони б грали разом із GSAP. Без GSAP і при reduce-motion лишається CSS.
+    const G = window.gsap;
+    const gsMenu = !!G && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (gsMenu) drawer.classList.add('gs-menu');
+    const gsPanel = drawer.querySelector('.nav-drawer-panel');
+    function gsOpen(){
+      const items = [].slice.call(drawer.querySelectorAll('.nav-drawer-links > a, .nav-drawer-links > .nav-drawer-item-expand'));
+      const bottom = drawer.querySelector('.nav-drawer-bottom');
+      G.killTweensOf([gsPanel, items, bottom]);
+      const o = { p: 0 };
+      const paint = function(){
+        // Знизу -80px у кінці: clip-path інакше зрізав би тінь панелі.
+        gsPanel.style.clipPath = 'inset(0 -40px calc(' + ((1 - o.p) * 100).toFixed(2) + '% - ' + (o.p * 80).toFixed(1) + 'px) -40px)';
+      };
+      G.set(gsPanel, { opacity: 1, y: -14 });
+      G.set(items, { opacity: 0, x: -20, filter: 'blur(5px)' });
+      G.set(bottom, { opacity: 0, y: 14 });
+      paint();
+      const tl = G.timeline();
+      tl.to(o, { p: 1, duration: 0.6, ease: 'expo.out', onUpdate: paint }, 0)
+        .to(gsPanel, { y: 0, duration: 0.6, ease: 'expo.out' }, 0)
+        .to(items, { opacity: 1, x: 0, filter: 'blur(0px)', duration: 0.5, ease: 'power3.out', stagger: 0.055,
+                     clearProps: 'opacity,transform,filter' }, 0.12)
+        .to(bottom, { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out', clearProps: 'opacity,transform' }, 0.12 + items.length * 0.055)
+        .add(function(){ gsPanel.style.clipPath = ''; });
+    }
+    function gsClose(){
+      const items = [].slice.call(drawer.querySelectorAll('.nav-drawer-links > a, .nav-drawer-links > .nav-drawer-item-expand'));
+      G.killTweensOf([gsPanel, items, drawer.querySelector('.nav-drawer-bottom')]);
+      G.set(items, { clearProps: 'opacity,transform,filter' });
+      G.set(drawer.querySelector('.nav-drawer-bottom'), { clearProps: 'opacity,transform' });
+      gsPanel.style.clipPath = '';
+      G.to(gsPanel, { opacity: 0, y: -10, duration: 0.24, ease: 'power2.in' });
+    }
     function openDrawer(){
       lockedY = window.scrollY;
       drawer.classList.add('show');
       backdrop.classList.add('show');
       nav.classList.add('menu-open');
+      if (gsMenu) gsOpen();
       burger.setAttribute('aria-expanded', 'true');
       document.documentElement.style.overflow = 'hidden';
       document.body.style.position = 'fixed';
@@ -3033,6 +3289,7 @@ function orderExperience(name){
       document.body.style.width = '100%';
     }
     function closeDrawer(){
+      if (gsMenu) gsClose();
       drawer.classList.remove('show');
       backdrop.classList.remove('show');
       nav.classList.remove('menu-open');
@@ -3148,6 +3405,9 @@ function orderExperience(name){
     }
 
     function apply(cat){
+      // Незавершену появу при прокрутці (site.js, «Картки каталогу») доводимо
+      // до кінця ДО того, як знімаємо «до»-координати для FLIP.
+      if (window.__expFinish) window.__expFinish();
       const before = new Map();
       cards.forEach(c => { if (!c.hidden) before.set(c, c.getBoundingClientRect()); });
       // Координати картки, що йде, рахуємо від цього ж знімка «до», а не від

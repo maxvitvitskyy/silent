@@ -382,6 +382,13 @@
        тільки форма (радіус/gap), сквош-стреч додає лише відчуття пружності. */
     nav.is-morphing { animation: navLiquidMorph 0.5s var(--ease-arrive); transform-origin: center top; }
   }
+  /* GSAP-меню (site.js, gsOpen/gsClose): рух панелі й пунктів веде скрипт, тож
+     CSS-перехід панелі й CSS-хвиля пунктів вимикаються — інакше вони б грали
+     разом із GSAP. Видимістю контейнера й підкладки, як і раніше, керує CSS. */
+  .nav-drawer.gs-menu .nav-drawer-panel,
+  .nav-drawer.gs-menu.show .nav-drawer-panel { transition: none; transform: none; opacity: 0; }
+  .nav-drawer.gs-menu.show .nav-drawer-links a,
+  .nav-drawer.gs-menu.show .nav-drawer-bottom { animation: none; }
   @media (max-width: 1040px) and (prefers-reduced-motion: reduce){
     body > nav, .logo, .nav-links, .logo-icon, .logo-word, .nav-cta, .nav-burger { transition: none !important; }
     nav.is-morphing { animation: none; }
@@ -2191,6 +2198,7 @@
   /* Без translateY: кружечок стоїть серединою на лінії й від зсуву відривався
      б від неї. Лишається саме світіння. */
   .flow-step:hover .flow-node,
+  .flow-step.flow-pop .flow-node,
   .flow-step.is-lit .flow-node {
     border-color: rgba(198,255,0,0.65);
     box-shadow:
@@ -2211,6 +2219,22 @@
     letter-spacing: 0.5px; font-variant-numeric: tabular-nums;
   }
   .flow-step h3 { font-size: 16px; font-weight: 700; line-height: 1.3; margin-bottom: 9px; }
+  /* Лінія таймлайна малюється при появі блоку (site.js, «Як це працює»):
+     GSAP веде --p від 0 до 1, а clip-path відкриває ::before слідом. Від'ємні
+     поля 50px потрібні, щоб не зрізати світіння лінії (box-shadow виходить за
+     її межі). У стані спокою --p не заданий і дорівнює 1 — нічого не зрізано. */
+  @media (min-width: 1041px){
+    .flow::before { clip-path: inset(-50px calc(-50px + (1 - var(--p, 1)) * (100% + 50px)) -50px -50px); }
+  }
+  @media (max-width: 620px){
+    .flow::before { clip-path: inset(-50px -50px calc(-50px + (1 - var(--p, 1)) * (100% + 50px)) -50px); }
+  }
+  /* Іскра на фронті лінії: створюється скриптом на час малювання й видаляється. */
+  .flow-spark {
+    position: absolute; z-index: 3; width: 10px; height: 10px; margin: -5px 0 0 -5px;
+    border-radius: 50%; background: #fff; pointer-events: none; opacity: 0;
+    box-shadow: 0 0 10px 3px rgba(198,255,0,0.95), 0 0 30px 10px rgba(198,255,0,0.5);
+  }
 
   @media (max-width: 1040px){
     .flow { grid-template-columns: 1fr 1fr; gap: 60px 20px; }
@@ -3649,6 +3673,10 @@
      рух і прозорість пише GSAP в інлайн. Свій transition при цьому мусить
      мовчати — інакше він згладжував би кожен кадр GSAP і рух відставав би. */
   html.js .reveal.gs-rv:not(.rv-done) { transition: none; translate: none; }
+  /* Картки каталогу /experiences/ ховаються тим самим способом, але без класу
+     .reveal (їх малює збірник, а не розмітка). Кінцевий стан задає GSAP. */
+  html.js .exp-grid .uc-card:not(.rv-done) { opacity: 0; }
+  html.js .exp-grid .uc-card.gs-rv:not(.rv-done) { transition: none; }
 
   @media (prefers-reduced-motion: reduce) {
     /* Рух і цикли гасимо, а короткий відгук кольору/прозорості лишаємо: HIG радить
@@ -3664,7 +3692,7 @@
        інакше при вимкненому руху блоки лишалися б прихованими. Знімаємо саме
        translate: transform тут чіпати не можна, бо в картках відгуків на ньому
        тримається нахил, а він не рух, а композиція. */
-    .reveal, html.js .reveal { opacity: 1 !important; translate: none !important; }
+    .reveal, html.js .reveal, html.js .exp-grid .uc-card { opacity: 1 !important; translate: none !important; }
     /* These start at opacity:0 and reveal themselves through the `rise`
        animation. With animations off they would stay invisible forever — the
        entire hero (headline, sub, CTAs, channel panel) would never appear. */
@@ -7194,6 +7222,7 @@
   .benefit-card.is-pressed .b-icon > svg > *,
   .flow-step:hover .flow-node > svg > *,
   .flow-step.is-lit .flow-node > svg > *,
+  .flow-step.flow-pop .flow-node > svg > *,
   .exp-facts li:hover .f-ico > svg > *,
   .exp-facts li.is-pressed .f-ico > svg > * { animation-play-state: running; }
 
