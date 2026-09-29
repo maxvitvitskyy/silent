@@ -205,7 +205,7 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet';window.__fontsIn&amp;&amp;window.__fontsIn()">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
 <!-- Стилі спільні для української та англомовної версій — один файл на дві -->
-<link rel="stylesheet" href="../assets/site.css?v=c8773bf9">
+<link rel="stylesheet" href="../assets/site.css?v=f65b5517">
 </head>
 <body id="top">
 
@@ -956,8 +956,8 @@
           <div class="gallery-scrim"></div>
         </figure>
       </div>
-      <button class="gal-nav gal-prev" type="button" aria-label="Previous shots">‹</button>
-      <button class="gal-nav gal-next" type="button" aria-label="Next shots">›</button>
+      <button class="gal-nav gal-prev" type="button" aria-label="Previous shots"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+      <button class="gal-nav gal-next" type="button" aria-label="Next shots"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
     </div>
     <p class="uc-hint">Scroll sideways for more shots</p>
   </div>
@@ -1435,8 +1435,8 @@
       </article>
         </div>
       </div>
-      <button class="uc-nav uc-prev" type="button" aria-label="Previous scenarios">‹</button>
-      <button class="uc-nav uc-next" type="button" aria-label="Next scenarios">›</button>
+      <button class="uc-nav uc-prev" type="button" aria-label="Previous scenarios"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+      <button class="uc-nav uc-next" type="button" aria-label="Next scenarios"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
     </div>
     <p class="uc-hint">Scroll sideways to see every format</p>
   </div>
@@ -1520,79 +1520,91 @@
     <div class="eyebrow reveal">Reviews</div>
     <h2 class="h2 reveal">What people who've felt it say.</h2>
     <p class="section-lead reveal">Short impressions from people who've already had this experience.</p>
-    <!-- ЗАГЛУШКА / DESIGN MOCKUP.
-         Ці вісім відгуків вигадані й потрібні лише щоб побачити верстку блоку.
-         НЕ ПУБЛІКУВАТИ як справжні. Перед запуском замінити на реальні цитати
-         з іменами, які надасть замовник, або прибрати секцію цілком. -->
+    <!-- ЗАГЛУШКА (імена, ролі, зірки) / DESIGN MOCKUP.
+         Тексти цитат надав власник (29.09.2026), а от імена, ролі й п'ять зірок
+         вигадані: власник свідомо залишив їх тимчасово, щоб бачити блок у
+         повному вигляді (рішення 29.09.2026). НЕ ПУБЛІКУВАТИ як справжні:
+         перед запуском замінити на реальні імена й оцінки від власника або
+         прибрати підпис і зірки. Сторінка корпоративів показує той самий набір
+         (#reviews) — міняти в обох місцях. У JSON-LD Review/AggregateRating
+         немає й додавати їх не можна, доки автори й оцінки не справжні. -->
     <div class="tst-wrap" data-placeholder-content="true">
       <div class="tst-strip" id="tstStrip">
         <article class="tst-card reveal">
           <div class="tst-stars" aria-hidden="true">★★★★★</div>
-          <p class="tst-quote">I was afraid the guests would just stand around holding the headphones and leave. Half an hour in, everyone was dancing, my mum included. At two in the morning we were the ones switching it off, because nobody was going home.</p>
+          <p class="tst-quote">“We had no idea how much this would change the atmosphere. At first everyone was just looking around, and a few minutes later almost everyone was dancing. It felt as if an ordinary space had suddenly turned into a completely different reality.”</p>
           <div class="tst-author">
             <div class="tst-avatar">OK</div>
-            <div><div class="tst-name">Olena K.</div><div class="tst-role">wedding · Kyiv, September</div></div>
+            <div><div class="tst-name">Olena K.</div><div class="tst-role">event organiser</div></div>
           </div>
         </article>
         <article class="tst-card reveal">
           <div class="tst-stars" aria-hidden="true">★★★★★</div>
-          <p class="tst-quote">A loft with flats on the other side of the wall. Zero complaints, and that was the main question for us. They arrived two hours before the start and set everything up without us.</p>
+          <p class="tst-quote">“I was really worried the guests wouldn't understand the format. But as soon as the music started, people got into it very quickly. Even those who were just watching at first ended up putting on headphones and dancing with everyone else.”</p>
           <div class="tst-author">
             <div class="tst-avatar">DP</div>
-            <div><div class="tst-name">Dmytro P.</div><div class="tst-role">company party for 120 guests</div></div>
+            <div><div class="tst-name">Dmytro P.</div><div class="tst-role">event organiser</div></div>
           </div>
         </article>
         <article class="tst-card reveal">
           <div class="tst-stars" aria-hidden="true">★★★★★</div>
-          <p class="tst-quote">The three channels saved the evening. My friends listen to completely different things, and instead of a compromise playlist everyone just flicked the switch on their own headset.</p>
+          <p class="tst-quote">“What I liked most was the feeling of freedom. Someone was dancing, someone was chatting, someone was switching the music — and still everyone stayed part of one party. Everyone experienced it in their own way.”</p>
           <div class="tst-author">
             <div class="tst-avatar">MT</div>
-            <div><div class="tst-name">Maryna Ts.</div><div class="tst-role">birthday, 35</div></div>
+            <div><div class="tst-name">Maryna Ts.</div><div class="tst-role">party guest</div></div>
           </div>
         </article>
         <article class="tst-card reveal">
           <div class="tst-stars" aria-hidden="true">★★★★★</div>
-          <p class="tst-quote">The best part wasn't even the music. Our form teacher and I had a proper conversation in the middle of the dancefloor without wrecking our voices.</p>
+          <p class="tst-quote">“An ordinary loud party was impossible in our space. Here we got a real dance atmosphere without the noise around us. It was a strange and really cool feeling — watching people dance in almost complete silence.”</p>
           <div class="tst-author">
             <div class="tst-avatar">AV</div>
-            <div><div class="tst-name">Artem V.</div><div class="tst-role">rooftop graduation</div></div>
+            <div><div class="tst-name">Artem V.</div><div class="tst-role">event organiser</div></div>
           </div>
         </article>
         <article class="tst-card reveal">
           <div class="tst-stars" aria-hidden="true">★★★★★</div>
-          <p class="tst-quote">A morning practice on 40 mats in the open air. The instructor's voice carried even to the back row. With speakers, half the group used to drop out every time.</p>
-          <div class="tst-author">
-            <div class="tst-avatar">SR</div>
-            <div><div class="tst-name">Sofiia R.</div><div class="tst-role">yoga set in the park</div></div>
-          </div>
-        </article>
-        <article class="tst-card reveal">
-          <div class="tst-stars" aria-hidden="true">★★★★★</div>
-          <p class="tst-quote">We screened a film in the inner courtyard until eleven at night. Without headphones we'd have been stopped twenty minutes in.</p>
+          <p class="tst-quote">“I didn't expect it to pull me in this much. At first it seems like you're just listening to music in headphones. But then you notice everyone around you dancing, switching channels, laughing — and you're already completely inside it yourself.”</p>
           <div class="tst-author">
             <div class="tst-avatar">IM</div>
-            <div><div class="tst-name">Ihor M.</div><div class="tst-role">film screening in the courtyard</div></div>
+            <div><div class="tst-name">Ihor M.</div><div class="tst-role">party guest</div></div>
           </div>
         </article>
         <article class="tst-card reveal">
           <div class="tst-stars" aria-hidden="true">★★★★★</div>
-          <p class="tst-quote">I worried that a hen party for forty would be far too loud for a close group. With the headphones it came out the other way round: each of us heard only her own music, and we still danced together like one crew.</p>
+          <p class="tst-quote">“The most interesting part — everyone heard their own music, yet everyone was in the same space. Some picked hits, some retro, some a completely different mood. Different musical tastes suddenly stopped being a problem.”</p>
+          <div class="tst-author">
+            <div class="tst-avatar">SR</div>
+            <div><div class="tst-name">Sofiia R.</div><div class="tst-role">party guest</div></div>
+          </div>
+        </article>
+        <article class="tst-card reveal">
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">“At first we thought silent disco was just headphones instead of speakers. But it turned out to be a completely different experience. People interacted with each other more, laughed, showed each other their channels and were constantly engaged in what was going on.”</p>
           <div class="tst-author">
             <div class="tst-avatar">KL</div>
-            <div><div class="tst-name">Kateryna L.</div><div class="tst-role">hen party, 40 guests</div></div>
+            <div><div class="tst-name">Kateryna L.</div><div class="tst-role">event organiser</div></div>
           </div>
         </article>
         <article class="tst-card reveal">
           <div class="tst-stars" aria-hidden="true">★★★★★</div>
-          <p class="tst-quote">We booked it as an off-site activity. The effect was unexpected: the people who normally sit in the corner at company parties were dancing that night.</p>
+          <p class="tst-quote">“This was the kind of format after which the guests kept talking about the evening for a long time. There were many moments that are impossible to explain in words — you simply have to see and experience them yourself.”</p>
           <div class="tst-author">
             <div class="tst-avatar">BS</div>
-            <div><div class="tst-name">Bohdan Sh.</div><div class="tst-role">team building day</div></div>
+            <div><div class="tst-name">Bohdan Sh.</div><div class="tst-role">event organiser</div></div>
+          </div>
+        </article>
+        <article class="tst-card reveal">
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">“This was our first silent disco and we had no idea what to expect. We ended up with a party that felt nothing like an ordinary one. As if everyone had, for a while, ended up in one shared experience, yet each lived it in their own way.”</p>
+          <div class="tst-author">
+            <div class="tst-avatar">AT</div>
+            <div><div class="tst-name">Anna T.</div><div class="tst-role">event organiser</div></div>
           </div>
         </article>
       </div>
-      <button class="gal-nav tst-prev" type="button" aria-label="Previous reviews">‹</button>
-      <button class="gal-nav tst-next" type="button" aria-label="Next reviews">›</button>
+      <button class="gal-nav tst-prev" type="button" aria-label="Previous reviews"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+      <button class="gal-nav tst-next" type="button" aria-label="Next reviews"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
     </div>
     <p class="uc-hint">Scroll sideways for more reviews</p>
   </div>
@@ -1812,7 +1824,6 @@
           <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="5.2" width="18.8" height="13.6" rx="2.6"/><path d="m3.4 7 8.05 5.6a1 1 0 0 0 1.1 0L20.6 7"/></svg>
         </a>
         </div>
-        <a class="f-phone" href="tel:+380963339068">+380 96 333 90 68</a>
         <p class="f-note">Message us on any of these — we reply quickly.</p>
       </div>
       </div>
@@ -1969,6 +1980,6 @@ window.SILENT_I18N = {
   }
 };
 </script>
-<script src="../assets/site.js?v=e5ccafec"></script>
+<script src="../assets/site.js?v=50f48ef6"></script>
 </body>
 </html>

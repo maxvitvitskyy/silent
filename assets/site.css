@@ -15,6 +15,10 @@
        на --night був 3.8:1 — нижче за 4.5:1, потрібні дрібному тексту. 0.50
        дає ~5.2:1 і лишає крок до --muted (0.62). */
     --muted-2: rgba(255,255,255,0.50);
+    /* Лайм для суто декоративного (eyebrow, статичні іконки): повний --lime
+       лишається за діями й активними станами, тоді CTA виграє в пріоритеті. */
+    --lime-quiet: rgba(198,255,0,0.74);
+    --pill-sm: 36px;          /* мінімальна висота малих пігулок (uc-order, чіпи, ch-mute) */
     --line: rgba(255,255,255,0.08);
     --err: #ff5470;
     /* Крива, якою на цьому сайті все прибуває: різкий старт, довге м'яке
@@ -38,6 +42,9 @@
     --glass-fill-soft: linear-gradient(158deg, rgba(226,230,238,0.09), rgba(210,216,228,0.035) 48%, rgba(210,216,228,0.02)), rgba(26,26,28,0.26);
     /* darker pane: lets a bright backdrop read through while keeping text crisp */
     --glass-fill-dark: linear-gradient(158deg, rgba(226,230,238,0.07), rgba(210,216,228,0.02) 48%, rgba(210,216,228,0.012)), rgba(14,14,15,0.58);
+    /* Щільніша версія для текстових поверхонь (mega-меню): 44 посилання по 11–12px
+       на заливці .58 над яскравою частиною героя не діставали 4.5:1. */
+    --glass-fill-dense: linear-gradient(158deg, rgba(226,230,238,0.07), rgba(210,216,228,0.02) 48%, rgba(210,216,228,0.012)), rgba(14,14,15,0.80);
     --glass-shadow-1: 0 20px 50px -28px rgba(0,0,0,0.7);
     --glass-shadow-2: 0 30px 70px -30px rgba(0,0,0,0.8);
 
@@ -139,8 +146,11 @@
   select:focus-visible, textarea:focus-visible {
     outline: 2px solid var(--lime);
     outline-offset: 3px;
-    border-radius: 6px;
   }
+  /* Радіус лише голим текстовим посиланням: у кнопок, пігулок, кругляків і
+     карток кільце саме йде за їхньою формою. Раніше 6px стояли всім, і
+     пігулка на фокусі ставала майже прямокутником. */
+  a:not([class]):focus-visible { border-radius: 6px; }
 
   /* Загальносайтової підсвітки більше немає: зафіксований у вікні шар тягнувся
      через усі секції до самого підвалу й міняв колір разом із каналом. Світло
@@ -575,7 +585,19 @@
      «Ціну» чи саму кнопку CTA фізично влучає в панель сусіда, а не в них,
      поки та відкрита. Симптом власника: щоб перемкнутись на інший пункт
      меню, доводилось спершу повністю закрити поточну mega-панель. */
-  .nav-mega-trigger { display: inline-flex; transition: color 0.2s ease; z-index: 6; }
+  .nav-mega-trigger { display: inline-flex; align-items: center; gap: 6px; transition: color 0.2s ease; z-index: 6; }
+  /* Тонкий шеврон підказує, що з пункту розкривається панель. Маска, а не
+     розмітка: колір іде від currentColor (лаймовіє разом зі словом), а в п'яти
+     HTML-файлів нічого не додається. Розмір 13px: маска масштабує й штрих, тож стрілка стає більшою, а не тоншою. */
+  .nav-mega-trigger::after {
+    content: ''; width: 13px; height: 13px; flex: none; margin-top: 1px;
+    background: currentColor; opacity: 0.7;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 9 7 7 7-7'/%3E%3C/svg%3E") center / contain no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 9 7 7 7-7'/%3E%3C/svg%3E") center / contain no-repeat;
+    transition: transform 0.3s var(--ease-arrive), opacity 0.2s ease;
+  }
+  .nav-item-mega:hover .nav-mega-trigger::after,
+  .nav-item-mega:focus-within .nav-mega-trigger::after { transform: rotate(180deg); opacity: 1; }
   .nav-links > a { z-index: 6; }
   .nav-item-mega:hover .nav-mega-trigger,
   .nav-item-mega:focus-within .nav-mega-trigger { color: var(--lime) !important; }
@@ -592,7 +614,7 @@
   .nav-mega-panel {
     position: absolute; top: calc(100% + 14px); left: 0; right: 0;
     padding: 12px;
-    background: var(--glass-fill-dark);
+    background: var(--glass-fill-dense);
     border: 1px solid var(--line);
     border-top-color: var(--glass-edge);
     /* 36px, не спільний --r-lg (28px): власник попросив, щоб рамка панелі
@@ -659,10 +681,30 @@
   .nav-mega-grid {
     display: grid; grid-template-columns: repeat(6, 1fr);
     gap: 0;
+    position: relative; z-index: 1;   /* над .nav-mega-glow, що лежить у панелі під сіткою */
+  }
+  /* Рухоме підсвічення розділу. Один спільний елемент у панелі (під сіткою), який site.js ставить
+     під колонку під курсором: при переході між розділами він переїжджає, а не
+     блимає. Лаймовий відтінок йде від верхнього краю й сходить на ніщо ще
+     до країв, тож нема жодної жорсткої межі — лише мʼяка пляма. Лежить під
+     текстом (колонки вище за нього), курсор крізь нього проходить. */
+  .nav-mega-glow {
+    position: absolute; left: 0; top: 0; width: 0; height: 0; z-index: 0;
+    border-radius: 22px; pointer-events: none;
+    background:
+      radial-gradient(90% 70% at 50% 0%, rgba(198,255,0,0.16), rgba(198,255,0,0.06) 55%, transparent 100%),
+      radial-gradient(120% 100% at 50% 100%, rgba(198,255,0,0.05), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  .nav-mega-glow.is-on { opacity: 1; }
+  .nav-mega-glow.is-live {
+    transition: opacity 0.25s ease, transform 0.38s var(--ease-arrive), width 0.38s var(--ease-arrive), height 0.38s var(--ease-arrive);
   }
   .nav-mega-col {
     display: flex; min-width: 0;
     padding: 4px 18px;
+    position: relative; z-index: 1;   /* над .nav-mega-glow */
   }
   .nav-mega-col:first-child { padding-left: 4px; }
   /* align-self:stretch — фото тягнеться на всю висоту обох рядків сітки,
@@ -739,7 +781,10 @@
     letter-spacing: -0.01em; line-height: 1.3;
     color: #fff; transition: color 0.2s ease;
   }
-  .nav-mega-col:hover .nav-mega-cat { color: var(--lime); }
+  .nav-mega-col:hover .nav-mega-cat, .nav-mega-col:focus-within .nav-mega-cat { color: var(--lime); }
+  /* Лінія під заголовком теж лаймовіє разом із розділом. */
+  .nav-mega-qs { transition: border-color 0.3s ease; }
+  .nav-mega-col:hover .nav-mega-qs, .nav-mega-col:focus-within .nav-mega-qs { border-top-color: rgba(198,255,0,0.42); }
   /* Розділова лінія одразу після заголовка (фіксована відстань, не
      margin-top:auto донизу) — саме це тримає її на однаковій висоті в усіх
      картках: earlier-версія притискала блок питань до низу картки, і лінія
@@ -751,7 +796,7 @@
   }
   .nav-mega-q {
     display: flex; align-items: flex-start; gap: 7px;
-    font-size: 11.5px; line-height: 1.42; color: var(--muted-2);
+    font-size: 12.5px; line-height: 1.42; color: var(--muted);
     transition: color 0.2s ease;
   }
   .nav-mega-q:hover { color: var(--muted); }
@@ -931,9 +976,14 @@
     background: none; border-top: none; border-left: none; border-right: none;
     font-family: 'Unbounded'; font-weight: 600; font-size: 15.5px;
     color: #fff; text-align: left; cursor: pointer;
-    transition: color 0.2s ease;
+    transition: color 0.2s ease, border-color 0.3s ease;
   }
   .nav-drawer-item-expand[aria-expanded="true"] { color: var(--lime); }
+  /* Останній розкривний пункт («Питання») стоїть просто над нижнім блоком
+     меню, у якого своя верхня лінія — раніше під ним було дві. Власну лінію
+     він показує лише розгорнутим: вона відділяє напис від підпунктів. */
+  .nav-drawer-item-expand:nth-last-child(2) { border-bottom-color: transparent; }
+  .nav-drawer-item-expand:nth-last-child(2)[aria-expanded="true"] { border-bottom-color: var(--line); }
   /* Без фону й рамки кнопки — інакше нативний вигляд <button> лишає сірий
      заокруглений прямокутник навколо стрілки замість чистої іконки. */
   .nav-drawer-expand {
@@ -942,7 +992,11 @@
     color: var(--lime);
     background: none; border: none; padding: 0;
   }
-  .nav-drawer-expand svg { width: 32px; height: 32px; transition: transform 0.3s var(--ease-arrive); }
+  /* Шеврон у тому ж словнику, що хрестик гамбургера: штрих рівно 2px з
+     круглими кінцями (non-scaling-stroke не залежить від розміру svg) і та
+     сама протяжність ~12.5px. Раніше 32px svg із штрихом 2 давав ~2.7px. */
+  .nav-drawer-expand svg { width: 25px; height: 25px; transition: transform 0.3s var(--ease-arrive); }
+  .nav-drawer-expand svg path { vector-effect: non-scaling-stroke; stroke-width: 2px; }
   .nav-drawer-item-expand[aria-expanded="true"] .nav-drawer-expand svg { transform: rotate(180deg); }
   .nav-drawer-sub {
     max-height: 0; overflow: hidden; opacity: 0;
@@ -1253,7 +1307,8 @@
     }
     .hero .hero-actions .btn-primary,
     .hero .hero-actions .btn-ghost {
-      padding: 11px 16px; font-size: 12px;
+      padding: 11px 16px; font-size: 12px; min-height: 44px;
+      display: inline-flex; align-items: center; justify-content: center;
       max-width: 100%;
       text-align: center; white-space: nowrap;
     }
@@ -1807,7 +1862,7 @@
        чого на 360px екрана вже бракувало. */
     .hero .hero-actions { margin-top: 14px; flex-direction: row; align-items: center; gap: 10px; }
     .hero .hero-actions .btn-primary,
-    .hero .hero-actions .btn-ghost { padding: 11px 16px; font-size: 12px; white-space: nowrap; }
+    .hero .hero-actions .btn-ghost { padding: 11px 16px; font-size: 12px; white-space: nowrap; min-height: 44px; display: inline-flex; align-items: center; }
     .hero .hero-actions .lbl-wide { display: none; }
     .hero .hero-actions .lbl-tight { display: inline; }
 
@@ -1826,8 +1881,9 @@
   .block { padding: var(--sec-pad) 0; }
   @media (max-width: 640px){ :root { --sec-pad: 56px; } }
   .eyebrow {
-    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-    color: var(--ch); font-weight: 700; margin-bottom: 18px;
+    font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
+    /* 80% каналу: eyebrow — декор, а не дія (M6 аудиту) */
+    color: color-mix(in srgb, var(--ch) 80%, transparent); font-weight: 700; margin-bottom: 18px;
     transition: color 0.6s ease;
   }
   .h2 { font-size: clamp(24px, 3vw, 34px); line-height: 1.15; font-weight: 700; margin-bottom: 16px; text-wrap: balance; }
@@ -2804,7 +2860,13 @@
     content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 230px;
     background: linear-gradient(180deg, transparent 0, var(--night) 130px, var(--night) 100%);
     pointer-events: none; z-index: 2;
+    transition: opacity 0.35s ease;
   }
+  /* Відкрите питання гасіння знімає. Воно малює лише «закритий» стан тизера, а
+     коли відповідь у нижньому ряду розгортається, той самий градієнт лягав
+     просто на її текст, і він тонув у темряві, так що прочитати можна було
+     лише перший рядок. Без :has() (старі браузери) лишається як було. */
+  .faq-teaser:has(.faq-item.open)::after { opacity: 0; }
   /* position/z-index — щоб кнопка малювалась ПОВЕРХ суцільного хвоста
      градієнта вище (той інакше лежав би зверху й ховав би її повністю,
      як прозора на вигляд, а насправді непрозора --night заливка). */
@@ -2985,10 +3047,6 @@
        падінг, тож крок стає 41px, а візуально список лишається списком. */
     .f-col ul { gap: 0; }
     .f-col ul a { display: block; padding: 13px 0; }
-    /* Телефон у підвалі — 24px заввишки; падінг доводить зону до 44px, а
-       відступ зверху менший на ті самі 10px, тож номер стоїть там само. */
-    .f-col a.f-phone { padding: 10px 0; margin-top: 8px; }
-
   }
 
   @media (max-width: 860px){
@@ -3248,13 +3306,13 @@
   .form-submit {
     width: 100%; margin-top: 6px;
     background: var(--lime); color: #12100a;
-    padding: 16px; border-radius: var(--r-sm); border: none;
+    padding: 16px; border-radius: 999px; border: none;
     font-family: inherit; font-weight: 700; font-size: 15px; cursor: pointer;
     box-shadow: 0 8px 26px -8px var(--lime-glow);
     transition: transform 0.2s, box-shadow 0.2s;
   }
   .form-submit:hover { transform: translateY(-2px); box-shadow: 0 14px 34px -6px var(--lime-glow); }
-  .form-note { font-size: 12px; color: var(--muted-2); margin-top: 14px; text-align: center; }
+  .form-note { font-size: 12px; color: var(--muted); margin-top: 14px; text-align: center; }
   /* Обидва стани правої колонки стоять в одній клітинці сітки, а поля після
      відправки не зникають, а стають невидимими. Причина не косметична:
      висоту календаря ліворуч рахує alignCalendarToForm() від верху поля
@@ -3416,15 +3474,6 @@
     transform: translateY(-2px);
     filter: drop-shadow(0 0 8px rgba(198,255,0,0.55));
   }
-  /* Телефон — той самий, що в JSON-LD і на /faq/. Частина замовників (HR,
-     агенції) воліє подзвонити, а не шукати месенджер. */
-  .f-col a.f-phone {
-    display: inline-block; margin-top: 18px;
-    font-size: 15px; font-weight: 600; letter-spacing: 0.01em; color: var(--ink-inv);
-    font-variant-numeric: tabular-nums;
-    transition: color 0.25s ease;
-  }
-  .f-col a.f-phone:hover { color: var(--lime); }
   .f-note { margin-top: 14px; font-size: 11.5px; color: var(--muted-2); line-height: 1.5; max-width: 26ch; }
   .footer-legal {
     display: flex; flex-direction: column; align-items: center; text-align: center; gap: 5px;
@@ -3518,7 +3567,15 @@
   html.js .reveal.in:not(.rv-done) { opacity: 1; translate: none; }
 
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation: none !important; transition: none !important; }
+    /* Рух і цикли гасимо, а короткий відгук кольору/прозорості лишаємо: HIG радить
+       замінювати переміщення на затухання, а не прибирати зворотний зв'язок. */
+    *, *::before, *::after {
+      animation: none !important;
+      transition-property: opacity, color, background-color, border-color !important;
+      transition-duration: 0.12s !important;
+      transition-delay: 0s !important;
+    }
+    html { scroll-behavior: auto; }
     /* html.js .reveal специфічніше за просте .reveal, тож тут теж !important —
        інакше при вимкненому руху блоки лишалися б прихованими. Знімаємо саме
        translate: transform тут чіпати не можна, бо в картках відгуків на ньому
@@ -3783,7 +3840,7 @@
      текстом, а не поруч із ним. */
   .benefit-card .b-icon {
     position: absolute; bottom: 22px; right: 20px;
-    color: var(--ch); opacity: 0.9;
+    color: color-mix(in srgb, var(--ch) 80%, transparent); opacity: 0.9;
     display: flex; align-items: center; justify-content: center;
     transition: color 0.6s ease;
   }
@@ -3972,7 +4029,7 @@
   /* balance: у вузькій картці двослівний хвіст назви («…молодіжні збори»)
      лишав одне слово самотнім у другому рядку. */
   .uc-card h3 { font-size: 14.5px; font-weight: 700; text-wrap: balance; }
-  .uc-card p { font-size: 12px; color: var(--muted); line-height: 1.45; }
+  .uc-card p { font-size: 13px; color: var(--muted); line-height: 1.48; }
   .uc-order {
     margin-top: auto; align-self: flex-start;
     /* No dark pane of its own here: on an already-dark card it read as a hole.
@@ -3980,7 +4037,7 @@
     border: 1px solid rgba(255,255,255,0.16);
     background: rgba(255,255,255,0.075);
     color: rgba(255,255,255,0.94); border-radius: 999px;
-    padding: 8px 14px; font-size: 11.5px; font-weight: 600;
+    padding: 8px 14px; min-height: var(--pill-sm); font-size: 12px; font-weight: 600;
     cursor: pointer;
     transition: border-color 0.25s ease, background 0.25s ease;
   }
@@ -4000,6 +4057,10 @@
     cursor: pointer;
     transition: color 0.22s ease, transform 0.22s ease;
   }
+  /* Стрілки тепер SVG-шеврони (як .uc-arrow на сторінках досвідів), а не
+     гліфи ‹ › вагою 200: одна система іконок, без залежності від шрифту.
+     drop-shadow замість text-shadow, який на SVG не діє. */
+  .uc-nav svg, .gal-nav svg { width: 34px; height: 34px; filter: drop-shadow(0 2px 10px rgba(0,0,0,0.65)); }
   .uc-nav:hover { color: #fff; transform: translateY(-50%) scale(1.12); }
   .uc-prev { left: -52px; }
   .uc-next { right: -52px; }
@@ -4712,6 +4773,12 @@
     visibility: hidden;
     pointer-events: none;
     translate: 0 8px;
+  }
+  /* Шлях тепер двонапрямний (кнопка ховається, коли повертаєшся нагору), тож
+     на виході visibility чекає, доки дограє згасання. На вході перемикається
+     одразу — в .is-in переходу на visibility нема. */
+  html.js .tg-float:not(.is-in) {
+    transition: opacity 0.3s ease, translate 0.3s ease, visibility 0s 0.3s;
   }
   html.js .tg-float.is-in {
     opacity: 1;
@@ -7126,3 +7193,60 @@
   .f-ico.i-mute .fi-x { animation: icMuteFlashFull 1.3s ease-in-out infinite paused; }
   .f-ico.i-mute .fi-x:nth-child(3) { animation-delay: .11s; }
   @keyframes icMuteFlashFull { 0%, 100% { opacity: 1; scale: 1; } 50% { opacity: 1; scale: 1.15; } }
+
+  /* ================= УТОЧНЕННЯ ЗА АУДИТОМ (29.09.2026) =================
+     Усе нижче — крихітні правки поверх наявного, не нова мова. */
+
+  /* Стан натискання. Підсвітку тапу браузера вимкнено глобально, тож без
+     цього кнопки на дотику не давали жодного миттєвого відгуку. Властивість
+     scale, а не transform: вона складається з hover-підйомом (translateY),
+     а не перебиває його. */
+  .btn-primary:active, .btn-ghost:active, .nav-cta:active, .f-cta:active,
+  .form-submit:active, .uc-order:active, .exp-chip:active, .ch-mute:active,
+  .faq-cta:active, .tg-float:active { scale: 0.97; }
+
+  /* Скло лишається шаром керування (шапка, mega-панелі, панель каналів,
+     плаваюча кнопка, накладені картки відгуків). У контентному шарі й
+     усередині іншого скла воно нічого не розмивало: під FAQ, калькулятором і
+     чіпами рівний фон — порівняно без blur вигляд однаковий, а слоїв на
+     екрані було до 15. Заливка, край і тінь лишаються. */
+  .faq-item, .calc-rule, .calc-panel, .cal, .exp-chip {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  /* Малі пігулки — одна мінімальна висота замість 32/34/35.5. */
+  .ch-mute, .exp-chip { min-height: var(--pill-sm); }
+
+  /* Поверхні браузера, які інакше лишаються за замовчуванням. */
+  ::selection { background: rgba(198,255,0,0.30); color: #fff; }
+  input, textarea, select { caret-color: var(--lime); }
+
+  /* Заголовки рівномірно, абзаци без висячих слів. */
+  h1, h2, h3 { text-wrap: balance; }
+  p { text-wrap: pretty; }
+
+  /* Палець: зона дотику соцікон і посилань підвалу 44px без зміни верстки. */
+  @media (pointer: coarse) {
+    .f-soc, .footer-legal a { position: relative; }
+    .f-soc::after, .footer-legal a::after { content: ''; position: absolute; inset: -8px -6px; }
+  }
+
+  /* Налаштування системи. Скло-токени централізовані, тож блоки міняють
+     лише змінні. */
+  @media (prefers-contrast: more) {
+    :root {
+      --muted: rgba(255,255,255,0.86); --muted-2: rgba(255,255,255,0.74);
+      --line: rgba(255,255,255,0.24); --glass-edge: rgba(255,255,255,0.52);
+      --lime-quiet: var(--lime);
+    }
+    .eyebrow, .benefit-card .b-icon { color: var(--ch); }
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    :root {
+      --glass-blur: none;
+      --glass-fill-1: rgba(24,24,26,0.96); --glass-fill-2: rgba(28,28,30,0.96);
+      --glass-fill-soft: rgba(24,24,26,0.96); --glass-fill-dark: rgba(14,14,15,0.97);
+      --glass-fill-dense: rgba(14,14,15,0.98);
+    }
+  }

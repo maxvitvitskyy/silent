@@ -549,38 +549,41 @@ T = {
 'Що кажуть ті, хто це відчув.': "What people who've felt it say.",
 'Короткі враження людей, які вже мали цей досвід.':
   "Short impressions from people who've already had this experience.",
-'Боялася, що гості просто постоять із навушниками в руках і підуть. За півгодини танцювали всі, включно з моєю мамою. О другій ночі вимикали самі, бо ніхто не збирався додому.':
-  'I was afraid the guests would just stand around holding the headphones and leave. Half an hour in, everyone was dancing, my mum included. At two in the morning we were the ones switching it off, because nobody was going home.',
+# Цитати надав власник (29.09.2026); імена, ролі й зірки при них — тимчасові
+# заглушки (див. коментар над .tst-wrap в index.html). Ключ цитати — рядок так,
+# як він у розмітці (пробіли в ключі зіставляються і зі звичайним, і з
+# нерозривним).
+'«Ми навіть не уявляли, наскільки це змінить атмосферу. Спочатку всі просто придивлялися, а за кілька хвилин танцювали вже майже всі. Було відчуття, ніби звичайний простір раптом перетворився на зовсім іншу реальність».':
+  "“We had no idea how much this would change the atmosphere. At first everyone was just looking around, and a few minutes later almost everyone was dancing. It felt as if an ordinary space had suddenly turned into a completely different reality.”",
+'«Я дуже переживав, що гості не зрозуміють формат. Але щойно почалася музика, люди дуже швидко включилися. Навіть ті, хто спочатку просто спостерігав, зрештою одягнули навушники й танцювали разом з усіма».':
+  "“I was really worried the guests wouldn't understand the format. But as soon as the music started, people got into it very quickly. Even those who were just watching at first ended up putting on headphones and dancing with everyone else.”",
+'«Найбільше сподобалося відчуття свободи. Хтось танцював, хтось спілкувався, хтось перемикав музику — і при цьому всі залишалися частиною однієї вечірки. Кожен проживав цей досвід по-своєму».':
+  "“What I liked most was the feeling of freedom. Someone was dancing, someone was chatting, someone was switching the music — and still everyone stayed part of one party. Everyone experienced it in their own way.”",
+'«Звичайна гучна вечірка в нашому просторі була неможлива. А тут ми отримали справжню танцювальну атмосферу без шуму навколо. Це було дивне й дуже круте відчуття — бачити людей, які танцюють у майже повній тиші».':
+  "“An ordinary loud party was impossible in our space. Here we got a real dance atmosphere without the noise around us. It was a strange and really cool feeling — watching people dance in almost complete silence.”",
+'«Я не очікував, що це настільки затягне. Спочатку здається, що ти просто слухаєш музику в навушниках. Але потім помічаєш, як усі навколо танцюють, перемикають канали, сміються — і сам уже повністю всередині цього».':
+  "“I didn't expect it to pull me in this much. At first it seems like you're just listening to music in headphones. But then you notice everyone around you dancing, switching channels, laughing — and you're already completely inside it yourself.”",
+'«Найцікавіше — кожен чув свою музику, але всі були в одному просторі. Хтось обрав хіти, хтось ретро, хтось зовсім інший настрій. Різні музичні смаки раптом перестали бути проблемою».':
+  "“The most interesting part — everyone heard their own music, yet everyone was in the same space. Some picked hits, some retro, some a completely different mood. Different musical tastes suddenly stopped being a problem.”",
+'«Спочатку ми думали, що silent disco — це просто навушники замість колонок. Але це виявилося зовсім іншим досвідом. Люди більше взаємодіяли між собою, сміялися, показували одне одному свої канали й постійно були залучені в те, що відбувається».':
+  "“At first we thought silent disco was just headphones instead of speakers. But it turned out to be a completely different experience. People interacted with each other more, laughed, showed each other their channels and were constantly engaged in what was going on.”",
+'«Це був той формат, після якого гості ще довго обговорювали вечір. Було багато моментів, які неможливо пояснити словами — їх просто потрібно побачити й пережити самому».':
+  "“This was the kind of format after which the guests kept talking about the evening for a long time. There were many moments that are impossible to explain in words — you simply have to see and experience them yourself.”",
+'«Це була наша перша silent disco, і ми взагалі не знали, чого очікувати. У результаті отримали вечірку, яка відчувалася зовсім не так, як звичайна. Наче всі на якийсь час опинилися в одному спільному досвіді, але кожен проживав його по-своєму».':
+  "“This was our first silent disco and we had no idea what to expect. We ended up with a party that felt nothing like an ordinary one. As if everyone had, for a while, ended up in one shared experience, yet each lived it in their own way.”",
 'Олена К.': 'Olena K.',
-'весілля · Київ, вересень': 'wedding · Kyiv, September',
-'Лофт із житловими апартаментами через стіну. Скарг нуль, а це для нас було головне питання. Приїхали за дві години до старту й підключили все без нашої участі.':
-  'A loft with flats on the other side of the wall. Zero complaints, and that was the main question for us. They arrived two hours before the start and set everything up without us.',
 'Дмитро П.': 'Dmytro P.',
-'корпоратив на 120 гостей': 'company party for 120 guests',
-'Три канали врятували вечір. Друзі слухають зовсім різне, і замість компромісного плейлиста кожен просто крутнув перемикач на своєму.':
-  'The three channels saved the evening. My friends listen to completely different things, and instead of a compromise playlist everyone just flicked the switch on their own headset.',
 'Марина Ц.': 'Maryna Ts.',
-'день народження, 35': 'birthday, 35',
-'Найкраще навіть не музика. Ми з класним керівником спокійно розмовляли посеред танцполу, не зриваючи голос.':
-  "The best part wasn't even the music. Our form teacher and I had a proper conversation in the middle of the dancefloor without wrecking our voices.",
 'Артем В.': 'Artem V.',
-'випускний на даху': 'rooftop graduation',
-'Ранкова практика на 40 килимків просто неба. Голос інструктора чути навіть в останньому ряду. З колонками половина групи щоразу випадала.':
-  "A morning practice on 40 mats in the open air. The instructor's voice carried even to the back row. With speakers, half the group used to drop out every time.",
-'Софія Р.': 'Sofiia R.',
-'йога-сет у парку': 'yoga set in the park',
-'Показували фільм у внутрішньому дворі до одинадцятої вечора. Без навушників нас зупинили б на двадцятій хвилині.':
-  "We screened a film in the inner courtyard until eleven at night. Without headphones we'd have been stopped twenty minutes in.",
 'Ігор М.': 'Ihor M.',
-'кінопоказ у дворі': 'film screening in the courtyard',
-'Боялася, що дівич-вечір на сорок людей — це вже занадто гучно для затишної компанії. З навушниками вийшло навпаки: кожна чула тільки свою музику, а разом все одно танцювали як одна команда.':
-  'I worried that a hen party for forty would be far too loud for a close group. With the headphones it came out the other way round: each of us heard only her own music, and we still danced together like one crew.',
+'Софія Р.': 'Sofiia R.',
 'Катерина Л.': 'Kateryna L.',
-'дівич-вечір, 40 гостей': 'hen party, 40 guests',
-'Брали як активність на виїзд. Ефект неочікуваний: люди, які на корпоративах зазвичай сидять у кутку, того вечора танцювали.':
-  'We booked it as an off-site activity. The effect was unexpected: the people who normally sit in the corner at company parties were dancing that night.',
 'Богдан Ш.': 'Bohdan Sh.',
-'тимбілдинг для команди': 'team building day',
+'Анна Т.': 'Anna T.',
+'організаторка події': 'event organiser',
+'організатор події': 'event organiser',
+'гостя вечірки': 'party guest',
+'гість вечірки': 'party guest',
 'Попередні відгуки': 'Previous reviews',
 'Наступні відгуки': 'Next reviews',
 'Гортайте вбік, щоб побачити більше відгуків': 'Scroll sideways for more reviews',
@@ -686,6 +689,7 @@ T = {
 '<div class="tst-avatar">ІМ</div>': '<div class="tst-avatar">IM</div>',
 '<div class="tst-avatar">КЛ</div>': '<div class="tst-avatar">KL</div>',
 '<div class="tst-avatar">БШ</div>': '<div class="tst-avatar">BS</div>',
+'<div class="tst-avatar">АТ</div>': '<div class="tst-avatar">AT</div>',
 
 # --- підвал --------------------------------------------------------------
 'Тиша ззовні, драйв усередині. Silent disco під ключ у Києві та по Україні.':

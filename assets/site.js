@@ -33,6 +33,53 @@ function orderExperience(name){
   setTimeout(() => { if (field) field.focus({ preventScroll: true }); }, 600);
 }
 
+  // ---- Рухоме підсвічення розділів у mega-меню (десктоп) ----
+  // Один елемент .nav-mega-glow на сітку: під курсором (або фокусом) він
+  // стає рівно по колонці розділу й переїжджає до сусіднього, а не блимає.
+  // Колір, лінію під заголовком і сам заголовок підсвічує CSS (:hover колонки);
+  // тут лише геометрія, бо чистим CSS між довільними клітинками сітки не
+  // переїхати. Фото-колонка (без .nav-mega-card) підсвічення не дістає.
+  (function(){
+    document.querySelectorAll('.nav-mega-grid').forEach(function(grid){
+      const glow = document.createElement('div');
+      glow.className = 'nav-mega-glow';
+      glow.setAttribute('aria-hidden', 'true');
+      // Не всередині сітки: розкладка колонок тримається на :nth-child і
+      // :last-child, а ще один дочірній елемент їх зсунув би. Панель —
+      // абсолютний контейнер, тож координати рахуємо від неї.
+      const panel = grid.parentNode;
+      panel.insertBefore(glow, grid);
+      let live = false;
+      function show(col){
+        const g = panel.getBoundingClientRect(), c = col.getBoundingClientRect();
+        // Перше з'явлення — без переїзду з минулого місця: спершу ставимо на
+        // колонку без transition, і лише потім вмикаємо рух для наступних.
+        glow.style.width = c.width + 'px';
+        glow.style.height = c.height + 'px';
+        glow.style.transform = 'translate(' + (c.left - g.left) + 'px,' + (c.top - g.top) + 'px)';
+        glow.classList.add('is-on');
+        if (!live){ requestAnimationFrame(function(){ glow.classList.add('is-live'); }); live = true; }
+      }
+      function hide(){
+        glow.classList.remove('is-on', 'is-live');
+        live = false;
+      }
+      grid.addEventListener('mouseover', function(e){
+        const col = e.target.closest('.nav-mega-col');
+        if (!col || !grid.contains(col)) return;
+        if (col.querySelector('.nav-mega-card')) show(col); else hide();
+      });
+      grid.addEventListener('focusin', function(e){
+        const col = e.target.closest('.nav-mega-col');
+        if (col && col.querySelector('.nav-mega-card')) show(col);
+      });
+      grid.addEventListener('mouseleave', hide);
+      grid.addEventListener('focusout', function(e){
+        if (!grid.contains(e.relatedTarget)) hide();
+      });
+    });
+  })();
+
   // ---- Parallax on the hero background photos ----
   // Each layer drifts vertically at a fraction of scroll speed. Layers are
   // oversized in CSS so the translate never exposes an edge. Skipped entirely
@@ -2589,11 +2636,12 @@ function orderExperience(name){
       function check(){
         ticking = false;
         const r = idea.getBoundingClientRect();
-        // Середина блоку піднялась до середини екрана.
-        if (r.top + r.height / 2 > window.innerHeight / 2) return;
-        btn.classList.add('is-in');
-        window.removeEventListener('scroll', onScroll);
-        window.removeEventListener('resize', onScroll);
+        // Середина блоку піднялась до середини екрана — показуємо. Шлях
+        // двонапрямний: повернувшись нагору, людина знову бачить лише
+        // лаймову «Перевірити дату», а кнопка не лежить на панелі каналів
+        // (на висоті екрана ~780px вона закривала тумблер BLUE).
+        const passed = r.top + r.height / 2 <= window.innerHeight / 2;
+        btn.classList.toggle('is-in', passed);
       }
       function onScroll(){
         if (ticking) return;

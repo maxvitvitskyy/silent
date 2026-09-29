@@ -205,7 +205,7 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet';window.__fontsIn&amp;&amp;window.__fontsIn()">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
 <!-- Стилі спільні для української та англомовної версій — один файл на дві -->
-<link rel="stylesheet" href="assets/site.css?v=c8773bf9">
+<link rel="stylesheet" href="assets/site.css?v=f65b5517">
 </head>
 <body id="top">
 
@@ -956,8 +956,8 @@
           <div class="gallery-scrim"></div>
         </figure>
       </div>
-      <button class="gal-nav gal-prev" type="button" aria-label="Попередні кадри">‹</button>
-      <button class="gal-nav gal-next" type="button" aria-label="Наступні кадри">›</button>
+      <button class="gal-nav gal-prev" type="button" aria-label="Попередні кадри"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+      <button class="gal-nav gal-next" type="button" aria-label="Наступні кадри"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
     </div>
     <p class="uc-hint">Гортайте вбік, щоб побачити більше кадрів</p>
   </div>
@@ -1435,8 +1435,8 @@
       </article>
         </div>
       </div>
-      <button class="uc-nav uc-prev" type="button" aria-label="Попередні сценарії">‹</button>
-      <button class="uc-nav uc-next" type="button" aria-label="Наступні сценарії">›</button>
+      <button class="uc-nav uc-prev" type="button" aria-label="Попередні сценарії"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+      <button class="uc-nav uc-next" type="button" aria-label="Наступні сценарії"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
     </div>
     <p class="uc-hint">Гортайте вбік, щоб побачити всі формати</p>
   </div>
@@ -1520,79 +1520,91 @@
     <div class="eyebrow reveal">Відгуки</div>
     <h2 class="h2 reveal">Що кажуть ті, хто це відчув.</h2>
     <p class="section-lead reveal">Короткі враження людей, які вже мали цей досвід.</p>
-    <!-- ЗАГЛУШКА / DESIGN MOCKUP.
-         Ці вісім відгуків вигадані й потрібні лише щоб побачити верстку блоку.
-         НЕ ПУБЛІКУВАТИ як справжні. Перед запуском замінити на реальні цитати
-         з іменами, які надасть замовник, або прибрати секцію цілком. -->
+    <!-- ЗАГЛУШКА (імена, ролі, зірки) / DESIGN MOCKUP.
+         Тексти цитат надав власник (29.09.2026), а от імена, ролі й п'ять зірок
+         вигадані: власник свідомо залишив їх тимчасово, щоб бачити блок у
+         повному вигляді (рішення 29.09.2026). НЕ ПУБЛІКУВАТИ як справжні:
+         перед запуском замінити на реальні імена й оцінки від власника або
+         прибрати підпис і зірки. Сторінка корпоративів показує той самий набір
+         (#reviews) — міняти в обох місцях. У JSON-LD Review/AggregateRating
+         немає й додавати їх не можна, доки автори й оцінки не справжні. -->
     <div class="tst-wrap" data-placeholder-content="true">
       <div class="tst-strip" id="tstStrip">
         <article class="tst-card reveal">
           <div class="tst-stars" aria-hidden="true">★★★★★</div>
-          <p class="tst-quote">Боялася, що гості просто постоять із навушниками в руках і підуть. За півгодини танцювали всі, включно з моєю мамою. О другій ночі вимикали самі, бо ніхто не збирався додому.</p>
+          <p class="tst-quote">«Ми навіть не уявляли, наскільки це змінить атмосферу. Спочатку всі просто придивлялися, а за кілька хвилин танцювали вже майже всі. Було відчуття, ніби звичайний простір раптом перетворився на зовсім іншу реальність».</p>
           <div class="tst-author">
             <div class="tst-avatar">ОК</div>
-            <div><div class="tst-name">Олена К.</div><div class="tst-role">весілля · Київ, вересень</div></div>
+            <div><div class="tst-name">Олена К.</div><div class="tst-role">організаторка події</div></div>
           </div>
         </article>
         <article class="tst-card reveal">
           <div class="tst-stars" aria-hidden="true">★★★★★</div>
-          <p class="tst-quote">Лофт із житловими апартаментами через стіну. Скарг нуль, а це для нас було головне питання. Приїхали за дві години до старту й підключили все без нашої участі.</p>
+          <p class="tst-quote">«Я дуже переживав, що гості не зрозуміють формат. Але щойно почалася музика, люди дуже швидко включилися. Навіть ті, хто спочатку просто спостерігав, зрештою одягнули навушники й танцювали разом з усіма».</p>
           <div class="tst-author">
             <div class="tst-avatar">ДП</div>
-            <div><div class="tst-name">Дмитро П.</div><div class="tst-role">корпоратив на 120 гостей</div></div>
+            <div><div class="tst-name">Дмитро П.</div><div class="tst-role">організатор події</div></div>
           </div>
         </article>
         <article class="tst-card reveal">
           <div class="tst-stars" aria-hidden="true">★★★★★</div>
-          <p class="tst-quote">Три канали врятували вечір. Друзі слухають зовсім різне, і замість компромісного плейлиста кожен просто крутнув перемикач на своєму.</p>
+          <p class="tst-quote">«Найбільше сподобалося відчуття свободи. Хтось танцював, хтось спілкувався, хтось перемикав музику — і при цьому всі залишалися частиною однієї вечірки. Кожен проживав цей досвід по-своєму».</p>
           <div class="tst-author">
             <div class="tst-avatar">МЦ</div>
-            <div><div class="tst-name">Марина Ц.</div><div class="tst-role">день народження, 35</div></div>
+            <div><div class="tst-name">Марина Ц.</div><div class="tst-role">гостя вечірки</div></div>
           </div>
         </article>
         <article class="tst-card reveal">
           <div class="tst-stars" aria-hidden="true">★★★★★</div>
-          <p class="tst-quote">Найкраще навіть не музика. Ми з класним керівником спокійно розмовляли посеред танцполу, не зриваючи голос.</p>
+          <p class="tst-quote">«Звичайна гучна вечірка в нашому просторі була неможлива. А тут ми отримали справжню танцювальну атмосферу без шуму навколо. Це було дивне й дуже круте відчуття — бачити людей, які танцюють у майже повній тиші».</p>
           <div class="tst-author">
             <div class="tst-avatar">АВ</div>
-            <div><div class="tst-name">Артем В.</div><div class="tst-role">випускний на даху</div></div>
+            <div><div class="tst-name">Артем В.</div><div class="tst-role">організатор події</div></div>
           </div>
         </article>
         <article class="tst-card reveal">
           <div class="tst-stars" aria-hidden="true">★★★★★</div>
-          <p class="tst-quote">Ранкова практика на 40 килимків просто неба. Голос інструктора чути навіть в останньому ряду. З колонками половина групи щоразу випадала.</p>
-          <div class="tst-author">
-            <div class="tst-avatar">СР</div>
-            <div><div class="tst-name">Софія Р.</div><div class="tst-role">йога-сет у парку</div></div>
-          </div>
-        </article>
-        <article class="tst-card reveal">
-          <div class="tst-stars" aria-hidden="true">★★★★★</div>
-          <p class="tst-quote">Показували фільм у внутрішньому дворі до одинадцятої вечора. Без навушників нас зупинили б на двадцятій хвилині.</p>
+          <p class="tst-quote">«Я не очікував, що це настільки затягне. Спочатку здається, що ти просто слухаєш музику в навушниках. Але потім помічаєш, як усі навколо танцюють, перемикають канали, сміються — і сам уже повністю всередині цього».</p>
           <div class="tst-author">
             <div class="tst-avatar">ІМ</div>
-            <div><div class="tst-name">Ігор М.</div><div class="tst-role">кінопоказ у дворі</div></div>
+            <div><div class="tst-name">Ігор М.</div><div class="tst-role">гість вечірки</div></div>
           </div>
         </article>
         <article class="tst-card reveal">
           <div class="tst-stars" aria-hidden="true">★★★★★</div>
-          <p class="tst-quote">Боялася, що дівич-вечір на сорок людей — це вже занадто гучно для затишної компанії. З навушниками вийшло навпаки: кожна чула тільки свою музику, а разом все одно танцювали як одна команда.</p>
+          <p class="tst-quote">«Найцікавіше — кожен чув свою музику, але всі були в одному просторі. Хтось обрав хіти, хтось ретро, хтось зовсім інший настрій. Різні музичні смаки раптом перестали бути проблемою».</p>
+          <div class="tst-author">
+            <div class="tst-avatar">СР</div>
+            <div><div class="tst-name">Софія Р.</div><div class="tst-role">гостя вечірки</div></div>
+          </div>
+        </article>
+        <article class="tst-card reveal">
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">«Спочатку ми думали, що silent disco — це просто навушники замість колонок. Але це виявилося зовсім іншим досвідом. Люди більше взаємодіяли між собою, сміялися, показували одне одному свої канали й постійно були залучені в те, що відбувається».</p>
           <div class="tst-author">
             <div class="tst-avatar">КЛ</div>
-            <div><div class="tst-name">Катерина Л.</div><div class="tst-role">дівич-вечір, 40 гостей</div></div>
+            <div><div class="tst-name">Катерина Л.</div><div class="tst-role">організаторка події</div></div>
           </div>
         </article>
         <article class="tst-card reveal">
           <div class="tst-stars" aria-hidden="true">★★★★★</div>
-          <p class="tst-quote">Брали як активність на виїзд. Ефект неочікуваний: люди, які на корпоративах зазвичай сидять у кутку, того вечора танцювали.</p>
+          <p class="tst-quote">«Це був той формат, після якого гості ще довго обговорювали вечір. Було багато моментів, які неможливо пояснити словами — їх просто потрібно побачити й пережити самому».</p>
           <div class="tst-author">
             <div class="tst-avatar">БШ</div>
-            <div><div class="tst-name">Богдан Ш.</div><div class="tst-role">тимбілдинг для команди</div></div>
+            <div><div class="tst-name">Богдан Ш.</div><div class="tst-role">організатор події</div></div>
+          </div>
+        </article>
+        <article class="tst-card reveal">
+          <div class="tst-stars" aria-hidden="true">★★★★★</div>
+          <p class="tst-quote">«Це була наша перша silent disco, і ми взагалі не знали, чого очікувати. У результаті отримали вечірку, яка відчувалася зовсім не так, як звичайна. Наче всі на якийсь час опинилися в одному спільному досвіді, але кожен проживав його по-своєму».</p>
+          <div class="tst-author">
+            <div class="tst-avatar">АТ</div>
+            <div><div class="tst-name">Анна Т.</div><div class="tst-role">організаторка події</div></div>
           </div>
         </article>
       </div>
-      <button class="gal-nav tst-prev" type="button" aria-label="Попередні відгуки">‹</button>
-      <button class="gal-nav tst-next" type="button" aria-label="Наступні відгуки">›</button>
+      <button class="gal-nav tst-prev" type="button" aria-label="Попередні відгуки"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+      <button class="gal-nav tst-next" type="button" aria-label="Наступні відгуки"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
     </div>
     <p class="uc-hint">Гортайте вбік, щоб побачити більше відгуків</p>
   </div>
@@ -1812,7 +1824,6 @@
           <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="5.2" width="18.8" height="13.6" rx="2.6"/><path d="m3.4 7 8.05 5.6a1 1 0 0 0 1.1 0L20.6 7"/></svg>
         </a>
         </div>
-        <a class="f-phone" href="tel:+380963339068">+380 96 333 90 68</a>
         <p class="f-note">Пишіть у будь-який месенджер — відповідаємо швидко.</p>
       </div>
       </div>
@@ -1969,6 +1980,6 @@ window.SILENT_I18N = {
   }
 };
 </script>
-<script src="assets/site.js?v=e5ccafec"></script>
+<script src="assets/site.js?v=50f48ef6"></script>
 </body>
 </html>
