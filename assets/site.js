@@ -33,6 +33,60 @@ function orderExperience(name){
   setTimeout(() => { if (field) field.focus({ preventScroll: true }); }, 600);
 }
 
+  // ---- Магнітні кнопки (десктоп) ----
+  // Головні кнопки тягнуться до курсора, поки він у межах ~110px, не більше ніж
+  // на PULL пікселів — ледь відчутна «тяга», без стрибків. Зсув іде через
+  // CSS-змінні --mx/--my на властивість translate (правило .magnet), тож не
+  // заважає ні підйому на наведенні (transform), ні натисканню (scale).
+  // З GSAP кнопка не просто повертається на місце, а «допружинює» (elastic) —
+  // саме цього CSS-transition не вміє. Без GSAP — той самий зсув без пружини.
+  (function(){
+    const btns = [].slice.call(document.querySelectorAll(
+      '.hero-actions .btn-primary, .nav-cta, .band-cta-btn, .f-cta'));
+    if (!btns.length || !window.matchMedia('(hover: hover) and (pointer: fine)').matches ||
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const G = window.gsap;
+    const RANGE = 110;
+    const items = btns.map(function(btn){
+      const it = { btn: btn, pull: btn.classList.contains('nav-cta') ? 5 : 8, o: { x: 0, y: 0 } };
+      btn.classList.add('magnet');
+      const paint = function(){
+        btn.style.setProperty('--mx', it.o.x.toFixed(2) + 'px');
+        btn.style.setProperty('--my', it.o.y.toFixed(2) + 'px');
+      };
+      if (G){
+        const cfg = { duration: 0.9, ease: 'elastic.out(1, 0.42)', onUpdate: paint };
+        it.qx = G.quickTo(it.o, 'x', cfg);
+        it.qy = G.quickTo(it.o, 'y', cfg);
+      } else {
+        it.set = function(x, y){ it.o.x = x; it.o.y = y; paint(); };
+      }
+      return it;
+    });
+    let raf = 0, px = 0, py = 0;
+    function apply(){
+      raf = 0;
+      items.forEach(function(it){
+        const r = it.btn.getBoundingClientRect();
+        // Кнопки поза екраном не рахуємо: getBoundingClientRect дешевий, але
+        // цикл іде на кожен рух миші.
+        if (r.bottom < -RANGE || r.top > innerHeight + RANGE) return;
+        const dx = px - (r.left + r.width / 2), dy = py - (r.top + r.height / 2);
+        const d = Math.hypot(dx, dy), reach = RANGE + r.width / 2;
+        let x = 0, y = 0;
+        if (d <= reach){
+          const f = (1 - d / reach) * it.pull / (d || 1);
+          x = dx * f; y = dy * f;
+        }
+        if (it.qx){ it.qx(x); it.qy(y); } else it.set(x, y);
+      });
+    }
+    window.addEventListener('pointermove', function(e){
+      px = e.clientX; py = e.clientY;
+      if (!raf) raf = requestAnimationFrame(apply);
+    }, { passive: true });
+  })();
+
   // ---- Рухоме підсвічення розділів у mega-меню (десктоп) ----
   // Один елемент .nav-mega-glow на сітку: під курсором (або фокусом) він
   // стає рівно по колонці розділу й переїжджає до сусіднього, а не блимає.
@@ -445,6 +499,33 @@ function orderExperience(name){
     if (muteLabel) muteLabel.textContent = soundOn ? I18N.sound.on : I18N.sound.off;
     if (muteBtn) muteBtn.title = soundOn ? I18N.sound.mute : I18N.sound.off;
   }
+
+  // ---- Геро: текст «відпускає» разом із прокруткою (десктоп, ScrollTrigger) ----
+  // Танцівниця й фон уже їдуть паралаксом вище; текст стояв на місці й
+  // залишав геро пласким: усе рухалось, крім головного. Тепер заголовок і
+  // блок кнопок повільно підпливають угору й тьмяніють, поки геро йде з кадру,
+  // — із різною швидкістю, тож між ними й фігурою виникає глибина.
+  // Рухаємо обгортки .hero-top/.hero-bottom, а не самі рядки заголовка: у тих
+  // власна CSS-анімація появи й перемикання каналів на transform.
+  // scrub: 0.6 — рух наздоганяє прокрутку з невеликою інерцією, без ривків.
+  // gsap.matchMedia сам повертає елементам початковий стан, коли умова
+  // перестає діяти (вікно звузили до планшета, увімкнули reduce-motion).
+  (function(){
+    const G = window.gsap, ST = window.ScrollTrigger;
+    const hero = document.querySelector('.hero');
+    if (!G || !ST || !hero) return;
+    G.registerPlugin(ST);
+    G.matchMedia().add('(min-width: 1000px) and (prefers-reduced-motion: no-preference)', function(){
+      const top = hero.querySelector('.hero-top'), bottom = hero.querySelector('.hero-bottom');
+      if (!top || !bottom) return;
+      const tl = G.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom 35%', scrub: 0.6 }
+      });
+      tl.to(top,    { y: -70, opacity: 0.15 }, 0)
+        .to(bottom, { y: -36, opacity: 0.25 }, 0);
+    });
+  })();
 
   // ---- Channel audio ----
   // Each channel owns a looping track. Files are fetched only on demand
@@ -1623,11 +1704,63 @@ function orderExperience(name){
       el.classList.add('rv-done');
     }, delay + REVEAL_MS + 60);
   }
+  // GSAP-режим появи. Тригер лишається за IntersectionObserver, а не за
+  // ScrollTrigger: якірний перехід із меню за один стрибок пролітає повз
+  // кілька блоків, і IO спрацьовує на кожному, що потрапив у кадр, тоді як
+  // тригер за позицією міг би так і не спрацювати для тих, що лишились вище
+  // точки приземлення. GSAP лише малює сам рух, і робить те, чого CSS-перехід
+  // не вміє: черга по групі одним потоком (картки, що прийшли в кадр разом,
+  // ідуть по черзі), різний характер входу для заголовків і карток, розмиття
+  // «наведення на різкість» для заголовків, як у героя.
+  // Плашки «Що входить» (.slab) лишаються на старій появі: їхній рух
+  // тримається на власному transform і підсвітці за прокруткою.
+  // Без GSAP (не завантажився) і при prefers-reduced-motion працює стара поява.
+  const gsapOn = !!(window.gsap && window.ScrollTrigger) &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const gsQueue = [];
+  let gsTimer = 0;
+  function gsKind(el){
+    if (el.matches('h2, .h2, .exp-head-title')) return 'head';
+    if (el.matches('.eyebrow, .section-lead, .how-lead, .slabs-foot')) return 'text';
+    return 'card';
+  }
+  function gsFlush(){
+    gsTimer = 0;
+    const els = gsQueue.splice(0).sort((a, b) =>
+      (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1);
+    if (!els.length) return;
+    const ease = 'power3.out';
+    const step = Math.min(0.09, 0.45 / els.length);
+    els.forEach((el, i) => {
+      const kind = gsKind(el);
+      const from = kind === 'head' ? { opacity: 0, y: 30, filter: 'blur(9px)' }
+                 : kind === 'text' ? { opacity: 0, y: 14 }
+                 :                   { opacity: 0, y: 42, scale: 0.975 };
+      window.gsap.fromTo(el, from, {
+        opacity: 1, y: 0, scale: 1, filter: 'blur(0px)',
+        duration: kind === 'head' ? 1 : kind === 'text' ? 0.65 : 0.9,
+        ease: ease, delay: i * step, overwrite: 'auto',
+        // rv-done ставимо ДО очищення інлайнових стилів, в одному такті: CSS
+        // вже перестав ховати елемент, а GSAP ще нічого не зняв — миготіння
+        // нема. clearProps точковий, а не 'all': 'all' зніс би й чужі інлайнові
+        // стилі елемента.
+        onComplete: () => {
+          el.classList.add('in', 'rv-done');
+          window.gsap.set(el, { clearProps: 'opacity,transform,translate,scale,filter,willChange' });
+        }
+      });
+    });
+  }
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (!e.isIntersecting) return;
-      e.target.classList.add('in');
       io.unobserve(e.target);
+      if (e.target._gs){
+        gsQueue.push(e.target);
+        if (!gsTimer) gsTimer = setTimeout(gsFlush, 70);
+        return;
+      }
+      e.target.classList.add('in');
       settleReveal(e.target);
     });
   }, { threshold: 0.12 });
@@ -1647,6 +1780,13 @@ function orderExperience(name){
     const group = el.parentElement
       ? Array.prototype.filter.call(el.parentElement.children, n => n.classList.contains('reveal'))
       : [];
+    if (gsapOn && !el.matches('.slab')){
+      // Свій transition CSS-появи вимкнено (клас gs-rv), рух веде GSAP.
+      el._gs = true;
+      el.classList.add('gs-rv');
+      io.observe(el);
+      return;
+    }
     const k = Math.max(0, group.indexOf(el));
     el.style.transitionDelay = (Math.min(k, 4) * 0.07).toFixed(2) + 's';
     io.observe(el);

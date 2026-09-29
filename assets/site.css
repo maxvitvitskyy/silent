@@ -2499,6 +2499,48 @@
      червона пляма, — на самій плашці абзац світліший. */
   .band:not(.band-bare) p { color: rgba(255,255,255,0.84); }
 
+  /* CTA у гарантії. Людина, що дочитала сюди, вже майже вирішила — тож кнопка
+     не кричить, а «дихає»: два лаймові кільця розходяться від неї, як хвилі від
+     навушників, зсунуті в часі, тож пульс не збивається в одну лінію. Стрілка
+     на наведенні виїжджає вперед, а сама кнопка тягнеться до курсора (JS). */
+  .band-cta { margin-top: 30px; display: flex; justify-content: center; }
+  .band-cta-btn {
+    position: relative; display: inline-flex; align-items: center; gap: 10px;
+    padding: 15px 30px; font-size: 16px; font-weight: 700;
+    box-shadow: 0 0 0 0 transparent, 0 10px 34px -6px var(--lime-glow);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  /* Магніт (site.js): translate — окрема від transform властивість, тож тяга до
+     курсора й підйом на наведенні не перезаписують одне одного. */
+  .magnet { translate: var(--mx, 0px) var(--my, 0px); }
+  .band-cta-btn svg { width: 18px; height: 18px; transition: transform 0.3s cubic-bezier(.2,.8,.2,1); }
+  .band-cta-btn:hover svg, .band-cta-btn:focus-visible svg { transform: translateX(5px); }
+  .band-cta-btn::before, .band-cta-btn::after {
+    content: ''; position: absolute; inset: -1px; border-radius: 999px;
+    border: 1.5px solid rgba(198,255,0,0.55); pointer-events: none;
+    opacity: 0; animation: ctaWave 3.6s ease-out infinite;
+  }
+  .band-cta-btn::after { animation-delay: 1.8s; }
+  @keyframes ctaWave {
+    0%   { opacity: 0.7; transform: scale(1); }
+    70%  { opacity: 0;   transform: scale(1.32, 1.7); }
+    100% { opacity: 0;   transform: scale(1.32, 1.7); }
+  }
+  .band-cta-btn:hover::before, .band-cta-btn:hover::after { animation-duration: 1.8s; }
+  /* Десктоп: абзац гарантії в один рядок, а кнопка одразу під ним. 46ch тут
+     рвало його на два, і кнопка відсувалась від останнього рядка. */
+  @media (min-width: 1000px){
+    .band:not(.band-bare) p { max-width: none; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .band-cta-btn::before, .band-cta-btn::after { animation: none; display: none; }
+    .magnet { translate: none; }
+  }
+  @media (max-width: 560px){
+    .band-cta { margin-top: 24px; }
+    .band-cta-btn { width: 100%; max-width: 320px; justify-content: center; }
+  }
+
   /* ---------- GALLERY ---------- */
   .gallery { padding: var(--sec-pad) 0; }
 
@@ -3603,6 +3645,10 @@
     transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), translate 0.7s cubic-bezier(0.22,1,0.36,1);
   }
   html.js .reveal.in:not(.rv-done) { opacity: 1; translate: none; }
+  /* Поява під керуванням GSAP: CSS лише ховає елемент до першого кадру, а сам
+     рух і прозорість пише GSAP в інлайн. Свій transition при цьому мусить
+     мовчати — інакше він згладжував би кожен кадр GSAP і рух відставав би. */
+  html.js .reveal.gs-rv:not(.rv-done) { transition: none; translate: none; }
 
   @media (prefers-reduced-motion: reduce) {
     /* Рух і цикли гасимо, а короткий відгук кольору/прозорості лишаємо: HIG радить

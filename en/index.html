@@ -205,7 +205,7 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet';window.__fontsIn&amp;&amp;window.__fontsIn()">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
 <!-- Стилі спільні для української та англомовної версій — один файл на дві -->
-<link rel="stylesheet" href="../assets/site.css?v=038c366d">
+<link rel="stylesheet" href="../assets/site.css?v=48da1e98">
 </head>
 <body id="top">
 
@@ -1511,6 +1511,13 @@
     <div class="g-tag">Our guarantee</div>
     <h2>If nobody is dancing in the first half hour, we take part of the fee off the bill.</h2>
     <p>We're accountable for how the evening turns out, so we carry the financial risk.</p>
+    <!-- Кнопка для того, хто вже дочитав до гарантії: сумніви закриті, лишилось
+         назвати дату. Кільця навколо — «хвилі» з навушників, вони пульсують,
+         поки кнопка в спокої, а біля курсора кнопка тягнеться до нього
+         (site.js, «Магнітна кнопка гарантії»). -->
+    <div class="band-cta">
+      <a href="#book" class="btn-primary band-cta-btn" data-cta="guarantee_pick_date"><span>Pick your date</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+    </div>
   </div>
 </section>
 
@@ -1980,6 +1987,8 @@ window.SILENT_I18N = {
   }
 };
 </script>
-<script src="../assets/site.js?v=60be4c4f"></script>
+<script src="../assets/vendor/gsap.min.js?v=fa1aeabc"></script>
+<script src="../assets/vendor/ScrollTrigger.min.js?v=ecd3242f"></script>
+<script src="../assets/site.js?v=17ce93e6"></script>
 </body>
 </html>

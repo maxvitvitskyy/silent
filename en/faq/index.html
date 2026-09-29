@@ -55,7 +55,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="../../assets/site.css?v=038c366d">
+<link rel="stylesheet" href="../../assets/site.css?v=48da1e98">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -921,6 +921,11 @@ window.SILENT_I18N = {
   }
 };
 </script>
-<script src="../../assets/site.js?v=60be4c4f"></script>
+<!-- GSAP + ScrollTrigger лежать у репозиторії (assets/vendor/), а не на CDN: жодного
+     стороннього запиту на шляху до першої появи блоків. Якщо вони не завантажились,
+     site.js сам лишається на власній появі через IntersectionObserver. -->
+<script src="../../assets/vendor/gsap.min.js?v=fa1aeabc"></script>
+<script src="../../assets/vendor/ScrollTrigger.min.js?v=ecd3242f"></script>
+<script src="../../assets/site.js?v=17ce93e6"></script>
 </body>
 </html>

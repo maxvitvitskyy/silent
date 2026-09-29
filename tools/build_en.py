@@ -86,6 +86,7 @@ PATHS = [
  ('?text=%D0%9F%D1%80%D0%B8%D0%B2%D1%96%D1%82%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B4%D1%96%D0%B7%D0%BD%D0%B0%D1%82%D0%B8%D1%81%D1%8F%20%D0%B1%D1%96%D0%BB%D1%8C%D1%88%D0%B5%20%D0%BF%D1%80%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%BD%D1%8F%20SILENT%20DISCO%20%D0%B4%D0%BB%D1%8F%20%D0%BC%D0%BE%D1%94%D1%97%20%D0%BF%D0%BE%D0%B4%D1%96%D1%97.', '?text=Hi%21%20I%20would%20like%20to%20know%20more%20about%20running%20a%20SILENT%20DISCO%20at%20my%20event.'),
  ('href="assets/site.css"', 'href="../assets/site.css"'),
  ('src="assets/site.js"',   'src="../assets/site.js"'),
+ ('src="assets/vendor/',    'src="../assets/vendor/'),
  ('href="images/',  'href="../images/'),
  ('src="images/',   'src="../images/'),
  # data-poster ПЕРЕД звичайним poster=: рядок "poster=\"images/" — це
@@ -543,6 +544,7 @@ T = {
   'If nobody is dancing in the first half hour, we take part of the fee off the bill.',
 'Ми відповідаємо за результат вечора, тож фінансовий ризик беремо на себе.':
   "We're accountable for how the evening turns out, so we carry the financial risk.",
+'Обрати дату': 'Pick your date',
 
 # --- відгуки -------------------------------------------------------------
 'Відгуки': 'Reviews',
@@ -786,6 +788,8 @@ window.SILENT_I18N = {
   }
 };
 </script>
+<script src="../assets/vendor/gsap.min.js"></script>
+<script src="../assets/vendor/ScrollTrigger.min.js"></script>
 <script src="../assets/site.js"></script>"""
 
 
@@ -839,7 +843,7 @@ def assert_translated(s, name):
 # Шлях шукаємо без початку, тож під правило підпадають усі написання відразу:
 # images/…, ../images/… і /images/…
 STAMPED = re.compile(
-    r'((?:assets/site\.(?:css|js))|(?:images/(?:favicon|apple-touch-icon)\.png))'
+    r'((?:assets/site\.(?:css|js))|(?:assets/vendor/(?:gsap|ScrollTrigger)\.min\.js)|(?:images/(?:favicon|apple-touch-icon)\.png))'
     r'(\?v=[0-9a-f]+)?')
 
 # Ключем служить сам шлях, а не розширення. Це не дрібниця: іконок дві, обидві
@@ -848,6 +852,8 @@ STAMPED = re.compile(
 STAMPED_FILES = (
     'assets/site.css',
     'assets/site.js',
+    'assets/vendor/gsap.min.js',
+    'assets/vendor/ScrollTrigger.min.js',
     'images/favicon.png',
     'images/apple-touch-icon.png',
 )
