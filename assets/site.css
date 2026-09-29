@@ -2423,8 +2423,8 @@
     z-index: 0; pointer-events: none;
     overflow: hidden;
     border-radius: inherit;
-    filter: blur(44px) saturate(1.3);
-    opacity: 0.85;
+    filter: blur(38px) saturate(1.7);
+    opacity: 1;
   }
   /* Усередині плашки — та сама рідина, тільки силует під її пропорції:
      коробка низька й широка, тож три витягнуті лобі впоперек, а не чотири
@@ -2450,16 +2450,54 @@
   .band-aurora .aurora-liquid::before,
   .band-aurora .aurora-liquid::after {
     background-image:
-      radial-gradient(circle, rgba(198,255,0,0.42) 0, transparent 55%),
-      radial-gradient(circle, rgba(var(--acid-rgb),0.58) 0, transparent 55%),
-      radial-gradient(circle, rgba(198,255,0,0.26) 0, transparent 50%);
+      radial-gradient(circle, rgba(198,255,0,0.66) 0, transparent 58%),
+      radial-gradient(circle, rgba(var(--acid-rgb),0.85) 0, transparent 58%),
+      radial-gradient(circle, rgba(198,255,0,0.42) 0, transparent 54%);
     background-size: 58% 58%, 46% 46%, 50% 50%;
   }
+  /* Другий шар на плашці не гасимо до 0.55, як у секційних мозаїках: у низькій
+     плашці видно лише смугу поля, і слабкий другий шар просто тьмянив колір. */
+  .band-aurora .aurora-liquid::after { opacity: 0.8; }
+  /* Лопаті маски ширші: край розчиняється пізніше, тож кольору в плашці
+     більше, а темних провалів між лопатями менше. */
+  .band-aurora .aurora-liquid {
+    -webkit-mask-image:
+      radial-gradient(42% 130% at 14% 46%, #000 0, transparent 82%),
+      radial-gradient(36% 120% at 48% 38%, #000 0, transparent 82%),
+      radial-gradient(38% 125% at 84% 56%, #000 0, transparent 82%);
+    mask-image:
+      radial-gradient(42% 130% at 14% 46%, #000 0, transparent 82%),
+      radial-gradient(36% 120% at 48% 38%, #000 0, transparent 82%),
+      radial-gradient(38% 125% at 84% 56%, #000 0, transparent 82%);
+  }
+  /* Відгук на курсор. Ланки шлейфу базово розраховані на секцію заввишки
+     ~1040px із альфою до 0.225; у низькій плашці їх видно було ледь-ледь.
+     Тут альфа приблизно вдвічі вища, а «розрідження» (пляма кольору фону, що
+     стирає рідину під курсором) слабше — інакше воно з'їдало саме ту яскравість,
+     яку шлейф додає. */
+  .band-aurora .aurora-void.on { opacity: 0.32; }
+  .band-aurora .aurora-pointer.p1 { background: radial-gradient(circle, rgba(var(--trail-rgb, var(--acid-rgb)),0.652), transparent 72%); }
+  .band-aurora .aurora-pointer.p2 { background: radial-gradient(circle, rgba(var(--trail-rgb, var(--acid-rgb)),0.618), transparent 72%); }
+  .band-aurora .aurora-pointer.p3 { background: radial-gradient(circle, rgba(var(--trail-rgb, var(--acid-rgb)),0.58), transparent 72%); }
+  .band-aurora .aurora-pointer.p4 { background: radial-gradient(circle, rgba(var(--trail-rgb, var(--acid-rgb)),0.542), transparent 72%); }
+  .band-aurora .aurora-pointer.p5 { background: radial-gradient(circle, rgba(var(--trail-rgb, var(--acid-rgb)),0.505), transparent 72%); }
+  .band-aurora .aurora-pointer.p6 { background: radial-gradient(circle, rgba(var(--trail-rgb, var(--acid-rgb)),0.467), transparent 72%); }
+  .band-aurora .aurora-pointer.p7 { background: radial-gradient(circle, rgba(var(--trail-rgb, var(--acid-rgb)),0.426), transparent 72%); }
+  .band-aurora .aurora-pointer.p8 { background: radial-gradient(circle, rgba(var(--trail-rgb, var(--acid-rgb)),0.386), transparent 72%); }
+  .band-aurora .aurora-pointer.p9 { background: radial-gradient(circle, rgba(var(--trail-rgb, var(--acid-rgb)),0.342), transparent 72%); }
+  .band-aurora .aurora-pointer.p10 { background: radial-gradient(circle, rgba(var(--trail-rgb, var(--acid-rgb)),0.299), transparent 72%); }
+  .band-aurora .aurora-pointer.p11 { background: radial-gradient(circle, rgba(var(--trail-rgb, var(--acid-rgb)),0.252), transparent 72%); }
+  .band-aurora .aurora-pointer.p12 { background: radial-gradient(circle, rgba(var(--trail-rgb, var(--acid-rgb)),0.203), transparent 72%); }
+  .band-aurora .aurora-pointer.p13 { background: radial-gradient(circle, rgba(var(--trail-rgb, var(--acid-rgb)),0.148), transparent 72%); }
+  .band-aurora .aurora-pointer.p14 { background: radial-gradient(circle, rgba(var(--trail-rgb, var(--acid-rgb)),0.072), transparent 72%); }
   /* Текст плашки лишається над мозаїкою. */
   .band > :not(.band-aurora) { position: relative; z-index: 1; }
   .band .g-tag { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; opacity: 0.85; font-weight: 700; margin-bottom: 18px; color: var(--lime); }
   .band h2 { font-size: clamp(24px, 3.6vw, 38px); font-weight: 600; line-height: 1.15; max-width: none; margin: 0 auto 16px; color: #fff; text-wrap: balance; }
   .band p { font-size: 15px; color: var(--muted); max-width: 46ch; margin: 0 auto; }
+  /* На яскравішій рідині сірий --muted падав нижче 4.5:1 там, де під текстом
+     червона пляма, — на самій плашці абзац світліший. */
+  .band:not(.band-bare) p { color: rgba(255,255,255,0.84); }
 
   /* ---------- GALLERY ---------- */
   .gallery { padding: var(--sec-pad) 0; }

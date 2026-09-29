@@ -2028,8 +2028,9 @@ function orderExperience(name){
       }
       // Розміри ланок у CSS розраховані на секцію заввишки близько 1040px.
       // Плашка гарантії вп'ятеро нижча, і в ній ті самі кола були б більші за
-      // неї саму — тож масштабуємо їх під висоту коробки.
-      const k = Math.min(1, Math.max(0.26, box.getBoundingClientRect().height / 1040));
+      // неї саму — тож масштабуємо їх під висоту коробки, але не менше 0.55:
+      // при 0.26 слід виходив діаметром ~100px і губився в розмитті.
+      const k = Math.min(1, Math.max(0.55, box.getBoundingClientRect().height / 1040));
       zones.push({ box, links, hole: { el: hole, x: 0, y: 0, vx: 0, vy: 0 },
                    liq: box.querySelector('.aurora-liquid'),
                    layers: [null, null],   // розбираються з CSS при першому зніманні
