@@ -1606,7 +1606,131 @@ function orderExperience(name){
     return { pick, clear };
   }
 
-  litOnScroll(document.querySelector('.slabs'), '.slab', { pinOnTap: true });
+  // ---- Стопка плашок «Що входить»: безперервний фокус замість перемикача ----
+  // Плашки лежать внахлист, і та, що найближча до середини екрана, підіймається,
+  // а решта звільняє їй місце. Раніше це було перемикання класу: у момент, коли
+  // «найближчою» ставала інша плашка, одна опускалась, інша піднімалась, а всі
+  // наступні зсувались на 22px — п'ять карток стрибали одночасно, і CSS-перехід
+  // лише розтягував цей стрибок. Відчувалось як ривок.
+  //
+  // Тепер це стан, що тече. Для кожної плашки рахується ЦІЛЬ фокусу t (0…1) —
+  // гладка функція відстані її центра до лінії фокуса: 1 у центрі, 0 на відстані
+  // кроку стопки, між ними smoothstep. Дві сусідні плашки на півдорозі дають
+  // 0.5 + 0.5, тож «фокус» перетікає з однієї на іншу, а не стрибає. Видиме
+  // значення f наздоганяє ціль за експонентою, залежною від ЧАСУ (не від кадрів):
+  // на 60 і на 120 Гц інерція однакова, і навіть різке гортання не дає ривка —
+  // картка встигає лише м'яко розганятись. --f веде підйом, світіння, рамку,
+  // цифру й бейдж; --p (сума --f плашок над цією, не більше 1) — відступ сусідів
+  // вниз: наступні звільняють місце рівно настільки, наскільки піднялась активна.
+  // Уся візуальна логіка — у CSS (.slab, змінні --f/--p), тут лише числа.
+  //
+  // Джерела цілі: (1) прокрутка; (2) мишка — плашка під курсором стає ціллю
+  // (курсор має пріоритет, доки він у стопці); (3) тап на дотиці фіксує плашку.
+  // Позиції беремо з розкладки (offsetTop), а не з getBoundingClientRect самих
+  // плашок: у них transform, і ціль від власного зсуву давала б зворотний зв'язок.
+  (function(){
+    const box = document.querySelector('.slabs');
+    if (!box) return;
+    const items = [].slice.call(box.querySelectorAll('.slab'));
+    const n = items.length;
+    if (n < 2) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const RATE = 5.5;                       // 1/с; ~180мс постійна часу — повільно, «дорого»
+    const f = new Array(n).fill(0);         // те, що зараз на екрані
+    const t = new Array(n).fill(0);         // до чого ведемо
+    let ptrY = null, pin = -1, raf = 0, last = 0;
+    let rel = [], mid = [], pitch = 1;
+
+    function measure(){
+      // Центри плашок відносно верху стопки за розкладкою (без transform).
+      const top0 = items[0].offsetTop;
+      rel = items.map(function(el){ return el.offsetTop - top0 + el.offsetHeight / 2; });
+      pitch = Math.max(1, (rel[n - 1] - rel[0]) / (n - 1));
+    }
+    const smooth = function(x){ x = Math.max(0, Math.min(1, x)); return x * x * (3 - 2 * x); };
+
+    function retarget(){
+      if (pin >= 0){
+        for (let i = 0; i < n; i++) t[i] = i === pin ? 1 : 0;
+        return;
+      }
+      const r = box.getBoundingClientRect();
+      const H = window.innerHeight;
+      // Стопка поза екраном — жодна плашка не світиться.
+      if (r.top > H * 0.98 || r.bottom < H * 0.02){ t.fill(0); return; }
+      // Лінія фокуса: за замовчуванням трохи вище середини екрана, а поки курсор
+      // у стопці — сам курсор. Та сама гладка функція, тож фокус їздить за
+      // мишкою так само плавно, як за прокруткою, і перетікає між плашками.
+      const focusY = ptrY !== null ? ptrY : H * 0.47;
+      for (let i = 0; i < n; i++){
+        const d = Math.abs(r.top + rel[i] - focusY);
+        t[i] = smooth(1 - d / pitch);
+      }
+    }
+    function paint(){
+      let above = 0, top = -1, topV = 0.5;
+      for (let i = 0; i < n; i++){
+        const el = items[i];
+        el.style.setProperty('--f', f[i].toFixed(4));
+        el.style.setProperty('--p', Math.min(1, above).toFixed(4));
+        above += f[i];
+        if (f[i] > topV){ topV = f[i]; top = i; }
+      }
+      for (let i = 0; i < n; i++) items[i].classList.toggle('is-top', i === top);
+    }
+    function tick(now){
+      raf = 0;
+      const dt = Math.min(0.05, (now - last) / 1000) || 0.016;
+      last = now;
+      const a = reduce ? 1 : 1 - Math.exp(-RATE * dt);
+      let moving = false;
+      for (let i = 0; i < n; i++){
+        const d = t[i] - f[i];
+        if (Math.abs(d) < 0.0004){ f[i] = t[i]; continue; }
+        f[i] += d * a; moving = true;
+      }
+      paint();
+      if (moving) raf = requestAnimationFrame(tick);
+    }
+    function wake(){
+      retarget();
+      if (!raf){ last = performance.now(); raf = requestAnimationFrame(tick); }
+    }
+
+    measure();
+    window.addEventListener('scroll', wake, { passive: true });
+    window.addEventListener('resize', function(){ measure(); wake(); }, { passive: true });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ measure(); wake(); });
+    window.addEventListener('load', function(){ measure(); wake(); });
+
+    // Мишка: поки курсор у стопці, лінія фокуса — це він. Позицію курсора міряємо
+    // по розкладці (rel/offsetTop), а не по тому, яка плашка зараз під ним: вони
+    // рухаються, і «що під курсором» давало б зворотний зв'язок — плашка піднялась,
+    // і під курсором уже сусідня. Так фокус не смикається, коли стопка їде під
+    // нерухомим курсором (гортання коліщатком). Вийшов зі стопки — веде прокрутка.
+    box.addEventListener('pointermove', function(e){
+      if (e.pointerType !== 'mouse') return;
+      ptrY = e.clientY; wake();
+    });
+    box.addEventListener('pointerleave', function(e){
+      if (e.pointerType !== 'mouse') return;
+      ptrY = null; wake();
+    });
+
+    // Дотик: тап фіксує плашку (з неї розкривається стопка), тап деінде знімає.
+    box.addEventListener('click', function(e){
+      if (!window.matchMedia('(hover: none)').matches) return;
+      const el = e.target.closest('.slab');
+      if (!el) return;
+      pin = items.indexOf(el); wake();
+    });
+    document.addEventListener('click', function(e){
+      if (pin < 0 || box.contains(e.target)) return;
+      pin = -1; wake();
+    });
+
+    wake();
+  })();
   litOnScroll(document.querySelector('.flow'), '.flow-step', { mode: 'progress' });
   litOnScroll(document.querySelector('.benefits-grid'), '.benefit-card', { mode: 'progress' });
   // «Як це працює»: той самий прийом, що в переваг — на дотик картки бенто

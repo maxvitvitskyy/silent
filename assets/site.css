@@ -1958,15 +1958,31 @@
     padding: 30px 32px;
     border: 1px solid var(--line); border-top-color: var(--glass-edge);
     border-radius: var(--r-md);
-    background: var(--glass-fill-dark);
+    /* БЕЗПЕРЕРВНИЙ СТАН, а не перемикач «світиться / ні».
+       Раніше активною ставала одна плашка (клас .is-lit), і кожне перемикання
+       одночасно піднімало її, опускало попередню й зсувало на 22px УСІ наступні:
+       п'ять карток стрибали разом, а CSS-перехід лише розтягував цей стрибок.
+       Тепер кожна плашка має власну «фокусність» --f (0…1), яку скрипт веде
+       від відстані плашки до лінії фокуса й дуже м'яко догоняє (site.js,
+       «Стопка плашок»), а --p — скільки місця вже зайняли плашки над нею
+       (сума їхніх --f, не більше 1). Усе нижче — чиста функція від цих двох
+       чисел: підйом, зсув сусідів, світіння, рамка, цифра, бейдж. Плашка
+       піднімається поступово, разом з наближенням до центру екрана, а сусіди
+       звільняють їй місце синхронно, без жодного ривка й без CSS-переходів. */
+    --lift: 16px; --push: 22px;
+    background:
+      radial-gradient(90% 160% at 6% 50%, rgba(198,255,0,calc(0.20 * var(--f, 0))), rgba(198,255,0,calc(0.05 * var(--f, 0))) 48%, transparent 78%),
+      var(--glass-fill-dark);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    box-shadow: var(--glass-shadow-2), 0 22px 50px -30px rgba(0,0,0,0.95);
-    /* довший і м'якший перехід: підсвітка переповзає між плашками, а не клацає */
-    transition: transform 0.55s cubic-bezier(.22,1,.36,1),
-                border-color 0.55s cubic-bezier(.22,1,.36,1),
-                box-shadow 0.55s cubic-bezier(.22,1,.36,1),
-                background 0.55s cubic-bezier(.22,1,.36,1);
+    border-color: color-mix(in srgb, rgba(198,255,0,0.45) calc(var(--f, 0) * 100%), var(--line));
+    border-top-color: color-mix(in srgb, rgba(198,255,0,0.45) calc(var(--f, 0) * 100%), var(--glass-edge));
+    box-shadow: var(--glass-shadow-2), 0 22px 50px -30px rgba(0,0,0,0.95),
+                0 0 70px -28px rgba(198,255,0,calc(0.5 * var(--f, 0))),
+                inset 0 1px 0 rgba(255,255,255,calc(0.10 * var(--f, 0)));
+    transform: translate3d(0, calc(var(--p, 0) * var(--push) - var(--f, 0) * var(--lift)), 0)
+               scale(calc(1 + var(--f, 0) * 0.012));
+    will-change: transform;
   }
   .slab:first-child { margin-top: 0; }
   /* Розчиняється не лише текст, а й сам матеріал: маска гасить нижній край
@@ -1990,12 +2006,9 @@
     border-radius: var(--r-md);
     background: linear-gradient(180deg,
       transparent 18%, rgba(7,7,8,0.26) 42%, rgba(7,7,8,0.68) 71%, rgba(7,7,8,0.94) 100%);
-    transition: opacity 0.6s cubic-bezier(.22,1,.36,1);
+    /* Затемнення не гасне повністю: у фокусі лишається 34%. */
+    opacity: calc(1 - var(--f, 0) * 0.66);
   }
-  /* активна плашка виходить із темряви — і опис стає читабельним повністю */
-  /* Затемнення не гасне повністю: плашка світлішає, але лишається в тіні. */
-  .slab:hover::after, .slab:focus-within::after, .slab.is-lit::after { opacity: 0.34; }
-
   /* цифра намальована обведенням, тож на темному тлі вона читається як контур,
      а при наведенні заливається лаймом */
   .slab-num {
@@ -2010,9 +2023,10 @@
        всю коробку, а в заголовка над літерами лишається піврядка інтерліньяжу.
        Виміряно по фактичних чорнилах: заголовок нижчий на 15.4px. */
     margin-top: 7px;
-    color: transparent;
-    -webkit-text-stroke: 1.5px rgba(255,255,255,0.26);
-    transition: -webkit-text-stroke-color 0.55s cubic-bezier(.22,1,.36,1), color 0.55s cubic-bezier(.22,1,.36,1);
+    -webkit-text-stroke: 1.5px color-mix(in srgb, var(--lime) calc(var(--f, 0) * 100%), rgba(255,255,255,0.26));
+    color: rgba(198,255,0,calc(0.14 * var(--f, 0)));
+    /* Цифра ледь виїжджає вправо разом із підйомом — паралакс усередині плашки. */
+    transform: translate3d(calc(var(--f, 0) * 6px), 0, 0);
     user-select: none;
   }
   /* Текст лежить над затемненням: темніє поверхня плашки, а не написи на ній —
@@ -2027,30 +2041,20 @@
     align-self: center;
     white-space: nowrap;
     font-size: 11.5px; letter-spacing: 1.2px; text-transform: uppercase;
-    color: var(--muted-2);
-    border: 1px solid var(--line); border-radius: 999px;
+    color: color-mix(in srgb, var(--lime) calc(var(--f, 0) * 100%), var(--muted-2));
+    border: 1px solid color-mix(in srgb, rgba(198,255,0,0.45) calc(var(--f, 0) * 100%), var(--line));
+    border-radius: 999px;
     padding: 7px 14px;
-    transition: color 0.55s cubic-bezier(.22,1,.36,1), border-color 0.55s cubic-bezier(.22,1,.36,1);
   }
+  /* Опис теж «прокидається» з фокусом: від приглушеного до світлішого. */
+  .slab-body p { color: color-mix(in srgb, rgba(255,255,255,0.86) calc(var(--f, 0) * 100%), var(--muted)); }
 
-  .slab:hover, .slab:focus-within, .slab.is-lit {
-    z-index: 20;
-    transform: translateY(-16px);
-    border-color: rgba(198,255,0,0.45);
-    background:
-      radial-gradient(90% 160% at 6% 50%, rgba(198,255,0,0.20), rgba(198,255,0,0.05) 48%, transparent 78%),
-      var(--glass-fill-dark);
-    box-shadow: var(--glass-shadow-2), 0 0 70px -28px rgba(198,255,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
-  }
-  .slab:hover .slab-num, .slab:focus-within .slab-num, .slab.is-lit .slab-num { -webkit-text-stroke-color: var(--lime); color: rgba(198,255,0,0.14); }
-  .slab:hover .slab-meta, .slab:focus-within .slab-meta, .slab.is-lit .slab-meta { color: var(--lime); border-color: rgba(198,255,0,0.45); }
-
-  /* Наступні плашки відступають рівно настільки, щоб активна встигла вилізти зі
-     свого гнізда. Transform, а не margin: розкладка не перераховується, і
-     сторінка не смикається. Перехід успадковується від .slab. */
-  .slab:hover ~ .slab,
-  .slab:focus-within ~ .slab,
-  .slab.is-lit ~ .slab { transform: translateY(22px); }
+  /* Плашка, що зараз у фокусі, лежить над усіма (скрипт ставить .is-top на ту,
+     чия --f найбільша й більша за половину). Перемикання z-index дискретне, але
+     непомітне: у момент перемикання дві сусідні мають майже однакову висоту. */
+  .slab.is-top { z-index: 20; }
+  /* Без руху: лише колір і світіння, стопка стоїть на місці. */
+  @media (prefers-reduced-motion: reduce){ .slab, .slab-num { transform: none !important; } }
 
   .slabs-foot { margin-top: 18px; font-size: 13px; color: var(--muted-2); }
 
@@ -2080,8 +2084,8 @@
        наступної. Тому наступні одночасно відсуваються рівно на перекриття:
        transform, а не margin, тож нічого не перераховується й нічого не смикає
        сторінку. Перехід успадковується від .slab, тож стопка «розкривається». */
-    .slab.is-lit { z-index: 30; }
-    .slab.is-lit ~ .slab { transform: translateY(48px); }
+    .slab { --push: 48px; }
+    .slab.is-top { z-index: 30; }
     /* Підпис — під цифру, а не під опис: унизу його накривала б наступна плашка. */
     .slab-meta {
       grid-column: 1; grid-row: 2;
