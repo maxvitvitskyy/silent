@@ -1816,7 +1816,7 @@ function orderExperience(name){
       : [];
     // Таймлайн «Як це працює» проявляється власною хореографією (нижче), тож
     // загальна поява його не чіпає.
-    if (gsapOn && el.matches('.flow')) return;
+    if (gsapOn && el.matches('.flow, .gallery-strip, .uc-gallery')) return;
     if (gsapOn && !el.matches('.slab')){
       // Свій transition CSS-появи вимкнено (клас gs-rv), рух веде GSAP.
       el._gs = true;
@@ -1861,6 +1861,141 @@ function orderExperience(name){
       });
       gsQueue.length = 0;
     };
+  })();
+
+  // ---- «Атмосфера» і «Silent-досвіди»: поява кадрів і карток (GSAP) ----
+  // Обидві стрічки нескінченні, а «Silent-досвіди» ще й віртуалізована, тож
+  // анімуємо лише те, що в момент появи блоку справді потрапило в екран, а
+  // решту не чіпаємо: кадри й картки поза екраном не існують для очей, а
+  // будь-який transform на них лише плутав би віртуалізацію.
+  //  • «Атмосфера»: кожен кадр «підіймається завісою» знизу вгору (clip-path),
+  //    фото всередині повільно віддаляється зі збільшення, кнопка відео
+  //    проявляється в кінці. Хвиля йде зліва направо.
+  //  • «Silent-досвіди»: картка «завантажується» — по фото зверху вниз ковзає
+  //    лаймова лінія-сканер, а кадр проявляється слідом за нею, як
+  //    проявлений знімок; потім заголовок, опис і кнопка.
+  // До моменту показу контейнер тримає CSS-приховування .reveal, а елементи
+  // усередині ховаємо в тому ж такті, коли контейнер відкриваємо, — миготіння
+  // нема. Без GSAP загальна поява показує контейнер цілком, як раніше.
+  // Перед перемиканням теми в стрічці недограні показ доводиться до кінця
+  // (__stripFinish), щоб не змішуватись із FLIP і власним входом фільтра.
+  (function(){
+    if (!gsapOn) return;
+    const G = window.gsap;
+    const conts = [].slice.call(document.querySelectorAll('.gallery-strip, .uc-gallery'));
+    if (!conts.length) return;
+    const running = [];
+    function onScreen(el){
+      const r = el.getBoundingClientRect();
+      return r.width > 0 && r.right > 0 && r.left < innerWidth && r.bottom > 0 && r.top < innerHeight;
+    }
+    function order(list){
+      return list.sort((a, b) => {
+        const ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect();
+        return (Math.round(ra.left / 40) - Math.round(rb.left / 40)) || (ra.top - rb.top);
+      });
+    }
+    function showGallery(c){
+      const items = order([].slice.call(c.querySelectorAll('.gallery-item')).filter(onScreen));
+      items.forEach(it => it.classList.add('gs-busy'));
+      G.set(items, { opacity: 0 });
+      c.classList.add('in', 'rv-done');
+      const tl = G.timeline({ onComplete: () => {
+        items.forEach(it => {
+          it.classList.remove('gs-busy');
+          G.set(it, { clearProps: 'opacity,transform,clipPath' });
+          const img = it.querySelector('img'); if (img) G.set(img, { clearProps: 'transform' });
+          const pl = it.querySelectorAll('.gal-play, .gal-ring'); if (pl.length) G.set(pl, { clearProps: 'opacity' });
+        });
+      } });
+      items.forEach((it, i) => {
+        const at = Math.min(i * 0.1, 0.9);
+        const img = it.querySelector('img');
+        const pl = it.querySelectorAll('.gal-play, .gal-ring');
+        if (pl.length) G.set(pl, { opacity: 0 });
+        tl.fromTo(it, { opacity: 0, y: 64, clipPath: 'inset(100% 0% 0% 0%)' },
+                      { opacity: 1, y: 0, clipPath: 'inset(0% 0% 0% 0%)', duration: 1.15, ease: 'expo.out' }, at);
+        if (img) tl.fromTo(img, { scale: 1.35 }, { scale: 1, duration: 1.8, ease: 'expo.out' }, at);
+        if (pl.length) tl.to(pl, { opacity: 1, duration: 0.6, ease: 'power2.out' }, at + 0.75);
+      });
+      running.push(tl);
+    }
+    function showCards(c){
+      const cards = order([].slice.call(c.querySelectorAll('.uc-card')).filter(el => !el.hidden && onScreen(el)));
+      cards.forEach(el => el.classList.add('gs-busy'));
+      const parts = cards.map(el => ({
+        el: el, media: el.querySelector('.uc-media'), img: el.querySelector('.uc-media img'),
+        txt: [].slice.call(el.querySelectorAll('.uc-body h3, .uc-body p, .uc-body .uc-order')),
+        scan: null, o: { p: 0 }
+      }));
+      parts.forEach(t => {
+        G.set(t.el, { opacity: 0 });
+        G.set(t.txt, { opacity: 0 });
+        if (t.media){
+          t.scan = document.createElement('span');
+          t.scan.className = 'uc-scan'; t.scan.setAttribute('aria-hidden', 'true');
+          t.media.appendChild(t.scan);
+        }
+      });
+      c.classList.add('in', 'rv-done');
+      const tl = G.timeline({ onComplete: () => {
+        parts.forEach(t => {
+          t.el.classList.remove('gs-busy');
+          G.set(t.el, { clearProps: 'opacity,transform' });
+          G.set(t.txt, { clearProps: 'opacity,transform' });
+          if (t.media) t.media.style.clipPath = '';
+          if (t.img) G.set(t.img, { clearProps: 'transform' });
+          if (t.scan) t.scan.remove();
+        });
+      } });
+      parts.forEach((t, i) => {
+        const at = Math.min(i * 0.09, 0.8);
+        tl.fromTo(t.el, { opacity: 0, y: 34 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, at);
+        if (t.media){
+          const mh = t.media.getBoundingClientRect().height;
+          const paint = () => {
+            // Знизу -110px у кінці: у фото є хвіст, що згасає під кадром,
+            // clip-path інакше зрізав би його різкою лінією.
+            t.media.style.clipPath = 'inset(-24px -24px calc(' + ((1 - t.o.p) * 100).toFixed(2) + '% - ' + (t.o.p * 110).toFixed(1) + 'px) -24px)';
+            t.scan.style.transform = 'translateY(' + (t.o.p * mh).toFixed(1) + 'px)';
+          };
+          paint();
+          tl.to(t.o, { p: 1, duration: 1.0, ease: 'power2.inOut', onUpdate: paint }, at + 0.05)
+            .fromTo(t.scan, { opacity: 0 }, { opacity: 1, duration: 0.15 }, at + 0.05)
+            .to(t.scan, { opacity: 0, duration: 0.3 }, at + 0.8);
+          if (t.img) tl.fromTo(t.img, { scale: 1.2 }, { scale: 1, duration: 1.5, ease: 'power3.out' }, at + 0.05);
+        }
+        tl.fromTo(t.txt, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out', stagger: 0.09 }, at + 0.5);
+      });
+      running.push(tl);
+    }
+    const io2 = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        io2.unobserve(e.target);
+        // Невелика пауза: віртуалізована стрічка розставляє картки за
+        // прокруткою вже ПІСЛЯ спрацювання IO, і в момент, коли блок тільки
+        // з'явився в кадрі, вони ще стоять за межами екрана (координати
+        // -60000px) — фільтр «що в кадрі» вийшов би порожнім, і жодна
+        // картка не отримала б анімації. Контейнер тим часом лишається
+        // прихованим (.reveal), тож це просто ~0.15с очікування.
+        const t = e.target;
+        setTimeout(() => {
+          if (t.classList.contains('rv-done')) return;
+          if (t.matches('.gallery-strip')) showGallery(t); else showCards(t);
+        }, 160);
+      });
+    }, { threshold: 0.15 });
+    conts.forEach(c => io2.observe(c));
+    window.__stripFinish = function(){
+      // Контейнер, до якого ще не дійшли, показуємо одразу: інакше фільтр
+      // працював би по невидимому блоку.
+      conts.forEach(c => { if (!c.classList.contains('rv-done')){ io2.unobserve(c); c.classList.add('in', 'rv-done'); } });
+      running.splice(0).forEach(tl => tl.progress(1));
+    };
+    document.addEventListener('click', (e) => {
+      if (e.target.closest && e.target.closest('.exp-chip')) window.__stripFinish();
+    }, true);
   })();
 
   // ---- «Як це працює»: таймлайн проявляється по ходу лінії (GSAP) ----

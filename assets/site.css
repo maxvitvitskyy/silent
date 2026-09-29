@@ -3677,6 +3677,18 @@
      .reveal (їх малює збірник, а не розмітка). Кінцевий стан задає GSAP. */
   html.js .exp-grid .uc-card:not(.rv-done) { opacity: 0; }
   html.js .exp-grid .uc-card.gs-rv:not(.rv-done) { transition: none; }
+  /* Кадри «Атмосфери» й картки «Silent-досвідів» на час показу (site.js): власні
+     CSS-переходи (підйом на наведенні, зум фото) згладжували б кожен кадр
+     GSAP і рух відставав би — на ці секунди вони мовчать. */
+  .gs-busy, .gs-busy img { transition: none !important; }
+  /* Лінія-сканер, що ковзає по фото картки, поки воно «завантажується». Живе
+     лише на час показу. */
+  .uc-scan {
+    position: absolute; left: 0; right: 0; top: 0; height: 2px; z-index: 3;
+    border-radius: 2px; pointer-events: none; opacity: 0;
+    background: linear-gradient(90deg, transparent, var(--lime) 30%, var(--lime) 70%, transparent);
+    box-shadow: 0 0 16px 3px rgba(198,255,0,0.6), 0 0 44px 10px rgba(198,255,0,0.22);
+  }
 
   @media (prefers-reduced-motion: reduce) {
     /* Рух і цикли гасимо, а короткий відгук кольору/прозорості лишаємо: HIG радить
