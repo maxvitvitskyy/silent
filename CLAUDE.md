@@ -184,6 +184,15 @@ python3 tools/build_en.py
   всі картки, не підмножину; (5) `simple:true` — інакше getState/from по
   ~200мс на дорогій сторінці. Параметри — за демо GreenSock
   (codepen.io/GreenSock/pen/NWRxarv), але швидші.
+- **Футер (`.site-footer`) — GSAP «Футер» у `site.js`.** Слово SILENT: легкий
+  паралакс за прокруткою (`--fw-y` 16% → 0 на властивість `translate`, бо в
+  слова вже є `transform: translateX(-50%)`) і власний вхід (розліт літер +
+  розмиття); `.footer-word-clip` обрізає лише по горизонталі
+  (`overflow-x: clip; overflow-y: visible`), вертикальну обрізку власник не
+  хоче. Лаймова «комета» по верхній лінії (`.footer-inner::before`, `--lx`)
+  потребує `overflow-x: clip` на `.footer-inner`, інакше сторінка розширюється
+  вправо. Вміст ховає CSS `html.js .site-footer:not(.gs-in)`, іконки соцмереж —
+  магніти (`.f-soc` у списку «Магнітні кнопки»).
 - **GSAP 3.13 + ScrollTrigger лежать у `assets/vendor/`** (не на CDN) і
   підключені перед `site.js` на всіх 5 сторінках (в `en/` — через
   `tools/build_en.py`, який їх і версіонує). Що на них тримається: поява

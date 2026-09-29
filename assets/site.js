@@ -42,13 +42,13 @@ function orderExperience(name){
   // саме цього CSS-transition не вміє. Без GSAP — той самий зсув без пружини.
   (function(){
     const btns = [].slice.call(document.querySelectorAll(
-      '.hero-actions .btn-primary, .band-cta-btn, .f-cta'));
+      '.hero-actions .btn-primary, .band-cta-btn, .f-cta, .f-soc'));
     if (!btns.length || !window.matchMedia('(hover: hover) and (pointer: fine)').matches ||
         window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const G = window.gsap;
     const RANGE = 110;
     const items = btns.map(function(btn){
-      const it = { btn: btn, pull: 8, o: { x: 0, y: 0 } };
+      const it = { btn: btn, pull: btn.classList.contains('f-soc') ? 6 : 8, o: { x: 0, y: 0 } };
       btn.classList.add('magnet');
       const paint = function(){
         btn.style.setProperty('--mx', it.o.x.toFixed(2) + 'px');
@@ -2450,6 +2450,79 @@ function orderExperience(name){
       item.addEventListener('focusin', function(){ focused = true; sync(); });
       item.addEventListener('focusout', function(e){ if (!item.contains(e.relatedTarget)){ focused = false; sync(); } });
     });
+  })();
+
+  // ---- Футер: поява й «вихід слова» (GSAP + ScrollTrigger) ----
+  // Три окремі речі, кожна легка для сторінки (аврору футера не чіпаємо: її
+  // розмиття й так найдорожче на сторінці):
+  //  1. Гігантське слово SILENT має легкий паралакс за прокруткою (scrub): воно ледь
+  //     запізнюється й до кінця сторінки стає на місце, без обрізання знизу. Рух —
+  //     через CSS-змінну --fw-y на властивість
+  //     translate (site.css, .footer-word): у слова вже є transform:translateX(-50%),
+  //     а GSAP переписав би його в пікселі, і на ресайзі слово з'їхало б з центру.
+  //  2. Лаймова «комета» пробігає верхньою лінією футера один раз (--lx на
+  //     .footer-inner::before), слідом хвилею з'являються бренд, колонки й пункти
+  //     списків, іконки соцмереж вистрибують із поворотом (пружина), внизу —
+  //     юридичний рядок.
+  //  3. Іконки соцмереж тягнуться до курсора — той самий пружний «магніт», що в
+  //     кнопок (див. «Магнітні кнопки»).
+  // До показу вміст ховає CSS (html.js .site-footer:not(.gs-in)); без GSAP і при
+  // reduce-motion клас ставимо одразу, інакше футер лишився б порожнім.
+  (function(){
+    const foot = document.querySelector('.site-footer');
+    if (!foot) return;
+    if (!gsapOn){ foot.classList.add('gs-in'); return; }
+    const G = window.gsap, ST = window.ScrollTrigger;
+    G.registerPlugin(ST);
+    const q = (sel) => [].slice.call(foot.querySelectorAll(sel));
+    const logo = q('.f-logo'), tag = q('.f-tagline'), cta = q('.f-cta'), heads = q('.f-col h4'),
+          items = q('.f-col li'), socs = q('.f-soc'), note = q('.f-note'), legal = q('.footer-legal > *');
+    const inner = foot.querySelector('.footer-inner');
+    const all = [].concat(logo, tag, cta, heads, items, socs, note, legal);
+
+    // Паралакс слова: воно ледь запізнюється за прокруткою й до кінця сторінки
+    // стає на місце (16% висоти → 0). Обгортка не обрізає його по вертикалі
+    // (site.css, .footer-word-clip), тож слово нічим не «зрізається» знизу.
+    G.fromTo(foot, { '--fw-y': '16%' }, { '--fw-y': '0%', ease: 'none',
+      scrollTrigger: { trigger: foot, start: 'top bottom', end: 'bottom bottom', scrub: 0.6 } });
+
+    // Вміст ховаємо й одразу віддаємо клас: далі його показує лише GSAP.
+    G.set(all, { opacity: 0 });
+    if (inner) G.set(inner, { '--lx': '-20%', '--lo': 1 });
+    foot.classList.add('gs-in');
+    const tl = G.timeline({ paused: true, defaults: { ease: 'power3.out' }, onComplete: () => {
+      G.set(all, { clearProps: 'opacity,transform,filter,scale,rotation' });
+      // Комету повертаємо за лівий край: і без overflow-x:clip (старі браузери) вона
+      // не лишиться за правим краєм і не розширить сторінку.
+      if (inner) G.set(inner, { '--lx': '-20%' });
+    } });
+    if (inner){
+      tl.fromTo(inner, { '--lx': '-20%' }, { '--lx': '100%', duration: 1.4, ease: 'power2.inOut' }, 0)
+        .to(inner, { '--lo': 0, duration: 0.35, ease: 'power1.in' }, 1.15);
+    }
+    tl.fromTo(logo, { opacity: 0, y: 18, filter: 'blur(6px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.8 }, 0.1)
+      .fromTo(tag,  { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.7 }, 0.22)
+      .fromTo(cta,  { opacity: 0, y: 14, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'back.out(1.6)' }, 0.36)
+      .fromTo(heads, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.1 }, 0.25)
+      .fromTo(items, { opacity: 0, x: -12 }, { opacity: 1, x: 0, duration: 0.55, stagger: 0.04 }, 0.4)
+      .fromTo(socs, { opacity: 0, scale: 0.3, rotation: -40 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.7, ease: 'back.out(2.2)', stagger: 0.07 }, 0.55)
+      .fromTo(note, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.6 }, 0.85)
+      .fromTo(legal, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.1 }, 0.95);
+    // Футер може бути в кадрі одразу (короткі сторінки): тоді onEnter спрацює на старті.
+    ST.create({ trigger: foot, start: 'top 78%', once: true, onEnter: () => tl.play() });
+
+    // Саме слово, окрім підйому за прокруткою, має власний вхід: у момент, коли
+    // воно з'являється в кадрі, літери сходяться з розлоту (letter-spacing) і
+    // різкішають з розмиття. Окремий тригер від самого слова, а не від футера: до
+    // цього моменту слово ще під краєм, і вхід відіграв би непомітно. Ширина
+    // слова міняється разом із letter-spacing, а центр тримає translateX(-50%).
+    const word = foot.querySelector('.footer-word'), clip = foot.querySelector('.footer-word-clip');
+    if (word && clip){
+      const tw = G.fromTo(word, { letterSpacing: '0.11em', filter: 'blur(14px)' },
+        { letterSpacing: '0.012em', filter: 'blur(0px)', duration: 1.7, ease: 'expo.out', paused: true,
+          clearProps: 'letterSpacing,filter' });
+      ST.create({ trigger: clip, start: 'top 90%', once: true, onEnter: () => tw.play() });
+    }
   })();
 
   // ---- «Як це працює»: таймлайн проявляється по ходу лінії (GSAP) ----

@@ -3516,7 +3516,12 @@
      lets the tuck below be expressed in em, so the overlap stays proportional at
      every viewport instead of drifting with a fixed pixel value. */
   .footer-word-clip {
+    /* Обрізка ЛИШЕ по горизонталі: літери мусять іти за краї сторінки, а вертикаль
+       вільна — інакше паралакс слова (site.js, «Футер») різав би його знизу.
+       Старі браузери без overflow-x: clip лишаються на hidden. */
     overflow: hidden;
+    overflow-x: clip;
+    overflow-y: visible;
     font-size: clamp(78px, 22vw, 318px);
     margin-top: -0.45em;      /* lands the form's edge on the glyphs' midline */
   }
@@ -3533,6 +3538,8 @@
     width: max-content;
     margin-left: 50%;
     transform: translateX(-50%);
+    /* Виринання за прокруткою (site.js, «Футер»): окрема від transform властивість. */
+    translate: 0 var(--fw-y, 0%);
     user-select: none;
     /* Filled with the same palette the mesh throws — lime leading, the live
        channel closing — so the letters read as part of the gradient and never
@@ -3559,10 +3566,25 @@
   }
   .footer-inner {
     position: relative; z-index: 2;
+    /* Комета (::before нижче) наприкінці пробігу стоїть за правим краєм: без обрізки
+       по горизонталі сторінка розширювалась (на 390px — до 435). clip, не hidden:
+       не створює скрол-контейнера й не чіпає вертикаль (тінь комети над лінією). */
+    overflow-x: clip;
     margin-top: 26px;
     padding-top: 30px;
     border-top: 1px solid rgba(255,255,255,0.16);
   }
+  /* Лаймова «комета», що один раз пробігає верхньою лінією футера при появі
+     (site.js, «Футер»: GSAP веде --lx від -20% до 100% і --lo). У стані спокою
+     --lo не задано й дорівнює 0 — її не видно. */
+  .footer-inner::before {
+    content: ''; position: absolute; top: -1px; height: 1px; width: 22%; pointer-events: none;
+    left: var(--lx, -20%); opacity: var(--lo, 0);
+    background: linear-gradient(90deg, transparent, var(--lime) 55%, transparent);
+    box-shadow: 0 0 14px 1px rgba(198,255,0,0.55);
+  }
+  /* До появи вміст футера ховається (site.js); без GSAP клас gs-in ставиться одразу. */
+  html.js .site-footer:not(.gs-in) :is(.f-logo, .f-tagline, .f-cta, .f-col h4, .f-col li, .f-soc, .f-note, .footer-legal > *) { opacity: 0; }
   .footer-cols {
     display: grid;
     grid-template-columns: 1.6fr 1fr 1fr 1.05fr;
@@ -3737,6 +3759,7 @@
        translate: transform тут чіпати не можна, бо в картках відгуків на ньому
        тримається нахил, а він не рух, а композиція. */
     .reveal, html.js .reveal, html.js .exp-grid .uc-card { opacity: 1 !important; translate: none !important; }
+    html.js .site-footer :is(.f-logo, .f-tagline, .f-cta, .f-col h4, .f-col li, .f-soc, .f-note, .footer-legal > *) { opacity: 1 !important; }
     html.js .faq-head :is(.exp-crumb, .exp-head-title, .exp-head-lead, .exp-head-reel--q), html.js .faq-cats :is(.faq-cat-head, .faq-item),
     html.js .exp-filter .exp-chip, html.js .faq-nav .exp-chip,
     html.js .exp-cover-gallery :is(.exp-crumb, .t-lead, .t-sub, .exp-lead, .exp-actions > *, .exp-facts li, .gallery-columns) { opacity: 1 !important; }
