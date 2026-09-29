@@ -2796,6 +2796,18 @@
     counter-reset: faq;
   }
   .faq-col { display: flex; flex-direction: column; gap: 12px; }
+  /* Сторінка /faq/: ширина картки підібрана під довжину питань, а не «скільки
+     лишилось від екрана». Заміряно на всіх 42 питаннях (Unbounded 600, 16px):
+     при колонці від ~520px жодне питання не займає більше двох рядків, а при
+     626px (1440+) 28 з 42 вміщаються в один рядок, решта — в два. Нижче колонка
+     звужується, і на 834px вже 20 питань ідуть у три-чотири рядки.
+
+     Тому: дві колонки лише тоді, коли кожна ≥520px (1fr — тобто 520…635px, і ВСІ
+     картки на сторінці завжди однієї ширини); інакше одна колонка на всю
+     ширину, де питання й поготів в один-два рядки. Було minmax(380px, 1fr), і на
+     планшеті колонки виходили по 380px. Головна й корпоративи тут не
+     змінюються: там тизер із загасанням, і він розрахований на дві колонки. */
+  .faq-cats .faq-list { grid-template-columns: repeat(auto-fit, minmax(min(520px, 100%), 1fr)); }
   .faq-item {
     counter-increment: faq;
     position: relative; width: 100%;
@@ -2836,19 +2848,23 @@
                 inset 0 1px 0 rgba(255,255,255,0.09);
   }
 
-  /* --faq-icon / --faq-q-fs — розмір кнопки «+» і кегль питання; --faq-q-inset
-     — на скільки перший рядок питання треба опустити, щоб його центр збігся
-     з центром кнопки. Раніше кнопка стояла по центру рядка сітки, а текст —
-     угорі: кнопка (48/42px) вища за рядок тексту (22/20px), тож однорядкове
-     питання сиділо на ~11px вище за «+» і виглядало зсунутим. Тепер і номер,
-     і текст, і кнопка вирівняні по ПЕРШОМУ рядку: однорядкове питання — точно
-     по центру кнопки, а в довгому номер і кнопка лишаються біля першого
-     рядка, не зависаючи посеред тексту. */
+  /* --faq-icon / --faq-q-fs — розмір кнопки «+» і кегль питання.
+
+     Номер, текст питання й «+» стоять на ОДНІЙ горизонтальній осі — по центру
+     рядка картки (align-items: center), а не «по першому рядку». Раніше вони
+     чіплялись до першого рядка: в однорядковому питанні все збігалось, а в
+     дворядковому номер і «+» зависали угорі, і картка виглядала перекошеною.
+     Тепер що в одному, що в двох рядках вісь та сама, номер і кнопка стоять
+     проти середини тексту.
+
+     Висоту картки задає кнопка (48/42px), а не текст: два рядки питання
+     (2 × 22.4px = 44.8px) нижчі за неї, тож однорядкова й дворядкова картки
+     виходять РІВНО однакової висоти, і ряди двох колонок лягають на одну лінію.
+     Вище за кнопку стає лише триряд(ков)е питання — на вузьких екранах. */
   .faq-q {
     --faq-icon: 48px; --faq-q-fs: 16px;
-    --faq-q-inset: max(0px, calc((var(--faq-icon) - var(--faq-q-fs) * 1.4) / 2));
     display: grid; grid-template-columns: var(--faq-num) 1fr auto;
-    align-items: start; gap: var(--faq-gap);
+    align-items: center; gap: var(--faq-gap);
     padding: 22px var(--faq-pad);
     cursor: pointer; user-select: none; width: 100%;
   }
@@ -2859,17 +2875,16 @@
     font-family: 'Unbounded', sans-serif; font-size: 12px; font-weight: 600;
     font-variant-numeric: tabular-nums;
     color: var(--muted-2);
-    margin-top: calc(var(--faq-q-inset) + 5px);   /* сідає на перший рядок питання */
+    line-height: 1;   /* цифри без зайвого міжрядкового: центр рядка = центр цифр */
     transition: color 0.45s ease;
   }
   .faq-item.open .faq-q::before { color: var(--lime); }
   .faq-q h3 {
     font-size: var(--faq-q-fs); font-weight: 600; line-height: 1.4;
-    padding-block: var(--faq-q-inset);
   }
 
   .faq-icon {
-    align-self: start;
+    align-self: center;
     flex-shrink: 0; width: var(--faq-icon); height: var(--faq-icon); border-radius: 50%;
     border: 1px solid rgba(198,255,0,0.22);
     background: rgba(198,255,0,0.07);
@@ -2924,10 +2939,13 @@
   .faq-cta:hover svg { transform: translateX(3px); }
 
   @media (max-width: 640px){
-    .faq { --faq-pad: 18px; --faq-gap: 14px; }
+    /* Телефон — єдине місце, де питання досі ходять у три-чотири рядки: колонка
+       текст лишає лише ~200px. Кожен піксель поля, проміжку й кнопки тут іде в
+       текст: 16/12/38 замість 18/14/42 дають ~+20px до рядка. */
+    .faq { --faq-pad: 16px; --faq-gap: 12px; --faq-num: 20px; }
     .faq-item { border-radius: var(--r-md); }
     .faq-list { gap: 10px; }
-    .faq-q { padding: 18px var(--faq-pad); --faq-icon: 42px; --faq-q-fs: 14.5px; }
+    .faq-q { padding: 16px var(--faq-pad); --faq-icon: 38px; --faq-q-fs: 14px; }
     .faq-icon { font-size: 20px; }
     .faq-a p { font-size: 13.5px; padding-bottom: 20px; }
     /* Мобільний відступ картки — 18px (--faq-pad вужчий тут), а колонка

@@ -810,8 +810,13 @@ def flexible(key):
 
 def translate(s):
     # Від найдовших рядків до найкоротших, щоб короткий не з'їв частину довшого.
-    for k in sorted(T, key=len, reverse=True):
-        s = flexible(k).sub(lambda m, v=T[k]: v, s)
+    # Словник об'єднаний із T_FAQ: питання на головній беруть ДОСЛІВНО ті самі
+    # відповіді, що й /faq/ (вартість, що входить, бронювання, перенесення), і
+    # тримати їхній переклад у двох місцях означало б, що вони розійдуться.
+    merged = dict(T)
+    merged.update(T_FAQ)
+    for k in sorted(merged, key=len, reverse=True):
+        s = flexible(k).sub(lambda m, v=merged[k]: v, s)
     return s
 
 
@@ -1361,6 +1366,10 @@ SWITCH_EN_FAQ = """    <span class="lang-switch" role="group" aria-label="Site l
     </span>"""
 
 T_FAQ = {
+# --- «Ціна й бронювання»: що буде після заявки
+"Що відбувається після того, як я залишу заявку?": "What happens after I submit a request?",
+"Заявка на сайті — це запит на перевірку дати: форма займає хвилину, дзвонити не обов'язково. Відповідаємо протягом дня й називаємо суму під вашу дату, тривалість і кількість гостей. Коли деталі узгоджені, дата бронюється, щойно надходить 50% передоплати, а решту 50% сплачуєте до заходу. У день події приїжджаємо заздалегідь, самі збираємо й налаштовуємо все, показуємо, як перемикати канали, а після вечора самі забираємо обладнання.":
+  "A request on the site is a request to check the date: the form takes a minute, and you don't have to call. We reply the same day and give you a price for your date, length and guest count. Once the details are agreed, the date is booked as soon as the 50% prepayment arrives, and you pay the other 50% before the event. On the day we arrive ahead of time, set up and configure everything ourselves, show how to switch channels, and collect the equipment ourselves after the evening.",
 # --- шапка сторінки
 "Головна": "Home",
 "Питання і відповіді": "Questions and answers",
