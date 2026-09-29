@@ -790,6 +790,7 @@ window.SILENT_I18N = {
 </script>
 <script src="../assets/vendor/gsap.min.js"></script>
 <script src="../assets/vendor/ScrollTrigger.min.js"></script>
+<script src="../assets/vendor/Flip.min.js"></script>
 <script src="../assets/site.js"></script>"""
 
 
@@ -848,7 +849,7 @@ def assert_translated(s, name):
 # Шлях шукаємо без початку, тож під правило підпадають усі написання відразу:
 # images/…, ../images/… і /images/…
 STAMPED = re.compile(
-    r'((?:assets/site\.(?:css|js))|(?:assets/vendor/(?:gsap|ScrollTrigger)\.min\.js)|(?:images/(?:favicon|apple-touch-icon)\.png))'
+    r'((?:assets/site\.(?:css|js))|(?:assets/vendor/(?:gsap|ScrollTrigger|Flip)\.min\.js)|(?:images/(?:favicon|apple-touch-icon)\.png))'
     r'(\?v=[0-9a-f]+)?')
 
 # Ключем служить сам шлях, а не розширення. Це не дрібниця: іконок дві, обидві
@@ -859,6 +860,7 @@ STAMPED_FILES = (
     'assets/site.js',
     'assets/vendor/gsap.min.js',
     'assets/vendor/ScrollTrigger.min.js',
+    'assets/vendor/Flip.min.js',
     'images/favicon.png',
     'images/apple-touch-icon.png',
 )

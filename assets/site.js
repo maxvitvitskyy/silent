@@ -1385,8 +1385,30 @@ function orderExperience(name){
         });
       }
 
-      function applyCat(cat){
+      function applyCat(cat, wasSimple){
         ensureSimpleCards();
+        // Тема → тема: картки вже існують у звичайному потоці, тож Flip може
+        // провести їх «Flexbox Filtering». Перехід «Усі → тема» (пул був
+        // віртуалізований, елементів іще не існувало) лишається каскадом входу.
+        // Flip лише коли стрічка стоїть на початку: якщо її прогорнули вправо,
+        // «нова тема — з початку ряду» означає стрибок прокрутки, і картки
+        // пролітали б усю відстань збоку. Тоді працює швидкий перехід нижче.
+        if (wasSimple && view.scrollLeft <= 2){
+          let n = 0;
+          const ok = flipFilter(simpleCards, () => {
+            leaveTimers.forEach(t => clearTimeout(t)); leaveTimers.clear();
+            simpleCards.forEach(c => {
+              if (c.classList.contains('is-leaving')){ c.hidden = true; c.classList.remove('is-leaving'); }
+              clearLeaveStyles(c);
+              c.classList.remove('is-entering');
+              const on = (c.dataset.cats || '').split(' ').indexOf(cat) !== -1;
+              if (on){ rows[n % rows.length].el.appendChild(c); n++; }
+              else c.classList.remove('is-lit');
+              c.hidden = !on;
+            });
+          }, [view, ...rows.map(r => r.el)], stripSection);
+          if (ok) return n;
+        }
         const before = new Map();
         simpleCards.forEach(c => { if (!c.hidden) before.set(c, c.getBoundingClientRect()); });
         // Картку, що йде, тримаємо на місці відносно ТОГО ряду, де вона стоїть.
@@ -1483,11 +1505,12 @@ function orderExperience(name){
           if (galleryEl) galleryEl.classList.remove('is-simple');
           return;
         }
+        const wasSimple = simple;
         simple = true;
         virtualized = false;
         if (galleryEl) galleryEl.classList.add('is-simple');
         let shown = 0;
-        holdScroll(() => { shown = applyCat(cat); });
+        holdScroll(() => { shown = applyCat(cat, wasSimple); });
         if (countEl) countEl.textContent = countText(shown);
       }
 
@@ -3927,6 +3950,105 @@ function orderExperience(name){
     });
   })();
 
+  // ---- «Flexbox Filtering» (GSAP Flip): перемикання фільтра тем у картках ----
+  // Прийом із демо GSAP Flip: знімаємо стан УСІХ карток (getState), одним
+  // рухом міняємо видимість і батьківський ряд, а Flip.from сам проводить
+  //  • картки, що лишились, — плавним переїздом на нове місце (не стрибком),
+  //  • картки, що йдуть, — стиском у нуль із затуханням (absolute:true виймає
+  //    їх із потоку, тож сітка одразу перебудовується, а вони ще гаснуть),
+  //  • нові — «вмиканням» від нуля з невеликою затримкою, коли решта вже лягла.
+  // Раніше це робили руками: absolute-позиції, таймери й transform-компенсація
+  // (FLIP на CSS-переходах) — і картки лише вигасали та вигулькували поруч.
+  // mutate() — єдине місце, де змінюється DOM (hidden / parent). Повертає false,
+  // якщо Flip не завантажився чи ввімкнено reduce-motion: тоді викликач
+  // лишається на старій розкладці. Незавершений попередній перехід доводимо до
+  // кінця, щоб швидкі кліки по темах не накладались.
+  //
+  // ВИСОТА КОНТЕЙНЕРА. absolute:true виймає ВСІ картки з потоку, тож контейнер
+  // на час переходу миттєво схлопувався б до нуля, а блок під ним (заклик
+  // «Не знайшли свій формат?», наступна секція) стрибком їхав угору просто під
+  // картки, що ще летять. Тому containers (елементи, висота яких залежить від
+  // карток) тримаємо на старій висоті й тягнемо до нової тим самим рухом.
+  //
+  // ПОРЯДОК ВАЖЛИВИЙ, і саме на ньому вже помилялись. Кінцевий стан Flip знімає в
+  // момент виклику Flip.from — у природній розкладці. Якщо висоту контейнера
+  // зафіксувати ДО цього, CSS-сітка розтягує рядки на всю зафіксовану висоту
+  // (картки завбільшки з пів сторінки), а flex-ряд стискає їх до плоских смуг.
+  // Тому: 1) стара висота, 2) знімок стану, 3) mutate, 4) нова висота, 5)
+  // Flip.from (картки стають absolute) і ЛИШЕ ТОДІ 6) стара висота.
+  //
+  // АНІМУЮТЬСЯ ВСІ КАРТКИ, а не «ті, що біля екрана»: absolute:true виймає з потоку
+  // лише учасників Flip. Картки, яких ми б виключили, лишились би в потоці й
+  // зсунулись би, щойно решта стала absolute, а в кінці стрибнули б назад.
+  //
+  // Параметри — за демо GreenSock «Smooth Flexbox Filtering with Flip»
+  // (scale:true, absolute:true, вхід/вихід через opacity+scale), лише швидші:
+  // демо має 0.7с рух і по 1с вхід/вихід, а на сторінці з десятками карток це
+  // відчувалось як гальмування.
+  let lastFlip = null, flipToken = 0;
+  function flipFilter(cards, mutate, containers, host){
+    const G = window.gsap, F = window.Flip;
+    if (!G || !F || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
+    G.registerPlugin(F);
+    if (lastFlip){ lastFlip.progress(1); lastFlip = null; }
+    flipToken++;   // скасовує відкладене зняття gs-busy попереднього переходу
+    // host — секція з важким фоном (аврора). Її великий маскований шар із
+    // розмиттям під рухомими картками перемальовувався кожен кадр (виміряно:
+    // p95 кадру 75мс замість 9мс; призупинення анімацій не допомагає — дорога
+    // сама присутність шару). На час перетасовки приглушуємо саме його (CSS
+    // .is-shuffling) і плавно повертаємо після завершення.
+    if (host) host.classList.add('is-shuffling');
+    const conts = (containers || []).filter(Boolean);
+    const h0 = conts.map(e => e.getBoundingClientRect().height);
+    // simple:true — режим Flip без обчислення матриць трансформацій кожного
+    // елемента. Картки перед переходом не мають ні поворотів, ні масштабу, а
+    // повний режим на дорогій розкладці головної коштував ~200мс лише на getState
+    // (і ще стільки ж на from) — це і був зависаючий кадр на початку.
+    const state = F.getState(cards, { simple: true });
+    cards.forEach(c => c.classList.add('gs-busy'));
+    mutate();
+    // Видимість — і атрибутом hidden (його читає решта коду), і інлайновим
+    // display, як у демо (item.style.display = 'none' | 'inline-flex'): Flip
+    // тримає й відновлює саме інлайновий display.
+    cards.forEach(c => { c.style.display = c.hidden ? 'none' : ''; });
+    const h1 = conts.map(e => e.getBoundingClientRect().height);
+    // Затримка між картками — щоб рух читався хвилею, а не одним блоком. ВАЖЛИВО:
+    // Flip рахує stagger за індексом серед УСІХ елементів стану (44 картки), а не
+    // лише видимих. Фіксований крок 0.03 давав картці №40 затримку 1.2с (з кроком
+    // 0.08 із демо — 3.5с): частина карток їхала одразу, решта стояла й потім
+    // «вилітала». Тому задаємо СУМАРНИЙ розкид (amount), а не крок: усі картки
+    // стартують у межах 0.22с незалежно від їхньої кількості.
+    lastFlip = F.from(state, {
+      duration: 0.5, scale: true, ease: 'power2.inOut', stagger: { amount: 0.22 }, absolute: true, simple: true,
+      onEnter: els => G.fromTo(els, { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.4, ease: 'power2.out' }),
+      onLeave: els => G.to(els, { opacity: 0, scale: 0.5, duration: 0.3, ease: 'power1.in' }),
+      onComplete: () => {
+        G.set(cards, { clearProps: 'opacity,transform,scale' });
+        conts.forEach(e => { e.style.height = ''; e.style.alignContent = ''; e.style.alignItems = ''; });
+        lastFlip = null;
+        // gs-busy (transition:none) знімаємо НЕ одразу, а через два кадри. Flip і ми
+        // щойно очистили інлайновий transform (там було translate3d(…, тисячі px)).
+        // Якби клас зник у тому самому такті, браузер побачив би зміну transform
+        // уже з увімкненим CSS-переходом (.uc-card має transition: transform .3s) і
+        // плавно «повертав» картку з тисяч пікселів назад: вона ставала на місце,
+        // а потім вилітала. Це і був стрибок після фільтра.
+        const my = ++flipToken;
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          if (my === flipToken){
+            cards.forEach(c => c.classList.remove('gs-busy'));
+            if (host) host.classList.remove('is-shuffling');
+          }
+        }));
+      }
+    });
+    conts.forEach((e, i) => {
+      e.style.alignContent = 'start'; e.style.alignItems = 'flex-start';
+      e.style.height = h0[i] + 'px';
+      lastFlip.to(e, { height: h1[i], duration: 0.5, ease: 'power2.inOut' }, 0);
+    });
+    return true;
+  }
+
   // ---- Фільтр тем на сторінці-списку досвідів ----
   // Кнопки й теми на картках проставляє збірник, тож тут лишається саме
   // перемикання. Стан за замовчуванням — усі картки: якщо цей блок не
@@ -3993,10 +4115,8 @@ function orderExperience(name){
       });
     }
 
-    function apply(cat){
-      // Незавершену появу при прокрутці (site.js, «Картки каталогу») доводимо
-      // до кінця ДО того, як знімаємо «до»-координати для FLIP.
-      if (window.__expFinish) window.__expFinish();
+    // Стара розкладка (без GSAP Flip): залишається запасним варіантом.
+    function applyLegacy(cat){
       const before = new Map();
       cards.forEach(c => { if (!c.hidden) before.set(c, c.getBoundingClientRect()); });
       // Координати картки, що йде, рахуємо від цього ж знімка «до», а не від
@@ -4064,6 +4184,31 @@ function orderExperience(name){
       flip(before);
     }
 
+    function apply(cat, animate){
+      // Незавершену появу при прокрутці (site.js, «Картки каталогу») доводимо
+      // до кінця ДО того, як знімаємо стан.
+      if (window.__expFinish) window.__expFinish();
+      let shown = 0;
+      const done = animate !== false && flipFilter(cards, () => {
+        // Картки, що ще виходили за старою схемою, вважаємо вже прихованими.
+        leaveTimers.forEach(t => clearTimeout(t)); leaveTimers.clear();
+        cards.forEach(c => {
+          if (c.classList.contains('is-leaving')){ c.hidden = true; c.classList.remove('is-leaving'); clearLeaveStyles(c); }
+          const on = cat === 'all' || (c.dataset.cats || '').split(' ').indexOf(cat) !== -1;
+          if (on) shown++;
+          c.hidden = !on;
+        });
+        chips.forEach(ch => {
+          const on = ch.dataset.cat === cat;
+          ch.classList.toggle('is-on', on);
+          ch.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        grid.classList.toggle('is-filtered', cat !== 'all');
+        if (count) count.textContent = cat === 'all' ? '' : shown + ' ' + word(shown) + ' у цій темі';
+      }, [grid]);
+      if (!done) applyLegacy(cat);
+    }
+
     bar.addEventListener('click', (e) => {
       const chip = e.target.closest('.exp-chip');
       if (chip){ apply(chip.dataset.cat); centerChip(bar, chip); }
@@ -4088,7 +4233,7 @@ function orderExperience(name){
     // Невідома чи відсутня тема — сторінка просто лишається на «Усі», без
     // помилки.
     const wanted = new URLSearchParams(window.location.search).get('cat');
-    if (wanted && chips.some(ch => ch.dataset.cat === wanted)) apply(wanted);
+    if (wanted && chips.some(ch => ch.dataset.cat === wanted)) apply(wanted, false);
   })();
 
   // Знімок і навушники на сторінці «Тихі враження» йдуть за активним каналом.
