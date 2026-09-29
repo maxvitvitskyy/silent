@@ -1722,7 +1722,10 @@ function orderExperience(name){
   function gsKind(el){
     if (el.matches('h2, .h2, .exp-head-title')) return 'head';
     if (el.matches('.eyebrow, .section-lead, .how-lead, .slabs-foot')) return 'text';
-    if (el.matches('.benefit-card')) return 'benefit';
+    if (el.matches('.benefit-card, .pb-card')) return 'benefit';
+    if (el.matches('.pb-shot, .exp-story-shots')) return 'shots';
+    if (el.matches('.faq-cats .faq-item')) return 'faq';
+    if (el.matches('.faq-cats .faq-cat-head')) return 'cathead';
     return 'card';
   }
   // Картки «Досвіду гостя»: не просто виїзд, а невеличка вистава. Картка
@@ -1733,8 +1736,9 @@ function orderExperience(name){
   // приходить зліва направо, а другий — услід за першим.
   function gsBenefit(el, i, narrow){
     const G = window.gsap;
-    const icon = el.querySelector('.b-icon');
+    const icon = el.querySelector('.b-icon, .pb-num');
     const h3 = el.querySelector('h3'), p = el.querySelector('p');
+    const cta = el.querySelector('.pb-cta');
     const at = i * 0.11;
     G.fromTo(el,
       narrow ? { opacity: 0, y: 46, scale: 0.96 }
@@ -1746,13 +1750,110 @@ function orderExperience(name){
         } });
     if (h3) G.fromTo(h3, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', delay: at + 0.22, clearProps: 'opacity,transform' });
     if (p)  G.fromTo(p,  { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.65, ease: 'power3.out', delay: at + 0.32, clearProps: 'opacity,transform' });
+    if (cta) G.fromTo(cta, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.55, ease: 'power3.out', delay: at + 0.45, clearProps: 'opacity,transform' });
     if (icon) G.fromTo(icon, { opacity: 0, scale: 0.3, rotation: -25 },
       { opacity: 1, scale: 1, rotation: 0, duration: 0.8, ease: 'back.out(2.2)', delay: at + 0.38, clearProps: 'opacity,transform' });
   }
+  // Знімки: «завіса» знизу вгору, як у «Атмосфері». Колаж у розповіді (.exp-story-shots)
+  // збирається з трьох кадрів, що заходять із різних боків — головний знизу, два
+  // менші збоку, кнопка відео проявляється наприкінці. Одинокий кадр (.pb-shot)
+  // просто піднімається завісою з легким наближенням.
+  function gsShots(el, i, narrow){
+    const G = window.gsap;
+    const at = i * 0.08;
+    const done = (t) => { G.set(t, { clearProps: 'opacity,transform,clipPath' }); };
+    if (el.matches('.pb-shot')){
+      const img = el.querySelector('img');
+      G.fromTo(el, { opacity: 0, y: 50, clipPath: 'inset(100% 0% 0% 0%)' },
+        { opacity: 1, y: 0, clipPath: 'inset(0% 0% 0% 0%)', duration: 1.2, ease: 'expo.out', delay: at, overwrite: 'auto',
+          onComplete: () => { el.classList.add('in', 'rv-done'); done(el); } });
+      if (img) G.fromTo(img, { scale: 1.3 }, { scale: 1, duration: 1.8, ease: 'expo.out', delay: at, clearProps: 'transform' });
+      return;
+    }
+    const main = el.querySelector('.s-main'), a = el.querySelector('.s-a'), b = el.querySelector('.s-b');
+    const play = el.querySelectorAll('.gal-play, .gal-ring');
+    G.set(el, { opacity: 1 });
+    const tl = G.timeline({ delay: at, onComplete: () => {
+      el.classList.add('in', 'rv-done');
+      G.set([el, main, a, b], { clearProps: 'opacity,transform,clipPath' });
+      [main, a, b].forEach(f => { const im = f && f.querySelector('img'); if (im) G.set(im, { clearProps: 'transform' }); });
+      if (play.length) G.set(play, { clearProps: 'opacity' });
+    } });
+    if (play.length) G.set(play, { opacity: 0 });
+    const frame = (f, from, at2) => {
+      if (!f) return;
+      tl.fromTo(f, Object.assign({ opacity: 0 }, from, { clipPath: 'inset(100% 0% 0% 0%)' }),
+                   { opacity: 1, x: 0, y: 0, clipPath: 'inset(0% 0% 0% 0%)', duration: 1.15, ease: 'expo.out' }, at2);
+      const im = f.tagName === 'IMG' ? f : f.querySelector('img');
+      if (im) tl.fromTo(im, { scale: 1.3 }, { scale: 1, duration: 1.7, ease: 'expo.out' }, at2);
+    };
+    frame(main, { y: 60 }, 0);
+    frame(a, narrow ? { y: 40 } : { x: 60 }, 0.18);
+    frame(b, narrow ? { y: 40 } : { x: -60 }, 0.34);
+    if (play.length) tl.to(play, { opacity: 1, duration: 0.6, ease: 'power2.out' }, 0.8);
+  }
+  // Списки всередині блоків тексту (кроки в «Розповіді» корпоративів): слідом за
+  // самим блоком пункти проявляються по одному.
+  function gsChildren(el, i){
+    const items = el.querySelectorAll('.gear-steps li');
+    if (!items.length) return;
+    window.gsap.fromTo(items, { opacity: 0, y: 18 },
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', stagger: 0.14, delay: i * 0.09 + 0.35, clearProps: 'opacity,transform' });
+  }
+  // Питання на /faq/: картка виїжджає знизу, у момент приходу її рамка
+  // спалахує лаймовим і згасає (як «завантажилась»), заголовок питання
+  // з'їжджає зліва, а плюс докочується з поворотом. Спалах — лише кольором
+  // рамки (без тіні): тінь у картки своя, і повернення до неї стрибало б.
+  function gsFaq(el, i){
+    const G = window.gsap;
+    const ic = el.querySelector('.faq-icon'), h3 = el.querySelector('.faq-q h3');
+    const base = getComputedStyle(el).borderTopColor;
+    const at = i * 0.07;
+    el.classList.add('gs-busy');
+    const tl = G.timeline({ delay: 0, onComplete: () => {
+      el.classList.remove('gs-busy');
+      el.classList.add('in', 'rv-done');
+      G.set(el, { clearProps: 'opacity,transform,scale,borderColor' });
+      if (h3) G.set(h3, { clearProps: 'opacity,transform' });
+      if (ic) G.set(ic, { clearProps: 'transform' });
+    } });
+    tl.fromTo(el, { opacity: 0, y: 38, scale: 0.98 }, { opacity: 1, y: 0, scale: 1, duration: 0.9, ease: 'expo.out' }, at)
+      .fromTo(el, { borderColor: 'rgba(198,255,0,0.85)' }, { borderColor: base, duration: 0.9, ease: 'power2.out', immediateRender: false }, at + 0.1);
+    if (h3) tl.fromTo(h3, { opacity: 0, x: -14 }, { opacity: 1, x: 0, duration: 0.6, ease: 'power3.out' }, at + 0.15);
+    if (ic) tl.fromTo(ic, { scale: 0.2, rotation: -120 }, { scale: 1, rotation: 0, duration: 0.7, ease: 'back.out(2)' }, at + 0.25);
+  }
+  // Заголовок розділу /faq/: іконка вистрибує, назва підпливає з наведенням на
+  // різкість, а під ними лаймова лінія проводиться зліва направо й гасне.
+  function gsCatHead(el, i){
+    const G = window.gsap;
+    const ic = el.querySelector('.faq-cat-icon'), h = el.querySelector('.h2');
+    const line = document.createElement('span');
+    line.className = 'faq-cat-line'; line.setAttribute('aria-hidden', 'true');
+    el.appendChild(line);
+    const tl = G.timeline({ delay: i * 0.05, onComplete: () => {
+      line.remove();
+      el.classList.add('in', 'rv-done');
+      G.set(el, { clearProps: 'opacity,transform' });
+      if (h) G.set(h, { clearProps: 'opacity,transform,filter' });
+      if (ic) G.set(ic, { clearProps: 'transform,opacity' });
+    } });
+    tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0);
+    if (ic) tl.fromTo(ic, { opacity: 0, scale: 0.2, rotation: -50 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.8, ease: 'back.out(2.2)' }, 0);
+    if (h)  tl.fromTo(h, { opacity: 0, y: 22, filter: 'blur(8px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'expo.out' }, 0.08);
+    tl.fromTo(line, { scaleX: 0, opacity: 1 }, { scaleX: 1, duration: 0.9, ease: 'power2.inOut' }, 0.05)
+      .to(line, { opacity: 0, duration: 0.5 }, 0.85);
+  }
   function gsFlush(){
     gsTimer = 0;
-    const els = gsQueue.splice(0).sort((a, b) =>
-      (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1);
+    const els = gsQueue.splice(0).sort((a, b) => {
+      // Питання лежать у двох колонках: за порядком у DOM пішла б уся ліва
+      // колонка, а потім уся права. Для них порядок — за візуальним рядом.
+      if (a.matches('.faq-item') && b.matches('.faq-item')){
+        const ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect();
+        return (Math.round(ra.top / 30) - Math.round(rb.top / 30)) || (ra.left - rb.left);
+      }
+      return (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1;
+    });
     if (!els.length) return;
     const ease = 'power3.out';
     const step = Math.min(0.09, 0.45 / els.length);
@@ -1762,6 +1863,14 @@ function orderExperience(name){
     els.forEach((el, i) => {
       const kind = gsKind(el);
       if (kind === 'benefit'){ gsBenefit(el, i, narrow); return; }
+      if (kind === 'shots'){ gsShots(el, i, narrow); return; }
+      if (kind === 'faq'){ gsFaq(el, i); return; }
+      if (kind === 'cathead'){ gsCatHead(el, i); return; }
+      if (el.querySelector('.gear-steps li')){
+        // Прибираємо їх із поля зору одразу, щоб не було миготіння до їхньої черги.
+        window.gsap.set(el.querySelectorAll('.gear-steps li'), { opacity: 0 });
+        gsChildren(el, i);
+      }
       const from = kind === 'head' ? { opacity: 0, y: 30, filter: 'blur(9px)' }
                  : kind === 'text' ? { opacity: 0, y: 14 }
                  :                   { opacity: 0, y: 42, scale: 0.975 };
@@ -1828,6 +1937,51 @@ function orderExperience(name){
     el.style.transitionDelay = (Math.min(k, 4) * 0.07).toFixed(2) + 's';
     io.observe(el);
   });
+
+  // ---- /faq/: питання й заголовки розділів (поява через загальний механізм) ----
+  // До появи їх ховає CSS (html.js .faq-cats … :not(.rv-done)); без GSAP скрипт
+  // одразу позначає їх готовими, інакше сторінка лишилась би порожньою.
+  (function(){
+    const els = [].slice.call(document.querySelectorAll('.faq-cats .faq-cat-head, .faq-cats .faq-item'));
+    if (!els.length) return;
+    if (!gsapOn){ els.forEach(e => e.classList.add('rv-done')); return; }
+    els.forEach(e => { e._gs = true; e.classList.add('gs-rv'); io.observe(e); });
+  })();
+
+  // ---- /faq/: вступ геро (GSAP) ----
+  // «Крихти», заголовок (із наведенням на різкість), вступ і картка-барабан з
+  // питаннями, що виїжджає завісою знизу вгору. До готовності CSS ховає ці
+  // елементи (html.js:not(.gs-cover-done)); без GSAP клас ставимо одразу.
+  (function(){
+    const head = document.querySelector('.faq-head');
+    const root = document.documentElement;
+    if (!head) return;
+    if (!gsapOn){ root.classList.add('gs-cover-done'); return; }
+    const G = window.gsap;
+    const one = (sel) => head.querySelector(sel);
+    const crumb = one('.exp-crumb'), title = one('.exp-head-title'), lead = one('.exp-head-lead'),
+          reel = one('.exp-head-reel--q'), win = one('.exp-reel-window');
+    const all = [crumb, title, lead, reel].filter(Boolean);
+    let started = false;
+    function go(){
+      if (started) return;
+      if (root.classList.contains('hold')){ setTimeout(go, 40); return; }
+      started = true;
+      G.set(all, { opacity: 0 });
+      root.classList.add('gs-cover-done');
+      const tl = G.timeline({ defaults: { ease: 'expo.out' }, onComplete: () => {
+        G.set(all, { clearProps: 'opacity,transform,filter,clipPath' });
+        if (win) G.set(win, { clearProps: 'opacity' });
+      } });
+      if (reel) tl.fromTo(reel, { opacity: 0, y: 46, clipPath: 'inset(100% 0% 0% 0%)' },
+                                { opacity: 1, y: 0, clipPath: 'inset(0% 0% 0% 0%)', duration: 1.4 }, 0);
+      if (win) tl.fromTo(win, { opacity: 0 }, { opacity: 1, duration: 1, ease: 'power2.out' }, 0.45);
+      if (crumb) tl.fromTo(crumb, { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.8 }, 0.15);
+      if (title) tl.fromTo(title, { opacity: 0, y: 46, filter: 'blur(10px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2 }, 0.25);
+      if (lead)  tl.fromTo(lead, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 1 }, 0.5);
+    }
+    go();
+  })();
 
   // ---- Картки каталогу на /experiences/: поява при прокрутці ----
   // Сорок чотири картки раніше стояли одразу всі. Тепер ряд за рядом
@@ -1996,6 +2150,164 @@ function orderExperience(name){
     document.addEventListener('click', (e) => {
       if (e.target.closest && e.target.closest('.exp-chip')) window.__stripFinish();
     }, true);
+  })();
+
+  // ---- Фільтри тем і навігація FAQ: «підвантаження» рядка чипів (GSAP) ----
+  // Рядок чипів (.exp-filter на головній, /experiences/ і корпоративах; .faq-nav
+  // на /faq/) раніше просто стояв. Тепер він завантажується як один суцільний
+  // рядок: чипи по черзі виринають зліва направо (пружина, наведення на різкість),
+  // у момент появи кожен коротко спалахує лаймовою рамкою — ніби по рядку
+  // пробігає світло, — а лічильник у ньому дорахується від нуля до свого числа.
+  // До показу чипи ховає CSS (html.js .exp-filter:not(.gs-in) …), тож без GSAP
+  // усім барам одразу ставимо gs-in, інакше рядок лишився б порожнім.
+  (function(){
+    const bars = [].slice.call(document.querySelectorAll('.exp-filter, .faq-nav'));
+    if (!bars.length) return;
+    if (!gsapOn){ bars.forEach(b => b.classList.add('gs-in')); return; }
+    const G = window.gsap;
+    function load(bar){
+      const chips = [].slice.call(bar.querySelectorAll('.exp-chip'));
+      bar.classList.add('gs-busy');
+      const counts = chips.map(ch => {
+        const n = ch.querySelector('span:not(.faq-nav-icon)');
+        const val = n ? parseInt(n.textContent, 10) : NaN;
+        return (n && !isNaN(val)) ? { n: n, val: val, o: { v: 0 } } : null;
+      });
+      counts.forEach(c => { if (c) c.n.textContent = '0'; });
+      // Кінцевий колір рамки — власний колір кожного чипа (активний лаймовий,
+      // решта сірі), зчитаний ДО зміни: спалах повертається саме до нього.
+      const base = chips.map(ch => getComputedStyle(ch).borderTopColor);
+      G.set(chips, { opacity: 0, y: 16, scale: 0.86, filter: 'blur(6px)' });
+      bar.classList.add('gs-in');
+      const tl = G.timeline({ onComplete: () => {
+        bar.classList.remove('gs-busy');
+        G.set(chips, { clearProps: 'opacity,transform,scale,filter,borderColor,boxShadow' });
+        counts.forEach(c => { if (c) c.n.textContent = String(c.val); });
+      } });
+      chips.forEach((ch, i) => {
+        const at = i * 0.055;
+        tl.to(ch, { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 0.7, ease: 'back.out(1.7)' }, at);
+        // Спалах рамки в момент, коли чип «дістався»: світло пробігає рядком.
+        tl.fromTo(ch, { borderColor: 'rgba(198,255,0,0.9)', boxShadow: '0 0 20px 0 rgba(198,255,0,0.45)' },
+                      { borderColor: base[i], boxShadow: '0 0 0 0 rgba(198,255,0,0)', duration: 0.7, ease: 'power2.out', immediateRender: false }, at + 0.12);
+        const ic = ch.querySelector('.faq-nav-icon');
+        if (ic) tl.fromTo(ic, { scale: 0.2, rotation: -60 }, { scale: 1, rotation: 0, duration: 0.6, ease: 'back.out(2.4)', clearProps: 'transform' }, at + 0.1);
+        const c = counts[i];
+        if (c) tl.to(c.o, { v: c.val, duration: 0.9, ease: 'power2.out',
+                            onUpdate: () => { c.n.textContent = String(Math.round(c.o.v)); } }, at + 0.1);
+      });
+    }
+    const io3 = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        io3.unobserve(e.target);
+        load(e.target);
+      });
+    }, { threshold: 0.2 });
+    bars.forEach(b => io3.observe(b));
+  })();
+
+  // ---- Корпоративи: вступна хореографія геро (GSAP) ----
+  // Сторінка корпоративів раніше відкривалась готовою картинкою. Тепер геро
+  // збирається на очах: «крихти», два рядки заголовка (із наведенням на
+  // різкість), вступ, кнопки, чотири факти — кожен зі своєю іконкою, що
+  // «вистрибує», — а колонки фото з'їжджаються завісою знизу вгору.
+  // До готовності CSS ховає ці елементи (html.js:not(.gs-cover-done)), тож без
+  // GSAP клас ставимо одразу, інакше геро було б порожнім. Старт чекає, доки
+  // підвантажаться шрифти (.hold), щоб заголовок не перемальовувався під час руху.
+  (function(){
+    const cover = document.querySelector('.exp-cover-gallery');
+    const root = document.documentElement;
+    if (!cover) return;
+    if (!gsapOn){ root.classList.add('gs-cover-done'); return; }
+    const G = window.gsap;
+    const q = (sel) => [].slice.call(cover.querySelectorAll(sel));
+    const crumb = q('.exp-crumb'), lead = q('.t-lead'), sub = q('.t-sub'), p = q('.exp-lead'),
+          btns = q('.exp-actions > *'), facts = q('.exp-facts li'), ico = q('.exp-facts .f-ico'),
+          cols = q('.gallery-columns'), col = q('.gallery-col');
+    const all = [].concat(crumb, lead, sub, p, btns, facts, cols, col);
+    let started = false;
+    function go(){
+      if (started) return;
+      if (root.classList.contains('hold')){ setTimeout(go, 40); return; }
+      started = true;
+      G.set(all, { opacity: 0 });
+      root.classList.add('gs-cover-done');
+      const tl = G.timeline({ defaults: { ease: 'expo.out' }, onComplete: () => {
+        G.set([].concat(all, ico), { clearProps: 'opacity,transform,filter,clipPath' });
+      } });
+      tl.fromTo(crumb, { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.8 }, 0)
+        .fromTo(lead,  { opacity: 0, y: 46, filter: 'blur(10px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2 }, 0.08)
+        .fromTo(sub,   { opacity: 0, y: 46, filter: 'blur(10px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2 }, 0.2)
+        .fromTo(p,     { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 1 }, 0.4)
+        .fromTo(btns,  { opacity: 0, y: 24, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.9, ease: 'back.out(1.6)', stagger: 0.1 }, 0.55)
+        .fromTo(facts, { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, 0.75)
+        .fromTo(ico,   { scale: 0.3, rotation: -40 }, { scale: 1, rotation: 0, duration: 0.8, ease: 'back.out(2.2)', stagger: 0.1 }, 0.8);
+      if (cols.length){
+        tl.fromTo(cols, { opacity: 0, clipPath: 'inset(100% 0% 0% 0%)' },
+                        { opacity: 1, clipPath: 'inset(0% 0% 0% 0%)', duration: 1.5, ease: 'expo.out' }, 0.15);
+        // Самі колонки їдуть CSS-анімацією transform, тож рухаємо тільки їхню прозорість.
+        tl.fromTo(col, { opacity: 0 }, { opacity: 1, duration: 0.9, ease: 'power2.out', stagger: 0.25 }, 0.3);
+      }
+    }
+    go();
+  })();
+
+  // ---- Mega-меню шапки: поява вмісту при відкритті (GSAP, десктоп) ----
+  // Сама панель відкривається CSS (hover/focus-within, без JS); тут лише вміст:
+  // фото-картка виїжджає зліва з наближенням, розділи підпливають чергою, їхні
+  // іконки «вистрибують», а пункти списків по одному з'являються зліва. Це і є
+  // «підвантаження» меню. Спрацьовує при кожному відкритті — панель тим часом
+  // з'являється своїм CSS-переходом (затримка 0.08с), тож вміст стартує з нею.
+  (function(){
+    const G = window.gsap;
+    if (!G || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    document.querySelectorAll('.nav-item-mega').forEach(function(item){
+      const panel = item.querySelector('.nav-mega-panel');
+      if (!panel) return;
+      let hovered = false, focused = false, tl = null;
+      function targets(){
+        const t = {
+          visual: panel.querySelector('.nav-mega-visual'),
+          vimg: panel.querySelector('.nav-mega-visual img'),
+          vtext: panel.querySelector('.nav-mega-visual-text'),
+          cta: panel.querySelector('.nav-mega-cta'),
+          cols: [].slice.call(panel.querySelectorAll('.nav-mega-card'))
+        };
+        return t;
+      }
+      function reset(){
+        if (tl){ tl.kill(); tl = null; }
+        const all = panel.querySelectorAll('.nav-mega-visual, .nav-mega-visual img, .nav-mega-visual-text, .nav-mega-cta, .nav-mega-card, .nav-mega-icon, .nav-mega-cat, .nav-mega-q');
+        G.set(all, { clearProps: 'opacity,transform,filter' });
+      }
+      function play(){
+        reset();
+        const t = targets();
+        tl = G.timeline({ delay: 0.06, defaults: { ease: 'power3.out' }, onComplete: reset });
+        if (t.visual) tl.fromTo(t.visual, { opacity: 0, x: -18, scale: 0.96 }, { opacity: 1, x: 0, scale: 1, duration: 0.6, ease: 'expo.out' }, 0);
+        if (t.vimg)   tl.fromTo(t.vimg, { scale: 1.18 }, { scale: 1, duration: 0.9, ease: 'expo.out' }, 0);
+        if (t.vtext)  tl.fromTo(t.vtext, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5 }, 0.2);
+        if (t.cta)    tl.fromTo(t.cta, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5 }, 0.32);
+        t.cols.forEach(function(c, i){
+          const at = 0.06 + i * 0.045;
+          tl.fromTo(c, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.55 }, at);
+          const ic = c.querySelector('.nav-mega-icon'); if (ic) tl.fromTo(ic, { opacity: 0, scale: 0.3, rotation: -30 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.55, ease: 'back.out(2.2)' }, at + 0.08);
+          const cat = c.querySelector('.nav-mega-cat'); if (cat) tl.fromTo(cat, { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.45 }, at + 0.1);
+          const qs = c.querySelectorAll('.nav-mega-q');
+          if (qs.length) tl.fromTo(qs, { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.4, stagger: 0.03 }, at + 0.16);
+        });
+      }
+      function sync(){
+        const open = hovered || focused;
+        if (open && !item._gsOpen){ item._gsOpen = true; play(); }
+        else if (!open && item._gsOpen){ item._gsOpen = false; reset(); }
+      }
+      item.addEventListener('mouseenter', function(){ hovered = true; sync(); });
+      item.addEventListener('mouseleave', function(){ hovered = false; sync(); });
+      item.addEventListener('focusin', function(){ focused = true; sync(); });
+      item.addEventListener('focusout', function(e){ if (!item.contains(e.relatedTarget)){ focused = false; sync(); } });
+    });
   })();
 
   // ---- «Як це працює»: таймлайн проявляється по ходу лінії (GSAP) ----

@@ -3681,6 +3681,24 @@
      CSS-переходи (підйом на наведенні, зум фото) згладжували б кожен кадр
      GSAP і рух відставав би — на ці секунди вони мовчать. */
   .gs-busy, .gs-busy img { transition: none !important; }
+  /* Рядки чипів (фільтр тем, навігація FAQ) ховаються до свого «підвантаження»
+     (site.js). Без GSAP скрипт одразу ставить gs-in. */
+  html.js .exp-filter:not(.gs-in) .exp-chip,
+  html.js .faq-nav:not(.gs-in) .exp-chip { opacity: 0; }
+  /* Геро корпоративів до вступної хореографії. */
+  html.js:not(.gs-cover-done) .exp-cover-gallery :is(.exp-crumb, .t-lead, .t-sub, .exp-lead, .exp-actions > *, .exp-facts li, .gallery-columns) { opacity: 0; }
+  /* /faq/: вступ геро та картки питань ховаються до своєї появи (site.js). */
+  html.js:not(.gs-cover-done) .faq-head :is(.exp-crumb, .exp-head-title, .exp-head-lead, .exp-head-reel--q) { opacity: 0; }
+  html.js .faq-cats :is(.faq-cat-head, .faq-item):not(.rv-done) { opacity: 0; }
+  html.js .faq-cats :is(.faq-cat-head, .faq-item).gs-rv:not(.rv-done) { transition: none; }
+  /* Лінія під заголовком розділу, що «проводиться» при появі; лише на цей час. */
+  .faq-cat-head { position: relative; }
+  .faq-cat-line {
+    position: absolute; left: 0; right: 0; bottom: -10px; height: 2px; pointer-events: none;
+    transform-origin: left center; opacity: 0;
+    background: linear-gradient(90deg, var(--lime), rgba(198,255,0,0));
+    box-shadow: 0 0 14px 2px rgba(198,255,0,0.45);
+  }
   /* Лінія-сканер, що ковзає по фото картки, поки воно «завантажується». Живе
      лише на час показу. */
   .uc-scan {
@@ -3705,6 +3723,9 @@
        translate: transform тут чіпати не можна, бо в картках відгуків на ньому
        тримається нахил, а він не рух, а композиція. */
     .reveal, html.js .reveal, html.js .exp-grid .uc-card { opacity: 1 !important; translate: none !important; }
+    html.js .faq-head :is(.exp-crumb, .exp-head-title, .exp-head-lead, .exp-head-reel--q), html.js .faq-cats :is(.faq-cat-head, .faq-item),
+    html.js .exp-filter .exp-chip, html.js .faq-nav .exp-chip,
+    html.js .exp-cover-gallery :is(.exp-crumb, .t-lead, .t-sub, .exp-lead, .exp-actions > *, .exp-facts li, .gallery-columns) { opacity: 1 !important; }
     /* These start at opacity:0 and reveal themselves through the `rise`
        animation. With animations off they would stay invisible forever — the
        entire hero (headline, sub, CTAs, channel panel) would never appear. */
@@ -5417,9 +5438,9 @@
      звичайним регістром (капсом довге речення не читається), від лівого
      краю, центральне трохи більше за сусідні. Розмір шрифту — від ширини
      картки (cqw), помножений на --fit: JS зменшує його рівно настільки, щоб
-     найдовше питання вмістилось в один рядок. Лише десктоп (власник): на
-     вужчих екранах картки немає, питання — у списку й кнопках-розділах. */
-  .exp-head-reel--q { display: none; }
+     найдовше питання вмістилось в один рядок. На всіх ширинах (власник просив і телефон):
+     нижче 1100px картка стоїть над заголовком, як барабан на /experiences/. */
+  .exp-head-reel--q { display: flex; }
   .exp-head-reel--q .exp-reel-list li { height: 8.6cqw; }
   /* Unbounded, як і барабан форматів, але звичайного накреслення (400):
      жирний широкий гротеск на цілому реченні читався важко. */
