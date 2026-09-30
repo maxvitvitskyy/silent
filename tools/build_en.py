@@ -694,11 +694,14 @@ T = {
 '<div class="tst-avatar">АТ</div>': '<div class="tst-avatar">AT</div>',
 
 # --- підвал --------------------------------------------------------------
-'Тиша ззовні, драйв усередині. Silent disco під ключ у Києві та по Україні.':
-  'Quiet outside, everything happening inside. Full-service silent disco in Kyiv and across Ukraine.',
+'Ви кажете дату, ми привозимо вечірку. Так просто. Silent disco у Києві та по всій Україні.':
+  'You name the date, we bring the party. It\'s that simple. Silent disco in Kyiv and across Ukraine.',
 'Залишити заявку': 'Send a request',
 'Про формат': 'About the format',
 'Перед замовленням': 'Before you book',
+'Про Silent disco': 'About silent disco',
+'Для яких подій': 'For any occasion',
+'Усі 44 формати': 'All 44 formats',
 'Чого очікувати': 'What to expect',
 'Пошта': 'Email',
 'Пишіть у будь-який месенджер — відповідаємо швидко.':

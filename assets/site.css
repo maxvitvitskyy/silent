@@ -3570,16 +3570,22 @@
        по горизонталі сторінка розширювалась (на 390px — до 435). clip, не hidden:
        не створює скрол-контейнера й не чіпає вертикаль (тінь комети над лінією). */
     overflow-x: clip;
-    margin-top: 26px;
-    padding-top: 30px;
-    border-top: 1px solid rgba(255,255,255,0.16);
+    /* Блок ширший на 16px з кожного боку (і стільки ж внутрішнього відступу):
+       світіння іконки лого впритул до лівого краю обрізалось цією ж clip.
+       Лінія-«верх» тому не border, а ::after, вужчий на той самий запас. */
+    margin: 26px -16px 0;
+    padding: 30px 16px 0;
+  }
+  .footer-inner::after {
+    content: ''; position: absolute; top: 0; left: 16px; right: 16px; height: 1px;
+    background: rgba(255,255,255,0.16); pointer-events: none;
   }
   /* Лаймова «комета», що один раз пробігає верхньою лінією футера при появі
      (site.js, «Футер»: GSAP веде --lx від -20% до 100% і --lo). У стані спокою
      --lo не задано й дорівнює 0 — її не видно. */
   .footer-inner::before {
     content: ''; position: absolute; top: -1px; height: 1px; width: 22%; pointer-events: none;
-    left: var(--lx, -20%); opacity: var(--lo, 0);
+    left: var(--lx, -20%); margin-left: 16px; opacity: var(--lo, 0);
     background: linear-gradient(90deg, transparent, var(--lime) 55%, transparent);
     box-shadow: 0 0 14px 1px rgba(198,255,0,0.55);
   }
@@ -3590,8 +3596,12 @@
     grid-template-columns: 1.6fr 1fr 1fr 1.05fr;
     gap: 34px;
   }
-  .f-logo { font-family:'Unbounded'; font-weight: 800; font-size: 20px; letter-spacing: 0.02em; }
-  .f-logo b { color: var(--lime); }
+  /* Лого футера: іконка (та сама, що в шапці при скролі) + слово, трохи
+     більше за колишні 20px. Іконка квадратна, ≈ 1.6 кегля слова. */
+  /* .f-col a.f-logo: інакше .f-col a (12.5px, приглушений колір) перебиває розмір і колір. */
+  .f-col a.f-logo { display: inline-flex; align-items: center; gap: 10px; font-family:'Unbounded'; font-weight: 800; font-size: 21px; letter-spacing: 0.02em; color: #fff; }
+  .f-logo-mark { width: 36.4px; height: 36.4px; flex: none; display: block; filter: drop-shadow(0 0 7px rgba(198,255,0,0.35)); }
+  .f-col a.f-logo b { color: var(--lime); }
   .f-tagline { margin-top: 10px; font-size: 12.5px; color: rgba(255,255,255,0.7); line-height: 1.5; max-width: 30ch; }
   .f-cta { margin-top: 18px; display: inline-block; }
   /* .f-col a outranks .btn-primary, which turned the label white on lime */
@@ -7470,3 +7480,74 @@
     background: rgba(255,255,255,0.025);
   }
   .exp-cloud-row > span { cursor: pointer; }
+
+  /* ---------- Підвал, десктоп: логотип, заголовки колонок і іконки соцмереж
+     стоять на ОДНІЙ горизонтальній осі (раніше іконки висіли нижче за
+     заголовки на margin-top:30px, а лого — вище). Кожен із трьох — рядок
+     висотою з іконку лого (--f-row) з вирівнюванням по центру. ---------- */
+  @media (min-width: 1051px){
+    .site-footer { --f-row: 36.4px; }
+    .f-col h4 { display: flex; align-items: center; min-height: var(--f-row); margin-bottom: 8px; }
+    .f-col a.f-logo { min-height: var(--f-row); }
+  }
+
+  /* Пряма лінія (телефон і пошта) під соцмережами — лише десктоп: на планшеті
+     й телефоні ряд іконок і так на всю ширину, а зв'язок — кнопка «Написати
+     нам». Рядки — та сама лаймова гама, що й іконки соцмереж, але текст
+     читабельний (майже білий), іконка в тонкій рамці-«таблетці». */
+  .f-direct { display: none; }
+  @media (min-width: 1051px){
+    /* Тонка лінія-розділювач від ряду соцмереж; іконки того ж розміру (26px) і
+       тонкості, що й у соцмереж, без рамок, і починаються з тієї ж лівої межі,
+       що й Instagram — тобто стоять з ним в одній вертикалі. */
+    .f-direct {
+      display: flex; flex-direction: column; gap: 12px; list-style: none;
+      margin: 0; padding: 0;
+    }
+    /* Перший рядок контактів — на осі логотипа й заголовків колонок. */
+    .f-direct li:first-child { display: flex; align-items: center; min-height: var(--f-row); }
+    .f-col .f-direct a {
+      display: inline-flex; align-items: center; gap: 13px;
+      font-size: 13px; font-weight: 600; letter-spacing: 0.01em; color: rgba(255,255,255,0.86);
+      transition: color 0.2s ease;
+    }
+    .f-col .f-direct a svg {
+      flex: none; width: 26px; height: 26px;
+      color: rgba(198,255,0,0.72);
+      transition: color 0.25s ease, transform 0.2s ease, filter 0.25s ease;
+    }
+    .f-col .f-direct a:hover { color: #fff; }
+    .f-col .f-direct a:hover svg { color: var(--lime); transform: translateY(-2px); filter: drop-shadow(0 0 8px rgba(198,255,0,0.55)); }
+    /* Порядок у колонці «контакти» лише візуальний (DOM лишається:
+       соцмережі, контакти, підпис — для читалки й мобільної версії):
+       контакти → тонка лінія й підпис → ряд соцмереж під ним. */
+    .f-contact { display: flex; flex-direction: column; }
+    .f-contact .f-direct { order: 1; }
+    .f-contact .f-note {
+      order: 2; max-width: none; margin-top: 16px; padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.12);
+    }
+    .f-contact .f-note { margin-bottom: 16px; }
+    /* Нижній край: ряд соцмереж і кнопка «Залишити заявку» стоять на одній
+       горизонталі — по низу рядка колонок (його висоту задає найвища колонка).
+       margin-top:auto притискає їх донизу своїх колонок; margin-bottom підпису
+       й тегліна лишаються мінімальним проміжком, якщо колонка й так тісна. */
+    .f-contact .f-socials { order: 3; margin-top: auto; }
+    .f-brand { display: flex; flex-direction: column; align-items: flex-start; }
+    .f-brand .f-tagline { margin-bottom: 18px; }
+    .f-brand .f-cta { margin-top: auto; }
+    /* Ряд соцмереж на всю ширину колонки: перша іконка — на її лівій межі,
+       остання — на правій (тобто до краю підвалу), проміжки рівні. Лінія і
+       контакти нижче мають ту саму ширину, тож усе стоїть в одній рамці. */
+    .f-socials { justify-content: space-between; gap: 0; }
+  }
+
+  /* Третя навігаційна колонка підвалу — «Для яких подій» (теми каталогу
+     /experiences/?cat=…). Лише десктоп: на планшеті й телефоні розкладка
+     підвалу розрахована на дві навігаційні колонки, а теми там доступні в
+     самому каталозі. П'ять колонок: бренд, дві довідкові, події, контакти. */
+  .f-occasions { display: none; }
+  @media (min-width: 1051px){
+    .f-occasions { display: block; }
+    .footer-cols { grid-template-columns: 1.45fr 1fr 1fr 1fr 1.15fr; gap: 30px; }
+  }
