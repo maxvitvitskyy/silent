@@ -5648,18 +5648,22 @@
      сам прокручує в центр стрічки. */
   @media (max-width: 640px) {
     html.js .exp-filter {
-      margin-top: 24px; margin-bottom: 0;
+      /* Вертикальний запас 16px, а не 2px: overflow-x:auto робить overflow-y
+         теж auto, і лаймовий спалах чипа при появі (box-shadow 20px) різався
+         зверху й знизу по межі стрічки. Запас повертається від'ємним margin,
+         тож розкладка сторінки не змінилась. */
+      margin-top: 10px; margin-bottom: -14px;
       flex-wrap: nowrap;
       overflow-x: auto; overscroll-behavior-x: contain;
       scrollbar-width: none;
-      margin-inline: -28px; padding: 2px 28px;
+      margin-inline: -28px; padding: 16px 28px;
       scroll-padding-inline: 28px;
       -webkit-mask-image: linear-gradient(90deg, transparent, #000 20px, #000 calc(100% - 32px), transparent);
       mask-image: linear-gradient(90deg, transparent, #000 20px, #000 calc(100% - 32px), transparent);
     }
     html.js .exp-filter::-webkit-scrollbar { display: none; }
     html.js .exp-chip { flex: none; white-space: nowrap; }
-    .section-lead + .exp-filter { margin-top: 24px; }
+    .section-lead + .exp-filter { margin-top: 10px; }
   }
   .exp-chip {
     display: inline-flex; align-items: center; gap: 8px;
@@ -5826,11 +5830,13 @@
        .wrap (28px), перша кнопка на вертикалі тексту, праве згасання
        підказує продовження, 2px зверху/знизу — під рамку фокусу. */
     .faq-nav {
-      margin-top: 26px; gap: 8px;
+      /* Запас 16px під спалах (див. .exp-filter): від'ємні margin
+         повертають його, розкладка та сама. */
+      margin-top: 12px; margin-bottom: -14px; gap: 8px;
       flex-wrap: nowrap;
       overflow-x: auto; overscroll-behavior-x: contain;
       scrollbar-width: none;
-      margin-inline: -28px; padding: 2px 28px;
+      margin-inline: -28px; padding: 16px 28px;
       scroll-padding-inline: 28px;
       -webkit-mask-image: linear-gradient(90deg, transparent, #000 20px, #000 calc(100% - 32px), transparent);
       mask-image: linear-gradient(90deg, transparent, #000 20px, #000 calc(100% - 32px), transparent);
