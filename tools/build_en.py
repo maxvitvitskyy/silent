@@ -659,6 +659,7 @@ T = {
 'Фестиваль': 'Festival',
 'Скільки гостей орієнтовно': 'Roughly how many guests',
 'Бажана дата': 'Preferred date',
+'Оберіть дату, напр. 15 червня': 'Pick a date, e.g. June 15',
 "Як ви про нас дізналися? (необов'язково)": 'How did you hear about us? (optional)',
 'Оберіть варіант': 'Choose one',
 'Рекомендація': 'Recommendation',

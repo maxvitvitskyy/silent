@@ -3405,6 +3405,21 @@
   }
   .field input[type="date"]::-webkit-calendar-picker-indicator:hover { filter: opacity(1); }
   .field input::placeholder, .field textarea::placeholder { color: var(--muted-2); }
+  /* iOS Safari не малює в порожньому date-полі нічого — ні маски, ні
+     підказки, і воно виглядає незаповненим. Підказку малюємо самі поверх поля
+     (тільки на iOS/WebKit, де це потрібно; Chrome і Android показують власну
+     маску «дд.мм.рррр»). Вона зникає, щойно в полі є значення (site.js
+     перемикає .has-value). pointer-events:none — дотик іде в саме поле. */
+  .date-wrap { position: relative; }
+  .date-hint { display: none; }
+  @supports (-webkit-touch-callout: none) {
+    .date-hint {
+      display: block; position: absolute; left: 17px; top: 50%; transform: translateY(-50%);
+      max-width: calc(100% - 40px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      font: inherit; font-size: 15px; color: var(--muted-2); pointer-events: none;
+    }
+    .date-wrap.has-value .date-hint { display: none; }
+  }
   /* Правило на всі стани поля: видимий контур завжди рівно один, а його колір
      і каже, що зараз відбувається. Два контури одночасно (рамка плюс кільце,
      ще й різного кольору) читаються як помилка верстки, а не як стан.
@@ -7658,7 +7673,7 @@
     }
     .f-col ul { gap: 0; }
     .f-col li + li { border-top: 1px solid rgba(255,255,255,0.07); }
-    .f-col ul a { font-size: 13.5px; padding: 16px 0; color: rgba(255,255,255,0.72); }
+    .f-col ul a { display: block; font-size: 13.5px; padding: 16px 0; color: rgba(255,255,255,0.72); }
 
     /* Контакти: одна спокійна панель з трьох рядків. */
     .f-contact { display: flex; flex-direction: column; margin-top: 18px; grid-column: 1 / -1; grid-row: auto; }
@@ -7692,15 +7707,14 @@
     .footer-legal > :first-child { order: 3; }
   }
 
-  /* ---------- Підвал на телефоні: світіння вище, вміст нижче; рівні проміжки ----------
+  /* ---------- Підвал на телефоні: світіння вище; рівні проміжки ----------
      Лаймове світіння (аврора) стояло за списками посеред підвалу. Піднімаємо
-     його до рівня гігантського слова SILENT, а сам вміст опускаємо нижче під
-     слово — низ підвалу лишається спокійним і темнішим. Аврору зсуваємо вгору
+     його до рівня гігантського слова SILENT — низ підвалу лишається
+     спокійнішим і темнішим. Аврору зсуваємо вгору
      (bottom) і трохи скорочуємо: від неї лише відсотки блобів, тож центри
-     світіння їдуть разом із нею. Проміжки «списки → панель контактів» і
+     світіння їдуть разом із нею. Відступ слова до вмісту НЕ чіпаємо. Проміжки «списки → панель контактів» і
      «панель → соцмережі» тепер однакові (~42px між видимими краями). */
   @media (max-width: 760px){
-    .footer-inner { margin-top: 120px; }
     .footer-aurora { height: 1100px; bottom: 380px; }
     .f-contact .f-socials { margin-top: 42px; }
   }

@@ -3488,6 +3488,15 @@ function orderExperience(name){
 
     const dateEl = document.getElementById('date');
 
+    // Підказка в порожньому date-полі (iOS): ховаємо, коли є значення.
+    const dateWrap = dateEl && dateEl.closest('.date-wrap');
+    const syncDateHint = () => { if (dateWrap) dateWrap.classList.toggle('has-value', !!dateEl.value); };
+    if (dateEl){
+      ['input', 'change', 'blur'].forEach(ev => dateEl.addEventListener(ev, syncDateHint));
+      if (dateEl.form) dateEl.form.addEventListener('reset', () => setTimeout(syncDateHint, 0));
+      syncDateHint();
+    }
+
     function clearError(){
       errBox.hidden = true;
       errBox.textContent = '';
