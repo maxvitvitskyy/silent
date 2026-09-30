@@ -625,8 +625,8 @@ T = {
 'Перевірте дату <span class="em">своєї</span> події': 'Check the date of <span class="em">your</span> event',
 "Залиште заявку — ми зв'яжемося, перевіримо, чи вільна дата, підберемо формат і підтвердимо бронь після узгодження.":
   "Send a request and we'll get in touch, check whether the date is free, work out the format and confirm the booking once it's agreed.",
-'Один вечір — одна подія, тож дати розбирають наперед':
-  'One evening, one event — dates get taken well in advance',
+'Кількість обладнання обмежена, тож дати розбирають наперед':
+  'Equipment is limited, so dates get taken well in advance',
 "Заявка ні до чого не зобов'язує — це перевірка доступності":
   "A request commits you to nothing — it's an availability check",
 'Попередній місяць': 'Previous month',
@@ -1420,8 +1420,8 @@ T_FAQ = {
 
 # --- 02 організація
 "За скільки часу бронювати дату?": "How far in advance should we book?",
-"Обладнання одне, тож на вечір ми беремо лише одну подію. Що раніше залишите заявку, то більше шансів, що бажана дата ще вільна — особливо у високий сезон.":
-  "We have one set of equipment, so we take only one event per night. The earlier you send a request, the better the chance your date is still free — especially in high season.",
+"Кількість обладнання обмежена, тож популярні дати розбирають наперед. Що раніше залишите заявку, то більше шансів, що бажана дата ще вільна — особливо у високий сезон.":
+  "Our equipment is limited, so popular dates get taken well in advance. The earlier you send a request, the better the chance your date is still free — especially in high season.",
 "Близько 30 хвилин на збірку й перевірку сигналу до старту. Приїжджаємо заздалегідь, щоб усе було готове до першого гостя.":
   "About 30 minutes to set up and test the signal before the start. We arrive early so everything is ready for the first guest.",
 "Що потрібно підготувати з нашого боку?": "What do we need to prepare on our side?",

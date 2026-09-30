@@ -689,23 +689,25 @@ function orderExperience(name){
   let hours = 4;
   const MIN_HOURS = 4, MAX_HOURS = 8;
 
-  // База: 40 навушників / 4 год = 9 800 грн. Стеля: 90 навушників / 4 год = 22 000 грн.
-  // Максимальна конфігурація (90 навушників, 8 год, усі три опції) дає рівно
-  // 50 000 грн: 22 000 пакет + 22 000 за 4 додаткові години + 3 × 2 000 опції.
-  const MAX_QTY = 90;
+  // База: 40 навушників / 4 год = 9 800 грн. Кожен навушник понад 40 — 244 грн
+  // (ставка лишилась тією, що була, коли стеля була 90: 12 200 / 50). Стеля
+  // слайдера — 100 навушників (максимум на першому етапі), там показуємо «100+».
+  // Ціни до 90 навушників не змінились; на 100 — 24 440 грн за 4 години.
+  const MAX_QTY = 100;
+  const EXTRA_PER_HEADPHONE = 244;
   function calcPrice(qty){
     const base = 9800;
     const extraQty = Math.max(0, qty - 40);
-    const extra = Math.round(extraQty * (12200 / (MAX_QTY - 40)));
+    const extra = extraQty * EXTRA_PER_HEADPHONE;
     // Година рахується від самого пакета, а не фіксованою ставкою: базові
     // 4 години коштують base + extra, тож одна година — рівно чверть від цього.
     const hourPrice = Math.round((base + extra) / MIN_HOURS);
     const extraHours = Math.max(0, hours - MIN_HOURS);
     const hoursCost = extraHours * hourPrice;
     const options =
-      (outsideKyiv.checked ? 2000 : 0) +
+      (outsideKyiv.checked ? 4000 : 0) +
       (contentReel.checked ? 2000 : 0) +
-      (smokeLight.checked ? 2000 : 0);
+      (smokeLight.checked ? 4000 : 0);
     return { base, extra, hoursCost, options, total: Math.max(6900, base + extra + hoursCost + options) };
   }
 
@@ -720,7 +722,7 @@ function orderExperience(name){
     if (!headphoneRange) return;
     const qty = Number(headphoneRange.value);
     const price = calcPrice(qty);
-    // At the ceiling show "90+": the slider stops there, but larger events are
+    // At the ceiling show "100+": the slider stops there, but larger events are
     // still possible — it reads as "90 or more", not a hard limit.
     calcHeadphones.textContent = qty >= MAX_QTY ? `${MAX_QTY}+` : qty;
     calcTotal.textContent = fmt.format(price.total);
