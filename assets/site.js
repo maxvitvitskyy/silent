@@ -4959,10 +4959,23 @@ function orderExperience(name){
       window.scrollTo({ top: top, behavior: reduceMotion ? 'instant' : 'smooth' });
     });
 
-    let rt = null;
+    // На телефоні при прокрутці ховається/показується адресний рядок браузера —
+    // це шле resize БЕЗ зміни ширини. Раніше кожен такий resize перебудовував
+    // хмару з випадковими зсувами, і рядки «стрибали» вперед-назад разом із
+    // прокруткою. Тепер перебудова лише при реальній зміні ширини картки, і
+    // навіть тоді положення рядків зберігається (як частка від довжини кола).
+    let rt = null, lastW = Math.round(cardEl.getBoundingClientRect().width);
     window.addEventListener('resize', function(){
       clearTimeout(rt);
-      rt = setTimeout(function(){ build(); paint(0); }, 150);
+      rt = setTimeout(function(){
+        const w = Math.round(cardEl.getBoundingClientRect().width);
+        if (w === lastW) return;
+        lastW = w;
+        const fr = rows.map(function(r){ return r.setW ? r.x / r.setW : 0; });
+        build();
+        rows.forEach(function(r, i){ if (fr[i] !== undefined) r.x = fr[i] * r.setW; });
+        paint(0);
+      }, 150);
     }, { passive: true });
   }
   initQuestionCloud(document.getElementById('faqReelList'));
