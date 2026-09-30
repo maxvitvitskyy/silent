@@ -3851,7 +3851,22 @@ function orderExperience(name){
         linksHtml += '<a href="' + el.getAttribute('href') + '" style="--stagger:' + i + '">' + el.textContent + '</a>';
       }
     });
-    const bottomStagger = topEls.length;
+    // Останній пункт — «Контакти»: акордеон із телефоном, поштою й локацією
+    // (ті самі дані, що в футері). Тексти тут, бо в шапці цього блоку немає;
+    // мова — з <html lang>, англійську збірку JS сам не перекладає.
+    const en = document.documentElement.lang === 'en';
+    const ico = function(path){ return '<span class="nav-mega-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + path + '</svg></span>'; };
+    linksHtml +=
+      '<button type="button" class="nav-drawer-item-expand" style="--stagger:' + topEls.length + '" aria-expanded="false">' +
+        '<span>' + (en ? 'Contacts' : 'Контакти') + '</span>' +
+        '<span class="nav-drawer-expand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>' +
+      '</button>' +
+      '<div class="nav-drawer-sub">' +
+        '<a href="tel:+380963339068">' + ico('<path d="M5.2 3.6h3.1l1.5 4-2 1.3a11 11 0 0 0 5.3 5.3l1.3-2 4 1.5v3.1a2 2 0 0 1-2.2 2A16 16 0 0 1 3.2 5.8a2 2 0 0 1 2-2.2z"/>') + '<span>+380 96 333 90 68</span></a>' +
+        '<a href="mailto:hello.silent.ua@gmail.com">' + ico('<rect x="2.6" y="5.2" width="18.8" height="13.6" rx="2.6"/><path d="m3.4 7 8.05 5.6a1 1 0 0 0 1.1 0L20.6 7"/>') + '<span>hello.silent.ua@gmail.com</span></a>' +
+        '<span class="nav-drawer-static">' + ico('<path d="M12 21s-6.6-5.6-6.6-11a6.6 6.6 0 0 1 13.2 0c0 5.4-6.6 11-6.6 11z"/><circle cx="12" cy="10" r="2.4"/>') + '<span>' + (en ? 'Kyiv · we travel across Ukraine' : 'Київ · виїзд по Україні') + '</span></span>' +
+      '</div>';
+    const bottomStagger = topEls.length + 1;
 
     let langHtml = '';
     if (langSwitch){
