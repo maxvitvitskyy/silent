@@ -7504,12 +7504,12 @@
      й телефоні ряд іконок і так на всю ширину, а зв'язок — кнопка «Написати
      нам». Рядки — та сама лаймова гама, що й іконки соцмереж, але текст
      читабельний (майже білий), іконка в тонкій рамці-«таблетці». */
-  .f-direct { display: none; }
+  .f-col .f-direct { display: none; }
   @media (min-width: 1051px){
     /* Тонка лінія-розділювач від ряду соцмереж; іконки того ж розміру (26px) і
        тонкості, що й у соцмереж, без рамок, і починаються з тієї ж лівої межі,
        що й Instagram — тобто стоять з ним в одній вертикалі. */
-    .f-direct {
+    .f-col .f-direct {
       display: flex; flex-direction: column; gap: 12px; list-style: none;
       margin: 0; padding: 0;
     }
@@ -7565,4 +7565,81 @@
   @media (min-width: 1051px){
     .f-occasions { display: block; }
     .footer-cols { grid-template-columns: 1.45fr 1fr 1fr 1fr 1.15fr; gap: 30px; }
+  }
+
+  /* Нижній рядок підвалу (© і юридичне): від планшета — в одну лінію. Зліва
+     «Silent disco під ключ · Київ · 2026», справа два юридичні пункти поруч.
+     На телефоні лишається колонкою по центру. */
+  @media (min-width: 761px){
+    .footer-legal {
+      flex-direction: row; align-items: center; justify-content: flex-start;
+      flex-wrap: wrap; text-align: left; gap: 8px 32px;
+    }
+    .footer-legal > :first-child { margin-right: auto; }
+  }
+
+  /* ---------- Підвал на телефоні (≤560px) ----------
+     Було: усе одним довгим стовпчиком, контакти-«прилипли» без оформлення.
+     Тепер зверху вниз: лого й короткий рядок про нас → два списки поруч, кожен
+     із заголовком-лінією й тонкими розділювачами між рядками (зона дотику 44px
+     лишається, але рядки читаються як список, а не порожнеча) → панель
+     «Зв'язок» (телефон, пошта, локація) → ряд соцмереж → юридичний рядок. Одна
+     панель, без вкладених карток; без blur (це контентна поверхня). */
+  @media (max-width: 760px){
+    .footer-inner { margin-top: 12px; padding-top: 28px; }
+    .footer-cols { gap: 8px 22px; }
+
+    /* Бренд по центру: лише знак (68px із світінням), під ним
+       рядок про нас на комфортній мірі, з балансом переносів. Раніше все було
+       притиснуте вліво дрібним 13px і читалось як «просто ще один рядок». */
+    .f-brand { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px; margin: 4px 0 22px; }
+    /* Слово SILENT у підвалі на телефоні прибрано: лишається лише знак по
+       центру над рядком (посилання й так має aria-label, читалка не втрачає
+       назви). Знак трохи більший, щоб тримати композицію сам. */
+    .f-col a.f-logo > span { display: none; }
+    .f-brand .f-logo-mark { width: 68px; height: 68px; filter: drop-shadow(0 0 14px rgba(198,255,0,0.4)); }
+    .f-brand .f-tagline {
+      display: block; margin: 0; max-width: 27ch;
+      font-size: 15px; line-height: 1.5; color: rgba(255,255,255,0.86);
+      text-wrap: balance;
+    }
+
+    .f-col h4 {
+      font-size: 11px; letter-spacing: 1.6px; margin: 0;
+      padding-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.16);
+    }
+    .f-col ul { gap: 0; }
+    .f-col li + li { border-top: 1px solid rgba(255,255,255,0.07); }
+    .f-col ul a { font-size: 13.5px; padding: 16px 0; color: rgba(255,255,255,0.72); }
+
+    /* Контакти: одна спокійна панель з трьох рядків. */
+    .f-contact { display: flex; flex-direction: column; margin-top: 18px; grid-column: 1 / -1; grid-row: auto; }
+    .f-brand { grid-row: auto; }
+    .footer-cols > nav.f-col:nth-of-type(1), .footer-cols > nav.f-col:nth-of-type(2) { grid-row: auto; grid-column: auto; }
+    .f-col .f-direct {
+      display: flex; flex-direction: column; order: 1;
+      list-style: none; margin: 0; padding: 0 16px;
+      border: 1px solid rgba(255,255,255,0.14); border-radius: 18px;
+      background: rgba(255,255,255,0.04);
+    }
+    .f-col .f-direct li + li { border-top: 1px solid rgba(255,255,255,0.08); }
+    .f-col .f-direct a, .f-direct .f-loc {
+      display: flex; align-items: center; gap: 14px; width: 100%;
+      min-height: 52px; padding: 0;
+      font-size: 14.5px; font-weight: 600; letter-spacing: 0.01em; color: #fff;
+    }
+    .f-col .f-direct svg, .f-direct .f-loc svg { flex: none; width: 22px; height: 22px; color: var(--lime); }
+    .f-col .f-direct a:active { color: var(--lime); }
+
+    .f-contact .f-socials { order: 2; margin-top: 22px; padding: 0 4px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; }
+    .f-contact .f-soc { justify-self: center; width: auto; height: auto; }
+    .f-contact .f-soc svg { width: clamp(28px, 8.2vw, 34px); height: auto; }
+    .f-brand .f-cta { display: none; }
+    /* Між 561 і 760px панель і ряд соцмереж не розтягуємо на весь екран. */
+    .f-contact .f-direct, .f-contact .f-socials { width: 100%; max-width: 520px; margin-left: auto; margin-right: auto; }
+    .f-contact .f-socials { margin-top: 22px; }
+    .f-contact .f-note { display: none; }
+
+    .footer-legal { gap: 6px; margin-top: 26px; padding-top: 16px; font-size: 11px; line-height: 1.5; }
+    .footer-legal > :first-child { order: 3; }
   }
