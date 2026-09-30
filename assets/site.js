@@ -736,6 +736,9 @@ function orderExperience(name){
   function updateCalculator(){
     if (!headphoneRange) return;
     const qty = Number(headphoneRange.value);
+    // Частка заливки доріжки повзунка (0…1): на неї спирається градієнт у CSS.
+    const rMin = Number(headphoneRange.min) || 0, rMax = Number(headphoneRange.max) || 1;
+    headphoneRange.style.setProperty('--pr', ((qty - rMin) / (rMax - rMin)).toFixed(4));
     const price = calcPrice(qty);
     // At the ceiling show "100+": the slider stops there, but larger events are
     // still possible — it reads as "90 or more", not a hard limit.

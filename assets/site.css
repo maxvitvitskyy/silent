@@ -3099,9 +3099,51 @@
     font-family:'Manrope'; color: var(--muted); font-size: 13px; font-weight: 600;
   }
   .calc-slider { margin: 26px 0 20px; }
+  /* Повзунок власний, а не системний accent-color: на iOS/Safari системний
+     малює майже чорну доріжку з темною обводкою, і вона виглядала пусто.
+     Тут доріжка — «матеріал»: заглиблена скляна жолобина з лаймовою заливкою
+     до ручки (вона світиться), а ручка — біла куля з кільцем каналу. --pr
+     (0…1) ставить site.js у updateCalculator; заливка закінчується в центрі
+     ручки, тому границя рахується з поправкою на її діаметр (30px). */
   .calc-slider input[type="range"] {
-    width: 100%; accent-color: var(--ch); cursor: pointer;
+    --thumb: 30px; --track: 12px; --pr: 0;
+    width: 100%; cursor: pointer; background: transparent;
+    -webkit-appearance: none; appearance: none; height: 34px; margin: 0;
   }
+  .calc-slider input[type="range"]:focus { outline: none; }
+  .calc-slider input[type="range"]::-webkit-slider-runnable-track {
+    height: var(--track); border-radius: 999px;
+    background:
+      linear-gradient(90deg,
+        color-mix(in srgb, var(--ch) 62%, #000) 0,
+        var(--ch) calc(var(--thumb) / 2 + (100% - var(--thumb)) * var(--pr)),
+        rgba(255,255,255,0.13) calc(var(--thumb) / 2 + (100% - var(--thumb)) * var(--pr)));
+    box-shadow: inset 0 2px 3px rgba(0,0,0,0.55), inset 0 -1px 0 rgba(255,255,255,0.10), 0 0 0 1px rgba(255,255,255,0.12);
+  }
+  .calc-slider input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: var(--thumb); height: var(--thumb); border-radius: 50%;
+    margin-top: calc((var(--track) - var(--thumb)) / 2);
+    background: radial-gradient(circle at 35% 30%, #fff 0, #f1f1f1 55%, #cfcfcf 100%);
+    border: 4px solid var(--ch);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.55), 0 0 18px var(--ch-glow);
+    transition: transform 0.15s ease;
+  }
+  .calc-slider input[type="range"]:active::-webkit-slider-thumb { transform: scale(1.12); }
+  .calc-slider input[type="range"]::-moz-range-track {
+    height: var(--track); border-radius: 999px; background: rgba(255,255,255,0.13);
+    box-shadow: inset 0 2px 3px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.12);
+  }
+  .calc-slider input[type="range"]::-moz-range-progress {
+    height: var(--track); border-radius: 999px;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--ch) 62%, #000), var(--ch));
+  }
+  .calc-slider input[type="range"]::-moz-range-thumb {
+    width: calc(var(--thumb) - 8px); height: calc(var(--thumb) - 8px); border-radius: 50%;
+    background: #fff; border: 4px solid var(--ch);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.55), 0 0 18px var(--ch-glow);
+  }
+  .calc-slider input[type="range"]:focus-visible { outline: 2px solid var(--ch); outline-offset: 6px; border-radius: 999px; }
   .calc-labels { display:flex; justify-content:space-between; color: var(--muted-2); font-size: 11.5px; margin-top: 7px; }
   .calc-row { display:flex; justify-content:space-between; gap:18px; padding: 13px 0; border-top: 1px solid var(--line); font-size: 13.5px; }
   .calc-row span:first-child { color: var(--muted); }
@@ -7648,4 +7690,17 @@
 
     .footer-legal { gap: 6px; margin-top: 26px; padding-top: 16px; font-size: 11px; line-height: 1.5; }
     .footer-legal > :first-child { order: 3; }
+  }
+
+  /* ---------- Підвал на телефоні: світіння вище, вміст нижче; рівні проміжки ----------
+     Лаймове світіння (аврора) стояло за списками посеред підвалу. Піднімаємо
+     його до рівня гігантського слова SILENT, а сам вміст опускаємо нижче під
+     слово — низ підвалу лишається спокійним і темнішим. Аврору зсуваємо вгору
+     (bottom) і трохи скорочуємо: від неї лише відсотки блобів, тож центри
+     світіння їдуть разом із нею. Проміжки «списки → панель контактів» і
+     «панель → соцмережі» тепер однакові (~42px між видимими краями). */
+  @media (max-width: 760px){
+    .footer-inner { margin-top: 120px; }
+    .footer-aurora { height: 1100px; bottom: 380px; }
+    .f-contact .f-socials { margin-top: 42px; }
   }
