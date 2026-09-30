@@ -663,6 +663,7 @@ T = {
 "Як ви про нас дізналися? (необов'язково)": 'How did you hear about us? (optional)',
 'Оберіть варіант': 'Choose one',
 'Рекомендація': 'Recommendation',
+'Був на події від SILENT': 'Attended a SILENT event',
 'Інше': 'Other',
 "Коментар (необов'язково)": 'Comment (optional)',
 'Розкажіть більше про подію, побажання щодо локації, часу тощо':
