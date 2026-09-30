@@ -524,6 +524,21 @@ function orderExperience(name){
       });
       tl.to(top,    { y: -70, opacity: 0.15 }, 0)
         .to(bottom, { y: -36, opacity: 0.25 }, 0);
+      // Страховка від «залипання»: scrub із згладжуванням наздоганяє прокрутку з
+      // запізненням, і при різкому поверненні нагору (клавіша Home, якір «нагору»,
+      // швидкий жест) слід міг зупинитись, не дійшовши до нуля — текст лишався
+      // напівпрозорим. Коли прокрутка стоїть біля верху, доводимо в нуль сами.
+      let idle = 0;
+      const settleTop = () => {
+        if (window.scrollY > 4) return;
+        tl.progress(0);
+        G.set([top, bottom], { opacity: 1, y: 0 });
+      };
+      const onScroll = () => { clearTimeout(idle); idle = setTimeout(settleTop, 160); };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('pageshow', settleTop);
+      document.addEventListener('visibilitychange', () => { if (!document.hidden) settleTop(); });
+      return () => { window.removeEventListener('scroll', onScroll); window.removeEventListener('pageshow', settleTop); clearTimeout(idle); };
     });
   })();
 
@@ -4761,7 +4776,196 @@ function orderExperience(name){
     }, { passive: true });
   }
   initReel(document.getElementById('expReelList'));
-  initReel(document.getElementById('faqReelList'));
+
+  // ---- Геро /faq/: «хмара питань» ----
+  // Замінила барабан-півколо. Питання пливуть ГОРИЗОНТАЛЬНО кількома рядками
+  // (рядки не рухаються по вертикалі — стоять стосом), картка помічена
+  // «глибиною» за відстанню рядка до середнього: середній різкий і яскравий,
+  // вищі й нижчі — тьмяніші, розмиті й трохи швидші (паралакс). Розмиття —
+  // text-shadow, не filter:blur (той на рухомих елементах давав на iOS смужки
+  // недомальованих GPU-шарів, див. коментар до барабана вище). Оскільки рядки
+  // по вертикалі нерухомі, вигляд кожного рахуємо ОДИН раз, а покадрово
+  // рухаємо лише translateX. У середньому рядку питання, що проходить біля
+  // центру картки, підсвічується лаймом; клік по ньому веде до відповіді.
+  function initQuestionCloud(list){
+    if (!list) return;
+    const winEl = list.parentElement, cardEl = winEl.parentElement;
+    const src = [].slice.call(list.children).map(function(li){
+      return { text: li.textContent.trim(), key: li.getAttribute('data-q') || '' };
+    });
+    const n = src.length;
+    if (n < 3) return;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const LIME = [198, 255, 0];
+    const stage = document.createElement('div');
+    stage.className = 'exp-cloud';
+    winEl.appendChild(stage);
+    list.style.display = 'none';
+    let rows = [], mid = 0, cardW = 1;
+
+    function build(){
+      stage.innerHTML = '';
+      rows = [];
+      const h = stage.getBoundingClientRect().height;
+      const pitch = parseFloat(getComputedStyle(stage).getPropertyValue('--pitch')) || 50;
+      let count = Math.floor(h / pitch);
+      count = Math.max(5, Math.min(9, count % 2 ? count : count - 1));
+      mid = (count - 1) / 2;
+      for (let r = 0; r < count; r++){
+        const d = Math.abs(r - mid);
+        const row = document.createElement('div');
+        row.className = 'exp-cloud-row';
+        // Кожен рядок — те саме коло питань зі своїм зсувом початку, двічі
+        // підряд, щоб зациклити рух без стику.
+        const shift = (r * 4 + (r % 2) * 2) % n;
+        let html = '';
+        for (let rep = 0; rep < 2; rep++){
+          for (let k = 0; k < n; k++){
+            const q = src[(k + shift) % n];
+            html += '<span' + (q.key ? ' data-q="' + q.key + '"' : '') + '>' + q.text + '</span>';
+          }
+        }
+        row.innerHTML = html;
+        // Глибина: 0 у середньому рядку, далі згасання/розмиття зростають.
+        const a = d === 0 ? 1 : Math.max(0.2, 0.62 - 0.14 * (d - 1));
+        const blur = d === 0 ? 0 : Math.min(3.6, 0.9 + 0.9 * d);
+        const s = Math.max(0, Math.min(1, (blur - 0.3) / 2));
+        row.style.setProperty('--c', 'rgba(255,255,255,' + (a * (1 - s)).toFixed(3) + ')');
+        row.style.setProperty('--ts', blur > 0 ? '0 0 ' + blur.toFixed(2) + 'px rgba(255,255,255,' + Math.min(1, a * (0.4 + 1.1 * s)).toFixed(3) + ')' : 'none');
+        row.style.setProperty('--bd', 'rgba(255,255,255,' + (0.14 * a).toFixed(3) + ')');
+        row.dataset.d = String(Math.round(r - mid));
+        stage.appendChild(row);
+        [].forEach.call(row.children, function(sp){ sp._r = r; });
+        rows.push({ el: row, d: d, a: a, blur: blur, m: 1, x: Math.random() * 400, speed: 26 * (1 + 0.32 * d), setW: 0, spans: [], centers: [] });
+      }
+      measure();
+    }
+    function measure(){
+      cardW = cardEl.getBoundingClientRect().width || 1;
+      rows.forEach(function(r){
+        r.spans = [].slice.call(r.el.children);
+        const first = r.spans[0], mid2 = r.spans[n];
+        r.setW = mid2.offsetLeft - first.offsetLeft;
+        r.centers = r.spans.slice(0, n).map(function(sp){ return sp.offsetLeft + sp.offsetWidth / 2; });
+      });
+    }
+    // Фокус за замовчуванням — по центру (середній рядок, питання біля центру
+    // картки). Коли курсор на якомусь питанні, фокус переходить на нього: воно
+    // стає різким і лаймовим, підсвітка центру гасне, а його рядок зупиняється,
+    // щоб питання не втекло з-під курсора. Усе з плавним наростанням (sp._h,
+    // hov), без стрибків.
+    let slowTarget = 1, hov = 0, hovSpan = null, ptr = null;
+    const hot = [];
+    function apply(r, sp, e){
+      if (e <= 0.001){
+        if (sp._e){ sp.style.color = ''; sp.style.borderColor = ''; sp.style.background = ''; sp.style.textShadow = ''; sp._e = 0; }
+        return;
+      }
+      sp._e = e;
+      const al = r.a + (1 - r.a) * e;
+      sp.style.color = 'rgba(' + Math.round(255 + (LIME[0] - 255) * e) + ',' + Math.round(255 + (LIME[1] - 255) * e) + ',' + Math.round(255 + (LIME[2] - 255) * e) + ',' + al.toFixed(3) + ')';
+      sp.style.textShadow = e > 0.02 && r.blur > 0 ? '0 0 ' + (r.blur * (1 - e)).toFixed(2) + 'px rgba(255,255,255,' + (r.a * (1 - e)).toFixed(3) + ')' : '';
+      sp.style.borderColor = 'rgba(198,255,0,' + (0.14 * r.a + (0.64 - 0.14 * r.a) * e).toFixed(3) + ')';
+      sp.style.background = 'rgba(198,255,0,' + (0.03 + 0.09 * e).toFixed(3) + ')';
+    }
+    function paint(dt){
+      const k = Math.min(1, dt * 12);
+      // Що під курсором зараз: рядки пливуть, тож перевіряємо щокадру.
+      let hs = null;
+      if (ptr){
+        const t = document.elementFromPoint(ptr.x, ptr.y);
+        hs = t && t.closest && t.closest('.exp-cloud-row > span');
+        if (hs && !stage.contains(hs)) hs = null;
+      }
+      hovSpan = hs;
+      hov += ((hs ? 1 : 0) - hov) * k;
+      if (hs){ hs._h = hs._h || 0; if (hot.indexOf(hs) < 0) hot.push(hs); }
+      const box = cardEl.getBoundingClientRect();
+      const cx = box.width / 2;
+      const stageLeft = stage.getBoundingClientRect().left - box.left;
+      rows.forEach(function(r){
+        const own = hs && hs.parentNode === r.el;
+        r.m += ((own ? 0 : slowTarget) - r.m) * Math.min(1, dt * 6);
+        if (!reduceMotion) r.x = (r.x + r.speed * r.m * dt) % r.setW;
+        r.el.style.transform = 'translate3d(' + (-r.x).toFixed(2) + 'px,0,0)';
+        if (r.d !== 0) return;
+        for (let q = 0; q < r.spans.length; q++){
+          const sp = r.spans[q];
+          if (hot.indexOf(sp) >= 0) continue;   // ці рахуємо нижче
+          const c = r.centers[q % n] - r.x + (q >= n ? r.setW : 0) + stageLeft;
+          const f = Math.max(0, 1 - Math.abs(c - cx) / (cardW * 0.28));
+          apply(r, sp, f * f * (3 - 2 * f) * (1 - hov));
+        }
+      });
+      for (let h = hot.length - 1; h >= 0; h--){
+        const sp = hot[h];
+        sp._h += ((sp === hs ? 1 : 0) - sp._h) * k;
+        const r = rows[sp._r];
+        let ec = 0;
+        if (r.d === 0){
+          const q = r.spans.indexOf(sp);
+          const c = r.centers[q % n] - r.x + (q >= n ? r.setW : 0) + stageLeft;
+          const f = Math.max(0, 1 - Math.abs(c - cx) / (cardW * 0.28));
+          ec = f * f * (3 - 2 * f) * (1 - hov);
+        }
+        const e = Math.max(sp._h, ec);
+        apply(r, sp, e);
+        if (sp !== hs && sp._h < 0.002){ sp._h = 0; hot.splice(h, 1); }
+      }
+    }
+    build();
+    paint(0);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ measure(); paint(0); });
+    window.addEventListener('load', function(){ measure(); paint(0); });
+
+    let raf = 0, last = 0, visible = true;
+    function loop(now){
+      const dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+      paint(dt);
+      raf = visible && !document.hidden ? requestAnimationFrame(loop) : 0;
+    }
+    function run(){ if (!raf && !reduceMotion){ last = performance.now(); raf = requestAnimationFrame(loop); } }
+    if ('IntersectionObserver' in window){
+      new IntersectionObserver(function(es){ visible = es[0].isIntersecting; if (visible) run(); }).observe(cardEl);
+    }
+    document.addEventListener('visibilitychange', run);
+    run();
+
+    // Курсор над хмарою пригальмовує її; питання під курсором отримує фокус.
+    cardEl.addEventListener('pointerenter', function(e){ if (e.pointerType === 'mouse') slowTarget = 0.12; });
+    cardEl.addEventListener('pointermove', function(e){
+      if (e.pointerType !== 'mouse') return;
+      ptr = { x: e.clientX, y: e.clientY };
+      if (reduceMotion) paint(0.1);
+    });
+    cardEl.addEventListener('pointerleave', function(){ slowTarget = 1; ptr = null; if (reduceMotion) paint(0.1); });
+
+    // Клік по підсвіченому питанню середнього рядка відкриває його відповідь.
+    stage.addEventListener('click', function(e){
+      const sp = e.target.closest('span');
+      if (!sp || !sp._e || sp._e < 0.35) return;
+      const ans = document.getElementById(sp.getAttribute('data-q') || '');
+      const item = ans && ans.closest('.faq-item');
+      if (!item) return;
+      let shift = 0;
+      document.querySelectorAll('.faq-item.open').forEach(function(o){
+        if (o !== item && (o.compareDocumentPosition(item) & Node.DOCUMENT_POSITION_FOLLOWING)){
+          shift += o.querySelector('.faq-a').offsetHeight;
+        }
+      });
+      if (!item.classList.contains('open')) item.querySelector('.faq-q').click();
+      const top = item.getBoundingClientRect().top + window.scrollY - shift - 110;
+      window.scrollTo({ top: top, behavior: reduceMotion ? 'instant' : 'smooth' });
+    });
+
+    let rt = null;
+    window.addEventListener('resize', function(){
+      clearTimeout(rt);
+      rt = setTimeout(function(){ build(); paint(0); }, 150);
+    }, { passive: true });
+  }
+  initQuestionCloud(document.getElementById('faqReelList'));
 
   // ---- Прийом ?uc=... після переходу зі сторінки-каталогу /experiences/ ----
   // Та сторінка своєї форми не має, тож кнопка «Замовити цей досвід» веде

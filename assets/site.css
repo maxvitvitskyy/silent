@@ -6257,8 +6257,6 @@
     display: inline-flex; align-items: center; gap: 7px;
     padding: 8px 14px; border-radius: 999px;
     background: rgba(198,255,0,0.14); color: var(--lime);
-    font-family: 'Unbounded', sans-serif; font-weight: 600;
-    font-size: 10.5px; letter-spacing: 1.5px; text-transform: uppercase;
     margin-bottom: 24px;
   }
   .exp-cover-field .exp-crumb a { color: inherit; border-bottom-color: rgba(198,255,0,0.4); }
@@ -6467,12 +6465,6 @@
      поточний розділ і так видно за лаймовим. */
   .exp-cover-gallery .exp-crumb {
     margin: 0 0 clamp(14px, 2.2vh, 24px);
-    font-family: 'Unbounded', sans-serif;
-    font-weight: 600;
-    font-size: clamp(10.5px, 0.8vw, 12px);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--muted);
   }
   .exp-cover-gallery .exp-crumb a { border-bottom: 0; color: var(--muted); }
   .exp-cover-gallery .exp-crumb a:hover { color: #fff; }
@@ -6699,13 +6691,7 @@
      відліку й тримає скруглення кадру. */
   .story-play-wrap { position: relative; overflow: hidden; border-radius: var(--r-md); }
   .story-play-wrap img { border-radius: 0; }
-  .story-eyebrow {
-    font-family: 'Unbounded', sans-serif; font-weight: 600;
-    font-size: clamp(10.5px, 0.8vw, 12px);
-    letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--lime);
-    margin: 0 0 clamp(14px, 2vh, 20px);
-  }
+  .story-eyebrow { margin: 0 0 clamp(14px, 2vh, 20px); } /* вигляд — у правилі «Надзаголовки» в кінці файлу */
   .exp-story-text { container-type: inline-size; }
   /* Розмір міряється від колонки, а не від екрана: на 52px рядок
      «для корпоративних» просив 641px при колонці 603, і «для» лишалось
@@ -7433,3 +7419,54 @@
       --glass-fill-dense: rgba(14,14,15,0.98);
     }
   }
+
+  /* ---------- НАДЗАГОЛОВКИ (одне правило на весь сайт) ----------
+     Рубрика над заголовком — і секційний .eyebrow на головній, і крихта
+     .exp-crumb у геро підсторінок, і .story-eyebrow у корпоративах — має
+     ОДНАКОВИЙ шрифт: Manrope 700, 12px, розрядка 3px, капс. Раніше крихта і
+     story-eyebrow були в Unbounded 600 з розрядкою 0.14em, і на кожній
+     сторінці рубрика виглядала інакше. Новий надзаголовок = цей самий клас,
+     власних font-* у нього бути не повинно. Колір — за роллю: декор (.eyebrow,
+     .story-eyebrow) = канал на 80%, крихта = приглушена, «поточна» = лайм. */
+  :is(.eyebrow, .story-eyebrow, .exp-crumb, .exp-cover-gallery .exp-crumb, .exp-cover-field .exp-crumb) {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .story-eyebrow { color: color-mix(in srgb, var(--ch) 80%, transparent); }
+  .exp-cover-gallery .exp-crumb .crumb-now { color: var(--ch); }
+
+  /* ---------- «Хмара питань» у геро /faq/ (initQuestionCloud у site.js) ----------
+     Питання пливуть горизонтально кількома рядками. Рядки по вертикалі
+     нерухомі, тож глибину (яскравість/розмиття за відстанню до середнього
+     рядка) JS ставить один раз змінними --c/--ts/--bd, а покадрово рухає
+     лише translateX. Вся хмара трохи нахилена, щоб читалась як потік, а не
+     таблиця; картка без падінга — питання йдуть від краю до краю, а краї
+     розчиняє горизонтальна маска. */
+  .exp-head-reel--cloud { padding: 0; gap: 0; }
+  .exp-head-reel--cloud .exp-reel-window {
+    margin: 0;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
+  }
+  .exp-cloud {
+    --fs: clamp(13px, 3.5cqw, 21px);
+    --pitch: calc(var(--fs) * 3.1);
+    position: absolute; inset: -18% -25%;
+    display: flex; flex-direction: column; justify-content: center;
+    gap: calc(var(--fs) * 0.8);
+    transform: rotate(-7deg);
+  }
+  .exp-cloud-row { display: flex; flex: none; gap: calc(var(--fs) * 0.9); width: max-content; will-change: transform; }
+  .exp-cloud-row > span {
+    flex: none; white-space: nowrap;
+    padding: 0.7em 1.15em; border-radius: 999px;
+    font-family: 'Unbounded', sans-serif; font-weight: 400; font-size: var(--fs); line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--c, #fff); text-shadow: var(--ts, none);
+    border: 1px solid var(--bd, rgba(255,255,255,0.14));
+    background: rgba(255,255,255,0.025);
+  }
+  .exp-cloud-row > span { cursor: pointer; }
