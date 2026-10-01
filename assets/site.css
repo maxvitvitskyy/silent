@@ -7828,3 +7828,11 @@
      два рівні рядки на будь-якій ширині й не лишає одне слово самотнім. */
   .faq-head .exp-head-title { text-wrap: balance; }
 
+  /* Після кліку по питанню в мега-меню панель ховається, хоча курсор ще над
+     нею (inc. :hover/:focus-within тримали б її відкритою), і повертається, коли
+     курсор піде й прийде знову. */
+  .nav-item-mega.is-dismissed .nav-mega-panel {
+    opacity: 0 !important; visibility: hidden !important; pointer-events: none !important;
+  }
+  body:has(.nav-item-mega.is-dismissed) .nav-mega-backdrop { opacity: 0 !important; visibility: hidden !important; }
+

@@ -2893,6 +2893,58 @@ function orderExperience(name){
     });
   });
 
+  // ---- Питання з мега-меню → відкрита картка на /faq/ ----
+  // Кожне питання в мега-меню «Питання» тепер веде на /faq/#faqA-… (id його
+  // відповіді). Тут: за хешем знаходимо картку, розкриваємо її й прокручуємо до
+  // неї. Три сценарії: перехід з іншої сторінки (хеш у URL на завантаженні),
+  // клік по питанню, коли вже стоїмо на /faq/ (без перезавантаження: перехоплюємо
+  // клік, щоб не було рідного стрибка до прихованої відповіді), і зміна хеша
+  // вручну. Акордеон тримає відкритою одну картку, тож висоту відкритих НАД
+  // цілью віднімаємо наперед — як у кліку по хмарі питань.
+  (function(){
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function openFromHash(smooth){
+      const id = decodeURIComponent((location.hash || '').slice(1));
+      if (!/^faqA/.test(id)) return false;
+      const ans = document.getElementById(id);
+      const item = ans && ans.closest('.faq-item');
+      if (!item) return false;
+      let shift = 0;
+      document.querySelectorAll('.faq-item.open').forEach(function(o){
+        if (o !== item && (o.compareDocumentPosition(item) & Node.DOCUMENT_POSITION_FOLLOWING)){
+          shift += o.querySelector('.faq-a').offsetHeight;
+        }
+      });
+      if (!item.classList.contains('open')) item.querySelector('.faq-q').click();
+      const top = item.getBoundingClientRect().top + window.scrollY - shift - 110;
+      window.scrollTo({ top: top, left: 0, behavior: (smooth && !reduce) ? 'smooth' : 'instant' });
+      return true;
+    }
+    if (document.querySelector('.faq-cats')){
+      const start = function(){ setTimeout(function(){ openFromHash(false); }, 400); };
+      if (document.readyState === 'complete') start(); else window.addEventListener('load', start);
+      window.addEventListener('hashchange', function(){ openFromHash(true); });
+    }
+    // Клік по питанню в мега-меню на самій сторінці /faq/ — без перезавантаження.
+    document.addEventListener('click', function(e){
+      const link = e.target.closest && e.target.closest('a.nav-mega-q');
+      if (!link) return;
+      const item = link.closest('.nav-item-mega');
+      // Меню лишалось відкритим, поки курсор над ним: ховаємо, доки курсор не піде.
+      if (item){
+        item.classList.add('is-dismissed');
+        item.addEventListener('mouseleave', function(){ item.classList.remove('is-dismissed'); }, { once: true });
+        if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+      }
+      const url = new URL(link.getAttribute('href'), location.href);
+      if (url.pathname === location.pathname && document.querySelector('.faq-cats') && /^#faqA/.test(url.hash)){
+        e.preventDefault();
+        history.pushState(null, '', url.pathname + url.hash);
+        openFromHash(true);
+      }
+    });
+  })();
+
   // ---- GA4: cta_click ----
   // Делеговано на document, тому працює для всіх чотирьох CTA одним
   // обробником і не заважає стандартній навігації (#book і далі саме
