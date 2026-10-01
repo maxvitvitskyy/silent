@@ -1381,7 +1381,7 @@ T_FAQ = {
 # --- шапка сторінки
 "Головна": "Home",
 "Питання і відповіді": "Questions and answers",
-"Жодного «а якщо?»<br>без відповіді": "No “what if?”<br>left unanswered",
+"Усе, що ви хотіли спитати": "Everything you wanted to ask",
 "Дощ і вулиця, кількість гостей, оплата, перенесення дати — тут усе, про що питають ще до першого дзвінка. Не знайшли свого — напишіть нам, розберемося разом.":
   "Rain and outdoor venues, guest numbers, payment, moving the date — everything people ask before the first call. Can't find yours? Message us and we'll figure it out together.",
 "Категорії питань": "Question categories",

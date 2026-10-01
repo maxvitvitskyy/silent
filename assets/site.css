@@ -5577,12 +5577,13 @@
     .exp-head-reel--q { display: flex; }
     /* Кнопки розділів під усім рядом (заголовок + картка), а не в колонці
        тексту: там їм тісно і вони б переносились у два-три рядки. */
-    .faq-head .faq-nav { margin-top: 40px; }
     /* Колонка тексту тут 620px, а поруч картка барабана — заголовок не
        мусить виходити за колонку. Найширший нерозривний шматок в українській
        — «а якщо?» (з нерозривним пробілом), 6.7 кегля: при звичних 96px він
        виступав за колонку на 17px, тож стеля 88px. В англійській слово
        «unanswered» — 7.7 кегля, тому там стеля 78px. */
+    /* Заголовок «Усе, що ви хотіли спитати» ділиться balance-ом на три рівні
+       рядки в колонці 620px — лишаємо крупний кегль, як було. */
     .faq-head .exp-head-title { font-size: min(7vw, 88px); }
     html[lang="en"] .faq-head .exp-head-title { font-size: min(7vw, 78px); }
   }
@@ -7746,7 +7747,7 @@
      мобільній стрічці), від'ємний margin повертає розкладку на місце. */
   @media (min-width: 641px) and (max-width: 1239px){
     .faq-nav {
-      margin-top: 16px; margin-bottom: -14px;
+      margin-top: 12px; margin-bottom: -14px;
       flex-wrap: nowrap;
       overflow-x: auto; overscroll-behavior-x: contain;
       scrollbar-width: none;
@@ -7761,10 +7762,7 @@
   @media (min-width: 1000px) and (max-width: 1239px){
     .faq-nav { margin-inline: -25px; padding-inline: 25px; scroll-padding-inline: 25px; }
   }
-  /* ≥1100px відступ над рядком задає окреме правило (40px) — віднімаємо запас. */
-  @media (min-width: 1100px) and (max-width: 1239px){
-    .faq-head .faq-nav { margin-top: 24px; }
-  }
+
 
   /* Те саме для /experiences/ (і для всіх рядків .exp-filter на сайті).
      1) Віджет «SILENT. + формат» у геро вражень: від 641 до 1099px розкладка
@@ -7797,3 +7795,36 @@
   @media (min-width: 1000px) and (max-width: 1239px){
     html.js .exp-filter { margin-inline: -25px; padding-inline: 25px; scroll-padding-inline: 25px; }
   }
+
+  /* Геро і рядок категорій /faq/ — за зразком /experiences/. Там фільтр стоїть
+     НЕ в геро, а першим елементом блоку з вмістом: відступ від геро ≈ нижній
+     падінг геро + 28px, а до карток — коротко. Тут рядок категорій раніше сидів
+     у самому геро (близько до тексту, далеко від вмісту). Тепер він перший у
+     секції питань: той самий відступ зверху (28px), а перший розділ лягає
+     близько під ним. Секція питань починається без власного верхнього падінга,
+     бо його дає геро. */
+  .exp-section.faq { padding-top: 0; }
+  /* Стрічкові ширини (≤1239px) мають власні відступи з запасом під спалах чипів. */
+  @media (min-width: 1240px){ .exp-section.faq .faq-nav { margin-top: 28px; } }
+  .faq-cats { margin-top: 0; }
+  .faq-cats > .faq-cat:first-child { padding-top: 40px; }
+  @media (max-width: 640px){ .faq-cats > .faq-cat:first-child { padding-top: 34px; } }
+
+  /* Хлібні крихти в геро підсторінок (/experiences/, /faq/, /privacy/): без
+     підкреслення. «Головна» лишається приглушеною, як була, а поточна сторінка
+     (.crumb-now) — лаймова: так видно, де ти зараз. Наведення на «Головну»
+     просто робить її білою. */
+  .exp-crumb a { border-bottom: 0; }
+  .exp-crumb a:hover { color: #fff; }
+  .exp-crumb .crumb-now { color: var(--lime); }
+
+  /* Кнопки під описом у геро /experiences/ («Що таке Silent disco?», «Як це
+     працює?») — ведуть на розділи головної. Ті самі .btn-primary/.btn-ghost, що
+     в геро корпоративів, але з коротшим відступом: це другорядний ряд під
+     текстом, а не висота колонки. */
+  .exp-head-copy .exp-actions { margin: 26px 0 0; }
+
+  /* Заголовок /faq/ без жорсткого розриву рядка: balance сам ділить його на
+     два рівні рядки на будь-якій ширині й не лишає одне слово самотнім. */
+  .faq-head .exp-head-title { text-wrap: balance; }
+
