@@ -7836,3 +7836,8 @@
   }
   body:has(.nav-item-mega.is-dismissed) .nav-mega-backdrop { opacity: 0 !important; visibility: hidden !important; }
 
+  /* Відповіді з кількох абзаців (розділ «Музика та авторські права»): між
+     абзацами лише невеликий проміжок, а повний нижній падінг лишається за
+     останнім абзацом, як в одноабзацних відповідях. */
+  .faq-a p:has(+ p) { padding-bottom: 12px; }
+

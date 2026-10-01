@@ -1535,6 +1535,48 @@ T_FAQ = {
 "Ні. Договір і підтвердження замовлення можна погодити електронно — листуванням, месенджером або іншим зручним способом, без особистої зустрічі.":
   "No. The contract and the booking confirmation can be agreed electronically — by email, messenger or any other convenient way, with no need to meet in person.",
 
+# --- розділ «Музика та авторські права»
+"Музика та авторські права": "Music and copyright",
+"Музика й права": "Music & rights",
+"Чи потрібно мені самостійно готувати музику для SILENT?": "Do I need to prepare the music for SILENT myself?",
+"Ні. Ми можемо повністю підготувати музичний супровід для вашої події: підібрати треки, сформувати тематичні плейлисти та розподілити музику між каналами SILENT відповідно до формату й атмосфери вечірки.":
+  "No. We can prepare the music for your event in full: choose the tracks, build themed playlists and distribute the music across the SILENT channels to match the format and atmosphere of the party.",
+"Якщо у вас є власні музичні побажання або готовий плейлист — ми також можемо працювати з ним.":
+  "If you have your own music preferences or a ready playlist, we can work with that too.",
+"Чи можна використовувати популярну музику та відомі треки?": "Can we use popular music and well-known tracks?",
+"Так. SILENT технічно підтримує відтворення звичайного музичного контенту — від популярних хітів до тематичних добірок.":
+  "Yes. SILENT technically supports playing ordinary music content, from popular hits to themed selections.",
+"Музична програма може бути сформована під формат вашої події, її аудиторію та ваші побажання.":
+  "The music programme can be built around the format of your event, its audience and your wishes.",
+"Хто відповідає за авторські права на музику?": "Who is responsible for copyright on the music?",
+"Це залежить від формату заходу.":
+  "It depends on the format of the event.",
+"SILENT відповідає за технічну частину: обладнання, передачу та відтворення аудіо через систему навушників.":
+  "SILENT is responsible for the technical side: the equipment, the transmission and the playback of audio through the headphone system.",
+"Питання прав на публічне використання музичного контенту, якщо такі права необхідні для конкретного заходу, врегульовуються організатором, замовником або майданчиком відповідно до формату події.":
+  "Rights for the public use of music content, where such rights are required for a specific event, are handled by the organiser, the client or the venue, depending on the format of the event.",
+"А якщо це просто приватна вечірка, день народження чи весілля?": "What if it's just a private party, a birthday or a wedding?",
+"Для приватних подій ми можемо повністю підготувати музичну програму та плейлисти під вашу вечірку — вам не потрібно самостійно підбирати кожен трек.":
+  "For private events we can fully prepare the music programme and playlists for your party, so you don't have to choose every track yourself.",
+"Питання авторських і суміжних прав залежить від конкретного формату заходу, тому статус «приватної вечірки» не означає автоматичного звільнення від усіх вимог щодо використання музики.":
+  "Copyright and related rights depend on the specific format of the event, so the status of a “private party” does not automatically exempt it from every requirement on the use of music.",
+"Якщо для вашого заходу такі вимоги застосовуються, їх забезпечує організатор, замовник або майданчик.":
+  "If such requirements apply to your event, they are handled by the organiser, the client or the venue.",
+"А якщо це публічний або комерційний захід?": "What if it's a public or commercial event?",
+"Для публічних та комерційних заходів питання музичних прав має бути врегульоване відповідно до законодавства та формату заходу.":
+  "For public and commercial events, music rights must be settled in line with the law and the format of the event.",
+"SILENT може підготувати музичну концепцію, плейлисти та забезпечити їх технічне відтворення, але не передає і не гарантує наявність авторських чи суміжних прав на окремі музичні твори або фонограми, якщо це окремо не погоджено в договорі.":
+  "SILENT can prepare the music concept and playlists and provide their technical playback, but does not transfer or guarantee copyright or related rights in individual musical works or recordings unless this is separately agreed in the contract.",
+"За необхідності відповідні права та дозволи забезпечує організатор, замовник або майданчик.":
+  "Where needed, the relevant rights and permissions are provided by the organiser, the client or the venue.",
+"Чи можете ви підготувати музику повністю під нашу подію?": "Can you prepare the music entirely for our event?",
+"Так. Ми можемо створити музичну концепцію саме під ваш захід: від welcome music і фонового звучання до танцювальної частини та afterparty.":
+  "Yes. We can create a music concept for your event specifically: from welcome music and background sound to the dance part and the afterparty.",
+"Можемо підготувати окремі плейлисти для різних каналів SILENT, враховуючи формат події, аудиторію, атмосферу та ваші музичні побажання.":
+  "We can prepare separate playlists for the different SILENT channels, taking into account the event format, the audience, the atmosphere and your musical wishes.",
+"<strong>Важливо:</strong> підготовка та технічне відтворення музичної добірки SILENT не означає автоматичного надання прав на публічне використання кожного музичного твору. Якщо для конкретного заходу такі права необхідні, їх забезпечує відповідальна сторона відповідно до умов заходу.":
+  "<strong>Important:</strong> preparing and technically playing a SILENT music selection does not automatically grant the right to publicly use every musical work. If such rights are required for a specific event, they are provided by the responsible party under the terms of the event.",
+
 # --- блок над формою
 'Не знайшли <span class="em">відповідь</span>?': "Didn't find <span class=\"em\">your answer</span>?",
 'Питайте напряму — <a class="ask-link" href="mailto:hello.silent.ua@gmail.com">hello.silent.ua@gmail.com</a> або <a class="ask-link" href="https://t.me/silent_ukraine" target="_blank" rel="noopener noreferrer">напишіть нам у Telegram</a>. А якщо вже готові, просто перевірте дату своєї події й залиште заявку.':
