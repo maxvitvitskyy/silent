@@ -2531,6 +2531,25 @@ function orderExperience(name){
     // Футер може бути в кадрі одразу (короткі сторінки): тоді onEnter спрацює на старті.
     ST.create({ trigger: foot, start: 'top 78%', once: true, onEnter: () => tl.play() });
 
+    // Позиції всіх ScrollTrigger рахуються один раз і самі не оновлюються, коли
+    // сторінка міняє висоту БЕЗ зміни розміру вікна. На /experiences/ фільтр тем
+    // скорочує сторінку з ~20 000px до ~4 800: тригер футера лишався на старій
+    // позиції (18 400) далі за кінець сторінки, ніколи не спрацьовував, футер
+    // з опасіті 0 стояв порожнім, а внизу зяяла пустка. Слідкуємо за висотою
+    // документа й перераховуємо тригери, коли вона справді змінилась (так само
+    // допомагає акордеону FAQ, календарю, будь-якому підвантаженню). Дебаунс, щоб
+    // не перераховувати під час самої анімації.
+    if ('ResizeObserver' in window){
+      let rt = 0, lastH = document.documentElement.scrollHeight;
+      new ResizeObserver(() => {
+        clearTimeout(rt);
+        rt = setTimeout(() => {
+          const h = document.documentElement.scrollHeight;
+          if (Math.abs(h - lastH) > 24){ lastH = h; ST.refresh(); }
+        }, 250);
+      }).observe(document.body);
+    }
+
     // Саме слово, окрім підйому за прокруткою, має власний вхід: у момент, коли
     // воно з'являється в кадрі, літери сходяться з розлоту (letter-spacing) і
     // різкішають з розмиття. Окремий тригер від самого слова, а не від футера: до
@@ -3874,7 +3893,7 @@ function orderExperience(name){
         '<span class="nav-drawer-expand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>' +
       '</button>' +
       '<div class="nav-drawer-sub">' +
-        '<a href="tel:+380963339068">' + ico('<path d="M5.2 3.6h3.1l1.5 4-2 1.3a11 11 0 0 0 5.3 5.3l1.3-2 4 1.5v3.1a2 2 0 0 1-2.2 2A16 16 0 0 1 3.2 5.8a2 2 0 0 1 2-2.2z"/>') + '<span>+380 96 333 90 68</span></a>' +
+        '<a href="https://t.me/silent_ukraine" target="_blank" rel="noopener noreferrer">' + ico('<path d="M21.2 4.5 2.9 11.4a.5.5 0 0 0 .04.94l4.6 1.44 1.77 5.3a.5.5 0 0 0 .88.14l2.5-2.9 4.6 3.4a.5.5 0 0 0 .78-.3l3.05-14a.5.5 0 0 0-.66-.58Z"/><path d="m7.54 13.78 11.1-7.4-8.34 8.36-.36 3.9"/>') + '<span>' + (en ? 'Message on Telegram' : 'Написати в Telegram') + '</span></a>' +
         '<a href="mailto:hello.silent.ua@gmail.com">' + ico('<rect x="2.6" y="5.2" width="18.8" height="13.6" rx="2.6"/><path d="m3.4 7 8.05 5.6a1 1 0 0 0 1.1 0L20.6 7"/>') + '<span>hello.silent.ua@gmail.com</span></a>' +
         '<span class="nav-drawer-static">' + ico('<path d="M12 21s-6.6-5.6-6.6-11a6.6 6.6 0 0 1 13.2 0c0 5.4-6.6 11-6.6 11z"/><circle cx="12" cy="10" r="2.4"/>') + '<span>' + (en ? 'Kyiv · we travel across Ukraine' : 'Київ · виїзд по Україні') + '</span></span>' +
       '</div>';
@@ -4292,6 +4311,11 @@ function orderExperience(name){
         if (count) count.textContent = cat === 'all' ? '' : shown + ' ' + word(shown) + ' у цій темі';
       }, [grid]);
       if (!done) applyLegacy(cat);
+      // Фільтр міняє висоту сторінки (з ~20 000px до ~4 800 на темі «Церкви й
+      // табори»), а тригери ScrollTrigger рахувались під стару: тригер футера
+      // лишався далі за кінець сторінки, футер не з'являвся, внизу була пустка.
+      // Перераховуємо після переходу (Flip 0.5с; запасом і ще раз пізніше).
+      [700, 1500].forEach(ms => setTimeout(() => { if (window.ScrollTrigger) window.ScrollTrigger.refresh(); }, ms));
     }
 
     bar.addEventListener('click', (e) => {

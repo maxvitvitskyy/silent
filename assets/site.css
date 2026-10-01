@@ -7716,3 +7716,84 @@
     .footer-aurora { height: 1100px; bottom: 380px; }
     .f-contact .f-socials { margin-top: 42px; }
   }
+
+  /* Посилання в тексті «Не знайшли відповідь?» (пошта й Telegram): лайм без
+     підкреслення — так видно, що це клікабельне, але текст не обростає лініями.
+     Наведення трохи світліше й додає тонке світіння. */
+  .form-left p a.ask-link {
+    color: var(--lime); font-weight: 600; text-decoration: none; border-bottom: 0;
+    transition: color 0.2s ease, text-shadow 0.25s ease;
+  }
+  .form-left p a.ask-link:hover { color: #e4ff66; text-shadow: 0 0 14px rgba(198,255,0,0.45); }
+
+
+  /* «Хмара питань» у геро /faq/ на планшеті (641–1099px): розкладка вже
+     вертикальна — картка стоїть над заголовком, а не поруч. Базова картка тут
+     обмежена 620px і притиснута вліво, тож праворуч лишалась порожнеча. Беремо
+     всю ширину колонки (так само, як широка шапка), а висоту зменшуємо:
+     пропорція 4:5 на такій ширині дала б картку вищу за екран. Телефон (≤640)
+     не чіпаємо — там картка й так на всю ширину і лишається 4:5. */
+  @media (min-width: 641px) and (max-width: 1099px){
+    .exp-head-reel--cloud { max-width: none; width: 100%; aspect-ratio: 16 / 7.2; }
+  }
+
+  /* Рядок категорій /faq/ (.faq-nav): шість чипів разом ≈1140px, тож до ~1240px
+     ширини вікна вони переносились у другий рядок («Форс-мажор і безпека»
+     лишалась сама). Тепер там, де їм тісно, вони йдуть тією самою стрічкою з
+     прогортанням, що й на телефоні: один рядок, праве згасання підказує, що далі
+     є ще. Від 1240px усі шість вміщаються й стрічка нічого не прокручує.
+     Запас 16px зверху й знизу — під лаймовий спалах чипа при появі (як у
+     мобільній стрічці), від'ємний margin повертає розкладку на місце. */
+  @media (min-width: 641px) and (max-width: 1239px){
+    .faq-nav {
+      margin-top: 16px; margin-bottom: -14px;
+      flex-wrap: nowrap;
+      overflow-x: auto; overscroll-behavior-x: contain;
+      scrollbar-width: none;
+      margin-inline: -28px; padding: 16px 28px;
+      scroll-padding-inline: 28px;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 20px, #000 calc(100% - 32px), transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 20px, #000 calc(100% - 32px), transparent);
+    }
+    .faq-nav::-webkit-scrollbar { display: none; }
+    .faq-nav .exp-chip { flex: none; white-space: nowrap; }
+  }
+  @media (min-width: 1000px) and (max-width: 1239px){
+    .faq-nav { margin-inline: -25px; padding-inline: 25px; scroll-padding-inline: 25px; }
+  }
+  /* ≥1100px відступ над рядком задає окреме правило (40px) — віднімаємо запас. */
+  @media (min-width: 1100px) and (max-width: 1239px){
+    .faq-head .faq-nav { margin-top: 24px; }
+  }
+
+  /* Те саме для /experiences/ (і для всіх рядків .exp-filter на сайті).
+     1) Віджет «SILENT. + формат» у геро вражень: від 641 до 1099px розкладка
+        вертикальна (картка над заголовком), а базова картка лишалась вузькою
+        (620px, зліва) із порожнечею праворуч. Тепер — на всю ширину колонки,
+        нижчою пропорцією. Висоту рядка слів фіксуємо в пікселях (у cqw вона
+        росла б із шириною картки й лишала 3 рядки замість дуги); site.js міряє
+        її сам, тож кількість рядків і дуга перераховуються. Телефон не чіпаємо.
+     2) Фільтр тем: дев'ять чипів у кілька рядків → одна стрічка з прогортанням,
+        як на телефоні, скрізь, де вони не вміщаються в один рядок (до 1240px). */
+  @media (min-width: 641px) and (max-width: 1099px){
+    .exp-head-reel:not(.exp-head-reel--q) { max-width: none; width: 100%; aspect-ratio: 16 / 8; }
+    .exp-head-reel:not(.exp-head-reel--q) .exp-reel-list li { height: 62px; }
+  }
+  @media (min-width: 641px) and (max-width: 1239px){
+    html.js .exp-filter {
+      margin-top: 12px; margin-bottom: 2px;
+      flex-wrap: nowrap;
+      overflow-x: auto; overscroll-behavior-x: contain;
+      scrollbar-width: none;
+      margin-inline: -28px; padding: 16px 28px;
+      scroll-padding-inline: 28px;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 20px, #000 calc(100% - 32px), transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 20px, #000 calc(100% - 32px), transparent);
+    }
+    html.js .exp-filter::-webkit-scrollbar { display: none; }
+    html.js .exp-chip { flex: none; white-space: nowrap; }
+    .section-lead + .exp-filter { margin-top: 16px; }
+  }
+  @media (min-width: 1000px) and (max-width: 1239px){
+    html.js .exp-filter { margin-inline: -25px; padding-inline: 25px; scroll-padding-inline: 25px; }
+  }

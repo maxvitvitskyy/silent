@@ -663,7 +663,7 @@ T = {
 "Як ви про нас дізналися? (необов'язково)": 'How did you hear about us? (optional)',
 'Оберіть варіант': 'Choose one',
 'Рекомендація': 'Recommendation',
-'Був на події від SILENT': 'Attended a SILENT event',
+'На події від SILENT': 'At a SILENT event',
 'Інше': 'Other',
 "Коментар (необов'язково)": 'Comment (optional)',
 'Розкажіть більше про подію, побажання щодо локації, часу тощо':
@@ -703,6 +703,7 @@ T = {
 'Перед замовленням': 'Before you book',
 'Про Silent disco': 'About silent disco',
 'Київ · виїзд по Україні': 'Kyiv · we travel across Ukraine',
+'Написати в Telegram': 'Message on Telegram',
 'Для яких подій': 'For any occasion',
 'Усі 44 формати': 'All 44 formats',
 'Чого очікувати': 'What to expect',
@@ -789,7 +790,7 @@ window.SILENT_I18N = {
     contactBad: 'That contact does not look right. Leave a phone number, an @handle or an email so we can reach you.',
     datePast: 'That date has already passed. Pick the nearest one that works, or leave the field empty.',
     sending: 'Sending…',
-    netFail: 'Could not send — the connection seems to be gone. Try again or call +380 96 333 90 68.',
+    netFail: 'Could not send — the connection seems to be gone. Try again or message us on Telegram.',
     checking: (d) => `Checking <b>${d}</b>`
   }
 };
@@ -1536,8 +1537,8 @@ T_FAQ = {
 
 # --- блок над формою
 'Не знайшли <span class="em">відповідь</span>?': "Didn't find <span class=\"em\">your answer</span>?",
-'Питайте напряму — <a href="mailto:hello.silent.ua@gmail.com">hello.silent.ua@gmail.com</a> або <a href="tel:+380963339068">+380&nbsp;96&nbsp;333&nbsp;90&nbsp;68</a>. А якщо вже готові, просто перевірте дату своєї події й залиште заявку.':
-  'Ask us directly — <a href="mailto:hello.silent.ua@gmail.com">hello.silent.ua@gmail.com</a> or <a href="tel:+380963339068">+380&nbsp;96&nbsp;333&nbsp;90&nbsp;68</a>. And if you\'re ready, just check the date of your event and send a request.',
+'Питайте напряму — <a class="ask-link" href="mailto:hello.silent.ua@gmail.com">hello.silent.ua@gmail.com</a> або <a class="ask-link" href="https://t.me/silent_ukraine" target="_blank" rel="noopener noreferrer">напишіть нам у Telegram</a>. А якщо вже готові, просто перевірте дату своєї події й залиште заявку.':
+  'Ask us directly — <a class="ask-link" href="mailto:hello.silent.ua@gmail.com">hello.silent.ua@gmail.com</a> or <a class="ask-link" href="https://t.me/silent_ukraine" target="_blank" rel="noopener noreferrer">message us on Telegram</a>. And if you\'re ready, just check the date of your event and send a request.',
 }
 
 # Рядки, які виводить site.js. На FAQ немає hero, тож hero порожній (як і в
@@ -1573,7 +1574,7 @@ window.SILENT_I18N = {
     contactBad: 'That contact does not look right. Leave a phone number, an @handle or an email so we can reach you.',
     datePast: 'That date has already passed. Pick the nearest one that works, or leave the field empty.',
     sending: 'Sending…',
-    netFail: 'Could not send — the connection seems to be gone. Try again or call +380 96 333 90 68.',
+    netFail: 'Could not send — the connection seems to be gone. Try again or message us on Telegram.',
     checking: (d) => `Checking <b>${d}</b>`
   }
 };
