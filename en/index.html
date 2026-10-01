@@ -49,22 +49,23 @@
 @media (max-width:760px){.hero-dancer{background-image:url('../images/hero-dancer-m.webp')}}
 </style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Full-service silent disco in Kyiv and across Ukraine — SILENT</title>
-<meta name="description" content="Full-service silent disco in Kyiv and across Ukraine: wireless LED headphones, 3 music channels, delivery, setup and on-site support.">
+<title>SILENT — Full-service silent disco in Kyiv and across Ukraine</title>
+<meta name="description" content="SILENT — full-service silent disco in Kyiv and across Ukraine: wireless LED headphones, 3 music channels, delivery, setup and on-site support for your event.">
 <meta name="theme-color" content="#0a0a0b">
-<!-- sizes="any" лишається навмисно: іконку тут заміняють, лишаючи те саме ім'я,
-     і жорстко вписаний розмір застарівав би щоразу. Браузер масштабує PNG сам.
-     Обидва файли версіонуються за хешем вмісту — інакше favicon, який браузери
-     кешують упертіше за все, лишався б старим після заміни. -->
-<link rel="icon" type="image/png" sizes="any" href="../images/favicon.png?v=990ab5cf">
-<!-- Окремий файл, а не той самий: iOS кладе іконку на домашній екран без
-     прозорості, тож тут знак на суцільному чорному, а не на прозорому тлі. -->
-<link rel="apple-touch-icon" href="../images/apple-touch-icon.png?v=937edc04">
+<!-- Єдина бренд-іконка: лайм-коло зі знаком SILENT (images/favicon.png, 512px —
+     висхідний файл). Усі розміри з нього: /favicon.ico (16/32/48), /favicon-48x48.png
+     (кратний 48, як радить Google) і /apple-touch-icon.png (180px). Адреси стабільні,
+     без ?v=: файли лежать у корені під своїми іменами. -->
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicon-48x48.png" sizes="48x48">
+<!-- iOS кладе іконку на домашній екран без прозорості: тут той самий знак на
+     суцільному лаймовому квадраті (не на чорному), тож бренд виглядає однаково. -->
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="SILENT">
 <meta property="og:locale" content="en_US">
 <meta property="og:title" content="SILENT — one party. Three worlds of music.">
-<meta property="og:description" content="Full-service silent disco in Kyiv and across Ukraine: wireless LED headphones, 3 music channels, delivery, setup and on-site support.">
+<meta property="og:description" content="SILENT — full-service silent disco in Kyiv and across Ukraine: wireless LED headphones, 3 music channels, delivery, setup and on-site support for your event.">
 <!-- og:image і og:url мусять бути абсолютними: Facebook, Telegram та інші
      скребачки прев’ю не розв’язують відносні шляхи й просто лишаються без
      картинки. Канонічний адрес — на власному домені, щоб пошук не індексував
@@ -76,7 +77,7 @@
 <meta property="og:image:type" content="image/png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="SILENT — one party. Three worlds of music.">
-<meta name="twitter:description" content="Full-service silent disco in Kyiv and across Ukraine: wireless LED headphones, 3 music channels, delivery, setup and on-site support.">
+<meta name="twitter:description" content="SILENT — full-service silent disco in Kyiv and across Ukraine: wireless LED headphones, 3 music channels, delivery, setup and on-site support for your event.">
 <meta name="twitter:image" content="https://silent.org.ua/images/promo.png">
 <link rel="canonical" href="https://silent.org.ua/en/">
 <!-- Дві мовні версії одного сайту: кожна сторінка називає обидві й себе саму,
@@ -96,13 +97,26 @@
   "@context": "https://schema.org",
   "@graph": [
     {
+      "@type": "WebSite",
+      "@id": "https://silent.org.ua/#website",
+      "url": "https://silent.org.ua/",
+      "name": "SILENT",
+      "alternateName": "SILENT Silent Disco",
+      "inLanguage": [
+        "uk-UA",
+        "en"
+      ],
+      "publisher": {
+        "@id": "https://silent.org.ua/#organization"
+      }
+    },
+    {
       "@type": "Organization",
       "@id": "https://silent.org.ua/#organization",
       "name": "SILENT",
       "url": "https://silent.org.ua/",
       "logo": "https://silent.org.ua/images/SILENT_logo.png",
       "image": "https://silent.org.ua/images/promo.png",
-      "description": "SILENT — full-service silent disco in Kyiv and across Ukraine: LED headphones, 3 music channels, delivery, setup and on-site support. For weddings, company parties, private events, festivals and camps.",
       "areaServed": [
         {
           "@type": "City",
@@ -120,11 +134,14 @@
         "https://www.youtube.com/channel/UCYJcmOSbk5MDaNXDLjchVyQ"
       ],
       "email": "hello.silent.ua@gmail.com",
-      "knowsLanguage": ["uk-UA", "en"]
+      "knowsLanguage": [
+        "uk-UA",
+        "en"
+      ]
     },
     {
       "@type": "Service",
-      "@id": "https://silent.org.ua/#service",
+      "@id": "https://silent.org.ua/en/#service",
       "name": "Full-service silent disco",
       "serviceType": "Silent disco",
       "description": "Wireless LED headphones with three music channels, delivery, on-site setup, technical support through the evening, teardown and removal — as one service.",
@@ -149,6 +166,29 @@
           "minPrice": "9800",
           "priceCurrency": "UAH"
         }
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://silent.org.ua/en/#webpage",
+      "url": "https://silent.org.ua/en/",
+      "name": "SILENT — Full-service silent disco in Kyiv and across Ukraine",
+      "description": "SILENT — full-service silent disco in Kyiv and across Ukraine: wireless LED headphones, 3 music channels, delivery, setup and on-site support for your event.",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@id": "https://silent.org.ua/#website"
+      },
+      "about": {
+        "@id": "https://silent.org.ua/#organization"
+      },
+      "mainEntity": {
+        "@id": "https://silent.org.ua/en/#service"
+      },
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://silent.org.ua/images/promo.png",
+        "width": 1200,
+        "height": 630
       }
     }
   ]
@@ -214,7 +254,7 @@
 
 <div class="nav-mega-backdrop" aria-hidden="true"></div>
 <nav>
-  <a href="#top" class="logo" aria-label="Back to top" translate="no">SILENT<b>.</b></a>
+  <a href="/en/" class="logo" aria-label="Back to top" translate="no">SILENT<b>.</b></a>
   <div class="nav-links">
     <a href="#how">How it works</a>
     <a href="#offer">What's included</a>
@@ -235,15 +275,15 @@
               <div class="nav-mega-card">
                 <div class="nav-mega-cat-head">
                   <span class="nav-mega-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></svg></span>
-                  <a href="/experiences/?cat=business#list" class="nav-mega-cat">Business</a>
+                  <a href="/experiences/#cat-business" class="nav-mega-cat">Business</a>
                 </div>
                 <div class="nav-mega-qs">
-                  <a href="/experiences/?cat=business#list" class="nav-mega-q">Corporate events</a>
-                  <a href="/experiences/?cat=business#list" class="nav-mega-q">Conferences</a>
-                  <a href="/experiences/?cat=business#list" class="nav-mega-q">Charity galas</a>
-                  <a href="/experiences/?cat=business#list" class="nav-mega-q">Brand activations</a>
-                  <a href="/experiences/?cat=business#list" class="nav-mega-q">Release listening party</a>
-                  <a href="/experiences/?cat=business#list" class="nav-mega-q">Fashion shows</a>
+                  <a href="/experiences/#cat-business" class="nav-mega-q">Corporate events</a>
+                  <a href="/experiences/#cat-business" class="nav-mega-q">Conferences</a>
+                  <a href="/experiences/#cat-business" class="nav-mega-q">Charity galas</a>
+                  <a href="/experiences/#cat-business" class="nav-mega-q">Brand activations</a>
+                  <a href="/experiences/#cat-business" class="nav-mega-q">Release listening party</a>
+                  <a href="/experiences/#cat-business" class="nav-mega-q">Fashion shows</a>
                 </div>
               </div>
             </div>
@@ -251,15 +291,15 @@
               <div class="nav-mega-card">
                 <div class="nav-mega-cat-head">
                   <span class="nav-mega-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2L12 3Z"/></svg></span>
-                  <a href="/experiences/?cat=party#list" class="nav-mega-cat">Celebrations</a>
+                  <a href="/experiences/#cat-party" class="nav-mega-cat">Celebrations</a>
                 </div>
                 <div class="nav-mega-qs">
-                  <a href="/experiences/?cat=party#list" class="nav-mega-q">Weddings</a>
-                  <a href="/experiences/?cat=party#list" class="nav-mega-q">Silent disco</a>
-                  <a href="/experiences/?cat=party#list" class="nav-mega-q">House parties</a>
-                  <a href="/experiences/?cat=party#list" class="nav-mega-q">Bachelorette party</a>
-                  <a href="/experiences/?cat=party#list" class="nav-mega-q">Live DJ set</a>
-                  <a href="/experiences/?cat=party#list" class="nav-mega-q">Bar tours</a>
+                  <a href="/experiences/#cat-party" class="nav-mega-q">Weddings</a>
+                  <a href="/experiences/#cat-party" class="nav-mega-q">Silent disco</a>
+                  <a href="/experiences/#cat-party" class="nav-mega-q">House parties</a>
+                  <a href="/experiences/#cat-party" class="nav-mega-q">Bachelorette party</a>
+                  <a href="/experiences/#cat-party" class="nav-mega-q">Live DJ set</a>
+                  <a href="/experiences/#cat-party" class="nav-mega-q">Bar tours</a>
                 </div>
               </div>
             </div>
@@ -267,15 +307,15 @@
               <div class="nav-mega-card">
                 <div class="nav-mega-cat-head">
                   <span class="nav-mega-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a5 5 0 0 1 5 5c0 3-2 5.5-4 6.5l1 2.5h-4l1-2.5c-2-1-4-3.5-4-6.5a5 5 0 0 1 5-5Z"/><path d="M12 17v4"/></svg></span>
-                  <a href="/experiences/?cat=kids#list" class="nav-mega-cat">For kids</a>
+                  <a href="/experiences/#cat-kids" class="nav-mega-cat">For kids</a>
                 </div>
                 <div class="nav-mega-qs">
-                  <a href="/experiences/?cat=kids#list" class="nav-mega-q">Birthdays</a>
-                  <a href="/experiences/?cat=kids#list" class="nav-mega-q">School events</a>
-                  <a href="/experiences/?cat=kids#list" class="nav-mega-q">Kids’ parties</a>
-                  <a href="/experiences/?cat=kids#list" class="nav-mega-q">Open-air cinema</a>
-                  <a href="/experiences/?cat=kids#list" class="nav-mega-q">Quests</a>
-                  <a href="/experiences/?cat=kids#list" class="nav-mega-q">The Impostor game</a>
+                  <a href="/experiences/#cat-kids" class="nav-mega-q">Birthdays</a>
+                  <a href="/experiences/#cat-kids" class="nav-mega-q">School events</a>
+                  <a href="/experiences/#cat-kids" class="nav-mega-q">Kids’ parties</a>
+                  <a href="/experiences/#cat-kids" class="nav-mega-q">Open-air cinema</a>
+                  <a href="/experiences/#cat-kids" class="nav-mega-q">Quests</a>
+                  <a href="/experiences/#cat-kids" class="nav-mega-q">The Impostor game</a>
                 </div>
               </div>
             </div>
@@ -283,15 +323,15 @@
               <div class="nav-mega-card">
                 <div class="nav-mega-cat-head">
                   <span class="nav-mega-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 2 9l10 5 10-5-10-5Z"/><path d="M6 11.5V16c0 1.5 2.7 3 6 3s6-1.5 6-3v-4.5"/></svg></span>
-                  <a href="/experiences/?cat=education#list" class="nav-mega-cat">Schools</a>
+                  <a href="/experiences/#cat-education" class="nav-mega-cat">Schools</a>
                 </div>
                 <div class="nav-mega-qs">
-                  <a href="/experiences/?cat=education#list" class="nav-mega-q">Student events</a>
-                  <a href="/experiences/?cat=education#list" class="nav-mega-q">Training sessions</a>
-                  <a href="/experiences/?cat=education#list" class="nav-mega-q">Museums and galleries</a>
-                  <a href="/experiences/?cat=education#list" class="nav-mega-q">Hands-on workshops</a>
-                  <a href="/experiences/?cat=education#list" class="nav-mega-q">Simultaneous translation</a>
-                  <a href="/experiences/?cat=education#list" class="nav-mega-q">Music colleges</a>
+                  <a href="/experiences/#cat-education" class="nav-mega-q">Student events</a>
+                  <a href="/experiences/#cat-education" class="nav-mega-q">Training sessions</a>
+                  <a href="/experiences/#cat-education" class="nav-mega-q">Museums and galleries</a>
+                  <a href="/experiences/#cat-education" class="nav-mega-q">Hands-on workshops</a>
+                  <a href="/experiences/#cat-education" class="nav-mega-q">Simultaneous translation</a>
+                  <a href="/experiences/#cat-education" class="nav-mega-q">Music colleges</a>
                 </div>
               </div>
             </div>
@@ -299,15 +339,15 @@
               <div class="nav-mega-card">
                 <div class="nav-mega-cat-head">
                   <span class="nav-mega-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="17" r="2.5"/><circle cx="17" cy="15" r="2.5"/><path d="M9.5 17V5.5L19.5 4v10.5"/></svg></span>
-                  <a href="/experiences/?cat=culture#list" class="nav-mega-cat">Culture</a>
+                  <a href="/experiences/#cat-culture" class="nav-mega-cat">Culture</a>
                 </div>
                 <div class="nav-mega-qs">
-                  <a href="/experiences/?cat=culture#list" class="nav-mega-q">Guided tours</a>
-                  <a href="/experiences/?cat=culture#list" class="nav-mega-q">Intimate concerts</a>
-                  <a href="/experiences/?cat=culture#list" class="nav-mega-q">Immersive theatre</a>
-                  <a href="/experiences/?cat=culture#list" class="nav-mega-q">Stand-up and comedy</a>
-                  <a href="/experiences/?cat=culture#list" class="nav-mega-q">Expos and trade shows</a>
-                  <a href="/experiences/?cat=culture#list" class="nav-mega-q">Drive-in format</a>
+                  <a href="/experiences/#cat-culture" class="nav-mega-q">Guided tours</a>
+                  <a href="/experiences/#cat-culture" class="nav-mega-q">Intimate concerts</a>
+                  <a href="/experiences/#cat-culture" class="nav-mega-q">Immersive theatre</a>
+                  <a href="/experiences/#cat-culture" class="nav-mega-q">Stand-up and comedy</a>
+                  <a href="/experiences/#cat-culture" class="nav-mega-q">Expos and trade shows</a>
+                  <a href="/experiences/#cat-culture" class="nav-mega-q">Drive-in format</a>
                 </div>
               </div>
             </div>
@@ -315,14 +355,14 @@
               <div class="nav-mega-card">
                 <div class="nav-mega-cat-head">
                   <span class="nav-mega-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-6 4 12 2-6h6"/></svg></span>
-                  <a href="/experiences/?cat=sport#list" class="nav-mega-cat">Sport</a>
+                  <a href="/experiences/#cat-sport" class="nav-mega-cat">Sport</a>
                 </div>
                 <div class="nav-mega-qs">
-                  <a href="/experiences/?cat=sport#list" class="nav-mega-q">Sports events</a>
-                  <a href="/experiences/?cat=sport#list" class="nav-mega-q">Yoga and ecstatic dance</a>
-                  <a href="/experiences/?cat=sport#list" class="nav-mega-q">Dance competitions</a>
-                  <a href="/experiences/?cat=sport#list" class="nav-mega-q">Meditation</a>
-                  <a href="/experiences/?cat=sport#list" class="nav-mega-q">Runs and walks</a>
+                  <a href="/experiences/#cat-sport" class="nav-mega-q">Sports events</a>
+                  <a href="/experiences/#cat-sport" class="nav-mega-q">Yoga and ecstatic dance</a>
+                  <a href="/experiences/#cat-sport" class="nav-mega-q">Dance competitions</a>
+                  <a href="/experiences/#cat-sport" class="nav-mega-q">Meditation</a>
+                  <a href="/experiences/#cat-sport" class="nav-mega-q">Runs and walks</a>
                 </div>
               </div>
             </div>
@@ -330,15 +370,15 @@
               <div class="nav-mega-card">
                 <div class="nav-mega-cat-head">
                   <span class="nav-mega-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M2 20c0-3 2.5-5 6-5s6 2 6 5M14 15c2.8 0 5 2 5 5"/></svg></span>
-                  <a href="/experiences/?cat=community#list" class="nav-mega-cat">City events</a>
+                  <a href="/experiences/#cat-community" class="nav-mega-cat">City events</a>
                 </div>
                 <div class="nav-mega-qs">
-                  <a href="/experiences/?cat=community#list" class="nav-mega-q">Festivals</a>
-                  <a href="/experiences/?cat=community#list" class="nav-mega-q">Community gatherings</a>
-                  <a href="/experiences/?cat=community#list" class="nav-mega-q">Fairs and markets</a>
-                  <a href="/experiences/?cat=community#list" class="nav-mega-q">Inclusive events</a>
-                  <a href="/experiences/?cat=community#list" class="nav-mega-q">Events for older guests</a>
-                  <a href="/experiences/?cat=community#list" class="nav-mega-q">Hotels and resorts</a>
+                  <a href="/experiences/#cat-community" class="nav-mega-q">Festivals</a>
+                  <a href="/experiences/#cat-community" class="nav-mega-q">Community gatherings</a>
+                  <a href="/experiences/#cat-community" class="nav-mega-q">Fairs and markets</a>
+                  <a href="/experiences/#cat-community" class="nav-mega-q">Inclusive events</a>
+                  <a href="/experiences/#cat-community" class="nav-mega-q">Events for older guests</a>
+                  <a href="/experiences/#cat-community" class="nav-mega-q">Hotels and resorts</a>
                 </div>
               </div>
             </div>
@@ -346,12 +386,12 @@
               <div class="nav-mega-card">
                 <div class="nav-mega-cat-head">
                   <span class="nav-mega-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M5 21V11l7-4 7 4v10"/><path d="M9 21v-6h6v6"/></svg></span>
-                  <a href="/experiences/?cat=faith#list" class="nav-mega-cat">Churches & camps</a>
+                  <a href="/experiences/#cat-faith" class="nav-mega-cat">Churches & camps</a>
                 </div>
                 <div class="nav-mega-qs">
-                  <a href="/experiences/?cat=faith#list" class="nav-mega-q">Church services and gatherings</a>
-                  <a href="/experiences/?cat=faith#list" class="nav-mega-q">Church and youth camps</a>
-                  <a href="/experiences/?cat=faith#list" class="nav-mega-q">Camps and youth gatherings</a>
+                  <a href="/experiences/#cat-faith" class="nav-mega-q">Church services and gatherings</a>
+                  <a href="/experiences/#cat-faith" class="nav-mega-q">Church and youth camps</a>
+                  <a href="/experiences/#cat-faith" class="nav-mega-q">Camps and youth gatherings</a>
                 </div>
               </div>
             </div>
@@ -520,9 +560,9 @@
       <span class="hf-short"><span class="hf-line"><span class="hf-phrase active" data-ch="0">Full-service silent disco</span><span class="hf-phrase" data-ch="1">Silent disco</span><span class="hf-phrase" data-ch="2">Full-service quiet party</span> <span class="hf-dot">·</span> from <b>9,800 UAH</b></span><span class="hf-line">from <b>40 guests</b> <span class="hf-dot">·</span> Kyiv and across Ukraine</span></span>
     </p>
     <h1 class="hero-lines" id="heroLines">
-      <span>Three waves of music</span>
-      <span>playing all at once —</span>
-      <span>you pick <span class="accent-lime">yours</span>.</span>
+      <span>Silent Disco:</span>
+      <span>three waves of music —</span>
+      <span>you pick <span class="accent-lime">yours</span></span>
     </h1>
   </div>
 
@@ -736,7 +776,7 @@
         <span class="slab-num" aria-hidden="true">01</span>
         <div class="slab-body">
           <h3>Equipment</h3>
-          <p>Forty wireless headphones with LED backlighting, three channels playing at once. Transmitters and spare headphones included.</p>
+          <p>From forty wireless headphones with LED backlighting, three channels playing at once. Transmitters and spare headphones included.</p>
         </div>
         <span class="slab-meta">in the base price</span>
       </article>
@@ -1816,10 +1856,10 @@
       <nav class="f-col f-occasions">
         <h4>For any occasion</h4>
         <ul>
-          <li><a href="/experiences/?cat=business">Business</a></li>
-          <li><a href="/experiences/?cat=party">Celebrations</a></li>
-          <li><a href="/experiences/?cat=kids">For kids</a></li>
-          <li><a href="/experiences/?cat=culture">Culture</a></li>
+          <li><a href="/experiences/#cat-business">Business</a></li>
+          <li><a href="/experiences/#cat-party">Celebrations</a></li>
+          <li><a href="/experiences/#cat-kids">For kids</a></li>
+          <li><a href="/experiences/#cat-culture">Culture</a></li>
           <li><a href="/experiences/">All 44 formats</a></li>
         </ul>
       </nav>
@@ -1940,13 +1980,13 @@ window.SILENT_I18N = {
   currency: 'UAH',
   hero: [
     {
-      lines: ['Three waves of music', 'playing all at once —', 'you pick {yours}.'],
+      lines: ['Silent Disco:', 'three waves of music —', 'you pick {yours}'],
       mLines: [
-        ['Three waves of', ''],
-        ['music playing', ''],
-        ['all at once —', ''],
+        ['Silent Disco:', ''],
+        ['three waves', ''],
+        ['of music —', ''],
         ['you pick', 'sr'],
-        ['{yours}.', '']
+        ['{yours}', '']
       ],
       mSub: 'One night, three different dancefloors.',
       sub: "Three channels play at the same time in every guest's headphones. Some dance to house, some to pop — and all of them side by side, in the same room."
@@ -2004,6 +2044,6 @@ window.SILENT_I18N = {
 </script>
 <script src="../assets/vendor/gsap.min.js?v=fa1aeabc"></script>
 <script src="../assets/vendor/ScrollTrigger.min.js?v=ecd3242f"></script>
-<script src="../assets/site.js?v=e0539172"></script>
+<script src="../assets/site.js?v=39612968"></script>
 </body>
 </html>

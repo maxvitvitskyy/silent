@@ -24,33 +24,174 @@ NB = ' '   # нерозривний пробіл, яким в українсь�
 # ---------------------------------------------------------------- SEO / head
 HEAD = [
  ('<html lang="uk">', '<html lang="en">'),
- ('<title>Silent disco під ключ у Києві та по Україні — SILENT</title>',
-  '<title>Full-service silent disco in Kyiv and across Ukraine — SILENT</title>'),
- ('<meta name="description" content="Silent Disco під ключ у Києві та по Україні: бездротові LED-навушники, 3 канали музики, доставка, налаштування та супровід.">',
-  '<meta name="description" content="Full-service silent disco in Kyiv and across Ukraine: wireless LED headphones, 3 music channels, delivery, setup and on-site support.">'),
+ ('<title>SILENT — Silent Disco під ключ у Києві та по Україні</title>',
+  '<title>SILENT — Full-service silent disco in Kyiv and across Ukraine</title>'),
+ ('<meta name="description" content="SILENT — Silent Disco під ключ у Києві та по Україні: бездротові LED-навушники, 3 канали музики, доставка, налаштування й супровід на вашій події.">',
+  '<meta name="description" content="SILENT — full-service silent disco in Kyiv and across Ukraine: wireless LED headphones, 3 music channels, delivery, setup and on-site support for your event.">'),
  ('<meta property="og:locale" content="uk_UA">', '<meta property="og:locale" content="en_US">'),
  ('<meta property="og:title" content="SILENT — одна вечірка. Три музичні світи.">',
   '<meta property="og:title" content="SILENT — one party. Three worlds of music.">'),
- ('<meta property="og:description" content="Silent Disco під ключ у Києві та по Україні: бездротові LED-навушники, 3 канали музики, доставка, налаштування та супровід.">',
-  '<meta property="og:description" content="Full-service silent disco in Kyiv and across Ukraine: wireless LED headphones, 3 music channels, delivery, setup and on-site support.">'),
+ ('<meta property="og:description" content="SILENT — Silent Disco під ключ у Києві та по Україні: бездротові LED-навушники, 3 канали музики, доставка, налаштування й супровід на вашій події.">',
+  '<meta property="og:description" content="SILENT — full-service silent disco in Kyiv and across Ukraine: wireless LED headphones, 3 music channels, delivery, setup and on-site support for your event.">'),
  ('<meta property="og:url" content="https://silent.org.ua/">',
   '<meta property="og:url" content="https://silent.org.ua/en/">'),
  ('<meta name="twitter:title" content="SILENT — одна вечірка. Три музичні світи.">',
   '<meta name="twitter:title" content="SILENT — one party. Three worlds of music.">'),
- ('<meta name="twitter:description" content="Silent Disco під ключ у Києві та по Україні: бездротові LED-навушники, 3 канали музики, доставка, налаштування та супровід.">',
-  '<meta name="twitter:description" content="Full-service silent disco in Kyiv and across Ukraine: wireless LED headphones, 3 music channels, delivery, setup and on-site support.">'),
+ ('<meta name="twitter:description" content="SILENT — Silent Disco під ключ у Києві та по Україні: бездротові LED-навушники, 3 канали музики, доставка, налаштування й супровід на вашій події.">',
+  '<meta name="twitter:description" content="SILENT — full-service silent disco in Kyiv and across Ukraine: wireless LED headphones, 3 music channels, delivery, setup and on-site support for your event.">'),
  ('<link rel="canonical" href="https://silent.org.ua/">',
   '<link rel="canonical" href="https://silent.org.ua/en/">'),
- # JSON-LD: сутність та сама (ті самі @id), змінюється лише мова опису
- ('"description": "SILENT — Silent Disco під ключ у Києві та по Україні: LED-навушники, 3 канали музики, доставка, налаштування та супровід. Для весіль, корпоративів, вечірок, фестивалів, таборів і приватних подій.",',
-  '"description": "SILENT — full-service silent disco in Kyiv and across Ukraine: LED headphones, 3 music channels, delivery, setup and on-site support. For weddings, company parties, private events, festivals and camps.",'),
- ('"knowsLanguage": "uk-UA"', '"knowsLanguage": ["uk-UA", "en"]'),
- ('"name": "Silent disco під ключ",', '"name": "Full-service silent disco",'),
- ('"description": "Бездротові LED-навушники з трьома каналами музики, доставка, збірка на місці, технічний супровід протягом вечора, демонтаж і вивіз — однією послугою.",',
-  '"description": "Wireless LED headphones with three music channels, delivery, on-site setup, technical support through the evening, teardown and removal — as one service.",'),
- ('"description": "Від 9 800 грн: 40 навушників на 4 години. Фінальна ціна залежить від дати, локації, тривалості й формату.",',
-  '"description": "From 9,800 UAH: 40 headphones for 4 hours. The final price depends on the date, location, duration and format.",'),
+ # Логотип у шапці: українська веде на /, англійська — на /en/ (JS на самій
+ # головній гортає вгору без перезавантаження).
+ ('<a href="/" class="logo"', '<a href="/en/" class="logo"'),
 ]
+
+# ------------------------------------------------- JSON-LD головної (EN)
+# Одна організація на бренд, а не по одній на мову. WebSite і Organization
+# спільні й ідентичні в обох версіях (@id лишаються https://silent.org.ua/#…),
+# у англійській немає лише description організації (воно українське). Те, що
+# справді залежить від мови, — Service і WebPage — отримує власні адреси
+# /en/#service і /en/#webpage, тож два тексти не суперечать один одному.
+import json as _json
+_SITE = 'https://silent.org.ua'
+_LD = re.compile(r'(<script type="application/ld\+json">)(.*?)(</script>)', re.S)
+EN_SERVICE_NAME = 'Full-service silent disco'
+EN_SERVICE_DESC = ('Wireless LED headphones with three music channels, delivery, on-site setup, '
+                   'technical support through the evening, teardown and removal — as one service.')
+EN_OFFER_DESC = ('From 9,800 UAH: 40 headphones for 4 hours. The final price depends on the date, '
+                 'location, duration and format.')
+EN_PAGE_NAME = 'SILENT — Full-service silent disco in Kyiv and across Ukraine'
+EN_PAGE_DESC = ('SILENT — full-service silent disco in Kyiv and across Ukraine: wireless LED headphones, '
+                '3 music channels, delivery, setup and on-site support for your event.')
+
+
+def en_home_jsonld(s):
+    m = _LD.search(s)
+    d = _json.loads(m.group(2))
+    by = {n['@type']: n for n in d['@graph']}
+    by['Organization'].pop('description', None)
+    svc = by['Service']
+    svc['@id'] = _SITE + '/en/#service'
+    svc['name'] = EN_SERVICE_NAME
+    svc['description'] = EN_SERVICE_DESC
+    svc['offers']['description'] = EN_OFFER_DESC
+    page = by['WebPage']
+    page.update({'@id': _SITE + '/en/#webpage', 'url': _SITE + '/en/', 'name': EN_PAGE_NAME,
+                 'description': EN_PAGE_DESC, 'inLanguage': 'en',
+                 'mainEntity': {'@id': _SITE + '/en/#service'}})
+    text = '\n' + _json.dumps(d, ensure_ascii=False, indent=2) + '\n'
+    return s[:m.start(2)] + text + s[m.end(2):]
+
+
+# ------------------------------------------------- JSON-LD сторінки FAQ
+# Розмітка FAQPage збирається З ВИДИМОЇ сторінки при кожному запуску, а не
+# пишеться руками: раніше в ній було 9 питань, коли на сторінці їх 48.
+from html.parser import HTMLParser as _HP
+
+
+class _FaqParser(_HP):
+    """Збирає пари «питання → відповідь» з розмітки .faq-item. Кнопки-посилання
+    всередині відповіді (.faq-cta) в текст не потрапляють."""
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.items = []
+        self.mode = None      # 'q' | 'a'
+        self.depth = 0
+        self.skip = 0
+        self.cur = None
+
+    def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        cls = a.get('class', '') or ''
+        if tag == 'div' and 'faq-item' in cls.split():
+            self.cur = {'q': [], 'a': []}
+        elif self.cur is not None and tag == 'h3' and self.mode is None:
+            self.mode = 'q'
+        elif self.cur is not None and tag == 'div' and 'faq-a' in cls.split():
+            self.mode, self.depth = 'a', 1
+        elif self.mode == 'a':
+            if tag == 'div':
+                self.depth += 1
+            if tag == 'a' and 'faq-cta' in cls.split():
+                self.skip += 1
+            elif self.skip and tag == 'a':
+                self.skip += 1
+            if tag == 'p' and self.cur['a']:
+                self.cur['a'].append(' ')
+
+    def handle_endtag(self, tag):
+        if self.mode == 'q' and tag == 'h3':
+            self.mode = None
+        elif self.mode == 'a':
+            if tag == 'a' and self.skip:
+                self.skip -= 1
+            elif tag == 'div':
+                self.depth -= 1
+                if self.depth == 0:
+                    self.mode = None
+                    q = re.sub(r'\s+', ' ', ''.join(self.cur['q']).replace('\xa0', ' ')).strip()
+                    ans = re.sub(r'\s+', ' ', ''.join(self.cur['a']).replace('\xa0', ' ')).strip()
+                    if q and ans:
+                        self.items.append((q, ans))
+                    self.cur = None
+
+    def handle_data(self, data):
+        if self.cur is None:
+            return
+        if self.mode == 'q':
+            self.cur['q'].append(data)
+        elif self.mode == 'a' and not self.skip:
+            self.cur['a'].append(data)
+
+
+def faq_pairs(html_text):
+    p = _FaqParser()
+    p.feed(html_text)
+    return p.items
+
+
+def set_faq_jsonld(s, lang):
+    """Замінює всі ld+json-блоки сторінки FAQ одним: FAQPage + BreadcrumbList."""
+    en = lang == 'en'
+    base = _SITE + ('/en/faq/' if en else '/faq/')
+    home = _SITE + ('/en/' if en else '/')
+    title = re.search(r'<title>(.*?)</title>', s).group(1)
+    desc = re.search(r'<meta name="description" content="([^"]*)"', s).group(1)
+    pairs = faq_pairs(s)
+    if len(pairs) < 10:
+        sys.exit('FAQ: знайдено лише %d питань — розбір розмітки зламався' % len(pairs))
+    crumb_home, crumb_faq = ('Home', 'Questions and answers') if en else ('Головна', 'Питання і відповіді')
+    graph = [
+        {'@type': 'FAQPage', '@id': base + '#webpage', 'url': base, 'name': title, 'description': desc,
+         'inLanguage': 'en' if en else 'uk-UA',
+         'isPartOf': {'@id': _SITE + '/#website'}, 'publisher': {'@id': _SITE + '/#organization'},
+         'breadcrumb': {'@id': base + '#breadcrumb'},
+         'mainEntity': [{'@type': 'Question', 'name': q,
+                         'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in pairs]},
+        {'@type': 'BreadcrumbList', '@id': base + '#breadcrumb', 'itemListElement': [
+            {'@type': 'ListItem', 'position': 1, 'name': crumb_home, 'item': home},
+            {'@type': 'ListItem', 'position': 2, 'name': crumb_faq, 'item': base}]},
+    ]
+    block = ('<script type="application/ld+json">\n' +
+             _json.dumps({'@context': 'https://schema.org', '@graph': graph}, ensure_ascii=False, indent=2) +
+             '\n</script>')
+    ms = list(_LD.finditer(s))
+    if not ms:
+        sys.exit('FAQ: немає жодного ld+json-блоку, нікуди вставляти')
+    # усі блоки, окрім першого, видаляємо; перший замінюємо
+    for m in reversed(ms[1:]):
+        s = s[:m.start()] + s[m.end():]
+    m = ms[0]
+    s = s[:m.start()] + block + s[m.end():]
+    return s
+
+
+def build_faq_ua_jsonld():
+    s = io.open(SRC_FAQ, encoding='utf-8').read()
+    s = set_faq_jsonld(s, 'uk')
+    io.open(SRC_FAQ, 'w', encoding='utf-8').write(s)
+    return len(faq_pairs(s))
+
 
 # ------------------------------------------------------- SEO / head 404
 # У 404.html усі адреси абсолютні (файл віддають замість будь-якої
@@ -269,9 +410,8 @@ T = {
 '40 гостей': '40 guests',
 'Київ та Україна': 'Kyiv and across Ukraine',
 'від <b>': 'from <b>',
-'Три хвилі музики': 'Three waves of music',
-'грають одночасно —': 'playing all at once —',
-'ви обираєте <span class="accent-lime">свою</span>.': 'you pick <span class="accent-lime">yours</span>.',
+'три хвилі музики —': 'three waves of music —',
+'ви обираєте <span class="accent-lime">свою</span>': 'you pick <span class="accent-lime">yours</span>',
 'Три канали звучать паралельно в'+NB+'навушниках кожного гостя. Хтось танцює під хаус, хтось під поп'+NB+'— і'+NB+'всі поруч, в'+NB+'одному залі.':
   "Three channels play at the same time in every guest's headphones. Some dance to house, some to pop — and all of them side by side, in the same room.",
 
@@ -346,8 +486,8 @@ T = {
 'Silent disco під ключ — комплект обладнання, логістика й супровід у межах однієї послуги.':
   'Full-service silent disco — the equipment, the logistics and the on-site support all within one service.',
 'Обладнання': 'Equipment',
-'40 бездротових навушників з\xa0LED-підсвіткою, три канали грають одночасно. Передавачі та\xa0запасні навушники в\xa0комплекті.':
-  'Forty wireless headphones with LED backlighting, three channels playing at once. Transmitters and spare headphones included.',
+'Від 40 бездротових навушників з\xa0LED-підсвіткою, три канали грають одночасно. Передавачі та\xa0запасні навушники в\xa0комплекті.':
+  'From forty wireless headphones with LED backlighting, three channels playing at once. Transmitters and spare headphones included.',
 'Доставка й монтаж': 'Delivery and setup',
 'Приїжджаємо заздалегідь, збираємо систему й\xa0перевіряємо сигнал ще\xa0до\xa0першого гостя\xa0— вам не\xa0треба цим перейматися.':
   "We arrive early, assemble the system and check the signal before your first guest — you don't need to worry about it.",
@@ -733,13 +873,13 @@ window.SILENT_I18N = {
   currency: 'UAH',
   hero: [
     {
-      lines: ['Three waves of music', 'playing all at once —', 'you pick {yours}.'],
+      lines: ['Silent Disco:', 'three waves of music —', 'you pick {yours}'],
       mLines: [
-        ['Three waves of', ''],
-        ['music playing', ''],
-        ['all at once —', ''],
+        ['Silent Disco:', ''],
+        ['three waves', ''],
+        ['of music —', ''],
         ['you pick', 'sr'],
-        ['{yours}.', '']
+        ['{yours}', '']
       ],
       mSub: 'One night, three different dancefloors.',
       sub: "Three channels play at the same time in every guest's headphones. Some dance to house, some to pop — and all of them side by side, in the same room."
@@ -855,7 +995,7 @@ def assert_translated(s, name):
 # Шлях шукаємо без початку, тож під правило підпадають усі написання відразу:
 # images/…, ../images/… і /images/…
 STAMPED = re.compile(
-    r'((?:assets/site\.(?:css|js))|(?:assets/vendor/(?:gsap|ScrollTrigger|Flip)\.min\.js)|(?:images/(?:favicon|apple-touch-icon)\.png))'
+    r'((?:assets/site\.(?:css|js))|(?:assets/vendor/(?:gsap|ScrollTrigger|Flip)\.min\.js))'
     r'(\?v=[0-9a-f]+)?')
 
 # Ключем служить сам шлях, а не розширення. Це не дрібниця: іконок дві, обидві
@@ -867,8 +1007,6 @@ STAMPED_FILES = (
     'assets/vendor/gsap.min.js',
     'assets/vendor/ScrollTrigger.min.js',
     'assets/vendor/Flip.min.js',
-    'images/favicon.png',
-    'images/apple-touch-icon.png',
 )
 
 
@@ -1259,6 +1397,8 @@ def build():
             sys.exit('немає в index.html: ' + old[:80])
         s = s.replace(old, new)
 
+    s = en_home_jsonld(s)
+
     if s.count(SWITCH_UA) != 1:
         sys.exit('перемикач мови в меню не знайдено')
     s = s.replace(SWITCH_UA, SWITCH_EN)
@@ -1345,8 +1485,8 @@ DST_FAQ = os.path.join(ROOT, 'en', 'faq', 'index.html')
 
 HEAD_FAQ = [
  ('<html lang="uk">', '<html lang="en">'),
- ('<title>Питання і відповіді про SILENT — silent disco під ключ</title>',
-  '<title>Questions and answers about SILENT — full-service silent disco</title>'),
+ ('<title>Питання і відповіді про SILENT — усе про Silent Disco</title>',
+  '<title>Questions and answers about SILENT — everything about silent disco</title>'),
  ('<meta name="description" content="Усе, що зазвичай питають перед замовленням SILENT: формат, організація, ціна, обладнання. Коротко й по суті, без брошурного тону.">',
   '<meta name="description" content="Everything people usually ask before booking SILENT: the format, organising, price, equipment. Short and to the point, no brochure talk.">'),
  ('<meta property="og:locale" content="uk_UA">', '<meta property="og:locale" content="en_US">'),
@@ -1358,8 +1498,8 @@ HEAD_FAQ = [
   '<meta property="og:url" content="https://silent.org.ua/en/faq/">'),
  ('<meta name="twitter:title" content="Питання і відповіді про SILENT">',
   '<meta name="twitter:title" content="Questions and answers about SILENT">'),
- ('<meta name="twitter:description" content="Усе, що зазвичай питають перед замовленням silent disco під ключ.">',
-  '<meta name="twitter:description" content="Everything people usually ask before booking a full-service silent disco.">'),
+ ('<meta name="twitter:description" content="Усе, що зазвичай питають перед замовленням SILENT: формат, ціна, обладнання, умови.">',
+  '<meta name="twitter:description" content="Everything people usually ask before booking SILENT: format, price, equipment, terms.">'),
  ('<link rel="canonical" href="https://silent.org.ua/faq/">',
   '<link rel="canonical" href="https://silent.org.ua/en/faq/">'),
 ]
@@ -1662,6 +1802,9 @@ def build_faq():
     for k in sorted(merged, key=len, reverse=True):
         s = flexible(k).sub(lambda mm, v=merged[k]: v, s)
 
+    # FAQPage і хлібні крихти — заново з англійського тексту сторінки.
+    s = set_faq_jsonld(s, 'en')
+
     os.makedirs(os.path.dirname(DST_FAQ), exist_ok=True)
     io.open(DST_FAQ, 'w', encoding='utf-8').write(s)
     assert_translated(s, 'en/faq/index.html')
@@ -1676,6 +1819,7 @@ if __name__ == '__main__':
     # Стрічку сценаріїв збираємо до позначки версій: вона переписує сторінки
     # досвідів, і хеш активів має лягти вже на готовий вміст.
     build_experience_strips()
+    print('FAQ JSON-LD (uk):', build_faq_ua_jsonld(), 'питань')
     build_faq()
     # Останнім кроком, коли обидві англійські сторінки вже на диску: позначка
     # лягає на всі чотири файли одразу.

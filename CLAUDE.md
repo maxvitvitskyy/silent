@@ -228,6 +228,31 @@ python3 tools/build_en.py
   давай один із цих класів і НЕ задавай їй власних `font-*`/`letter-spacing`
   (раніше крихта й story-eyebrow були в Unbounded 0.14em — на кожній сторінці
   рубрика виглядала інакше). Відрізняється лише колір за роллю.
+- **SEO-структура (після аудиту 1 жовтня 2026).**
+  Title головної починається з бренду («SILENT — Silent Disco під ключ у Києві
+  та по Україні»), title /faq/ — інформаційний, без точної комерційної фрази
+  головної. JSON-LD головної — один `@graph`: WebSite → Organization → Service
+  → WebPage зі стабільними `@id` (`/#website`, `/#organization`, `/#service`,
+  `/#webpage`); внутрішні сторінки мають власний WebPage/CollectionPage/FAQPage
+  і лише посилаються на `#website`/`#organization` — нових Organization не
+  створюємо. EN: WebSite і Organization спільні, Service і WebPage свої
+  (`/en/#service`, `/en/#webpage`) — генерує `tools/build_en.py`
+  (`en_home_jsonld`). **FAQPage-розмітку НЕ пишемо руками:** `set_faq_jsonld`
+  збирає її з видимих `.faq-item` при кожному запуску `build_en.py` (укр. і англ.).
+  Іконки: `/favicon.ico`, `/favicon-48x48.png`, `/apple-touch-icon.png` у корені,
+  усе з `images/favicon.png`; без `?v=` (заміна файлу = нове ім'я). Теми каталогу
+  в посиланнях — хеш `/experiences/#cat-business`, а не `?cat=` (щоб Google не
+  бачив вісім адрес однієї сторінки); `?cat=` лишається робочим для старих
+  посилань. Логотип у шапці — `href="/"` (на головній JS гортає вгору).
+- **Dashboard заявок — НЕ на GitHub Pages.** `/dashboard/` — порожня заглушка
+  без даних і запитів. Інтерфейс і дані живуть в Apps Script Web App
+  (`tools/dashboard-apps-script/`: `Code.gs` + `Index.html`), розгортання
+  «Execute as: Me», «Who has access: Only myself»; дані віддає серверна функція
+  `dashboardData()` через `google.script.run`, публічного JSON-endpoint і секретів
+  у фронтенді немає. Не повертати `fetch` до публічної адреси й не комітити в
+  `Code.gs` реальний `SHEET_ID` (його вставляють лише в редакторі Apps Script).
+  Старий публічний READ_ENDPOINT вважається скомпрометованим (був у відкритому
+  git) — його розгортання треба архівувати.
 - **`sitemap.xml` ведеться руками.** Нова сторінка = новий `<url>`; пара
   UA/EN — з однаковими `xhtml:link` в обох записах. /privacy/ (noindex)
   туди не входить.

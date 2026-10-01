@@ -6,6 +6,45 @@
    набір рядків. */
 const I18N = window.SILENT_I18N;
 
+// ---- Надійна прокрутка до елемента ----
+// Рідний scrollIntoView({behavior:'smooth'}) обчислює ціль ОДИН раз на старті.
+// На довгих сторінках, де під час руху ще з'являються картки (GSAP-поява міняє
+// висоти), ціль зсувається, і прокрутка зупинялась на картках посередині шляху:
+// з першого кліку «Замовити цей досвід» до форми не доходило. Тут ціль
+// перераховується КОЖЕН кадр, рух іде за власною кривою, а наприкінці сторінка
+// гарантовано стоїть на формі. Щойно людина сама торкнулась прокрутки (колесо,
+// дотик, клавіша), ми відпускаємо керування. prefers-reduced-motion — миттєво.
+let __scrollRaf = 0;
+function scrollToEl(el, extraOffset){
+  if (!el) return;
+  cancelAnimationFrame(__scrollRaf);
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const target = function(){
+    const mt = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+    return Math.max(0, el.getBoundingClientRect().top + window.scrollY - mt - (extraOffset || 0));
+  };
+  if (reduce){ window.scrollTo({ top: target(), left: 0, behavior: 'instant' }); return; }
+  const from = window.scrollY, dist0 = Math.abs(target() - from);
+  const dur = Math.min(1500, 500 + dist0 * 0.25);
+  const t0 = performance.now();
+  let stop = false, settled = 0;
+  const off = function(){ stop = true; };
+  ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(function(ev){
+    window.addEventListener(ev, off, { passive: true, once: true });
+  });
+  const ease = function(p){ return 1 - Math.pow(1 - p, 3); };
+  (function frame(now){
+    if (stop) return;
+    const p = Math.min(1, (now - t0) / dur);
+    const to = target();
+    const y = p < 1 ? from + (to - from) * ease(p) : to;
+    window.scrollTo({ top: y, left: 0, behavior: 'instant' });
+    if (p < 1){ __scrollRaf = requestAnimationFrame(frame); return; }
+    // Після кінця кривої ще кілька кадрів доводимо, якщо макет досі зсувається.
+    if (Math.abs(window.scrollY - to) > 1 && settled++ < 40){ __scrollRaf = requestAnimationFrame(frame); }
+  })(t0);
+}
+
 // ---- Замовлення досвіду з картки (.uc-order) — спільне для всіх сторінок ----
 // Сторінки з власною формою (головна, /experiences/corporate/) заповнюють
 // #comment і скролять до #book на місці. Сторінка-каталог (/experiences/)
@@ -13,7 +52,7 @@ const I18N = window.SILENT_I18N;
 // (?uc=<назва>#book) — а блок унизу файлу, що перевіряє цей параметр після
 // завантаження, викликає ту саму функцію другою гілкою (форма вже є) і
 // довершує префіл так, ніби це був клік на місці.
-function orderExperience(name){
+function orderExperience(name, opts){
   const form = document.getElementById('book');
   if (!form){
     location.href = '/?uc=' + encodeURIComponent(name) + '#book';
@@ -29,7 +68,10 @@ function orderExperience(name){
     note.style.display = 'block';
     note.innerHTML = I18N.uc.note(name);
   }
-  form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // noScroll — прокрутку веде той, хто викликав (прихід з іншої сторінки: див.
+  // «Прийом ?uc=…» нижче, там повільна smooth-прокрутка через цілу головну
+  // обривалась посередині, бо макет під нею ще змінювався).
+  if (!(opts && opts.noScroll)) scrollToEl(form);
   setTimeout(() => { if (field) field.focus({ preventScroll: true }); }, 600);
 }
 
@@ -4393,8 +4435,52 @@ function orderExperience(name){
     // яку відкрив би клік по чіпу, тільки одразу при заході на сторінку.
     // Невідома чи відсутня тема — сторінка просто лишається на «Усі», без
     // помилки.
-    const wanted = new URLSearchParams(window.location.search).get('cat');
-    if (wanted && chips.some(ch => ch.dataset.cat === wanted)) apply(wanted, false);
+    // ---- Тема з мега-меню / підвалу: /experiences/#cat-business ----
+    // Раніше ці посилання були /experiences/?cat=business#list — для Google то
+    // вісім різних адрес однієї сторінки. Тепер адреса одна, а тема — у хеші
+    // (#cat-…): сервер і пошуковик бачать лише /experiences/, а ця сторінка за
+    // хешем ввімкне потрібний фільтр і прокрутить до списку, як і раніше.
+    // Старий ?cat= лишається робочим для вже поширених посилань.
+    const catFromUrl = () => {
+      const m = /^#cat-([a-z-]+)$/.exec(location.hash);
+      return m ? m[1] : new URLSearchParams(location.search).get('cat');
+    };
+    const known = (c) => !!c && chips.some(ch => ch.dataset.cat === c);
+    const listEl = document.getElementById('list');
+    const alignList = () => {
+      if (!listEl) return;
+      const mt = parseFloat(getComputedStyle(listEl).scrollMarginTop) || 0;
+      window.scrollTo({ top: listEl.getBoundingClientRect().top + window.scrollY - mt, left: 0, behavior: 'instant' });
+    };
+    const first = catFromUrl();
+    if (known(first)){
+      apply(first, false);
+      const chip = chips.find(ch => ch.dataset.cat === first);
+      if (chip) centerChip(bar, chip);
+      // Той самий прийом, що й для ?uc=: вирівнюємо зараз і ще раз, коли сторінка
+      // довантажилась, щоб ціль не втекла разом із макетом.
+      alignList();
+      window.addEventListener('load', function(){ alignList(); setTimeout(alignList, 350); });
+    }
+    // Клік по темі в мега-меню чи підвалі, коли ми вже на цій сторінці.
+    document.addEventListener('click', function(e){
+      const a = e.target.closest && e.target.closest('a[href^="/experiences/#cat-"]');
+      if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button > 0) return;
+      if (location.pathname.replace(/\/$/, '') !== '/experiences') return;
+      const c = a.getAttribute('href').split('#cat-')[1];
+      if (!known(c)) return;
+      e.preventDefault();
+      history.pushState(null, '', '/experiences/#cat-' + c);
+      apply(c, true);
+      const chip = chips.find(ch => ch.dataset.cat === c);
+      if (chip) centerChip(bar, chip);
+      if (listEl) scrollToEl(listEl);
+    });
+    // Назад/вперед у історії: повертаємо тему з адреси (немає хеша — «Усі»).
+    window.addEventListener('popstate', function(){
+      const c = catFromUrl();
+      apply(known(c) ? c : 'all', false);
+    });
   })();
 
   // Знімок і навушники на сторінці «Тихі враження» йдуть за активним каналом.
@@ -5083,6 +5169,34 @@ function orderExperience(name){
   }
   initQuestionCloud(document.getElementById('faqReelList'));
 
+  // Усі кнопки «#book» на самій сторінці (шапка, геро, стрічки) ведуть до форми
+  // тією ж надійною прокруткою, а не рідним якорем: на довгих сторінках із
+  // картками, що з'являються під час руху, рідний якір так само міг зупинитись
+  // на півдорозі. Меню-панель на телефоні має власну логіку закриття — її не чіпаємо.
+  document.addEventListener('click', function(e){
+    const a = e.target.closest && e.target.closest('a[href="#book"]');
+    if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button > 0) return;
+    if (a.closest('.nav-drawer')) return;
+    const form = document.getElementById('book');
+    if (!form) return;
+    e.preventDefault();
+    history.replaceState(null, '', '#book');
+    scrollToEl(form);
+  });
+
+  // Логотип у шапці тепер справжнє посилання на головну (/ або /en/), а не #top.
+  // Коли ми вже на головній, перезавантажувати її не треба: гортаємо вгору плавно,
+  // як і було, і прибираємо хеш з адреси.
+  document.addEventListener('click', function(e){
+    const a = e.target.closest && e.target.closest('a.logo');
+    if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button > 0) return;
+    const path = new URL(a.getAttribute('href'), location.href).pathname;
+    if (path !== location.pathname) return;
+    e.preventDefault();
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+  });
+
   // ---- Прийом ?uc=... після переходу зі сторінки-каталогу /experiences/ ----
   // Та сторінка своєї форми не має, тож кнопка «Замовити цей досвід» веде
   // сюди через query-параметр замість локального scrollIntoView (дивись
@@ -5097,7 +5211,34 @@ function orderExperience(name){
     const params = new URLSearchParams(location.search);
     const wanted = params.get('uc');
     if (!wanted || !document.getElementById('book')) return;
-    orderExperience(wanted);
+    orderExperience(wanted, { noScroll: true });
+    // Дійти до форми ТОЧНО. Раніше тут була одна smooth-прокрутка через усю
+    // головну (≈10 000px), і вона зупинялась десь на півдорозі: поки браузер
+    // котив сторінку, під нею ще дозавантажувались шрифти й зображення,
+    // перераховувались висоти й тригери, і ціль «втікала». Тепер: миттєве
+    // вирівнювання по формі на старті, на load і щоразу, коли змінюється висота
+    // сторінки — протягом перших ~3с після завантаження. Щойно людина сама
+    // торкнулась прокрутки (колесо, дотик, клавіша), вирівнювання припиняється.
+    (function(){
+      const form = document.getElementById('book');
+      let stop = false;
+      ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(function(ev){
+        window.addEventListener(ev, function(){ stop = true; }, { passive: true, once: true });
+      });
+      const go = function(){
+        if (stop) return;
+        const mt = parseFloat(getComputedStyle(form).scrollMarginTop) || 0;
+        const top = form.getBoundingClientRect().top + window.scrollY - mt;
+        if (Math.abs(top - window.scrollY) > 2) window.scrollTo({ top: top, left: 0, behavior: 'instant' });
+      };
+      go();
+      let deadline = performance.now() + 6000;
+      window.addEventListener('load', function(){ deadline = performance.now() + 3000; go(); [250, 700, 1400, 2500].forEach(function(ms){ setTimeout(go, ms); }); });
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(go);
+      if ('ResizeObserver' in window){
+        new ResizeObserver(function(){ if (performance.now() < deadline) go(); }).observe(document.body);
+      }
+    })();
     params.delete('uc');
     const rest = params.toString();
     const clean = location.pathname + (rest ? '?' + rest : '') + location.hash;
