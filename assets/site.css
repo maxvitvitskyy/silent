@@ -7856,13 +7856,9 @@
   }
   button:disabled > input.hx-overlay { display: none; }
 
-/* Телефон, тема обрана (коротка скінченна стрічка): картки не пролітають усю
-   доріжку одним махом, а зупиняються по одній; сторінка за краєм не відскакує. */
+/* Телефон, тема обрана: сторінка за краєм стрічки не відскакує. Прилипання
+   (scroll-snap) тут пробували — картки гортались туго, без «польоту», а
+   перемикання тем підвисало, тож інерція лишається рідною. */
 @media (max-width: 640px){
-  .uc-gallery.is-simple .uc-grid {
-    scroll-snap-type: x mandatory;
-    scroll-padding-inline: 28px;
-    overscroll-behavior-x: contain;
-  }
-  .uc-gallery.is-simple .uc-card { scroll-snap-align: start; scroll-snap-stop: always; }
+  .uc-gallery.is-simple .uc-grid { overscroll-behavior-x: contain; }
 }
