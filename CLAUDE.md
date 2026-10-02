@@ -254,11 +254,14 @@ python3 tools/build_en.py
   Старий публічний READ_ENDPOINT вважається скомпрометованим (був у відкритому
   git) — його розгортання треба архівувати.
 - **Вібровідгук — `haptic` на початку `assets/site.js`.** Лише сенсорні пристрої
-  без `prefers-reduced-motion`. Android: `navigator.vibrate`; iPhone: прихований
-  `<input type="checkbox" switch>`, який «клацається» з обробника жесту (iOS 17.4+,
-  Safari не має Vibration API). Викликати ТІЛЬКИ від справжніх жестів
-  (`e.isTrusted`), не від програмних `.click()`/змін значення. Підключено: кроки
-  повзунка й прапорці калькулятора, кнопки годин, усі FAQ-акордеони.
+  без `prefers-reduced-motion`. Android: `navigator.vibrate` на справжній клік.
+  **iPhone: програмні виклики (`label.click()` на `<input switch>`) відгуку НЕ дають
+  (перевірено на пристрої), дає лише справжній дотик по перемикачу** — тому
+  `haptic.attach(el)` кладе поверх елемента прозорий `<input type="checkbox" switch>`
+  (`.hx-overlay`, opacity 0): палець потрапляє в нього, клік спливає до елемента.
+  Прапорець у `<label>` пересилається вручну (`forward`). Підключено в кінці
+  `site.js`: `.faq-q`, кнопки годин, `.ch-toggle`, прапорці калькулятора. Повзунок
+  на iPhone відгуку не має (його не накрити), на Android є `haptic.tick()`.
 - **`sitemap.xml` ведеться руками.** Нова сторінка = новий `<url>`; пара
   UA/EN — з однаковими `xhtml:link` в обох записах. /privacy/ (noindex)
   туди не входить.

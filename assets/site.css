@@ -7841,3 +7841,13 @@
      останнім абзацом, як в одноабзацних відповідях. */
   .faq-a p:has(+ p) { padding-bottom: 12px; }
 
+  /* Прозорий справжній перемикач поверх елемента (лише iPhone, див. haptic у site.js):
+     палець потрапляє в нього, iOS дає тактильний тик. Невидимий, не впливає на
+     розкладку; для вимкненої кнопки його не показуємо. */
+  input.hx-overlay[switch] {
+    position: absolute; left: 0; top: 0; width: 100%; height: 100%;
+    margin: 0; padding: 0; opacity: 0; z-index: 5;
+    -webkit-tap-highlight-color: transparent;
+  }
+  button:disabled > input.hx-overlay { display: none; }
+

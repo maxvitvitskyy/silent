@@ -8,17 +8,22 @@ const I18N = window.SILENT_I18N;
 
 // ---- Вібровідгук (haptic) ----
 // Лише на сенсорних пристроях і не при prefers-reduced-motion; на десктопі всі
-// виклики — порожні. Два шляхи:
-//  • Android (Chrome/Firefox): navigator.vibrate(мс) — коротка вібрація;
-//  • iPhone/iPad: Safari не має Vibration API, але з iOS 17.4 перемикання
-//    <input type="checkbox" switch> дає системний легкий «тик». Ми тримаємо один
-//    прихований такий перемикач і «клацаємо» його з обробника жесту користувача
-//    (програмний виклик поза жестом iOS ігнорує). Інтенсивність на iOS не
-//    регулюється — це завжди один системний тик; на Android «medium» трохи довший.
-// Користувач може вимкнути це системно: iOS «Системні відгуки» у налаштуваннях
-// «Звуки та тактильні сигнали»; Android «Вібрація при дотику».
+// виклики порожні.
+//  • Android (Chrome/Firefox): navigator.vibrate(мс) на справжній дотик.
+//  • iPhone/iPad: Safari не має Vibration API, а ПРОГРАМНЕ перемикання
+//    <input type="checkbox" switch> на реальних пристроях відгуку НЕ дає (перевірено
+//    на iPhone: label.click(), свіжі/постійні елементи, повні послідовності подій —
+//    жоден варіант). Відгук дає лише СПРАВЖНІЙ дотик пальцем по такому перемикачу.
+//    Тому поверх елемента кладемо прозорий справжній перемикач (opacity 0): палець
+//    потрапляє саме в нього — iOS дає системний тик, а клік по ньому спливає до
+//    самого елемента й виконує його звичайну дію (перевірено: дія виконується один
+//    раз, лічильник +1 на дотик). Виняток — прапорець усередині <label>: клік по
+//    накладці його не перемикає, тому дію пересилаємо вручну (opts.forward).
+//    Повзунок так «накрити» не можна — його треба перетягувати, тож на iPhone відгуку
+//    на кроках повзунка нема (на Android є: tick()).
+// Вимикається системно: iOS «Системні відгуки», Android «Вібрація при дотику».
 const haptic = (function(){
-  const noop = { light(){}, medium(){} };
+  const noop = { tick(){}, attach(){} };
   try {
     const touch = window.matchMedia('(pointer: coarse)').matches;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -26,28 +31,31 @@ const haptic = (function(){
     const ios = /iP(hone|ad|od)/.test(navigator.userAgent) ||
                 (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     if (!ios && typeof navigator.vibrate === 'function'){
+      const vib = function(ms){ try { navigator.vibrate(ms); } catch (e) {} };
       return {
-        light(){ try { navigator.vibrate(8); } catch (e) {} },
-        medium(){ try { navigator.vibrate(16); } catch (e) {} }
+        tick(){ vib(8); },
+        attach(el){ el.addEventListener('click', function(e){ if (e.isTrusted) vib(16); }); }
       };
     }
     if (!ios) return noop;
-    let label = null;
-    const ensure = function(){
-      if (label) return label;
-      label = document.createElement('label');
-      label.setAttribute('aria-hidden', 'true');
-      label.style.display = 'none';
-      const input = document.createElement('input');
-      input.type = 'checkbox';
-      input.setAttribute('switch', '');
-      input.tabIndex = -1;
-      label.appendChild(input);
-      document.head.appendChild(label);
-      return label;
+    return {
+      tick(){},
+      attach(el, opts){
+        if (!el || el.querySelector(':scope > .hx-overlay')) return;
+        if (getComputedStyle(el).position === 'static') el.style.position = 'relative';
+        const input = document.createElement('input');
+        input.type = 'checkbox';
+        input.setAttribute('switch', '');
+        input.setAttribute('aria-hidden', 'true');
+        input.tabIndex = -1;
+        input.className = 'hx-overlay';
+        input.addEventListener('change', function(){
+          input.checked = false;
+          if (opts && typeof opts.forward === 'function') opts.forward();
+        });
+        el.appendChild(input);
+      }
     };
-    const tick = function(){ try { ensure().click(); } catch (e) {} };
-    return { light: tick, medium: tick };
   } catch (e) {
     return noop;
   }
@@ -843,19 +851,16 @@ function orderExperience(name, opts){
     hourPlus.disabled = hours >= MAX_HOURS;
   }
   // Вібровідгук калькулятора: тик на кожен новий крок повзунка (лише коли значення
-  // справді змінилось, а не на кожен піксель руху) і на кожен прапорець. Лише від
+  // справді змінилось, а не на кожен піксель руху). Лише від
   // справжніх жестів (isTrusted), не від програмних змін значення.
   if (headphoneRange){
     let lastStep = headphoneRange.value;
     headphoneRange.addEventListener('input', (e) => {
       if (!e.isTrusted || headphoneRange.value === lastStep) return;
       lastStep = headphoneRange.value;
-      haptic.light();
+      haptic.tick();
     });
   }
-  [outsideKyiv, contentReel, smokeLight].forEach((el) => {
-    if (el) el.addEventListener('change', (e) => { if (e.isTrusted) haptic.medium(); });
-  });
   [headphoneRange, outsideKyiv, contentReel, smokeLight].forEach((el) => {
     if (el) el.addEventListener('input', updateCalculator);
     if (el) el.addEventListener('change', updateCalculator);
@@ -866,11 +871,11 @@ function orderExperience(name, opts){
   // елементів калькулятора вже перевіряється через `if (el)` вище — ці дві
   // лишались єдиним незахищеним місцем.
   if (hourMinus && hourPlus && hoursValueEl) {
-    hourMinus.addEventListener('click', (e) => {
-      if (hours > MIN_HOURS){ hours--; hoursValueEl.textContent = hours; updateCalculator(); if (e.isTrusted) haptic.medium(); }
+    hourMinus.addEventListener('click', () => {
+      if (hours > MIN_HOURS){ hours--; hoursValueEl.textContent = hours; updateCalculator(); }
     });
-    hourPlus.addEventListener('click', (e) => {
-      if (hours < MAX_HOURS){ hours++; hoursValueEl.textContent = hours; updateCalculator(); if (e.isTrusted) haptic.medium(); }
+    hourPlus.addEventListener('click', () => {
+      if (hours < MAX_HOURS){ hours++; hoursValueEl.textContent = hours; updateCalculator(); }
     });
     updateCalculator();
   }
@@ -2970,11 +2975,8 @@ function orderExperience(name, opts){
   document.querySelectorAll('.faq-item').forEach(item => {
     const q = item.querySelector('.faq-q');
     const a = item.querySelector('.faq-a');
-    // Вібровідгук на відкриття/закриття питання — для всіх акордеонів сайту
-    // (/faq/, FAQ на головній і на корпоративах). Лише від справжнього жесту:
-    // відкриття за хешем з мега-меню викликає .click() програмно (isTrusted=false).
-    const toggle = (ev) => {
-      if (ev && ev.isTrusted) haptic.medium();
+    // Вібровідгук питань підключає блок «Вібровідгук: підключення» нижче.
+    const toggle = () => {
       const isOpen = item.classList.contains('open');
       document.querySelectorAll('.faq-item.open').forEach(other => {
         if (other !== item) {
@@ -2996,7 +2998,7 @@ function orderExperience(name, opts){
     };
     q.addEventListener('click', toggle);
     q.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(e); }
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
     });
   });
 
@@ -5315,4 +5317,19 @@ function orderExperience(name, opts){
   // упав десь вище, прапорця не буде — і страхувальник знімає клас js, після
   // чого всі блоки .reveal стають видимі самі, без появи. Півсайту порожнім не
   // лишається ні за яких обставин.
+  // ---- Вібровідгук: підключення ----
+  // Усі питання FAQ (/faq/, головна, корпоративи), кнопки годин і перемикачі
+  // каналів (уся колонка .ch-toggle — на ній і висить клік), три прапорці
+  // калькулятора. Прапорець лежить усередині <label>, тому дію пересилаємо вручну.
+  document.querySelectorAll('.faq-q').forEach(function(el){ haptic.attach(el); });
+  ['hourMinus', 'hourPlus'].forEach(function(id){
+    const el = document.getElementById(id);
+    if (el) haptic.attach(el);
+  });
+  document.querySelectorAll('.ch-toggle').forEach(function(el){ haptic.attach(el); });
+  document.querySelectorAll('.calc-checks label').forEach(function(label){
+    const real = label.querySelector('input[type="checkbox"]:not(.hx-overlay)');
+    haptic.attach(label, { forward: function(){ if (real) real.click(); } });
+  });
+
   window.__siteJs = true;
