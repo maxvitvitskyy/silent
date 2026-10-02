@@ -6,6 +6,53 @@
    набір рядків. */
 const I18N = window.SILENT_I18N;
 
+// ---- Вібровідгук (haptic) ----
+// Лише на сенсорних пристроях і не при prefers-reduced-motion; на десктопі всі
+// виклики — порожні. Два шляхи:
+//  • Android (Chrome/Firefox): navigator.vibrate(мс) — коротка вібрація;
+//  • iPhone/iPad: Safari не має Vibration API, але з iOS 17.4 перемикання
+//    <input type="checkbox" switch> дає системний легкий «тик». Ми тримаємо один
+//    прихований такий перемикач і «клацаємо» його з обробника жесту користувача
+//    (програмний виклик поза жестом iOS ігнорує). Інтенсивність на iOS не
+//    регулюється — це завжди один системний тик; на Android «medium» трохи довший.
+// Користувач може вимкнути це системно: iOS «Системні відгуки» у налаштуваннях
+// «Звуки та тактильні сигнали»; Android «Вібрація при дотику».
+const haptic = (function(){
+  const noop = { light(){}, medium(){} };
+  try {
+    const touch = window.matchMedia('(pointer: coarse)').matches;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!touch || reduce) return noop;
+    const ios = /iP(hone|ad|od)/.test(navigator.userAgent) ||
+                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    if (!ios && typeof navigator.vibrate === 'function'){
+      return {
+        light(){ try { navigator.vibrate(8); } catch (e) {} },
+        medium(){ try { navigator.vibrate(16); } catch (e) {} }
+      };
+    }
+    if (!ios) return noop;
+    let label = null;
+    const ensure = function(){
+      if (label) return label;
+      label = document.createElement('label');
+      label.setAttribute('aria-hidden', 'true');
+      label.style.display = 'none';
+      const input = document.createElement('input');
+      input.type = 'checkbox';
+      input.setAttribute('switch', '');
+      input.tabIndex = -1;
+      label.appendChild(input);
+      document.head.appendChild(label);
+      return label;
+    };
+    const tick = function(){ try { ensure().click(); } catch (e) {} };
+    return { light: tick, medium: tick };
+  } catch (e) {
+    return noop;
+  }
+})();
+
 // ---- Надійна прокрутка до елемента ----
 // Рідний scrollIntoView({behavior:'smooth'}) обчислює ціль ОДИН раз на старті.
 // На довгих сторінках, де під час руху ще з'являються картки (GSAP-поява міняє
@@ -795,6 +842,20 @@ function orderExperience(name, opts){
     hourMinus.disabled = hours <= MIN_HOURS;
     hourPlus.disabled = hours >= MAX_HOURS;
   }
+  // Вібровідгук калькулятора: тик на кожен новий крок повзунка (лише коли значення
+  // справді змінилось, а не на кожен піксель руху) і на кожен прапорець. Лише від
+  // справжніх жестів (isTrusted), не від програмних змін значення.
+  if (headphoneRange){
+    let lastStep = headphoneRange.value;
+    headphoneRange.addEventListener('input', (e) => {
+      if (!e.isTrusted || headphoneRange.value === lastStep) return;
+      lastStep = headphoneRange.value;
+      haptic.light();
+    });
+  }
+  [outsideKyiv, contentReel, smokeLight].forEach((el) => {
+    if (el) el.addEventListener('change', (e) => { if (e.isTrusted) haptic.medium(); });
+  });
   [headphoneRange, outsideKyiv, contentReel, smokeLight].forEach((el) => {
     if (el) el.addEventListener('input', updateCalculator);
     if (el) el.addEventListener('change', updateCalculator);
@@ -805,11 +866,11 @@ function orderExperience(name, opts){
   // елементів калькулятора вже перевіряється через `if (el)` вище — ці дві
   // лишались єдиним незахищеним місцем.
   if (hourMinus && hourPlus && hoursValueEl) {
-    hourMinus.addEventListener('click', () => {
-      if (hours > MIN_HOURS){ hours--; hoursValueEl.textContent = hours; updateCalculator(); }
+    hourMinus.addEventListener('click', (e) => {
+      if (hours > MIN_HOURS){ hours--; hoursValueEl.textContent = hours; updateCalculator(); if (e.isTrusted) haptic.medium(); }
     });
-    hourPlus.addEventListener('click', () => {
-      if (hours < MAX_HOURS){ hours++; hoursValueEl.textContent = hours; updateCalculator(); }
+    hourPlus.addEventListener('click', (e) => {
+      if (hours < MAX_HOURS){ hours++; hoursValueEl.textContent = hours; updateCalculator(); if (e.isTrusted) haptic.medium(); }
     });
     updateCalculator();
   }
@@ -2909,7 +2970,11 @@ function orderExperience(name, opts){
   document.querySelectorAll('.faq-item').forEach(item => {
     const q = item.querySelector('.faq-q');
     const a = item.querySelector('.faq-a');
-    const toggle = () => {
+    // Вібровідгук на відкриття/закриття питання — для всіх акордеонів сайту
+    // (/faq/, FAQ на головній і на корпоративах). Лише від справжнього жесту:
+    // відкриття за хешем з мега-меню викликає .click() програмно (isTrusted=false).
+    const toggle = (ev) => {
+      if (ev && ev.isTrusted) haptic.medium();
       const isOpen = item.classList.contains('open');
       document.querySelectorAll('.faq-item.open').forEach(other => {
         if (other !== item) {
@@ -2931,7 +2996,7 @@ function orderExperience(name, opts){
     };
     q.addEventListener('click', toggle);
     q.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(e); }
     });
   });
 
