@@ -3362,7 +3362,7 @@
     background: rgba(255,255,255,0.04);
     border: 1px solid var(--line); border-radius: var(--r-xs);
     color: #fff; font-family: inherit; font-size: 14.5px;
-    transition: border-color 0.2s, background 0.2s;
+    transition: border-color 0.2s, background-color 0.2s;
     resize: vertical;
   }
   /* Own chevron, drawn with room to breathe — the native one sat on the edge */
@@ -3433,7 +3433,9 @@
      інакше поле, у яке щойно стрибнув фокус, виглядало б заповненим як слід. */
   .field input:focus, .field select:focus, .field textarea:focus {
     border-color: var(--ch);
-    background: rgba(255,255,255,0.06);
+    /* background-color, не background: скорочення скидало б і шеврон <select>
+       (image/position), і він «летів» з кута на місце щоразу при фокусі/виборі. */
+    background-color: rgba(255,255,255,0.06);
   }
   .field input:focus:not(:focus-visible),
   .field select:focus:not(:focus-visible),
@@ -7848,8 +7850,19 @@
     position: absolute; left: 0; top: 0; width: 100%; height: 100%;
     margin: 0; padding: 0; opacity: 0; z-index: 5;
     -webkit-tap-highlight-color: transparent;
-    /* Горизонтальний свайп, що починається на накладці (стрічки чипів), мусить
-       прокручувати стрічку, а не «перетягувати» перемикач. */
-    touch-action: pan-x pan-y;
+    /* Горизонталь на накладці веде JS (haptic у site.js): інакше iOS читає свайп як
+       перетягування перемикача — чіп «вибирається», стрічка не гортається. */
+    touch-action: pan-y;
   }
   button:disabled > input.hx-overlay { display: none; }
+
+/* Телефон, тема обрана (коротка скінченна стрічка): картки не пролітають усю
+   доріжку одним махом, а зупиняються по одній; сторінка за краєм не відскакує. */
+@media (max-width: 640px){
+  .uc-gallery.is-simple .uc-grid {
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 28px;
+    overscroll-behavior-x: contain;
+  }
+  .uc-gallery.is-simple .uc-card { scroll-snap-align: start; scroll-snap-stop: always; }
+}

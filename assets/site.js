@@ -49,8 +49,53 @@ const haptic = (function(){
         input.setAttribute('aria-hidden', 'true');
         input.tabIndex = -1;
         input.className = 'hx-overlay';
+        // Свайп, що почався на накладці, — не вибір. Горизонтальний рух рахуємо самі:
+        // справжній перемикач iOS сприймає його як перетягування і «вибирає» чіп, а
+        // стрічка не гортається. touch-action: pan-y лишає браузеру тільки вертикаль,
+        // тож горизонталь приходить у touchmove скасовною, і ми самі ведемо найближчу
+        // прокручувану стрічку (з інерцією). Рух за поріг гасить і клік, і change.
+        const MOVE = 8;
+        let sx = 0, sy = 0, moved = false, horiz = false, scroller = null, startLeft = 0, samples = [], inertia = 0;
+        const findScroller = function(node){
+          for (let n = node.parentElement; n && n !== document.body; n = n.parentElement){
+            const ox = getComputedStyle(n).overflowX;
+            if ((ox === 'auto' || ox === 'scroll') && n.scrollWidth > n.clientWidth + 1) return n;
+          }
+          return null;
+        };
+        input.addEventListener('touchstart', function(e){
+          cancelAnimationFrame(inertia);
+          const t = e.touches[0];
+          sx = t.clientX; sy = t.clientY; moved = false; horiz = false; samples = [];
+          scroller = findScroller(el); startLeft = scroller ? scroller.scrollLeft : 0;
+        }, { passive: true });
+        input.addEventListener('touchmove', function(e){
+          const t = e.touches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+          if (!moved && Math.max(Math.abs(dx), Math.abs(dy)) > MOVE){ moved = true; horiz = Math.abs(dx) > Math.abs(dy); }
+          if (!moved || !horiz || !scroller || !e.cancelable) return;
+          e.preventDefault();
+          scroller.scrollTo({ left: startLeft - dx, behavior: 'instant' });
+          samples.push([performance.now(), t.clientX]);
+          if (samples.length > 6) samples.shift();
+        }, { passive: false });
+        input.addEventListener('touchend', function(){
+          if (!(moved && horiz && scroller) || samples.length < 2) return;
+          const a = samples[0], b = samples[samples.length - 1], dt = b[0] - a[0];
+          if (dt <= 0 || performance.now() - b[0] > 80) return;
+          let v = -(b[1] - a[1]) / dt, last = performance.now();   // px/мс
+          const box = scroller;
+          const step = function(now){
+            const f = now - last; last = now;
+            box.scrollTo({ left: box.scrollLeft + v * f, behavior: 'instant' });
+            v *= Math.pow(0.94, f / 16);
+            if (Math.abs(v) > 0.03) inertia = requestAnimationFrame(step);
+          };
+          inertia = requestAnimationFrame(step);
+        }, { passive: true });
+        input.addEventListener('click', function(e){ if (moved){ e.stopPropagation(); e.preventDefault(); } });
         input.addEventListener('change', function(){
           input.checked = false;
+          if (moved) return;
           if (opts && typeof opts.forward === 'function') opts.forward();
         });
         el.appendChild(input);
@@ -5352,6 +5397,19 @@ function orderExperience(name, opts){
   }
   document.querySelectorAll('.faq-nav .exp-chip, .lang-switch a, .nav-drawer-lang a').forEach(function(a){
     haptic.attach(a, { forward: goLink(a) });
+  });
+
+  // Кнопки відео («Дивитися»), відправка заявки, «Перевірити доступність дати».
+  // Це кнопки зі своїми click-обробниками — клік із накладки до них доходить.
+  document.querySelectorAll('.gal-play, .form-submit').forEach(function(el){ haptic.attach(el); });
+  const calcGo = document.getElementById('calcSubmit');
+  if (calcGo) haptic.attach(calcGo, { forward: goLink(calcGo) });
+  // Посилання мобільного меню: звичайні переходи на інші сторінки пересилаємо
+  // вручну, а якірні (#...) лишаємо власному обробнику меню (він закриває панель
+  // і гортає сам) — тож forward для них порожній.
+  document.querySelectorAll('.nav-drawer-links > a, .nav-drawer-sub a').forEach(function(a){
+    const h = a.getAttribute('href') || '';
+    haptic.attach(a, { forward: h.charAt(0) === '#' ? null : goLink(a) });
   });
 
   window.__siteJs = true;
