@@ -1570,6 +1570,20 @@ function orderExperience(name, opts){
         });
       }
 
+      // На iPhone `scrollLeft = 0` нічого не робить, поки стрічка ще їде за інерцією
+      // (або тримає старе зміщення безкінечної доріжки, десятки тисяч px): список
+      // коротшає, і стрічка лишається «за краєм» — картки залітають за ліву межу.
+      // Тимчасовий overflow-x:hidden гасить інерцію, тож скидання спрацьовує; потім
+      // перевіряємо ще двічі, бо iOS іноді повертає старе зміщення після кадру.
+      function resetStrip(){
+        view.style.overflowX = 'hidden';
+        view.scrollTo({ left: 0, behavior: 'instant' });
+        requestAnimationFrame(() => { view.style.overflowX = ''; view.scrollTo({ left: 0, behavior: 'instant' }); });
+        [120, 450].forEach(ms => setTimeout(() => {
+          if (simple && view.scrollLeft > 1 && !held) view.scrollTo({ left: 0, behavior: 'instant' });
+        }, ms));
+      }
+
       function applyCat(cat){
         ensureSimpleCards();
         const before = new Map();
@@ -1626,7 +1640,7 @@ function orderExperience(name, opts){
         flip(before);
         // Нова тема завжди починається з початку ряду — саме там він рівний
         // з текстом над стрічкою, і саме це мало бути видно одразу.
-        view.scrollLeft = 0;
+        resetStrip();
         return shown;
       }
 
