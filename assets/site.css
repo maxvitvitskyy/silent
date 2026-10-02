@@ -2847,10 +2847,14 @@
       rgba(198,255,0,0.18), rgba(198,255,0,0.05) 24%, transparent 52%);
     opacity: 0; transition: opacity 0.45s cubic-bezier(.22,1,.36,1);
   }
-  .faq-item:hover::before { opacity: 1; }
+  /* Наведення — лише там, де є курсор. На дотику :hover «залипає» на картці, в яку
+     потрапив палець під час свайпу, і вона підсвічується сама собою. */
+  @media (hover: hover) {
+    .faq-item:hover::before { opacity: 1; }
+    .faq-item:hover { border-color: rgba(198,255,0,0.44); }
+    .faq-item:hover .faq-q::before { color: var(--lime); }
+  }
   .faq-item.open::before { opacity: 0; }   /* відкрита має власне світло */
-  .faq-item:hover { border-color: rgba(198,255,0,0.44); }
-  .faq-item:hover .faq-q::before { color: var(--lime); }
   .faq-q, .faq-a { position: relative; z-index: 1; }
   .faq-item.open {
     border-color: rgba(198,255,0,0.5);
@@ -2907,10 +2911,12 @@
     transition: transform 0.45s cubic-bezier(.22,1,.36,1), background 0.4s ease,
                 color 0.4s ease, border-color 0.4s ease;
   }
+@media (hover: hover) {
   .faq-item:hover .faq-icon {
     border-color: rgba(198,255,0,0.55);
     background: rgba(198,255,0,0.13);
     box-shadow: 0 0 26px -8px rgba(198,255,0,0.6);
+  }
   }
   /* 135° перетворює плюс на хрестик — той самий знак, інший стан */
   .faq-item.open .faq-icon {
@@ -7856,11 +7862,22 @@
   }
   button:disabled > input.hx-overlay { display: none; }
 
-/* Телефон, тема обрана: стрічка скінченна — за останньою карткою далі не їде.
-   `none`, а не `contain`: contain лише не передає прокрутку сторінці, а
-   «гумовий» відскок iOS лишає, і стрічка при розгоні відлітала в порожнечу за
-   краєм. Прилипання (scroll-snap) тут пробували — картки гортались туго, а
-   перемикання тем підвисало, тож інерція лишається рідною. */
+/* Телефон, тема обрана: стрічка скінченна, і за останньою карткою далі не їде —
+   так само, як у стрічки відгуків (.tst-strip): прилипання до початку картки з
+   полем 28px (scroll-padding), а де прокручувати вже нікуди, стрічка стає на
+   свій кінець. Саме прилипання тримає стан спокою всередині реального діапазону:
+   без нього iOS після розгону лишав стрічку далеко за останньою карткою. Без
+   `scroll-snap-stop: always` — той робив свайп тугим (одна картка за махом). */
 @media (max-width: 640px){
-  .uc-gallery.is-simple .uc-grid { overscroll-behavior-x: none; }
+  .uc-gallery.is-simple .uc-grid {
+    overscroll-behavior-x: none;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 28px;
+  }
+  .uc-gallery.is-simple .uc-card { scroll-snap-align: start; }
 }
+
+/* Накладка вібровідгуку на картці FAQ — лише навколо плюса (запас 12px), а не на
+   всій картці: iOS тикає, щойно палець лягає на перемикач, тож накладка на всю
+   картку вібрувала б від кожного свайпу, що починається на ній. */
+.faq-icon > input.hx-overlay { left: -12px; top: -12px; width: calc(100% + 24px); height: calc(100% + 24px); }

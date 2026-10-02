@@ -5392,7 +5392,7 @@ function orderExperience(name, opts){
   // Усі питання FAQ (/faq/, головна, корпоративи), кнопки годин і перемикачі
   // каналів (уся колонка .ch-toggle — на ній і висить клік), три прапорці
   // калькулятора. Прапорець лежить усередині <label>, тому дію пересилаємо вручну.
-  document.querySelectorAll('.faq-q').forEach(function(el){ haptic.attach(el); });
+  document.querySelectorAll('.faq-q').forEach(function(el){ haptic.attach(el.querySelector('.faq-icon') || el); });
   ['hourMinus', 'hourPlus'].forEach(function(id){
     const el = document.getElementById(id);
     if (el) haptic.attach(el);
