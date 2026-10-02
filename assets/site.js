@@ -99,8 +99,12 @@ const haptic = (function(){
           const step = function(now){
             const f = now - last; last = now;
             move(box, h ? v * f : 0, h ? 0 : v * f);
-            v *= Math.pow(0.94, f / 16);
-            if (Math.abs(v) > 0.03) inertia = requestAnimationFrame(step);
+            // 0.998 за мілісекунду — швидкість згасання нормальної інерції iOS
+            // (UIScrollView.decelerationRate.normal). Було 0.94 за кадр (≈0.996/мс):
+            // стрічка зупинялась у рази швидше за рідну, і свайп здавався підтормо-
+            // женим порівняно з картками.
+            v *= Math.pow(0.998, f);
+            if (Math.abs(v) > 0.015) inertia = requestAnimationFrame(step);
           };
           inertia = requestAnimationFrame(step);
         }, { passive: true });
