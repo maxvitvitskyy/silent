@@ -55,7 +55,10 @@ const haptic = (function(){
         // тож горизонталь приходить у touchmove скасовною, і ми самі ведемо найближчу
         // прокручувану стрічку (з інерцією). Рух за поріг гасить і клік, і change.
         const MOVE = 8;
-        let sx = 0, sy = 0, moved = false, horiz = false, scroller = null, startLeft = 0, samples = [], inertia = 0;
+        // Той самий перехват для вертикалі: свайп, що почався на картці FAQ, інакше
+        // «застрягав» на накладці (iOS віддавав дотик перемикачу, сторінка не гортала-
+        // ся), і доводилось шукати порожнє місце. Тепер сторінку веде скрипт.
+        let sx = 0, sy = 0, px = 0, py = 0, moved = false, horiz = false, scroller = null, samples = [], inertia = 0;
         const findScroller = function(node){
           for (let n = node.parentElement; n && n !== document.body; n = n.parentElement){
             const ox = getComputedStyle(n).overflowX;
@@ -63,30 +66,39 @@ const haptic = (function(){
           }
           return null;
         };
+        const move = function(box, dx, dy){
+          if (box) box.scrollBy({ left: dx, top: dy, behavior: 'instant' });
+          else window.scrollBy({ left: 0, top: dy, behavior: 'instant' });
+        };
         input.addEventListener('touchstart', function(e){
           cancelAnimationFrame(inertia);
           const t = e.touches[0];
-          sx = t.clientX; sy = t.clientY; moved = false; horiz = false; samples = [];
-          scroller = findScroller(el); startLeft = scroller ? scroller.scrollLeft : 0;
+          sx = px = t.clientX; sy = py = t.clientY; moved = false; horiz = false; samples = [];
+          scroller = findScroller(el);
         }, { passive: true });
         input.addEventListener('touchmove', function(e){
           const t = e.touches[0], dx = t.clientX - sx, dy = t.clientY - sy;
           if (!moved && Math.max(Math.abs(dx), Math.abs(dy)) > MOVE){ moved = true; horiz = Math.abs(dx) > Math.abs(dy); }
-          if (!moved || !horiz || !scroller || !e.cancelable) return;
+          if (!moved) return;
+          const box = horiz ? scroller : null;
+          if (horiz && !scroller) return;
+          if (!e.cancelable) return;          // браузер уже гортає сам — не дублюємо
           e.preventDefault();
-          scroller.scrollTo({ left: startLeft - dx, behavior: 'instant' });
-          samples.push([performance.now(), t.clientX]);
+          move(box, horiz ? px - t.clientX : 0, horiz ? 0 : py - t.clientY);
+          px = t.clientX; py = t.clientY;
+          samples.push([performance.now(), horiz ? t.clientX : t.clientY]);
           if (samples.length > 6) samples.shift();
         }, { passive: false });
         input.addEventListener('touchend', function(){
-          if (!(moved && horiz && scroller) || samples.length < 2) return;
+          if (!moved || samples.length < 2) return;
+          if (horiz && !scroller) return;
           const a = samples[0], b = samples[samples.length - 1], dt = b[0] - a[0];
           if (dt <= 0 || performance.now() - b[0] > 80) return;
           let v = -(b[1] - a[1]) / dt, last = performance.now();   // px/мс
-          const box = scroller;
+          const box = horiz ? scroller : null, h = horiz;
           const step = function(now){
             const f = now - last; last = now;
-            box.scrollTo({ left: box.scrollLeft + v * f, behavior: 'instant' });
+            move(box, h ? v * f : 0, h ? 0 : v * f);
             v *= Math.pow(0.94, f / 16);
             if (Math.abs(v) > 0.03) inertia = requestAnimationFrame(step);
           };
