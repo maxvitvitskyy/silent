@@ -1381,7 +1381,21 @@ function orderExperience(name, opts){
     // реальну прокрутку. Перший же скрол після перемикання теми читався як
     // «біля краю» (scrollLeft стартує з 0, поріг EDGE_GUARD — 420px) і
     // guard() додавав старий period — стрічку жбурляло в сам кінець.
-    view.addEventListener('scroll', () => { if (virtualized) normalise(); sync(); }, { passive: true });
+    view.addEventListener('scroll', () => { if (virtualized) normalise(); else clampEnd(); sync(); }, { passive: true });
+    // Тема обрана — стрічка скінченна: її кінець там, де остання картка повністю
+    // на екрані (з правим полем). Далі scrollLeft не пускаємо, навіть якщо iOS при
+    // розгоні намагається винести стрічку за край.
+    function clampEnd(){
+      let end = 0;
+      const vr = view.getBoundingClientRect();
+      view.querySelectorAll('.uc-card:not([hidden]):not(.is-leaving)').forEach(c => {
+        end = Math.max(end, c.getBoundingClientRect().right - vr.left + view.scrollLeft);
+      });
+      if (!end) return;
+      const pad = parseFloat(getComputedStyle(view).paddingRight) || 0;
+      const max = Math.max(0, end + pad - view.clientWidth);
+      if (view.scrollLeft > max + 1) view.scrollTo({ left: max, behavior: 'instant' });
+    }
 
     let touched = false;
     ['pointerdown','touchstart','wheel','keydown'].forEach(ev =>
@@ -5411,9 +5425,9 @@ function orderExperience(name, opts){
     haptic.attach(a, { forward: goLink(a) });
   });
 
-  // Кнопки відео («Дивитися»), відправка заявки, «Перевірити доступність дати».
-  // Це кнопки зі своїми click-обробниками — клік із накладки до них доходить.
-  document.querySelectorAll('.gal-play, .form-submit').forEach(function(el){ haptic.attach(el); });
+  // Відправка заявки, кнопки відео («Дивитися») і закриття відео. Відкриває ролик
+  // уся плитка (клік у стрічці), тож кнопка лише додає відгук поверх.
+  document.querySelectorAll('.gal-play, .form-submit, #vboxClose').forEach(function(el){ haptic.attach(el); });
   const calcGo = document.getElementById('calcSubmit');
   if (calcGo) haptic.attach(calcGo, { forward: goLink(calcGo) });
   // Посилання мобільного меню: звичайні переходи на інші сторінки пересилаємо
