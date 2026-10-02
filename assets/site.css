@@ -7848,6 +7848,8 @@
     position: absolute; left: 0; top: 0; width: 100%; height: 100%;
     margin: 0; padding: 0; opacity: 0; z-index: 5;
     -webkit-tap-highlight-color: transparent;
+    /* Горизонтальний свайп, що починається на накладці (стрічки чипів), мусить
+       прокручувати стрічку, а не «перетягувати» перемикач. */
+    touch-action: pan-x pan-y;
   }
   button:disabled > input.hx-overlay { display: none; }
-

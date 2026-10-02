@@ -34,7 +34,7 @@ const haptic = (function(){
       const vib = function(ms){ try { navigator.vibrate(ms); } catch (e) {} };
       return {
         tick(){ vib(8); },
-        attach(el){ el.addEventListener('click', function(e){ if (e.isTrusted) vib(16); }); }
+        attach(el){ el.addEventListener('click', function(e){ if (e.isTrusted) vib(16); }); },
       };
     }
     if (!ios) return noop;
@@ -5330,6 +5330,28 @@ function orderExperience(name, opts){
   document.querySelectorAll('.calc-checks label').forEach(function(label){
     const real = label.querySelector('input[type="checkbox"]:not(.hx-overlay)');
     haptic.attach(label, { forward: function(){ if (real) real.click(); } });
+  });
+  // Кнопка звуку на плашці каналів, кнопка меню (гамбургер) і фільтри/категорії.
+  // + вкладки-акордеони в мобільному меню («Тихі враження», «Питання», «Контакти»).
+  document.querySelectorAll('.ch-mute, .nav-burger, .nav-drawer-item-expand').forEach(function(el){ haptic.attach(el); });
+  // Чипи-фільтри («Silent-досвіди» на головній і корпоративах, каталог /experiences/)
+  // — це <button>, дію виконує їхній звичайний обробник. Категорії питань
+  // (.faq-nav) і мовний перемикач — <a>: клік по накладці всередині посилання його
+  // не активує, тож перехід виконуємо вручну (хеш — плавною прокруткою до розділу).
+  document.querySelectorAll('.exp-filter .exp-chip').forEach(function(el){ haptic.attach(el); });
+  function goLink(a){
+    return function(){
+      const h = a.getAttribute('href') || '';
+      if (h.charAt(0) === '#'){
+        const t = document.getElementById(h.slice(1));
+        if (t){ t.scrollIntoView({ behavior: 'smooth', block: 'start' }); history.replaceState(null, '', h); }
+      } else if (h) {
+        location.href = a.href;
+      }
+    };
+  }
+  document.querySelectorAll('.faq-nav .exp-chip, .lang-switch a, .nav-drawer-lang a').forEach(function(a){
+    haptic.attach(a, { forward: goLink(a) });
   });
 
   window.__siteJs = true;
