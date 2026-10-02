@@ -1381,7 +1381,28 @@ function orderExperience(name, opts){
     // реальну прокрутку. Перший же скрол після перемикання теми читався як
     // «біля краю» (scrollLeft стартує з 0, поріг EDGE_GUARD — 420px) і
     // guard() додавав старий period — стрічку жбурляло в сам кінець.
-    view.addEventListener('scroll', () => { if (virtualized) normalise(); sync(); }, { passive: true });
+    view.addEventListener('scroll', () => { if (virtualized) normalise(); else settleEnd(); sync(); }, { passive: true });
+    // Тема обрана — стрічка скінченна, її кінець там, де остання картка повністю на
+    // екрані (з правим полем). Якщо iOS після розгону лишив стрічку далі за кінець,
+    // повертаємо її, але ЛИШЕ коли рух затих і палець знято: втручання посеред
+    // інерції (як у першій версії) давало тремтіння на краю. Повернення плавне.
+    let settleT = 0;
+    function settleEnd(){
+      clearTimeout(settleT);
+      settleT = setTimeout(function check(){
+        if (virtualized) return;
+        if (held){ settleT = setTimeout(check, 120); return; }
+        let end = 0;
+        const vr = view.getBoundingClientRect();
+        view.querySelectorAll('.uc-card:not([hidden]):not(.is-leaving)').forEach(c => {
+          end = Math.max(end, c.getBoundingClientRect().right - vr.left + view.scrollLeft);
+        });
+        if (!end) return;
+        const pad = parseFloat(getComputedStyle(view).paddingRight) || 0;
+        const max = Math.max(0, end + pad - view.clientWidth);
+        if (view.scrollLeft > max + 2) view.scrollTo({ left: max, behavior: 'smooth' });
+      }, 160);
+    }
 
     let touched = false;
     ['pointerdown','touchstart','wheel','keydown'].forEach(ev =>

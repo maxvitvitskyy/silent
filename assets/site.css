@@ -7862,19 +7862,13 @@
   }
   button:disabled > input.hx-overlay { display: none; }
 
-/* Телефон, тема обрана: стрічка скінченна, і за останньою карткою далі не їде —
-   так само, як у стрічки відгуків (.tst-strip): прилипання до початку картки з
-   полем 28px (scroll-padding), а де прокручувати вже нікуди, стрічка стає на
-   свій кінець. Саме прилипання тримає стан спокою всередині реального діапазону:
-   без нього iOS після розгону лишав стрічку далеко за останньою карткою. Без
-   `scroll-snap-stop: always` — той робив свайп тугим (одна картка за махом). */
+/* Телефон, тема обрана: стрічка скінченна, за останньою карткою далі не їде
+   (`none` вимикає гумовий відскок iOS; кінець діапазону страхує site.js, див.
+   settleEnd). Прилипання (scroll-snap) тут пробували двічі — і з stop:always, і
+   звичайне mandatory: на вузьких картках воно гальмує розгін, свайп виходить
+   тугим, тож інерція лишається рідною. */
 @media (max-width: 640px){
-  .uc-gallery.is-simple .uc-grid {
-    overscroll-behavior-x: none;
-    scroll-snap-type: x mandatory;
-    scroll-padding-left: 28px;
-  }
-  .uc-gallery.is-simple .uc-card { scroll-snap-align: start; }
+  .uc-gallery.is-simple .uc-grid { overscroll-behavior-x: none; }
 }
 
 /* Накладка вібровідгуку на картці FAQ — лише навколо плюса (запас 12px), а не на
