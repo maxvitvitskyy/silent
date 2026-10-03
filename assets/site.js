@@ -4988,7 +4988,10 @@ function orderExperience(name, opts){
       document.fonts.ready.then(function(){ applyGeometry(); render(); });
     }
     window.addEventListener('load', function(){ applyGeometry(); render(); });
-    const DURATION = 620;
+    // Слова-формати міняються раз на секунду, як стрілка годинника: коротке
+    // чітке прокручування (420мс) і майже пауза. Барабан питань лишається
+    // повільним — питання читається довше за слово.
+    const DURATION = questions ? 620 : 420;
     let timer = null;
     // hovering — курсор на картці питань (режим керування мишею нижче): тоді
     // автопрокрутка мовчить. anim — номер поточної анімації кроку: якщо
@@ -5020,7 +5023,7 @@ function orderExperience(name, opts){
       requestAnimationFrame(frame);
     }
     // Питання читається довше за одне слово, тож і стоїть по центру довше.
-    function start(){ if (!timer) timer = setInterval(tick, questions ? 3200 : 2400); }
+    function start(){ if (!timer) timer = setInterval(tick, questions ? 3200 : 1000); }
     if (!reduceMotion) start();
 
     if (questions){
