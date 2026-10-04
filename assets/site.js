@@ -58,11 +58,17 @@ const haptic = (function(){
         // Той самий перехват для вертикалі: свайп, що почався на картці FAQ, інакше
         // «застрягав» на накладці (iOS віддавав дотик перемикачу, сторінка не гортала-
         // ся), і доводилось шукати порожнє місце. Тепер сторінку веде скрипт.
-        let sx = 0, sy = 0, px = 0, py = 0, moved = false, horiz = false, scroller = null, samples = [], inertia = 0;
-        const findScroller = function(node){
+        let sx = 0, sy = 0, px = 0, py = 0, moved = false, horiz = false, scroller = null, scrollerY = null, samples = [], inertia = 0;
+        // Найближчий предок, що справді прокручується по осі: стрічка чипів (X) або,
+        // для вертикалі, власна прокрутка контейнера — наприклад панель мобільного
+        // меню (body під нею зафіксований, window.scrollBy там нічого не робить, і
+        // після розкриття вкладки меню «застигало»). Немає такого — гортаємо сторінку.
+        const findScroller = function(node, axisX){
           for (let n = node.parentElement; n && n !== document.body; n = n.parentElement){
-            const ox = getComputedStyle(n).overflowX;
-            if ((ox === 'auto' || ox === 'scroll') && n.scrollWidth > n.clientWidth + 1) return n;
+            const cs = getComputedStyle(n);
+            const o = axisX ? cs.overflowX : cs.overflowY;
+            if ((o === 'auto' || o === 'scroll') &&
+                (axisX ? n.scrollWidth > n.clientWidth + 1 : n.scrollHeight > n.clientHeight + 1)) return n;
           }
           return null;
         };
@@ -74,13 +80,13 @@ const haptic = (function(){
           cancelAnimationFrame(inertia);
           const t = e.touches[0];
           sx = px = t.clientX; sy = py = t.clientY; moved = false; horiz = false; samples = [];
-          scroller = findScroller(el);
+          scroller = findScroller(el, true); scrollerY = findScroller(el, false);
         }, { passive: true });
         input.addEventListener('touchmove', function(e){
           const t = e.touches[0], dx = t.clientX - sx, dy = t.clientY - sy;
           if (!moved && Math.max(Math.abs(dx), Math.abs(dy)) > MOVE){ moved = true; horiz = Math.abs(dx) > Math.abs(dy); }
           if (!moved) return;
-          const box = horiz ? scroller : null;
+          const box = horiz ? scroller : scrollerY;
           if (horiz && !scroller) return;
           if (!e.cancelable) return;          // браузер уже гортає сам — не дублюємо
           e.preventDefault();
@@ -95,7 +101,7 @@ const haptic = (function(){
           const a = samples[0], b = samples[samples.length - 1], dt = b[0] - a[0];
           if (dt <= 0 || performance.now() - b[0] > 80) return;
           let v = -(b[1] - a[1]) / dt, last = performance.now();   // px/мс
-          const box = horiz ? scroller : null, h = horiz;
+          const box = horiz ? scroller : scrollerY, h = horiz;
           const step = function(now){
             const f = now - last; last = now;
             move(box, h ? v * f : 0, h ? 0 : v * f);
