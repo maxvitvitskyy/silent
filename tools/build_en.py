@@ -776,7 +776,7 @@ T = {
 'Оберіть дату — вона підставиться у форму': 'Pick a date and it will fill the form',
 'Як вас звати': 'Your name',
 "Ім'я": 'Name',
-'Телефон або Instagram': 'Phone or Instagram',
+'Телефон або Telegram': 'Phone or Telegram',
 '+380… або @нік': '+380… or @handle',
 'Що ви плануєте?': 'What are you planning?',
 'Хочу дізнатися ціну': 'I want to know the price',
