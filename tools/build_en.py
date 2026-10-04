@@ -58,7 +58,7 @@ _LD = re.compile(r'(<script type="application/ld\+json">)(.*?)(</script>)', re.S
 EN_SERVICE_NAME = 'Full-service silent disco'
 EN_SERVICE_DESC = ('Wireless LED headphones with three music channels, delivery, on-site setup, '
                    'technical support through the evening, teardown and removal — as one service.')
-EN_OFFER_DESC = ('From 9,800 UAH: 40 headphones for 4 hours. The final price depends on the date, '
+EN_OFFER_DESC = ('From 12,000 UAH: 40 headphones for 4 hours. The final price depends on the date, '
                  'location, duration and format.')
 EN_PAGE_NAME = 'SILENT — Full-service silent disco in Kyiv and across Ukraine'
 EN_PAGE_DESC = ('SILENT — full-service silent disco in Kyiv and across Ukraine: wireless LED headphones, '
@@ -406,7 +406,7 @@ T = {
 'Сайлент Диско в навушниках': 'Silent disco in headphones',
 'Сайлент Диско': 'Silent disco',
 'Тиха вечірка під ключ': 'Full-service quiet party',
-'9 800 грн': '9,800 UAH',
+'12 000 грн': '12,000 UAH',
 '40 гостей': '40 guests',
 'Київ та Україна': 'Kyiv and across Ukraine',
 'від <b>': 'from <b>',
@@ -818,9 +818,9 @@ T = {
 
 # --- числа, одиниці, ініціали --------------------------------------------
 # Формат числа міняється разом із локаллю: uk-UA ставить нерозривний пробіл
-# (9 800), en-US — кому (9,800). Скрипт друкує суми через Intl і зробить це
+# (12 000), en-US — кому (12,000). Скрипт друкує суми через Intl і зробить це
 # сам; тут ті самі числа, але вписані в розмітку руками.
-'9 800': '9,800',
+'12 000': '12,000',
 'грн': 'UAH',
 '<small>шт.</small>': '<small>units</small>',
 '<small>год</small>': '<small>hrs</small>',
@@ -1596,10 +1596,10 @@ T_FAQ = {
   "No, the SILENT team does that. A single pick-up and return point at the entrance keeps it simple, and at the end we check ourselves that everything is back.",
 
 # --- 03 ціна
-"Від <strong>9 800 грн</strong> за мінімальний комплект — 40 навушників на 4 години. Далі ціна залежить від кількості навушників, тривалості й опцій — порахуйте свій варіант у калькуляторі на головній сторінці.":
-  "From <strong>9,800 UAH</strong> for the minimum set — 40 headphones for 4 hours. Beyond that, the price depends on the number of headphones, the duration and the options — work out your own version in the calculator on the home page.",
-"Від 9 800 грн за мінімальний комплект — 40 навушників на 4 години. Далі ціна залежить від кількості навушників, тривалості й опцій.":
-  "From 9,800 UAH for the minimum set — 40 headphones for 4 hours. Beyond that, the price depends on the number of headphones, the duration and the options.",
+"Від <strong>12 000 грн</strong> за мінімальний комплект — 40 навушників на 4 години. Далі ціна залежить від кількості навушників, тривалості й опцій — порахуйте свій варіант у калькуляторі на головній сторінці.":
+  "From <strong>12,000 UAH</strong> for the minimum set — 40 headphones for 4 hours. Beyond that, the price depends on the number of headphones, the duration and the options — work out your own version in the calculator on the home page.",
+"Від 12 000 грн за мінімальний комплект — 40 навушників на 4 години. Далі ціна залежить від кількості навушників, тривалості й опцій.":
+  "From 12,000 UAH for the minimum set — 40 headphones for 4 hours. Beyond that, the price depends on the number of headphones, the duration and the options.",
 "Що входить у цю вартість?": "What does this price include?",
 "У вартість входять: доставка обладнання на локацію, встановлення й налаштування, підключення аудіосистеми, видача навушників гостям, технічний супровід представника SILENT протягом усього заходу, а також збір і вивіз обладнання наприкінці. Це одна послуга під ключ — обладнання лишається власністю SILENT, а не передається вам в оренду.":
   "The price includes delivery of the equipment to the venue, setup and configuration, connecting the audio system, handing out headphones to guests, technical support from a SILENT representative throughout the event, and packing up and removing the equipment at the end. It's a single full-service package — the equipment remains SILENT's property and is not rented out to you.",
@@ -1612,8 +1612,8 @@ T_FAQ = {
 "Залиште заявку на сайті — вкажіть дату, кількість гостей і формат. Після узгодження деталей дата бронюється, щойно надходить 50% передоплати; решта 50% сплачується до самого заходу.":
   "Send a request on the website with the date, the number of guests and the format. Once the details are agreed, the date is booked as soon as the 50% prepayment arrives; the remaining 50% is paid before the event.",
 "Що впливає на фінальну ціну?": "What affects the final price?",
-"Кількість навушників, тривалість події, дата й локація, а також опції — виїзд по Україні, короткий reels-ролик, дим і світло. 9 800 грн — стартова точка для мінімального комплекту, а не фіксована сума для будь-якого формату.":
-  "The number of headphones, the length of the event, the date and location, plus options — travel across Ukraine, a short reel, smoke and lights. 9,800 UAH is the starting point for the minimum set, not a fixed price for every format.",
+"Кількість навушників, тривалість події, дата й локація, а також опції — виїзд по Україні, короткий reels-ролик, дим і світло. 12 000 грн — стартова точка для мінімального комплекту, а не фіксована сума для будь-якого формату.":
+  "The number of headphones, the length of the event, the date and location, plus options — travel across Ukraine, a short reel, smoke and lights. 12,000 UAH is the starting point for the minimum set, not a fixed price for every format.",
 "Скільки коштують додаткові навушники, години чи опції?": "How much do extra headphones, hours or options cost?",
 "Кожен пункт понад мінімум — додаткові навушники, зайві години, виїзд по Україні, reels-ролик, дим і світло — додається до базової ціни. Калькулятор на головній сторінці одразу перераховує суму під ваші параметри, тож точний орієнтир бачите ще до заявки.":
   "Everything beyond the minimum — extra headphones, extra hours, travel across Ukraine, a reel, smoke and lights — is added to the base price. The calculator on the home page recalculates the total for your parameters instantly, so you see an accurate estimate before you even send a request.",

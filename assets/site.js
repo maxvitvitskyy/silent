@@ -868,14 +868,15 @@ function orderExperience(name, opts){
   let hours = 4;
   const MIN_HOURS = 4, MAX_HOURS = 8;
 
-  // База: 40 навушників / 4 год = 9 800 грн. Кожен навушник понад 40 — 244 грн
-  // (ставка лишилась тією, що була, коли стеля була 90: 12 200 / 50). Стеля
-  // слайдера — 100 навушників (максимум на першому етапі), там показуємо «100+».
-  // Ціни до 90 навушників не змінились; на 100 — 24 440 грн за 4 години.
+  // База: 40 навушників / 4 год = 12 000 грн, тобто 300 грн на гостя. Кожен навушник
+  // понад 40 — теж 300 грн, тож ціна за гостя лишається рівною 300 на будь-якій
+  // кількості (раніше було 9 800 і 244 на навушник, ≈245 грн на гостя). Стеля
+  // слайдера — 100 навушників (максимум на першому етапі), там показуємо «100+»;
+  // на 100 навушників — 30 000 грн за 4 години.
   const MAX_QTY = 100;
-  const EXTRA_PER_HEADPHONE = 244;
+  const EXTRA_PER_HEADPHONE = 300;
   function calcPrice(qty){
-    const base = 9800;
+    const base = 12000;
     const extraQty = Math.max(0, qty - 40);
     const extra = extraQty * EXTRA_PER_HEADPHONE;
     // Година рахується від самого пакета, а не фіксованою ставкою: базові
@@ -887,7 +888,7 @@ function orderExperience(name, opts){
       (outsideKyiv.checked ? 4000 : 0) +
       (contentReel.checked ? 2000 : 0) +
       (smokeLight.checked ? 4000 : 0);
-    return { base, extra, hoursCost, options, total: Math.max(6900, base + extra + hoursCost + options) };
+    return { base, extra, hoursCost, options, total: Math.max(base, base + extra + hoursCost + options) };
   }
 
   function syncGuestSelect(qty){
