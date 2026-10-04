@@ -606,6 +606,10 @@
   .nav-item-mega:hover .nav-mega-trigger::after,
   .nav-item-mega:focus-within .nav-mega-trigger::after { transform: rotate(180deg); opacity: 1; }
   .nav-links > a { z-index: 6; }
+  /* Перемикач мов — <div>, а не <a>, тож правило вище його не торкалось: відкрита
+     mega-панель (z-index 5) із невидимим містком на 74px угору лежала поверх нього,
+     і клік по UA/EN влучав у панель. Той самий z-index, що в решти пунктів шапки. */
+  .nav-links > .lang-switch { z-index: 6; }
   .nav-item-mega:hover .nav-mega-trigger,
   .nav-item-mega:focus-within .nav-mega-trigger { color: var(--lime) !important; }
 
@@ -7887,5 +7891,24 @@
 section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; }
 @media (max-width: 1239px){
   section.faq:not(.exp-section) .faq-nav { margin-top: 28px; margin-bottom: -16px; }
+}
+
+/* Тумблери каналів (десктоп/планшет, від 641px): висота дорівнює двом рядкам
+   підпису поруч (назва + жанр), а не 26px, тож перемикач читається як рівна
+   частина колонки й помітніший. Ручка — квадрат на всю висоту мінус рамка; її
+   зсув тепер через left/translate (а не фіксовані 20px), бо ширина й висота
+   залежать від висоти підпису. На телефоні лишається компактний тумблер під
+   назвою (там опису немає). */
+@media (min-width: 641px){
+  .ch-toggle-top { align-items: stretch; }
+  .ch-switch { width: 78px; height: auto; min-height: 36px; align-self: stretch; }
+  .ch-switch-knob {
+    top: 4px; bottom: 4px; left: 4px;
+    width: auto; height: auto; aspect-ratio: 1;
+    transition: left 0.3s cubic-bezier(.4,0,.2,1), translate 0.3s cubic-bezier(.4,0,.2,1), background 0.3s ease;
+  }
+  .ch-toggle.active .ch-switch-knob { transform: none; left: calc(100% - 4px); translate: -100% 0; }
+  .hero-strip.is-silent .ch-toggle.active .ch-switch-knob,
+  .hp-switch.is-silent .ch-toggle.active .ch-switch-knob { left: 4px; translate: none; }
 }
 
