@@ -7917,3 +7917,11 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
   .hero-strip.is-silent .ch-toggle.active .ch-switch-knob,
   .hp-switch.is-silent .ch-toggle.active .ch-switch-knob { left: 4px; translate: none; }
 }
+
+/* Англійський заголовок «Quiet Experiences» (еквівалент «Тихі враження»): слово
+   «Experiences» у Unbounded на 96px ≈ 721px, а колонка тексту поруч із карткою
+   барабана — 620px, тож воно заходило під картку. Від 1100px, де колонки
+   стоять поруч, кегль менший; нижче розкладка одноколонна, там місця вистачає. */
+@media (min-width: 1100px){
+  html[lang="en"] .exp-head:not(.faq-head) .exp-head-title { font-size: clamp(38px, 5.4vw, 80px); }
+}

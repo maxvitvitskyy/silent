@@ -240,6 +240,9 @@ PATHS = [
  ("url('images/",  "url('../images/"),
 ]
 
+# /experiences/ → /en/experiences/, але НЕ /experiences/corporate/: його англійської версії немає.
+EXP_LINK = re.compile(r'href="/experiences/(?!corporate)')
+
 # --------------------------------------------------------------- перемикач
 SWITCH_UA = """    <span class="lang-switch" role="group" aria-label="Мова сайту">
       <span class="lang-cur" aria-current="true">UA</span>
@@ -1382,6 +1385,7 @@ def stamp_files():
     extra.append(os.path.join(ROOT, 'privacy', 'index.html'))
     extra.append(os.path.join(ROOT, 'faq', 'index.html'))
     extra.append(DST_FAQ)
+    extra.append(DST_EXP)
     for path in [SRC, DST, SRC404, DST404] + extra:
         if not os.path.exists(path):
             continue
@@ -1418,6 +1422,9 @@ def build():
     s = s.replace('href="/#', 'href="#')
     # Англійська FAQ існує — посилання на неї з англійської головної.
     s = s.replace('href="/faq/', 'href="/en/faq/')
+    # Каталог «Тихі враження» теж має англійську версію; сторінка корпоративів —
+    # ще ні, її посилання лишаються українськими.
+    s = EXP_LINK.sub('href="/en/experiences/', s)
 
     # блок рядків цілком
     m = re.search(r'<!-- Рядки, які скрипт виводить сам\.[\s\S]*?<script src="\.\./assets/site\.js"></script>', s)
@@ -1780,6 +1787,8 @@ def build_faq():
     # Сторінка на рівень глибше за faq/: відносні шляхи до активів — на
     # крок вище. Абсолютні (/images/…) і так працюють.
     s = s.replace('href="../', 'href="../../').replace('src="../', 'src="../../')
+    # Заготовлений текст у посиланні Telegram — англійською, як і на головній.
+    s = s.replace(PATHS[0][0], PATHS[0][1])
 
     # Посилання: головна та її розділи — на англійську головну, сама FAQ —
     # на англійську FAQ. /experiences/ і /privacy/ лишаються українськими:
@@ -1789,6 +1798,7 @@ def build_faq():
     # чіпати не можна.
     s = re.sub(r'href="/(#[^"]*)?"', lambda m: 'href="/en/' + (m.group(1) or '') + '"', s)
     s = s.replace('href="/faq/', 'href="/en/faq/')
+    s = EXP_LINK.sub('href="/en/experiences/', s)
     # Хлібні крихти в JSON-LD — на англійські адреси, як і видимі посилання.
     s = s.replace('"item": "https://silent.org.ua/"', '"item": "https://silent.org.ua/en/"')
     s = s.replace('"item": "https://silent.org.ua/faq/"', '"item": "https://silent.org.ua/en/faq/"')
@@ -1816,6 +1826,102 @@ def build_faq():
     assert_translated(s, 'en/faq/index.html')
     print('en/faq/index.html зібрано:', len(s.split('\n')), 'рядків, неперекладеного немає')
 
+
+# ====================================================== Тихі враження (en/experiences/)
+# Та сама схема, що для FAQ: en/experiences/index.html збирається з
+# experiences/index.html, руками не редагується. Картки форматів (44 шт.)
+# беруть переклад зі спільного словника T — той самий, що й на англійській
+# головній.
+SRC_EXP = os.path.join(ROOT, 'experiences', 'index.html')
+DST_EXP = os.path.join(ROOT, 'en', 'experiences', 'index.html')
+
+HEAD_EXP = [
+ ('<html lang="uk">', '<html lang="en">'),
+ ('<meta property="og:locale" content="uk_UA">', '<meta property="og:locale" content="en_US">'),
+ ('<meta property="og:url" content="https://silent.org.ua/experiences/">',
+  '<meta property="og:url" content="https://silent.org.ua/en/experiences/">'),
+ ('<link rel="canonical" href="https://silent.org.ua/experiences/">',
+  '<link rel="canonical" href="https://silent.org.ua/en/experiences/">'),
+]
+
+SWITCH_UA_EXP = """    <span class="lang-switch" role="group" aria-label="Мова сайту">
+      <span class="lang-cur" aria-current="true">UA</span>
+      <a href="/en/experiences/" hreflang="en" lang="en">EN</a>
+    </span>"""
+SWITCH_EN_EXP = """    <span class="lang-switch" role="group" aria-label="Site language">
+      <a href="/experiences/" hreflang="uk" lang="uk">UA</a>
+      <span class="lang-cur" aria-current="true">EN</span>
+    </span>"""
+
+T_EXP = {
+"Тихі враження — формати silent disco від SILENT": "Quiet Experiences — silent disco formats from SILENT",
+"Усі формати, де працює тихий звук: від корпоративу й весілля до екскурсії музеєм та йоги. Три канали в навушниках кожного гостя, ззовні тиша.":
+  "Every format where quiet sound works: from a corporate party and a wedding to a museum tour and yoga. Three channels in every guest's headphones, and quiet outside.",
+"Усі формати, де працює тихий звук: корпоративи, весілля, конференції, екскурсії, йога, кіно просто неба.":
+  "Every format where quiet sound works: corporate parties, weddings, conferences, tours, yoga, open-air cinema.",
+"Три канали музики в навушниках кожного гостя, гучність у кожного своя, ззовні тиша. Комплект, доставка, збірка й супровід.":
+  "Three channels of music in every guest's headphones, everyone sets their own volume, and it stays quiet outside. Equipment, delivery, setup and support.",
+"Формати: диско, фітнес, кіно, весілля, корпоративи, фестивалі, стендап, дитячі свята, виставки, духовні й культурні події, бізнес-заходи, концерти, освітні події, табори, медитації та інші — 44 сценарії нижче.":
+  "Formats: disco, fitness, cinema, weddings, corporate parties, festivals, stand-up, kids' parties, exhibitions, spiritual and cultural events, business events, concerts, educational events, camps, meditations and more — 44 scenarios below.",
+"Silent disco — лише один зі сценаріїв. Той самий комплект працює всюди, де звук має дійти до кожного, але не мусить лунати на всю залу: від корпоративу й весілля до екскурсії музеєм, конференції та йоги.":
+  "Silent disco is only one of the scenarios. The same set works wherever sound has to reach everyone but shouldn't fill the whole room: from a corporate party and a wedding to a museum tour, a conference and yoga.",
+"Оберіть формат, близький до вашого — або лишіть заявку, і ми підберемо його разом.":
+  "Pick the format closest to yours — or send a request and we'll choose one together.",
+"Що таке Silent disco?": "What is silent disco?",
+"Не знайшли свій формат? Зробимо його сорок п’ятим.": "Can't find your format? We'll make it the forty-fifth.",
+"Напишіть, що плануєте — скажемо, чи підходить тихий звук і скільки це коштуватиме.":
+  "Tell us what you're planning — we'll say whether quiet sound fits and how much it will cost.",
+"Дивитися досвід": "View the experience",
+}
+
+
+def build_experiences():
+    if not os.path.exists(SRC_EXP):
+        return
+    s = unstamp(io.open(SRC_EXP, encoding='utf-8').read())
+
+    for old, new in HEAD_EXP:
+        if s.count(old) < 1:
+            sys.exit('немає в experiences/index.html: ' + old[:80])
+        s = s.replace(old, new)
+
+    # Сторінка на рівень глибше, ніж experiences/: відносні шляхи до активів.
+    s = s.replace('href="../', 'href="../../').replace('src="../', 'src="../../')
+    s = s.replace(PATHS[0][0], PATHS[0][1])   # заготовлений текст Telegram — англійською
+
+    # hreflang: сторінка називає пару (uk, en, x-default) — вона вже в
+    # українській і однакова в обох. Лишається поміняти адреси переходів.
+    s = re.sub(r'href="/(#[^"]*)?"', lambda m: 'href="/en/' + (m.group(1) or '') + '"', s)
+    s = s.replace('href="/faq/', 'href="/en/faq/')
+    s = EXP_LINK.sub('href="/en/experiences/', s)
+    # JSON-LD: адреси, мова, хлібні крихти.
+    s = s.replace('"@id": "https://silent.org.ua/experiences/#', '"@id": "https://silent.org.ua/en/experiences/#')
+    s = s.replace('"url": "https://silent.org.ua/experiences/"', '"url": "https://silent.org.ua/en/experiences/"')
+    s = s.replace('"item": "https://silent.org.ua/experiences/"', '"item": "https://silent.org.ua/en/experiences/"')
+    s = s.replace('"item": "https://silent.org.ua/"', '"item": "https://silent.org.ua/en/"')
+    s = s.replace('"inLanguage": "uk-UA"', '"inLanguage": "en-US"')
+
+    if s.count(SWITCH_UA_EXP) != 1:
+        sys.exit('перемикач мови в experiences/index.html не знайдено')
+    s = s.replace(SWITCH_UA_EXP, SWITCH_EN_EXP)
+
+    m = re.search(r'<script>\nwindow\.SILENT_I18N = \{[\s\S]*?\n\};\n</script>', s)
+    if not m:
+        sys.exit('блок SILENT_I18N у experiences/index.html не знайдено')
+    s = s[:m.start()] + I18N_FAQ_EN + s[m.end():]
+
+    merged = dict(T)
+    merged.update(T_FAQ)
+    merged.update(T_EXP)
+    for k in sorted(merged, key=len, reverse=True):
+        s = flexible(k).sub(lambda mm, v=merged[k]: v, s)
+
+    os.makedirs(os.path.dirname(DST_EXP), exist_ok=True)
+    io.open(DST_EXP, 'w', encoding='utf-8').write(s)
+    assert_translated(s, 'en/experiences/index.html')
+    print('en/experiences/index.html зібрано:', len(s.split('\n')), 'рядків, неперекладеного немає')
+
+
 if __name__ == '__main__':
     # Першим: дописує теми й кнопки фільтра в сам index.html, з якого далі
     # збирається все інше.
@@ -1827,6 +1933,7 @@ if __name__ == '__main__':
     build_experience_strips()
     print('FAQ JSON-LD (uk):', build_faq_ua_jsonld(), 'питань')
     build_faq()
+    build_experiences()
     # Останнім кроком, коли обидві англійські сторінки вже на диску: позначка
     # лягає на всі чотири файли одразу.
     stamp_files()

@@ -4438,6 +4438,9 @@ function orderExperience(name, opts){
       if (o >= 2 && o <= 4) return 'формати';
       return 'форматів';
     }
+    // Англійська версія дає власний рядок у I18N.uc.count (там інша граматика).
+    const countText = n => (I18N.uc && I18N.uc.count)
+      ? I18N.uc.count(n) : n + ' ' + word(n) + ' у цій темі';
 
     // Картка, яку фільтр щойно виключив, не зникає миттю, але й не тримає
     // сітку заручником: одразу переходить на position:absolute за власними
@@ -4547,7 +4550,7 @@ function orderExperience(name, opts){
       grid.classList.toggle('is-filtered', cat !== 'all');
       if (count){
         count.textContent = cat === 'all'
-          ? '' : shown + ' ' + word(shown) + ' у цій темі';
+          ? '' : countText(shown);
       }
       flip(before);
     }
@@ -4572,7 +4575,7 @@ function orderExperience(name, opts){
           ch.setAttribute('aria-pressed', on ? 'true' : 'false');
         });
         grid.classList.toggle('is-filtered', cat !== 'all');
-        if (count) count.textContent = cat === 'all' ? '' : shown + ' ' + word(shown) + ' у цій темі';
+        if (count) count.textContent = cat === 'all' ? '' : countText(shown);
       }, [grid]);
       if (!done) applyLegacy(cat);
       // Фільтр міняє висоту сторінки (з ~20 000px до ~4 800 на темі «Церкви й
@@ -4634,13 +4637,16 @@ function orderExperience(name, opts){
     }
     // Клік по темі в мега-меню чи підвалі, коли ми вже на цій сторінці.
     document.addEventListener('click', function(e){
-      const a = e.target.closest && e.target.closest('a[href^="/experiences/#cat-"]');
+      // Та сама логіка на англійській версії (/en/experiences/): префікс /en беремо з адреси.
+      const a = e.target.closest && e.target.closest('a[href^="/experiences/#cat-"], a[href^="/en/experiences/#cat-"]');
       if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button > 0) return;
-      if (location.pathname.replace(/\/$/, '') !== '/experiences') return;
+      const here = location.pathname.replace(/\/$/, '');
+      if (here !== '/experiences' && here !== '/en/experiences') return;
+      if (a.getAttribute('href').indexOf(here + '/#cat-') !== 0) return;
       const c = a.getAttribute('href').split('#cat-')[1];
       if (!known(c)) return;
       e.preventDefault();
-      history.pushState(null, '', '/experiences/#cat-' + c);
+      history.pushState(null, '', here + '/#cat-' + c);
       apply(c, true);
       const chip = chips.find(ch => ch.dataset.cat === c);
       if (chip) centerChip(bar, chip);
