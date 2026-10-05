@@ -241,7 +241,7 @@ PATHS = [
 ]
 
 # /experiences/ → /en/experiences/, але НЕ /experiences/corporate/: його англійської версії немає.
-EXP_LINK = re.compile(r'href="/experiences/(?!corporate)')
+EXP_LINK = re.compile(r'href="/experiences/(?!corporate|wedding)')
 
 # --------------------------------------------------------------- перемикач
 SWITCH_UA = """    <span class="lang-switch" role="group" aria-label="Мова сайту">
@@ -654,6 +654,7 @@ T = {
 'Калькулятор': 'Calculator',
 # Підвал: посилання на сторінки замість дублів якорів головної.
 'Для корпоративів': 'Corporate events',
+'Для весілля': 'Weddings',
 'Питання і відповіді': 'Questions and answers',
 'Порахувати вартість': 'Work out the cost',
 'Порахуйте бюджет вечора до заявки.': 'Work out the budget for the evening before you enquire.',
@@ -1052,6 +1053,7 @@ UC_GRID_END = '<!-- UC-GRID:END -->'
 # сторінками — і це єдине місце, де його треба поповнити.
 EXPERIENCE_URLS = {
     'Корпоративи': '/experiences/corporate/',
+    'Весілля': '/experiences/wedding/',
 }
 
 # Порядок карток на сторінці-списку. Це НЕ дані про продажі: статистики звернень
@@ -1192,7 +1194,38 @@ UC_CARD = re.compile(r'      <article class="uc-card"[\s\S]*?\n      </article>\
 EXPERIENCE_PAGES = [
     os.path.join('experiences', 'index.html'),
     os.path.join('experiences', 'corporate', 'index.html'),
+    os.path.join('experiences', 'wedding', 'index.html'),
 ]
+
+
+# Сторінки досвідів, у яких питання-відповіді мають власну розмітку FAQPage.
+# Вузол збирається з видимих .faq-item при кожному запуску (як на /faq/), тож
+# розмітка не може розійтися з текстом. Це окремий вузол у тому ж @graph, а не
+# підміна WebPage: у WebPage mainEntity уже зайнятий послугою (Service).
+EXP_FAQ_PAGES = {
+    os.path.join('experiences', 'wedding', 'index.html'): '/experiences/wedding/',
+}
+
+
+def set_experience_faq_jsonld(text, path_url):
+    pairs = faq_pairs(text)
+    if len(pairs) < 4:
+        sys.exit('FAQ сторінки досвіду: знайдено лише %d питань для %s' % (len(pairs), path_url))
+    m = _LD.search(text)
+    if not m:
+        sys.exit('немає ld+json-блоку на ' + path_url)
+    data = _json.loads(m.group(2))
+    url = _SITE + path_url
+    graph = [n for n in data['@graph'] if n.get('@type') != 'FAQPage']
+    graph.append({'@type': 'FAQPage', '@id': url + '#faq', 'url': url + '#faq',
+                  'inLanguage': 'uk-UA',
+                  'isPartOf': {'@id': url + '#webpage'},
+                  'mainEntity': [{'@type': 'Question', 'name': q,
+                                  'acceptedAnswer': {'@type': 'Answer', 'text': a}}
+                                 for q, a in pairs]})
+    data['@graph'] = graph
+    block = m.group(1) + '\n' + _json.dumps(data, ensure_ascii=False, indent=2) + '\n' + m.group(3)
+    return text[:m.start()] + block + text[m.end():]
 
 
 def _link_card(card, name, depth):
@@ -1368,6 +1401,9 @@ def build_experience_strips():
             fh = text.index(UC_FILTER_START) + len(UC_FILTER_START)
             ft = text.index(UC_FILTER_END)
             text = text[:fh] + '\n' + _filter_markup(kept) + '\n      ' + text[ft:]
+
+        if rel in EXP_FAQ_PAGES:
+            text = set_experience_faq_jsonld(text, EXP_FAQ_PAGES[rel])
 
         io.open(path, 'w', encoding='utf-8').write(text)
         print('картки зібрані: %s — %d, %s%s'
@@ -1735,8 +1771,8 @@ T_FAQ = {
 "Таке трапляється на живих вечірках. У комплекті є запасні навушники на заміну, а якщо обладнання не повернули, загубили чи пошкодили — замовник компенсує погоджену вартість одиниці обладнання. Умови такого випадку прописані в договорі до конкретного замовлення.":
   "It happens at real parties. The set includes spare headphones as replacements, and if equipment isn't returned, gets lost or is damaged, the client pays the agreed value of that item. The terms for this are set out in the contract for the specific booking.",
 "Скільки навушників можна замовити?": "How many headphones can we order?",
-"Мінімум 40, на першому етапі — до 100 навушників і, відповідно, до 100 учасників одночасно. Якщо гостей більше, напишіть кількість у заявці — порадимо, як краще бути.":
-  "At least 40, and for now up to 100 headphones — so up to 100 participants at once. If you have more guests, put the number in your request and we'll advise on the best way to handle it.",
+"Мінімум 40 навушників, по одному на кожного учасника. Напишіть орієнтовну кількість гостей у заявці — порадимо, як краще бути.":
+  "At least 40 headphones, one for each participant. Put the approximate number of guests in your request and we'll advise on the best way to handle it.",
 "Чи заважають навушники спілкуватися?": "Do the headphones get in the way of talking?",
 "Ні. Гучність у кожного своя, тож коли хочеться поговорити — досить зняти навушники на шию й говорити звичайним голосом, поки музика в них тихо грає поряд.":
   "No. Everyone sets their own volume, so when you want to talk, just slip the headphones down around your neck and talk normally while the music keeps playing quietly in them.",

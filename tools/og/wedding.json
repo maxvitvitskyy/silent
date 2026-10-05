@@ -1,0 +1,32 @@
+{
+  "out": "images/wedding/og-wedding.jpg",
+  "heading": [
+    "Silent Disco",
+    "на весілля"
+  ],
+  "subtitle": [
+    [
+      "Кожне покоління слухає своє,",
+      "а свято одне на всіх."
+    ]
+  ],
+  "pills": [
+    "від <b>40</b> гостей",
+    "<b>3</b> канали в навушниках",
+    "Будь-яка <b>локація</b>",
+    "<b>Київ</b> та Україна"
+  ],
+  "big": {
+    "src": "tools/og/_wedding-big.png",
+    "pos": "50% 50%"
+  },
+  "top": {
+    "src": "images/wedding/woman-dancing-garden.webp",
+    "pos": "50% 40%"
+  },
+  "bottom": {
+    "src": "images/wedding/guests-table-conversation.webp",
+    "pos": "50% 45%"
+  },
+  "css": ".big{left:440px;width:420px}.sm{width:308px}.s1,.s2{left:876px !important}"
+}

@@ -32,6 +32,7 @@ def main():
         '{{SUBTITLE}}': ''.join('<p>%s</p>' % '<br>'.join(par) for par in spec['subtitle']),
         '{{PILLS}}': ''.join('<span class="pill">%s</span>' % p for p in spec['pills']),
     }
+    rep['{{EXTRA_CSS}}'] = spec.get('css', '')
     for key in ('big', 'top', 'bottom'):
         rep['{{%s}}' % key.upper()] = file_url(spec[key]['src'])
         rep['{{%s_POS}}' % key.upper()] = spec[key].get('pos', '50% 50%')
