@@ -6892,6 +6892,15 @@
     font-size: clamp(30px, 3vw, 44px); line-height: 1;
     color: var(--lime); margin-bottom: auto;
   }
+  /* Номер із малим підписом біля нього («01 Заявка») — як чип кроку на головній.
+     Відступ донизу, що притискає заголовок, переїхав з номера на цей рядок. */
+  .pb-top { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; margin-bottom: auto; }
+  .pb-top .pb-num { margin-bottom: 0; }
+  .pb-tag {
+    font-weight: 700; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted-2);
+  }
+  .pb-card-accent .pb-tag { color: rgba(18,16,10,0.55); }
   .pb-card h3 {
     font-family: 'Unbounded', sans-serif; font-weight: 600;
     font-size: clamp(17px, 1.45vw, 21px); letter-spacing: -0.02em;
