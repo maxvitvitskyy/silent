@@ -6917,7 +6917,7 @@
   .pb-card-accent h3 { color: #12100a; }
   .pb-card-accent p { color: rgba(18,16,10,0.76); }
   .pb-cta {
-    align-self: flex-start;
+    align-self: flex-end;   /* кнопка в правому нижньому куті лаймової картки: балансує ліву колонку тексту */
     margin-top: clamp(16px, 2vw, 24px);
     padding: 12px 24px; border: 1px solid transparent; border-radius: 999px;
     background: var(--night); color: #fff;
