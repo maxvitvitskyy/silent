@@ -568,6 +568,7 @@ T = {
   'One technology, dozens of formats. From private celebrations and weddings to a museum tour: scroll on and see what is already possible.',
 'Сценарії подій, гортайте вбік': 'Event scenarios, scroll sideways',
 'Замовити цей досвід': 'Book this experience',
+'Дивитися досвід': 'View the experience',
 'Гортайте вбік, щоб побачити всі формати': 'Scroll sideways to see every format',
 'Попередні сценарії': 'Previous scenarios',
 'Наступні сценарії': 'Next scenarios',

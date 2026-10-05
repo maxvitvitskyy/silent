@@ -1252,7 +1252,10 @@ function orderExperience(name, opts){
           src: img ? img.getAttribute('src') : null,
           lqip: img ? img.style.getPropertyValue('--lqip') : '',
           alt: img ? img.getAttribute('alt') : '',
-          cats: c.dataset.cats || ''
+          cats: c.dataset.cats || '',
+          // Картка з власною сторінкою: замість кнопки замовлення в розмітці стоїть <a>.
+          href: (c.querySelector('a.uc-order') || {}).href ? c.querySelector('a.uc-order').getAttribute('href') : '',
+          hrefText: c.querySelector('a.uc-order') ? c.querySelector('a.uc-order').textContent : ''
         };
       }),
       offset: ri === 1 ? 0.5 : 0,       // нижній ряд зсунутий на пів картки
@@ -1275,6 +1278,24 @@ function orderExperience(name, opts){
       '<div class="uc-media"><img width="544" height="306" decoding="async" alt=""></div>' +
       '<div class="uc-body"><h3></h3><p></p>' +
       '<button type="button" class="uc-order">' + I18N.uc.order + '</button></div>';
+
+    // Картка, що має власну сторінку, малює <a class="uc-order" href> («Дивитися досвід»),
+    // решта — кнопку замовлення. Переставна картка може отримати будь-який сценарій,
+    // тож тип елемента перевіряємо щоразу.
+    function setOrder(c, it){
+      const cur = c.querySelector('.uc-order');
+      if (!cur) return;
+      if (it.href){
+        if (cur.tagName === 'A'){ cur.setAttribute('href', it.href); cur.textContent = it.hrefText; return; }
+        const a = document.createElement('a');
+        a.className = 'uc-order'; a.setAttribute('href', it.href); a.textContent = it.hrefText;
+        cur.replaceWith(a);
+      } else if (cur.tagName !== 'BUTTON'){
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'uc-order'; b.textContent = I18N.uc.order;
+        cur.replaceWith(b);
+      }
+    }
 
     function makeCard(col, h){
       const c = document.createElement('article');
@@ -1379,6 +1400,7 @@ function orderExperience(name, opts){
             c.dataset.uc = it.name;
             c._h3.textContent = it.title;
             c._p.textContent = it.text;
+            setOrder(c, it);
             // --lqip ставимо на .uc-media: звідти його бачить і сам <img>, і хвіст
             // розмиття в ::after
             if (it.lqip) c._media.style.setProperty('--lqip', it.lqip);
@@ -1452,7 +1474,7 @@ function orderExperience(name, opts){
     // картки переставні, тож кнопки замовлення ловимо делегуванням
     view.addEventListener('click', (e) => {
       const btn = e.target.closest('.uc-order');
-      if (!btn) return;
+      if (!btn || btn.tagName !== 'BUTTON') return;   // <a> веде на сторінку сама
       const card = btn.closest('.uc-card');
       const name = card && card.dataset.uc;
       if (name) orderExperience(name);
@@ -1604,6 +1626,7 @@ function orderExperience(name, opts){
           c.innerHTML = SKELETON;
           c.querySelector('h3').textContent = it.title;
           c.querySelector('.uc-body p').textContent = it.text;
+          setOrder(c, it);
           const media = c.querySelector('.uc-media');
           if (it.lqip) media.style.setProperty('--lqip', it.lqip);
           const img = c.querySelector('img');
@@ -1761,6 +1784,13 @@ function orderExperience(name, opts){
         const chip = e.target.closest('.exp-chip');
         if (chip){ apply(chip.dataset.cat); centerChip(filterBar, chip); }
       });
+
+      // Тема за замовчуванням для сторінки: <section id="more" data-default-cat="business">.
+      // На сторінці формату (корпоративи → business, весілля → party…) стрічка одразу показує
+      // близькі за змістом картки замість усіх 43, а фільтр і блок лишаються тими самими:
+      // чип «Усі» повертає повну стрічку. Порожнє чи невідоме значення — нічого не робимо.
+      const defCat = stripSection && stripSection.dataset.defaultCat;
+      if (defCat && chips.some(ch => ch.dataset.cat === defCat)) apply(defCat);
     })();
   })();
 

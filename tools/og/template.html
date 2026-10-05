@@ -1,0 +1,42 @@
+<!doctype html><html lang="uk"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;700;800&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{--night:#0a0a0b;--lime:#c6ff00}
+*{box-sizing:border-box;margin:0}
+html,body{width:1200px;height:630px;overflow:hidden;background:var(--night)}
+.p{position:relative;width:1200px;height:630px;color:#fff;font-family:'Manrope',sans-serif;
+ background:radial-gradient(700px 420px at 12% 105%,rgba(198,255,0,.16),transparent 70%),radial-gradient(600px 420px at 95% -10%,rgba(120,60,200,.20),transparent 70%),var(--night)}
+
+
+.left{position:absolute;left:52px;top:36px;bottom:40px;width:530px;display:flex;flex-direction:column;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:14px}
+.logo img{width:58px;height:58px;display:block}
+.logo span{font:700 32px/1 'Unbounded',sans-serif;letter-spacing:.02em}
+.logo b{color:var(--lime)}
+
+.text{padding-left:4px;position:relative;top:-9px}
+.h{font:800 40px/1.18 'Unbounded',sans-serif;letter-spacing:-.02em;text-transform:uppercase}
+.h span{display:block;white-space:nowrap}
+
+
+.sub{margin-top:18px;width:520px;font:700 21px/1.32 'Manrope',sans-serif;color:rgba(255,255,255,.9)}
+.sub p+p{margin-top:12px;color:rgba(255,255,255,.62)}
+
+.pills{padding-left:4px;display:flex;flex-direction:column;gap:11px;align-items:flex-start}
+
+.pill{padding:11px 22px;border:3px solid var(--lime);border-radius:999px;font:700 15px/1 'Unbounded',sans-serif;text-transform:uppercase;letter-spacing:0}
+.pill b{color:var(--lime);font-weight:800}
+.t{position:absolute;border-radius:20px;overflow:hidden;box-shadow:0 18px 36px -16px rgba(0,0,0,.75);border:1px solid rgba(255,255,255,.14)}
+.big{left:622px;top:16px;width:328px;height:598px}
+.sm{width:218px;height:291px}
+
+.t img{width:100%;height:100%;object-fit:cover;display:block}
+</style></head><body><div class="p">
+<div class="left"><div class="logo"><img src="{{MARK}}"><span>SILENT<b>.</b></span></div>
+<div class="text"><div class="h">{{HEADING}}</div>
+<div class="sub">{{SUBTITLE}}</div></div>
+<div class="pills">{{PILLS}}</div></div>
+<div class="t big"><img src="{{BIG}}" style="object-position:{{BIG_POS}}"></div>
+<div class="t sm" style="left:966px;top:16px"><img src="{{TOP}}" style="object-position:{{TOP_POS}}"></div>
+<div class="t sm" style="left:966px;top:323px"><img src="{{BOTTOM}}" style="object-position:{{BOTTOM_POS}}"></div>
+</div></body></html>

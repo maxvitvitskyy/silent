@@ -1,0 +1,31 @@
+{
+  "out": "images/corp/og-corporate.jpg",
+  "heading": [
+    "Silent Disco",
+    "для корпоративу"
+  ],
+  "subtitle": [
+    [
+      "Корпоратив, на якому нікого",
+      "не потрібно вмовляти танцювати."
+    ]
+  ],
+  "pills": [
+    "від <b>40</b> гостей",
+    "<b>3</b> канали в навушниках",
+    "Будь-яка <b>локація</b>",
+    "<b>Київ</b> та Україна"
+  ],
+  "big": {
+    "src": "images/corp/neonova-tantsyuvalna-vechirkal-silent-kopiya.webp",
+    "pos": "50% 50%"
+  },
+  "top": {
+    "src": "images/corp/neonova-vechirka-v-rytmi-silent-disco.webp",
+    "pos": "38% 50%"
+  },
+  "bottom": {
+    "src": "images/corp/neonovi-navushnyky-na-zakhodi-sontsya1.webp",
+    "pos": "50% 50%"
+  }
+}

@@ -845,20 +845,22 @@
       linear-gradient(180deg, rgba(10,10,11,0.85) 0%, transparent 38%);
   }
   .nav-mega-visual-text { position: relative; z-index: 1; padding: 14px 14px 0; }
+  /* Підпис на фото — не заголовок (H3): меню стоїть у розмітці раніше за H1 сторінки, тож
+     «підрозділ» перед назвою плутав структуру заголовків. Це .nav-mega-title (div) з тим самим виглядом. */
   /* Постерна пара ваг — той самий прийом, що й .exp-title .t-lead/.t-sub
      на сторінках досвідів (одна гарнітура Unbounded, важкий рядок + легке
      уточнення замість другого шрифту): .t-lead успадковує вагу 800 від h3,
      .t-sub — 300 і менший кегль. Фото тепер на всю висоту панелі (окрема
      правка вище), тож великому заголовку є куди рости, не впираючись у
      кнопку внизу. */
-  .nav-mega-visual-text h3 {
+  .nav-mega-visual-text .nav-mega-title {
     font-family: 'Unbounded', sans-serif; font-weight: 800; font-size: 19px;
     line-height: 1.15; letter-spacing: -0.02em; color: #fff;
     margin: 0;
   }
-  .nav-mega-visual-text h3 .t-lead,
-  .nav-mega-visual-text h3 .t-sub { display: block; }
-  .nav-mega-visual-text h3 .t-sub {
+  .nav-mega-visual-text .nav-mega-title .t-lead,
+  .nav-mega-visual-text .nav-mega-title .t-sub { display: block; }
+  .nav-mega-visual-text .nav-mega-title .t-sub {
     font-weight: 300; font-size: 0.72em; letter-spacing: -0.01em;
     color: var(--muted); margin-top: 0.2em;
   }
