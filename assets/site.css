@@ -6968,6 +6968,10 @@
     line-height: 1.55; color: var(--muted); max-width: 68ch;
   }
   .exp-story-text > p { max-width: 68ch; }
+  /* Підзаголовок блоку в колонці тексту: той самий абзац, лише світліший і
+     жирніший, щоб читався як підсумок заголовка, а не частина основного тексту.
+     */
+  .exp-story-text p.story-sub { color: #fff; font-weight: 600; }
   .gear-hint {
     margin: clamp(22px, 3vh, 30px) 0 0;
     font-size: clamp(13px, 1vw, 14.5px); color: var(--muted-2, rgba(255,255,255,0.45));
@@ -7899,23 +7903,24 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
   section.faq:not(.exp-section) .faq-nav { margin-top: 28px; margin-bottom: -16px; }
 }
 
-/* Тумблери каналів (десктоп/планшет, від 641px): висота дорівнює двом рядкам
+/* Тумблери каналів на ГОЛОВНІЙ (панель .hero-strip, десктоп): висота дорівнює двом рядкам
    підпису поруч (назва + жанр), а не 26px, тож перемикач читається як рівна
    частина колонки й помітніший. Ручка — квадрат на всю висоту мінус рамка; її
    зсув тепер через left/translate (а не фіксовані 20px), бо ширина й висота
-   залежать від висоти підпису. На телефоні лишається компактний тумблер під
-   назвою (там опису немає). */
-@media (min-width: 641px){
-  .ch-toggle-top { align-items: stretch; }
-  .ch-switch { width: 78px; height: auto; min-height: 36px; align-self: stretch; }
-  .ch-switch-knob {
+   залежать від висоти підпису. Лише на десктопі (від 1240px): нижче підпис
+   «Pop & Throwback» переноситься на три рядки, і тумблери виходять різної висоти
+   (а на планшеті — у величезне коло), тож там і на телефоні лишається звичайний
+   тумблер 46×26. */
+@media (min-width: 1240px){
+  .hero-strip .ch-toggle-top { align-items: stretch; }
+  .hero-strip .ch-switch { width: 78px; height: auto; min-height: 36px; align-self: stretch; }
+  .hero-strip .ch-switch-knob {
     top: 4px; bottom: 4px; left: 4px;
     width: auto; height: auto; aspect-ratio: 1;
     transition: left 0.3s cubic-bezier(.4,0,.2,1), translate 0.3s cubic-bezier(.4,0,.2,1), background 0.3s ease;
   }
-  .ch-toggle.active .ch-switch-knob { transform: none; left: calc(100% - 4px); translate: -100% 0; }
-  .hero-strip.is-silent .ch-toggle.active .ch-switch-knob,
-  .hp-switch.is-silent .ch-toggle.active .ch-switch-knob { left: 4px; translate: none; }
+  .hero-strip .ch-toggle.active .ch-switch-knob { transform: none; left: calc(100% - 4px); translate: -100% 0; }
+  .hero-strip.is-silent .ch-toggle.active .ch-switch-knob { left: 4px; translate: none; }
 }
 
 /* Англійський заголовок «Quiet Experiences» (еквівалент «Тихі враження»): слово
@@ -7925,3 +7930,10 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
 @media (min-width: 1100px){
   html[lang="en"] .exp-head:not(.faq-head) .exp-head-title { font-size: clamp(38px, 5.4vw, 80px); }
 }
+
+/* Один стовпець (<1000px): сцена з навушниками, що в розмітці стоїть першою (ліва
+   колонка), йде після тексту — як колаж у сусідніх блоках. */
+@media (max-width: 999px){
+  .exp-story-grid > .hp-stage { order: 2; }
+}
+
