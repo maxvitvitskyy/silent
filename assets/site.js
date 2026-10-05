@@ -1302,8 +1302,29 @@ function orderExperience(name, opts){
       return h;
     }
 
+    // Чи є серед назв така, що в цій ширині картки йде у два рядки. Якщо так, уся
+    // стрічка отримує слот під два рядки (.t-two на .uc-gallery) — до того, як
+    // tallest() виміряє висоту картки, щоб висота вже його враховувала.
+    function markTitleSlot(col){
+      const gal = view.closest('.uc-gallery');
+      if (!gal) return;
+      gal.classList.remove('t-two');
+      const probe = makeCard(col, 0);
+      probe.style.cssText += ';visibility:hidden;pointer-events:none;left:0';
+      rows[0].el.appendChild(probe);
+      const lh = parseFloat(getComputedStyle(probe._h3).lineHeight) || 23;
+      let wraps = false;
+      rows.forEach(r => r.items.forEach(it => {
+        probe._h3.textContent = it.title;
+        if (probe._h3.offsetHeight > lh * 1.5) wraps = true;
+      }));
+      probe.remove();
+      gal.classList.toggle('t-two', wraps);
+    }
+
     function build(){
       const [col, gap] = metrics();
+      markTitleSlot(col);
       step = col + gap;
       period = rows[0].items.length * step;
       // Запас по 12 карток у кожен бік (≈2900px на телефоні) — більше, ніж
@@ -1487,6 +1508,20 @@ function orderExperience(name, opts){
       clearTimeout(rt);
       rt = setTimeout(() => { build(); start(); remember(); }, 200);
     }, { passive: true });
+
+    // Назви міряються до завантаження веб-шрифту іншим шрифтом: коли шрифт приходить,
+    // перенос рядків може змінитись. Якщо через це змінилась потреба в слоті під два
+    // рядки (.t-two), стрічку перебудовуємо, щоб висота й вирівнювання були вірні.
+    if (document.fonts && document.fonts.ready){
+      document.fonts.ready.then(() => {
+        if (!booted || !virtualized) return;
+        const gal = view.closest('.uc-gallery');
+        if (!gal) return;
+        const was = gal.classList.contains('t-two');
+        markTitleSlot(metrics()[0]);
+        if (gal.classList.contains('t-two') !== was){ build(); start(); remember(); }
+      });
+    }
 
     // Секція, а не жорстке id="cases": на головній стрічка живе в #cases, на
     // сторінці досвіду — в #more. Раніше guard шукав саме #cases, і на іншій
@@ -4382,6 +4417,7 @@ function orderExperience(name, opts){
     // display, як у демо (item.style.display = 'none' | 'inline-flex'): Flip
     // тримає й відновлює саме інлайновий display.
     cards.forEach(c => { c.style.display = c.hidden ? 'none' : ''; });
+    if (window.__expAlignTitles) window.__expAlignTitles();   // слоти назв — до виміру кінцевої висоти
     const h1 = conts.map(e => e.getBoundingClientRect().height);
     // Затримка між картками — щоб рух читався хвилею, а не одним блоком. ВАЖЛИВО:
     // Flip рахує stagger за індексом серед УСІХ елементів стану (44 картки), а не
@@ -5478,5 +5514,44 @@ function orderExperience(name, opts){
     const h = a.getAttribute('href') || '';
     haptic.attach(a, { forward: h.charAt(0) === '#' ? null : goLink(a) });
   });
+
+  // Каталог форматів: назви в один і в два рядки вирівнюємо по нижньому краю (див.
+  // .t-two у site.css). Ряд сітки — картки з однаковим offsetTop; якщо хоч одна назва в
+  // ньому йде у два рядки, усі картки ряду отримують слот під два рядки. Перераховуємо
+  // на ресайз, завантаження шрифтів і кожну зміну видимості карток (фільтр тем).
+  (function(){
+    const grid = document.querySelector('.exp-grid');
+    if (!grid) return;
+    // Не чіпаємо картки, поки йде анімація фільтра (Flip/вхід/вихід, фіксована висота
+    // сітки): зміна висоти посеред руху збивала б їхній кінцевий стан і зсувала сторінку.
+    const busy = () => !!grid.querySelector('.is-entering, .is-leaving, .gs-busy') || !!grid.style.height;
+    function align(force){
+      if (force !== true && busy()){ later(220); return; }
+      const cards = [].slice.call(grid.querySelectorAll('.uc-card:not([hidden])'));
+      // Міряємо назви без слота, щоб слот не маскував справжній перенос.
+      const had = cards.filter(c => c.classList.contains('t-two'));
+      had.forEach(c => c.classList.remove('t-two'));
+      const rows = new Map();
+      cards.forEach(c => {
+        const h = c.querySelector('h3');
+        const lh = parseFloat(getComputedStyle(h).lineHeight) || 23;
+        const k = c.offsetTop;
+        rows.set(k, rows.get(k) || h.offsetHeight > lh * 1.5);
+      });
+      cards.forEach(c => { if (rows.get(c.offsetTop)) c.classList.add('t-two'); });
+    }
+    let t = 0;
+    function later(ms){ clearTimeout(t); t = setTimeout(align, typeof ms === 'number' ? ms : 120); }
+    align();
+    // flipFilter() викликає це синхронно одразу після зміни видимості карток, ДО
+    // Flip.from: слоти під два рядки лягають у кінцеву розкладку, яку Flip і
+    // анімує, тож жодного стрибка після переходу. Відкладений перерахунок нижче
+    // лише страхує (ресайз, шрифти, режим без Flip) і тоді вже нічого не змінює.
+    window.__expAlignTitles = () => align(true);
+    window.addEventListener('resize', () => later(), { passive: true });
+    window.addEventListener('load', () => later());
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => later());
+    new MutationObserver(() => later(450)).observe(grid, { subtree: true, childList: true, attributes: true, attributeFilter: ['hidden'] });
+  })();
 
   window.__siteJs = true;

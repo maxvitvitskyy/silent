@@ -4309,6 +4309,21 @@
   /* balance: у вузькій картці двослівний хвіст назви («…молодіжні збори»)
      лишав одне слово самотнім у другому рядку. */
   .uc-card h3 { font-size: 14.5px; font-weight: 700; text-wrap: balance; }
+  /* Назви в один і в два рядки мають однаковий низ. Де в ряду (сітка каталогу) чи в
+     усій стрічці є назва у два рядки, site.js ставить .t-two: заголовок лежить у
+     «слоті» заввишки два рядки, притиснутий до низу — однорядкова стоїть на нижньому
+     рядку, дворядкова піднімає перший вище, а описи під ними починаються на одній
+     лінії. Без двох рядків слот не додається, тож зайвого порожнього місця немає.
+     Запасна висота в em — для браузерів без 2lh (рядок успадковує line-height 1.6). */
+  .uc-card.t-two h3, .uc-gallery.t-two .uc-card h3 {
+    display: grid; align-content: end;
+    min-height: calc(2 * 1.6em);
+    min-height: 2lh;
+  }
+  /* Відступ між описом і кнопкою «Замовити цей досвід» у стрічці — той самий, що в
+     каталозі (.exp-grid .uc-card p нижче): інакше в картці з найдовшим описом кнопка
+     тулилась до тексту на 7px. */
+  .uc-gallery .uc-card p { margin-bottom: 12px; }
   .uc-card p { font-size: 13px; color: var(--muted); line-height: 1.48; }
   .uc-order {
     margin-top: auto; align-self: flex-start;
@@ -7036,7 +7051,12 @@
   .hp-top-wrap { position: relative; }
   .hp-gear {
     position: absolute; z-index: 4;
-    left: 50%; transform: translateX(-50%);
+    left: 50%;
+    /* Навушники піднято: верх видимої частини стоїть посередині між колишнім
+       положенням і верхнім краєм кадру, а низ лишається там, де був. Масштаб від
+       точки 96% висоти (у PNG вміст закінчується на ~96% квадрата), тож низ
+       не зсувається, а росте вгору й трохи вшир. */
+    transform: translateX(-50%) scale(1.16); transform-origin: 50% 96%;
     /* 64% і 92px разом ставлять видимий верх навушників приблизно на 15%
        висоти кадру, а низ — на 46px усередину панелі. Рахунок такий: у PNG
        вміст займає 2%..96% квадрата, тож видима висота = 0.94 ширини. */
@@ -7069,15 +7089,19 @@
     width: 84%; aspect-ratio: 1; border-radius: 50%;
     pointer-events: none;
     background: radial-gradient(circle,
-      color-mix(in srgb, var(--hp-glow, var(--red)) 58%, transparent) 0%,
-      color-mix(in srgb, var(--hp-glow, var(--red)) 24%, transparent) 40%,
+      color-mix(in srgb, var(--hp-glow, var(--red)) 70%, transparent) 0%,
+      color-mix(in srgb, var(--hp-glow, var(--red)) 29%, transparent) 40%,
       transparent 70%);
     transition: background 0.55s ease;
     animation: hpPulse 3.4s ease-in-out infinite;
   }
+  /* Саме світіння на 20% сильніше (колір градієнта 58→70% і 24→29%, база прозорості
+     піднята на 0.10), а розмах пульсу лишився колишнім — 0.40 прозорості й 0.94–1.07
+     масштабу, плавний метроном 3.4с. Спроба зробити пульс нерівним вийшла надто
+     «блимучою», тож повернули рівний ритм. */
   @keyframes hpPulse {
-    0%, 100% { opacity: 0.45; transform: translate(-50%, -50%) scale(0.94); }
-    50%      { opacity: 0.85; transform: translate(-50%, -50%) scale(1.07); }
+    0%, 100% { opacity: 0.55; transform: translate(-50%, -50%) scale(0.94); }
+    50%      { opacity: 0.95; transform: translate(-50%, -50%) scale(1.07); }
   }
 
   /* На телефоні панель та сама, а кадр утричі вужчий: навушники дістають до

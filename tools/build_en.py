@@ -1526,6 +1526,99 @@ SWITCH_EN_FAQ = """    <span class="lang-switch" role="group" aria-label="Site l
       <span class="lang-cur" aria-current="true">EN</span>
     </span>"""
 
+# --- Описи карток форматів (оновлено 05.10.2026). Ключ — український текст картки.
+T_CARDS = {
+'Різні смаки — один танцпол. Кожен обирає свою музику, а всі залишаються частиною однієї вечірки.':
+  'Different tastes, one dance floor. Everyone picks their own music, and everyone stays part of the same party.',
+'Три канали грають одночасно — три музичні світи в одному просторі. Перемикайся між ними одним рухом.':
+  'Three channels play at once — three musical worlds in one space. Switch between them with a single move.',
+'Шкільна дискотека чи тематичне свято, яке діти пам’ятатимуть. Танцюють на повну, а в залі тихо.':
+  'A school disco or themed party the kids will remember. They dance their hearts out, and the hall stays quiet.',
+'Різна музика для різних поколінь — і всі танцюють разом. Свято триває й там, де гучно не можна.':
+  "Different music for different generations — and everyone dances together. The party goes on where loud isn't allowed.",
+'Три музичні канали — три настрої. Кожен знаходить своє, а команда залишається разом на одному танцполі.':
+  'Three music channels, three moods. Everyone finds their own, and the team stays together on one dance floor.',
+'Студентські вечірки, випускні та інші події стають яскравішими, коли кожен може обрати свою музику.':
+  'Student parties, graduations and other events get brighter when everyone can choose their own music.',
+'Плейлисти, підібрані для дітей, і контроль гучності для кожного. Весело, безпечно й комфортно.':
+  'Playlists chosen for children and volume control for each of them. Fun, safe and comfortable.',
+'Кілька сцен в одному просторі. Перемикайся між музичними світами, не залишаючи танцпол.':
+  'Several stages in one space. Switch between musical worlds without leaving the dance floor.',
+'Проводьте служіння будь-де — у залі чи просто неба. Проповідь, музика й переклад звучать у навушниках.':
+  'Hold your service anywhere — in a hall or outdoors. Sermon, music and interpretation play in the headphones.',
+'Ранкова молитва, навчання, спільні активності й вечірня дискотека — один комплект для різних моментів дня.':
+  'Morning prayer, teaching, shared activities and an evening disco — one set for different moments of the day.',
+'Зарядка, ігри, навчання, дискотека — один комплект навушників для всього дня та різних форматів.':
+  'Morning exercise, games, teaching, a disco — one set of headphones for the whole day and different formats.',
+'Кілька спікерів чи воркшопів працюють одночасно. Обирай, що слухати, — сесії не заважають одна одній.':
+  "Several speakers or workshops run at once. Choose what to listen to — sessions don't get in each other's way.",
+'Голос інструктора поруч, музика занурює у власний ритм. Повна концентрація без шуму.':
+  "The instructor's voice is close, the music draws you into your own rhythm. Full focus, no noise.",
+'Від форумів до публічних дискусій — кожен чує спікера чітко, навіть просто неба й серед міського шуму.':
+  'From forums to public debates — everyone hears the speaker clearly, even outdoors and amid city noise.',
+'Танцюй до ранку, не турбуючи весь будинок. Музика залишається тільки там, де відбувається ваша вечірка.':
+  'Dance till morning without disturbing the whole building. The music stays only where your party is.',
+'Один вечір — три настрої. Танцюйте під свій канал і створіть момент лише для вашої компанії.':
+  'One evening, three moods. Dance to your own channel and create a moment just for your group.',
+'Кіно під зорями без обмежень за гучністю. Екран, нічне небо — і звук фільму прямо у навушниках.':
+  "Cinema under the stars with no volume limits. A screen, the night sky — and the film's sound right in the headphones.",
+'Від промови та аукціону до музики й танців — один простір легко змінює свій настрій протягом вечора.':
+  'From the speech and the auction to music and dancing — one space easily changes its mood through the evening.',
+'Голос гіда залишається поруч незалежно від того, де ти в групі. Слухай, дивись і не пропускай жодної історії.':
+  "The guide's voice stays close wherever you are in the group. Listen, look and don't miss a single story.",
+'Справжній DJ-досвід без обмежень локації. Музика, світло навушників і натовп — атмосфера будь-де.':
+  'A real DJ experience with no location limits. Music, glowing headphones and the crowd — atmosphere anywhere.',
+'Танцпол між прилавками. Музика для гостей, розмови для продавців — один простір для всіх.':
+  'A dance floor between the stalls. Music for guests, conversation for sellers — one space for everyone.',
+'Тренер говорить — команда чує. Чіткий звук залишається з кожним учасником, навіть посеред шуму та руху.':
+  'The coach speaks — the team hears. Clear sound stays with every participant, even amid noise and movement.',
+'Кілька груп в одному просторі. Кожна слухає своє завдання чи лекцію — без звукового хаосу.':
+  'Several groups in one space. Each listens to its own task or lecture — without sound chaos.',
+'Голос гіда супроводжує всю групу. Неважливо, хто попереду, а хто відстав — ніхто не губить маршрут.':
+  "The guide's voice goes with the whole group. It doesn't matter who is in front and who lags behind — no one loses the route.",
+'Кожен експонат отримує власну історію. Слухай її у навушниках, зберігаючи тишу навколо.':
+  'Every exhibit gets its own story. Listen to it in the headphones while keeping the silence around you.',
+'Музика звучить максимально близько. Кожна нота, подих і деталь інструмента залишаються чутними.':
+  'The music sounds as close as it gets. Every note, breath and detail of the instrument stays audible.',
+'Голос веде тебе всередину, а зовнішній світ відходить на другий план. Твій простір спокою — будь-де.':
+  'A voice leads you inward while the outside world fades into the background. Your space of calm — anywhere.',
+'Брендові welcome-треки й аудіовставки звучать прямо у вухах аудиторії — чітко й без втрат.':
+  "Branded welcome tracks and audio inserts play right in your audience's ears — clearly and without loss.",
+'Наступний крок звучить прямо у вухах. Слухай майстра, не відриваючи рук від роботи.':
+  'The next step sounds right in your ears. Listen to the master without taking your hands off the work.',
+'Одна подія — кілька мов. Кожен обирає свій канал і слухає доповідь зрозумілою мовою.':
+  'One event — several languages. Everyone chooses their own channel and listens to the talk in a language they understand.',
+'Власна гучність для людей із сенсорною чутливістю, зокрема аутичних. Менше перевантаження.':
+  'Individual volume for people with sensory sensitivity, including autistic guests. Less overload.',
+'Кожен жарт доходить чисто, навіть коли зал вибухає сміхом. Ніяких пропущених панчлайнів.':
+  'Every joke lands cleanly, even when the room erupts in laughter. No missed punchlines.',
+'Плейлисти молодості, власна гучність і чіткий звук — щоб кожен міг бути частиною події.':
+  'Playlists of youth, individual volume and clear sound — so everyone can be part of the event.',
+'Музика переходить разом із вами від бару до бару. Вечірка не закінчується разом із дверима одного закладу.':
+  "The music moves with you from bar to bar. The party doesn't end when the door of one venue closes.",
+'Підказки й секретні завдання приходять прямо у ваш канал — суперники нічого не почують.':
+  'Clues and secret tasks arrive right in your channel — rivals hear nothing.',
+'Усі чують одну музику. Один — іншу. Спостерігай, хто реагує не так, і вирахуй зрадника, поки він не видав себе.':
+  'Everyone hears the same music. One hears another. Watch who reacts oddly and find the traitor.',
+'Три команди. Три треки. Один танцпол. Кожна команда чує свою музику й не збивається з ритму інших.':
+  "Three teams. Three tracks. One dance floor. Each team hears its own music and doesn't lose the rhythm because of the others.",
+'Від басейну до пляжу й вечірки — Silent працює там, де хочеться, і в будь-який час.':
+  'From the pool to the beach and the party — Silent works where you want it, at any time.',
+'Кожен стенд може мати власний звуковий канал. Відвідувач слухає саме ту історію, яку обирає.':
+  'Every stand can have its own sound channel. The visitor listens to exactly the story they choose.',
+'Новий альбом звучить так близько, ніби ти сидиш у студії з артистом. Жодна деталь не губиться.':
+  "The new album sounds so close it's as if you were sitting in the studio with the artist. Not a single detail is lost.",
+'Музика, кроки й світло зливаються в один ритм. Преса й команда можуть отримувати окремі аудіоканали.':
+  'Music, footsteps and light merge into one rhythm. The press and the team can get separate audio channels.',
+'Сцена посеред міста, а аудіодоріжка вистави звучить прямо у вухах глядача. Локація не має меж.':
+  "The stage is in the middle of the city, while the show's audio track plays in the viewer's ears. No limits on location.",
+'Кожна партія звучить окремо. Слухай глибше й розбирай деталі, що губляться в загальному звучанні.':
+  'Each part sounds on its own. Listen deeper and pick out details lost in the overall sound.',
+'Кіно просто неба без величезних колонок. Машини, екран, нічне небо — і звук прямо у твоїх навушниках.':
+  'Open-air cinema without huge speakers. Cars, a screen, the night sky — and the sound right in your headphones.',
+}
+T.update(T_CARDS)
+
 T_FAQ = {
 # --- «Ціна й бронювання»: що буде після заявки
 "Що відбувається після того, як я залишу заявку?": "What happens after I submit a request?",
