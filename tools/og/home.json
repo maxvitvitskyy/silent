@@ -1,0 +1,18 @@
+{
+  "template": "template-photo.html",
+  "out": "images/og/og-home.jpg",
+  "bg": {
+    "src": "tools/og/photo-home.webp",
+    "pos": "50% 44%"
+  },
+  "heading": [
+    "Танцюйте так, ніби",
+    "вас ніхто не чує."
+  ],
+  "pills": [
+    "<b>Silent Disco</b> під ключ",
+    "від <b>12 000</b> грн",
+    "від <b>40</b> гостей",
+    "<b>Київ</b> та Україна"
+  ]
+}

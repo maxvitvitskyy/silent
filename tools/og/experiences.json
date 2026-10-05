@@ -1,0 +1,34 @@
+{
+  "template": "template-reel.html",
+  "out": "images/og/og-experiences.jpg",
+  "heading": [
+    "Тихі",
+    "враження"
+  ],
+  "subtitle": [
+    [
+      "Одна технологія.",
+      "Десятки форматів."
+    ]
+  ],
+  "pills": [
+    "<b>44</b> формати",
+    "<b>Київ</b> та Україна",
+    "!Обери свої враження →"
+  ],
+  "reel": {
+    "center": "EXPERIENCE",
+    "above": [
+      "Cinema",
+      "Wedding",
+      "Corporate",
+      "Festival"
+    ],
+    "below": [
+      "Kids",
+      "Exhibitions",
+      "Spirit",
+      "Culture"
+    ]
+  }
+}

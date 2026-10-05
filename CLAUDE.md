@@ -246,15 +246,14 @@ python3 tools/build_en.py
   в посиланнях — хеш `/experiences/#cat-business`, а не `?cat=` (щоб Google не
   бачив вісім адрес однієї сторінки); `?cat=` лишається робочим для старих
   посилань. Логотип у шапці — `href="/"` (на головній JS гортає вгору).
-- **Dashboard заявок — НЕ на GitHub Pages.** `/dashboard/` — порожня заглушка
-  без даних і запитів. Інтерфейс і дані живуть в Apps Script Web App
-  (`tools/dashboard-apps-script/`: `Code.gs` + `Index.html`), розгортання
-  «Execute as: Me», «Who has access: Only myself»; дані віддає серверна функція
-  `dashboardData()` через `google.script.run`, публічного JSON-endpoint і секретів
-  у фронтенді немає. Не повертати `fetch` до публічної адреси й не комітити в
-  `Code.gs` реальний `SHEET_ID` (його вставляють лише в редакторі Apps Script).
-  Старий публічний READ_ENDPOINT вважається скомпрометованим (був у відкритому
-  git) — його розгортання треба архівувати.
+- **Dashboard заявок — окремо від сайту.** Сторінки `/dashboard/` більше немає (прибрано
+  05.10.2026). Інтерфейс і дані живуть в Apps Script Web App (`tools/dashboard-apps-script/`:
+  `Code.gs` + `Index.html`), розгортання «Execute as: Me», «Who has access: Only myself»; дані
+  віддає серверна функція `dashboardData()` через `google.script.run`, публічного JSON-endpoint
+  і секретів у фронтенді немає. Не повертати `fetch` до публічної адреси й не комітити в
+  `Code.gs` реальний `SHEET_ID` (його вставляють лише в редакторі Apps Script). Старий публічний
+  READ_ENDPOINT вважається скомпрометованим (був у відкритому git) — його розгортання треба
+  архівувати.
 - **Вібровідгук — `haptic` на початку `assets/site.js`.** Лише сенсорні пристрої
   без `prefers-reduced-motion`. Android: `navigator.vibrate` на справжній клік.
   **iPhone: програмні виклики (`label.click()` на `<input switch>`) відгуку НЕ дають
@@ -269,11 +268,18 @@ python3 tools/build_en.py
 - **Англійська «Тихі враження» — `en/experiences/`, її теж генерує `tools/build_en.py`**
   (`build_experiences`, словник `T_EXP` для рядків лише цієї сторінки; картки
   форматів беруть спільний `T`). Посилання на `/experiences/…` в англійських
-  сторінках автоматично стають `/en/experiences/…`, крім `/experiences/corporate/`
-  (англійської версії корпоративів ще немає — вона лишається українською). Скрипт
+  сторінках автоматично стають `/en/experiences/…` (`EXP_LINK`). Скрипт
   фільтра тем у `site.js` обробляє обидва префікси (`/experiences/` і `/en/experiences/`),
-  рядок «N форматів у цій темі» бере з `I18N.uc.count`. Нова сторінка досвіду =
-  дописати і в `sitemap.xml` пару UA/EN.
+  рядок «N форматів у цій темі» бере з `I18N.uc.count`.
+- **Англійські сторінки досвідів — `en/experiences/<slug>/` (корпоративи, весілля),
+  `build_experience_page_en()` у `build_en.py`**, руками не редагуються. Список —
+  `EXP_EN_PAGES` (slug → англомовна OG-картка). Усі власні рядки сторінки — у
+  `tools/en_pages.py` (`T_PAGE_ALL`: ключ — точний український текст; короткі одиничні
+  слова пишуться з дужками `'>год<'`, інакше підрядок зіпсує довші слова, як «години»).
+  Нова сторінка досвіду = (1) UA-сторінка з перемикачем мови й трьома hreflang у `<head>`,
+  (2) slug в `EXP_EN_PAGES` і `EXPERIENCE_PAGES`, (3) переклад рядків у `en_pages.py`
+  (збірка падає на кирилиці, що лишилась), (4) OG-картка `tools/og/<slug>-en.json`,
+  (5) пара UA/EN у `sitemap.xml`. Нова сторінка = новий запис у `EXPERIENCE_URLS`.
 - **`sitemap.xml` ведеться руками.** Нова сторінка = новий `<url>`; пара
   UA/EN — з однаковими `xhtml:link` в обох записах. /privacy/ (noindex)
   туди не входить.

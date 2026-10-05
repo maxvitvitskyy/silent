@@ -1,0 +1,55 @@
+<!doctype html><html lang="uk"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;700;800&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{--night:#0a0a0b;--lime:#c6ff00}
+*{box-sizing:border-box;margin:0}
+html,body{width:1200px;height:630px;overflow:hidden;background:var(--night)}
+.p{position:relative;width:1200px;height:630px;color:#fff;font-family:'Manrope',sans-serif;
+ background:radial-gradient(700px 420px at 12% 105%,rgba(198,255,0,.16),transparent 70%),radial-gradient(600px 420px at 95% -10%,rgba(120,60,200,.20),transparent 70%),var(--night)}
+
+
+.left{position:absolute;left:52px;top:36px;bottom:40px;width:530px;display:flex;flex-direction:column;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:14px}
+.logo img{width:58px;height:58px;display:block}
+.logo span{font:700 32px/1 'Unbounded',sans-serif;letter-spacing:.02em}
+.logo b{color:var(--lime)}
+
+.text{padding-left:4px;position:relative;top:-9px}
+.h{font:800 40px/1.18 'Unbounded',sans-serif;letter-spacing:-.02em;text-transform:uppercase}
+.h span{display:block;white-space:nowrap}
+
+
+.sub{margin-top:18px;width:520px;font:700 21px/1.32 'Manrope',sans-serif;color:rgba(255,255,255,.9)}
+.sub p+p{margin-top:12px;color:rgba(255,255,255,.62)}
+
+.pills{padding-left:4px;display:flex;flex-direction:column;gap:11px;align-items:flex-start}
+
+.pill{padding:11px 22px;border:3px solid var(--lime);border-radius:999px;font:700 15px/1 'Unbounded',sans-serif;text-transform:uppercase;letter-spacing:0}
+.pill b{color:var(--lime);font-weight:800}
+.pill.cta{background:var(--lime);color:#0a0a0b;border-color:var(--lime)}
+.glass{position:absolute;left:560px;top:16px;width:624px;height:598px;border-radius:26px;overflow:hidden;
+ background:linear-gradient(160deg,rgba(255,255,255,.10),rgba(255,255,255,.035));border:1px solid rgba(255,255,255,.16);
+ box-shadow:0 18px 36px -16px rgba(0,0,0,.75),inset 0 1px 0 rgba(255,255,255,.12)}
+.glass:before{content:"";position:absolute;inset:0;background:radial-gradient(420px 300px at 15% 10%,rgba(198,255,0,.10),transparent 70%),radial-gradient(380px 300px at 90% 100%,rgba(190,40,120,.20),transparent 70%)}
+.row{position:absolute;left:0;right:0;height:62px;display:flex;align-items:center;font:800 34px/1 'Unbounded',sans-serif;text-transform:uppercase;letter-spacing:-.01em}
+.row .lead{position:absolute;left:44px;white-space:nowrap}
+.row .lead b{color:var(--lime);font-weight:800}
+.row .w{position:absolute;left:236px;white-space:nowrap;transform-origin:0 50%}
+.row.c .lead{left:44px}
+.row.c .w{color:var(--lime);font-size:34px}
+.row.q{height:58px}
+.row.q .w{left:40px;padding:14px 28px;border:1.5px solid rgba(255,255,255,.2);border-radius:999px;background:rgba(255,255,255,.05);font:400 25px/1 'Unbounded',sans-serif;text-transform:none;letter-spacing:-.01em;color:#fff}
+.row.q.c .w{left:40px;color:var(--lime);border-color:rgba(198,255,0,.7);background:rgba(198,255,0,.10);font-size:29px;padding:15px 32px}
+.cloudwin{position:absolute;inset:0;-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 14%,#000 86%,transparent 100%)}
+.stage{--fs:21px;position:absolute;left:-25%;right:-25%;top:-18%;bottom:-18%;display:flex;flex-direction:column;justify-content:center;gap:calc(var(--fs)*.8);transform:rotate(-7deg)}
+.crow{display:flex;flex:none;gap:calc(var(--fs)*.9);width:max-content}
+.crow span{flex:none;white-space:nowrap;padding:.7em 1.15em;border-radius:999px;font:400 var(--fs)/1.2 'Unbounded',sans-serif;letter-spacing:-.01em;color:var(--c,#fff);text-shadow:var(--ts,none);border:1px solid var(--bd,rgba(255,255,255,.14));background:rgba(255,255,255,.025)}
+.crow span.hot{color:var(--lime);border-color:rgba(198,255,0,.6);background:rgba(198,255,0,.1);text-shadow:none}
+{{EXTRA_CSS}}
+</style></head><body><div class="p">
+<div class="left"><div class="logo"><img src="{{MARK}}"><span>SILENT<b>.</b></span></div>
+<div class="text"><div class="h">{{HEADING}}</div>
+<div class="sub">{{SUBTITLE}}</div></div>
+<div class="pills">{{PILLS}}</div></div>
+<div class="glass">{{REEL}}</div>
+</div></body></html>

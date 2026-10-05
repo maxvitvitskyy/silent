@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Усі сторінки, які індексуються (lastmod — дата реальної зміни сторінки; 2026-10-01: SEO-правки заголовків, JSON-LD і посилань у всіх шести). /privacy/ (noindex) і /dashboard/
-     (закрито в robots.txt) сюди навмисно не входять. Нова сторінка сайту =
+<!-- Усі сторінки, які індексуються (lastmod — дата реальної зміни сторінки; 2026-10-01: SEO-правки заголовків, JSON-LD і посилань у всіх шести). /privacy/ (noindex) сюди навмисно не входить. Нова сторінка сайту =
      новий <url> тут; пара UA/EN — з однаковими xhtml:link в обох записах. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
@@ -34,10 +33,30 @@
   </url>
   <url>
     <loc>https://silent.org.ua/experiences/corporate/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/corporate/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/corporate/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/corporate/"/>
+    <lastmod>2026-10-05</lastmod>
+  </url>
+  <url>
+    <loc>https://silent.org.ua/en/experiences/corporate/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/corporate/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/corporate/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/corporate/"/>
     <lastmod>2026-10-05</lastmod>
   </url>
   <url>
     <loc>https://silent.org.ua/experiences/wedding/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/wedding/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/wedding/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/wedding/"/>
+    <lastmod>2026-10-05</lastmod>
+  </url>
+  <url>
+    <loc>https://silent.org.ua/en/experiences/wedding/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/wedding/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/wedding/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/wedding/"/>
     <lastmod>2026-10-05</lastmod>
   </url>
   <url>
@@ -45,13 +64,13 @@
     <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/faq/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/faq/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/faq/"/>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-05</lastmod>
   </url>
   <url>
     <loc>https://silent.org.ua/en/faq/</loc>
     <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/faq/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/faq/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/faq/"/>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-05</lastmod>
   </url>
 </urlset>

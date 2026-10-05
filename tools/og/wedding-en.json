@@ -1,0 +1,32 @@
+{
+  "out": "images/wedding/og-wedding-en.jpg",
+  "heading": [
+    "Silent Disco",
+    "for weddings"
+  ],
+  "subtitle": [
+    [
+      "Every generation listens to its own,",
+      "and the celebration is one for all."
+    ]
+  ],
+  "pills": [
+    "from <b>40</b> guests",
+    "<b>3</b> channels in headphones",
+    "Any <b>location</b>",
+    "<b>Kyiv</b> &amp; Ukraine"
+  ],
+  "big": {
+    "src": "tools/og/_wedding-big.png",
+    "pos": "50% 50%"
+  },
+  "top": {
+    "src": "images/wedding/woman-dancing-garden.webp",
+    "pos": "50% 40%"
+  },
+  "bottom": {
+    "src": "images/wedding/guests-table-conversation.webp",
+    "pos": "50% 45%"
+  },
+  "css": ".big{left:440px;width:420px}.sm{width:308px}.s1,.s2{left:876px !important}.h{font-size:34px}"
+}

@@ -163,7 +163,7 @@ def set_faq_jsonld(s, lang):
     crumb_home, crumb_faq = ('Home', 'Questions and answers') if en else ('Головна', 'Питання і відповіді')
     graph = [
         {'@type': 'FAQPage', '@id': base + '#webpage', 'url': base, 'name': title, 'description': desc,
-         'inLanguage': 'en' if en else 'uk-UA',
+         'inLanguage': 'en' if en else 'uk-UA', 'dateModified': '2026-10-05',
          'isPartOf': {'@id': _SITE + '/#website'}, 'publisher': {'@id': _SITE + '/#organization'},
          'breadcrumb': {'@id': base + '#breadcrumb'},
          'mainEntity': [{'@type': 'Question', 'name': q,
@@ -240,8 +240,8 @@ PATHS = [
  ("url('images/",  "url('../images/"),
 ]
 
-# /experiences/ → /en/experiences/, але НЕ /experiences/corporate/: його англійської версії немає.
-EXP_LINK = re.compile(r'href="/experiences/(?!corporate|wedding)')
+# /experiences/… → /en/experiences/… (англійські версії є й у сторінок досвідів).
+EXP_LINK = re.compile(r'href="/experiences/')
 
 # --------------------------------------------------------------- перемикач
 SWITCH_UA = """    <span class="lang-switch" role="group" aria-label="Мова сайту">
@@ -258,6 +258,8 @@ SWITCH_EN = """    <span class="lang-switch" role="group" aria-label="Site langu
 # застосовуються від найдовших до найкоротших, щоб короткий рядок не з'їв
 # частину довшого.
 T = {
+"Гості танцюють у світних зелених навушниках Silent Disco, напис «Танцюйте так, ніби вас ніхто не чує»":
+  "Guests dancing in glowing green Silent Disco headphones, with the text “Dance like nobody can hear you”",
 'Домашні вечірки': 'House parties',
 'Квартира, будинок або дача: гості танцюють до ранку, а за стіною нічого не чути. Без розмов із сусідами наступного дня.': 'A flat, a house or a country place: guests dance until morning and nothing is heard through the wall. No conversations with the neighbours the next day.',
 'Майстеркласи': 'Hands-on workshops',
@@ -1207,7 +1209,7 @@ EXP_FAQ_PAGES = {
 }
 
 
-def set_experience_faq_jsonld(text, path_url):
+def set_experience_faq_jsonld(text, path_url, lang='uk'):
     pairs = faq_pairs(text)
     if len(pairs) < 4:
         sys.exit('FAQ сторінки досвіду: знайдено лише %d питань для %s' % (len(pairs), path_url))
@@ -1218,7 +1220,7 @@ def set_experience_faq_jsonld(text, path_url):
     url = _SITE + path_url
     graph = [n for n in data['@graph'] if n.get('@type') != 'FAQPage']
     graph.append({'@type': 'FAQPage', '@id': url + '#faq', 'url': url + '#faq',
-                  'inLanguage': 'uk-UA',
+                  'inLanguage': 'en-US' if lang == 'en' else 'uk-UA',
                   'isPartOf': {'@id': url + '#webpage'},
                   'mainEntity': [{'@type': 'Question', 'name': q,
                                   'acceptedAnswer': {'@type': 'Answer', 'text': a}}
@@ -1423,6 +1425,8 @@ def stamp_files():
     extra.append(os.path.join(ROOT, 'faq', 'index.html'))
     extra.append(DST_FAQ)
     extra.append(DST_EXP)
+    for _slug in EXP_EN_PAGES:
+        extra.append(os.path.join(ROOT, 'en', 'experiences', _slug, 'index.html'))
     for path in [SRC, DST, SRC404, DST404] + extra:
         if not os.path.exists(path):
             continue
@@ -1536,7 +1540,7 @@ DST_FAQ = os.path.join(ROOT, 'en', 'faq', 'index.html')
 HEAD_FAQ = [
  ('<html lang="uk">', '<html lang="en">'),
  ('<title>Питання і відповіді про SILENT — усе про Silent Disco</title>',
-  '<title>Questions and answers about SILENT — everything about silent disco</title>'),
+  '<title>Questions and answers about SILENT — silent disco FAQ</title>'),
  ('<meta name="description" content="Усе, що зазвичай питають перед замовленням SILENT: формат, організація, ціна, обладнання. Коротко й по суті, без брошурного тону.">',
   '<meta name="description" content="Everything people usually ask before booking SILENT: the format, organising, price, equipment. Short and to the point, no brochure talk.">'),
  ('<meta property="og:locale" content="uk_UA">', '<meta property="og:locale" content="en_US">'),
@@ -1657,6 +1661,8 @@ T_CARDS = {
 T.update(T_CARDS)
 
 T_FAQ = {
+"Картка «Питання і відповіді»: хмара питань про Silent Disco, виділено питання «А якщо дощ?», напис «Усе, що ви хотіли спитати про Silent Disco»":
+  "Questions and answers card: a cloud of questions about Silent Disco with “What if it rains?” highlighted, the text “Everything you wanted to ask about Silent Disco”",
 # --- «Ціна й бронювання»: що буде після заявки
 "Що відбувається після того, як я залишу заявку?": "What happens after I submit a request?",
 "Заявка на сайті — це запит на перевірку дати: форма займає хвилину, дзвонити не обов'язково. Відповідаємо протягом дня й називаємо суму під вашу дату, тривалість і кількість гостей. Коли деталі узгоджені, дата бронюється, щойно надходить 50% передоплати, а решту 50% сплачуєте до заходу. У день події приїжджаємо заздалегідь, самі збираємо й налаштовуємо все, показуємо, як перемикати канали, а після вечора самі забираємо обладнання.":
@@ -1948,6 +1954,7 @@ def build_faq():
     for k in sorted(merged, key=len, reverse=True):
         s = flexible(k).sub(lambda mm, v=merged[k]: v, s)
 
+    s = s.replace('images/og/og-faq.jpg', 'images/og/og-faq-en.jpg')  # власна англомовна картка
     # FAQPage і хлібні крихти — заново з англійського тексту сторінки.
     s = set_faq_jsonld(s, 'en')
 
@@ -1984,6 +1991,8 @@ SWITCH_EN_EXP = """    <span class="lang-switch" role="group" aria-label="Site l
     </span>"""
 
 T_EXP = {
+"Картка «Тихі враження»: скляний барабан із рядком SILENT. EXPERIENCE та формати подій навколо, напис «Одна технологія. Десятки форматів.»":
+  "Quiet Experiences card: a glass reel with the line SILENT. EXPERIENCE and event formats around it, the text “One technology. Dozens of formats.”",
 "Тихі враження — формати silent disco від SILENT": "Quiet Experiences — silent disco formats from SILENT",
 "Усі формати, де працює тихий звук: від корпоративу й весілля до екскурсії музеєм та йоги. Три канали в навушниках кожного гостя, ззовні тиша.":
   "Every format where quiet sound works: from a corporate party and a wedding to a museum tour and yoga. Three channels in every guest's headphones, and quiet outside.",
@@ -2046,10 +2055,92 @@ def build_experiences():
     for k in sorted(merged, key=len, reverse=True):
         s = flexible(k).sub(lambda mm, v=merged[k]: v, s)
 
+    s = s.replace('images/og/og-experiences.jpg', 'images/og/og-experiences-en.jpg')  # англомовна картка
     os.makedirs(os.path.dirname(DST_EXP), exist_ok=True)
     io.open(DST_EXP, 'w', encoding='utf-8').write(s)
     assert_translated(s, 'en/experiences/index.html')
     print('en/experiences/index.html зібрано:', len(s.split('\n')), 'рядків, неперекладеного немає')
+
+
+
+# ============================================== Сторінки досвідів (en/experiences/<slug>/)
+# Корпоративи й весілля: англійська версія збирається з української так само, як
+# en/experiences/. Словник сторінки (T_PAGE) — лише її власні рядки; спільне (меню, підвал,
+# форма, картки форматів, FAQ-довідник) бере зі словників T, T_FAQ, T_EXP.
+EXP_EN_PAGES = {
+    # slug: (заголовок крихти UA, англомовна картка)
+    'corporate': 'images/corp/og-corporate-en.jpg',
+    'wedding': 'images/wedding/og-wedding-en.jpg',
+}
+from en_pages import T_PAGE_ALL   # рядки сторінок досвідів (tools/en_pages.py)
+T_PAGE = {}   # slug -> {укр: англ} (додаткові, лише для однієї сторінки)
+
+
+def build_experience_page_en(slug):
+    src = os.path.join(ROOT, 'experiences', slug, 'index.html')
+    dst = os.path.join(ROOT, 'en', 'experiences', slug, 'index.html')
+    if not os.path.exists(src):
+        return
+    s = unstamp(io.open(src, encoding='utf-8').read())
+    ua_url = _SITE + '/experiences/%s/' % slug
+    en_url = _SITE + '/en/experiences/%s/' % slug
+
+    # hreflang-блок лишаємо як є (він називає обидві адреси), решту адрес переводимо.
+    hl = re.findall(r'<link rel="alternate" hreflang="[^"]*" href="[^"]*">\n?', s)
+    if len(hl) != 3:
+        sys.exit('hreflang-пара не знайдена на experiences/%s/' % slug)
+    for h in hl:
+        s = s.replace(h, '@@HL@@' if h is hl[0] else '', 1)
+    s = s.replace(ua_url, en_url)
+    s = s.replace('@@HL@@', ''.join(hl))
+
+    s = s.replace('<html lang="uk">', '<html lang="en">')
+    s = s.replace('<meta property="og:locale" content="uk_UA">', '<meta property="og:locale" content="en_US">')
+    s = s.replace('"inLanguage": "uk-UA"', '"inLanguage": "en-US"')
+    s = s.replace('"item": "https://silent.org.ua/experiences/"', '"item": "https://silent.org.ua/en/experiences/"')
+    s = s.replace('"item": "https://silent.org.ua/"', '"item": "https://silent.org.ua/en/"')
+
+    # Сторінка на рівень глибше: відносні шляхи до активів, відео й постерів.
+    s = s.replace('="../../', '="../../../')
+    s = s.replace(PATHS[0][0], PATHS[0][1])
+
+    s = re.sub(r'href="/(#[^"]*)?"', lambda m: 'href="/en/' + (m.group(1) or '') + '"', s)
+    s = s.replace('href="/faq/', 'href="/en/faq/')
+    s = EXP_LINK.sub('href="/en/experiences/', s)
+
+    sw_ua = ('    <span class="lang-switch" role="group" aria-label="Мова сайту">\n'
+             '      <span class="lang-cur" aria-current="true">UA</span>\n'
+             '      <a href="/en/experiences/%s/" hreflang="en" lang="en">EN</a>\n'
+             '    </span>' % slug)
+    sw_en = ('    <span class="lang-switch" role="group" aria-label="Site language">\n'
+             '      <a href="/experiences/%s/" hreflang="uk" lang="uk">UA</a>\n'
+             '      <span class="lang-cur" aria-current="true">EN</span>\n'
+             '    </span>' % slug)
+    if s.count(sw_ua) != 1:
+        sys.exit('перемикач мови не знайдено на experiences/%s/' % slug)
+    s = s.replace(sw_ua, sw_en)
+
+    m = re.search(r'<script>\nwindow\.SILENT_I18N = \{[\s\S]*?\n\};\n</script>', s)
+    if not m:
+        sys.exit('блок SILENT_I18N не знайдено на experiences/%s/' % slug)
+    s = s[:m.start()] + I18N_FAQ_EN.replace("base: ''", "base: '../../../'", 1) + s[m.end():]
+
+    merged = dict(T)
+    merged.update(T_FAQ)
+    merged.update(T_EXP)
+    merged.update(T_PAGE_ALL)
+    merged.update(T_PAGE.get(slug, {}))
+    for k in sorted(merged, key=len, reverse=True):
+        s = flexible(k).sub(lambda mm, v=merged[k]: v, s)
+
+    s = s.replace(EXP_EN_PAGES[slug].replace('-en.jpg', '.jpg'), EXP_EN_PAGES[slug])
+    if slug in [p.split(os.sep)[1] for p in EXP_FAQ_PAGES]:
+        s = set_experience_faq_jsonld(s, '/en/experiences/%s/' % slug, 'en')
+
+    os.makedirs(os.path.dirname(dst), exist_ok=True)
+    io.open(dst, 'w', encoding='utf-8').write(s)
+    assert_translated(s, 'en/experiences/%s/index.html' % slug)
+    print('en/experiences/%s/index.html зібрано:' % slug, len(s.split('\n')), 'рядків, неперекладеного немає')
 
 
 if __name__ == '__main__':
@@ -2064,6 +2155,8 @@ if __name__ == '__main__':
     print('FAQ JSON-LD (uk):', build_faq_ua_jsonld(), 'питань')
     build_faq()
     build_experiences()
+    for _slug in EXP_EN_PAGES:
+        build_experience_page_en(_slug)
     # Останнім кроком, коли обидві англійські сторінки вже на диску: позначка
     # лягає на всі чотири файли одразу.
     stamp_files()

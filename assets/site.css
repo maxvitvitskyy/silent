@@ -6696,6 +6696,10 @@
   .gallery-col img {
     display: block;
     width: 100%;
+    /* height:auto обов'язковий: у <img> стоять width/height-атрибути (щоб не було
+       стрибка макета до завантаження), і без цього атрибут height перебиває
+       aspect-ratio — плитка стає висотою з оригінал (1200px). */
+    height: auto;
     aspect-ratio: 4 / 5;
     object-fit: cover;
     border-radius: clamp(24px, 2.9vw, 42px);

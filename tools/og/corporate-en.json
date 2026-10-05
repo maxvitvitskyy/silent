@@ -1,0 +1,32 @@
+{
+  "out": "images/corp/og-corporate-en.jpg",
+  "heading": [
+    "Silent Disco",
+    "for corporate",
+    "events"
+  ],
+  "subtitle": [
+    [
+      "A corporate party where nobody",
+      "needs persuading to dance."
+    ]
+  ],
+  "pills": [
+    "from <b>40</b> guests",
+    "<b>3</b> channels in headphones",
+    "Any <b>location</b>",
+    "<b>Kyiv</b> &amp; Ukraine"
+  ],
+  "big": {
+    "src": "images/corp/neonova-tantsyuvalna-vechirkal-silent-kopiya.webp",
+    "pos": "50% 50%"
+  },
+  "top": {
+    "src": "images/corp/neonova-vechirka-v-rytmi-silent-disco.webp",
+    "pos": "38% 50%"
+  },
+  "bottom": {
+    "src": "images/corp/neonovi-navushnyky-na-zakhodi-sontsya1.webp",
+    "pos": "50% 50%"
+  }
+}

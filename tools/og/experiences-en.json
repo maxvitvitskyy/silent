@@ -1,0 +1,34 @@
+{
+  "template": "template-reel.html",
+  "out": "images/og/og-experiences-en.jpg",
+  "heading": [
+    "Quiet",
+    "Experiences"
+  ],
+  "subtitle": [
+    [
+      "One technology.",
+      "Dozens of formats."
+    ]
+  ],
+  "pills": [
+    "<b>44</b> formats",
+    "<b>Kyiv</b> &amp; Ukraine",
+    "!Pick your experience →"
+  ],
+  "reel": {
+    "center": "EXPERIENCE",
+    "above": [
+      "Cinema",
+      "Wedding",
+      "Corporate",
+      "Festival"
+    ],
+    "below": [
+      "Kids",
+      "Exhibitions",
+      "Spirit",
+      "Culture"
+    ]
+  }
+}

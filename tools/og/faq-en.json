@@ -1,0 +1,42 @@
+{
+  "template": "template-reel.html",
+  "out": "images/og/og-faq-en.jpg",
+  "heading": [
+    "Everything you",
+    "wanted to ask",
+    "about Silent Disco"
+  ],
+  "subtitle": [
+    [
+      "What people ask",
+      "before the first call."
+    ]
+  ],
+  "pills": [
+    "<b>6</b> sections",
+    "<b>48</b> questions",
+    "!Find your answer →"
+  ],
+  "reel": {
+    "mode": "cloud",
+    "center": "What if it rains?",
+    "questions": [
+      "What is silent disco?",
+      "How much is it?",
+      "Do we need a DJ?",
+      "What if it rains?",
+      "Travel outside Kyiv?",
+      "What's in the price?",
+      "Who is it for?",
+      "How do I book a date?",
+      "Battery life?",
+      "What affects the price?",
+      "When should we book?",
+      "How many music channels?",
+      "How do I pay?",
+      "Is a deposit required?",
+      "Can I reschedule the date?"
+    ]
+  },
+  "css": ".pills{display:grid;width:max-content;grid-template-columns:1fr 1fr;gap:11px}.pill{text-align:center;white-space:nowrap}.pill.cta{grid-column:1/-1}.h{font-size:35px}"
+}
