@@ -25,7 +25,7 @@ NB = ' '   # нерозривний пробіл, яким в українсь�
 HEAD = [
  ('<html lang="uk">', '<html lang="en">'),
  ('<title>SILENT — Silent Disco під ключ у Києві та по Україні</title>',
-  '<title>SILENT — Full-service silent disco in Kyiv and across Ukraine</title>'),
+  '<title>SILENT — Full-service silent disco in Kyiv, Ukraine</title>'),
  ('<meta name="description" content="SILENT — Silent Disco під ключ у Києві та по Україні: бездротові LED-навушники, 3 канали музики, доставка, налаштування й супровід на вашій події.">',
   '<meta name="description" content="SILENT — full-service silent disco in Kyiv and across Ukraine: wireless LED headphones, 3 music channels, delivery, setup and on-site support for your event.">'),
  ('<meta property="og:locale" content="uk_UA">', '<meta property="og:locale" content="en_US">'),
@@ -1995,7 +1995,7 @@ T_EXP = {
   "Quiet Experiences card: a glass reel with the line SILENT. EXPERIENCE and event formats around it, the text “One technology. Dozens of formats.”",
 "Тихі враження — формати silent disco від SILENT": "Quiet Experiences — silent disco formats from SILENT",
 "Усі формати, де працює тихий звук: від корпоративу й весілля до екскурсії музеєм та йоги. Три канали в навушниках кожного гостя, ззовні тиша.":
-  "Every format where quiet sound works: from a corporate party and a wedding to a museum tour and yoga. Three channels in every guest's headphones, and quiet outside.",
+  "Every format where quiet sound works, from a corporate party and a wedding to a museum tour and yoga. Three channels in every guest's headphones, quiet outside.",
 "Усі формати, де працює тихий звук: корпоративи, весілля, конференції, екскурсії, йога, кіно просто неба.":
   "Every format where quiet sound works: corporate parties, weddings, conferences, tours, yoga, open-air cinema.",
 "Три канали музики в навушниках кожного гостя, гучність у кожного своя, ззовні тиша. Комплект, доставка, збірка й супровід.":

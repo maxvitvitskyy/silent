@@ -3,7 +3,7 @@
 tools/build_en.py: ключ — точний український текст зі сторінки."""
 T_PAGE_ALL = {
 "Silent Disco для корпоративів у Києві та по Україні — SILENT":
-  "Silent Disco for corporate events in Kyiv and across Ukraine — SILENT",
+  "Silent Disco for corporate events in Kyiv, Ukraine — SILENT",
 "для корпоративів":
   "for corporate events",
 "Ваша команда заслужила більше, ніж вечерю з тостами. Скажіть їй «дякую» так, щоб запам'яталося: кожен у своїх навушниках, а танцпол один на всіх. Від різдвяної вечірки до конференції — формат, який збирає людей разом і на свято, і для обміну ідеями.":
@@ -181,7 +181,7 @@ T_PAGE_ALL = {
 ">Нд<":
   ">Sun<",
 "Корпоратив чи тімбілдинг у навушниках: три канали музики, гучність у кожного своя, ззовні тиша. Комплект, доставка, збірка й супровід у Києві та по Україні.":
-  "A corporate party or team building in headphones: three music channels, everyone sets their own volume, and it stays quiet outside. Equipment, delivery, setup and support in Kyiv and across Ukraine.",
+  "A corporate party or team building in headphones: three music channels, your own volume, quiet outside. Equipment, setup and support in Kyiv and Ukraine.",
 "Корпоратив із silent disco — SILENT":
   "Corporate party with silent disco — SILENT",
 "Корпоратив, тімбілдинг або афтепаті в навушниках: кожен слухає свій канал, а танцпол — один. Комплект, доставка, збірка й супровід у Києві та по Україні.":
@@ -217,7 +217,7 @@ T_PAGE_ALL = {
 "Пари та організатори весіль":
   "Couples and wedding organisers",
 "Silent Disco на весілля у Києві та по Україні — SILENT":
-  "Silent Disco for weddings in Kyiv and across Ukraine — SILENT",
+  "Silent Disco for weddings in Kyiv, Ukraine — SILENT",
 "на весілля":
   "for weddings",
 "Після весілля згадують не страви, а відчуття від вечора. Ми даруємо гостям повний спектр емоцій, і неважливо, яку музику хто любить: кожен веселиться під свою, а танцпол усе одно один.":
