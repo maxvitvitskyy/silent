@@ -1428,6 +1428,7 @@ def stamp_files():
     extra.append(os.path.join(ROOT, 'faq', 'index.html'))
     extra.append(DST_FAQ)
     extra.append(DST_EXP)
+    extra.append(os.path.join(ROOT, 'blog', 'index.html'))
     for _slug in EXP_EN_PAGES:
         extra.append(os.path.join(ROOT, 'en', 'experiences', _slug, 'index.html'))
     for path in [SRC, DST, SRC404, DST404] + extra:
@@ -2207,6 +2208,10 @@ if __name__ == '__main__':
     apply_catalog_itemlist(DST_EXP, 'en')
     for _slug in EXP_EN_PAGES:
         build_experience_page_en(_slug)
+    # Блог збираємо з уже готового experiences/index.html (шапка, підвал, форма).
+    sys.path.insert(0, os.path.join(ROOT, 'tools'))
+    import build_blog
+    build_blog.build()
     # Останнім кроком, коли обидві англійські сторінки вже на диску: позначка
     # лягає на всі чотири файли одразу.
     stamp_files()

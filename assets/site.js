@@ -5620,4 +5620,31 @@ function orderExperience(name, opts){
     new MutationObserver(() => later(450)).observe(grid, { subtree: true, childList: true, attributes: true, attributeFilter: ['hidden'] });
   })();
 
+  // ---- Блог: перемикач тем (blog/index.html) ----
+  // Прості чипи без анімації переставляння: картки лише ховаються й показуються. Заглушки без
+  // посилань теж фільтруються, щоб сторінка вже зараз поводилась як справжня. Тема береться
+  // й з адреси (#cat-wedding), щоб на неї можна було послатися.
+  (function initBlogFilter(){
+    const bar = document.querySelector('.blog-filter');
+    if (!bar) return;
+    const chips = [...bar.querySelectorAll('.blog-chip')];
+    const cards = [...document.querySelectorAll('.blog-grid [data-cat]')];
+    function apply(cat, push){
+      if (!chips.some(c => c.dataset.cat === cat)) cat = 'all';
+      chips.forEach(c => {
+        const on = c.dataset.cat === cat;
+        c.classList.toggle('is-on', on);
+        c.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      cards.forEach(el => { el.hidden = !(cat === 'all' || el.dataset.cat === cat); });
+      if (push) history.replaceState(null, '', cat === 'all' ? location.pathname : '#cat-' + cat);
+    }
+    bar.addEventListener('click', e => {
+      const chip = e.target.closest('.blog-chip');
+      if (chip) apply(chip.dataset.cat, true);
+    });
+    const m = /^#cat-([a-z-]+)$/.exec(location.hash);
+    if (m) apply(m[1]);
+  })();
+
   window.__siteJs = true;
