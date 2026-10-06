@@ -68,6 +68,8 @@ EN_PAGE_DESC = ('SILENT — full-service silent disco in Kyiv and across Ukraine
 def en_home_jsonld(s):
     m = _LD.search(s)
     d = _json.loads(m.group(2))
+    # FAQPage українською тут не потрібен: англійський збирає apply_home_faq з англійського тексту.
+    d['@graph'] = [n for n in d['@graph'] if n['@type'] != 'FAQPage']
     by = {n['@type']: n for n in d['@graph']}
     by['Organization'].pop('description', None)
     svc = by['Service']
@@ -1206,6 +1208,7 @@ EXPERIENCE_PAGES = [
 # підміна WebPage: у WebPage mainEntity уже зайнятий послугою (Service).
 EXP_FAQ_PAGES = {
     os.path.join('experiences', 'wedding', 'index.html'): '/experiences/wedding/',
+    os.path.join('experiences', 'corporate', 'index.html'): '/experiences/corporate/',
 }
 
 
@@ -1541,8 +1544,8 @@ HEAD_FAQ = [
  ('<html lang="uk">', '<html lang="en">'),
  ('<title>Питання і відповіді про SILENT — усе про Silent Disco</title>',
   '<title>Questions and answers about SILENT — silent disco FAQ</title>'),
- ('<meta name="description" content="Усе, що зазвичай питають перед замовленням SILENT: формат, організація, ціна, обладнання. Коротко й по суті, без брошурного тону.">',
-  '<meta name="description" content="Everything people usually ask before booking SILENT: the format, organising, price, equipment. Short and to the point, no brochure talk.">'),
+ ('<meta name="description" content="Відповіді на 48 питань про silent disco: ціна, бронювання, обладнання, музика й авторські права, оплата, скасування та форс-мажор.">',
+  '<meta name="description" content="Answers to 48 questions about silent disco: price, booking, equipment, music and copyright, payment, cancellation and force majeure.">'),
  ('<meta property="og:locale" content="uk_UA">', '<meta property="og:locale" content="en_US">'),
  ('<meta property="og:title" content="Питання і відповіді про SILENT">',
   '<meta property="og:title" content="Questions and answers about SILENT">'),
@@ -2143,11 +2146,23 @@ def build_experience_page_en(slug):
     print('en/experiences/%s/index.html зібрано:' % slug, len(s.split('\n')), 'рядків, неперекладеного немає')
 
 
+
+def apply_home_faq(path, url_path, lang):
+    """FAQPage-вузол на головній (UA і EN): збирається з видимих .faq-item, як на інших сторінках."""
+    if not os.path.exists(path):
+        return
+    text = io.open(path, encoding='utf-8').read()
+    out = set_experience_faq_jsonld(unstamp(text), url_path, lang)
+    io.open(path, 'w', encoding='utf-8').write(out)
+
+
 if __name__ == '__main__':
     # Першим: дописує теми й кнопки фільтра в сам index.html, з якого далі
     # збирається все інше.
     build_home_filter()
+    apply_home_faq(SRC, '/', 'uk')
     build()
+    apply_home_faq(DST, '/en/', 'en')
     build_404()
     # Стрічку сценаріїв збираємо до позначки версій: вона переписує сторінки
     # досвідів, і хеш активів має лягти вже на готовий вміст.

@@ -240,7 +240,7 @@ python3 tools/build_en.py
   (`en_home_jsonld`). **FAQPage-розмітку НЕ пишемо руками:** `set_faq_jsonld`
   збирає її з видимих `.faq-item` при кожному запуску `build_en.py` (укр. і англ.).
   Для сторінок досвідів те саме робить `set_experience_faq_jsonld` (окремий вузол
-  FAQPage у @graph сторінки; список — `EXP_FAQ_PAGES`, зараз лише весілля).
+  FAQPage у @graph сторінки; список — `EXP_FAQ_PAGES`, зараз весілля й корпоративи).
   Іконки: `/favicon.ico`, `/favicon-48x48.png`, `/apple-touch-icon.png` у корені,
   усе з `images/favicon.png`; без `?v=` (заміна файлу = нове ім'я). Теми каталогу
   в посиланнях — хеш `/experiences/#cat-business`, а не `?cat=` (щоб Google не

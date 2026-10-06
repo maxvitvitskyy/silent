@@ -86,3 +86,10 @@ __pycache__/
 # будь-якої ваги, на сайт не йдуть: Claude оптимізує їх у WebP (tools/optimize_images.py)
 # і кладе в images/<сторінка>/. Опис — у inbox/README.md.
 inbox/
+
+# site-brief.md: бриф для SEO-скілів (локальний, містить внутрішні міркування).
+site-brief.md
+01-keyword-map.csv
+01-keyword-map.html
+03-onpage-report.md
+03-onpage-report-pages.md
