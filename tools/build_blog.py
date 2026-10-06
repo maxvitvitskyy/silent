@@ -203,8 +203,9 @@ def article_blocks(blocks):
             if b.get('cards'):
                 # Кроки: окремі картки в дві колонки (без ефекту стопки), нумерація лічильником у CSS.
                 items = ''.join('<li><b>%s</b><span>%s</span></li>' % (esc(x['t']), inline(x['d'])) for x in b['cards'])
-                out.append('<section class="art-blk"><div class="art-cols"><h2>%s</h2><ol class="art-cards">%s</ol></div></section>'
-                           % (esc(b['title']), items))
+                lead = '<p class="art-cards-lead">%s</p>' % inline(b['lead']) if b.get('lead') else ''
+                out.append('<section class="art-blk"><div class="art-cols"><h2>%s</h2>%s<ol class="art-cards">%s</ol></div></section>'
+                           % (esc(b['title']), lead, items))
                 continue
             left, right = b['cols']
             out.append('<section class="art-blk"><div class="art-cols"><h2>%s</h2>%s%s</div></section>'
@@ -226,7 +227,7 @@ def build_article(p, data, cats, posts, shared, card_fn):
     published = p['status'] == 'published'
     plain_title = re.sub(r'<[^>]+>', '', a['headline'])
     meta_desc = a.get('meta', a['subtitle'])
-    page_title = plain_title + ' | Блог SILENT'
+    page_title = a.get('seo_title') or (plain_title + ' | Блог SILENT')
     robots = '' if published else '<meta name="robots" content="noindex, follow">\n'
     img = SITE + a['cover']['src']
     ld = {
@@ -244,6 +245,7 @@ def build_article(p, data, cats, posts, shared, card_fn):
     }
     if published:
         ld['@graph'][0]['datePublished'] = a.get('date_iso', a['date'])
+        ld['@graph'][0]['dateModified'] = a.get('modified_iso', a.get('date_iso', a['date']))
     ld['@graph'].append({'@type': 'FAQPage', '@id': url + '#faq', 'mainEntity': [
         {'@type': 'Question', 'name': f['q'], 'acceptedAnswer': {'@type': 'Answer', 'text': re.sub(r'\[\[[^|\]]+\|([^\]]+)\]\]', r'\1', f['a'])}} for f in a['faq']]})
     assets = shared['head_assets'].replace('../assets/', '../../assets/')
