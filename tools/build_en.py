@@ -568,8 +568,8 @@ T = {
 'Silent-досвіди': 'Silent experiences',
 'Silent disco — це лише один зі сценаріїв. Тихий звук працює всюди, де важливо чути.':
   'Silent disco is only one of the scenarios. Quiet sound works anywhere it matters to hear.',
-'Одна технологія — десятки форматів. Від приватних свят і весілля до екскурсії музеєм: гортайте нижче й дивіться, що вже можна зробити.':
-  'One technology, dozens of formats. From private celebrations and weddings to a museum tour: scroll on and see what is already possible.',
+'Одна технологія — <a href="/en/experiences/">десятки форматів</a>. Від приватних свят і <a href="/en/experiences/wedding/">весілля</a> до екскурсії музеєм: гортайте нижче й дивіться, що вже можна зробити.':
+  'One technology, <a href="/en/experiences/">dozens of formats</a>. From private celebrations and <a href="/en/experiences/wedding/">weddings</a> to a museum tour: scroll on and see what is already possible.',
 'Сценарії подій, гортайте вбік': 'Event scenarios, scroll sideways',
 'Замовити цей досвід': 'Book this experience',
 'Дивитися досвід': 'View the experience',
@@ -1711,8 +1711,8 @@ T_FAQ = {
 "Не обов'язково. Ми наперед готуємо три плейлисти під формат і настрій вечора, тож живий діджей потрібен лише якщо хочете саме його мікс на місці.":
   "Not necessarily. We prepare three playlists in advance for the format and mood of the night, so a live DJ is only needed if you specifically want their mix on the spot.",
 "Кому підходить такий формат?": "Who is this format for?",
-"Весіллям, днями народження й випускним так само, як корпоративам і тімбілдингам. Агенції та організатори теж замовляють SILENT під клієнтські події — формат однаково працює і для приватного свята, і для бізнесу.":
-  "Weddings, birthdays and graduations just as much as company parties and team-building events. Agencies and organisers also book SILENT for client events — the format works equally well for a private celebration and for business.",
+"<a href=\"/en/experiences/wedding/\">Весіллям</a>, днями народження й випускним так само, як <a href=\"/en/experiences/corporate/\">корпоративам</a> і тімбілдингам. Агенції та організатори теж замовляють SILENT під клієнтські події — формат однаково працює і для приватного свята, і для бізнесу.":
+  "<a href=\"/en/experiences/wedding/\">Weddings</a>, birthdays and graduations just as much as <a href=\"/en/experiences/corporate/\">company parties</a> and team-building events. Agencies and organisers also book SILENT for client events — the format works equally well for a private celebration and for business.",
 "Чим це відрізняється від вечірки зі звичайними колонками?": "How is it different from a party with regular speakers?",
 "Головна відмінність — звук іде не з колонок у залі, а прямо в навушники кожного гостя. Це дає тишу зовні, три незалежні канали одночасно замість одного спільного плейлиста й особисту гучність у кожного гостя.":
   "The main difference is that the sound doesn't come from speakers in the room but goes straight into each guest's headphones. That means quiet outside, three independent channels at once instead of one shared playlist, and personal volume for every guest.",
@@ -1737,6 +1737,8 @@ T_FAQ = {
 "Скільки триває подія і чи можна продовжити?": "How long does the event last, and can it be extended?",
 "Базово — 4 години, мінімум на 40 навушників. Додаткові години можна взяти вже при бронюванні — порахуйте орієнтир у калькуляторі на головній сторінці.":
   "The base is 4 hours, with a minimum of 40 headphones. You can add extra hours when booking — get an estimate in the calculator on the home page.",
+"Базово — 4 години, мінімум на 40 навушників. Додаткові години можна взяти вже при бронюванні — порахуйте орієнтир у <a href=\"/en/#price\">калькуляторі</a> на головній сторінці.":
+  "The base is 4 hours, with a minimum of 40 headphones. You can add extra hours when booking — get an estimate in the <a href=\"/en/#price\">calculator</a> on the home page.",
 "Чи потрібно мені самостійно роздавати й збирати навушники?": "Do I have to hand out and collect the headphones myself?",
 "Ні, це робить команда SILENT. Один пункт видачі й повернення на вході тримає процес простим, а наприкінці ми самі перевіряємо, що все зібрано.":
   "No, the SILENT team does that. A single pick-up and return point at the entrance keeps it simple, and at the end we check ourselves that everything is back.",
@@ -1744,6 +1746,8 @@ T_FAQ = {
 # --- 03 ціна
 "Від <strong>12 000 грн</strong> за мінімальний комплект — 40 навушників на 4 години. Далі ціна залежить від кількості навушників, тривалості й опцій — порахуйте свій варіант у калькуляторі на головній сторінці.":
   "From <strong>12,000 UAH</strong> for the minimum set — 40 headphones for 4 hours. Beyond that, the price depends on the number of headphones, the duration and the options — work out your own version in the calculator on the home page.",
+"Від <strong>12 000 грн</strong> за мінімальний комплект — 40 навушників на 4 години. Далі ціна залежить від кількості навушників, тривалості й опцій — порахуйте свій варіант у <a href=\"/en/#price\">калькуляторі</a> на головній сторінці.":
+  "From <strong>12,000 UAH</strong> for the minimum set — 40 headphones for 4 hours. Beyond that, the price depends on the number of headphones, the duration and the options — work out your own version in the <a href=\"/en/#price\">calculator</a> on the home page.",
 "Від 12 000 грн за мінімальний комплект — 40 навушників на 4 години. Далі ціна залежить від кількості навушників, тривалості й опцій.":
   "From 12,000 UAH for the minimum set — 40 headphones for 4 hours. Beyond that, the price depends on the number of headphones, the duration and the options.",
 "Що входить у цю вартість?": "What does this price include?",

@@ -7993,3 +7993,15 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
   .exp-story-grid > .hp-stage { order: 2; }
 }
 
+
+
+/* Текстові посилання всередині абзаців (FAQ-відповіді, підписи секцій): лаймове підкреслення,
+   щоб було видно, що це лінк. Кнопки й картки сюди не потрапляють (вони не в p). */
+.faq-a p a, .section-lead a {
+  color: var(--lime);
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px;
+  text-decoration-color: rgba(198, 255, 0, 0.45);
+  transition: text-decoration-color 0.2s ease;
+}
+.faq-a p a:hover, .section-lead a:hover { text-decoration-color: var(--lime); }
+.faq-a p a.faq-cta { text-decoration: none; }
