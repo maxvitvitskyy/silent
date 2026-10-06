@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script>
+/* Double slashes (//, /experiences//) are served as 200 by the host: normalise before GA so reports have no duplicates. */
+if (/\/\/+/.test(location.pathname)) location.replace(location.pathname.replace(/\/{2,}/g, '/') + location.search + location.hash);
+</script>
 <!-- GitHub Pages віддає цей файл із кореня замість будь-якої неіснуючої
      адреси — зокрема й тих, що під /en/. Англійська сторінка помилки існує
      окремим файлом, але хостинг сам її не підставляє, тож англомовний
@@ -57,7 +61,7 @@
 <!-- Усі адреси тут абсолютні, і це не стиль, а вимога: цей файл віддається
      замість будь-якої неіснуючої адреси, зокрема /якась/глибока/сторінка.
      Відносний шлях рахувався б від неї й не знайшов би ні стилів, ні картинок. -->
-<link rel="stylesheet" href="/assets/site.css?v=4d117f95">
+<link rel="stylesheet" href="/assets/site.css?v=c1d2f6e7">
 <!-- site.js сюди не під'єднаний, і це не забутість. Він розрахований на те, що
      сторінка перед ним оголосила window.SILENT_I18N — набір рядків, які скрипт
      виводить сам: заголовки hero, підписи календаря, лайтбокса й форми. Цій

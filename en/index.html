@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script>
+/* Double slashes (//, /experiences//) are served as 200 by the host: normalise before GA so reports have no duplicates. */
+if (/\/\/+/.test(location.pathname)) location.replace(location.pathname.replace(/\/{2,}/g, '/') + location.search + location.hash);
+</script>
 <!-- Google tag (gtag.js) — навмисно одразу після charset, до решти <head>:
      так рекомендує сам Google, щоб перегляд сторінки не загубився через
      ранній редирект чи повільний рендер. -->
@@ -246,7 +250,7 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet';window.__fontsIn&amp;&amp;window.__fontsIn()">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
 <!-- Стилі спільні для української та англомовної версій — один файл на дві -->
-<link rel="stylesheet" href="../assets/site.css?v=4d117f95">
+<link rel="stylesheet" href="../assets/site.css?v=c1d2f6e7">
 </head>
 <body id="top">
 
@@ -1861,7 +1865,6 @@
         <ul>
           <li><a href="/en/experiences/">Quiet Experiences</a></li>
           <li><a href="/en/experiences/corporate/">Corporate events</a></li>
-          <li><a href="/en/experiences/wedding/">Weddings</a></li>
           <li><a href="#price">Calculator</a></li>
           <li><a href="/en/faq/">Questions and answers</a></li>
           <li><a href="#book" data-cta="footer_nav_leave_request">Send a request</a></li>
@@ -2058,6 +2061,6 @@ window.SILENT_I18N = {
 </script>
 <script src="../assets/vendor/gsap.min.js?v=fa1aeabc"></script>
 <script src="../assets/vendor/ScrollTrigger.min.js?v=ecd3242f"></script>
-<script src="../assets/site.js?v=0b719110"></script>
+<script src="../assets/site.js?v=c902a9ae"></script>
 </body>
 </html>

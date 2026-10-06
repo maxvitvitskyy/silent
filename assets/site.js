@@ -3222,15 +3222,47 @@ function orderExperience(name, opts){
     });
   })();
 
-  // ---- GA4: cta_click ----
-  // Делеговано на document, тому працює для всіх чотирьох CTA одним
-  // обробником і не заважає стандартній навігації (#book і далі саме
-  // скролить, click тут лише додатково фіксує подію). closest() підіймається
-  // й крізь <span class="lbl-wide/lbl-tight"> усередині hero-кнопки.
+  // ---- GA4: cta_click + кліки по контактах ----
+  // Один делегований обробник на document: працює для всіх CTA й контактних
+  // посилань і не заважає навігації (подія лише додатково фіксується).
+  // Персональних даних у параметрах немає: ні href (у t.me/mailto може бути
+  // текст чи пошта), ні імен — лише тип каналу, місце на сторінці й мова.
+  // link_location визначаємо за місцем у DOM: header / hero / footer /
+  // contact-section / floating (плаваюча кнопка Telegram) / other.
+  function gaLinkLocation(el) {
+    if (el.closest('.tg-float')) return 'floating';
+    if (el.closest('nav, .nav-drawer')) return 'header';
+    if (el.closest('.site-footer, footer')) return 'footer';
+    if (el.closest('.hero, .exp-cover, .exp-head')) return 'hero';
+    if (el.closest('#book, .form-section, .band, .exp-ready, .channels-panel, .ch-panel')) return 'contact-section';
+    return 'other';
+  }
+  const gaLang = () => (document.documentElement.lang || 'uk').slice(0, 2) === 'en' ? 'en' : 'uk';
+  const GA_CONTACTS = [
+    ['click_email',     (h) => /^mailto:/i.test(h)],
+    ['click_phone',     (h) => /^tel:/i.test(h)],
+    ['click_telegram',  (h) => /^tg:/i.test(h) || /^https?:\/\/(www\.)?t\.me\//i.test(h)],
+    ['click_instagram', (h) => /^https?:\/\/(www\.)?(instagram\.com|ig\.me)\//i.test(h)],
+  ];
   document.addEventListener('click', (e) => {
+    if (typeof gtag !== 'function') return;
     const cta = e.target.closest('[data-cta]');
-    if (cta && typeof gtag === 'function') {
-      gtag('event', 'cta_click', { cta_name: cta.dataset.cta });
+    if (cta) {
+      // innerText, не textContent: у hero-кнопці два вкладені підписи
+      // (широкий і вузький), один із них прихований — textContent склав би обидва.
+      const txt = (cta.innerText || cta.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 60);
+      gtag('event', 'cta_click', {
+        cta_name: cta.dataset.cta,
+        button_text: txt,
+        link_location: gaLinkLocation(cta),
+        page_language: gaLang()
+      });
+    }
+    const a = e.target.closest('a[href]');
+    if (a) {
+      const href = a.getAttribute('href') || '';
+      const hit = GA_CONTACTS.find((c) => c[1](href));
+      if (hit) gtag('event', hit[0], { link_location: gaLinkLocation(a), page_language: gaLang() });
     }
   });
 
@@ -3950,6 +3982,10 @@ function orderExperience(name, opts){
           leadEventSent = true;
           gtag('event', 'generate_lead', {
             event_type: formData.eventType,
+            // format: груба категорія без вільного тексту (укр. і англ. назви опцій)
+            format: /весілл|wedding/i.test(formData.eventType || '') ? 'wedding'
+              : /корпоратив|company|corporate|тімбілдинг|team/i.test(formData.eventType || '') ? 'corporate' : 'other',
+            page_language: gaLang(),
             guests: formData.guests,
             discovery: formData.discovery,
             utm_source: utm.utmSource || '',

@@ -2,6 +2,10 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
+<script>
+/* Double slashes (//, /experiences//) are served as 200 by the host: normalise before GA so reports have no duplicates. */
+if (/\/\/+/.test(location.pathname)) location.replace(location.pathname.replace(/\/{2,}/g, '/') + location.search + location.hash);
+</script>
 <!-- Google tag (gtag.js) — навмисно одразу після charset, до решти <head>:
      так рекомендує сам Google, щоб перегляд сторінки не загубився через
      ранній редирект чи повільний рендер. -->
@@ -61,7 +65,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="../assets/site.css?v=4d117f95">
+<link rel="stylesheet" href="../assets/site.css?v=c1d2f6e7">
 <!-- Хлібні крихти — ті самі, що видимі над заголовком («Головна · Тихі враження»). -->
 <script type="application/ld+json">
 {
@@ -1062,7 +1066,6 @@
         <ul>
           <li><a href="/experiences/" aria-current="page">Тихі враження</a></li>
           <li><a href="/experiences/corporate/">Для корпоративів</a></li>
-          <li><a href="/experiences/wedding/">Для весілля</a></li>
           <li><a href="/#price">Калькулятор</a></li>
           <li><a href="/faq/">Питання і відповіді</a></li>
           <li><a href="#book" data-cta="footer_nav_leave_request">Залишити заявку</a></li>
@@ -1263,6 +1266,6 @@ window.SILENT_I18N = {
 <script src="../assets/vendor/ScrollTrigger.min.js?v=ecd3242f"></script>
 <!-- Flip — лише тут: плавне перемикання фільтра тем у каталозі (site.js, «Flexbox Filtering»). -->
 <script src="../assets/vendor/Flip.min.js?v=6b36b1cf"></script>
-<script src="../assets/site.js?v=0b719110"></script>
+<script src="../assets/site.js?v=c902a9ae"></script>
 </body>
 </html>
