@@ -9,7 +9,7 @@
     {"id": "format", "name": "Формат"}
   ],
   "posts": [
-    {"slug": "vechirka-bez-shumu-sysidy", "status": "soon", "featured": true, "category": "quiet",
+    {"slug": "vechirka-bez-shumu-sysidy", "status": "published", "featured": true, "category": "quiet",
      "title": "Як провести вечірку, щоб не заважати сусідам",
      "excerpt": "Музика лише в навушниках: що це дає в квартирі, у дворі та на майданчику з обмеженням по гучності.",
      "image": "/images/uc/houseparty.webp", "alt": "Домашня вечірка в навушниках"},

@@ -8014,6 +8014,13 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
 .blog-head { padding: 148px 0 clamp(28px, 5vh, 52px); position: relative; }
 @media (min-width: 601px) and (max-width: 1099px) { .blog-head { padding-top: 113px; } }
 @media (max-width: 600px) { .blog-head { padding-top: 101px; } }
+/* Градієнт шапки, як на /experiences/: пляма виходить далеко вниз, за картку «Вибір редакції», і згасає маскою. */
+.blog-head .uc-aurora {
+  inset: -45% 0 -260%;
+  -webkit-mask-image: linear-gradient(180deg, #000 0, #000 30%, rgba(0,0,0,0.45) 52%, transparent 88%);
+  mask-image: linear-gradient(180deg, #000 0, #000 30%, rgba(0,0,0,0.45) 52%, transparent 88%);
+}
+.blog-head > .wrap, .blog-top { position: relative; z-index: 1; }
 .blog-head .exp-crumb { margin-bottom: 14px; }
 /* Заголовок ліворуч, підзаголовок праворуч навпроти нього (над вузькою колонкою «Свіже»),
    у два-три рядки. На вузьких екранах підзаголовок іде під заголовком. */
@@ -8068,6 +8075,10 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
   font-family: 'Unbounded', sans-serif; font-weight: 700;
   font-size: clamp(24px, 3vw, 38px); line-height: 1.14; letter-spacing: -0.01em; margin: 0; text-wrap: balance;
 }
+.blog-read { align-self: flex-start; display: inline-flex; align-items: center; min-height: 44px; padding: 0 22px; margin-top: 6px; border-radius: 999px; background: var(--lime); color: var(--night); font-weight: 800; font-size: 14px; }
+/* Уся картка «Вибір редакції» клікабельна: посилання розтягнуте на неї. */
+.blog-hero-card { position: relative; }
+.blog-hero-card .blog-read::after { content: ''; position: absolute; inset: 0; border-radius: inherit; }
 .blog-hero-text p { font-size: clamp(15px, 1.4vw, 17px); line-height: 1.55; color: rgba(255,255,255,0.82); max-width: 52ch; margin: 0; }
 
 .blog-latest { border-radius: 28px; padding: 12px clamp(20px, 2.4vw, 30px); display: flex; flex-direction: column; }
@@ -8103,10 +8114,132 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
   .blog-chip { flex: none; }
 }
 
-.blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: clamp(14px, 1.6vw, 22px); position: relative; }
+/* Рівно три картки в ряд (як у макеті), крупніші за каталожні: більший заголовок, анонс і відступи. */
+.blog-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(18px, 1.8vw, 26px); position: relative; }
+@media (max-width: 980px) { .blog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .blog-grid .uc-card { flex: initial; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); }
 .blog-grid .uc-card[hidden] { display: none; }
-.blog-grid .uc-card h3 { font-size: 17px; line-height: 1.3; }
-.blog-grid .uc-card p { margin-bottom: 12px; }
+.blog-grid .uc-card h3 { font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: clamp(18px, 1.55vw, 22px); line-height: 1.25; }
+.blog-grid .uc-card .uc-body { gap: 10px; padding: 26px 24px 24px; }
+.blog-grid .uc-card p { font-size: 15.5px; line-height: 1.55; margin-bottom: 14px; }
+.blog-grid .uc-card .blog-cat { font-size: 12px; }
 .blog-card .blog-soon { margin-top: auto; }
 @media (max-width: 600px) { .blog-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* ===== Стаття блогу (/blog/<slug>/) =====
+   Затверджено 06.10.2026: обкладинка з фото й заголовком по центру (слово в <em> лаймове), далі
+   легке журнальне тіло без плашок: у кожному розділі заголовок ліворуч (липкий на десктопі), текст
+   праворуч однією читабельною колонкою, між розділами тонкі лінії. Із елементів лишилися малий
+   таймлайн, один виносний рядок, невелике фото, FAQ у стилі сайту й CTA. Колонки схлопуються на ≤900px. */
+.art-cover { position: relative; min-height: min(100svh, 820px); display: flex; align-items: flex-end; justify-content: center; overflow: hidden; padding: 130px 0 200px; }
+.art-cover-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; }
+.art-cover-shade {
+  position: absolute; inset: 0;
+  /* Низ фото згасає в --night довгою плавною кривою (кілька проміжних стопів, а не прямою лінією),
+     щоб не було різкої межі: на цьому переході лежить скляна плашка зі вступом. */
+  background: radial-gradient(900px 420px at 50% 45%, rgba(10,10,11,.6), transparent 75%),
+              linear-gradient(180deg, rgba(10,10,11,.6) 0%, rgba(10,10,11,.18) 28%, rgba(10,10,11,.3) 50%,
+                rgba(10,10,11,.52) 64%, rgba(10,10,11,.74) 76%, rgba(10,10,11,.9) 88%, rgba(10,10,11,.98) 96%, var(--night) 100%);
+}
+.art-cover-in { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 24px; max-width: 1100px; }
+.art-tags { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin: 0; }
+.art-tag { padding: 9px 18px; border-radius: 999px; background: rgba(10,10,11,.55); border: 1px solid rgba(255,255,255,.25); font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+.art-tag.is-main { background: var(--lime); border-color: var(--lime); color: var(--night); font-weight: 800; }
+.art-title { font-weight: 800; font-size: clamp(32px, 5.2vw, 68px); line-height: 1.05; letter-spacing: -0.025em; margin: 0; text-wrap: balance; }
+.art-title em { font-style: normal; color: var(--lime); }
+.art-sub { font-size: clamp(16px, 1.5vw, 20px); line-height: 1.55; color: rgba(255,255,255,.85); max-width: 640px; margin: 0; }
+.art-meta { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px; font-size: 14px; color: rgba(255,255,255,.8); margin: 0; }
+.art-meta b { color: #fff; }
+.art-by, .art-when { display: inline-flex; align-items: center; gap: 12px; }
+.art-ava { width: 44px; height: 44px; border-radius: 50%; display: block; }
+
+.art-body { --art-gap: clamp(36px, 5vw, 64px); --art-blockgap: clamp(56px, 7vw, 96px); display: flex; flex-direction: column; gap: var(--art-blockgap); padding-top: 0; padding-bottom: clamp(48px, 6vw, 88px); }
+/* Вступ: скляна плашка (той самий матеріал, що шапка) на переході фото в чорне. */
+.art-lead {
+  position: relative; z-index: 2; margin: calc(var(--art-gap) - 200px) 0 calc(var(--art-gap) - var(--art-blockgap)); max-width: none; /* низ обкладинки 200px: відступ від рядка автора до плашки = відступу від плашки до першого блоку */
+  padding: clamp(24px, 3.4vw, 40px) clamp(24px, 4vw, 56px); border-radius: 36px; text-align: center;
+  /* Той самий матеріал, що в шапки (body > nav): --glass-fill-1, ті самі рамка, блюр і тінь. */
+  background: var(--glass-fill-1); border: 1px solid var(--line); border-top-color: var(--glass-edge);
+  backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: 0 8px 32px -12px rgba(0,0,0,0.5);
+  font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: clamp(18px, 2vw, 26px); line-height: 1.4; text-wrap: balance;
+}
+
+/* Схема власника (06.10.2026): заголовок і текст у дві колонки; фото + лаймова плашка з головною думкою; ще текст; CTA; питання.
+   Усе на одній ширині .wrap, без бічних колонок і лінійок. */
+.art-blk h2, .art-faq h2, .art-related h2 { font-weight: 800; font-size: clamp(26px, 2.8vw, 40px); line-height: 1.12; letter-spacing: -0.03em; margin: 0 0 28px; text-wrap: balance; }
+/* Акцент заголовка: коротка лаймова риска над ним, щоб розділ читався з першого погляду. */
+.art-blk h2::before, .art-faq h2::before, .art-related h2::before { content: ''; display: block; width: 56px; height: 5px; border-radius: 3px; background: var(--lime); margin-bottom: 18px; }
+/* Заголовок розділу лежить усередині колонки (першим у потоці), а не над обома: не виходить за її ширину. */
+.art-cols h2 { break-after: avoid; break-inside: avoid; }
+/* Заголовки блоків питань і «Читайте також» теж не ширші за одну колонку. */
+.art-faq h2, .art-related h2 { max-width: calc(50% - clamp(16px, 2.5vw, 36px)); }
+/* Дві явні колонки однакового розміру: текст розкладений так, щоб вони були рівні за висотою (правило власника, 06.10.2026). */
+.art-cols { --art-colgap: clamp(32px, 5vw, 72px); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--art-colgap); row-gap: clamp(20px, 2.4vw, 32px); align-items: start; font-size: clamp(16px, 1.3vw, 18px); line-height: 1.7; color: rgba(255,255,255,.84); }
+.art-col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.art-col p, .art-col ol { margin: 0; max-width: none; }
+.art-cols a { color: var(--lime); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(198,255,0,.45); transition: text-decoration-color .2s, color .2s; }
+.art-cols a:hover { text-decoration-color: var(--lime); color: #fff; }
+.art-cols h2 { grid-column: 1 / -1; max-width: calc(50% - var(--art-colgap) / 2); margin: 0; }
+
+/* Кроки: велика лаймова цифра, жирна назва й пояснення. Лічильник дає 01, 02, 03: нумерація не поїде, коли кроки додають чи прибирають. */
+.art-steps { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; }
+/* Кроки після вступного абзацу: окрема група з тонкою лінією й помітно більшим відступом, щоб не зливалися з текстом над ними. */
+.art-col p + .art-steps { margin-top: 14px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.14); }
+.art-steps li { counter-increment: st; display: grid; grid-template-columns: 64px minmax(0, 1fr); column-gap: 14px; padding: 16px 0; border-top: 1px solid rgba(255,255,255,.12); }
+.art-steps li:first-child { border-top: 0; padding-top: 0; }
+.art-steps li:last-child { padding-bottom: 0; }
+.art-steps li::before { content: counter(st, decimal-leading-zero); grid-row: span 2; font-family: 'Unbounded', sans-serif; font-weight: 800; font-size: 30px; line-height: 1; font-variant-numeric: tabular-nums; color: var(--lime); letter-spacing: -0.04em; }
+.art-steps b { grid-column: 2; font-size: 1.08em; line-height: 1.3; color: #fff; margin-bottom: 6px; }
+.art-steps span { grid-column: 2; color: rgba(255,255,255,.7); }
+
+/* Кроки: стопка плашок із головної (.slabs/.slab, логіка в site.js). Тут лише місце в сітці блоку. */
+.art-slabs { grid-column: 1 / -1; margin-top: 0; padding-bottom: 14px; }
+.art-slabs .slab { padding-bottom: 44px; }          /* плашки внахлист: запас, щоб наступна не закривала останній рядок довшого опису */
+.art-slabs .slab-body p { max-width: none; min-height: 0; }
+/* Десктоп: текст у плашках такого ж розміру, як у решти текстових блоків статті (на телефоні лишається розмір із головної). */
+@media (min-width: 761px) {
+  .art-slabs .slab-body p { font-size: clamp(16px, 1.3vw, 18px); line-height: 1.7; }
+  .art-slabs .slab-body h3 { font-size: clamp(20px, 1.7vw, 24px); margin-bottom: 8px; }
+}
+.art-slabs .slab-body p a { color: var(--lime); text-decoration: underline; text-underline-offset: 4px; }
+
+.art-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(16px, 2vw, 28px); align-items: stretch; }
+.art-pair-img { margin: 0; position: relative; min-height: clamp(340px, 31vw, 440px); border-radius: 32px; overflow: hidden; }
+.art-pair-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 35%; display: block; }
+.art-key { margin: 0; position: relative; display: flex; align-items: center; padding: clamp(28px, 4vw, 56px); border-radius: var(--r-lg);
+  /* Та сама заливка, що в картці гарантії на головній (.band): скло, лаймова рамка, м'яке світіння й рухома аврора (.band-aurora, її монтує site.js). */
+  background: var(--glass); border: 1px solid rgba(198,255,0,0.25); box-shadow: 0 0 60px -20px rgba(198,255,0,0.15);
+  backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); color: #fff; }
+.art-key p { position: relative; z-index: 1; font-family: 'Unbounded', sans-serif; font-weight: 800; font-size: clamp(22px, 2.6vw, 34px); line-height: 1.25; margin: 0; max-width: none; text-wrap: balance; }
+
+/* CTA: суцільна лаймова плашка на всю ширину. */
+.art-cta { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px 32px; padding: clamp(28px, 4vw, 48px) clamp(24px, 4vw, 56px); border-radius: 40px; background: var(--lime); color: var(--night); }
+.art-cta h2 { font-weight: 800; font-size: clamp(22px, 2.4vw, 32px); line-height: 1.2; margin: 0 0 8px; max-width: 640px; }
+.art-cta p { font-size: 16px; color: rgba(10,10,11,.75); margin: 0; max-width: none; }
+.art-cta-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 30px; border-radius: 999px; background: var(--night); color: var(--lime); font-weight: 800; font-size: 15px; }
+
+.art-faq { display: flex; flex-direction: column; }
+.art-faq .faq-list { margin-top: 0; }
+.art-faq h2 { margin-bottom: 24px; }
+.art-related { display: flex; flex-direction: column; }
+.art-ask { text-align: center; font-size: 17px; line-height: 1.6; color: var(--muted); max-width: 640px; margin: 0 auto; text-wrap: balance; }
+.art-ask a { color: var(--lime); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(198,255,0,.45); }
+
+@media (max-width: 900px) {
+  /* Мобільна шапка статті: автор по центру, нижче в рядок дата й час читання. */
+  .art-meta { flex-direction: column; gap: 10px; }
+  .art-dot { display: none; }
+  .art-cols { grid-template-columns: minmax(0, 1fr); row-gap: 20px; }
+  .art-cols h2 { max-width: none; }
+  .art-col { gap: 16px; }
+  .art-steps li { grid-template-columns: 52px minmax(0, 1fr); }
+  .art-faq h2, .art-related h2 { max-width: none; }
+  .art-pair { grid-template-columns: minmax(0, 1fr); }
+  .art-pair-img { min-height: 300px; }
+  .art-key { min-height: 220px; }
+  .art-cover { min-height: 640px; padding: 110px 0 150px; }
+  .art-lead { margin-top: calc(var(--art-gap) - 150px); }
+  .art-cta-btn { width: 100%; }
+}
+

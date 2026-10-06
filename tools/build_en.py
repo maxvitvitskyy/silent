@@ -658,6 +658,7 @@ T = {
 'Калькулятор': 'Calculator',
 # Підвал: посилання на сторінки замість дублів якорів головної.
 'Для корпоративів': 'Corporate events',
+'>Блог<': '>Blog<',
 'Для весілля': 'Weddings',
 'Питання і відповіді': 'Questions and answers',
 'Порахувати вартість': 'Work out the cost',
@@ -1429,6 +1430,8 @@ def stamp_files():
     extra.append(DST_FAQ)
     extra.append(DST_EXP)
     extra.append(os.path.join(ROOT, 'blog', 'index.html'))
+    import glob
+    extra.extend(sorted(glob.glob(os.path.join(ROOT, 'blog', '*', 'index.html'))))
     for _slug in EXP_EN_PAGES:
         extra.append(os.path.join(ROOT, 'en', 'experiences', _slug, 'index.html'))
     for path in [SRC, DST, SRC404, DST404] + extra:
