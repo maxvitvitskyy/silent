@@ -1994,6 +1994,7 @@ SWITCH_EN_EXP = """    <span class="lang-switch" role="group" aria-label="Site l
     </span>"""
 
 T_EXP = {
+"Усі формати Silent Disco за темами": "All Silent Disco formats by theme",
 "Картка «Тихі враження»: скляний барабан із рядком SILENT. EXPERIENCE та формати подій навколо, напис «Одна технологія. Десятки форматів.»":
   "Quiet Experiences card: a glass reel with the line SILENT. EXPERIENCE and event formats around it, the text “One technology. Dozens of formats.”",
 "Тихі враження — формати silent disco від SILENT": "Quiet Experiences — silent disco formats from SILENT",
@@ -2005,10 +2006,10 @@ T_EXP = {
   "Three channels of music in every guest's headphones, everyone sets their own volume, and it stays quiet outside. Equipment, delivery, setup and support.",
 "Формати: диско, фітнес, кіно, весілля, корпоративи, фестивалі, стендап, дитячі свята, виставки, духовні й культурні події, бізнес-заходи, концерти, освітні події, табори, медитації та інші — 44 сценарії нижче.":
   "Formats: disco, fitness, cinema, weddings, corporate parties, festivals, stand-up, kids' parties, exhibitions, spiritual and cultural events, business events, concerts, educational events, camps, meditations and more — 44 scenarios below.",
-"Silent disco — лише один зі сценаріїв. Той самий комплект працює всюди, де звук має дійти до кожного, але не мусить лунати на всю залу: від корпоративу й весілля до екскурсії музеєм, конференції та йоги.":
-  "Silent disco is only one of the scenarios. The same set works wherever sound has to reach everyone but shouldn't fill the whole room: from a corporate party and a wedding to a museum tour, a conference and yoga.",
-"Оберіть формат, близький до вашого — або лишіть заявку, і ми підберемо його разом.":
-  "Pick the format closest to yours — or send a request and we'll choose one together.",
+"Silent disco — лише один зі сценаріїв. Три канали музики в навушниках і тиша ззовні працюють усюди, де звук має дійти до кожного, але не мусить лунати на всю залу: від корпоративу й весілля до екскурсії музеєм, конференції та йоги.":
+  "Silent disco is only one of the scenarios. Three channels of music in the headphones and quiet outside work wherever sound has to reach everyone but shouldn't fill the whole room: from a corporate party and a wedding to a museum tour, a conference and yoga.",
+"Оберіть тему нижче, щоб побачити відповідні формати, або лишіть заявку, і ми підберемо формат разом.":
+  "Pick a theme below to see the matching formats, or send a request and we'll choose one together.",
 "Що таке Silent disco?": "What is silent disco?",
 "Не знайшли свій формат? Зробимо його сорок п’ятим.": "Can't find your format? We'll make it the forty-fifth.",
 "Напишіть, що плануєте — скажемо, чи підходить тихий звук і скільки це коштуватиме.":
@@ -2021,6 +2022,11 @@ def build_experiences():
     if not os.path.exists(SRC_EXP):
         return
     s = unstamp(io.open(SRC_EXP, encoding='utf-8').read())
+    # Український ItemList не переходить в англійську версію: її власний збирає apply_catalog_itemlist.
+    _m = _LD.search(s)
+    _d = _json.loads(_m.group(2))
+    _d['@graph'] = [n for n in _d['@graph'] if n.get('@type') != 'ItemList']
+    s = s[:_m.start()] + _m.group(1) + '\n' + _json.dumps(_d, ensure_ascii=False, indent=2) + '\n' + _m.group(3) + s[_m.end():]
 
     for old, new in HEAD_EXP:
         if s.count(old) < 1:
@@ -2156,6 +2162,29 @@ def apply_home_faq(path, url_path, lang):
     io.open(path, 'w', encoding='utf-8').write(out)
 
 
+
+def apply_catalog_itemlist(path, lang):
+    """ItemList усіх форматів у JSON-LD каталогу: імена беремо з видимих карток тієї ж сторінки,
+    тож розмітка збігається з текстом (і для UA, і для EN)."""
+    if not os.path.exists(path):
+        return
+    text = io.open(path, encoding='utf-8').read()
+    names = re.findall(r'<article class="uc-card"[^>]*data-uc="[^"]*"[\s\S]*?<h3>([^<]+)</h3>', text)
+    names = [re.sub(r'\s+', ' ', n).strip() for n in names]
+    if len(names) < 40:
+        sys.exit('ItemList: знайдено лише %d карток у %s' % (len(names), path))
+    m = _LD.search(text)
+    d = _json.loads(m.group(2))
+    base = _SITE + ('/en/experiences/' if lang == 'en' else '/experiences/')
+    graph = [n for n in d['@graph'] if n.get('@type') != 'ItemList']
+    graph.append({'@type': 'ItemList', '@id': base + '#formats', 'name': 'Silent disco formats' if lang == 'en' else 'Формати Silent disco',
+                  'numberOfItems': len(names),
+                  'itemListElement': [{'@type': 'ListItem', 'position': i + 1, 'name': n} for i, n in enumerate(names)]})
+    d['@graph'] = graph
+    block = m.group(1) + '\n' + _json.dumps(d, ensure_ascii=False, indent=2) + '\n' + m.group(3)
+    io.open(path, 'w', encoding='utf-8').write(text[:m.start()] + block + text[m.end():])
+
+
 if __name__ == '__main__':
     # Першим: дописує теми й кнопки фільтра в сам index.html, з якого далі
     # збирається все інше.
@@ -2169,7 +2198,9 @@ if __name__ == '__main__':
     build_experience_strips()
     print('FAQ JSON-LD (uk):', build_faq_ua_jsonld(), 'питань')
     build_faq()
+    apply_catalog_itemlist(SRC_EXP, 'uk')
     build_experiences()
+    apply_catalog_itemlist(DST_EXP, 'en')
     for _slug in EXP_EN_PAGES:
         build_experience_page_en(_slug)
     # Останнім кроком, коли обидві англійські сторінки вже на диску: позначка

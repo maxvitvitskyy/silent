@@ -332,4 +332,24 @@ T_PAGE_ALL = {
   "Guests of different ages talking at a festive table with headphones around their necks",
 "Рука кладе на стіл навушники Silent Disco із зеленою підсвіткою серед свічок":
   "A hand placing Silent Disco headphones with green lights on a table among candles",
+"Розваги на весіллі: часті запитання про Silent Disco":
+  "Wedding entertainment: frequently asked questions about Silent Disco",
+"Чи підходить Silent для весілля під час воєнного стану?":
+  "Does Silent suit a wedding during martial law?",
+"Формат не змінює правил: комендантську годину й вимоги безпеки треба дотримуватися, і ми їх не обходимо. Він знімає інше: музика звучить лише в навушниках, тож вечір не впирається в шум для сусідів і обмеження майданчика щодо гучності. Якщо оголосять тривогу, навушники й передавач легко перенести в укриття.":
+  "The format does not change the rules: the curfew and safety requirements still apply, and we do not work around them. What it removes is something else: the music plays only in the headphones, so the evening does not run into noise for neighbours or a venue's volume limits. If an air-raid alert is declared, the headphones and the transmitter are easy to carry to a shelter.",
+"Що буде, якщо весілля не вдасться провести в обрану дату?":
+  "What happens if the wedding cannot take place on the chosen date?",
+"Перенести дату можна безкоштовно, якщо попередити щонайменше за 21 день і нова дата вільна. Якщо подію неможливо провести через форс-мажор, спершу шукаємо нову дату; якщо це неможливо, домовляємося з урахуванням того, що вже фактично зроблено.":
+  "The date can be moved free of charge if you tell us at least 21 days ahead and the new date is free. If the event cannot take place because of force majeure, we first look for a new date; if that is not possible, we agree on terms that take into account what has already actually been done.",
+"Розваги на корпоратив: часті запитання про Silent Disco":
+  "Corporate party entertainment: frequently asked questions about Silent Disco",
+"Що організувати на корпоративі замість конкурсів?":
+  "What can we organise at a corporate party instead of contests?",
+"Silent disco: гості самі обирають канал і гучність, тож нікого не треба виводити на сцену й вмовляти. Хто хоче поговорити, знімає навушники на шию, і розмова йде звичайним голосом.":
+  "Silent disco: guests pick their own channel and volume, so nobody has to be brought on stage or persuaded. Anyone who wants to talk takes the headphones off around the neck, and the conversation goes on in a normal voice.",
+"Чи підійде формат для новорічного корпоративу?":
+  "Does the format suit a New Year corporate party?",
+"Так, формат працює в залі, офісі чи ресторані. Обладнання в нас обмежене, а найпопулярніші дати, особливо у високий сезон, розбирають наперед, тож краще залишити заявку заздалегідь.":
+  "Yes, the format works in a hall, an office or a restaurant. Our equipment is limited, and the most popular dates, especially in high season, are taken in advance, so it is better to send a request early.",
 }
