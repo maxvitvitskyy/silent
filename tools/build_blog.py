@@ -201,12 +201,9 @@ def article_blocks(blocks):
                         sys.exit('blog: невідомий елемент колонки %r' % it)
                 return '<div class="art-col">%s</div>' % html
             if b.get('cards'):
-                # Кроки як стопка плашок з головної («Що входить»): ті самі .slabs/.slab, їх веде «Стопка плашок» у site.js.
-                items = ''.join(
-                    '<article class="slab reveal" style="--i:%d"><span class="slab-num" aria-hidden="true">%02d</span>'
-                    '<div class="slab-body"><h3>%s</h3><p>%s</p></div></article>' % (i, i + 1, esc(x['t']), inline(x['d']))
-                    for i, x in enumerate(b['cards']))
-                out.append('<section class="art-blk"><div class="art-cols"><h2>%s</h2><div class="slabs art-slabs">%s</div></div></section>'
+                # Кроки: окремі картки в дві колонки (без ефекту стопки), нумерація лічильником у CSS.
+                items = ''.join('<li><b>%s</b><span>%s</span></li>' % (esc(x['t']), inline(x['d'])) for x in b['cards'])
+                out.append('<section class="art-blk"><div class="art-cols"><h2>%s</h2><ol class="art-cards">%s</ol></div></section>'
                            % (esc(b['title']), items))
                 continue
             left, right = b['cols']
@@ -273,7 +270,7 @@ def build_article(p, data, cats, posts, shared, card_fn):
     cover = ('<header class="art-cover">\n  <img class="art-cover-img" src="%s" alt="%s" width="1600" height="1067" fetchpriority="high">\n'
              '  <div class="art-cover-shade" aria-hidden="true"></div>\n  <div class="wrap art-cover-in">\n'
              '    <p class="art-tags">%s</p>\n    <h1 class="art-title">%s</h1>\n    <p class="art-sub">%s</p>\n'
-             '    <p class="art-meta"><span class="art-by"><img class="art-ava" src="/images/favicon.png" alt="" width="44" height="44"><b>%s</b></span>'
+             '    <p class="art-meta"><span class="art-by"><img class="art-ava" src="/images/favicon.png" alt="" width="35" height="35"><b>%s</b></span>'
              '<span class="art-dot" aria-hidden="true">&middot;</span>'
              '<span class="art-when"><span>%s</span><span aria-hidden="true">&middot;</span><span>%s</span></span></p>\n  </div>\n</header>\n'
              % (esc(a['cover']['src']), esc(a['cover']['alt']), tags,

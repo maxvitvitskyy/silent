@@ -8151,7 +8151,7 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
 .art-meta { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px; font-size: 14px; color: rgba(255,255,255,.8); margin: 0; }
 .art-meta b { color: #fff; }
 .art-by, .art-when { display: inline-flex; align-items: center; gap: 12px; }
-.art-ava { width: 44px; height: 44px; border-radius: 50%; display: block; }
+.art-ava { width: 35px; height: 35px; border-radius: 50%; display: block; }
 
 .art-body { --art-gap: clamp(36px, 5vw, 64px); --art-blockgap: clamp(56px, 7vw, 96px); display: flex; flex-direction: column; gap: var(--art-blockgap); padding-top: 0; padding-bottom: clamp(48px, 6vw, 88px); }
 /* Вступ: скляна плашка (той самий матеріал, що шапка) на переході фото в чорне. */
@@ -8193,20 +8193,16 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
 .art-steps b { grid-column: 2; font-size: 1.08em; line-height: 1.3; color: #fff; margin-bottom: 6px; }
 .art-steps span { grid-column: 2; color: rgba(255,255,255,.7); }
 
-/* Кроки: стопка плашок із головної (.slabs/.slab, логіка в site.js). Тут лише місце в сітці блоку. */
-.art-slabs { grid-column: 1 / -1; margin-top: 0; padding-bottom: 14px; }
-.art-slabs .slab { padding-bottom: 44px; }          /* плашки внахлист: запас, щоб наступна не закривала останній рядок довшого опису */
-.art-slabs .slab-body p { max-width: none; min-height: 0; }
-/* Десктоп: текст у плашках такого ж розміру, як у решти текстових блоків статті (на телефоні лишається розмір із головної). */
-@media (min-width: 761px) {
-  .art-slabs .slab-body p { font-size: clamp(16px, 1.3vw, 18px); line-height: 1.7; }
-  .art-slabs .slab-body h3 { font-size: clamp(20px, 1.7vw, 24px); margin-bottom: 8px; }
-}
-.art-slabs .slab-body p a { color: var(--lime); text-decoration: underline; text-underline-offset: 4px; }
+/* Кроки: окремі картки в дві колонки (стопку плашок із головної прибрано за рішенням власника), велика лаймова цифра, назва, опис. */
+.art-cards { grid-column: 1 / -1; list-style: none; margin: 0; padding: 0; counter-reset: card; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(14px, 1.6vw, 24px); }
+.art-cards li { counter-increment: card; display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 20px; row-gap: 8px; align-items: start; padding: clamp(22px, 2.4vw, 32px); border-radius: var(--r-lg); border: 1px solid rgba(255,255,255,.12); border-top-color: rgba(255,255,255,.2); background: rgba(255,255,255,.04); }
+.art-cards li::before { content: counter(card, decimal-leading-zero); grid-row: span 2; font-family: 'Unbounded', sans-serif; font-weight: 800; font-size: clamp(34px, 3.2vw, 44px); line-height: 1; letter-spacing: -0.04em; color: var(--lime); font-variant-numeric: tabular-nums; min-width: 1.7em; }
+.art-cards b { grid-column: 2; font-size: clamp(18px, 1.5vw, 21px); line-height: 1.3; color: #fff; }
+.art-cards span { grid-column: 2; color: rgba(255,255,255,.72); font-size: clamp(16px, 1.3vw, 18px); line-height: 1.6; }
 
 .art-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(16px, 2vw, 28px); align-items: stretch; }
 .art-pair-img { margin: 0; position: relative; min-height: clamp(340px, 31vw, 440px); border-radius: 32px; overflow: hidden; }
-.art-pair-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 35%; display: block; }
+.art-pair-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; display: block; }
 .art-key { margin: 0; position: relative; display: flex; align-items: center; padding: clamp(28px, 4vw, 56px); border-radius: var(--r-lg);
   /* Та сама заливка, що в картці гарантії на головній (.band): скло, лаймова рамка, м'яке світіння й рухома аврора (.band-aurora, її монтує site.js). */
   background: var(--glass); border: 1px solid rgba(198,255,0,0.25); box-shadow: 0 0 60px -20px rgba(198,255,0,0.15);
@@ -8232,6 +8228,7 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
   .art-dot { display: none; }
   .art-cols { grid-template-columns: minmax(0, 1fr); row-gap: 20px; }
   .art-cols h2 { max-width: none; }
+  .art-cards li { grid-template-columns: auto minmax(0, 1fr); }
   .art-col { gap: 16px; }
   .art-steps li { grid-template-columns: 52px minmax(0, 1fr); }
   .art-faq h2, .art-related h2 { max-width: none; }
@@ -8243,3 +8240,7 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
   .art-cta-btn { width: 100%; }
 }
 
+@media (max-width: 700px) {
+  .art-cards { grid-template-columns: minmax(0, 1fr); }
+  .art-cards li { column-gap: 16px; }
+}
