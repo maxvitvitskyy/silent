@@ -3,8 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <script>
-/* Double slashes (//, /experiences//) are served as 200 by the host: normalise before GA so reports have no duplicates. */
-if (/\/\/+/.test(location.pathname)) location.replace(location.pathname.replace(/\/{2,}/g, '/') + location.search + location.hash);
+/* Normalise the URL before GA: //, /experiences// and /…/index.html are served as 200 by the host
+   (no server-side 301 on GitHub Pages), so they would split traffic into duplicate paths in reports.
+   Local dev servers must not pollute the real property either. */
+if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || /\.localhost$/.test(location.hostname)) window['ga-disable-G-L60PG6EF3E'] = true;
+(function(){
+  var p = location.pathname, c = p.replace(/\/{2,}/g, '/').replace(/\/index\.html$/, '/');
+  if (c !== p) location.replace(c + location.search + location.hash);
+})();
 </script>
 <!-- Google tag (gtag.js) — навмисно одразу після charset, до решти <head>:
      так рекомендує сам Google, щоб перегляд сторінки не загубився через
