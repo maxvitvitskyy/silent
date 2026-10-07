@@ -8153,7 +8153,7 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
 .art-by, .art-when { display: inline-flex; align-items: center; gap: 12px; }
 .art-ava { width: 35px; height: 35px; border-radius: 50%; display: block; }
 
-.art-body { --art-gap: clamp(36px, 5vw, 64px); --art-blockgap: clamp(56px, 7vw, 96px); display: flex; flex-direction: column; gap: var(--art-blockgap); padding-top: 0; padding-bottom: clamp(48px, 6vw, 88px); }
+.art-body { --art-colgap: clamp(16px, 2vw, 28px); --art-gap: clamp(36px, 5vw, 64px); --art-blockgap: clamp(56px, 7vw, 96px); display: flex; flex-direction: column; gap: var(--art-blockgap); padding-top: 0; padding-bottom: clamp(48px, 6vw, 88px); }
 /* Вступ: скляна плашка (той самий матеріал, що шапка) на переході фото в чорне. */
 .art-lead {
   position: relative; z-index: 2; margin: calc(var(--art-gap) - 200px) 0 calc(var(--art-gap) - var(--art-blockgap)); max-width: none; /* низ обкладинки 200px: відступ від рядка автора до плашки = відступу від плашки до першого блоку */
@@ -8175,12 +8175,23 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
 /* Заголовки блоків питань і «Читайте також» теж не ширші за одну колонку. */
 .art-faq h2, .art-related h2 { max-width: calc(50% - clamp(16px, 2.5vw, 36px)); }
 /* Дві явні колонки однакового розміру: текст розкладений так, щоб вони були рівні за висотою (правило власника, 06.10.2026). */
-.art-cols { --art-colgap: clamp(32px, 5vw, 72px); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--art-colgap); row-gap: clamp(20px, 2.4vw, 32px); align-items: start; font-size: clamp(16px, 1.3vw, 18px); line-height: 1.7; color: rgba(255,255,255,.84); }
+.art-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--art-colgap); row-gap: clamp(20px, 2.4vw, 32px); align-items: start; font-size: clamp(16px, 1.3vw, 18px); line-height: 1.7; color: rgba(255,255,255,.84); }
 .art-col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
 .art-col p, .art-col ol { margin: 0; max-width: none; }
 .art-cols a { color: var(--lime); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(198,255,0,.45); transition: text-decoration-color .2s, color .2s; }
 .art-cols a:hover { text-decoration-color: var(--lime); color: #fff; }
 .art-cols h2 { grid-column: 1 / -1; max-width: calc(50% - var(--art-colgap) / 2); margin: 0; }
+/* Текстовий блок: заголовок, під ним один потік абзаців у дві колонки з вирівнюванням (column-fill: balance).
+   Обидві колонки починаються на одному рівні й закінчуються на одному, абзац сам переходить між ними. */
+/* Заголовок — перший елемент самого потоку: стоїть угорі лівої колонки, а права колонка починається на його рівні. */
+.art-flow h2 { position: relative; margin: 0 0 clamp(28px, 3vw, 42px); max-width: none; break-after: avoid; break-inside: avoid; }
+/* Лаймова риска винесена над потік (абсолютно): верх колонок тепер збігається з верхом ТЕКСТУ заголовка, і права колонка починається на його рівні, а не на рівні риски. */
+.art-flow h2::before { position: absolute; top: -23px; left: 0; margin: 0; }
+.art-flow { column-count: 2; column-gap: var(--art-colgap); column-fill: balance; font-size: clamp(16px, 1.3vw, 18px); line-height: 1.7; color: rgba(255,255,255,.84); }
+.art-flow p { margin: 0 0 16px; max-width: none; orphans: 1; widows: 1; }   /* дозволяє переносити навіть один рядок: так колонки закінчуються на одному рівні */
+.art-flow > :last-child { margin-bottom: 0; }
+.art-flow a { color: var(--lime); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(198,255,0,.45); transition: text-decoration-color .2s, color .2s; }
+.art-flow a:hover { text-decoration-color: var(--lime); color: #fff; }
 
 /* Кроки: велика лаймова цифра, жирна назва й пояснення. Лічильник дає 01, 02, 03: нумерація не поїде, коли кроки додають чи прибирають. */
 .art-steps { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; }
@@ -8195,15 +8206,26 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
 
 /* Кроки: окремі картки в дві колонки (стопку плашок із головної прибрано за рішенням власника), велика лаймова цифра, назва, опис. */
 .art-cards-lead { grid-column: 1 / -1; max-width: 70ch; margin: 0; }
-.art-cards { grid-column: 1 / -1; list-style: none; margin: 0; padding: 0; counter-reset: card; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(14px, 1.6vw, 24px); }
-.art-cards li { counter-increment: card; display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 20px; row-gap: 8px; align-items: start; padding: clamp(22px, 2.4vw, 32px); border-radius: var(--r-lg); border: 1px solid rgba(255,255,255,.12); border-top-color: rgba(255,255,255,.2); background: rgba(255,255,255,.04); }
+.art-cards { grid-column: 1 / -1; list-style: none; margin: 0; padding: 0; counter-reset: card; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--art-colgap); }
+.art-cards li { counter-increment: card; position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 20px; row-gap: 8px; align-items: start; padding: clamp(22px, 2.4vw, 32px); border-radius: var(--r-lg);
+  /* Матеріал і ефект як у карток «Що відчують ваші гості» на головній: скло, а при наведенні по краю картки гуляє світлова дуга за курсором (координати --spot-x/--spot-y веде спільний модуль спотлайту в site.js, селектор .art-cards li). */
+  border: 1px solid var(--line); border-top-color: var(--glass-edge); background: var(--glass-fill-dark);
+  backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow-1), inset 0 1px 0 rgba(255,255,255,0.07);
+  --spot-x: 50%; --spot-y: 50%; --spot-ring-r: 220px; transition: border-color .5s ease; }
+.art-cards li::after { content: ''; position: absolute; inset: -1px; z-index: 3; border-radius: var(--r-lg); pointer-events: none; opacity: 0; transition: opacity .4s ease;
+  padding: 2.5px; background: radial-gradient(var(--spot-ring-r) circle at var(--spot-x) var(--spot-y), color-mix(in srgb, var(--ch) 92%, transparent), transparent 62%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite: exclude; }
+@media (hover: hover) and (pointer: fine) { .art-cards li:hover::after { opacity: 1; } }
+/* Палець: обводка, доки картку тримають (клас вішає той самий модуль). */
+.art-cards li.is-pressed { border-color: var(--ch); }
 .art-cards li::before { content: counter(card, decimal-leading-zero); grid-row: span 2; font-family: 'Unbounded', sans-serif; font-weight: 800; font-size: clamp(34px, 3.2vw, 44px); line-height: 1; letter-spacing: -0.04em; color: var(--lime); font-variant-numeric: tabular-nums; min-width: 1.7em; }
 .art-cards b { grid-column: 2; font-size: clamp(18px, 1.5vw, 21px); line-height: 1.3; color: #fff; }
 .art-cards span { grid-column: 2; color: rgba(255,255,255,.72); font-size: clamp(16px, 1.3vw, 18px); line-height: 1.6; }
 
-.art-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(16px, 2vw, 28px); align-items: stretch; }
+.art-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--art-colgap); align-items: stretch; }
 .art-pair-img { margin: 0; position: relative; min-height: clamp(340px, 31vw, 440px); border-radius: 32px; overflow: hidden; }
-.art-pair-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; display: block; }
+.art-pair-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; display: block; }
 .art-key { margin: 0; position: relative; display: flex; align-items: center; padding: clamp(28px, 4vw, 56px); border-radius: var(--r-lg);
   /* Та сама заливка, що в картці гарантії на головній (.band): скло, лаймова рамка, м'яке світіння й рухома аврора (.band-aurora, її монтує site.js). */
   background: var(--glass); border: 1px solid rgba(198,255,0,0.25); box-shadow: 0 0 60px -20px rgba(198,255,0,0.15);
@@ -8229,6 +8251,7 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
   .art-dot { display: none; }
   .art-cols { grid-template-columns: minmax(0, 1fr); row-gap: 20px; }
   .art-cols h2 { max-width: none; }
+  .art-flow { column-count: 1; }
   .art-cards li { grid-template-columns: auto minmax(0, 1fr); }
   .art-col { gap: 16px; }
   .art-steps li { grid-template-columns: 52px minmax(0, 1fr); }

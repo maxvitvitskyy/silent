@@ -181,7 +181,7 @@ def inline(text):
 
 def article_blocks(blocks):
     """Тіло статті з блоків article.json (схема власника від 06.10.2026):
-    text  заголовок + текст у дві рівні колонки (cols: [ліва, права], елементи {p} або {steps, start}; або cards: [{t,d}] для карток із нумерацією);
+    text  заголовок + текст у дві рівні колонки (cols: [ліва, права] зливаються в один потік, що CSS ділить на дві вирівняні колонки; або cards: [{t,d}] для карток із нумерацією);
     pair  фото ліворуч і яскрава лаймова плашка з головною думкою праворуч, однакової висоти."""
     out = []
     for b in blocks:
@@ -189,17 +189,6 @@ def article_blocks(blocks):
         if t == 'text':
             # Заголовок розділу окремим рядком зверху (не ширший за одну колонку), під ним дві явні рівні колонки,
             # які починаються на одній лінії; текст розкладено вручну так, щоб вони були рівні за висотою.
-            def col(items):
-                html = ''
-                for it in items:
-                    if 'p' in it:
-                        html += '<p>%s</p>' % inline(it['p'])
-                    elif 'steps' in it:
-                        html += '<ol class="art-steps" style="counter-reset: st %d">%s</ol>' % (it.get('start', 1) - 1, ''.join(
-                            '<li><b>%s</b><span>%s</span></li>' % (esc(x['t']), inline(x['d'])) for x in it['steps']))
-                    else:
-                        sys.exit('blog: невідомий елемент колонки %r' % it)
-                return '<div class="art-col">%s</div>' % html
             if b.get('cards'):
                 # Кроки: окремі картки в дві колонки (без ефекту стопки), нумерація лічильником у CSS.
                 items = ''.join('<li><b>%s</b><span>%s</span></li>' % (esc(x['t']), inline(x['d'])) for x in b['cards'])
@@ -207,9 +196,20 @@ def article_blocks(blocks):
                 out.append('<section class="art-blk"><div class="art-cols"><h2>%s</h2>%s<ol class="art-cards">%s</ol></div></section>'
                            % (esc(b['title']), lead, items))
                 continue
-            left, right = b['cols']
-            out.append('<section class="art-blk"><div class="art-cols"><h2>%s</h2>%s%s</div></section>'
-                       % (esc(b['title']), col(left), col(right)))
+            # Звичайний текстовий блок: ОДИН потік у дві CSS-колонки з вирівнюванням, заголовок першим елементом потоку (у лівій колонці),
+            # (column-fill: balance): колонки починаються на одному рівні, закінчуються на одному, а абзац сам
+            # переходить між ними, де треба. Тому ручного розкладання по колонках більше нема: left/right просто зливаються.
+            items = [it for col in b['cols'] for it in col]
+            html = ''
+            for it in items:
+                if 'p' in it:
+                    html += '<p>%s</p>' % inline(it['p'])
+                elif 'steps' in it:
+                    html += '<ol class="art-steps" style="counter-reset: st %d">%s</ol>' % (it.get('start', 1) - 1, ''.join(
+                        '<li><b>%s</b><span>%s</span></li>' % (esc(x['t']), inline(x['d'])) for x in it['steps']))
+                else:
+                    sys.exit('blog: невідомий елемент колонки %r' % it)
+            out.append('<section class="art-blk"><div class="art-flow"><h2>%s</h2>%s</div></section>' % (esc(b['title']), html))
         elif t == 'pair':
             im = b['image']
             out.append('<div class="art-pair"><figure class="art-pair-img"><img src="%s" alt="%s" loading="lazy" decoding="async" width="1200" height="900"></figure>'

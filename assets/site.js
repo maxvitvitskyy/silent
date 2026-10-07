@@ -4834,7 +4834,7 @@ function orderExperience(name, opts){
   // працює рядком нижче.
   (function(){
     if (!window.matchMedia) return;
-    const SEL = '.uc-card, .benefit-card, .pb-card:not(.pb-card-accent), .exp-facts li';
+    const SEL = '.uc-card, .benefit-card, .pb-card:not(.pb-card-accent), .exp-facts li, .art-cards li';
 
     // ---- Миша: координати для дуги ----
     // Саму плашку малює CSS, звідси приходять тільки координати. Слухач один
