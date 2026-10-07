@@ -32,6 +32,40 @@ def esc(s):
     return html.escape(s, quote=True)
 
 
+_TINT_CACHE = {}
+
+
+def tint(image_url):
+    """Основний колір фото для легкого підсвічування картки: середній по насичених, не темних пікселях,
+    ще трохи підсилений. Повертає 'r,g,b' для CSS-змінної --tint (порожньо, якщо фото нема або нема Pillow)."""
+    if image_url in _TINT_CACHE:
+        return _TINT_CACHE[image_url]
+    out = ''
+    try:
+        import colorsys
+        from PIL import Image
+        im = Image.open(os.path.join(ROOT, image_url.lstrip('/'))).convert('RGB').resize((48, 48))
+        acc = [0.0, 0.0, 0.0]
+        wsum = 0.0
+        allp = [0.0, 0.0, 0.0]
+        for r, g, b in im.getdata():
+            h, sat, v = colorsys.rgb_to_hsv(r / 255, g / 255, b / 255)
+            allp[0] += r; allp[1] += g; allp[2] += b
+            w = sat * v if (sat > 0.28 and v > 0.28) else 0
+            if w:
+                acc[0] += r * w; acc[1] += g * w; acc[2] += b * w; wsum += w
+        n = 48 * 48
+        base = [c / wsum for c in acc] if wsum else [c / n for c in allp]
+        h, sat, v = colorsys.rgb_to_hsv(*[c / 255 for c in base])
+        sat = max(sat, 0.55)
+        v = max(v, 0.78)
+        out = ','.join(str(round(c * 255)) for c in colorsys.hsv_to_rgb(h, sat, v))
+    except Exception:
+        out = ''
+    _TINT_CACHE[image_url] = out
+    return out
+
+
 def card(p, cats):
     """Картка в загальній сітці. Заглушка: <article> без посилання."""
     cat = cats[p['category']]
@@ -43,10 +77,12 @@ def card(p, cats):
     else:
         foot = '<a class="uc-order" href="/blog/%s/">Читати</a>' % p['slug']
         head, tail = '', ''
-    return ('        <article class="uc-card blog-card%s" data-cat="%s">\n          %s\n'
+    tn = tint(p['image'])
+    style = ' style="--tint:%s"' % tn if tn else ''
+    return ('        <article class="uc-card blog-card%s" data-cat="%s"%s>\n          %s\n'
             '          <div class="uc-body">\n            <span class="blog-cat">%s</span>\n'
             '            <h3>%s</h3>\n            <p>%s</p>\n            %s\n          </div>\n        </article>\n'
-            % (' is-soon' if p['status'] != 'published' else '', p['category'], media, esc(cat),
+            % (' is-soon' if p['status'] != 'published' else '', p['category'], style, media, esc(cat),
                esc(p['title']), esc(p['excerpt']), foot))
 
 
