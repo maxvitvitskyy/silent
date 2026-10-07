@@ -8193,7 +8193,7 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
 /* Заголовок — перший елемент самого потоку: стоїть угорі лівої колонки, а права колонка починається на його рівні. */
 .art-flow h2 { position: relative; margin: 0 0 clamp(28px, 3vw, 42px); max-width: none; break-after: avoid; break-inside: avoid; }
 /* Лаймова риска винесена над потік (абсолютно): верх колонок тепер збігається з верхом ТЕКСТУ заголовка, і права колонка починається на його рівні, а не на рівні риски. */
-.art-flow h2::before { position: absolute; top: -23px; left: 0; margin: 0; }
+.art-flow h2::before { position: absolute; top: -23px; left: 0; margin: 0; transform: scaleX(var(--bar, 1)); transform-origin: left center; }
 .art-flow { column-count: 2; column-gap: var(--art-colgap); column-fill: balance; font-size: clamp(16px, 1.3vw, 18px); line-height: 1.7; color: rgba(255,255,255,.84); }
 .art-flow p { margin: 0 0 16px; max-width: none; orphans: 1; widows: 1; }   /* дозволяє переносити навіть один рядок: так колонки закінчуються на одному рівні */
 .art-flow > :last-child { margin-bottom: 0; }
@@ -8275,3 +8275,6 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
   .art-cards { grid-template-columns: minmax(0, 1fr); }
   .art-cards li { column-gap: 16px; }
 }
+
+/* Смуга прогресу читання статті (її створює й веде блок «Блог: анімації прокрутки» в site.js). */
+.art-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 60; background: var(--lime); transform-origin: left center; transform: scaleX(0); pointer-events: none; box-shadow: 0 0 14px var(--lime-glow); }

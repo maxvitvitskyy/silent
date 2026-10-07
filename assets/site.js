@@ -5647,4 +5647,131 @@ function orderExperience(name, opts){
     if (m) apply(m[1]);
   })();
 
+  // ---- Блог: анімації прокрутки (GSAP ScrollTrigger) ----
+  // Лише на /blog/ і сторінці статті, лише з GSAP і без prefers-reduced-motion. Вміст у розмітці видимий за
+  // умовчанням, тож без скрипта чи при збої сторінка лишається повною: стартовий стан задає сам gsap.from.
+  // Принципи: одна ідея на блок (заголовок «малює» риску, абзаци спливають хвилею, фото відкривається завісою,
+  // картки підпливають пачкою), рух лише transform/opacity/clip-path, кожна поява один раз (once), без ривків
+  // при зворотному гортанні. Паралакс героя й смуга прогресу читання — єдиний рух, прив'язаний до прокрутки (scrub).
+  (function(){
+    const isArticle = !!document.querySelector('.art-cover');
+    const isIndex = !!document.querySelector('.blog-head');
+    if (!isArticle && !isIndex) return;
+    if (!(window.gsap && window.ScrollTrigger)) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const G = window.gsap, ST = window.ScrollTrigger;
+    G.registerPlugin(ST);
+    const EASE = 'power3.out';
+    const q = (sel, root) => [].slice.call((root || document).querySelectorAll(sel));
+
+    // Поява пачкою: усе, що ввійшло в кадр за мить, спливає зі зсувом. once: далі елемент не чіпаємо.
+    function batchIn(sel, vars){
+      const els = q(sel);
+      if (!els.length) return;
+      G.set(els, { opacity: 0, y: vars.y == null ? 36 : vars.y, scale: vars.scale || 1 });
+      ST.batch(els, {
+        start: vars.start || 'top 90%',
+        once: true,
+        onEnter: batch => G.to(batch, {
+          opacity: 1, y: 0, scale: 1, duration: vars.duration || 0.8, ease: EASE,
+          stagger: vars.stagger == null ? 0.09 : vars.stagger,
+          clearProps: 'transform,opacity'   // далі працюють власні hover-ефекти карток
+        })
+      });
+    }
+
+    G.matchMedia().add('(min-width: 1px)', function(){
+      if (isArticle){
+        // Смуга прогресу читання: тонка лаймова лінія вгорі, масштабується з прокруткою всього тіла статті.
+        const bar = document.createElement('div');
+        bar.className = 'art-progress';
+        bar.setAttribute('aria-hidden', 'true');
+        document.body.appendChild(bar);
+        G.fromTo(bar, { scaleX: 0 }, {
+          scaleX: 1, ease: 'none',
+          scrollTrigger: { trigger: '.art-body', start: 'top 80%', end: 'bottom bottom', scrub: 0.3 }
+        });
+
+        // Герой: вхід по черзі й повільний паралакс фото (на ширшому екрані).
+        const intro = G.timeline({ defaults: { ease: EASE, duration: 0.9 } });
+        intro.from('.art-cover-img', { scale: 1.12, duration: 1.8, ease: 'power2.out' }, 0)
+             .from('.art-tags', { y: 24, opacity: 0 }, 0.15)
+             .from('.art-title', { y: 36, opacity: 0 }, 0.28)
+             .from('.art-sub', { y: 28, opacity: 0 }, 0.42)
+             .from('.art-meta', { y: 22, opacity: 0 }, 0.54);
+        if (window.matchMedia('(min-width: 901px)').matches){
+          G.to('.art-cover-img', {
+            yPercent: 14, ease: 'none',
+            scrollTrigger: { trigger: '.art-cover', start: 'top top', end: 'bottom top', scrub: true }
+          });
+        }
+
+        // Скляна плашка вступу виринає з-за фото.
+        G.from('.art-lead', { y: 56, opacity: 0, duration: 1, ease: EASE,
+          scrollTrigger: { trigger: '.art-lead', start: 'top 94%', once: true } });
+
+        // Текстові блоки: риска над заголовком малюється (CSS-змінна --bar), заголовок і абзаци спливають хвилею.
+        q('.art-flow').forEach(function(flow){
+          const h2 = flow.querySelector('h2');
+          const rest = q('p', flow);
+          const tl = G.timeline({ scrollTrigger: { trigger: flow, start: 'top 82%', once: true } });
+          if (h2){
+            tl.fromTo(h2, { '--bar': 0 }, { '--bar': 1, duration: 0.7, ease: 'power2.out' }, 0)
+              .from(h2, { y: 28, opacity: 0, duration: 0.8, ease: EASE }, 0.05);
+          }
+          tl.from(rest, { y: 30, opacity: 0, duration: 0.8, ease: EASE, stagger: 0.12 }, 0.2);
+        });
+
+        // Фото + картка думки: фото відкривається завісою, всередині повільно «дихає»; картка виїжджає збоку.
+        const pair = document.querySelector('.art-pair');
+        if (pair){
+          const img = pair.querySelector('.art-pair-img');
+          const pic = pair.querySelector('.art-pair-img img');
+          const key = pair.querySelector('.art-key');
+          const pt = G.timeline({ scrollTrigger: { trigger: pair, start: 'top 82%', once: true } });
+          pt.from(img, { clipPath: 'inset(0 0 100% 0 round 28px)', duration: 1.1, ease: 'power3.inOut' }, 0)
+            .from(pic, { scale: 1.25, duration: 1.4, ease: 'power2.out' }, 0)
+            .from(key, { x: 48, opacity: 0, duration: 0.9, ease: EASE }, 0.25);
+        }
+
+        batchIn('.art-cards li', { y: 44, scale: 0.97, stagger: 0.1 });
+        batchIn('.art-faq .faq-item', { y: 28, stagger: 0.07 });
+        G.from('.art-cta', { y: 44, scale: 0.97, opacity: 0, duration: 0.9, ease: EASE,
+          scrollTrigger: { trigger: '.art-cta', start: 'top 90%', once: true }, clearProps: 'transform,opacity' });
+        batchIn('.art-related .blog-grid .uc-card', { y: 40, stagger: 0.12 });
+        G.from('.art-ask', { y: 20, opacity: 0, duration: 0.8, ease: EASE,
+          scrollTrigger: { trigger: '.art-ask', start: 'top 95%', once: true } });
+      }
+
+      if (isIndex){
+        // Шапка блогу: заголовок і підзаголовок.
+        G.timeline({ defaults: { ease: EASE, duration: 0.9 } })
+          .from('.blog-title', { y: 40, opacity: 0 }, 0.05)
+          .from('.blog-lead', { y: 26, opacity: 0 }, 0.2);
+
+        // «Вибір редакції»: картка з'являється зі зсувом, фото повільно наближається, поки картка в кадрі.
+        const hero = document.querySelector('.blog-hero-card');
+        if (hero){
+          G.from(hero, { y: 48, opacity: 0, duration: 1, ease: EASE, delay: 0.25, clearProps: 'transform,opacity' });
+          if (window.matchMedia('(min-width: 901px)').matches){
+            G.fromTo(hero.querySelector('img'), { scale: 1 }, {
+              scale: 1.1, ease: 'none',
+              scrollTrigger: { trigger: hero, start: 'top bottom', end: 'bottom top', scrub: true }
+            });
+          }
+        }
+        // «Свіже»: пункти по черзі.
+        G.from('.blog-latest-item', { x: 28, opacity: 0, duration: 0.7, ease: EASE, stagger: 0.1, delay: 0.45, clearProps: 'transform,opacity' });
+
+        // Фільтр тем і картки сітки.
+        G.from('.blog-bar', { y: 24, opacity: 0, duration: 0.8, ease: EASE,
+          scrollTrigger: { trigger: '.blog-bar', start: 'top 92%', once: true } });
+        batchIn('.blog-grid .uc-card', { y: 48, scale: 0.96, stagger: 0.1, start: 'top 92%' });
+      }
+
+      // Підвантажені зображення зсувають розкладку: перерахувати позиції.
+      window.addEventListener('load', function(){ ST.refresh(); }, { once: true });
+    });
+  })();
+
   window.__siteJs = true;
