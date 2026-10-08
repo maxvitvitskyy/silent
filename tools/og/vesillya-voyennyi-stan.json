@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-vesillya-voyennyi-stan.jpg",
+  "bg": {
+    "src": "images/wedding/toast-table-square.webp",
+    "pos": "50% 62%"
+  },
+  "heading": [
+    "Весілля під час війни",
+    "і комендантська година"
+  ],
+  "subtitle": [
+    [
+      "Як спланувати програму, щоб свято було безпечним і вчасним."
+    ]
+  ],
+  "pills": [
+    "<b>Silent Disco</b>",
+    "<b>Укриття</b> поруч",
+    "<b>Тиша</b> ззовні",
+    "<b>Танці</b> в навушниках"
+  ]
+}
