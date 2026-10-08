@@ -424,7 +424,6 @@ def share_block(url, title):
     nets = [('telegram', 'Telegram', 'https://t.me/share/url?url=%s&text=%s' % (u, tt)),
             ('viber', 'Viber', 'viber://forward?text=%s' % both),
             ('whatsapp', 'WhatsApp', 'https://wa.me/?text=%s' % both),
-            ('facebook', 'Facebook', 'https://www.facebook.com/sharer/sharer.php?u=%s' % u),
             ('threads', 'Threads', 'https://www.threads.net/intent/post?text=%s' % both),
             ('x', 'X', 'https://twitter.com/intent/tweet?url=%s&text=%s' % (u, tt)),
             ('linkedin', 'LinkedIn', 'https://www.linkedin.com/sharing/share-offsite/?url=%s' % u)]
@@ -436,11 +435,10 @@ def share_block(url, title):
     return ('  <aside class="art-share" aria-label="Поділитися статтею" data-url="%s" data-title="%s">\n'
             '    <span class="art-share-label">Поділитися</span>\n'
             '    <div class="art-share-row">%s'
-            '<button type="button" class="art-share-btn art-share-ig" data-share="instagram" title="Instagram: посилання для сторіс" aria-label="Instagram: посилання для сторіс">%s<span>Instagram</span></button>'
             '<button type="button" class="art-share-btn art-share-native" data-share="native" title="Поділитися" aria-label="Поділитися" hidden>%s<span>Поділитися</span></button>'
             '<button type="button" class="art-share-btn art-share-copy" data-share="copy" title="Скопіювати посилання" aria-label="Скопіювати посилання">%s<span data-label>Скопіювати посилання</span></button></div>\n'
             '    <p class="art-share-hint" role="status" aria-live="polite" hidden></p>\n'
-            '  </aside>\n' % (esc(url), esc(title), links, ic('instagram'), ic('share'), ic('link')))
+            '  </aside>\n' % (esc(url), esc(title), links, ic('share'), ic('link')))
 
 
 def build_article(p, data, cats, posts, shared, card_fn):

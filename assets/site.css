@@ -8414,9 +8414,9 @@ html { overflow-x: clip; }
 /* X (суцільний логотип) лишається меншим: заповнена форма й так виглядає більшою за контурні іконки */
 .art-share-btn[data-cta="share-x"] svg { width: 18px; height: 18px; }
 
-/* Блок «Поділитися»: рядок іконок тягнеться до кінця лінії (кнопки розподілені
-   рівномірно), а коли місця не вистачає, листається вбік, як чипи фільтрів. */
-.art-share-row { flex: 1 1 0; min-width: 0; flex-wrap: nowrap; justify-content: space-between; overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }
+/* Блок «Поділитися»: рядок іконок вирівняний по лівому краю (розтягувати кнопки на всю
+   лінію власник не схотів), а коли місця не вистачає, листається вбік, як чипи фільтрів. */
+.art-share-row { flex: 1 1 0; min-width: 0; flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }
 .art-share-row::-webkit-scrollbar { display: none; }
 .art-share-btn { flex: none; }
 @media (max-width: 1240px) {
@@ -8424,5 +8424,7 @@ html { overflow-x: clip; }
 }
 @media (max-width: 720px) {
   /* підпис окремим рядком, стрічка кнопок виходить до країв екрана (поля 28px, як у чипів) */
-  .art-share-row { flex: none; flex-basis: 100%; margin-inline: -28px; padding-inline: 28px; width: calc(100% + 56px); }
+  .art-share-row { flex: 0 0 calc(100% + 56px); margin-inline: -28px; padding-inline: 28px; }
 }
+/* Мобільна стрічка «Поділитися» виходить за поля на 28px: .art-body обрізає по X, тож на телефоні знімаємо цю обрізку (html усе одно обрізає по X, зсуву сторінки нема). */
+@media (max-width: 720px) { .art-body { overflow-x: visible; } }
