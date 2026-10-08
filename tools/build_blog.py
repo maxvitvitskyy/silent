@@ -109,14 +109,33 @@ MEGA_ICONS = {
 _ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>'
 
 
+def ordered_posts(posts):
+    """Порядок матеріалів для сторінки блогу, «Свіже», «Добірки» й mega-меню: спершу готові статті від найновішої
+    (за date_iso зі статті blog_src/<slug>.json; за однакової дати новіший той, що нижче в posts.json: нові статті дописуємо в кінець), потім заглушки
+    й чернетки в порядку файла. Нову статтю достатньо додати в posts.json зі статусом published і створити
+    blog_src/<slug>.json: вона сама стане першою у «Свіже» й у списку, а найстаріші випадуть із кількох слотів."""
+    def day(p):
+        f = os.path.join(ROOT, 'blog_src', p['slug'] + '.json')
+        if p['status'] != 'published' or not os.path.exists(f):
+            return 0
+        try:
+            return int(json.load(io.open(f, encoding='utf-8')).get('date_iso', '0').replace('-', ''))
+        except Exception:
+            return 0
+    idx = {id(p): i for i, p in enumerate(posts)}
+    return sorted(posts, key=lambda p: (0 if p['status'] == 'published' else 1, -day(p), -idx[id(p)] if p['status'] == 'published' else idx[id(p)]))
+
+
 def blog_mega_html(data):
     cats = {c['id']: c['name'] for c in data['categories']}
-    posts = data['posts']
+    posts = ordered_posts(data['posts'])
     feat = next((p for p in posts if p.get('featured')), posts[0])
     rest = [p for p in posts if p is not feat]
     fresh = rest[:4]
     # «Добірка»: спершу готові статті (щоб було що відкрити), далі заглушки з решти списку
-    pick = ([p for p in rest if p['status'] == 'published'] + [p for p in rest[4:] if p['status'] != 'published'])[:4]
+    older = [p for p in rest if p['status'] == 'published' and p not in fresh]
+    stubs = [p for p in rest if p['status'] != 'published' and p not in fresh]
+    pick = (older + stubs + [p for p in rest if p not in older + stubs])[:4]
     ic = lambda k: '<span class="nav-mega-icon" aria-hidden="true">%s</span>' % (_SV % MEGA_ICONS[k])
     live = lambda p: p['status'] == 'published'
     vis = ('<div class="nav-mega-visual-text"><span class="nav-mega-badge">Вибір редакції</span>'
@@ -191,7 +210,7 @@ def inject_blog_mega(data):
 def build(preview=False):
     data = json.load(io.open(POSTS, encoding='utf-8'))
     cats = {c['id']: c['name'] for c in data['categories']}
-    posts = data['posts']
+    posts = ordered_posts(data['posts'])
     for p in posts:
         if p['category'] not in cats:
             sys.exit('blog: невідома тема %r у %s' % (p['category'], p['slug']))
@@ -432,6 +451,9 @@ def build_article(p, data, cats, posts, shared, card_fn):
         '<div class="faq-col">' + ''.join(faq_item(i + 1 + (half if c else 0), f) for i, f in enumerate(col)) + '</div>'
         for c, col in enumerate(cols)) + '</div>'
     by_slug = {x['slug']: x for x in posts}
+    stale = [r for r in a_related if r not in by_slug] if (a_related := a.get('related', [])) else []
+    if stale:
+        sys.exit('blog: у %s у related є слаги, яких нема в posts.json (прибрана заглушка?): %s' % (slug, ', '.join(stale)))
     rel = ''.join(card_fn(by_slug[r], cats) for r in a['related'] if r in by_slug)
     body = ('<main id="main" tabindex="-1">\n' + cover +
             '<div class="wrap art-body">\n'
