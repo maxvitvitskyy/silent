@@ -8428,3 +8428,8 @@ html { overflow-x: clip; }
 }
 /* Мобільна стрічка «Поділитися» виходить за поля на 28px: .art-body обрізає по X, тож на телефоні знімаємо цю обрізку (html усе одно обрізає по X, зсуву сторінки нема). */
 @media (max-width: 720px) { .art-body { overflow-x: visible; } }
+
+/* Світіння картки з головною думкою (box-shadow 60px) обрізалось рівно по краю .art-pair через overflow-x: clip, і на телефоні було видно жорсткий
+   зріз по боках. Розширюємо область обрізання запасом, а вміст повертаємо на місце від'ємним margin. */
+.art-pair { margin-inline: -48px; padding-inline: 48px; }
+@media (max-width: 720px) { .art-pair { margin-inline: -28px; padding-inline: 28px; } }
