@@ -717,27 +717,41 @@ function orderExperience(name, opts){
     G.matchMedia().add('(min-width: 1000px) and (prefers-reduced-motion: no-preference)', function(){
       const top = hero.querySelector('.hero-top'), bottom = hero.querySelector('.hero-bottom');
       if (!top || !bottom) return;
+      // scrub: true, а не 0.6: згладжування тримало внутрішній твін, який міг застрягнути напівшляху (вкладка пролежала у фоні, повернення
+      // з bfcache, швидкий скрол угору), і текст геро лишався напівпрозорим на вже нульовій прокрутці. Без згладжування прозорість завжди дорівнює
+      // функції від поточної прокрутки, застрягати нема чому.
       const tl = G.timeline({
         defaults: { ease: 'none' },
-        scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom 35%', scrub: 0.6 }
+        scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom 35%', scrub: true, invalidateOnRefresh: true }
       });
       tl.to(top,    { y: -70, opacity: 0.15 }, 0)
         .to(bottom, { y: -36, opacity: 0.25 }, 0);
-      // Страховка від «залипання»: scrub із згладжуванням наздоганяє прокрутку з
-      // запізненням, і при різкому поверненні нагору (клавіша Home, якір «нагору»,
-      // швидкий жест) слід міг зупинитись, не дійшовши до нуля — текст лишався
-      // напівпрозорим. Коли прокрутка стоїть біля верху, доводимо в нуль сами.
+      // Страховка: коли прокрутка біля верху, доводимо в нуль самі; в іншому місці просто змушуємо ScrollTrigger перерахувати стан за
+      // поточною прокруткою (повернення на вкладку, pageshow, зміна розміру).
       let idle = 0;
-      const settleTop = () => {
-        if (window.scrollY > 4) return;
-        tl.progress(0);
-        G.set([top, bottom], { opacity: 1, y: 0 });
+      const settle = () => {
+        if (window.scrollY <= 4){
+          tl.progress(0);
+          G.set([top, bottom], { opacity: 1, y: 0 });
+        } else if (tl.scrollTrigger){
+          tl.scrollTrigger.update(true);
+        }
       };
-      const onScroll = () => { clearTimeout(idle); idle = setTimeout(settleTop, 160); };
+      const onScroll = () => { clearTimeout(idle); idle = setTimeout(settle, 160); };
+      const onVisible = () => { if (!document.hidden) settle(); };
       window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('pageshow', settleTop);
-      document.addEventListener('visibilitychange', () => { if (!document.hidden) settleTop(); });
-      return () => { window.removeEventListener('scroll', onScroll); window.removeEventListener('pageshow', settleTop); clearTimeout(idle); };
+      window.addEventListener('pageshow', settle);
+      window.addEventListener('focus', settle);
+      window.addEventListener('resize', settle);
+      document.addEventListener('visibilitychange', onVisible);
+      ST.addEventListener('refresh', settle);
+      settle();
+      return () => {
+        window.removeEventListener('scroll', onScroll); window.removeEventListener('pageshow', settle); window.removeEventListener('focus', settle);
+        window.removeEventListener('resize', settle); document.removeEventListener('visibilitychange', onVisible);
+        ST.removeEventListener('refresh', settle); clearTimeout(idle);
+      };
+
     });
   })();
 
@@ -5837,6 +5851,63 @@ function orderExperience(name, opts){
 
       // Підвантажені зображення зсувають розкладку: перерахувати позиції.
       window.addEventListener('load', function(){ ST.refresh(); }, { once: true });
+    });
+  })();
+
+
+  // ---- Стаття: «Поділитися» (копіювання адреси й системне вікно поширення) ----
+  // Посилання на мережі це звичайні <a>, вони працюють і без цього коду. Тут лише дві кнопки: «Скопіювати посилання» (Clipboard API з запасним
+  // варіантом для старих браузерів) і «Поділитися», яку показуємо тільки там, де є navigator.share (телефони): це системне меню, де
+  // можна обрати Instagram, WhatsApp тощо. Окремої кнопки для сторіс Instagram немає: її відкриває лише застосунок, не веб-сторінка.
+  (function initArticleShare(){
+    document.querySelectorAll('.art-share').forEach(function(box){
+      const url = box.dataset.url, title = box.dataset.title;
+      const copy = box.querySelector('[data-share="copy"]');
+      const nat = box.querySelector('[data-share="native"]');
+      if (nat && navigator.share){
+        nat.hidden = false;
+        nat.addEventListener('click', function(){
+          navigator.share({ title: title, url: url }).catch(function(){ /* закрили вікно: нічого не робимо */ });
+        });
+      }
+      // Instagram: веб-сторінка не може сама створити сторіс (це вміє тільки застосунок). Тому копіюємо адресу й відкриваємо Instagram:
+      // на телефоні одразу камеру сторіс, де посилання додається стікером «Посилання», на комп'ютері сам сайт.
+      const ig = box.querySelector('[data-share="instagram"]'), hint = box.querySelector('.art-share-hint');
+      if (ig){
+        ig.addEventListener('click', function(){
+          const mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+          const open = function(){
+            if (hint){
+              hint.hidden = false;
+              hint.textContent = mobile ? 'Посилання скопійоване: у сторіс додайте стікер «Посилання» й вставте його.' : 'Посилання скопійоване: вставте його в публікацію чи сторіс у Instagram.';
+              clearTimeout(hint._t); hint._t = setTimeout(function(){ hint.hidden = true; }, 9000);
+            }
+            if (mobile){
+              location.href = 'instagram://story-camera';
+              setTimeout(function(){ if (!document.hidden) window.open('https://www.instagram.com/', '_blank', 'noopener'); }, 1400);
+            } else window.open('https://www.instagram.com/', '_blank', 'noopener');
+          };
+          if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(open).catch(open); else open();
+        });
+      }
+      if (copy){
+        const label = copy.querySelector('[data-label]'), idle = label ? label.textContent : '';
+        const done = function(){
+          copy.classList.add('is-done'); if (label) label.textContent = 'Скопійовано';
+          clearTimeout(copy._t); copy._t = setTimeout(function(){ copy.classList.remove('is-done'); if (label) label.textContent = idle; }, 2200);
+        };
+        copy.addEventListener('click', function(){
+          if (navigator.clipboard && navigator.clipboard.writeText){
+            navigator.clipboard.writeText(url).then(done).catch(function(){ fallback(); });
+          } else fallback();
+          function fallback(){
+            const ta = document.createElement('textarea'); ta.value = url; ta.setAttribute('readonly', '');
+            ta.style.cssText = 'position:fixed;top:-1000px;opacity:0'; document.body.appendChild(ta); ta.select();
+            try { document.execCommand('copy'); done(); } catch (e) { /* без копіювання: лишається виділена адреса в адресному рядку */ }
+            document.body.removeChild(ta);
+          }
+        });
+      }
     });
   })();
 

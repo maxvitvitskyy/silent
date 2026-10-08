@@ -959,7 +959,7 @@ window.SILENT_I18N = {
 # Зіставляємо не буквально: в українському тексті пробіли між прийменником і
 # словом нерозривні, а апостроф трапляється і прямий, і типографський. Шукати
 # кожен варіант окремо означало б тримати словник у двох-трьох копіях.
-def flexible(key):
+def _flex_part(key):
     out = []
     for ch in key:
         if ch == ' ':
@@ -968,7 +968,13 @@ def flexible(key):
             out.append("['\u2019\u02bc]")
         else:
             out.append(re.escape(ch))
-    return re.compile(''.join(out))
+    return ''.join(out)
+
+
+def flexible(key):
+    # Між сусідніми тегами ('><') допускаємо пробіл: unglue() ставить його в розмітку українських сторінок (сніпет Google без склеєного
+    # тексту), а ключі словників написані без нього.
+    return re.compile(r'>\s*<'.join(_flex_part(p) for p in key.split('><')))
 
 
 from alt_texts import ALT_T  # noqa: E402  (alt-тексти зображень, аудит 08.10.2026)
@@ -1431,6 +1437,22 @@ def build_experience_strips():
                  (', без «%s»' % skip) if skip else ''))
 
 
+def unglue(s):
+    """Розділяє пробілом сусідні рядкові елементи з текстом, між якими в розмітці нічого нема.
+    Чому: у <span>/<b>, які CSS робить блоками чи flex-елементами, браузер показує окремі рядки, а Google (сніпет у видачі)
+    склеює їхній текст без пробілу: «Три канали музикикожен слухає своє». У flex/grid порожній текстовий вузол нічого
+    не змінює у вигляді, а в потоці це звичайний пробіл між словами. Список класів навмисно закритий: літери-спани,
+    що їх створює JS, і декоративні елементи сюди не потрапляють."""
+    s = re.sub(r'(</b>)(<span\b)', r'\1 \2', s)
+    s = re.sub(r'(</(?:span|b|a|i|em)>)(<span class="(?:t-sub|nav-blog-t|nav-blog-cat|nav-blog-thumb|pb-tag|art-tag|art-dot|art-when|art-by|lbl-tight|hf-phrase|hf-line)\b)', r'\1 \2', s)
+    s = re.sub(r'([^\s>])(<em>(?:Скоро|Soon)</em>)', r'\1 \2', s)
+    def inner(m):
+        return m.group(1) + m.group(2).replace('</span><span', '</span> <span') + m.group(3)
+    s = re.sub(r'(<div class="(?:cal-week|calc-row|calc-labels)">)(.*?)(</div>)', inner, s, flags=re.S)
+    s = re.sub(r'(<span class="art-when">)(.*?)(</span></span>)', inner, s, flags=re.S)
+    return s
+
+
 def stamp_files():
     hashes = {}
     for rel in STAMPED_FILES:
@@ -1455,7 +1477,7 @@ def stamp_files():
         # Спершу рахуємо, потім відкриваємо на запис. Навпаки не можна: open у
         # режимі 'w' обнуляє файл одразу, і будь-яка помилка нижче лишила б на
         # диску порожнечу замість сторінки.
-        out = stamp(unstamp(text), hashes)
+        out = unglue(stamp(unstamp(text), hashes))
         io.open(path, 'w', encoding='utf-8').write(out)
     print('версію активів проставлено: ' +
           ', '.join(rel.rsplit('/', 1)[1] + '=' + hashes[rel] for rel in STAMPED_FILES))

@@ -8392,3 +8392,37 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
    обрізаємо по горизонталі на html і на блоці статті (clip не створює контейнера прокрутки: sticky і scrollTo не страждають). */
 html { overflow-x: clip; }
 .art-body, .art-pair { overflow-x: clip; }
+
+/* «Поділитися» під текстом статті: тонкий розділювач і ряд круглих кнопок-іконок (без плашки). Стоїть одразу за останнім абзацом: від'ємний верх
+   стискає великий проміжок між блоками статті. Назви мереж у title й aria-label; «Скопіювати посилання» після натискання показує підпис. */
+.art-share { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 14px; margin-top: calc(var(--art-blockgap) * -0.5); padding-top: 22px; border-top: 1px solid var(--line); }
+.art-share-label { white-space: nowrap; font: 700 12px/1 'Manrope', sans-serif; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+.art-share-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.art-share-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; min-width: 0; height: 46px; padding: 0 13px 0 11px; border-radius: 999px; border: 1px solid var(--line);
+  background: rgba(255,255,255,.04); color: #fff; font: 600 13px/1 'Manrope', sans-serif; cursor: pointer; transition: border-color .2s ease, background .2s ease, color .2s ease; }
+.art-share-btn svg { width: 23px; height: 23px; flex: none; color: var(--lime); transition: transform .25s var(--ease-arrive); }
+.art-share-btn[hidden] { display: none; }
+.art-share-copy.is-done { border-color: var(--lime); background: var(--lime); color: #12100a; }
+.art-share-copy.is-done svg { color: #12100a; }
+@media (hover: hover) and (pointer: fine) {
+  .art-share-btn:hover { border-color: rgba(198,255,0,.55); background: rgba(198,255,0,.1); }
+  .art-share-btn:hover svg { transform: translateY(-1px) scale(1.1); }
+}
+.art-share-btn:focus-visible { outline: 2px solid var(--lime); outline-offset: 2px; }
+.art-share-hint { flex-basis: 100%; margin: 0; font-size: 14px; line-height: 1.5; color: var(--muted); }
+.art-share-hint[hidden] { display: none; }
+/* X (суцільний логотип) лишається меншим: заповнена форма й так виглядає більшою за контурні іконки */
+.art-share-btn[data-cta="share-x"] svg { width: 18px; height: 18px; }
+
+/* Блок «Поділитися»: рядок іконок тягнеться до кінця лінії (кнопки розподілені
+   рівномірно), а коли місця не вистачає, листається вбік, як чипи фільтрів. */
+.art-share-row { flex: 1 1 0; min-width: 0; flex-wrap: nowrap; justify-content: space-between; overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }
+.art-share-row::-webkit-scrollbar { display: none; }
+.art-share-btn { flex: none; }
+@media (max-width: 1240px) {
+  .art-share-row { justify-content: flex-start; }
+}
+@media (max-width: 720px) {
+  /* підпис окремим рядком, стрічка кнопок виходить до країв екрана (поля 28px, як у чипів) */
+  .art-share-row { flex: none; flex-basis: 100%; margin-inline: -28px; padding-inline: 28px; width: calc(100% + 56px); }
+}

@@ -400,6 +400,49 @@ def article_blocks(blocks):
     return '\n'.join(out)
 
 
+SHARE_ICONS = {
+    'telegram': '<path d="M21.2 4.5 2.9 11.4a.5.5 0 0 0 .04.94l4.6 1.44 1.77 5.3a.5.5 0 0 0 .88.14l2.5-2.9 4.6 3.4a.5.5 0 0 0 .78-.3l3.05-14a.5.5 0 0 0-.66-.58z"/><path d="m8 13.2 8.5-5.700"/>',
+    'facebook': '<path d="M14 8.500h2.800V4.500H14A4.500 4.500 0 0 0 9.500 9v2H6.800v4h2.700v5.500h4V15h2.900l.8-4h-3.700V9a.5.5 0 0 1 .5-.5z"/>',
+    'x': '<path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/>',
+    'threads': '<path d="M17.500 9.500C16.800 6.800 14.800 5.200 12 5.200 8.500 5.200 6.200 7.800 6.200 12S8.500 18.800 12 18.800c3 0 5-1.600 5-4 0-2.200-1.700-3.300-4-3.300-1.800 0-3 .8-3 2.100 0 1.100.9 1.900 2.200 1.900 1.900 0 2.800-1.300 2.800-3.700V10"/>',
+    'viber': '<path d="M5 6.500A2.500 2.500 0 0 1 7.500 4h9A2.500 2.500 0 0 1 19 6.500v6A2.500 2.500 0 0 1 16.500 15H12l-4 4v-4H7.500A2.500 2.500 0 0 1 5 12.500z"/><path d="M9.500 8.500c0 3 2 5 5 5"/>',
+    'linkedin': '<rect x="4" y="4" width="16" height="16" rx="2.500"/><path d="M8.500 10.500V16M8.500 8v.01M12 16v-3.500a2 2 0 0 1 4 0V16M12 10.500V16"/>',
+    'instagram': '<rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="3.600"/><path d="M16.800 7.200v.01"/>',
+    'whatsapp': '<path d="M5 19l1.200-3.600A7.500 7.500 0 1 1 9 18z"/><path d="M9.600 9.400c.5 2 2.400 3.900 4.400 4.400l1-1.200-1.800-.8-.7.700c-.9-.4-1.700-1.200-2.100-2.100l.7-.7-.8-1.800z"/>',
+    'link': '<path d="M10 14a4 4 0 0 0 5.700 0l3-3A4 4 0 0 0 13 5.300l-1 1"/><path d="M14 10a4 4 0 0 0-5.700 0l-3 3A4 4 0 0 0 11 18.700l1-1"/>',
+    'share': '<circle cx="6" cy="12" r="2.500"/><circle cx="18" cy="6" r="2.500"/><circle cx="18" cy="18" r="2.500"/><path d="m8.200 10.800 7.600-3.600M8.200 13.200l7.600 3.600"/>',
+}
+
+
+def share_block(url, title):
+    """Плашка «Поділитися статтею» наприкінці статті. Це звичайні посилання (працюють без JS); site.js лише додає копіювання
+    адреси й системне вікно поширення на телефоні. Сторіс в Instagram із веб-сторінки відкрити не можна: це дає лише застосунок,
+    тож на телефоні для цього є кнопка «Поділитися» з системним меню."""
+    from urllib.parse import quote
+    u, tt = quote(url, safe=''), quote(title, safe='')
+    both = quote(title + ' ' + url, safe='')
+    nets = [('telegram', 'Telegram', 'https://t.me/share/url?url=%s&text=%s' % (u, tt)),
+            ('viber', 'Viber', 'viber://forward?text=%s' % both),
+            ('whatsapp', 'WhatsApp', 'https://wa.me/?text=%s' % both),
+            ('facebook', 'Facebook', 'https://www.facebook.com/sharer/sharer.php?u=%s' % u),
+            ('threads', 'Threads', 'https://www.threads.net/intent/post?text=%s' % both),
+            ('x', 'X', 'https://twitter.com/intent/tweet?url=%s&text=%s' % (u, tt)),
+            ('linkedin', 'LinkedIn', 'https://www.linkedin.com/sharing/share-offsite/?url=%s' % u)]
+    # X: справжній логотип суцільною заливкою (в решти мереж контурні іконки)
+    ic = lambda k: ('<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">%s</svg>' % SHARE_ICONS[k]) if k == 'x' else \
+        ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">%s</svg>' % SHARE_ICONS[k])
+    links = ''.join('<a class="art-share-btn" href="%s" target="_blank" rel="noopener noreferrer" title="%s" aria-label="Поділитися в %s" data-cta="share-%s">%s<span>%s</span></a>' % (esc(h), n, n, k, ic(k), n)
+                    for k, n, h in nets)
+    return ('  <aside class="art-share" aria-label="Поділитися статтею" data-url="%s" data-title="%s">\n'
+            '    <span class="art-share-label">Поділитися</span>\n'
+            '    <div class="art-share-row">%s'
+            '<button type="button" class="art-share-btn art-share-ig" data-share="instagram" title="Instagram: посилання для сторіс" aria-label="Instagram: посилання для сторіс">%s<span>Instagram</span></button>'
+            '<button type="button" class="art-share-btn art-share-native" data-share="native" title="Поділитися" aria-label="Поділитися" hidden>%s<span>Поділитися</span></button>'
+            '<button type="button" class="art-share-btn art-share-copy" data-share="copy" title="Скопіювати посилання" aria-label="Скопіювати посилання">%s<span data-label>Скопіювати посилання</span></button></div>\n'
+            '    <p class="art-share-hint" role="status" aria-live="polite" hidden></p>\n'
+            '  </aside>\n' % (esc(url), esc(title), links, ic('instagram'), ic('share'), ic('link')))
+
+
 def build_article(p, data, cats, posts, shared, card_fn):
     """Сторінка однієї статті /blog/<slug>/index.html із blog_src/<slug>.json."""
     a = json.load(io.open(os.path.join(ROOT, 'blog_src', p['slug'] + '.json'), encoding='utf-8'))
@@ -482,7 +525,7 @@ def build_article(p, data, cats, posts, shared, card_fn):
     cta.update(a.get('cta', {}))
     body = ('<main id="main" tabindex="-1">\n' + cover +
             '<div class="wrap art-body">\n'
-            '  <p class="art-lead">%s</p>\n%s\n'
+            '  <p class="art-lead">%s</p>\n%s\n%s'
             '  <aside class="art-cta"><div><h2>%s</h2><p>%s</p></div>'
             '<a class="art-cta-btn" href="%s" data-cta="%s">%s</a></aside>\n'
             '  <section class="art-faq faq" aria-labelledby="artFaq"><h2 id="artFaq">Питання, які ставлять найчастіше</h2>'
@@ -491,7 +534,7 @@ def build_article(p, data, cats, posts, shared, card_fn):
             '<div class="blog-grid">\n%s</div></section>\n'
             '  <p class="art-ask">Лишилися питання? Напишіть нам у <a href="https://t.me/silent_ukraine" target="_blank" rel="noopener noreferrer">Telegram</a> '
             'або на <a href="mailto:hello.silent.ua@gmail.com">пошту</a>: відповімо протягом дня.</p>\n</div>\n\n%s'
-            % (esc(a['lead']), article_blocks(a['blocks']), esc(cta['title']), esc(cta['text']), esc(cta['href']), esc(cta['track']), esc(cta['button']), faq, rel, shared['form_block']))
+            % (esc(a['lead']), article_blocks(a['blocks']), share_block(url, plain_title), esc(cta['title']), esc(cta['text']), esc(cta['href']), esc(cta['track']), esc(cta['button']), faq, rel, shared['form_block']))
     out = head + nav_block + body + tail
     d = os.path.join(OUT_DIR, slug)
     os.makedirs(d, exist_ok=True)
