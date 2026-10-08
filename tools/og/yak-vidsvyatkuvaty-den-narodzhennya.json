@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-yak-vidsvyatkuvaty-den-narodzhennya.jpg",
+  "bg": {
+    "src": "images/shift-new.webp",
+    "pos": "50% 30%"
+  },
+  "heading": [
+    "Як відсвяткувати",
+    "день народження"
+  ],
+  "subtitle": [
+    [
+      "Ідеї для дня народження, який гості згадуватимуть із посмішкою."
+    ]
+  ],
+  "pills": [
+    "<b>Silent Disco</b>",
+    "<b>Ідеї</b> для свята",
+    "<b>Вечірка</b> вдома",
+    "<b>Новий</b> формат"
+  ]
+}

@@ -1070,6 +1070,7 @@ UC_GRID_END = '<!-- UC-GRID:END -->'
 EXPERIENCE_URLS = {
     'Корпоративи': '/experiences/corporate/',
     'Весілля': '/experiences/wedding/',
+    'Дні народження': '/experiences/birthday/',
 }
 
 # Порядок карток на сторінці-списку. Це НЕ дані про продажі: статистики звернень
@@ -1211,6 +1212,7 @@ EXPERIENCE_PAGES = [
     os.path.join('experiences', 'index.html'),
     os.path.join('experiences', 'corporate', 'index.html'),
     os.path.join('experiences', 'wedding', 'index.html'),
+    os.path.join('experiences', 'birthday', 'index.html'),
 ]
 
 
@@ -1221,6 +1223,7 @@ EXPERIENCE_PAGES = [
 EXP_FAQ_PAGES = {
     os.path.join('experiences', 'wedding', 'index.html'): '/experiences/wedding/',
     os.path.join('experiences', 'corporate', 'index.html'): '/experiences/corporate/',
+    os.path.join('experiences', 'birthday', 'index.html'): '/experiences/birthday/',
 }
 
 
@@ -1726,8 +1729,8 @@ T_FAQ = {
 "Не обов'язково. Ми наперед готуємо три плейлисти під формат і настрій вечора, тож живий діджей потрібен лише якщо хочете саме його мікс на місці.":
   "Not necessarily. We prepare three playlists in advance for the format and mood of the night, so a live DJ is only needed if you specifically want their mix on the spot.",
 "Кому підходить такий формат?": "Who is this format for?",
-"<a href=\"/en/experiences/wedding/\">Весіллям</a>, днями народження й випускним так само, як <a href=\"/en/experiences/corporate/\">корпоративам</a> і тімбілдингам. Агенції та організатори теж замовляють SILENT під клієнтські події — формат однаково працює і для приватного свята, і для бізнесу. Ідеї для команд читайте в статті <a href=\"/blog/idei-dlya-korporativu/\">Ідеї для корпоративу: розваги без конкурсів і сцени</a>.":
-  "<a href=\"/en/experiences/wedding/\">Weddings</a>, birthdays and graduations just as much as <a href=\"/en/experiences/corporate/\">company parties</a> and team-building events. Agencies and organisers also book SILENT for client events — the format works equally well for a private celebration and for business. Ideas for teams are in our article (in Ukrainian): <a href=\"/blog/idei-dlya-korporativu/\">Ideas for a corporate party: entertainment without contests or a stage</a>.",
+"<a href=\"/en/experiences/wedding/\">Весіллям</a>, <a href=\"/en/experiences/birthday/\">днями народження</a> й випускним так само, як <a href=\"/en/experiences/corporate/\">корпоративам</a> і тімбілдингам. Агенції та організатори теж замовляють SILENT під клієнтські події — формат однаково працює і для приватного свята, і для бізнесу. Ідеї для команд читайте в статті <a href=\"/blog/idei-dlya-korporativu/\">Ідеї для корпоративу: розваги без конкурсів і сцени</a>.":
+  "<a href=\"/en/experiences/wedding/\">Weddings</a>, <a href=\"/en/experiences/birthday/\">birthdays</a> and graduations just as much as <a href=\"/en/experiences/corporate/\">company parties</a> and team-building events. Agencies and organisers also book SILENT for client events — the format works equally well for a private celebration and for business. Ideas for teams are in our article (in Ukrainian): <a href=\"/blog/idei-dlya-korporativu/\">Ideas for a corporate party: entertainment without contests or a stage</a>.",
 "Чим це відрізняється від вечірки зі звичайними колонками?": "How is it different from a party with regular speakers?",
 "Головна відмінність — звук іде не з колонок у залі, а прямо в навушники кожного гостя. Це дає тишу зовні, три незалежні канали одночасно замість одного спільного плейлиста й особисту гучність у кожного гостя.":
   "The main difference is that the sound doesn't come from speakers in the room but goes straight into each guest's headphones. That means quiet outside, three independent channels at once instead of one shared playlist, and personal volume for every guest.",
@@ -2104,6 +2107,7 @@ EXP_EN_PAGES = {
     # slug: (заголовок крихти UA, англомовна картка)
     'corporate': 'images/corp/og-corporate-en.jpg',
     'wedding': 'images/wedding/og-wedding-en.jpg',
+    'birthday': 'images/birthday/og-birthday-en.jpg',
 }
 from en_pages import T_PAGE_ALL   # рядки сторінок досвідів (tools/en_pages.py)
 T_PAGE = {}   # slug -> {укр: англ} (додаткові, лише для однієї сторінки)

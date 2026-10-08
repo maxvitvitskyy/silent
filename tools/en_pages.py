@@ -352,4 +352,103 @@ T_PAGE_ALL = {
   "Does the format suit a New Year corporate party?",
 "Так, формат працює в залі, офісі чи ресторані. Обладнання в нас обмежене, а найпопулярніші дати, особливо у високий сезон, розбирають наперед, тож краще залишити заявку заздалегідь.":
   "Yes, the format works in a hall, an office or a restaurant. Our equipment is limited, and the most popular dates, especially in high season, are taken in advance, so it is better to send a request early.",
+# ---- Дні народження (08.10.2026) ----
+"Silent Disco на день народження в Києві та Україні — SILENT":
+  "Silent Disco for birthdays in Kyiv and Ukraine — SILENT",
+"День народження в навушниках: гості слухають кожен своє, а сусіди не чують музики. Три канали, тиха вечірка вдома, у дворі чи в закладі. Київ і вся Україна.":
+  "A birthday in headphones: guests listen to their own music and the neighbours hear nothing. Three channels, a quiet party at home, in the courtyard or at a venue. Kyiv and all of Ukraine.",
+"День народження із silent disco — SILENT":
+  "A birthday with silent disco — SILENT",
+"Тиха вечірка на день народження: друзі, колеги й родичі слухають кожен своє, а танцпол один. Три канали музики, ззовні тиша.":
+  "A quiet birthday party: friends, colleagues and relatives each listen to their own, and there is one dance floor. Three music channels, quiet outside.",
+"Silent Disco на дні народження: друзі сміються й танцюють у навушниках із підсвіткою":
+  "Silent Disco at a birthday: friends laugh and dance in glowing headphones",
+"Silent disco на день народження":
+  "Silent disco for birthdays",
+"Іменинники та організатори свят":
+  "Birthday hosts and event organisers",
+">на день народження<":
+  ">for birthdays<",
+"У іменинника багато гостей і багато смаків. Нехай кожен слухає своє, а вечірка лишається спільною: без суперечок про плейліст і без скарг сусідів. Тиха дискотека на день народження в Києві та по Україні.":
+  "A birthday host has many guests and many tastes. Let everyone listen to their own while the party stays shared: no arguments about the playlist and no complaints from the neighbours. A silent disco for birthdays in Kyiv and across Ukraine.",
+"дім, двір, кафе":
+  "home, courtyard, café",
+"День народження, де всі танцюють, а не сперечаються про музику":
+  "A birthday where everyone dances instead of arguing about the music",
+"Різні смаки, один танцпол, і кожен у своєму ритмі.":
+  "Different tastes, one dance floor, and everyone in their own rhythm.",
+"На день народження зазвичай збираються друзі з різних компаній: одногрупники, колеги, родичі. У кожного своя музика, і один плейліст усіх не влаштує.":
+  "Friends from different circles usually gather at a birthday: classmates, colleagues, relatives. Everyone has their own music, and one playlist will not suit them all.",
+"У навушниках три канали: хтось обирає хіти, хтось ретро, хтось спокійне. Перемкнутись можна будь-коли, одним дотиком, а колір підсвітки показує, хто слухає те саме.":
+  "The headphones have three channels: some pick hits, some retro, some something calm. You can switch at any moment with one touch, and the colour of the lights shows who is listening to the same thing.",
+"А коли хочеться привітати іменинника чи просто поговорити, навушники на шию, і ви вже серед людей. Ніхто не ображається, що грає «не те».":
+  "And when you want to congratulate the birthday host or just talk, the headphones go around the neck and you are right among people. Nobody gets upset that the “wrong” music is playing.",
+"Такий день народження згадують танцями й сміхом, а не суперечкою про музику.":
+  "A birthday like this is remembered for dancing and laughter, not for an argument about music.",
+"Іменинник святкує. Ми подбаємо про звук.":
+  "The birthday host celebrates. We take care of the sound.",
+"Не треба обирати музику за всіх":
+  "No need to choose the music for everyone",
+"Один канал для хітів, інший для ретро, третій для спокійної музики. Кожен гість сам вирішує, що слухати, і всі лишаються на одній вечірці.":
+  "One channel for hits, another for retro, a third for calm music. Every guest decides what to listen to, and everyone stays at one party.",
+"Вечірка без скарг сусідів":
+  "A party with no complaints from neighbours",
+"Музика звучить лише в навушниках, тож вечірку можна провести вдома, у дворі чи в закладі з обмеженнями по гучності. Про правила тиші читайте в <a href=\"/blog/vechirka-bez-shumu-sysidy/\">статті блогу</a>.":
+  "The music plays only in the headphones, so the party can be held at home, in a courtyard or at a venue with volume limits. You can read about the quiet-hours rules in our <a href=\"/blog/vechirka-bez-shumu-sysidy/\">blog article</a> (in Ukrainian).",
+"Можна і танцювати, і вітати":
+  "You can dance and still congratulate",
+"Зняв навушники, і поряд чути тости та сміх. Одягнув, і знову на танцполі. Нікому не треба кричати через музику.":
+  "Take the headphones off and you can hear the toasts and the laughter around you. Put them on and you are back on the dance floor. Nobody has to shout over the music.",
+"Камерна вечірка чи велика компанія: ми підлаштуємо Silent під кількість гостей, локацію та програму вашого вечора.":
+  "A small party or a big company: we will adapt Silent to the number of guests, the location and the programme of your evening.",
+"Розваги на дні народження: часті запитання про Silent Disco":
+  "Birthday entertainment: frequently asked questions about Silent Disco",
+"Чи підходить Silent для дня народження, де гості різного віку й смаків?":
+  "Does Silent suit a birthday where guests are of different ages and tastes?",
+"Так, саме для цього він і добрий. У кожного гостя своя гучність і вибір із трьох каналів, тож друзі, колеги й родичі не мусять слухати одну музику. Плейлисти ми готуємо наперед під формат і настрій вечора.":
+  "Yes, that is exactly what it is good for. Each guest has their own volume and a choice of three channels, so friends, colleagues and relatives do not have to listen to the same music. We prepare the playlists in advance for the format and the mood of the evening.",
+"Скільки навушників брати на день народження?":
+  "How many headphones should I take for a birthday?",
+"Навушник потрібен кожному, хто хоче слухати музику, а мінімум — 40. Мінімальний комплект — 40 навушників на 4 години — коштує від 12 000 грн разом з доставкою, встановленням, супроводом і вивозом. Додаткові навушники й години додаються до цієї суми, а калькулятор нижче одразу покаже орієнтир. Напишіть орієнтовну кількість гостей у заявці, і ми підкажемо, як краще.":
+  "Every guest who wants to listen to music needs a headphone, and the minimum is 40. The minimum set, 40 headphones for 4 hours, costs from 12,000 UAH including delivery, setup, support and pick-up. Extra headphones and hours are added to that amount, and the calculator below shows a guideline right away. Put the approximate number of guests in your request and we will advise what works best.",
+"Чи можна провести день народження вдома, у дворі чи в закладі?":
+  "Can a birthday be held at home, in a courtyard or at a venue?",
+"Так: вдома, у дворі, на терасі, в кафе чи на орендованому майданчику. Від вас потрібні місце для танців і розетка поруч, решту привозимо й забираємо самі, а на збірку й перевірку сигналу нам потрібно близько 30 хвилин до старту. Колонок немає, тож питання гучності з майданчиком чи сусідами зазвичай не виникає. На вулиці потрібен запасний план на дощ: намет, навіс чи приміщення поруч. Ідеї для програми й каналів читайте в статті <a href=\"/blog/yak-vidsvyatkuvaty-den-narodzhennya/\">Як відсвяткувати день народження, щоб гості згадували його з посмішкою</a>.":
+  "Yes: at home, in a courtyard, on a terrace, in a café or at a rented venue. From you we need a place to dance and a socket nearby; we bring and take away everything else ourselves, and we need about 30 minutes before the start to set up and check the signal. There are no speakers, so volume is usually not an issue with the venue or neighbours. Outdoors you need a rain backup: a tent, a canopy or a room nearby. Ideas for the programme and channels are in our article (in Ukrainian): <a href=\"/blog/yak-vidsvyatkuvaty-den-narodzhennya/\">How to celebrate a birthday so that guests remember it with a smile</a>.",
+"Чи потрібен діджей і хто вмикає музику?":
+  "Do I need a DJ, and who plays the music?",
+"Не обов’язково. Ми наперед готуємо три плейлисти під формат і настрій вечора, тож музика вже підібрана, а кожен гість сам перемикається між трьома каналами. Живий діджей потрібен лише якщо хочете саме його мікс на місці.":
+  "Not necessarily. We prepare three playlists in advance for the format and the mood of the evening, so the music is already chosen and each guest switches between the three channels on their own. A live DJ is needed only if you want their mix on the spot.",
+"Як гості почують привітання й тости?":
+  "How will guests hear the greetings and toasts?",
+"Гості знімають навушники на шию й чують звичайний голос: тост, привітання чи розмову за столом. Коли промова закінчилась, навушники одягаються знову, і танці тривають.":
+  "Guests slide the headphones down to their neck and hear a normal voice: a toast, a greeting or a conversation at the table. When the speech is over, the headphones go back on and the dancing continues.",
+"Коли бронювати дату?":
+  "When should I book the date?",
+"Кількість обладнання в нас обмежена, тож найпопулярніші дати розбирають наперед, особливо у високий сезон. Дата закріплюється, щойно надходить передоплата. Що раніше залишите заявку, то більше шансів, що потрібна вам дата ще вільна.":
+  "Our equipment is limited, so the most popular dates are taken in advance, especially in high season. The date is secured as soon as the prepayment arrives. The earlier you leave a request, the better the chance that your date is still free.",
+"Як оплатити і що, якщо дату доведеться змінити?":
+  "How do I pay, and what if the date has to change?",
+"Основний спосіб оплати — безготівковий переказ на рахунок SILENT за реквізитами IBAN: 50% передоплати бронює дату, решта 50% — до заходу. Перенести дату можна безкоштовно, якщо попередити щонайменше за 21 день і нова дата вільна. <a href=\"/faq/#faqA-t2\">Скасування</a>: за 14+ днів повертаємо всю передоплату, за 7–13 днів — половину, менш ніж за 7 днів вона не повертається.":
+  "The main payment method is a bank transfer to SILENT’s account by IBAN details: 50% prepayment secures the date, the remaining 50% is due before the event. The date can be moved free of charge if you let us know at least 21 days ahead and the new date is free. <a href=\"/faq/#faqA-t2\">Cancellation</a>: with 14+ days’ notice the whole prepayment is returned, with 7–13 days half of it, with less than 7 days it is not returned.",
+"Хто відповідає за права на музику?":
+  "Who is responsible for music rights?",
+"Замовник відповідає за <a href=\"/faq/#faqA-m3\">правомірність використання музики</a> на своєму заході. Ми відповідаємо за технічне відтворення звуку, а не за права на сам контент, якщо інше не погоджено окремо.":
+  "The customer is responsible for the <a href=\"/faq/#faqA-m3\">lawful use of music</a> at their event. We are responsible for the technical playback of the sound, not for rights to the content itself, unless agreed otherwise.",
+"Розкажіть нам про свій день народження — кількість гостей, дату та локацію. Ми підберемо оптимальний комплект Silent Disco та розрахуємо вартість для вашої події.":
+  "Tell us about your birthday: the number of guests, the date and the location. We will choose the best Silent Disco set and calculate the cost for your event.",
+"Silent Disco підходить не лише для днів народження. Гортайте вбік — тихий звук працює всюди, де важливо чути.":
+  "Silent Disco is not only for birthdays. Scroll sideways: quiet sound works wherever it matters to hear.",
+"Дві подруги сміються на дні народження в навушниках Silent Disco":
+  "Two friends laugh at a birthday in Silent Disco headphones",
+"Гостя на вечірці вибирає свій канал у навушниках Silent Disco":
+  "A guest at a party picks her channel on Silent Disco headphones",
+"Дві подруги на дивані в навушниках Silent Disco відпочивають після танців на дні народження":
+  "Two friends on a sofa in Silent Disco headphones resting after dancing at a birthday",
+"Гостя вибирає навушники Silent Disco зі стійки перед вечіркою":
+  "A guest picks Silent Disco headphones from a rack before the party",
+"Гостя з коктейлем у навушниках Silent Disco на дні народження":
+  "A guest with a cocktail in Silent Disco headphones at a birthday",
+"Навушник Silent Disco із зеленою підсвіткою на святковому столі":
+  "A Silent Disco headphone with green lighting on a festive table",
 }

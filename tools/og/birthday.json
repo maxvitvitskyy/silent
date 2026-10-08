@@ -1,0 +1,32 @@
+{
+  "out": "images/birthday/og-birthday.jpg",
+  "heading": [
+    "Silent Disco",
+    "на день",
+    "народження"
+  ],
+  "subtitle": [
+    [
+      "День народження, на якому",
+      "кожен слухає своє."
+    ]
+  ],
+  "pills": [
+    "від <b>40</b> гостей",
+    "<b>3</b> канали в навушниках",
+    "Будь-яка <b>локація</b>",
+    "<b>Київ</b> та Україна"
+  ],
+  "big": {
+    "src": "images/gal/16_tall.webp",
+    "pos": "50% 35%"
+  },
+  "top": {
+    "src": "images/gal/22_sq.webp",
+    "pos": "50% 40%"
+  },
+  "bottom": {
+    "src": "images/gal/35_sq.webp",
+    "pos": "50% 40%"
+  }
+}

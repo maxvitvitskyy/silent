@@ -46,9 +46,9 @@
      "title": "Вечірка в квартирі після 22:00: що можна, а що ні",
      "excerpt": "Правила тиші, сусіди й музика в навушниках.",
      "image": "/images/uc/dj.webp", "alt": "Нічна тиха вечірка в навушниках після 22:00"},
-    {"slug": "rozvahy-den-narodzhennya-doroslyh", "status": "soon", "category": "birthday",
-     "title": "Розваги на день народження для дорослих",
-     "excerpt": "Різні смаки гостей, один танцпол: чим здивувати іменинника.",
-     "image": "/images/uc/birthday.webp", "alt": "День народження в навушниках Silent Disco"}
+    {"slug": "yak-vidsvyatkuvaty-den-narodzhennya", "status": "published", "category": "birthday",
+     "title": "Як відсвяткувати день народження, щоб гості згадували його з посмішкою",
+     "excerpt": "Ідеї для каналів, простору й гостей, щоб вечірка вдалась без суперечок про плейліст.",
+     "image": "/images/uc/birthday.webp", "alt": "День народження в навушниках Silent Disco: друзі слухають кожен своє на тихій вечірці"}
   ]
 }

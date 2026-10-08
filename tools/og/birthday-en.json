@@ -1,0 +1,31 @@
+{
+  "out": "images/birthday/og-birthday-en.jpg",
+  "heading": [
+    "Silent Disco",
+    "for birthdays"
+  ],
+  "subtitle": [
+    [
+      "A birthday where everyone",
+      "listens to their own."
+    ]
+  ],
+  "pills": [
+    "from <b>40</b> guests",
+    "<b>3</b> channels in headphones",
+    "Any <b>location</b>",
+    "<b>Kyiv</b> &amp; Ukraine"
+  ],
+  "big": {
+    "src": "images/gal/16_tall.webp",
+    "pos": "50% 35%"
+  },
+  "top": {
+    "src": "images/gal/22_sq.webp",
+    "pos": "50% 40%"
+  },
+  "bottom": {
+    "src": "images/gal/35_sq.webp",
+    "pos": "50% 40%"
+  }
+}
