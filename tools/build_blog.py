@@ -339,6 +339,20 @@ def inline(text):
     return re.sub(r'\[\[([^|\]]+)\|([^\]]+)\]\]', link, out)
 
 
+ART_ICONS = {
+    'calm': '<path d="M8 3h8l-1 7a3 3 0 0 1-6 0z"/><path d="M12 13v8M8 21h8"/>',
+    'active': '<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>',
+    'mixed': '<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M15.5 14.4c2.8.2 5.5 2 5.5 5.6"/>',
+    'unusual': '<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 17v4M17 19h4"/>',
+    'person': '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>',
+    'star': '<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
+    'gift': '<rect x="3.5" y="9" width="17" height="11" rx="1.5"/><path d="M12 9v11M3.5 13h17"/><path d="M12 9c-2.5 0-4-1-4-2.5S9.5 3.5 12 9zm0 0c2.5 0 4-1 4-2.5S14.5 3.5 12 9z"/>',
+    'clock': '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+    'film': '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M3 15h18M8 5v14M16 5v14"/>',
+    'versus': '<path d="M4 8h12M12 4l4 4-4 4"/><path d="M20 16H8M12 12l-4 4 4 4"/>',
+}
+
+
 def article_blocks(blocks):
     """Тіло статті з блоків article.json (схема власника від 06.10.2026):
     text  заголовок + текст у дві рівні колонки (cols: [ліва, права] зливаються в один потік, що CSS ділить на дві вирівняні колонки; або cards: [{t,d}] для карток із нумерацією);
@@ -351,10 +365,17 @@ def article_blocks(blocks):
             # які починаються на одній лінії; текст розкладено вручну так, щоб вони були рівні за висотою.
             if b.get('cards'):
                 # Кроки: окремі картки в дві колонки (без ефекту стопки), нумерація лічильником у CSS.
-                items = ''.join('<li><i class="art-n" aria-hidden="true"></i><b>%s</b><span>%s</span></li>' % (esc(x['t']), inline(x['d'])) for x in b['cards'])
+                # Вигляд карток можна міняти по блоках, не чіпаючи дизайн-систему: layout "cols" = вертикальні картки в ряд,
+                # marks "icons" = тематична іконка (поле ic у картці, ключі в ART_ICONS) замість номера. Без цього: номери, дві колонки.
+                use_icons = b.get('marks') == 'icons'
+                def mark(x):
+                    if use_icons and x.get('ic') in ART_ICONS:
+                        return '<span class="art-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">%s</svg></span>' % ART_ICONS[x['ic']]
+                    return '<i class="art-n" aria-hidden="true"></i>'
+                items = ''.join('<li>%s<b>%s</b><span>%s</span></li>' % (mark(x), esc(x['t']), inline(x['d'])) for x in b['cards'])
                 lead = '<p class="art-cards-lead">%s</p>' % inline(b['lead']) if b.get('lead') else ''
-                out.append('<section class="art-blk"><div class="art-cols"><h2>%s</h2>%s<ol class="art-cards">%s</ol></div></section>'
-                           % (esc(b['title']), lead, items))
+                out.append('<section class="art-blk"><div class="art-cols"><h2>%s</h2>%s<ol class="art-cards%s">%s</ol></div></section>'
+                           % (esc(b['title']), lead, ' is-cols' if b.get('layout') == 'cols' else '', items))
                 continue
             # Звичайний текстовий блок: ОДИН потік у дві CSS-колонки з вирівнюванням, заголовок першим елементом потоку (у лівій колонці),
             # (column-fill: balance): колонки починаються на одному рівні, закінчуються на одному, а абзац сам
@@ -455,19 +476,22 @@ def build_article(p, data, cats, posts, shared, card_fn):
     if stale:
         sys.exit('blog: у %s у related є слаги, яких нема в posts.json (прибрана заглушка?): %s' % (slug, ', '.join(stale)))
     rel = ''.join(card_fn(by_slug[r], cats) for r in a['related'] if r in by_slug)
+    # CTA статті: за замовчуванням калькулятор; у статті можна задати свій блок "cta": {title, text, button, href, track}
+    cta = dict(title='Плануєте захід? Порахуйте бюджет до заявки.', text='Калькулятор покаже орієнтир, а форма перевірить, чи вільна дата.',
+               button='Порахувати вартість', href='/#price', track='blog-article-price')
+    cta.update(a.get('cta', {}))
     body = ('<main id="main" tabindex="-1">\n' + cover +
             '<div class="wrap art-body">\n'
             '  <p class="art-lead">%s</p>\n%s\n'
-            '  <aside class="art-cta"><div><h2>Плануєте захід? Порахуйте бюджет до заявки.</h2>'
-            '<p>Калькулятор покаже орієнтир, а форма перевірить, чи вільна дата.</p></div>'
-            '<a class="art-cta-btn" href="/#price" data-cta="blog-article-price">Порахувати вартість</a></aside>\n'
+            '  <aside class="art-cta"><div><h2>%s</h2><p>%s</p></div>'
+            '<a class="art-cta-btn" href="%s" data-cta="%s">%s</a></aside>\n'
             '  <section class="art-faq faq" aria-labelledby="artFaq"><h2 id="artFaq">Питання, які ставлять найчастіше</h2>'
             '%s</section>\n'
             '  <section class="art-related" aria-labelledby="artRel"><h2 id="artRel">Читайте також</h2>'
             '<div class="blog-grid">\n%s</div></section>\n'
             '  <p class="art-ask">Лишилися питання? Напишіть нам у <a href="https://t.me/silent_ukraine" target="_blank" rel="noopener noreferrer">Telegram</a> '
             'або на <a href="mailto:hello.silent.ua@gmail.com">пошту</a>: відповімо протягом дня.</p>\n</div>\n\n%s'
-            % (esc(a['lead']), article_blocks(a['blocks']), faq, rel, shared['form_block']))
+            % (esc(a['lead']), article_blocks(a['blocks']), esc(cta['title']), esc(cta['text']), esc(cta['href']), esc(cta['track']), esc(cta['button']), faq, rel, shared['form_block']))
     out = head + nav_block + body + tail
     d = os.path.join(OUT_DIR, slug)
     os.makedirs(d, exist_ok=True)

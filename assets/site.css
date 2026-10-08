@@ -8376,3 +8376,13 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
   .nav-item-mega--blog .nav-mega-col:hover .nav-mega-qs, .nav-item-mega--blog .nav-mega-col:focus-within .nav-mega-qs { border-top-color: var(--line); }
   .nav-item-mega--blog a.nav-mega-q, .nav-item-mega--blog a.nav-blog-card { position: relative; z-index: 1; }
 }
+
+/* Варіанти карток у статтях (дизайн-система та сама, міняється лише розкладка): іконка замість номера (.art-ic) і вертикальні картки в ряд (.is-cols). */
+.art-cards .art-ic { grid-column: 1; grid-row: span 2; display: block; width: clamp(34px, 3.2vw, 44px); height: clamp(34px, 3.2vw, 44px); color: var(--lime); margin-top: 2px; line-height: 0; }
+.art-ic svg { display: block; width: 100%; height: 100%; }
+.art-cards.is-cols { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.art-cards.is-cols li { grid-template-columns: minmax(0, 1fr); row-gap: 12px; }
+.art-cards.is-cols .art-n, .art-cards.is-cols .art-ic { grid-row: auto; grid-column: 1; }
+.art-cards.is-cols b, .art-cards.is-cols span { grid-column: 1; }
+@media (max-width: 1100px) { .art-cards.is-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 700px) { .art-cards.is-cols { grid-template-columns: minmax(0, 1fr); } }
