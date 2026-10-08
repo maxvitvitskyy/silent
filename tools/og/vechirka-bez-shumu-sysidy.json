@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-vechirka-bez-shumu-sysidy.jpg",
+  "bg": {
+    "src": "images/blog/vechirka-bez-shumu-hero.webp",
+    "pos": "50% 62%"
+  },
+  "heading": [
+    "Як провести вечірку,",
+    "щоб не заважати сусідам"
+  ],
+  "subtitle": [
+    [
+      "Гості танцюють, а сусіди чують тишу."
+    ]
+  ],
+  "pills": [
+    "<b>Без скарг</b> сусідів",
+    "<b>Тиша</b> ззовні",
+    "<b>Silent Disco</b> вдома",
+    "Вечірка <b>після 22:00</b>"
+  ]
+}

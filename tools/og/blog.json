@@ -1,0 +1,24 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-blog.jpg",
+  "bg": {
+    "src": "images/gal/36_wide.webp",
+    "pos": "50% 0%"
+  },
+  "css": ".p>img{inset:auto;left:0;top:-95px;width:1200px;height:800px}",
+  "heading": [
+    "Блог про Silent Disco:",
+    "незвичні формати подій"
+  ],
+  "subtitle": [
+    [
+      "Як провести свято, чим здивувати гостей і де Silent Disco рятує вечір."
+    ]
+  ],
+  "pills": [
+    "<b>Незвичні</b> формати",
+    "<b>Ідеї</b> для свята",
+    "<b>Для</b> організаторів",
+    "<b>Корпоративи</b>"
+  ]
+}

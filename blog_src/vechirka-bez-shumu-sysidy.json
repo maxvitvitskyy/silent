@@ -11,8 +11,8 @@
   "date": "6 жовтня 2026",
   "read": "6 хв читання",
   "cover": {
-    "src": "/images/uc/houseparty.webp",
-    "alt": "Домашня вечірка, де гості танцюють у навушниках"
+    "src": "/images/blog/vechirka-bez-shumu-hero.webp",
+    "alt": "Друзі танцюють і сидять у вітальні в навушниках Silent Disco із зеленою й синьою підсвіткою, вечірка вдома без колонок"
   },
   "lead": "Сусіди скаржаться не на вечірку, а на звук, який доходить до них крізь стіну. Якщо цей звук прибрати, лишаються гості, які розмовляють і сміються.",
   "blocks": [
@@ -45,7 +45,7 @@
       "type": "pair",
       "image": {
         "src": "/images/corp/neonovi-navushnyky-na-zakhodi-sontsya1.webp",
-        "alt": "Навушники Silent Disco з червоною, синьою й зеленою підсвіткою на пульті"
+        "alt": "Бездротові навушники Silent Disco з червоною, синьою й зеленою підсвіткою каналів на діджейському пульті"
       },
       "quote": "Silent Disco не прибирає музику. Вона просто не доходить до сусідів."
     },
@@ -152,11 +152,12 @@
     }
   ],
   "related": [
-    "vesillya-voyennyi-stan",
+    "idei-dlya-korporativu",
     "tri-kanaly-tysha-zzovni",
     "skilky-koshtuye-tyha-dyskoteka"
   ],
   "date_iso": "2026-10-06",
   "seo_title": "До якої години можна шуміти: вечірка без скарг | SILENT",
-  "modified_iso": "2026-10-06"
+  "modified_iso": "2026-10-06",
+  "og": "/images/blog/og-vechirka-bez-shumu-sysidy.jpg"
 }

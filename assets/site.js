@@ -282,6 +282,41 @@ function orderExperience(name, opts){
         glow.classList.remove('is-on', 'is-live');
         live = false;
       }
+      // «Блог»: підсвічується не вся колонка, а лише конкретний пункт під курсором (рядок у «Свіже» чи картка
+      // в «Добірці»); заглушки без посилання підсвічення не дістають.
+      const itemMode = !!grid.closest('.nav-item-mega--blog');
+      if (itemMode){
+        // Світяться лише активні пункти (з посиланням); заглушки «Скоро» підсвічення не дістають, воно з'явиться на них,
+        // щойно в статті з'явиться сторінка і вона стане посиланням.
+        const SEL = '.nav-mega-qs > a.nav-mega-q, a.nav-blog-card';
+        const showItem = function(el){
+          const g = panel.getBoundingClientRect(), c = el.getBoundingClientRect();
+          const isRow = el.classList.contains('nav-mega-q');
+          // Рядок «Свіже»: світіння йде рівно від розділювача до розділювача (верх і низ збігаються з лініями між
+          // рядками, не заходять під них), лише крайні рядки трохи виступають, бо в них нема сусідньої лінії.
+          // Картка «Добірки»: рівний запас навколо.
+          const padX = 8;
+          const padT = isRow ? (el.previousElementSibling ? 0 : 8) : 8;
+          const padB = isRow ? (el.nextElementSibling ? 0 : 8) : 8;
+          glow.style.width = (c.width + padX * 2) + 'px';
+          glow.style.height = (c.height + padT + padB) + 'px';
+          glow.style.transform = 'translate(' + (c.left - g.left - padX) + 'px,' + (c.top - g.top - padT) + 'px)';
+          glow.style.borderRadius = isRow ? '12px' : '16px';
+          glow.classList.add('is-on');
+          if (!live){ requestAnimationFrame(function(){ glow.classList.add('is-live'); }); live = true; }
+        };
+        grid.addEventListener('mouseover', function(e){
+          const el = e.target.closest(SEL);
+          if (el && grid.contains(el)) showItem(el); else hide();
+        });
+        grid.addEventListener('focusin', function(e){
+          const el = e.target.closest(SEL);
+          if (el && grid.contains(el)) showItem(el); else hide();
+        });
+        grid.addEventListener('mouseleave', hide);
+        grid.addEventListener('focusout', function(e){ if (!grid.contains(e.relatedTarget)) hide(); });
+        return;
+      }
       grid.addEventListener('mouseover', function(e){
         const col = e.target.closest('.nav-mega-col');
         if (!col || !grid.contains(col)) return;
@@ -4223,19 +4258,23 @@ function orderExperience(name, opts){
         // десктопній панелі («Всі питання» / «Усі формати»), і звідти й
         // бере текст та посилання, а не з окремого хардкоду.
         const trigger = el.querySelector('.nav-mega-trigger');
-        const cats = [].slice.call(el.querySelectorAll('.nav-mega-cat'));
+        // «Блог»: у десктопній панелі розділи — це «Свіже» й «Добірка» (не теми), тому теми для телефона лежать
+        // окремо в прихованому .nav-mega-topics, а «переглянути всі» — кнопка .nav-mega-all, не фото-картка статті.
+        const topicsEl = el.querySelector('.nav-mega-topics');
+        const cats = [].slice.call((topicsEl || el).querySelectorAll('.nav-mega-cat'));
         // .nav-mega-cta сам по собі <span> без href — посилання на всю
         // сторінку несе його предок .nav-mega-visual (фото-картка обгорнута
         // в <a>), звідти й href, а текст усе одно з .nav-mega-cta.
-        const ctaLink = el.querySelector('.nav-mega-visual');
-        const ctaLabel = el.querySelector('.nav-mega-cta');
+        const allBtn = el.querySelector('.nav-mega-all');
+        const ctaLink = allBtn || el.querySelector('.nav-mega-visual');
+        const ctaLabel = allBtn || el.querySelector('.nav-mega-cta');
         let subHtml = '';
         if (ctaLink && ctaLabel){
           subHtml += '<a href="' + ctaLink.getAttribute('href') + '" class="nav-drawer-sub-all">' + ctaLabel.textContent.trim() + '</a>';
         }
         cats.forEach(c => {
           const icon = c.parentElement.querySelector('.nav-mega-icon');
-          subHtml += '<a href="' + c.getAttribute('href') + '">' + (icon ? icon.outerHTML : '') + '<span>' + c.textContent + '</span></a>';
+          subHtml += '<a href="' + c.getAttribute('href') + '">' + (icon ? icon.outerHTML : '') + '<span>' + c.textContent + (c.dataset.sub ? '<small>' + c.dataset.sub + '</small>' : '') + '</span></a>';
         });
         linksHtml +=
           '<button type="button" class="nav-drawer-item-expand" style="--stagger:' + i + '" aria-expanded="false">' +
@@ -4834,7 +4873,7 @@ function orderExperience(name, opts){
   // працює рядком нижче.
   (function(){
     if (!window.matchMedia) return;
-    const SEL = '.uc-card, .benefit-card, .pb-card:not(.pb-card-accent), .exp-facts li, .art-cards li';
+    const SEL = '.uc-card, .benefit-card, .pb-card:not(.pb-card-accent), .exp-facts li, .art-cards li, .art-lead';
 
     // ---- Миша: координати для дуги ----
     // Саму плашку малює CSS, звідси приходять тільки координати. Слухач один
@@ -5647,6 +5686,33 @@ function orderExperience(name, opts){
     if (m) apply(m[1]);
   })();
 
+  // ---- Стаття: рядки двох колонок на одній сітці ----
+  // Висота рядка в .art-flow стала (CSS), проміжок між абзацами рівно в один рядок. Лишається заголовок: його висота
+  // залежить від кількості рядків, тож відступ під ним добирається так, щоб заголовок + відступ були кратні висоті рядка.
+  // Тоді перший рядок лівої колонки стоїть на тій самій сітці, що й перший рядок правої (вона починається на рівні заголовка).
+  (function alignFlow(){
+    const flows = [].slice.call(document.querySelectorAll('.art-flow'));
+    if (!flows.length) return;
+    function run(){
+      flows.forEach(function(f){
+        const h = f.querySelector('h2');
+        if (!h) return;
+        h.style.marginBottom = '';
+        if (getComputedStyle(f).columnCount === '1') return;      // одна колонка: вирівнювати нема з чим
+        const lh = parseFloat(getComputedStyle(f).lineHeight);
+        if (!(lh > 0)) return;
+        const hh = h.offsetHeight;
+        const want = Math.ceil((hh + lh * 0.9) / lh) * lh - hh;   // не менше ~0.9 рядка під заголовком
+        h.style.marginBottom = want.toFixed(2) + 'px';
+      });
+    }
+    run();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(run);
+    window.addEventListener('load', run, { once: true });
+    let t = 0;
+    window.addEventListener('resize', function(){ clearTimeout(t); t = setTimeout(run, 120); }, { passive: true });
+  })();
+
   // ---- Блог: анімації прокрутки (GSAP ScrollTrigger) ----
   // Лише на /blog/ і сторінці статті, лише з GSAP і без prefers-reduced-motion. Вміст у розмітці видимий за
   // умовчанням, тож без скрипта чи при збої сторінка лишається повною: стартовий стан задає сам gsap.from.
@@ -5701,7 +5767,7 @@ function orderExperience(name, opts){
              .from('.art-meta', { y: 22, opacity: 0 }, 0.54);
         if (window.matchMedia('(min-width: 901px)').matches){
           G.to('.art-cover-img', {
-            yPercent: 14, ease: 'none',
+            yPercent: 7, ease: 'none',   // 7% висоти фото (120% обкладинки) ≈ 8% обкладинки: у межах запасу -10%, смуги зверху не буде
             scrollTrigger: { trigger: '.art-cover', start: 'top top', end: 'bottom top', scrub: true }
           });
         }

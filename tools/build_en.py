@@ -747,8 +747,8 @@ T = {
 'Орієнтовно <strong>1 м² на людину</strong> для активних танців, менше — якщо частина гостей сидітиме. Скажіть нам розмір залу й кількість гостей — порахуємо, чи вистачить простору, і порадимо оптимальну кількість навушників.':
   "Roughly <strong>1 m² per person</strong> for active dancing, less if some of the guests will be seated. Tell us the size of the room and the number of guests and we'll work out whether there's enough space, then suggest how many headsets to take.",
 'Чи можна на вулиці?': 'Can it be outdoors?',
-'Так, але обладнання залежить від живлення і не любить вологу. У дощ або без розетки поруч потрібен запасний план — намет, навіс або перенесення в приміщення. Обговорюємо це заздалегідь, коли дізнаємось локацію.':
-  "Yes, but the equipment needs power and doesn't like damp. In rain, or with no socket nearby, you need a backup plan — a tent, a canopy or moving indoors. We work that out in advance, once we know the venue.",
+'Так, але обладнання залежить від живлення і не любить вологу. У дощ або без розетки поруч потрібен запасний план — намет, навіс або перенесення в приміщення. Обговорюємо це заздалегідь, коли дізнаємось локацію. Якщо вечірка надворі чи у дворі, про правила тиші після 22:00 читайте в <a href="/blog/vechirka-bez-shumu-sysidy/">статті блогу</a>.':
+  "Yes, but the equipment needs power and doesn't like damp. In rain, or with no socket nearby, you need a backup plan — a tent, a canopy or moving indoors. We work that out in advance, once we know the venue. If the party is outdoors or in a courtyard, you can read about the quiet-hours rules after 10 pm in our <a href=\"/blog/vechirka-bez-shumu-sysidy/\">blog article</a> (in Ukrainian).",
 'Це справді тихо ззовні?': 'Is it really quiet from the outside?',
 'Гості танцюють, співають і сміються — це не безшумно. Але сумарний шум навіть від сотні людей у навушниках — мала частка того, що дають звичайні колонки. І коли хтось хоче поговорити, він просто знімає навушники на шию і спілкується звичайним голосом. Про нічну тишу й скарги сусідів докладніше в <a href="/blog/vechirka-bez-shumu-sysidy/">статті блогу</a>.':
   "Guests dance, sing and laugh, so it isn't soundless. But the total noise from even a hundred people in headphones is a small fraction of what ordinary speakers make. And when someone wants to talk, they simply slide the headphones down to their neck and speak at a normal voice. You can read more about quiet hours and neighbour complaints in our <a href=\"/blog/vechirka-bez-shumu-sysidy/\">blog article</a> (in Ukrainian).",
@@ -971,13 +971,24 @@ def flexible(key):
     return re.compile(''.join(out))
 
 
+from alt_texts import ALT_T  # noqa: E402  (alt-тексти зображень, аудит 08.10.2026)
+
+
+def strip_blog_mega(s):
+    """Mega-меню «Блог» (маркери BLOG-MEGA) є лише в українській шапці: блог поки без англійської версії,
+    а назви статей кирилицею зламали б перевірку неперекладеного. Генерує його tools/build_blog.py."""
+    return re.sub(r'[ \t]*<!-- BLOG-MEGA:START.*?<!-- BLOG-MEGA:END -->\n?', '', s, flags=re.S)
+
+
 def translate(s):
     # Від найдовших рядків до найкоротших, щоб короткий не з'їв частину довшого.
     # Словник об'єднаний із T_FAQ: питання на головній беруть ДОСЛІВНО ті самі
     # відповіді, що й /faq/ (вартість, що входить, бронювання, перенесення), і
     # тримати їхній переклад у двох місцях означало б, що вони розійдуться.
+    s = strip_blog_mega(s)
     merged = dict(T)
     merged.update(T_FAQ)
+    merged.update(ALT_T)
     for k in sorted(merged, key=len, reverse=True):
         s = flexible(k).sub(lambda m, v=merged[k]: v, s)
     return s
@@ -1715,8 +1726,8 @@ T_FAQ = {
 "Не обов'язково. Ми наперед готуємо три плейлисти під формат і настрій вечора, тож живий діджей потрібен лише якщо хочете саме його мікс на місці.":
   "Not necessarily. We prepare three playlists in advance for the format and mood of the night, so a live DJ is only needed if you specifically want their mix on the spot.",
 "Кому підходить такий формат?": "Who is this format for?",
-"<a href=\"/en/experiences/wedding/\">Весіллям</a>, днями народження й випускним так само, як <a href=\"/en/experiences/corporate/\">корпоративам</a> і тімбілдингам. Агенції та організатори теж замовляють SILENT під клієнтські події — формат однаково працює і для приватного свята, і для бізнесу.":
-  "<a href=\"/en/experiences/wedding/\">Weddings</a>, birthdays and graduations just as much as <a href=\"/en/experiences/corporate/\">company parties</a> and team-building events. Agencies and organisers also book SILENT for client events — the format works equally well for a private celebration and for business.",
+"<a href=\"/en/experiences/wedding/\">Весіллям</a>, днями народження й випускним так само, як <a href=\"/en/experiences/corporate/\">корпоративам</a> і тімбілдингам. Агенції та організатори теж замовляють SILENT під клієнтські події — формат однаково працює і для приватного свята, і для бізнесу. Ідеї для команд читайте в статті <a href=\"/blog/idei-dlya-korporativu/\">Ідеї для корпоративу: розваги без конкурсів і сцени</a>.":
+  "<a href=\"/en/experiences/wedding/\">Weddings</a>, birthdays and graduations just as much as <a href=\"/en/experiences/corporate/\">company parties</a> and team-building events. Agencies and organisers also book SILENT for client events — the format works equally well for a private celebration and for business. Ideas for teams are in our article (in Ukrainian): <a href=\"/blog/idei-dlya-korporativu/\">Ideas for a corporate party: entertainment without contests or a stage</a>.",
 "Чим це відрізняється від вечірки зі звичайними колонками?": "How is it different from a party with regular speakers?",
 "Головна відмінність — звук іде не з колонок у залі, а прямо в навушники кожного гостя. Це дає тишу зовні, три незалежні канали одночасно замість одного спільного плейлиста й особисту гучність у кожного гостя.":
   "The main difference is that the sound doesn't come from speakers in the room but goes straight into each guest's headphones. That means quiet outside, three independent channels at once instead of one shared playlist, and personal volume for every guest.",
@@ -1960,8 +1971,10 @@ def build_faq():
     s = s[:m.start()] + I18N_FAQ_EN + s[m.end():]
 
     # Об'єднаний словник: повні речення FAQ + спільні рядки меню/футера/форми.
+    s = strip_blog_mega(s)
     merged = dict(T)
     merged.update(T_FAQ)
+    merged.update(ALT_T)
     for k in sorted(merged, key=len, reverse=True):
         s = flexible(k).sub(lambda mm, v=merged[k]: v, s)
 
@@ -2023,6 +2036,7 @@ T_EXP = {
 "Напишіть, що плануєте — скажемо, чи підходить тихий звук і скільки це коштуватиме.":
   "Tell us what you're planning — we'll say whether quiet sound fits and how much it will cost.",
 "Дивитися досвід": "View the experience",
+"Більше ідей і порад для свята читайте в <a href=\"/blog/\">блозі SILENT</a>.": "More party ideas and tips are in the <a href=\"/blog/\">SILENT blog</a> (in Ukrainian).",
 }
 
 
@@ -2066,9 +2080,11 @@ def build_experiences():
         sys.exit('блок SILENT_I18N у experiences/index.html не знайдено')
     s = s[:m.start()] + I18N_FAQ_EN + s[m.end():]
 
+    s = strip_blog_mega(s)
     merged = dict(T)
     merged.update(T_FAQ)
     merged.update(T_EXP)
+    merged.update(ALT_T)
     for k in sorted(merged, key=len, reverse=True):
         s = flexible(k).sub(lambda mm, v=merged[k]: v, s)
 
@@ -2142,9 +2158,11 @@ def build_experience_page_en(slug):
         sys.exit('блок SILENT_I18N не знайдено на experiences/%s/' % slug)
     s = s[:m.start()] + I18N_FAQ_EN.replace("base: ''", "base: '../../../'", 1) + s[m.end():]
 
+    s = strip_blog_mega(s)
     merged = dict(T)
     merged.update(T_FAQ)
     merged.update(T_EXP)
+    merged.update(ALT_T)
     merged.update(T_PAGE_ALL)
     merged.update(T_PAGE.get(slug, {}))
     for k in sorted(merged, key=len, reverse=True):

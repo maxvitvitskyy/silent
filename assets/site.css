@@ -8139,7 +8139,8 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
    праворуч однією читабельною колонкою, між розділами тонкі лінії. Із елементів лишилися малий
    таймлайн, один виносний рядок, невелике фото, FAQ у стилі сайту й CTA. Колонки схлопуються на ≤900px. */
 .art-cover { position: relative; min-height: min(100svh, 820px); display: flex; align-items: flex-end; justify-content: center; overflow: hidden; padding: 130px 0 200px; }
-.art-cover-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; }
+/* Фото вище й нижче за обкладинку на 10% (запас під паралакс): при зсуві вниз верх обкладинки лишається закритим, тож навіть коли скрипт відстає від швидкої прокрутки, темної смуги між шапкою й фото нема. */
+.art-cover-img { position: absolute; top: -10%; left: 0; width: 100%; height: 120%; object-fit: cover; object-position: 50% 22%; }
 .art-cover-shade {
   position: absolute; inset: 0;
   /* Низ фото згасає в --night довгою плавною кривою (кілька проміжних стопів, а не прямою лінією),
@@ -8164,11 +8165,13 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
 /* Вступ: скляна плашка (той самий матеріал, що шапка) на переході фото в чорне. */
 .art-lead {
   position: relative; z-index: 2; margin: calc(var(--art-gap) - 200px) 0 calc(var(--art-gap) - var(--art-blockgap)); max-width: none; /* низ обкладинки 200px: відступ від рядка автора до плашки = відступу від плашки до першого блоку */
-  padding: clamp(24px, 3.4vw, 40px) clamp(24px, 4vw, 56px); border-radius: 36px; text-align: center;
+  padding: clamp(20px, 2.8vw, 32px) clamp(24px, 4vw, 56px); border-radius: 36px; text-align: center;
   /* Той самий матеріал, що в шапки (body > nav): --glass-fill-1, ті самі рамка, блюр і тінь. */
-  background: var(--glass-fill-1); border: 1px solid var(--line); border-top-color: var(--glass-edge);
+  /* Матеріал шапки (--glass-fill-1), але прозоріший приблизно на третину (власник, 08.10.2026: надто масивна): заливка .30 → .20, блиск .10/.035/.02 → .065/.022/.013, тінь легша. Блюр і рамка ті самі. */
+  background: linear-gradient(158deg, rgba(226,230,238,0.065), rgba(210,216,228,0.022) 48%, rgba(210,216,228,0.013)), rgba(26,26,28,0.20);
+  border: 1px solid var(--line); border-top-color: var(--glass-edge);
   backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
-  box-shadow: 0 8px 32px -12px rgba(0,0,0,0.5);
+  box-shadow: 0 6px 24px -14px rgba(0,0,0,0.35);
   font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: clamp(18px, 2vw, 26px); line-height: 1.4; text-wrap: balance;
 }
 
@@ -8194,8 +8197,10 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
 .art-flow h2 { position: relative; margin: 0 0 clamp(28px, 3vw, 42px); max-width: none; break-after: avoid; break-inside: avoid; }
 /* Лаймова риска винесена над потік (абсолютно): верх колонок тепер збігається з верхом ТЕКСТУ заголовка, і права колонка починається на його рівні, а не на рівні риски. */
 .art-flow h2::before { position: absolute; top: -23px; left: 0; margin: 0; transform: scaleX(var(--bar, 1)); transform-origin: left center; }
-.art-flow { column-count: 2; column-gap: var(--art-colgap); column-fill: balance; font-size: clamp(16px, 1.3vw, 18px); line-height: 1.7; color: rgba(255,255,255,.84); }
-.art-flow p { margin: 0 0 16px; max-width: none; orphans: 1; widows: 1; }   /* дозволяє переносити навіть один рядок: так колонки закінчуються на одному рівні */
+.art-flow { --fs: clamp(16px, 1.3vw, 18px); column-count: 2; column-gap: var(--art-colgap); column-fill: balance; font-size: var(--fs); line-height: calc(var(--fs) * 1.7); color: rgba(255,255,255,.84); }
+/* Рядки двох колонок лежать на одній сітці: висота рядка стала, проміжок між абзацами рівно в один рядок, а відступ під заголовком
+   site.js (alignFlow) добирає кратним рядку. Тому кожен рядок правої колонки стоїть на одній лінії з рядком лівої. */
+.art-flow p { margin: 0 0 calc(var(--fs) * 1.7); max-width: none; orphans: 1; widows: 1; }   /* дозволяє переносити навіть один рядок: так колонки закінчуються на одному рівні */
 .art-flow > :last-child { margin-bottom: 0; }
 .art-flow a { color: var(--lime); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(198,255,0,.45); transition: text-decoration-color .2s, color .2s; }
 .art-flow a:hover { text-decoration-color: var(--lime); color: #fff; }
@@ -8214,20 +8219,29 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
 /* Кроки: окремі картки в дві колонки (стопку плашок із головної прибрано за рішенням власника), велика лаймова цифра, назва, опис. */
 .art-cards-lead { grid-column: 1 / -1; max-width: 70ch; margin: 0; }
 .art-cards { grid-column: 1 / -1; list-style: none; margin: 0; padding: 0; counter-reset: card; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--art-colgap); }
-.art-cards li { counter-increment: card; position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 20px; row-gap: 8px; align-items: start; padding: clamp(22px, 2.4vw, 32px); border-radius: var(--r-lg);
+.art-cards li { counter-increment: card; position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 20px; row-gap: 8px; align-items: start; align-content: start; /* картки в ряду розтягуються до найвищої, а без цього рядки сітки всередині розтягувались і розсували заголовок і текст по-різному */ padding: clamp(22px, 2.4vw, 32px); border-radius: var(--r-lg);
   /* Матеріал і ефект як у карток «Що відчують ваші гості» на головній: скло, а при наведенні по краю картки гуляє світлова дуга за курсором (координати --spot-x/--spot-y веде спільний модуль спотлайту в site.js, селектор .art-cards li). */
   border: 1px solid var(--line); border-top-color: var(--glass-edge); background: var(--glass-fill-dark);
   backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
   box-shadow: var(--glass-shadow-1), inset 0 1px 0 rgba(255,255,255,0.07);
   --spot-x: 50%; --spot-y: 50%; --spot-ring-r: 220px; transition: border-color .5s ease; }
+/* Внутрішнє світло (як на картках «Як замовити» на корпоративах, .pb-card::before): м'яка пляма lime під курсором усередині картки. Дуга по ободку (::after) і координати --spot-x/--spot-y ті самі, що в спільному модулі спотлайту. */
+.art-cards li::before, .art-lead::before { content: ''; position: absolute; inset: 0; z-index: 3; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .4s ease;
+  background: radial-gradient(380px circle at var(--spot-x) var(--spot-y), color-mix(in srgb, var(--ch) 13%, transparent), transparent 72%); }
+.art-lead { --spot-x: 50%; --spot-y: 50%; --spot-ring-r: 260px; }
+.art-lead::after { content: ''; position: absolute; inset: -1px; z-index: 3; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .4s ease;
+  padding: 2.5px; background: radial-gradient(var(--spot-ring-r) circle at var(--spot-x) var(--spot-y), color-mix(in srgb, var(--ch) 92%, transparent), transparent 62%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite: exclude; }
+@media (hover: hover) and (pointer: fine) { .art-cards li:hover::before, .art-lead:hover::before, .art-lead:hover::after { opacity: 1; } }
 .art-cards li::after { content: ''; position: absolute; inset: -1px; z-index: 3; border-radius: var(--r-lg); pointer-events: none; opacity: 0; transition: opacity .4s ease;
   padding: 2.5px; background: radial-gradient(var(--spot-ring-r) circle at var(--spot-x) var(--spot-y), color-mix(in srgb, var(--ch) 92%, transparent), transparent 62%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite: exclude; }
 @media (hover: hover) and (pointer: fine) { .art-cards li:hover::after { opacity: 1; } }
 /* Палець: обводка, доки картку тримають (клас вішає той самий модуль). */
 .art-cards li.is-pressed { border-color: var(--ch); }
-.art-cards li::before { content: counter(card, decimal-leading-zero); grid-row: span 2; font-family: 'Unbounded', sans-serif; font-weight: 800; font-size: clamp(34px, 3.2vw, 44px); line-height: 1; letter-spacing: -0.04em; color: var(--lime); font-variant-numeric: tabular-nums; min-width: 1.7em; }
-.art-cards b { grid-column: 2; font-size: clamp(18px, 1.5vw, 21px); line-height: 1.3; color: #fff; }
+.art-n { grid-row: span 2; font-style: normal; font-family: 'Unbounded', sans-serif; font-weight: 800; font-size: clamp(34px, 3.2vw, 44px); line-height: 1; letter-spacing: -0.04em; color: var(--lime); font-variant-numeric: tabular-nums; min-width: 1.7em; }
+.art-n::before { content: counter(card, decimal-leading-zero); }
+.art-cards b { grid-column: 2; font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: clamp(16px, 1.3vw, 19px); line-height: 1.3; letter-spacing: -0.01em; color: #fff; }   /* Unbounded 600: той самий голос, що в заголовках карток сайту, без важкості */
 .art-cards span { grid-column: 2; color: rgba(255,255,255,.72); font-size: clamp(16px, 1.3vw, 18px); line-height: 1.6; }
 
 .art-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--art-colgap); align-items: stretch; }
@@ -8277,4 +8291,88 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
 }
 
 /* Смуга прогресу читання статті (її створює й веде блок «Блог: анімації прокрутки» в site.js). */
-.art-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 60; background: var(--lime); transform-origin: left center; transform: scaleX(0); pointer-events: none; box-shadow: 0 0 14px var(--lime-glow); }
+.art-progress { position: fixed; bottom: 0; left: 0; right: 0; height: 4px; z-index: 60; background: var(--lime); transform-origin: left center; transform: scaleX(0); pointer-events: none; box-shadow: 0 0 14px var(--lime-glow); }
+
+/* ============ Mega-меню «Блог» (08.10.2026) ============
+   Три частини: «Вибір редакції» (фото-картка на всю висоту, ті самі .nav-mega-visual), «Свіже» (список
+   останніх, ті самі .nav-mega-q) і «Добірка» (чотири картки з обкладинками) із кнопкою «Усі статті». Розмітку
+   генерує tools/build_blog.py між маркерами BLOG-MEGA, на мобільній розділи беруться з прихованого
+   .nav-mega-topics (див. шапку мобільного меню в site.js). Спільні правила mega-панелі лишаються вище. */
+@media (min-width: 1041px) {
+  nav .nav-item-mega.nav-item-mega--blog .nav-mega-grid { grid-template-columns: 1fr 1.1fr 1.6fr; grid-template-rows: none; }
+  nav .nav-item-mega.nav-item-mega--blog .nav-mega-col:nth-child(n) { grid-column: auto; grid-row: auto; }
+  nav .nav-item-mega.nav-item-mega--blog .nav-mega-col:nth-child(n+2) { border-left: 1px solid var(--line); }
+  nav .nav-item-mega.nav-item-mega--blog .nav-mega-col:first-child { display: flex; align-self: stretch; }
+  .nav-item-mega--blog .nav-mega-visual { aspect-ratio: auto; min-height: 330px; }
+  .nav-item-mega--blog .nav-mega-visual.is-soon { cursor: default; }
+  .nav-item-mega--blog .nav-mega-cta.nav-mega-soon { background: rgba(255,255,255,.14); color: #fff !important; }
+  /* «Свіже»: рядок = тема дрібним лаймом над назвою, між рядками тонкі лінії (як у блозі) */
+  .nav-item-mega--blog .nav-mega-qs { gap: 0; }
+  .nav-item-mega--blog .nav-mega-qs .nav-mega-q { flex-direction: column; gap: 4px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+  .nav-item-mega--blog .nav-mega-qs .nav-mega-q:first-child { padding-top: 0; }
+  .nav-item-mega--blog .nav-mega-qs .nav-mega-q:last-child { border-bottom: none; padding-bottom: 0; }
+  .nav-item-mega--blog .nav-mega-qs .nav-mega-q::before { display: none; }
+  .nav-item-mega--blog .nav-mega-qs .nav-blog-cat { display: flex; align-items: center; gap: 8px; }
+  .nav-item-mega--blog .nav-mega-qs .nav-blog-t { font-size: 13.5px; line-height: 1.38; }
+  .nav-item-mega--blog .nav-mega-qs a.nav-mega-q:hover .nav-blog-t { color: var(--lime); }
+  .nav-item-mega--blog .nav-mega-q.is-soon { cursor: default; }
+  .nav-item-mega--blog .nav-mega-q.is-soon .nav-blog-t { color: var(--muted); }
+  .nav-item-mega--blog .nav-mega-q em, .nav-blog-thumb em {
+    flex: none; margin-left: 0; padding: 4px 10px; border-radius: 999px;
+    border: 1px solid rgba(198,255,0,.4); color: var(--lime); background: rgba(10,10,11,.55);
+    font-style: normal; font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; line-height: 1.5;
+  }
+  .nav-blog-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 16px; margin-top: 14px; padding-top: 18px; border-top: 1px solid var(--line); }
+  .nav-blog-card { display: flex; flex-direction: column; gap: 6px; min-width: 0; color: #fff; }
+  .nav-blog-thumb { position: relative; display: block; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; background: rgba(255,255,255,.06); }
+  .nav-blog-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s var(--ease-arrive); }
+  a.nav-blog-card:hover .nav-blog-thumb img { transform: scale(1.05); }
+  .nav-blog-thumb em { position: absolute; left: 8px; top: 8px; margin: 0; }
+  .nav-blog-cat { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 10.5px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--lime-quiet, var(--lime)); }
+  .nav-blog-t { font-size: 12.5px; line-height: 1.35; font-weight: 600; color: #fff; transition: color .2s ease; }
+  a.nav-blog-card:hover .nav-blog-t { color: var(--lime); }
+  .nav-blog-card.is-soon .nav-blog-t { color: var(--muted); }
+  .nav-blog-card.is-soon .nav-blog-thumb img { opacity: .55; }
+  .nav-mega-all {
+    margin-top: auto; display: flex; align-items: center; justify-content: center; gap: 7px;
+    padding: 13px 14px; border-radius: 999px; background: var(--lime); color: #12100a !important;
+    font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 12.5px; white-space: nowrap;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .nav-mega-all { align-self: stretch; }
+  .nav-blog-cards + .nav-mega-all { margin-top: 18px; }
+  .nav-mega-all svg { width: 14px; height: 14px; flex: none; transition: transform .25s var(--ease-arrive); }
+  .nav-mega-all:hover { transform: translateY(-2px); box-shadow: 0 8px 20px -6px var(--lime-glow); }
+  .nav-mega-all:hover svg { transform: translateX(3px); }
+}
+@media (min-width: 1041px) and (max-width: 1180px) {
+  nav .nav-item-mega.nav-item-mega--blog .nav-mega-grid { grid-template-columns: 1fr 1.5fr; }
+  nav .nav-item-mega.nav-item-mega--blog .nav-mega-col:first-child { display: none; }
+  nav .nav-item-mega.nav-item-mega--blog .nav-mega-col:nth-child(2) { border-left: none; }
+}
+
+/* Мобільне меню «Блог»: підпис під пунктом (назва статті) */
+.nav-drawer-sub a span small { display: block; margin-top: 2px; font-size: 12px; line-height: 1.35; font-weight: 500; color: var(--muted); opacity: .8; }
+
+/* Mega-меню «Блог»: у фото-картці «Вибір редакції» тепер маленький бабл, а головне — назва статті, під нею підзаголовок */
+@media (min-width: 1041px) {
+  .nav-item-mega--blog .nav-mega-visual-text { padding: 16px 16px 0; }
+  .nav-mega-badge {
+    display: inline-block; margin-bottom: 12px; padding: 5px 11px; border-radius: 999px;
+    border: 1px solid rgba(198,255,0,.45); background: rgba(10,10,11,.55); color: var(--lime);
+    font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: 1.4px; text-transform: uppercase; line-height: 1.4;
+  }
+  .nav-item-mega--blog .nav-mega-visual-text .nav-mega-title .t-lead { font-size: 21px; line-height: 1.17; }
+  .nav-item-mega--blog .nav-mega-visual-text .nav-mega-title .t-sub { font-size: 13px; line-height: 1.4; font-weight: 400; margin-top: 10px; color: rgba(255,255,255,.78); }
+  .nav-item-mega--blog .nav-mega-visual::after {
+    background: linear-gradient(0deg, rgba(10,10,11,.88) 0%, transparent 30%), linear-gradient(180deg, rgba(10,10,11,.92) 0%, rgba(10,10,11,.6) 52%, transparent 82%);
+  }
+}
+
+/* «Блог»: підсвічення по пунктах, а не по колонках. Колір заголовка й лінія під ним від hover колонки тут не змінюються,
+   рухоме світіння (.nav-mega-glow) ставить site.js рівно під рядок «Свіже» чи картку «Добірки». */
+@media (min-width: 1041px) {
+  .nav-item-mega--blog .nav-mega-col:hover .nav-mega-cat, .nav-item-mega--blog .nav-mega-col:focus-within .nav-mega-cat { color: #fff; }
+  .nav-item-mega--blog .nav-mega-col:hover .nav-mega-qs, .nav-item-mega--blog .nav-mega-col:focus-within .nav-mega-qs { border-top-color: var(--line); }
+  .nav-item-mega--blog a.nav-mega-q, .nav-item-mega--blog a.nav-blog-card { position: relative; z-index: 1; }
+}

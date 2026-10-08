@@ -86,6 +86,108 @@ def card(p, cats):
                esc(p['title']), esc(p['excerpt']), foot))
 
 
+# ---- Mega-меню «Блог» у шапці (нове 08.10.2026) ----
+# Три частини: «Вибір редакції» (велика фото-картка), «Свіже» (список останніх) і «Добірка» (чотири картки
+# з обкладинками) + кнопка «Усі статті». Генерується з posts.json і вставляється між маркерами
+# BLOG-MEGA:START/END у шапку кожної української сторінки (меню в нас продубльоване по файлах). В англійську
+# версію не потрапляє: блог поки лише українською (build_en.py вирізає цей блок перед перекладом).
+MEGA_PAGES = ['index.html', 'privacy/index.html', 'experiences/index.html', 'experiences/corporate/index.html',
+              'experiences/wedding/index.html', 'faq/index.html']
+MEGA_START = '<!-- BLOG-MEGA:START (генерує tools/build_blog.py, руками не правити) -->'
+MEGA_END = '<!-- BLOG-MEGA:END -->'
+_SV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">%s</svg>'
+MEGA_ICONS = {
+    'new': '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+    'pick': '<rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/>',
+    'wedding': '<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>',
+    'corporate': '<rect x="3" y="8" width="18" height="12" rx="2"/><path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/>',
+    'quiet': '<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>',
+    'birthday': '<rect x="3.5" y="9" width="17" height="11" rx="1.5"/><path d="M12 9v11M3.5 13h17"/><path d="M12 9c-2.5 0-4-1-4-2.5S9.5 3.5 12 9zm0 0c2.5 0 4-1 4-2.5S14.5 3.5 12 9z"/>',
+    'price': '<path d="M20 12.5 12.5 20a1.5 1.5 0 0 1-2.12 0L3.5 13.1V4.5h8.6l7.9 7.9a1.5 1.5 0 0 1 0 2.1z"/><circle cx="8" cy="9" r="1.2"/>',
+    'format': '<path d="M4 13v-1a8 8 0 0 1 16 0v1"/><rect x="2.5" y="13" width="4" height="6" rx="1.5"/><rect x="17.5" y="13" width="4" height="6" rx="1.5"/>',
+}
+_ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>'
+
+
+def blog_mega_html(data):
+    cats = {c['id']: c['name'] for c in data['categories']}
+    posts = data['posts']
+    feat = next((p for p in posts if p.get('featured')), posts[0])
+    rest = [p for p in posts if p is not feat]
+    fresh = rest[:4]
+    # «Добірка»: спершу готові статті (щоб було що відкрити), далі заглушки з решти списку
+    pick = ([p for p in rest if p['status'] == 'published'] + [p for p in rest[4:] if p['status'] != 'published'])[:4]
+    ic = lambda k: '<span class="nav-mega-icon" aria-hidden="true">%s</span>' % (_SV % MEGA_ICONS[k])
+    live = lambda p: p['status'] == 'published'
+    vis = ('<div class="nav-mega-visual-text"><span class="nav-mega-badge">Вибір редакції</span>'
+           '<div class="nav-mega-title"><span class="t-lead">%s</span><span class="t-sub">%s</span></div></div>'
+           % (esc(feat['title']), esc(feat.get('menu_sub', feat['excerpt']))))
+    if live(feat):
+        col1 = ('<a href="/blog/%s/" class="nav-mega-visual">\n                <img src="%s" alt="" loading="lazy">\n                %s\n'
+                '                <span class="nav-mega-cta">Читати статтю%s</span>\n              </a>' % (feat['slug'], esc(feat['image']), vis, _ARROW))
+    else:
+        col1 = ('<div class="nav-mega-visual is-soon">\n                <img src="%s" alt="" loading="lazy">\n                %s\n'
+                '                <span class="nav-mega-cta nav-mega-soon">Скоро</span>\n              </div>' % (esc(feat['image']), vis))
+
+    def q(p):
+        cat = esc(cats[p['category']])
+        if live(p):
+            return ('<a href="/blog/%s/" class="nav-mega-q"><span class="nav-blog-cat">%s</span><span class="nav-blog-t">%s</span></a>'
+                    % (p['slug'], cat, esc(p['title'])))
+        return ('<span class="nav-mega-q is-soon"><span class="nav-blog-cat">%s<em>Скоро</em></span><span class="nav-blog-t">%s</span></span>'
+                % (cat, esc(p['title'])))
+    col2 = ('<div class="nav-mega-card">\n                <div class="nav-mega-cat-head">%s<a href="/blog/" class="nav-mega-cat">Свіже</a></div>\n'
+            '                <div class="nav-mega-qs">\n                  %s\n                </div>\n              </div>'
+            % (ic('new'), '\n                  '.join(q(p) for p in fresh)))
+
+    def mini(p):
+        tag = ('a href="/blog/%s/"' % p['slug']) if live(p) else 'span'
+        end = 'a' if live(p) else 'span'
+        return ('<%s class="nav-blog-card%s"><span class="nav-blog-thumb"><img src="%s" alt="" loading="lazy">%s</span>'
+                '<span class="nav-blog-cat">%s</span><span class="nav-blog-t">%s</span></%s>'
+                % (tag, '' if live(p) else ' is-soon', esc(p['image']), '' if live(p) else '<em>Скоро</em>',
+                   esc(cats[p['category']]), esc(p['title']), end))
+    col3 = ('<div class="nav-mega-card">\n                <div class="nav-mega-cat-head">%s<a href="/blog/#topics" class="nav-mega-cat">Добірка</a></div>\n'
+            '                <div class="nav-blog-cards">\n                  %s\n                </div>\n'
+            '                <a href="/blog/" class="nav-mega-all">Усі статті%s</a>\n              </div>'
+            % (ic('pick'), '\n                  '.join(mini(p) for p in pick), _ARROW))
+    # Пункти для мобільного меню (JS читає .nav-mega-topics; на десктопі блок прихований). Не теми (вони дублюють
+    # «Тихі враження» й «Питання»), а те, що є лише в блозі: вибір редакції й найновіша стаття, підпис = назва статті.
+    mob = []
+    if live(feat):
+        mob.append(('pick', 'Вибір редакції', feat))
+    newest = next((p for p in posts if live(p) and p is not feat), None)
+    if newest:
+        mob.append(('new', 'Найновіше', newest))
+    # «Найчитаніше»: лише за ручною позначкою "popular": true у posts.json (дані про читання беруться з GA4 власником);
+    # без позначки пункту нема, щоб не називати найчитанішою статтю без підстав.
+    top = next((p for p in posts if p.get('popular') and live(p)), None)
+    if top:
+        mob.append(('format', 'Найчитаніше', top))
+    topics = ''.join('<div class="nav-mega-cat-head">%s<a href="/blog/%s/" class="nav-mega-cat" data-sub="%s">%s</a></div>'
+                     % (ic(k), p['slug'], esc(p['title']), lab) for k, lab, p in mob)
+    return ('    <div class="nav-item-mega nav-item-mega--blog">\n'
+            '      <a href="/blog/" class="nav-mega-trigger">Блог</a>\n'
+            '      <div class="nav-mega-panel">\n        <div class="nav-mega-grid">\n'
+            '            <div class="nav-mega-col">\n              %s\n            </div>\n'
+            '            <div class="nav-mega-col">\n              %s\n            </div>\n'
+            '            <div class="nav-mega-col">\n              %s\n            </div>\n'
+            '        </div>\n        <div class="nav-mega-topics" hidden>%s</div>\n      </div>\n    </div>' % (col1, col2, col3, topics))
+
+
+def inject_blog_mega(data):
+    html_ = blog_mega_html(data)
+    for rel in MEGA_PAGES:
+        path = os.path.join(ROOT, rel)
+        s = io.open(path, encoding='utf-8').read()
+        a, b = s.find(MEGA_START), s.find(MEGA_END)
+        if a < 0 or b < 0:
+            sys.exit('blog: у %s немає маркерів BLOG-MEGA' % rel)
+        new = s[:a] + MEGA_START + '\n' + html_ + '\n    ' + s[b:]
+        if new != s:
+            io.open(path, 'w', encoding='utf-8').write(new)
+
+
 def build(preview=False):
     data = json.load(io.open(POSTS, encoding='utf-8'))
     cats = {c['id']: c['name'] for c in data['categories']}
@@ -98,6 +200,7 @@ def build(preview=False):
         if p['status'] in ('draft', 'published') and not os.path.exists(os.path.join(ROOT, 'blog_src', p['slug'] + '.json')):
             sys.exit('blog: немає blog_src/%s.json для статті зі статусом %s' % (p['slug'], p['status']))
     published = [p for p in posts if p['status'] == 'published']
+    inject_blog_mega(data)   # шапка всіх сторінок, зокрема experiences/index.html, з якої беремо меню для блогу
 
     src = io.open(SRC_PAGE, encoding='utf-8').read()
     pre = src[:src.index('<title>')]
@@ -139,7 +242,9 @@ def build(preview=False):
             '<meta property="og:type" content="website">\n<meta property="og:site_name" content="SILENT">\n'
             '<meta property="og:locale" content="uk_UA">\n<meta property="og:title" content="%s">\n'
             '<meta property="og:description" content="%s">\n<meta property="og:url" content="%s">\n'
-            '<meta property="og:image" content="%s/images/og/og-experiences.jpg">\n'
+            '<meta property="og:image" content="%s/images/blog/og-blog.jpg">\n'
+            '<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">\n'
+            '<meta name="twitter:card" content="summary_large_image">\n'
             '<link rel="canonical" href="%s">\n'
             % (esc(TITLE), esc(DESC), robots, esc(TITLE), esc(DESC), url, SITE, url)
             + head_assets
@@ -227,7 +332,7 @@ def article_blocks(blocks):
             # які починаються на одній лінії; текст розкладено вручну так, щоб вони були рівні за висотою.
             if b.get('cards'):
                 # Кроки: окремі картки в дві колонки (без ефекту стопки), нумерація лічильником у CSS.
-                items = ''.join('<li><b>%s</b><span>%s</span></li>' % (esc(x['t']), inline(x['d'])) for x in b['cards'])
+                items = ''.join('<li><i class="art-n" aria-hidden="true"></i><b>%s</b><span>%s</span></li>' % (esc(x['t']), inline(x['d'])) for x in b['cards'])
                 lead = '<p class="art-cards-lead">%s</p>' % inline(b['lead']) if b.get('lead') else ''
                 out.append('<section class="art-blk"><div class="art-cols"><h2>%s</h2>%s<ol class="art-cards">%s</ol></div></section>'
                            % (esc(b['title']), lead, items))
@@ -265,7 +370,7 @@ def build_article(p, data, cats, posts, shared, card_fn):
     meta_desc = a.get('meta', a['subtitle'])
     page_title = a.get('seo_title') or (plain_title + ' | Блог SILENT')
     robots = '' if published else '<meta name="robots" content="noindex, follow">\n'
-    img = SITE + a['cover']['src']
+    img = SITE + a.get('og', a['cover']['src'])   # окрема OG-картка 1200×630, якщо є (tools/make_og.py), інакше фото обкладинки
     ld = {
         '@context': 'https://schema.org',
         '@graph': [
@@ -293,7 +398,7 @@ def build_article(p, data, cats, posts, shared, card_fn):
             '<meta property="og:type" content="article">\n<meta property="og:site_name" content="SILENT">\n'
             '<meta property="og:locale" content="uk_UA">\n<meta property="og:title" content="%s">\n'
             '<meta property="og:description" content="%s">\n<meta property="og:url" content="%s">\n'
-            '<meta property="og:image" content="%s">\n<link rel="canonical" href="%s">\n'
+            '<meta property="og:image" content="%s">\n<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">\n<meta name="twitter:card" content="summary_large_image">\n<link rel="canonical" href="%s">\n'
             % (esc(page_title), esc(meta_desc), robots, esc(page_title), esc(meta_desc), url, esc(img), url)
             + assets + '<script type="application/ld+json">\n%s\n</script>\n</head>\n'
             % json.dumps(ld, ensure_ascii=False, indent=2))

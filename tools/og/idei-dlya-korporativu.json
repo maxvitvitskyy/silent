@@ -1,0 +1,22 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-idei-dlya-korporativu.jpg",
+  "bg": {
+    "src": "images/corp/neonova-vechirka-v-rytmi-silent-disco.webp",
+    "pos": "50% 28%"
+  },
+  "heading": [
+    "Ідеї для корпоративу",
+    "без конкурсів і сцени"
+  ],
+  "subtitle": [
+    [
+      "Розваги, до яких долучаються самі."
+    ]
+  ],
+  "pills": [
+    "<b>Silent Disco</b> для команди",
+    "<b>Тімбілдинг</b> без нудьги",
+    "<b>Новорічний</b> корпоратив"
+  ]
+}

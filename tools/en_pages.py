@@ -346,8 +346,8 @@ T_PAGE_ALL = {
   "Corporate party entertainment: frequently asked questions about Silent Disco",
 "Що організувати на корпоративі замість конкурсів?":
   "What can we organise at a corporate party instead of contests?",
-"Silent disco: гості самі обирають канал і гучність, тож нікого не треба виводити на сцену й вмовляти. Хто хоче поговорити, знімає навушники на шию, і розмова йде звичайним голосом.":
-  "Silent disco: guests pick their own channel and volume, so nobody has to be brought on stage or persuaded. Anyone who wants to talk takes the headphones off around the neck, and the conversation goes on in a normal voice.",
+"Silent disco: гості самі обирають канал і гучність, тож нікого не треба виводити на сцену й вмовляти. Хто хоче поговорити, знімає навушники на шию, і розмова йде звичайним голосом. Більше ідей читайте в статті <a href=\"/blog/idei-dlya-korporativu/\">Ідеї для корпоративу: розваги без конкурсів і сцени</a>.":
+  "Silent disco: guests pick their own channel and volume, so nobody has to be brought on stage or persuaded. Anyone who wants to talk takes the headphones off around the neck, and the conversation goes on in a normal voice. More ideas in the article (in Ukrainian): <a href=\"/blog/idei-dlya-korporativu/\">Ideas for a corporate party: entertainment without contests or a stage</a>.",
 "Чи підійде формат для новорічного корпоративу?":
   "Does the format suit a New Year corporate party?",
 "Так, формат працює в залі, офісі чи ресторані. Обладнання в нас обмежене, а найпопулярніші дати, особливо у високий сезон, розбирають наперед, тож краще залишити заявку заздалегідь.":
