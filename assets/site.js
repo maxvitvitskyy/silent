@@ -3277,20 +3277,25 @@ function orderExperience(name, opts){
   // Персональних даних у параметрах немає: ні href (у t.me/mailto може бути
   // текст чи пошта), ні імен — лише тип каналу, місце на сторінці й мова.
   // link_location визначаємо за місцем у DOM: header / hero / footer /
-  // contact-section / floating (плаваюча кнопка Telegram) / other.
+  // contact-section / floating (плаваюча кнопка Telegram) / blog_end / blog_inline / other.
+  // Посилання t.me/share/... (кнопка «Поділитися» в статті) НЕ контакт: рахується лише cta_click із cta_name=share-telegram.
   function gaLinkLocation(el) {
     if (el.closest('.tg-float')) return 'floating';
     if (el.closest('nav, .nav-drawer')) return 'header';
     if (el.closest('.site-footer, footer')) return 'footer';
     if (el.closest('.hero, .exp-cover, .exp-head')) return 'hero';
     if (el.closest('#book, .form-section, .band, .exp-ready, .channels-panel, .ch-panel')) return 'contact-section';
+    // Стаття блогу: лаймова плашка CTA в кінці (.art-cta) і посилання всередині тексту (вступ, потік тексту, картки, головна думка).
+    // Кнопки «Поділитися» (.art-share) сюди не входять: вони лишаються в 'other'.
+    if (el.closest('.art-cta')) return 'blog_end';
+    if (el.closest('.art-lead, .art-flow, .art-cards, .art-key')) return 'blog_inline';
     return 'other';
   }
   const gaLang = () => (document.documentElement.lang || 'uk').slice(0, 2) === 'en' ? 'en' : 'uk';
   const GA_CONTACTS = [
     ['click_email',     (h) => /^mailto:/i.test(h)],
     ['click_phone',     (h) => /^tel:/i.test(h)],
-    ['click_telegram',  (h) => /^tg:/i.test(h) || /^https?:\/\/(www\.)?t\.me\//i.test(h)],
+    ['click_telegram',  (h) => /^tg:/i.test(h) || (/^https?:\/\/(www\.)?t\.me\//i.test(h) && !/^https?:\/\/(www\.)?t\.me\/share(\/|\?|$)/i.test(h))],
     ['click_instagram', (h) => /^https?:\/\/(www\.)?(instagram\.com|ig\.me)\//i.test(h)],
   ];
   document.addEventListener('click', (e) => {
