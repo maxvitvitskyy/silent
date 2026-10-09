@@ -5686,23 +5686,38 @@ function orderExperience(name, opts){
     const bar = document.querySelector('.blog-filter');
     if (!bar) return;
     const chips = [...bar.querySelectorAll('.blog-chip')];
+    const grid = document.querySelector('.blog-grid');
     const cards = [...document.querySelectorAll('.blog-grid [data-cat]')];
-    function apply(cat, push){
+    // Той самий перехід, що на /experiences/ (flipFilter, GSAP Flip): картки, що лишились, переїжджають на нове місце,
+    // зайві стискаються й гаснуть, нові «вмикаються». Без Flip, без GSAP чи при prefers-reduced-motion фільтр просто
+    // ховає й показує картки, як і раніше. Поява карток при прокрутці (батч нижче) може бути ще в дорозі: доводимо
+    // її до кінця ДО зняття стану, інакше Flip запам'ятав би картки напівпрозорими й зсунутими.
+    function apply(cat, push, animate){
       if (!chips.some(c => c.dataset.cat === cat)) cat = 'all';
-      chips.forEach(c => {
-        const on = c.dataset.cat === cat;
-        c.classList.toggle('is-on', on);
-        c.setAttribute('aria-pressed', on ? 'true' : 'false');
-      });
-      cards.forEach(el => { el.hidden = !(cat === 'all' || el.dataset.cat === cat); });
+      const mutate = () => {
+        chips.forEach(c => {
+          const on = c.dataset.cat === cat;
+          c.classList.toggle('is-on', on);
+          c.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        cards.forEach(el => { el.hidden = !(cat === 'all' || el.dataset.cat === cat); });
+      };
+      let done = false;
+      if (animate !== false && grid && cards.length){
+        if (window.gsap) window.gsap.getTweensOf(cards).forEach(tw => tw.progress(1));
+        done = flipFilter(cards, mutate, [grid]);
+      }
+      if (!done) mutate();
       if (push) history.replaceState(null, '', cat === 'all' ? location.pathname : '#cat-' + cat);
+      // Висота сторінки змінилась: тригери прокрутки перераховуємо після переходу (Flip 0.5с).
+      [700, 1500].forEach(ms => setTimeout(() => { if (window.ScrollTrigger) window.ScrollTrigger.refresh(); }, ms));
     }
     bar.addEventListener('click', e => {
       const chip = e.target.closest('.blog-chip');
       if (chip) apply(chip.dataset.cat, true);
     });
     const m = /^#cat-([a-z-]+)$/.exec(location.hash);
-    if (m) apply(m[1]);
+    if (m) apply(m[1], false, false);
   })();
 
   // ---- Стаття: рядки двох колонок на одній сітці ----

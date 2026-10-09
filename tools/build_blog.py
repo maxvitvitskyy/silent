@@ -66,6 +66,13 @@ def tint(image_url):
     return out
 
 
+def ttl(p):
+    """Назва статті в списках блогу: для опублікованої це посилання на статтю (клікабельний заголовок), для заглушки просто текст."""
+    if p['status'] != 'published':
+        return esc(p['title'])
+    return '<a class="blog-title-link" href="/blog/%s/">%s</a>' % (p['slug'], esc(p['title']))
+
+
 def card(p, cats):
     """Картка в загальній сітці. Заглушка: <article> без посилання."""
     cat = cats[p['category']]
@@ -83,7 +90,7 @@ def card(p, cats):
             '          <div class="uc-body">\n            <span class="blog-cat">%s</span>\n'
             '            <h3>%s</h3>\n            <p>%s</p>\n            %s\n          </div>\n        </article>\n'
             % (' is-soon' if p['status'] != 'published' else '', p['category'], style, media, esc(cat),
-               esc(p['title']), esc(p['excerpt']), foot))
+               ttl(p), esc(p['excerpt']), foot))
 
 
 # ---- Mega-меню «Блог» у шапці (нове 08.10.2026) ----
@@ -231,6 +238,7 @@ def build(preview=False):
     nav_block = src[body0:main0]
     form_block = src[src.index('<section class="form-section" id="book">'):src.index('</main>')]
     tail = src[src.index('</main>'):]
+    tail_flip = tail   # для /blog/: Flip потрібен фільтру тем (та сама анімація, що в каталозі); у статтях він не потрібен
     tail = re.sub(r'<!-- Flip[^\n]*\n(?:[^\n]*\n)??<script src="\.\./assets/vendor/Flip\.min\.js[^"]*"></script>\n', '', tail)
     tail = re.sub(r'<script src="\.\./assets/vendor/Flip\.min\.js[^"]*"></script>\n', '', tail)
     for blk in (nav_block, tail):
@@ -238,6 +246,7 @@ def build(preview=False):
     sw = '<a href="/en/experiences/" hreflang="en" lang="en">EN</a>'
     nav_block = nav_block.replace(sw, '<a href="/en/" hreflang="en" lang="en">EN</a>')
     tail = tail.replace(sw, '<a href="/en/" hreflang="en" lang="en">EN</a>')
+    tail_flip = tail_flip.replace(sw, '<a href="/en/" hreflang="en" lang="en">EN</a>')
 
     shared = dict(pre=pre, head_assets=head_assets, nav_block=nav_block, form_block=form_block, tail=tail)
     url = SITE + '/blog/'
@@ -292,11 +301,11 @@ def build(preview=False):
             '        <span class="blog-badge">Вибір редакції</span>\n'
             '        <h2>%s</h2>\n        <p>%s</p>\n      </div>\n      %s\n    </article>\n'
             % (' is-soon' if feat['status'] != 'published' else '', esc(feat['image']), esc(feat['alt']),
-               esc(feat['title']), esc(feat['excerpt']), cta))
+               ttl(feat), esc(feat['excerpt']), cta))
     items = ''.join(
         '        <li class="blog-latest-item%s">\n          <span class="blog-num" aria-hidden="true">%02d</span>\n'
         '          <div>\n            <span class="blog-cat">%s</span>\n            <h3>%s</h3>\n            %s\n          </div>\n        </li>\n'
-        % (' is-soon' if p['status'] != 'published' else '', i + 1, esc(cats[p['category']]), esc(p['title']), meta(p))
+        % (' is-soon' if p['status'] != 'published' else '', i + 1, esc(cats[p['category']]), ttl(p), meta(p))
         for i, p in enumerate(latest))
     latest_html = ('    <aside class="blog-latest glass-panel" aria-labelledby="blogLatestTitle">\n'
                    '      <h2 id="blogLatestTitle" class="blog-latest-title">Свіже</h2>\n      <ol class="blog-latest-list">\n%s      </ol>\n    </aside>\n' % items)
@@ -323,7 +332,7 @@ def build(preview=False):
             '      <h2>Плануєте захід?</h2>\n      <p>Залиште заявку: перевіримо дату й порахуємо вартість для вашої події.</p>\n'
             '    </div>\n  </div>\n</section>\n\n%s'
             % (hero, latest_html, chips, cards, form_block))
-    out = head + nav_block + main + tail
+    out = head + nav_block + main + tail_flip
     os.makedirs(OUT_DIR, exist_ok=True)
     io.open(os.path.join(OUT_DIR, 'index.html'), 'w', encoding='utf-8').write(out)
     print('blog/index.html зібрано: %d матеріалів (%d опубліковано, решта заглушки)' % (len(posts), len(published)))

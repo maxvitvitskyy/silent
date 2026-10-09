@@ -8500,3 +8500,10 @@ html { overflow-x: clip; }
   .art-cell-l { display: block; margin-bottom: 2px; font: 700 10.5px/1.4 'Manrope', sans-serif; letter-spacing: 1.6px; text-transform: uppercase; color: var(--muted-2, var(--muted)); }
   .art-table td.is-yes .art-cell-l { color: var(--lime-quiet); }
 }
+
+/* Заголовки статей у списках блогу (картка «Вибір редакції», «Свіже», сітка) клікабельні: посилання успадковує вигляд заголовка,
+   на ховері стає лаймовим. Заглушки «Скоро» лишаються звичайним текстом. */
+.blog-title-link { color: inherit; text-decoration: none; transition: color .2s ease; }
+@media (hover: hover) { .blog-title-link:hover { color: var(--lime); } }
+.blog-title-link:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; border-radius: 6px; }
+.blog-hero-text .blog-title-link { position: relative; z-index: 2; }
