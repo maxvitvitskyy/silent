@@ -858,4 +858,10 @@ T_PAGE_ALL = {
   "Ready to organise your silent disco?",
 "Розкажіть про свою подію: кількість гостей, дату та локацію. Ми підберемо комплект Silent Disco і порахуємо вартість саме для неї.":
   "Tell us about your event: the number of guests, the date and the location. We will choose a Silent Disco set and calculate the cost for it.",
+"Різна музика — одна спільна вечірка. Кожен обирає свій канал, танцює у власному ритмі, а між треками ви так само спілкуєтесь і смієтесь разом. SILENT організовує Silent Disco під ключ у Києві та по всій Україні.":
+  "Different music, one shared party. Everyone chooses their own channel and dances at their own pace, while between tracks you still talk and laugh together. SILENT organises Silent Disco full-service in Kyiv and across Ukraine.",
+"Silent Disco — флагманський формат SILENT. Ми беремо на себе підготовку, налаштування обладнання та супровід події, щоб ви могли зосередитися на гостях і самому святі.":
+  "Silent Disco is the flagship format of SILENT. We take care of the preparation, the equipment setup and the support of the event, so that you can focus on your guests and the celebration itself.",
+"<b>Просто користуватися</b> <span>Гість торкається навушника й обирає канал. Налаштування та перевірку сигналу беремо на себе.</span>":
+  "<b>Simple to use</b> <span>A guest touches the headphone and chooses a channel. We take care of the setup and the signal check.</span>",
 }
