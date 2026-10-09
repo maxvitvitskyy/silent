@@ -281,15 +281,18 @@ def build(preview=False):
             return '<span class="blog-soon">Скоро</span>'
         return '<a class="blog-read" href="/blog/%s/">Читати</a>' % p['slug']
 
+    # Картка «Вибір редакції» повторює плашку з mega-меню: бейдж, заголовок і підзаголовок угорі, лаймова кнопка на всю ширину внизу.
+    arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
+    cta = ('<a class="blog-read blog-hero-cta" href="/blog/%s/">Читати статтю%s</a>' % (feat['slug'], arrow)) if feat['status'] == 'published' \
+        else '<span class="blog-hero-cta is-soon">Скоро</span>'
     hero = ('    <article class="blog-hero-card%s">\n'
             '      <img src="%s" alt="%s" width="768" height="432">\n'
             '      <div class="blog-hero-shade" aria-hidden="true"></div>\n'
-            '      <span class="blog-badge">Вибір редакції</span>\n'
             '      <div class="blog-hero-text">\n'
-            '        <span class="blog-cat">%s</span>\n'
-            '        <h2>%s</h2>\n        <p>%s</p>\n        %s\n      </div>\n    </article>\n'
+            '        <span class="blog-badge">Вибір редакції</span>\n'
+            '        <h2>%s</h2>\n        <p>%s</p>\n      </div>\n      %s\n    </article>\n'
             % (' is-soon' if feat['status'] != 'published' else '', esc(feat['image']), esc(feat['alt']),
-               esc(cats[feat['category']]), esc(feat['title']), esc(feat['excerpt']), meta(feat)))
+               esc(feat['title']), esc(feat['excerpt']), cta))
     items = ''.join(
         '        <li class="blog-latest-item%s">\n          <span class="blog-num" aria-hidden="true">%02d</span>\n'
         '          <div>\n            <span class="blog-cat">%s</span>\n            <h3>%s</h3>\n            %s\n          </div>\n        </li>\n'

@@ -8433,3 +8433,27 @@ html { overflow-x: clip; }
    зріз по боках. Розширюємо область обрізання запасом, а вміст повертаємо на місце від'ємним margin. */
 .art-pair { margin-inline: -48px; padding-inline: 48px; }
 @media (max-width: 720px) { .art-pair { margin-inline: -28px; padding-inline: 28px; } }
+
+/* «Вибір редакції»: затемнення фото лише легке й лише під текстом (було по всій картці), решта кадру видна. Картка блогу повторює плашку з mega-меню:
+   бейдж-контур, заголовок і підзаголовок угорі, лаймова кнопка на всю ширину внизу. */
+.blog-hero-card { justify-content: flex-start; }
+.blog-hero-shade { background: linear-gradient(180deg, rgba(10,10,11,.66) 0%, rgba(10,10,11,.38) 34%, rgba(10,10,11,0) 58%); }
+.blog-hero-text { gap: 0; padding: clamp(22px, 2.6vw, 34px) clamp(22px, 2.6vw, 34px) 0; }
+.blog-hero-text .blog-badge {
+  position: static; align-self: flex-start; margin-bottom: 14px; padding: 6px 13px;
+  border: 1px solid rgba(198,255,0,.45); background: rgba(10,10,11,.55); color: var(--lime);
+  font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 1.6px; line-height: 1.4;
+}
+.blog-hero-text h2 { font-weight: 800; letter-spacing: -.02em; line-height: 1.15; max-width: 22ch; }
+.blog-hero-text p { margin-top: 12px; font-size: clamp(14px, 1.3vw, 16px); line-height: 1.45; color: rgba(255,255,255,.82); max-width: 40ch; }
+.blog-hero-cta {
+  position: absolute; left: clamp(14px, 1.6vw, 20px); right: clamp(14px, 1.6vw, 20px); bottom: clamp(14px, 1.6vw, 20px); z-index: 1;
+  display: flex; align-items: center; justify-content: center; gap: 9px; min-height: 52px; margin: 0; padding: 0 20px; border-radius: 999px;
+  background: var(--lime); color: #12100a; font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 14px; white-space: nowrap;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.blog-hero-cta svg { width: 16px; height: 16px; flex: none; transition: transform .25s var(--ease-arrive); }
+.blog-hero-cta.is-soon { background: rgba(10,10,11,.6); color: var(--muted); border: 1px solid rgba(255,255,255,.18); font-family: 'Manrope', sans-serif; letter-spacing: 1.5px; text-transform: uppercase; font-size: 12px; }
+@media (hover: hover) { .blog-hero-card:hover .blog-hero-cta:not(.is-soon) { transform: translateY(-2px); box-shadow: 0 8px 20px -6px var(--lime-glow); } .blog-hero-card:hover .blog-hero-cta svg { transform: translateX(3px); } }
+/* Меню: те саме легке затемнення лише під текстом угорі, внизу нічого (кнопка суцільна). */
+.nav-item-mega--blog .nav-mega-visual::after { background: linear-gradient(180deg, rgba(10,10,11,.66) 0%, rgba(10,10,11,.38) 42%, rgba(10,10,11,0) 66%); }
