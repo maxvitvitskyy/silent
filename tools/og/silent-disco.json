@@ -1,0 +1,32 @@
+{
+  "out": "images/silent-disco/og-silent-disco.jpg",
+  "heading": [
+    "Silent Disco",
+    "тиха",
+    "дискотека"
+  ],
+  "subtitle": [
+    [
+      "Музика звучить у навушниках,",
+      "а ззовні тиша."
+    ]
+  ],
+  "pills": [
+    "від <b>40</b> навушників",
+    "<b>3</b> канали музики",
+    "Будь-яка <b>локація</b>",
+    "<b>Київ</b> та Україна"
+  ],
+  "big": {
+    "src": "images/silent-disco/silent-disco-tantsyuyuchi-podrugy-z-pidnyatymy-rukamy.webp",
+    "pos": "50% 35%"
+  },
+  "top": {
+    "src": "images/silent-disco/silent-disco-try-podrugy-na-dyskoteky.webp",
+    "pos": "50% 40%"
+  },
+  "bottom": {
+    "src": "images/silent-disco/silent-disco-tanspol-na-festyvali.webp",
+    "pos": "50% 40%"
+  }
+}

@@ -92,7 +92,7 @@ def card(p, cats):
 # BLOG-MEGA:START/END у шапку кожної української сторінки (меню в нас продубльоване по файлах). В англійську
 # версію не потрапляє: блог поки лише українською (build_en.py вирізає цей блок перед перекладом).
 MEGA_PAGES = ['index.html', 'privacy/index.html', 'experiences/index.html', 'experiences/corporate/index.html',
-              'experiences/wedding/index.html', 'faq/index.html']
+              'experiences/wedding/index.html', 'experiences/birthday/index.html', 'experiences/silent-disco/index.html', 'faq/index.html']
 MEGA_START = '<!-- BLOG-MEGA:START (генерує tools/build_blog.py, руками не правити) -->'
 MEGA_END = '<!-- BLOG-MEGA:END -->'
 _SV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">%s</svg>'
