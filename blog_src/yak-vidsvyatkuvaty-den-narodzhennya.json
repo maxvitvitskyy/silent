@@ -11,8 +11,8 @@
   "date": "8 жовтня 2026",
   "read": "6 хв читання",
   "cover": {
-    "src": "/images/shift-new.webp",
-    "alt": "Компанія друзів сміється у світних зелених навушниках Silent Disco на дні народження: вечірка без колонок"
+    "src": "/images/birthday/den-narodzhennya-tantsi-v-navushnykakh.webp",
+    "alt": "Гості танцюють на дні народження в світних навушниках Silent Disco: вечірка без колонок"
   },
   "lead": "Хороший день народження це не програма, яку гості мусять пройти, а вечір, у якому кожному є місце. Коли друзі, колеги й родичі різні, найпростіше дати кожному обрати своє, а спільним лишити сам вечір.",
   "blocks": [
@@ -98,8 +98,8 @@
     {
       "type": "pair",
       "image": {
-        "src": "/images/corp/yaskrave-selfi-na-vechirtsi-v-navushnykakh.webp",
-        "alt": "Друзі усміхаються на спільному селфі в навушниках Silent Disco на вечірці"
+        "src": "/images/birthday/den-narodzhennya-selfi-podrug-silent-disco.webp",
+        "alt": "Подруги знімають спільне селфі в навушниках Silent Disco на дні народження"
       },
       "quote": "Хороший день народження це не коли всі роблять одне й те саме."
     },
@@ -186,6 +186,20 @@
         }
       ],
       "layout": "cols"
+    },
+    {
+      "type": "photos",
+      "images": [
+        {
+          "src": "/images/corp/nichna-vechirka-pid-syayvom-navushnykiv.webp",
+          "alt": "Компанія друзів святкує в навушниках Silent Disco під шатром із гірляндами та кульками"
+        },
+        {
+          "src": "/images/birthday/den-narodzhennya-dvi-podrugy-z-koktejlyamy.webp",
+          "pos": "50% 40%",
+          "alt": "Дві подруги з напоями усміхаються в навушниках Silent Disco на святковій вечірці"
+        }
+      ]
     },
     {
       "type": "text",

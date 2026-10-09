@@ -398,6 +398,19 @@ def article_blocks(blocks):
             im = b['image']
             out.append('<div class="art-pair"><figure class="art-pair-img"><img src="%s" alt="%s" loading="lazy" decoding="async" width="1200" height="900"></figure>'
                        '<blockquote class="art-key"><div class="band-aurora" aria-hidden="true"><div class="aurora-liquid"></div></div><p>%s</p></blockquote></div>' % (esc(im['src']), esc(im['alt']), esc(b['quote'])))
+        elif t == 'photos':
+            # Ряд із двох-трьох фото на ширину тексту (без плашки з цитатою), для живих кадрів посеред статті.
+            n = len(b['images'])
+            def _wh(src):
+                from PIL import Image
+                try:
+                    return Image.open(os.path.join(ROOT, src.lstrip('/'))).size
+                except Exception:
+                    return (1200, 900)
+            figs = ''.join('<figure><img src="%s" alt="%s" loading="lazy" decoding="async" width="%d" height="%d"%s></figure>'
+                           % ((esc(im['src']), esc(im['alt'])) + _wh(im['src']) + (((' style="object-position: %s"' % esc(im['pos'])) if im.get('pos') else ''),))
+                           for im in b['images'])
+            out.append('<div class="art-photos is-%d">%s</div>' % (n, figs))
         else:
             sys.exit('blog: невідомий тип блоку %r' % t)
     return '\n'.join(out)

@@ -504,4 +504,32 @@ T_PAGE_ALL = {
   "Guests at a birthday have different tastes. Let everyone listen to their own while you all stay at one party: no arguments about the music and no noise outside. A silent disco for birthdays in Kyiv and across Ukraine.",
 "Від заявки до танцполу чотири кроки. Від вас дата й приблизна кількість гостей, від нас усе інше.":
   "Four steps from the request to the dance floor. From you, the date and the approximate number of guests; from us, everything else.",
+"Дві подруги під кольоровим світлом на дні народження в навушниках Silent Disco":
+  "Two friends under colored light at a birthday in Silent Disco headphones",
+"Дві подруги з напоями в навушниках Silent Disco на нічній вечірці":
+  "Two friends with drinks in Silent Disco headphones at a night party",
+"Пара танцює на дні народження в навушниках Silent Disco із червоною підсвіткою":
+  "A couple dancing at a birthday in Silent Disco headphones with red lights",
+"Дівчина знімає селфі в навушниках Silent Disco на яскравій вечірці":
+  "A girl taking a selfie in Silent Disco headphones at a bright party",
+"Гості танцюють у навушниках Silent Disco, що світяться різними кольорами, на дні народження":
+  "Guests dancing at a birthday in Silent Disco headphones that glow in different colors",
+"Група подруг із піднятими руками на дні народження в навушниках Silent Disco":
+  "A group of friends with raised hands at a birthday in Silent Disco headphones",
+"Гості танцюють на вечірці в навушниках Silent Disco, що світяться зеленим":
+  "Guests dancing at a party in Silent Disco headphones that glow green",
+"Пара усміхається на дні народження в навушниках Silent Disco, що світяться":
+  "A couple smiling at a birthday in glowing Silent Disco headphones",
+"Друзі, дівчата й хлопці, разом позують у навушниках Silent Disco на святковій вечірці":
+  "Friends, women and men, posing together in Silent Disco headphones at a party",
+"Наречені танцюють під шатром у навушниках Silent Disco, гості навколо теж у навушниках":
+  "The newlyweds dance under a marquee in Silent Disco headphones, with guests around them in headphones too",
+"Навушники Silent Disco із червоною, зеленою та синьою підсвіткою на святковому столі з квітами й келихами":
+  "Silent Disco headphones glowing red, green and blue on a festive table with flowers and glasses",
+"Наречені й гості танцюють під гірляндами в навушниках Silent Disco":
+  "The newlyweds and guests dance under string lights in Silent Disco headphones",
+"Наречена радісно танцює серед гостей, які теж у навушниках Silent Disco":
+  "The bride dances joyfully among guests who are also in Silent Disco headphones",
+"Друзі піднімають келихи за святковим столом під гірляндами на дні народження":
+  "Friends raise glasses at a festive table under string lights at a birthday",
 }

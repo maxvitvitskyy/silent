@@ -95,3 +95,7 @@ site-brief.md
 03-onpage-report-pages.md
 04-internal-links.md
 05-ai-visibility.md
+
+# Resource/ — власна бібліотека вихідників власника (756 МБ: PNG з Firefly/ChatGPT, відбір фото). На сайт не йде,
+# потрібні кадри Claude оптимізує в images/<тека>/ (tools/optimize_images.py).
+Resource/

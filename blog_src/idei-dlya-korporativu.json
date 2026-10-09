@@ -167,6 +167,21 @@
       ]
     },
     {
+      "type": "photos",
+      "images": [
+        {
+          "src": "/images/corp/korporatyv-tanets-pary-pid-svitlom.webp",
+          "pos": "50% 35%",
+          "alt": "Колеги танцюють на корпоративі в навушниках Silent Disco: чоловік у піджаку й жінка у вечірній сукні"
+        },
+        {
+          "src": "/images/corp/korporatyv-shchaslyva-para-v-navushnykakh.webp",
+          "pos": "50% 30%",
+          "alt": "Двоє колег усміхаються разом у навушниках Silent Disco із зеленою підсвіткою на корпоративі"
+        }
+      ]
+    },
+    {
       "type": "text",
       "title": "Чи підійде Silent Disco для новорічного корпоративу й тімбілдингу?",
       "cols": [

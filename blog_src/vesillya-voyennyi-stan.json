@@ -100,6 +100,21 @@
       ]
     },
     {
+      "type": "photos",
+      "images": [
+        {
+          "src": "/images/wedding/vesillya-povilnyi-tanets-nareczhenykh.webp",
+          "pos": "50% 35%",
+          "alt": "Наречені обіймаються в повільному танці під гірляндами, обидва в навушниках Silent Disco"
+        },
+        {
+          "src": "/images/wedding/vesillya-pochatok-tantsiv-pid-girlyandamy.webp",
+          "pos": "50% 40%",
+          "alt": "Наречений і наречена танцюють із гостями на святі під відкритим небом у навушниках Silent Disco"
+        }
+      ]
+    },
+    {
       "type": "text",
       "title": "Що Silent Disco дає весіллю у воєнний час, а чого не дає?",
       "cols": [
