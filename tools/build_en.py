@@ -1703,6 +1703,112 @@ T_CARDS = {
   'Each part sounds on its own. Listen deeper and pick out details lost in the overall sound.',
 'Кіно просто неба без величезних колонок. Машини, екран, нічне небо — і звук прямо у твоїх навушниках.':
   'Open-air cinema without huge speakers. Cars, a screen, the night sky — and the sound right in your headphones.',
+"Спільний вечір, у якому кожен обирає свою музику: три канали в бездротових навушниках, власна гучність і тиша ззовні. Незвичний спосіб провести час разом, який ми організовуємо під ключ у Києві та по всій Україні.":
+  "A shared evening in which everyone chooses their own music: three channels in wireless headphones, a personal volume and silence outside. An unusual way to spend time together, which we organise full-service in Kyiv and across Ukraine.",
+"Silent Disco, або тиха дискотека, це незвична вечірка без колонок: кожен гість одягає бездротові навушники, і музика грає лише в них.":
+  "A Silent Disco, or silent disco, is an unusual party without speakers: every guest puts on wireless headphones, and the music plays only in them.",
+"Гостям не доводиться домовлятися про одну музику: у навушниках є кілька каналів, і кожен слухає те, що йому до смаку. Можна змінити канал будь-коли, тож різні смаки не сперечаються, а компанія лишається разом.":
+  "Guests do not have to agree on one kind of music: the headphones have several channels, and everyone listens to what suits them. You can change the channel at any time, so different tastes do not clash and the group stays together.",
+"Захотілося поговорити чи почути тост: знімаєте навушники на шию й чуєте звичайний голос. Колонок немає, тож гучність для сусідів і майданчика зазвичай не питання, навіть просто неба чи там, де гучний звук обмежений.":
+  "Want to talk or hear a toast: slide the headphones down to your neck and hear a normal voice. There are no speakers, so volume is usually not an issue for neighbours or the venue, even outdoors or where loud sound is restricted.",
+"Silent Disco, флагманський формат SILENT: ми не просто привозимо обладнання, а організовуємо подію й беремо на себе погоджену технічну та сервісну частину.":
+  "Silent Disco, the flagship format of SILENT: we do not just bring equipment, we organise the event and take responsibility for the agreed technical and service part.",
+"Проводимо інструктаж, супроводжуємо вечір і після події самі демонтуємо обладнання. У комплекті їдуть запасні навушники на заміну.":
+  "We give the briefing, support the evening and take the equipment down ourselves after the event. Spare headphones come in the set as replacements.",
+"Червоний, зелений і синій канали: хіти, ретро чи щось спокійніше. Торкаєтесь навушника, і музика змінюється, перемикатися можна цілий вечір.":
+  "Red, green and blue channels: hits, retro or something calmer. You touch the headphone and the music changes, and you can switch all evening.",
+"<b>Нічого вчити не треба</b> <span>Гість торкається навушника й обирає канал. Налаштування та перевірку сигналу беремо на себе.</span>":
+  "<b>Nothing to learn</b> <span>A guest touches the headphone and chooses a channel. We take care of the setup and the signal check.</span>",
+"Ідеї для корпоративу, весілля, дня народження чи фестивалю: той самий незвичний формат підлаштовується під подію. Гортайте вбік, обирайте свою й читайте ідеї в <a href=\"/blog/\">блозі</a>.":
+  "Ideas for a company party, wedding, birthday or festival: the same unusual format adapts to the event. Swipe sideways, choose yours and read ideas in our <a href=\"/blog/\">blog</a> (in Ukrainian).",
+"Друзі, колеги й родичі з різними смаками на одній вечірці. Кожен обирає свій канал, а іменинникові не треба вгадувати плейліст.":
+  "Friends, colleagues and relatives with different tastes at one party. Everyone chooses their own channel, and the birthday person does not have to guess the playlist.",
+"Шкільна дискотека чи тематичне свято без перекрикування музики в залі. Діти обирають канал і власну гучність.":
+  "A school disco or themed celebration without music being shouted over in the hall. Children choose a channel and their own volume.",
+"Колеги з різних відділів зі своїми смаками танцюють разом. Особиста гучність, а розмова без навушників лишається можливою.":
+  "Colleagues from different departments with their own tastes dance together. A personal volume, and talking without headphones is still possible.",
+"Плейлисти для дітей і власна гучність у кожному навушнику. Дорослі бачать, хто на якому каналі, за кольором підсвітки.":
+  "Playlists for children and a personal volume in every headphone. Adults can see who is on which channel by the color of the glow.",
+"Служіння в залі чи просто неба без колонок. Голос і музика звучать у навушниках, а ззовні лишається тиша.":
+  "Services in a hall or outdoors without speakers. The voice and music play in the headphones while it stays quiet outside.",
+"Зарядка, ігри, навчання, дискотека: один комплект навушників для різних форматів, тривалість узгоджуємо з вами.":
+  "Morning exercise, games, teaching, a disco: one set of headphones for different formats, with the duration agreed with you.",
+"Голос інструктора й музика звучать у навушниках, а довкола лишається тиша. Практикувати можна й просто неба.":
+  "The instructor's voice and the music play in the headphones while it stays quiet around. You can also practise outdoors.",
+"Танцюйте вдома чи у дворі, не турбуючи сусідів: музика звучить лише в навушниках. Голоси гостей, звісно, лишаються.":
+  "Dance at home or in the yard without disturbing the neighbours: the music plays only in the headphones. Guests' voices, of course, remain.",
+"Фільм дивляться під відкритим небом, а звук іде в навушники, тож колонки й обмеження за гучністю не потрібні.":
+  "The film is watched under the open sky and the sound goes to the headphones, so speakers and volume limits are not needed.",
+"Голос гіда звучить у навушниках кожного учасника, тож група слухає історію без крику й мегафона.":
+  "The guide's voice plays in every participant's headphones, so the group listens to the story without shouting or a megaphone.",
+"Музика для гостей у навушниках, а продавці розмовляють із покупцями без гуркоту колонок.":
+  "Music for guests in the headphones, while sellers talk to buyers without the roar of speakers.",
+"Кілька груп в одному просторі: кожна слухає свій канал, тож завдання одних не заважають іншим.":
+  "Several groups in one space: each listens to its own channel, so some groups' tasks do not disturb others.",
+"Розповідь про експонат звучить у навушниках, а в залі лишається тиша для інших відвідувачів.":
+  "The story about an exhibit plays in the headphones while the hall stays quiet for other visitors.",
+"Голос ведучого й спокійна музика звучать у навушниках, а довкола лишається тиша. Практика можлива й поза студією.":
+  "The host's voice and calm music play in the headphones while it stays quiet around. The practice is possible outside a studio too.",
+"Інструкції майстра звучать у навушниках, тож учасники слухають кроки й не відриваються від роботи.":
+  "The master's instructions play in the headphones, so participants listen to the steps without taking their hands off the work.",
+"Власна гучність у кожному навушнику: гість сам обирає, наскільки гучно слухати. Деталі події узгоджуємо заздалегідь.":
+  "A personal volume in every headphone: guests choose how loudly to listen. We agree the details of the event in advance.",
+"Плейлисти знайомих композицій і власна гучність у кожного: гість сам вирішує, наскільки гучно слухати.":
+  "Playlists of familiar songs and a personal volume for everyone: guests decide how loudly to listen.",
+"Підказки звучать у навушниках, тож команди не чують одна одну. Кожна команда може слухати свій канал.":
+  "Hints play in the headphones, so teams do not hear each other. Each team can listen to its own channel.",
+"До трьох команд і до трьох треків: кожна слухає свій канал на одному танцполі.":
+  "Up to three teams and up to three tracks: each listens to its own channel on one dance floor.",
+"Відвідувачі слухають розповідь у навушниках, а на стендах і в залі лишається тиша для розмов.":
+  "Visitors listen to the story in the headphones while the stands and the hall stay quiet for conversation.",
+"Музика показу звучить у навушниках гостей, а канали можна розділити, наприклад, між гостями й командою.":
+  "The show's music plays in guests' headphones, and the channels can be divided, for example, between guests and the team.",
+"Кілька груп репетирують в одному просторі, і кожна слухає свій канал без взаємних перешкод.":
+  "Several groups rehearse in one space, and each listens to its own channel without interfering with the others.",
+"Три музичні канали одночасно, а перемикатися між ними можна одним дотиком. Класична тиха дискотека під ключ.":
+  "Three music channels at once, and you can switch between them with one touch. A classic full-service silent disco.",
+"Різні покоління на одному танцполі, і кожен слухає своє. Свято триває й там, де гучна музика обмежена.":
+  "Different generations on one dance floor, each listening to their own. The celebration goes on even where loud music is restricted.",
+"Вечірки й випускні, де кожен обирає музику під свій смак, а ззовні тихо.":
+  "Parties and graduations where everyone chooses music to their taste and it stays quiet outside.",
+"Кілька музичних каналів на одному майданчику: гості перемикаються між ними, не залишаючи танцпол.":
+  "Several music channels on one site: guests switch between them without leaving the dance floor.",
+"Ранкові зустрічі, навчання, спільні активності й вечірня дискотека: один комплект навушників для різних форматів дня.":
+  "Morning meetings, teaching, shared activities and an evening disco: one set of headphones for the different formats of the day.",
+"Доповіді чи воркшопи для різних груп звучать у навушниках, тож сесії в одному просторі не заважають одна одній.":
+  "Talks or workshops for different groups play in the headphones, so sessions in one space do not disturb each other.",
+"Голос спікера звучить у навушниках, тож його чути навіть просто неба й серед міського шуму.":
+  "The speaker's voice plays in the headphones, so it can be heard even outdoors and amid city noise.",
+"Подруги з різними смаками танцюють разом, кожна під свій канал, а для сусідів тихо.":
+  "Friends with different tastes dance together, each to her own channel, while it stays quiet for the neighbours.",
+"Промови, аукціон і танці в одному залі: навушники легко зняти на шию, коли час слухати голоси.":
+  "Speeches, an auction and dancing in one hall: the headphones slide easily down to your neck when it is time to listen to voices.",
+"Виступ діджея, який чують у навушниках, а не з колонок: можна просто неба чи там, де звук обмежений.":
+  "A DJ set heard in the headphones rather than from speakers: possible outdoors or where sound is restricted.",
+"Голос тренера звучить у навушниках учасників, тож його чути й серед шуму та руху.":
+  "The coach's voice plays in the participants' headphones, so it can be heard even amid noise and movement.",
+"Голос гіда чи тренера звучить у навушниках усієї групи, тож слухати можна на ходу.":
+  "The guide's or coach's voice plays in the whole group's headphones, so you can listen on the move.",
+"Музику чути в навушниках зблизька, а в залі й навколо лишається тиша.":
+  "The music is heard up close in the headphones while the hall and the surroundings stay quiet.",
+"Повідомлення бренду й музика звучать у навушниках відвідувачів, а гучні колонки на заході не потрібні.":
+  "The brand's message and music play in visitors' headphones, and loud speakers are not needed at the event.",
+"Якщо на події є перекладач, його голос звучить у навушниках: гості обирають канал зі своєю мовою.":
+  "If the event has an interpreter, their voice plays in the headphones: guests choose the channel in their language.",
+"Виступ звучить у навушниках гостей, тож жарти чути чітко навіть тоді, коли зал сміється.":
+  "The performance plays in guests' headphones, so the jokes can be heard clearly even when the hall is laughing.",
+"Музика йде з вами від бару до бару, і вечірка не залежить від колонок у закладі.":
+  "The music goes with you from bar to bar, and the party does not depend on the venue's speakers.",
+"Усі слухають один канал, а один гравець інший. Спостерігайте, хто реагує не так, і вирахуйте самозванця.":
+  "Everyone listens to one channel while one player listens to another. Watch who reacts differently and find the impostor.",
+"Вечірка біля басейну, на пляжі чи в залі, де гучна музика недоречна.":
+  "A party by the pool, on the beach or in a hall where loud music is out of place.",
+"Новий альбом звучить у навушниках гостей зблизька, без колонок і гомону залу.":
+  "The new album plays up close in guests' headphones, without speakers and the hubbub of the hall.",
+"Аудіодоріжка вистави звучить у навушниках глядача, тож виставу можна показати й у відкритому міському просторі.":
+  "The show's audio track plays in the viewer's headphones, so the performance can also be staged in open urban space.",
+"Кіно просто неба без великих колонок: екран, нічне небо, а звук фільму в навушниках.":
+  "Open-air cinema without big speakers: a screen, the night sky and the film's sound in the headphones.",
 }
 T.update(T_CARDS)
 
