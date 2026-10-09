@@ -432,7 +432,7 @@ T = {
 'Чому silent disco': 'Why silent disco',
 'Звичайна вечірка змушує обирати за всіх. Ця — дає обрати кожному.':
   'An ordinary party makes you choose for everyone. This one lets everyone choose.',
-'Чорно-білий кадр: сцена з колонками і темна зала глядачів':
+'Чорно-білий кадр: сцена з колонками і темний зал глядачів':
   'Black-and-white shot: a stage with speakers and a dark room of guests',
 'Як зазвичай': 'The usual way',
 'Ти підлаштовуєшся під вечір': 'You adjust to the night',
@@ -1449,6 +1449,10 @@ def unglue(s):
     s = re.sub(r'(</b>)(<span\b)', r'\1 \2', s)
     s = re.sub(r'(</(?:span|b|a|i|em)>)(<span class="(?:t-sub|nav-blog-t|nav-blog-cat|nav-blog-thumb|pb-tag|art-tag|art-dot|art-when|art-by|lbl-tight|hf-phrase|hf-line)\b)', r'\1 \2', s)
     s = re.sub(r'([^\s>])(<em>(?:Скоро|Soon)</em>)', r'\1 \2', s)
+    # Таблиця статті блогу й кроки після абзацу: сусідні клітинки/блоки з текстом теж склеюються у видачі.
+    s = re.sub(r'(</(?:th|td)>)(<(?:th|td)\b)', r'\1 \2', s)
+    s = re.sub(r'(</p>)(<ol class="art-steps")', r'\1 \2', s)
+    s = re.sub(r'(</thead>)(<tbody)', r'\1 \2', s)
     def inner(m):
         return m.group(1) + m.group(2).replace('</span><span', '</span> <span') + m.group(3)
     s = re.sub(r'(<div class="(?:cal-week|calc-row|calc-labels)">)(.*?)(</div>)', inner, s, flags=re.S)
@@ -1845,6 +1849,8 @@ T_FAQ = {
 
 # --- 01 формат
 "Що таке silent disco?": "What is silent disco?",
+"<a href=\"/blog/tykha-dyskoteka-silent-disco/\">Вечірка, де музика йде не з колонок</a>, а прямо в бездротові навушники кожного гостя. У навушниках одночасно грають три незалежні канали, тож кожен обирає свій — а ззовні лишається тиша.":
+  "<a href=\"/blog/tykha-dyskoteka-silent-disco/\">A party where the music doesn't come from speakers</a> but goes straight into each guest's wireless headphones. Three independent channels play in the headphones at once, so everyone picks their own — and outside it stays quiet.",
 "Вечірка, де музика йде не з колонок, а прямо в бездротові навушники кожного гостя. У навушниках одночасно грають три незалежні канали, тож кожен обирає свій — а ззовні лишається тиша.":
   "A party where the music doesn't come from speakers but goes straight into each guest's wireless headphones. Three independent channels play in the headphones at once, so everyone picks their own — and outside it stays quiet.",
 "Вечірка, де музика йде не з колонок, а прямо в бездротові навушники кожного гостя. У навушниках три незалежні канали одночасно, тож кожен обирає свій — а ззовні тихо.":

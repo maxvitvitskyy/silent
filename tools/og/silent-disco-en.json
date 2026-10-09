@@ -2,30 +2,23 @@
   "out": "images/silent-disco/og-silent-disco-en.jpg",
   "heading": [
     "Silent Disco",
-    "in headphones"
+    "a silent disco in headphones"
   ],
   "subtitle": [
     [
-      "Music plays in the headphones,",
-      "silence outside."
+      "Different music, one shared party."
     ]
   ],
   "pills": [
-    "from <b>40</b> headphones",
     "<b>3</b> music channels",
+    "Your own <b>volume</b>",
     "Any <b>location</b>",
     "<b>Kyiv</b> &amp; Ukraine"
   ],
-  "big": {
-    "src": "images/silent-disco/silent-disco-tantsyuyuchi-podrugy-z-pidnyatymy-rukamy.webp",
-    "pos": "50% 35%"
+  "template": "template-full-left.html",
+  "bg": {
+    "src": "Resource/BIRTHDAY/Неонова вечірка в навушниках (2).png",
+    "pos": "60% 33%"
   },
-  "top": {
-    "src": "images/silent-disco/silent-disco-try-podrugy-na-dyskoteky.webp",
-    "pos": "50% 40%"
-  },
-  "bottom": {
-    "src": "images/silent-disco/silent-disco-tanspol-na-festyvali.webp",
-    "pos": "50% 40%"
-  }
+  "css": ".p>img{left:300px;right:auto;width:985px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%)}"
 }

@@ -614,7 +614,7 @@ T_PAGE_ALL = {
   "Tell us about your event: the number of guests, the date and the location. We will choose the best Silent Disco set and calculate the cost for your event.",
 "Діджейка на даху вночі в навушниках Silent Disco, за спиною нічне місто":
   "A DJ on a rooftop at night in Silent Disco headphones, the night city behind her",
-"Тиха дискотека в історичній залі: гості танцюють у навушниках Silent Disco":
+"Тиха дискотека в історичному залі: гості танцюють у навушниках Silent Disco":
   "A silent disco in a historic hall: guests dance in Silent Disco headphones",
 "Яскравий танцпол на фестивалі, гості в навушниках Silent Disco":
   "A bright dance floor at a festival, guests in Silent Disco headphones",
@@ -636,7 +636,7 @@ T_PAGE_ALL = {
   "Guests dancing at a night open-air party in Silent Disco headphones that glow in different colors",
 "Чоловік у капелюсі танцює серед гостей у навушниках Silent Disco на нічній вечірці просто неба":
   "A man in a hat dances among guests in Silent Disco headphones at a night open-air party",
-"Простора зала з фіолетовим світлом: гості танцюють у навушниках Silent Disco, чоловіки й жінки":
+"Просторий зал з фіолетовим світлом: гості танцюють у навушниках Silent Disco, чоловіки й жінки":
   "A spacious hall with purple light: guests dance in Silent Disco headphones, men and women",
 "Компанія друзів, хлопці й дівчата, веселиться на фестивалі під салютом у навушниках Silent Disco":
   "A group of friends, guys and girls, having fun at a festival under fireworks in Silent Disco headphones",
@@ -864,4 +864,10 @@ T_PAGE_ALL = {
   "Silent Disco is the flagship format of SILENT. We take care of the preparation, the equipment setup and the support of the event, so that you can focus on your guests and the celebration itself.",
 "<b>Просто користуватися</b> <span>Гість торкається навушника й обирає канал. Налаштування та перевірку сигналу беремо на себе.</span>":
   "<b>Simple to use</b> <span>A guest touches the headphone and chooses a channel. We take care of the setup and the signal check.</span>",
+"Це дискотека без колонок: музика грає в бездротових навушниках кожного гостя. У навушниках три канали з різною музикою, їх можна перемикати одним дотиком, а колір підсвітки показує обраний канал. Докладніше про формат читайте в гіді <a href=\"/blog/tykha-dyskoteka-silent-disco/\">Silent Disco, або тиха дискотека</a>.":
+  "It is a disco without speakers: the music plays in every guest's wireless headphones. The headphones have three channels with different music that you can switch with one touch, and the color of the glow shows the chosen channel. Read more about the format in our guide (in Ukrainian): <a href=\"/blog/tykha-dyskoteka-silent-disco/\">Silent Disco, or a silent disco</a>.",
+"Тиха дискотека Silent Disco в Києві та Україні | SILENT":
+  "Silent Disco in Kyiv and Ukraine: a full-service silent disco | SILENT",
+"Silent Disco, або тиха дискотека під ключ: музика в бездротових навушниках, три канали на вибір, тиша ззовні. Київ і вся Україна. Перевірте дату.":
+  "Silent Disco, or a full-service silent disco: music in wireless headphones, three channels to choose from, silence outside. Kyiv and all of Ukraine. Check a date.",
 }

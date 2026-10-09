@@ -1,0 +1,22 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-tykha-dyskoteka-silent-disco.jpg",
+  "bg": {
+    "src": "images/silent-disco/silent-disco-podrugy-tantsyuyut-pid-svitlom.webp",
+    "pos": "50% 40%"
+  },
+  "heading": [
+    "Silent Disco,",
+    "або тиха дискотека"
+  ],
+  "subtitle": [
+    [
+      "Що це, як працює й чому формат стає таким популярним."
+    ]
+  ],
+  "pills": [
+    "<b>Що це</b> простими словами",
+    "<b>Як працює</b> формат",
+    "<b>Для яких</b> подій"
+  ]
+}

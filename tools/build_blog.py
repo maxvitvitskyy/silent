@@ -398,6 +398,19 @@ def article_blocks(blocks):
             im = b['image']
             out.append('<div class="art-pair"><figure class="art-pair-img"><img src="%s" alt="%s" loading="lazy" decoding="async" width="1200" height="900"></figure>'
                        '<blockquote class="art-key"><div class="band-aurora" aria-hidden="true"><div class="aurora-liquid"></div></div><p>%s</p></blockquote></div>' % (esc(im['src']), esc(im['alt']), esc(b['quote'])))
+        elif t == 'table':
+            # Порівняльна таблиця (одна на статтю): заголовок і вступ як у блоку з картками, нижче таблиця на ширину тексту.
+            head = ''.join('<th scope="col">%s</th>' % esc(h) for h in b['head'])
+            # marks: ['no', 'yes'] (за колонками після підпису рядка) додає червоний хрестик чи лаймову галочку; підпис колонки лишається в комірці
+            # для мобільної версії, де рядок стає карткою (див. «Порівняльна таблиця» в site.css).
+            marks = b.get('marks', [])
+            def cell(i, c):
+                m = marks[i] if i < len(marks) else ''
+                return '<td%s><span class="art-cell-l">%s</span>%s</td>' % ((' class="is-%s"' % m) if m else '', esc(b['head'][i + 1]), inline(c))
+            rows = ''.join('<tr><th scope="row">%s</th>%s</tr>' % (esc(r[0]), ''.join(cell(i, c) for i, c in enumerate(r[1:]))) for r in b['rows'])
+            lead = '<p class="art-cards-lead">%s</p>' % inline(b['lead']) if b.get('lead') else ''
+            out.append('<section class="art-blk"><div class="art-cols"><h2>%s</h2>%s<div class="art-table-wrap"><table class="art-table"><thead><tr>%s</tr></thead><tbody>%s</tbody></table></div></div></section>'
+                       % (esc(b['title']), lead, head, rows))
         elif t == 'photos':
             # Ряд із двох-трьох фото на ширину тексту (без плашки з цитатою), для живих кадрів посеред статті.
             n = len(b['images'])
@@ -495,8 +508,13 @@ def build_article(p, data, cats, posts, shared, card_fn):
             '<meta property="og:type" content="article">\n<meta property="og:site_name" content="SILENT">\n'
             '<meta property="og:locale" content="uk_UA">\n<meta property="og:title" content="%s">\n'
             '<meta property="og:description" content="%s">\n<meta property="og:url" content="%s">\n'
-            '<meta property="og:image" content="%s">\n<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">\n<meta name="twitter:card" content="summary_large_image">\n<link rel="canonical" href="%s">\n'
-            % (esc(page_title), esc(meta_desc), robots, esc(page_title), esc(meta_desc), url, esc(img), url)
+            '<meta property="og:image" content="%s">\n<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">\n<meta property="og:image:type" content="image/jpeg">\n<meta property="og:image:alt" content="%s">\n'
+            '<meta property="article:published_time" content="%s">\n<meta property="article:modified_time" content="%s">\n'
+            '<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:title" content="%s">\n<meta name="twitter:description" content="%s">\n'
+            '<meta name="twitter:image" content="%s">\n<meta name="twitter:image:alt" content="%s">\n<link rel="canonical" href="%s">\n'
+            % (esc(page_title), esc(meta_desc), robots, esc(page_title), esc(meta_desc), url, esc(img), esc(a['cover']['alt']),
+               esc(a.get('date_iso', '')), esc(a.get('modified_iso', a.get('date_iso', ''))),
+               esc(page_title), esc(meta_desc), esc(img), esc(a['cover']['alt']), url)
             + assets + '<script type="application/ld+json">\n%s\n</script>\n</head>\n'
             % json.dumps(ld, ensure_ascii=False, indent=2))
     sw = '<a href="/en/experiences/" hreflang="en" lang="en">EN</a>'

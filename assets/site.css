@@ -8468,3 +8468,35 @@ html { overflow-x: clip; }
 .art-photos figure { margin: 0; border-radius: 32px; overflow: hidden; aspect-ratio: 4 / 3; }
 .art-photos img { display: block; width: 100%; height: 100%; object-fit: cover; }
 @media (max-width: 720px) { .art-photos figure { aspect-ratio: 3 / 4; border-radius: 24px; } .art-photos { gap: 10px; } }
+
+/* Порівняльна таблиця в статті (.art-table): скляна поверхня без blur, тонкі лінії, перша колонка підпис рядка, шапка лаймовим капсом.
+   Колонка «звичайної» дискотеки з червоним хрестиком (.is-no), «тихої» з лаймовою галочкою на легкій лаймовій підкладці (.is-yes),
+   щоб одразу було видно перевагу. Підпис колонки в комірці (.art-cell-l) потрібен лише в мобільній версії, де рядок стає карткою. */
+.art-table-wrap { grid-column: 1 / -1; overflow: hidden; border: 1px solid var(--line); border-radius: 28px; background: var(--glass-fill-dense, rgba(255,255,255,.04)); }
+.art-table { width: 100%; border-collapse: collapse; font-size: 16px; line-height: 1.5; }
+.art-table th, .art-table td { padding: 18px clamp(16px, 2vw, 26px); text-align: left; vertical-align: top; border-top: 1px solid var(--line); }
+.art-table thead th { border-top: 0; font: 700 12px/1.4 'Manrope', sans-serif; letter-spacing: 2px; text-transform: uppercase; color: var(--muted-2, var(--muted)); white-space: nowrap; }
+.art-table thead th:last-child { color: var(--lime); background: rgba(198,255,0,.07); }
+.art-table tbody th { font-weight: 700; color: #fff; width: 20%; }
+.art-table td { color: var(--muted); position: relative; padding-left: calc(clamp(16px, 2vw, 26px) + 32px); }
+.art-table td.is-yes { color: #fff; background: rgba(198,255,0,.07); }
+.art-table td.is-no::before, .art-table td.is-yes::before {
+  content: ''; position: absolute; left: clamp(16px, 2vw, 26px); top: 19px; width: 22px; height: 22px; border-radius: 50%;
+  background-repeat: no-repeat; background-position: center; background-size: 12px 12px; }
+.art-table td.is-no::before { background-color: rgba(255,92,92,.16); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%23ff6b6b' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M2.5 2.5l7 7M9.5 2.5l-7 7'/%3E%3C/svg%3E"); }
+.art-table td.is-yes::before { background-color: var(--lime); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%2312100a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 6.4l2.4 2.4 4.6-5.2'/%3E%3C/svg%3E"); }
+.art-cell-l { display: none; }
+@media (max-width: 720px) {
+  /* Телефон: рядок таблиці стає карткою, у ній підпис рядка й дві відповіді одна під одною (хрестик, потім галочка). */
+  .art-table-wrap { overflow: visible; border: 0; background: none; border-radius: 0; }
+  .art-table, .art-table tbody, .art-table tr, .art-table th, .art-table td { display: block; width: auto; }
+  .art-table thead { display: none; }
+  .art-table tbody { display: grid; gap: 12px; }
+  .art-table tr { padding: 16px 16px 14px; border: 1px solid var(--line); border-radius: 22px; background: var(--glass-fill-dense, rgba(255,255,255,.04)); }
+  .art-table tbody th { padding: 0 0 12px; border: 0; width: auto; font: 800 15px/1.3 'Unbounded', sans-serif; }
+  .art-table td { padding: 12px 14px 12px 46px; margin-top: 8px; border: 0; border-radius: 14px; font-size: 15px; line-height: 1.45; }
+  .art-table td.is-no { background: rgba(255,92,92,.07); }
+  .art-table td.is-no::before, .art-table td.is-yes::before { left: 14px; top: 13px; }
+  .art-cell-l { display: block; margin-bottom: 2px; font: 700 10.5px/1.4 'Manrope', sans-serif; letter-spacing: 1.6px; text-transform: uppercase; color: var(--muted-2, var(--muted)); }
+  .art-table td.is-yes .art-cell-l { color: var(--lime-quiet); }
+}
