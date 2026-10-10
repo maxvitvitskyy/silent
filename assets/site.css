@@ -2550,6 +2550,8 @@
   .band .g-tag { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; opacity: 0.85; font-weight: 700; margin-bottom: 18px; color: var(--lime); }
   .band h2 { font-size: clamp(24px, 3.6vw, 38px); font-weight: 600; line-height: 1.15; max-width: none; margin: 0 auto 16px; color: #fff; text-wrap: balance; }
   .band p { font-size: 15px; color: var(--muted); max-width: 46ch; margin: 0 auto; }
+  /* Фінальний заклик без картки: на десктопі абзац ширший, щоб не стояв вузьким острівцем по центру (2–3 рядки). */
+  .band-bare p { max-width: 72ch; }
   /* На яскравішій рідині сірий --muted падав нижче 4.5:1 там, де під текстом
      червона пляма, — на самій плашці абзац світліший. */
   .band:not(.band-bare) p { color: rgba(255,255,255,0.84); }
