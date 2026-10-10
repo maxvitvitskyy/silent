@@ -2820,7 +2820,7 @@ function orderExperience(name, opts){
     const G = window.gsap, ST = window.ScrollTrigger;
     G.registerPlugin(ST);
     const q = (sel) => [].slice.call(foot.querySelectorAll(sel));
-    const logo = q('.f-logo'), tag = q('.f-tagline'), cta = q('.f-cta'), heads = q('.f-col h4'),
+    const logo = q('.f-logo'), tag = q('.f-tagline'), cta = q('.f-cta'), heads = q('.f-col h3'),
           items = q('.f-col li'), socs = q('.f-soc'), note = q('.f-note'), legal = q('.footer-legal > *');
     const inner = foot.querySelector('.footer-inner');
     const all = [].concat(logo, tag, cta, heads, items, socs, note, legal);
