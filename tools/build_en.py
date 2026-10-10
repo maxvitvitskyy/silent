@@ -1775,8 +1775,6 @@ T_CARDS = {
   "Different generations on one dance floor, each listening to their own. The celebration goes on even where loud music is restricted.",
 "Вечірки й випускні, де кожен обирає музику під свій смак, а ззовні тихо.":
   "Parties and graduations where everyone chooses music to their taste and it stays quiet outside.",
-"Кілька музичних каналів на одному майданчику: гості перемикаються між ними, не залишаючи танцпол.":
-  "Several music channels on one site: guests switch between them without leaving the dance floor.",
 "Ранкові зустрічі, навчання, спільні активності й вечірня дискотека: один комплект навушників для різних форматів дня.":
   "Morning meetings, teaching, shared activities and an evening disco: one set of headphones for the different formats of the day.",
 "Доповіді чи воркшопи для різних груп звучать у навушниках, тож сесії в одному просторі не заважають одна одній.":
@@ -1813,6 +1811,10 @@ T_CARDS = {
   "The show's audio track plays in the viewer's headphones, so the performance can also be staged in open urban space.",
 "Кіно просто неба без великих колонок: екран, нічне небо, а звук фільму в навушниках.":
   "Open-air cinema without big speakers: a screen, the night sky and the film's sound in the headphones.",
+"Кілька музичних каналів на одному майданчику: гості перемикаються між ними, не залишаючи танцпол, а зовнішній шум лишається під контролем.":
+  "Several music channels on one site: guests switch between them without leaving the dance floor, and the outside noise stays under control.",
+"Кілька музичних каналів на одному майданчику: гості перемикаються між ними, не залишаючи танцпол.":
+  "Several music channels on one site: guests switch between them without leaving the dance floor.",
 }
 T.update(T_CARDS)
 

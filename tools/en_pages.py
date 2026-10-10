@@ -870,4 +870,140 @@ T_PAGE_ALL = {
   "Silent Disco in Kyiv and Ukraine: a full-service silent disco | SILENT",
 "Silent Disco, або тиха дискотека під ключ: музика в бездротових навушниках, три канали на вибір, тиша ззовні. Київ і вся Україна. Перевірте дату.":
   "Silent Disco, or a full-service silent disco: music in wireless headphones, three channels to choose from, silence outside. Kyiv and all of Ukraine. Check a date.",
+"У когось грають улюблені хіти, хтось обирає ретро, а хтось знаходить свій ритм у чомусь зовсім іншому. І всі танцюють разом. SILENT організовує тихі дискотеки під ключ у Києві та по всій Україні: привозимо бездротові навушники з трьома музичними каналами й налаштовуємо все самі.":
+  "Some are playing their favorite hits, some pick retro, and some find their rhythm in something completely different. And everyone dances together. SILENT organises full-service silent discos in Kyiv and across Ukraine: we bring wireless headphones with three music channels and set everything up ourselves.",
+"<b>Три музичні канали</b> <span>кожен обирає свою музику</span>":
+  "<b>Three music channels</b> <span>everyone chooses their own music</span>",
+"<b>Будь-яка локація</b> <span>від дому до фестивалю</span>":
+  "<b>Any location</b> <span>from home to a festival</span>",
+"<b>Без колонок</b> <span>музика лише в навушниках</span>":
+  "<b>No speakers</b> <span>music only in the headphones</span>",
+"<b>Під ключ</b> <span>доставка, налаштування, демонтаж</span>":
+  "<b>Full service</b> <span>delivery, setup, takedown</span>",
+"Одна вечірка, три музичні світи, і кожен на своїй хвилі":
+  "One party, three music worlds, and everyone on their own wavelength",
+"Можна бути різними й залишатися разом.":
+  "You can be different and still stay together.",
+"Уявіть танцпол без колонок, де музика є в кожного. Хтось підспівує улюбленій пісні, хтось танцює під трек ще зі шкільних років, а хтось щойно знайшов свій настрій на іншому каналі.":
+  "Imagine a dance floor with no speakers where everyone has music. Someone sings along to a favorite song, someone dances to a track from their school years, and someone has just found their mood on another channel.",
+"Це Silent Disco, або тиха дискотека: гості слухають музику в бездротових навушниках, а не через гучні колонки. У навушнику три канали, червоний, зелений і синій, на кожному свій плейліст. Захотілося іншого ритму? Один дотик, і канал змінено. Колір підсвітки покаже, хто слухає те саме, що й ви.":
+  "This is a Silent Disco, or silent disco: guests listen to the music in wireless headphones instead of loud speakers. The headphone has three channels, red, green and blue, each with its own playlist. Want a different rhythm? One touch and the channel changes. The glow shows who is listening to the same thing as you.",
+"А щоб поговорити, привітати іменинника чи почути тост, зніміть навушники на шию: знову чути людей поруч, без перекрикування.":
+  "And to talk, congratulate the birthday person or hear a toast, slide the headphones down to your neck: you can hear the people around you again, with no shouting over the music.",
+"У цьому й магія тихої дискотеки: не треба домовлятися про одну музику для всіх.":
+  "That is the magic of a silent disco: there is no need to agree on one music for everyone.",
+"Ви створюєте привід для зустрічі. Про решту подбаємо ми.":
+  "You create the occasion to meet. We take care of the rest.",
+"Silent Disco, флагманський формат SILENT. Свято складається з десятків маленьких рішень, тож технічну частину беремо на себе.":
+  "Silent Disco, the flagship format of SILENT. A celebration is made of dozens of small decisions, so we take the technical part on ourselves.",
+"<b>Добираємо музику</b> <span>Готуємо три плейлисти під формат і настрій вашої події. Хочете музику наживо від діджея? Це теж можна організувати.</span>":
+  "<b>We choose the music</b> <span>We prepare three playlists for the format and mood of your event. Want live music from a DJ? That can be arranged too.</span>",
+"<b>Привозимо й налаштовуємо</b> <span>Доставляємо навушники, встановлюємо обладнання й перевіряємо сигнал: на монтаж потрібно близько 30 хвилин до старту.</span>":
+  "<b>We deliver and set up</b> <span>We deliver the headphones, install the equipment and check the signal: setup takes about 30 minutes before the start.</span>",
+"<b>Пояснюємо, як усе працює</b> <span>Показуємо гостям, як перемикати канали. У комплекті їдуть запасні навушники на заміну.</span>":
+  "<b>We explain how it all works</b> <span>We show guests how to switch channels. Spare headphones come in the set as replacements.</span>",
+"<b>Залишаємо вам найприємніше</b> <span>Ви зустрічаєте гостей і насолоджуєтеся вечором, а після події ми самі демонтуємо й забираємо обладнання. Працюємо в Києві й виїжджаємо по всій Україні.</span>":
+  "<b>We leave you the best part</b> <span>You welcome guests and enjoy the evening, and after the event we take the equipment down and away ourselves. We work in Kyiv and travel across Ukraine.</span>",
+"Одягнув. Обрав. Танцюй.":
+  "Put on. Choose. Dance.",
+"Нічого не треба підключати, встановлювати чи довго пояснювати. Формат простий навіть для тих, хто вперше чує про Silent Disco.":
+  "There is nothing to connect, install or explain at length. The format is simple even for those who hear about Silent Disco for the first time.",
+"<b>Три канали, три настрої</b> <span>На одному сучасні хіти, на іншому музика, яку знаєш напам’ять, на третьому зовсім інший вайб. Обираєте те, що хочеться слухати зараз.</span>":
+  "<b>Three channels, three moods</b> <span>Modern hits on one, music you know by heart on another, a completely different vibe on the third. You choose what you want to listen to right now.</span>",
+"<b>Кольори, що об’єднують</b> <span>Навушник світиться кольором каналу. Подивіться на танцпол, і побачите, хто танцює під ту саму музику.</span>":
+  "<b>Colors that connect</b> <span>The headphone glows in the color of the channel. Look at the dance floor and you will see who is dancing to the same music.</span>",
+"<b>Музика без колонок</b> <span>Звук іде бездротово в навушники, тож формат підходить для місць, де важливо стримати зовнішній шум: від домашньої вечірки до події просто неба.</span>":
+  "<b>Music without speakers</b> <span>The sound goes wirelessly to the headphones, so the format suits places where outside noise matters: from a home party to an open-air event.</span>",
+"<b>Технічне беремо на себе</b> <span>Ми привозимо й налаштовуємо обладнання та показуємо, як ним користуватися. Бути технічним спеціалістом не потрібно.</span>":
+  "<b>We take the technical part</b> <span>We bring and set up the equipment and show how to use it. You do not need to be a technician.</span>",
+"Від першого повідомлення до танцполу: чотири прості кроки":
+  "From the first message to the dance floor: four simple steps",
+"Не потрібно мати готовий сценарій. Достатньо ідеї, дати й бажання спробувати щось нове.":
+  "You do not need a ready script. An idea, a date and a wish to try something new are enough.",
+"Розкажіть про свою подію":
+  "Tell us about your event",
+"Залиште заявку з датою, локацією й кількістю гостей. Це хвилина, телефонувати не обов’язково.":
+  "Leave a request with the date, location and number of guests. It takes a minute, and calling is not required.",
+"Дізнайтеся вартість":
+  "Find out the cost",
+"Відповімо протягом дня й порахуємо вартість для вашої події.":
+  "We will reply within a day and calculate the cost for your event.",
+"Зустріньте нашу команду":
+  "Meet our team",
+"Приїдемо за 30 хвилин до початку й налаштуємо обладнання.":
+  "We arrive 30 minutes before the start and set up the equipment.",
+"Насолоджуйтеся вечором":
+  "Enjoy the evening",
+"Гості самі обирають музику й танцюють у своєму ритмі. Демонтаж на нас.":
+  "Guests choose the music themselves and dance at their own pace. We handle the takedown.",
+"Що таке Silent Disco і як працює тиха дискотека?":
+  "What is Silent Disco and how does a silent disco work?",
+"Silent Disco, або тиха дискотека, це вечірка, на якій гості слухають музику в бездротових навушниках замість колонок. У кожному навушнику три канали з різними плейлистами: вони перемикаються одним дотиком, а колір підсвітки показує обраний. Тож усі танцюють разом, навіть слухаючи різну музику. Докладніше про формат читайте в гіді <a href=\"/blog/tykha-dyskoteka-silent-disco/\">Silent Disco, або тиха дискотека</a>.":
+  "A Silent Disco, or silent disco, is a party where guests listen to the music in wireless headphones instead of speakers. Each headphone has three channels with different playlists: they switch with one touch, and the color of the glow shows the chosen one. So everyone dances together even while listening to different music. Read more about the format in our guide (in Ukrainian): <a href=\"/blog/tykha-dyskoteka-silent-disco/\">Silent Disco, or a silent disco</a>.",
+"Скільки коштує оренда навушників для Silent Disco?":
+  "How much does it cost to rent headphones for a Silent Disco?",
+"Навушник потрібен кожному, хто хоче слухати музику, а мінімальний комплект SILENT (40 навушників на 4 години) коштує від 12 000 грн з доставкою, встановленням, супроводом і вивозом. Додаткові навушники й години додаються до суми, а калькулятор нижче одразу покаже орієнтир для вашої події. Остаточну вартість підтверджуємо після уточнення деталей.":
+  "Everyone who wants to listen needs a headphone set, and the minimum SILENT set (40 headphones for 4 hours) costs from 12,000 UAH with delivery, installation, support and removal. Extra headphones and hours are added to the amount, and the calculator below shows an estimate for your event right away. We confirm the final cost after clarifying the details.",
+"Де можна організувати тиху дискотеку?":
+  "Where can I hold a silent disco?",
+"Практично будь-де: вдома, у дворі, на терасі, в кафе, банкетному залі чи на даху. Від вас місце для танців і розетка поруч, решту привозимо й забираємо самі, а на збірку потрібно близько 30 хвилин до старту. Колонок немає, тож питання гучності з майданчиком чи сусідами зазвичай не виникає. SILENT працює в Києві й виїжджає по всій Україні. Більше про вечірку без скарг сусідів читайте в статті <a href=\"/blog/vechirka-bez-shumu-sysidy/\">Як провести вечірку, щоб не заважати сусідам</a>.":
+  "Almost anywhere: at home, in a courtyard, on a terrace, in a café, a banquet hall or on a rooftop. From you, a place to dance and a socket nearby; we bring and take away everything else ourselves, and we need about 30 minutes before the start to set up. There are no speakers, so volume is usually not an issue with the venue or neighbours. SILENT works in Kyiv and travels across Ukraine. More about a party without neighbours' complaints is in our article (in Ukrainian): <a href=\"/blog/vechirka-bez-shumu-sysidy/\">How to throw a party without disturbing the neighbours</a>.",
+"Чи потрібен діджей для тихої дискотеки?":
+  "Do I need a DJ for a silent disco?",
+"Не обов’язково. Ми наперед готуємо три плейлисти під формат і настрій вечора, а гості самі обирають канал. Якщо ви хочете живий DJ-сет і мікс, який діджей зводить під час вечірки, такий варіант можна обговорити окремо.":
+  "Not necessarily. We prepare three playlists in advance for the format and the mood of the evening, and guests choose the channel themselves. If you want a live DJ set and a mix the DJ plays during the party, that option can be discussed separately.",
+"Чи можна спілкуватися під час Silent Disco?":
+  "Can we talk during a Silent Disco?",
+"Так. Щоб поговорити, почути тост чи привітати когось, зніміть навушники на шию: музика перестане звучати для вас, а голоси поруч будуть звичайними. Потім навушники легко одягнути знову, і танці тривають. Для людей без навушників музика не лунає, тож вечірка не заважає навколишнім.":
+  "Yes. To talk, hear a toast or congratulate someone, slide the headphones down to your neck: the music stops playing for you, and the voices around you sound normal. Then the headphones are easy to put back on, and the dancing goes on. For people without headphones the music does not sound, so the party does not disturb those around.",
+"Чи підходить Silent Disco для весілля, корпоративу або дитячого свята?":
+  "Is Silent Disco suitable for a wedding, a company party or a children's party?",
+"Так, формат можна адаптувати до різних подій. На <a href=\"/experiences/wedding/\">весіллі</a> він об’єднує гостей із різними музичними смаками, на <a href=\"/experiences/corporate/\">корпоративі</a> додає незвичний сценарій вечора, на <a href=\"/experiences/birthday/\">дні народження</a> лишає друзів на одному танцполі, а на дитячому святі дає дітям самим обирати канал. Музичні добірки, кількість обладнання й особливості події узгоджуємо заздалегідь.":
+  "Yes, the format can be adapted to different events. At a <a href=\"/en/experiences/wedding/\">wedding</a> it brings together guests with different musical tastes, at a <a href=\"/en/experiences/corporate/\">company party</a> it adds an unusual scenario for the evening, at a <a href=\"/en/experiences/birthday/\">birthday</a> it keeps friends on one dance floor, and at a children's party it lets kids choose the channel themselves. We agree the music selections, the amount of equipment and the specifics of the event in advance.",
+"Що входить у послугу Silent Disco під ключ?":
+  "What does the full-service Silent Disco include?",
+"До послуги входять комплект навушників, доставка, встановлення, налаштування й супровід, а також демонтаж і вивезення обладнання. Для мінімального комплекту (40 навушників на 4 години) це від 12 000 грн, а склад замовлення й додаткові опції підтверджуємо під час розрахунку.":
+  "The service includes the headphone set, delivery, installation, setup and support, as well as takedown and removal of the equipment. For the minimum set (40 headphones for 4 hours) this starts from 12,000 UAH, and we confirm the contents of the order and any extra options during the calculation.",
+"Тиха дискотека Silent Disco в Києві та по Україні: бездротові навушники з трьома каналами, доставка й налаштування під ключ. Кожен слухає своє.":
+  "Silent Disco, a silent disco in Kyiv and across Ukraine: wireless headphones with three channels, delivery and setup full-service. Everyone listens to their own.",
+"Так, формат можна адаптувати до різних подій. На <a href=\"/en/experiences/wedding/\">весіллі</a> він об’єднує гостей із різними музичними смаками, на <a href=\"/en/experiences/corporate/\">корпоративі</a> додає незвичний сценарій вечора, на <a href=\"/en/experiences/birthday/\">дні народження</a> лишає друзів на одному танцполі, а на дитячому святі дає дітям самим обирати канал. Музичні добірки, кількість обладнання й особливості події узгоджуємо заздалегідь.":
+  "Yes, the format can be adapted to different events. At a <a href=\"/en/experiences/wedding/\">wedding</a> it brings together guests with different musical tastes, at a <a href=\"/en/experiences/corporate/\">company party</a> it adds an unusual scenario for the evening, at a <a href=\"/en/experiences/birthday/\">birthday</a> it keeps friends on one dance floor, and at a children's party it lets kids choose the channel themselves. We agree the music selections, the amount of equipment and the specifics of the event in advance.",
+"<b>Під ключ</b> <span>доставка й налаштування</span>":
+  "<b>Full service</b> <span>delivery and setup</span>",
+"Кожен гість отримує Silent Disco навушники й може перемикатися між трьома каналами — кожен зі своїм жанром, плейлістом або настроєм.":
+  "Every guest gets Silent Disco headphones and can switch between three channels, each with its own genre, playlist or mood.",
+"Не обов'язково. Ми наперед готуємо три плейлісти під формат і настрій вечора, тож музика вже підібрана, а кожен гість сам перемикається між трьома каналами. Живий діджей потрібен лише якщо хочете саме його мікс на місці.":
+  "Not necessarily. We prepare three playlists in advance for the format and mood of the evening, so the music is already chosen and every guest switches between the three channels on their own. A live DJ is only needed if you want that particular DJ’s mix on site.",
+"Весілля збирає людей, яких рідко ставлять в одну кімнату: двоюрідних сестер і колег, шкільних друзів і дідуся з боку нареченого. Догодити всім одним плейлістом майже неможливо.":
+  "A wedding brings together people who are rarely put in one room: cousins and colleagues, school friends and the groom’s grandfather. Pleasing everyone with one playlist is almost impossible.",
+"Так, саме для цього він і добрий. У кожного гостя своя гучність і вибір із трьох каналів, тож молодь і старше покоління не мусять слухати одну музику. Плейлісти ми готуємо наперед під формат і настрій вечора.":
+  "Yes, that is exactly what it is good for. Every guest has their own volume and a choice of three channels, so young people and the older generation do not have to listen to the same music. We prepare the playlists in advance for the format and mood of the evening.",
+"Не обов’язково. Ми наперед готуємо три плейлісти під формат і настрій вечора, тож музика вже підібрана, а кожен гість сам перемикається між трьома каналами. Живий діджей потрібен лише якщо хочете саме його мікс на місці.":
+  "Not necessarily. We prepare three playlists in advance for the format and the mood of the evening, so the music is already chosen and each guest switches between the three channels on their own. A live DJ is needed only if you want their mix on the spot.",
+"Так, саме для цього він і добрий. У кожного гостя своя гучність і вибір із трьох каналів, тож друзі, колеги й родичі не мусять слухати одну музику. Плейлісти ми готуємо наперед під формат і настрій вечора.":
+  "Yes, that is exactly what it is good for. Each guest has their own volume and a choice of three channels, so friends, colleagues and relatives do not have to listen to the same music. We prepare the playlists in advance for the format and the mood of the evening.",
+"Так, саме для цього він і створений. Кожен гість обирає один із трьох каналів і свою гучність, тож друзі, колеги й родичі не мусять слухати одну музику. Плейлісти ми готуємо наперед.":
+  "Yes, that is exactly what it is made for. Each guest picks one of three channels and their own volume, so friends, colleagues and relatives do not have to listen to the same music. We prepare the playlists in advance.",
+"Не обов’язково. Ми наперед готуємо три плейлісти під формат і настрій вечора, тож музика вже підібрана, а кожен гість сам перемикається між каналами. Живий діджей потрібен, лише якщо хочете саме його мікс.":
+  "Not necessarily. We prepare three playlists in advance for the format and the mood of the evening, so the music is already chosen and each guest switches between the channels on their own. A live DJ is needed only if you want their mix.",
+"Три плейлісти під формат і настрій вечора ми підбираємо наперед. Живий діджей потрібен лише тоді, коли ви хочете саме його мікс.":
+  "We choose three playlists in advance for the format and the mood of the evening. A live DJ is needed only if you want their mix.",
+"Не обов’язково. Ми наперед готуємо три плейлісти під формат і настрій вечора, тож музика вже підібрана, а кожен гість сам перемикається між трьома каналами. Живий діджей потрібен лише тоді, коли ви хочете саме його мікс на місці.":
+  "Not necessarily. We prepare three playlists in advance for the format and the mood of the evening, so the music is already chosen and each guest switches between the three channels on their own. A live DJ is needed only if you want their mix on site.",
+"Три плейлісти під формат і настрій вашої події ми підбираємо наперед, тож складати добірку вам не треба. Живий діджей потрібен лише тоді, коли ви хочете саме його мікс.":
+  "We choose three playlists in advance for the format and mood of your event, so you do not have to compile a selection. A live DJ is needed only if you want their mix.",
+"Три плейлісти під формат і настрій вашої події ми підбираємо наперед. Живий діджей потрібен лише тоді, коли ви хочете саме його мікс.":
+  "We choose three playlists in advance for the format and mood of your event, A live DJ is needed only if you want their mix.",
+"<b>Добираємо музику</b> <span>Готуємо три плейлісти під формат і настрій вашої події. Хочете музику наживо від діджея? Це теж можна організувати.</span>":
+  "<b>We choose the music</b> <span>We prepare three playlists for the format and mood of your event. Want live music from a DJ? That can be arranged too.</span>",
+"Silent Disco, або тиха дискотека, це вечірка, на якій гості слухають музику в бездротових навушниках замість колонок. У кожному навушнику три канали з різними плейлістами: вони перемикаються одним дотиком, а колір підсвітки показує обраний. Тож усі танцюють разом, навіть слухаючи різну музику. Докладніше про формат читайте в гіді <a href=\"/blog/tykha-dyskoteka-silent-disco/\">Silent Disco, або тиха дискотека</a>.":
+  "A Silent Disco, or silent disco, is a party where guests listen to the music in wireless headphones instead of speakers. Each headphone has three channels with different playlists: they switch with one touch, and the color of the glow shows the chosen one. So everyone dances together even while listening to different music. Read more about the format in our guide (in Ukrainian): <a href=\"/blog/tykha-dyskoteka-silent-disco/\">Silent Disco, or a silent disco</a>.",
+"Не обов’язково. Ми наперед готуємо три плейлісти під формат і настрій вечора, а гості самі обирають канал. Якщо ви хочете живий DJ-сет і мікс, який діджей зводить під час вечірки, такий варіант можна обговорити окремо.":
+  "Not necessarily. We prepare three playlists in advance for the format and the mood of the evening, and guests choose the channel themselves. If you want a live DJ set and a mix the DJ plays during the party, that option can be discussed separately.",
+"<b>Музика без колонок і зайвих дротів</b> <span>Звук іде бездротово в навушники, тож формат підходить для місць, де важливо стримати зовнішній шум: від домашньої вечірки до події просто неба.</span>":
+  "<b>Music without speakers and extra wires</b> <span>The sound goes wirelessly to the headphones, so the format suits places where outside noise matters: from a home party to an open-air event.</span>",
+"Відповідаємо протягом дня, рахуємо вартість вашої події й підписуємо договір.":
+  "We reply within a day, calculate the cost of your event and sign the contract.",
+"<b>Пояснюємо, як усе працює</b> <span>Показуємо гостям, як перемикати канали. У комплекті є запасні навушники на заміну.</span>":
+  "<b>We explain how it all works</b> <span>We show guests how to switch channels. Spare headphones are included as replacements.</span>",
 }
