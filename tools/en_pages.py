@@ -1281,7 +1281,9 @@ T_PAGE_ALL = {
   "<b>From 40 headphones</b> <span>The minimum set for your wedding evening.</span>",
 "Весілля, де ніхто не мусить слухати чужу музику":
   "A wedding where nobody has to listen to someone else's music",
-"Усі різні. І саме тому це ваше свято.":
+"Різні покоління, різні смаки, один танцпол.":
+  "Different generations, different tastes, one dance floor.",
+"Усі різні. І саме тому це ваше свято.__old":
   "Everyone is different. And that is exactly why it is your celebration.",
 "На одному весіллі зустрічаються шкільні друзі, родичі, колеги й кілька поколінь однієї родини. Комусь хочеться танцювати під сучасні хіти, хтось чекає на знайомі мелодії з минулих років, а комусь важливіші розмови за столом.":
   "At one wedding you meet school friends, relatives, colleagues and several generations of one family. Some want to dance to modern hits, some wait for familiar tunes from past years, and for some the conversations at the table matter more.",

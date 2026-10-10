@@ -361,6 +361,8 @@ ART_ICONS = {
     'gift': '<rect x="3.5" y="9" width="17" height="11" rx="1.5"/><path d="M12 9v11M3.5 13h17"/><path d="M12 9c-2.5 0-4-1-4-2.5S9.5 3.5 12 9zm0 0c2.5 0 4-1 4-2.5S14.5 3.5 12 9z"/>',
     'clock': '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
     'film': '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M3 15h18M8 5v14M16 5v14"/>',
+    'pin': '<path d="M12 21s-6.5-5.6-6.5-11A6.5 6.5 0 0 1 12 3.5 6.5 6.5 0 0 1 18.5 10c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/>',
+    'coin': '<circle cx="12" cy="12" r="8.5"/><path d="M14.8 9.2c-.6-.9-1.6-1.3-2.8-1.3-1.6 0-2.7.8-2.7 2 0 3 5.6 1.4 5.6 4.4 0 1.2-1.2 2-2.9 2-1.3 0-2.4-.5-3-1.5M12 6.5v1.4M12 16.1v1.4"/>',
     'versus': '<path d="M4 8h12M12 4l4 4-4 4"/><path d="M20 16H8M12 12l-4 4 4 4"/>',
 }
 
@@ -380,14 +382,22 @@ def article_blocks(blocks):
                 # Вигляд карток можна міняти по блоках, не чіпаючи дизайн-систему: layout "cols" = вертикальні картки в ряд,
                 # marks "icons" = тематична іконка (поле ic у картці, ключі в ART_ICONS) замість номера. Без цього: номери, дві колонки.
                 use_icons = b.get('marks') == 'icons'
+                use_none = b.get('marks') == 'none'   # без номера й іконки: картка з лаймовою смужкою ліворуч (для переліків без послідовності)
                 def mark(x):
+                    if use_none:
+                        return ''
                     if use_icons and x.get('ic') in ART_ICONS:
                         return '<span class="art-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">%s</svg></span>' % ART_ICONS[x['ic']]
                     return '<i class="art-n" aria-hidden="true"></i>'
-                items = ''.join('<li>%s<b>%s</b><span>%s</span></li>' % (mark(x), esc(x['t']), inline(x['d'])) for x in b['cards'])
+                def rows(x):
+                    # Необов'язкові рядки з підписом (кому підходить, що потрібно...): rows: [[підпис, текст], ...] під основним текстом картки.
+                    if not x.get('rows'):
+                        return ''
+                    return '<dl class="art-rows">%s</dl>' % ''.join('<div><dt>%s</dt> <dd>%s</dd></div>' % (esc(l), inline(t)) for l, t in x['rows'])
+                items = ''.join('<li>%s<b>%s</b><span>%s</span>%s</li>' % (mark(x), esc(x['t']), inline(x['d']), rows(x)) for x in b['cards'])
                 lead = '<p class="art-cards-lead">%s</p>' % inline(b['lead']) if b.get('lead') else ''
                 out.append('<section class="art-blk"><div class="art-cols"><h2>%s</h2>%s<ol class="art-cards%s">%s</ol></div></section>'
-                           % (esc(b['title']), lead, ' is-cols' if b.get('layout') == 'cols' else '', items))
+                           % (esc(b['title']), lead, (' is-cols' if b.get('layout') in ('cols', 'three') else '') + (' is-three' if b.get('layout') == 'three' else '') + (' is-plain' if use_none else ''), items))
                 continue
             # Звичайний текстовий блок: ОДИН потік у дві CSS-колонки з вирівнюванням, заголовок першим елементом потоку (у лівій колонці),
             # (column-fill: balance): колонки починаються на одному рівні, закінчуються на одному, а абзац сам

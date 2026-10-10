@@ -8245,6 +8245,11 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
 .art-n::before { content: counter(card, decimal-leading-zero); }
 .art-cards b { grid-column: 2; font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: clamp(16px, 1.3vw, 19px); line-height: 1.3; letter-spacing: -0.01em; color: #fff; }   /* Unbounded 600: той самий голос, що в заголовках карток сайту, без важкості */
 .art-cards span { grid-column: 2; color: rgba(255,255,255,.72); font-size: clamp(16px, 1.3vw, 18px); line-height: 1.6; }
+/* Рядки з підписом у картці (кому підходить, що потрібно, чим запам'ятовується): підпис малим лаймовим капсом, текст під ним, тонка лінія між рядками. */
+.art-rows { grid-column: 2; margin: 6px 0 0; padding: 0; display: grid; gap: 0; }
+.art-rows > div { padding: 12px 0; border-top: 1px solid rgba(255,255,255,.1); }
+.art-rows dt { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--lime-quiet, var(--lime)); margin: 0 0 4px; }
+.art-rows dd { margin: 0; color: rgba(255,255,255,.72); font-size: clamp(15px, 1.2vw, 17px); line-height: 1.55; }
 
 .art-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--art-colgap); align-items: stretch; }
 .art-pair-img { margin: 0; position: relative; min-height: clamp(340px, 31vw, 440px); border-radius: 32px; overflow: hidden; }
@@ -8260,6 +8265,12 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
 .art-cta h2 { font-weight: 800; font-size: clamp(22px, 2.4vw, 32px); line-height: 1.2; margin: 0 0 8px; max-width: 640px; }
 .art-cta p { font-size: 16px; color: rgba(10,10,11,.75); margin: 0; max-width: none; }
 .art-cta-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 30px; border-radius: 999px; background: var(--night); color: var(--lime); font-weight: 800; font-size: 15px; }
+/* Плашка з кнопкою: на широких екранах текст ліворуч (не ширше ~60% плашки), кнопка праворуч на рівні нижнього рядка тексту; на вузьких кнопка під текстом (див. мобільний блок нижче). */
+@media (min-width: 801px) {
+  .art-cta { flex-wrap: nowrap; align-items: flex-end; }
+  .art-cta > div { flex: 0 1 min(620px, 60%); min-width: 0; }
+  .art-cta-btn { flex: none; white-space: nowrap; }
+}
 
 .art-faq { display: flex; flex-direction: column; }
 .art-faq .faq-list { margin-top: 0; }
@@ -8290,6 +8301,12 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
 @media (max-width: 700px) {
   .art-cards { grid-template-columns: minmax(0, 1fr); }
   .art-cards li { column-gap: 16px; }
+  /* Мобільна: номер (чи іконка) і заголовок в одному рядку, а текст і рядки з підписами на всю ширину картки, а не вузькою колонкою праворуч від цифри. */
+  .art-cards:not(.is-cols) li { align-items: center; }
+  .art-cards:not(.is-cols) .art-n, .art-cards:not(.is-cols) .art-ic { grid-row: 1; }
+  .art-cards:not(.is-cols) b { grid-row: 1; }
+  .art-cards:not(.is-cols) span, .art-cards:not(.is-cols) .art-rows { grid-column: 1 / -1; }
+  .art-cards:not(.is-cols) span { margin-top: 4px; }
 }
 
 /* Смуга прогресу читання статті (її створює й веде блок «Блог: анімації прокрутки» в site.js). */
@@ -8385,9 +8402,16 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
 .art-cards.is-cols { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .art-cards.is-cols li { grid-template-columns: minmax(0, 1fr); row-gap: 12px; }
 .art-cards.is-cols .art-n, .art-cards.is-cols .art-ic { grid-row: auto; grid-column: 1; }
-.art-cards.is-cols b, .art-cards.is-cols span { grid-column: 1; }
+.art-cards.is-cols b, .art-cards.is-cols span, .art-cards.is-cols .art-rows { grid-column: 1; }
 @media (max-width: 1100px) { .art-cards.is-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 700px) { .art-cards.is-cols { grid-template-columns: minmax(0, 1fr); } }
+/* Варіанти карток статей: is-three = три колонки (3 або 9 карток без «висячої»), на вужчих екранах одна колонка;
+   is-plain = без номера й іконки, коротка лаймова риска над заголовком (переліки без послідовності). */
+.art-cards.is-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 1100px) { .art-cards.is-three { grid-template-columns: minmax(0, 1fr); } }
+.art-cards.is-plain li { grid-template-columns: minmax(0, 1fr); }
+.art-cards.is-plain b::before { content: ''; display: block; width: 28px; height: 3px; border-radius: 3px; background: var(--lime-quiet, var(--lime)); margin-bottom: 12px; }
+.art-cards.is-plain b, .art-cards.is-plain span, .art-cards.is-plain .art-rows { grid-column: 1; }
 
 /* Горизонтальний «запас» сторінки на телефоні (стаття блогу): до появи в кадрі GSAP зсуває цитату праворуч (x: 48), цей виліт робив сторінку
    ширшою за екран, і її можна було трохи посунути вбік. body { overflow-x: hidden } на iOS не рятує, коли прокручується сама html, тому
