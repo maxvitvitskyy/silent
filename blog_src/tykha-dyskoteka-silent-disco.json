@@ -17,9 +17,9 @@
  "meta": "Що таке Silent Disco і як працює тиха дискотека? Розповідаємо про бездротові навушники, музичні канали, формати подій, організацію та вартість.",
  "seo_title": "Тиха дискотека Silent Disco: як це працює | SILENT",
  "related": [
-  "vechirka-bez-shumu-sysidy",
-  "yak-vidsvyatkuvaty-den-narodzhennya",
-  "idei-dlya-korporativu"
+  "dlya-yakykh-podiy-zamovlyayut-silent-disco",
+  "silent-disco-dlya-riznykh-podiy",
+  "yak-vidsvyatkuvaty-den-narodzhennya"
  ],
  "date_iso": "2026-10-09",
  "modified_iso": "2026-10-10",
@@ -198,7 +198,7 @@
   {
    "type": "text",
    "title": "Для яких людей і подій підходить Silent Disco?",
-   "lead": "Формат працює на [[/experiences/birthday/|днях народження]], [[/experiences/wedding/|весіллях]], [[/experiences/corporate/|корпоративах]], домашніх вечірках, просто неба й на фестивалях. Усі формати зібрані в каталозі [[/experiences/|Тихі враження]]. Ідеї для кожного формату є в статтях про [[/blog/yak-vidsvyatkuvaty-den-narodzhennya/|день народження]], [[/blog/idei-dlya-korporativu/|корпоратив]] і [[/blog/vesillya-voyennyi-stan/|весілля під час війни]].",
+   "lead": "Формат працює на [[/experiences/birthday/|днях народження]], [[/experiences/wedding/|весіллях]], [[/experiences/corporate/|корпоративах]], домашніх вечірках, просто неба й на фестивалях. Усі формати зібрані в каталозі [[/experiences/|Тихі враження]]. Ідеї для кожного формату є в статтях про [[/blog/yak-vidsvyatkuvaty-den-narodzhennya/|день народження]], [[/blog/idei-dlya-korporativu/|корпоратив]] і [[/blog/vesillya-voyennyi-stan/|весілля під час війни]]. Які події обирають найчастіше, показує [[/blog/dlya-yakykh-podiy-zamovlyayut-silent-disco/|аналіз 3000 бронювань]], а ідеї для десяти типів подій зібрано в статті [[/blog/silent-disco-dlya-riznykh-podiy/|Silent Disco для різних подій]].",
    "marks": "icons",
    "layout": "cols",
    "cards": [
