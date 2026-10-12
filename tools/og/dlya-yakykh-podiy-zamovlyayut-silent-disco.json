@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-dlya-yakykh-podiy-zamovlyayut-silent-disco.jpg",
+  "bg": {
+    "src": "images/silent-disco/silent-disco-tanspol-na-festyvali.webp",
+    "pos": "50% 45%"
+  },
+  "heading": [
+    "Для яких подій",
+    "замовляють Silent Disco"
+  ],
+  "subtitle": [
+    [
+      "Розбір 3000 бронювань: від днів народження до школи й корпоративів."
+    ]
+  ],
+  "pills": [
+    "<b>67%</b> свята",
+    "<b>23%</b> дні народження",
+    "<b>22%</b> школа",
+    "<b>11%</b> корпоративи"
+  ]
+}

@@ -99,7 +99,7 @@ def card(p, cats):
 # BLOG-MEGA:START/END у шапку кожної української сторінки (меню в нас продубльоване по файлах). В англійську
 # версію не потрапляє: блог поки лише українською (build_en.py вирізає цей блок перед перекладом).
 MEGA_PAGES = ['index.html', 'privacy/index.html', 'experiences/index.html', 'experiences/corporate/index.html',
-              'experiences/wedding/index.html', 'experiences/birthday/index.html', 'experiences/silent-disco/index.html', 'faq/index.html']
+              'experiences/wedding/index.html', 'experiences/birthday/index.html', 'experiences/silent-disco/index.html', 'experiences/school/index.html', 'faq/index.html']
 MEGA_START = '<!-- BLOG-MEGA:START (генерує tools/build_blog.py, руками не правити) -->'
 MEGA_END = '<!-- BLOG-MEGA:END -->'
 _SV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">%s</svg>'
@@ -363,6 +363,14 @@ ART_ICONS = {
     'film': '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M3 15h18M8 5v14M16 5v14"/>',
     'pin': '<path d="M12 21s-6.5-5.6-6.5-11A6.5 6.5 0 0 1 12 3.5 6.5 6.5 0 0 1 18.5 10c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/>',
     'coin': '<circle cx="12" cy="12" r="8.5"/><path d="M14.8 9.2c-.6-.9-1.6-1.3-2.8-1.3-1.6 0-2.7.8-2.7 2 0 3 5.6 1.4 5.6 4.4 0 1.2-1.2 2-2.9 2-1.3 0-2.4-.5-3-1.5M12 6.5v1.4M12 16.1v1.4"/>',
+    'cake': '<path d="M4 20h16v-6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2z"/><path d="M4 16c2 1.5 3 1.5 4 0s2-1.5 4 0 3 1.5 4 0 2-1.5 4 0"/><path d="M12 12V8M12 4v1"/>',
+    'party': '<path d="M4 20l4.5-12L16 15.5z"/><path d="M14 5l1 2M19 9l-2 .5M17 3v2M20 14l-2-1"/>',
+    'school': '<path d="M3 10l9-6 9 6"/><path d="M5 10v9h14v-9"/><path d="M10 19v-5h4v5"/>',
+    'case': '<rect x="3" y="8" width="18" height="12" rx="2"/><path d="M9 8V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/>',
+    'church': '<path d="M12 3v4M10 5h4"/><path d="M12 7l6 4v9H6v-9z"/><path d="M10 20v-4a2 2 0 0 1 4 0v4"/>',
+    'rings': '<circle cx="9" cy="14" r="5"/><circle cx="15" cy="14" r="5"/><path d="M12 3l-2 3h4z"/>',
+    'heart': '<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/>',
+    'mic': '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>',
     'versus': '<path d="M4 8h12M12 4l4 4-4 4"/><path d="M20 16H8M12 12l-4 4 4 4"/>',
 }
 
@@ -430,6 +438,20 @@ def article_blocks(blocks):
             lead = '<p class="art-cards-lead">%s</p>' % inline(b['lead']) if b.get('lead') else ''
             out.append('<section class="art-blk"><div class="art-cols"><h2>%s</h2>%s<div class="art-table-wrap"><table class="art-table"><thead><tr>%s</tr></thead><tbody>%s</tbody></table></div></div></section>'
                        % (esc(b['title']), lead, head, rows))
+        elif t == 'stat':
+            # Велика цифра з коротким поясненням: лаймова плашка на ширину тексту (як CTA, але без кнопки).
+            out.append('<aside class="art-stat"><div class="art-stat-n">%s</div><p>%s</p></aside>' % (esc(b['value']), inline(b['text'])))
+        elif t == 'chart':
+            # Горизонтальні смужки: іконка, підпис, смужка (ширина відносно найбільшого значення) і відсоток.
+            mx = max(r['p'] for r in b['rows'])
+            def row(i, r):
+                svg = '<span class="art-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">%s</svg></span>' % ART_ICONS[r['ic']]
+                return ('<li%s style="--w:%.1f%%">%s<b>%s</b><span class="art-bar" aria-hidden="true"><i></i></span><em>%d%%</em></li>'
+                        % (' class="is-top"' if i < 3 else '', r['p'] * 100.0 / mx, svg, esc(r['l']), r['p']))
+            lead = '<p class="art-cards-lead">%s</p>' % inline(b['lead']) if b.get('lead') else ''
+            note = '<p class="art-chart-note">%s</p>' % inline(b['note']) if b.get('note') else ''
+            out.append('<section class="art-blk"><div class="art-cols"><h2>%s</h2>%s<ol class="art-chart">%s</ol>%s</div></section>'
+                       % (esc(b['title']), lead, ''.join(row(i, r) for i, r in enumerate(b['rows'])), note))
         elif t == 'photos':
             # Ряд із двох-трьох фото на ширину тексту (без плашки з цитатою), для живих кадрів посеред статті.
             n = len(b['images'])

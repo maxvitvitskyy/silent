@@ -88,6 +88,20 @@
     <lastmod>2026-10-09</lastmod>
   </url>
   <url>
+    <loc>https://silent.org.ua/experiences/school/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/school/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/school/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/school/"/>
+    <lastmod>2026-10-12</lastmod>
+  </url>
+  <url>
+    <loc>https://silent.org.ua/en/experiences/school/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/school/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/school/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/school/"/>
+    <lastmod>2026-10-12</lastmod>
+  </url>
+  <url>
     <loc>https://silent.org.ua/faq/</loc>
     <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/faq/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/faq/"/>
@@ -124,5 +138,9 @@
   <url>
     <loc>https://silent.org.ua/blog/tykha-dyskoteka-silent-disco/</loc>
     <lastmod>2026-10-10</lastmod>
+  </url>
+  <url>
+    <loc>https://silent.org.ua/blog/dlya-yakykh-podiy-zamovlyayut-silent-disco/</loc>
+    <lastmod>2026-10-12</lastmod>
   </url>
 </urlset>

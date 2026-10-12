@@ -8533,3 +8533,28 @@ html { overflow-x: clip; }
 @media (hover: hover) { .blog-title-link:hover { color: var(--lime); } }
 .blog-title-link:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; border-radius: 6px; }
 .blog-hero-text .blog-title-link { position: relative; z-index: 2; }
+
+/* Блок «діаграма» (.art-chart): рядки з іконкою, підписом, смужкою й відсотком. Три перші рядки лаймові, решта приглушені. */
+.art-chart { grid-column: 1 / -1; list-style: none; margin: 0; padding: clamp(18px, 2.4vw, 32px); display: grid; gap: 0; border-radius: var(--r-lg); border: 1px solid var(--line); background: var(--glass-fill-dense, rgba(255,255,255,.04)); }
+.art-chart li { display: grid; grid-template-columns: 36px minmax(150px, 280px) minmax(0, 1fr) 64px; align-items: center; column-gap: 18px; padding: 14px 0; border-top: 1px solid rgba(255,255,255,.08); }
+.art-chart li:first-child { border-top: 0; }
+.art-chart .art-ic { grid-column: 1; grid-row: auto; width: 28px; height: 28px; margin: 0; color: rgba(255,255,255,.55); }
+.art-chart li.is-top .art-ic { color: var(--lime); }
+.art-chart b { grid-column: 2; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: clamp(15px, 1.2vw, 17px); line-height: 1.3; color: #fff; }
+.art-chart .art-bar { grid-column: 3; display: block; height: 12px; border-radius: 999px; background: rgba(255,255,255,.07); overflow: hidden; }
+.art-chart .art-bar i { display: block; height: 100%; width: var(--w); border-radius: inherit; background: rgba(255,255,255,.38); }
+.art-chart li.is-top .art-bar i { background: var(--lime); }
+.art-chart em { grid-column: 4; justify-self: end; font-style: normal; font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: clamp(16px, 1.5vw, 20px); color: rgba(255,255,255,.7); font-variant-numeric: tabular-nums; }
+.art-chart li.is-top em { color: var(--lime); }
+.art-chart-note { grid-column: 1 / -1; margin: 0; font-size: 14px; color: var(--muted); max-width: 70ch; }
+@media (max-width: 700px) {
+  .art-chart li { grid-template-columns: 28px minmax(0, 1fr) auto; row-gap: 8px; column-gap: 12px; }
+  .art-chart .art-bar { grid-column: 1 / -1; grid-row: 2; }
+  .art-chart b { grid-column: 2; }
+  .art-chart em { grid-column: 3; grid-row: 1; }
+}
+/* Велика цифра (.art-stat): лаймова плашка на ширину тексту. */
+.art-stat { display: flex; align-items: center; gap: clamp(20px, 4vw, 48px); padding: clamp(24px, 4vw, 44px) clamp(24px, 4vw, 56px); border-radius: 40px; background: var(--lime); color: var(--night); }
+.art-stat-n { flex: none; font-family: 'Unbounded', sans-serif; font-weight: 800; font-size: clamp(56px, 9vw, 112px); line-height: 1; letter-spacing: -0.04em; }
+.art-stat p { margin: 0; max-width: 46ch; font-size: clamp(16px, 1.5vw, 20px); line-height: 1.45; font-weight: 600; color: rgba(10,10,11,.82); }
+@media (max-width: 700px) { .art-stat { flex-direction: column; align-items: flex-start; gap: 12px; border-radius: 32px; } }
