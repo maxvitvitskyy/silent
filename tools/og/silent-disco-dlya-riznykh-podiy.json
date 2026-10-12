@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-silent-disco-dlya-riznykh-podiy.jpg",
+  "bg": {
+    "src": "images/silent-disco/silent-disco-kompaniya-pid-salyutom-na-festyvali.webp",
+    "pos": "50% 45%"
+  },
+  "heading": [
+    "Silent Disco",
+    "для різних подій"
+  ],
+  "subtitle": [
+    [
+      "10 ідей: від дня народження до фестивалю."
+    ]
+  ],
+  "pills": [
+    "<b>10</b> ідей",
+    "<b>3</b> канали",
+    "<b>Будь-яка</b> локація",
+    "<b>Київ</b> та Україна"
+  ]
+}
