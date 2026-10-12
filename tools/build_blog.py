@@ -138,11 +138,25 @@ def blog_mega_html(data):
     posts = ordered_posts(data['posts'])
     feat = next((p for p in posts if p.get('featured')), posts[0])
     rest = [p for p in posts if p is not feat]
-    fresh = rest[:4]
-    # «Добірка»: спершу готові статті (щоб було що відкрити), далі заглушки з решти списку
-    older = [p for p in rest if p['status'] == 'published' and p not in fresh]
-    stubs = [p for p in rest if p['status'] != 'published' and p not in fresh]
-    pick = (older + stubs + [p for p in rest if p not in older + stubs])[:4]
+    # «Свіже»: усі найновіші готові статті (крім «Вибору редакції»), скільки влізає в колонку по висоті: MEGA_FRESH_MAX
+    # (виміряно: 6 пунктів по ~70px у картці 550px). Нова стаття стає першою, а найстарша випадає, коли їх стає більше.
+    # «Добірка»: 4 картки з готових статей, без заглушок, і щоразу інший добір: випадковість засіяна хешем поточного
+    # коміту (git HEAD). Між збірками в межах одного коміту добір стабільний (однаковий на всіх сторінках), а з кожним
+    # новим комітом змінюється. Без git береться дата.
+    MEGA_FRESH_MAX = 6
+    live_rest = [p for p in rest if p['status'] == 'published']
+    fresh = live_rest[:MEGA_FRESH_MAX]
+    stubs = [p for p in rest if p['status'] != 'published']
+    try:
+        import subprocess
+        seed = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, stderr=subprocess.DEVNULL).decode().strip()
+    except Exception:
+        import datetime
+        seed = datetime.date.today().isoformat()
+    import random
+    pool = list(live_rest)
+    random.Random(seed).shuffle(pool)
+    pick = (pool + stubs)[:4]
     ic = lambda k: '<span class="nav-mega-icon" aria-hidden="true">%s</span>' % (_SV % MEGA_ICONS[k])
     live = lambda p: p['status'] == 'published'
     vis = ('<div class="nav-mega-visual-text"><span class="nav-mega-badge">Вибір редакції</span>'
