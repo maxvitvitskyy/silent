@@ -8710,3 +8710,7 @@ html { overflow-x: clip; }
   hyphens: auto; -webkit-hyphens: auto; hyphenate-limit-chars: 6 3 3; hyphenate-limit-lines: 2; overflow-wrap: break-word;
   font-weight: 400; font-size: clamp(16px, 1.65vw, 21px); line-height: 1.5; text-wrap: wrap;
 }
+
+/* Контекстні лінки в текстових блоках сторінок досвідів: лаймові без підкреслення (як у «Про нас»), інакше вони не відрізняються від тексту. */
+.exp-story-text p a:not(.btn-primary):not(.btn-ghost){color:var(--lime);text-decoration:none;transition:opacity .2s ease}
+.exp-story-text p a:not(.btn-primary):not(.btn-ghost):hover{opacity:.78}

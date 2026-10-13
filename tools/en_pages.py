@@ -1424,8 +1424,8 @@ T_PAGE_ALL = {
   "Different ages, different tastes, and everyone at their own pace.",
 "У школі на одному святі збираються діти різного віку й смаків: хтось любить новинки, хтось класичні хіти, а хтось ще вирішує, що йому подобається. Один плейліст на весь зал рідко влаштовує всіх.":
   "At a school event children of different ages and tastes come together: some like new releases, some classic hits, and some are still deciding what they like. One playlist for the whole hall rarely suits everyone.",
-"У навушниках три музичні канали. Учень обирає свій і перемикається одним дотиком, а гучність налаштовує сам: у навушниках є регулятор і обмежувач гучності. Музика не звучить із колонок, тож у залі можна говорити звичайним голосом.":
-  "The headphones have three music channels. A student picks their own and switches with one touch, and sets the volume themselves: the headphones have a volume control and a volume limiter. The music does not play from speakers, so in the hall you can speak in a normal voice.",
+'У навушниках <a href="/en/experiences/silent-disco/">три музичні канали</a>. Учень обирає свій і перемикається одним дотиком, а гучність налаштовує сам: у навушниках є регулятор і обмежувач гучності. Музика не звучить із колонок, тож у залі можна говорити звичайним голосом.':
+  '"The headphones have <a href="/en/experiences/silent-disco/">three music channels</a>. A student picks their own and switches with one touch, and sets the volume themselves: the headphones have a volume control and a volume limiter. The music does not play from speakers, so in the hall you can speak in a normal voice."',
 "Коли вчителю потрібно зібрати клас, оголосити конкурс чи подякувати гостям, достатньо, щоб діти зняли навушники на шию: усі чують одне одного без мікрофона й перекрикування.":
   "When a teacher needs to gather the class, announce a contest or thank guests, it is enough for the children to put the headphones around their necks: everyone hears each other without a microphone or shouting.",
 "Менше шуму в залі. Більше свята для всіх.":
