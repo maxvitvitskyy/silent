@@ -8659,7 +8659,11 @@ html { overflow-x: clip; }
   .ab-vision-text .ab-close{font-size:20px;margin-top:18px}
   .ab-cta{padding-top:44px;margin-bottom:-52px}
   .ab-plate{padding:44px 34px 40px;gap:22px;border-radius:24px}
-  .ab-plate h2{font-size:clamp(30px,9.2vw,36px);line-height:1.04}
+  .ab-plate{grid-template-columns:minmax(0,1fr)}
+  .ab-plate h2{font-size:clamp(20px,6.1vw,25px);line-height:1.1;overflow-wrap:anywhere}
+  .ab-plate-r{width:100%;max-width:100%}
+  .ab-plate-r>p:first-child{overflow-wrap:break-word}
+  .ab-plate .ab-btn{min-width:0;width:100%;max-width:340px}
   .ab-plate{text-align:center}
   .ab-plate-r{gap:0;align-items:center}
   .ab-plate-r>p:first-child{margin:0;font-size:16px;line-height:1.5}
@@ -8714,3 +8718,13 @@ html { overflow-x: clip; }
 /* Контекстні лінки в текстових блоках сторінок досвідів: лаймові без підкреслення (як у «Про нас»), інакше вони не відрізняються від тексту. */
 .exp-story-text p a:not(.btn-primary):not(.btn-ghost){color:var(--lime);text-decoration:none;transition:opacity .2s ease}
 .exp-story-text p a:not(.btn-primary):not(.btn-ghost):hover{opacity:.78}
+
+/* «Про нас», плашка-заклик на телефоні (≤640px). Стоїть наприкінці файла навмисно: десктопні правила плашки вище мають той самий специфічний
+   селектор і інакше перебивали б мобільні. Кегль заголовка рахується від ширини екрана так, щоб слово «запам’ятається.» (≈9,6 em завширшки)
+   помістилося в один рядок у внутрішній ширині плашки (екран мінус поля 28+28 мінус внутрішні відступи 34+34). */
+@media(max-width:640px){
+  .ab-plate{grid-template-columns:minmax(0,1fr);padding:44px 34px 40px}
+  .ab-plate h2{font-size:max(19px,calc((100vw - 124px) / 9.8));line-height:1.1;overflow-wrap:normal}
+  .ab-plate-r{width:100%;max-width:100%}
+  .ab-plate .ab-btn{min-width:0;width:100%;max-width:340px}
+}
