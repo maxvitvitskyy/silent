@@ -1498,6 +1498,30 @@ T_PAGE_ALL = {
   "A girl with face paint dances in Silent Disco headphones at a children's party",
 "Троє друзів обіймаються в навушниках Silent Disco із синьою підсвіткою":
   "Three friends hug in Silent Disco headphones with blue lights",
+"Дві подруги веселяться в навушниках Silent Disco на шкільній вечірці":
+  "Two friends having fun in Silent Disco headphones at a school party",
+"Школярка танцює в навушниках Silent Disco на шкільній дискотеці":
+  "A schoolgirl dances in Silent Disco headphones at a school disco",
+"Учні танцюють у темному залі в навушниках Silent Disco":
+  "Students dance in a dark hall wearing Silent Disco headphones",
+"Червоне світло в шкільному залі: учні танцюють у навушниках Silent Disco":
+  "Red light in a school hall: students dance in Silent Disco headphones",
+"Підлітки в окулярах і навушниках Silent Disco веселяться на шкільній вечірці":
+  "Teenagers in glasses and Silent Disco headphones having fun at a school party",
+"Дівчина в білій майці танцює в червоних навушниках Silent Disco":
+  "A girl in a white top dances in red Silent Disco headphones",
+"Дві подруги в неонових навушниках Silent Disco на шкільній дискотеці":
+  "Two friends in neon Silent Disco headphones at a school disco",
+"Школярі танцюють конгою в навушниках Silent Disco":
+  "Students dance a conga line in Silent Disco headphones",
+"Троє дітей у неонових футболках у навушниках Silent Disco":
+  "Three children in neon T-shirts wearing Silent Disco headphones",
+"Шкільний спортзал із танцюючими учнями в навушниках Silent Disco, вид зверху":
+  "A school gym full of students dancing in Silent Disco headphones, seen from above",
+"Усміхнена школярка в навушниках Silent Disco":
+  "A smiling schoolgirl in Silent Disco headphones",
+"Учні танцюють у спортзалі в навушниках Silent Disco":
+  "Students dance in a gym wearing Silent Disco headphones",
 "Дві подруги в навушниках Silent Disco роблять серце руками":
   "Two friends in Silent Disco headphones make a heart with their hands",
 "Діти танцюють у навушниках Silent Disco, що світяться різними кольорами":
