@@ -232,6 +232,8 @@ PATHS = [
  ('src="assets/vendor/',    'src="../assets/vendor/'),
  ('href="images/',  'href="../images/'),
  ('src="images/',   'src="../images/'),
+ ('srcset="images/', 'srcset="../images/'),
+ ('-640.webp 640w, images/', '-640.webp 640w, ../images/'),
  # data-poster ПЕРЕД звичайним poster=: рядок "poster=\"images/" — це
  # підрядок "data-poster=\"images/", тож у зворотному порядку перше правило
  # вже підмінило б усі data-poster, і друге не знайшло б свій текст.
