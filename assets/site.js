@@ -5932,3 +5932,37 @@ function orderExperience(name, opts){
   })();
 
   window.__siteJs = true;
+
+
+// ---- Фонове відео героя: старт ПІСЛЯ завантаження сторінки (оптимізація, 13.10.2026) ----
+// Було: <video autoplay preload="auto"> одразу тягнув 19 МБ і на повільному мобільному каналі конкурував із постером, CSS та скриптами за смугу
+// (Lighthouse mobile: LCP 7,6 с, FCP 5,6 с). Тепер HTML віддає лише постер (preload="none"), а ролик підключається тут: після події load, у вільну
+// мить, і не підключається зовсім, якщо в користувача увімкнено «заощадження трафіку», повільна мережа (2G/3G) або зменшений рух. Видимий результат
+// у решти людей той самий: постер → те саме відео. На телефоні береться легший файл (hero-bg-m, 640px), на десктопі hero-bg-v3 (1280px).
+(function(){
+  const v = document.querySelector('video[data-hero-video]');
+  if (!v) return;
+  const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  const slow = conn && (conn.saveData || /(^|-)2g$|3g/.test(conn.effectiveType || ''));
+  const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (slow || reduced) return;
+  function start(){
+    const srcEl = v.querySelector('source');
+    if (!srcEl) return;
+    let url = srcEl.src;
+    const mobile = window.matchMedia && window.matchMedia('(max-width: 760px)').matches;
+    if (mobile && v.dataset.srcMobile) url = url.replace(/hero-bg-[a-z0-9]+\.mp4/, v.dataset.srcMobile + '.mp4');
+    v.src = url;
+    // Повторна спроба, коли дані вже є: деякі вбудовані браузери відхиляють перший play() до готовності потоку.
+    v.addEventListener('canplay', () => { if (v.paused) v.play().catch(() => {}); }, { once: true });
+    v.load();
+    const p = v.play();
+    if (p && p.catch) p.catch(() => {});
+  }
+  function whenIdle(){
+    if ('requestIdleCallback' in window) requestIdleCallback(start, { timeout: 2500 });
+    else setTimeout(start, 600);
+  }
+  if (document.readyState === 'complete') whenIdle();
+  else window.addEventListener('load', whenIdle, { once: true });
+})();
