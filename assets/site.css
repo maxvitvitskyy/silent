@@ -8606,10 +8606,13 @@ html { overflow-x: clip; }
 .ab-cta{position:relative;z-index:2;padding:clamp(60px,8vw,120px) 0 0}
 .ab-plate{position:relative;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(24px,4vw,64px);align-items:end;padding:clamp(32px,4.5vw,64px);border-radius:var(--r-lg);overflow:hidden;isolation:isolate;color:#fff;
   /* Темна «кімната» з неоновим лаймовим світінням, що тече від країв до центру, і ледь помітною перспективною сіткою (за референсом власника, без зображень всередині). */
-  background:radial-gradient(130% 150% at 50% 42%,rgba(3,6,0,.97) 26%,rgba(26,48,0,.94) 60%,rgba(96,150,0,.96) 100%);
+  background:radial-gradient(130% 150% at 50% 42%,rgba(3,6,0,.62) 26%,rgba(26,48,0,.58) 60%,rgba(96,150,0,.62) 100%);-webkit-backdrop-filter:blur(26px) saturate(1.4);backdrop-filter:blur(26px) saturate(1.4);
   border:1px solid rgba(214,255,60,.72);
   box-shadow:inset 0 0 64px 4px rgba(198,255,0,.5),inset 0 -30px 60px rgba(198,255,0,.55),0 0 70px rgba(198,255,0,.28),0 24px 70px rgba(0,0,0,.4)}
-.ab-plate::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(rgba(198,255,0,.13) 1px,transparent 1px),linear-gradient(90deg,rgba(198,255,0,.13) 1px,transparent 1px);background-size:56px 56px;background-position:center bottom;-webkit-mask-image:radial-gradient(80% 90% at 50% 100%,#000,transparent 85%);mask-image:radial-gradient(80% 90% at 50% 100%,#000,transparent 85%)}
+.ab-plate::before,.ab-plate::after{content:"";position:absolute;left:-60%;right:-60%;height:78%;z-index:-1;pointer-events:none;background-image:linear-gradient(rgba(198,255,0,.6) 1.5px,transparent 1.5px),linear-gradient(90deg,rgba(198,255,0,.6) 1.5px,transparent 1.5px);background-size:64px 64px;background-position:center}
+/* Підлога й стеля — справжня перспектива (лінії сходяться вглиб до точки в центрі), тож сітка «провалюється» всередину плашки. */
+.ab-plate::before{bottom:0;transform-origin:50% 100%;transform:perspective(380px) rotateX(64deg);-webkit-mask-image:linear-gradient(0deg,#000 20%,transparent 100%);mask-image:linear-gradient(0deg,#000 20%,transparent 100%)}
+.ab-plate::after{top:0;transform-origin:50% 0;transform:perspective(380px) rotateX(-64deg);-webkit-mask-image:linear-gradient(180deg,#000 20%,transparent 100%);mask-image:linear-gradient(180deg,#000 20%,transparent 100%)}
 .ab-plate h2{margin:0;font:800 clamp(30px,4.4vw,68px)/1.02 'Unbounded',sans-serif;letter-spacing:-.04em;text-wrap:balance}
 .ab-plate p{margin:0 0 14px;font-size:clamp(16px,1.35vw,19px);line-height:1.55;font-weight:500;color:rgba(255,255,255,.88)}
 .ab-plate .ab-plate-line{font:800 clamp(16px,1.5vw,20px)/1.3 'Unbounded',sans-serif;margin:18px 0 24px;color:#fff}
