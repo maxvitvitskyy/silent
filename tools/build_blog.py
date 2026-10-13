@@ -243,6 +243,8 @@ def build(preview=False):
     inject_blog_mega(data)   # шапка всіх сторінок, зокрема experiences/index.html, з якої беремо меню для блогу
 
     src = io.open(SRC_PAGE, encoding='utf-8').read()
+    # Готові сторінки підключають мінімізовані копії (assets/site.min.*, див. build_en.minify_assets); шаблон шукає канонічні імена.
+    src = re.sub(r'assets/site\.min\.(css|js)', r'assets/site.\1', src)
     pre = src[:src.index('<title>')]
     js0 = src.index('<script>\n(function(){\n  var r = document.documentElement;')
     css_end = src.index('\n', src.index('<link rel="stylesheet" href="../assets/site.css')) + 1

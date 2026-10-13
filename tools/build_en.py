@@ -1037,23 +1037,56 @@ STAMPED = re.compile(
 # Ключем служить сам шлях, а не розширення. Це не дрібниця: іконок дві, обидві
 # .png, і на ключі-розширенні вони мовчки ділили б один хеш — тобто зміна однієї
 # збивала б адресу іншої.
+# Мінімізовані копії для віддачі (пагінація/швидкість, 13.10.2026). Джерело правди лишається читабельним: правимо assets/site.css і assets/site.js,
+# а сторінки підключають assets/site.min.css і assets/site.min.js, які будує цей скрипт через esbuild (npx, версія зафіксована). Мінімізація без
+# перейменування глобальних імен і без зміни синтаксису; перевірено попіксельним порівнянням 10 сторінок на 375 і 1440 px (різниці немає).
+# УВАГА: lightningcss тут не годиться: без цілей він викидає незапрефіксований backdrop-filter, і скло зникає в Chrome. Тому esbuild.
+# Якщо npx/мережі нема, в .min кладеться точна копія джерела (сайт працює, просто важчий).
+ESBUILD = 'esbuild@0.28.2'
+MINIFY = (('assets/site.css', 'assets/site.min.css'), ('assets/site.js', 'assets/site.min.js'))
+
+
+def minify_assets():
+    import shutil, subprocess
+    for src, dst in MINIFY:
+        sp, dp = os.path.join(ROOT, *src.split('/')), os.path.join(ROOT, *dst.split('/'))
+        try:
+            subprocess.run(['npx', '-y', ESBUILD, sp, '--minify', '--log-level=warning', '--outfile=' + dp],
+                           check=True, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, timeout=180)
+        except Exception as e:  # noqa: BLE001 — будь-яка помилка інструмента не повинна ламати збірку
+            print('УВАГА: мінімізація %s не вдалася (%s), використано копію джерела' % (src, getattr(e, 'stderr', e)))
+            shutil.copyfile(sp, dp)
+
+
 STAMPED_FILES = (
-    'assets/site.css',
-    'assets/site.js',
+    'assets/site.min.css',
+    'assets/site.min.js',
     'assets/vendor/gsap.min.js',
     'assets/vendor/ScrollTrigger.min.js',
     'assets/vendor/Flip.min.js',
 )
 
+# У вихідних HTML і в логіці збірки скрізь лишається assets/site.css та assets/site.js; у ГОТОВИХ сторінках їх підміняє позначка версії
+# (assets/site.min.css?v=…). Тому unstamp повертає канонічні імена, а stamp підставляє мінімізовані.
+STAMPED = re.compile(
+    r'(?:(assets/site(?:\.min)?\.(?:css|js))|(assets/vendor/(?:gsap|ScrollTrigger|Flip)\.min\.js))'
+    r'(?:\?v=[0-9a-f]+)?')
+
 
 def unstamp(text):
-    """Прибирає позначку. Потрібно до збірки: PATHS шукає точні рядки
-    href="assets/site.css", і з хвостом ?v= вони б не збіглися."""
-    return STAMPED.sub(lambda m: m.group(1), text)
+    """Прибирає позначку й повертає канонічні імена. Потрібно до збірки: PATHS шукає точні рядки
+    href="assets/site.css", і з хвостом ?v= чи з .min вони б не збіглися."""
+    return STAMPED.sub(lambda m: (m.group(1).replace('.min', '') if m.group(1) else m.group(2)), text)
 
 
 def stamp(text, hashes):
-    return STAMPED.sub(lambda m: m.group(1) + '?v=' + hashes[m.group(1)], text)
+    def one(m):
+        if m.group(1):
+            canon = m.group(1).replace('.min', '')
+            name = canon.replace('assets/site.', 'assets/site.min.')
+            return name + '?v=' + hashes[name]
+        return m.group(2) + '?v=' + hashes[m.group(2)]
+    return STAMPED.sub(one, text)
 
 
 # ------------------------------------------------- стрічка сценаріїв
@@ -1467,6 +1500,7 @@ def unglue(s):
 
 
 def stamp_files():
+    minify_assets()
     hashes = {}
     for rel in STAMPED_FILES:
         path = os.path.join(ROOT, *rel.split('/'))
