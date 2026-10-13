@@ -20,8 +20,8 @@
   ],
   "template": "template-full-left.html",
   "bg": {
-    "src": "images/school/shkilna-dyskoteka-dvi-podrugy-sertse.webp",
-    "pos": "50% 55%"
+    "src": "images/school/shkilna-vechirka-tantsiuvalnytsia-v-navushnykakh.webp",
+    "pos": "62% 40%"
   },
   "css": ".p>img{left:400px;right:auto;width:800px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%)}.h span+span{font-size:40px;font-weight:400;letter-spacing:-.01em;margin-top:6px} .sub{font-weight:500;margin-top:30px;font-size:23px}"
 }

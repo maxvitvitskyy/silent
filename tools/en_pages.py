@@ -1512,6 +1512,112 @@ T_PAGE_ALL = {
   "A girl in a white top dances in red Silent Disco headphones",
 "Дві подруги в неонових навушниках Silent Disco на шкільній дискотеці":
   "Two friends in neon Silent Disco headphones at a school disco",
+'Шкільна дискотека, випускний чи тематична вечірка, де кожен може танцювати під улюблену музику. Діти обирають один із трьох музичних каналів, а коли хочеться поговорити чи почути оголошення — достатньо зняти навушники. SILENT привезе обладнання, усе налаштує та подбає про технічний супровід у Києві й по всій Україні.':
+  'A school disco, prom or themed party where everyone can dance to the music they love. Children pick one of three music channels, and when they want to talk or hear an announcement, they simply take the headphones off. SILENT brings the equipment, sets everything up and takes care of the technical support in Kyiv and across Ukraine.',
+'>Гучність під контролем<':
+  '>Volume under control<',
+'Регулятор і обмежувач гучності в кожних навушниках.':
+  'A volume control and limiter in every pair of headphones.',
+'>Музика без колонок<':
+  '>Music without speakers<',
+'Музика звучить у навушниках, а не з гучномовців.':
+  'The music plays in the headphones, not through loudspeakers.',
+'Мінімальний комплект для шкільного свята.':
+  'The minimum set for a school party.',
+'Свято, де кожен знаходить свій ритм':
+  'A party where everyone finds their own rhythm',
+'Різний вік, різні смаки — і всі на одному танцполі.':
+  'Different ages, different tastes, and everyone on one dance floor.',
+'У школі на одному святі збираються діти з різними музичними вподобаннями. Комусь до душі сучасні хіти, комусь — знайомі пісні, а хтось хоче відкрити щось нове. З одним плейлістом на весь зал важко врахувати всіх.':
+  'At one school party you get children with different musical tastes. Some love current hits, some prefer familiar songs, and some want to discover something new. With a single playlist for the whole hall, it is hard to please everyone.',
+'У навушниках є <a href="/en/experiences/silent-disco/">три музичні канали</a>, тож кожен учень може обрати свій і перемикатися між ними протягом вечора. Гучність також можна налаштувати індивідуально, а вбудований обмежувач допомагає контролювати її рівень.':
+  'The headphones have <a href="/en/experiences/silent-disco/">three music channels</a>, so every student can choose their own and switch between them during the evening. The volume can also be adjusted individually, and the built-in limiter helps control its level.',
+'А коли потрібно оголосити конкурс, привітати випускників чи просто поговорити з друзями, достатньо зняти навушники. Музика не звучить із колонок, тож спілкуватися в залі значно простіше.':
+  'And when you need to announce a contest, congratulate graduates or simply talk to friends, you just take the headphones off. The music does not play from speakers, so talking in the hall is much easier.',
+'Різна музика. Спільні спогади.':
+  'Different music. Shared memories.',
+'Технічну частину беремо на себе, щоб учителі, батьківський комітет і всі, хто готує свято, могли зосередитися на дітях.':
+  "We take care of the technical side so that teachers, the parents' committee and everyone preparing the party can focus on the children.",
+'>Кожен обирає свою музику<':
+  '>Everyone chooses their own music<',
+'Три канали дають змогу слухати різні плейлісти на одному танцполі. Діти самі обирають, під що танцювати, — не потрібно шукати один варіант, який сподобається всьому залу.':
+  'Three channels let different playlists play on one dance floor. Children choose what to dance to themselves, so there is no need to find a single option that suits the whole hall.',
+'>Гучність можна налаштувати<':
+  '>The volume can be adjusted<',
+'У навушниках є регулятор і обмежувач гучності. Перед початком ми пояснюємо учасникам, як користуватися обладнанням.':
+  'The headphones have a volume control and a volume limiter. Before the start we explain to participants how to use the equipment.',
+'>Можна вільно спілкуватися<':
+  '>Free to talk<',
+'Потрібно оголосити конкурс, вручити нагороду чи привітати випускників? Діти знімають навушники й чують звичайний голос. Для цього не потрібно зупиняти вечірку через гучні колонки.':
+  'Need to announce a contest, present an award or congratulate graduates? Children take the headphones off and hear an ordinary voice. There is no need to stop the party because of loud speakers.',
+'>Формат під ваше свято<':
+  '>A format for your party<',
+'Узгодимо кількість навушників, тривалість і технічні потреби для дискотеки, випускного чи тематичного вечора з урахуванням умов вашої школи.':
+  "We will agree the number of headphones, the duration and the technical needs for a disco, prom or themed evening, taking your school's conditions into account.",
+'Усе простіше, ніж здається: навушники вже підготовлені до роботи, а гостям не потрібно нічого підключати до телефона чи налаштовувати самостійно. Ми підготуємо обладнання та пояснимо, як користуватися каналами. Далі кожен зможе обирати музику під свій настрій.':
+  'It is simpler than it seems: the headphones are already prepared, and guests do not need to connect anything to a phone or set anything up themselves. We prepare the equipment and explain how to use the channels. After that, everyone can choose music to suit their mood.',
+'На різних каналах можуть звучати різні плейлісти — наприклад, сучасні хіти, ретро та інша музика під настрій свята. Учні перемикаються між каналами самостійно.':
+  'Different channels can play different playlists, for example current hits, retro and other music to suit the mood of the party. Students switch between channels themselves.',
+'>Колір показує вибір<':
+  '>Colour shows the choice<',
+'Навушники світяться кольором обраного каналу. Так легко побачити, хто слухає ту саму музику, знайти однодумців і зібратися на танцполі.':
+  'The headphones glow in the colour of the chosen channel. It is easy to see who is listening to the same music, find like-minded people and gather on the dance floor.',
+'>Без дротів і складних налаштувань<':
+  '>No wires or complicated settings<',
+'Навушники бездротові, тому не потрібно підключати власний телефон чи розбиратися з додатковими налаштуваннями. Учасники можуть вільно рухатися в межах робочої зони обладнання.':
+  "The headphones are wireless, so there is no need to connect your own phone or deal with extra settings. Participants can move freely within the equipment's working area.",
+'>Організацію беремо на себе<':
+  '>We take care of the organisation<',
+'Ми привозимо обладнання, встановлюємо й перевіряємо його, допомагаємо гостям розібратися з навушниками та супроводжуємо технічну частину. Після свята самі демонтуємо й забираємо обладнання.':
+  'We bring the equipment, install and check it, help guests figure out the headphones and support the technical side. After the party we dismantle and take away the equipment ourselves.',
+'Від заявки до танцполу — чотири прості кроки':
+  'From request to dance floor: four simple steps',
+'Розкажіть, коли й де плануєте свято та скільки буде учасників. Ми перевіримо доступність обладнання, допоможемо підібрати комплект і пояснимо наступні кроки.':
+  'Tell us when and where you are planning the party and how many participants there will be. We will check equipment availability, help you choose a set and explain the next steps.',
+'Заповніть коротку форму: вкажіть бажану дату, місце проведення та приблизну кількість учасників. Телефонувати не обов’язково.':
+  'Fill in a short form: give the preferred date, the venue and the approximate number of participants. Calling is not necessary.',
+'>Розраховуємо вартість<':
+  '>We work out the cost<',
+'Уточнимо деталі, перевіримо доступність обладнання та підготуємо розрахунок для вашого свята. Відповідаємо протягом дня.':
+  'We will clarify the details, check equipment availability and prepare a quote for your party. We reply within a day.',
+'>Підготовка<':
+  '>Preparation<',
+'>Ми все налаштуємо<':
+  '>We will set everything up<',
+'Приїдемо орієнтовно за 30 хвилин до початку, встановимо обладнання, перевіримо сигнал і покажемо гостям, як перемикати музичні канали.':
+  'We arrive about 30 minutes before the start, install the equipment, check the signal and show guests how to switch music channels.',
+'>Свято<':
+  '>Party<',
+'Учні обирають музику, а ви можете зосередитися на самому святі. Після завершення ми демонтуємо та заберемо обладнання.':
+  'Students choose the music, and you can focus on the party itself. When it ends, we dismantle and take away the equipment.',
+'Скільки навушників потрібно для вашого свята і скільки воно триватиме? Оберіть кількість учасників, тривалість та додаткові опції — калькулятор покаже орієнтовну вартість Silent Disco.':
+  'How many headphones do you need and how long will the party last? Choose the number of participants, the duration and any extras, and the calculator will show an estimated cost of Silent Disco.',
+'Це попередній розрахунок. Фінальна вартість залежить від дати, місця проведення, тривалості та обраних опцій. Остаточну суму підтверджуємо після узгодження деталей. Розрахунок не є публічною офертою.':
+  'This is a preliminary estimate. The final cost depends on the date, the venue, the duration and the options chosen. We confirm the final amount after the details are agreed. The estimate is not a public offer.',
+'Розкажіть, коли й де плануєте свято та скільки буде учасників. Ми перевіримо доступність дати, допоможемо підібрати комплект навушників і розрахуємо вартість. Ви зосередитеся на дітях і програмі свята, а ми подбаємо про технічну частину.':
+  'Tell us when and where you are planning the party and how many participants there will be. We will check the date, help you choose a set of headphones and work out the cost. You focus on the children and the programme, and we take care of the technical side.',
+'Залиште заявку — ми перевіримо доступність обладнання та зв’яжемося з вами, щоб узгодити деталі.':
+  'Leave a request and we will check equipment availability and contact you to agree the details.',
+'Дякуємо за заявку! Ми перевіримо доступність дати й напишемо вам протягом дня. А поки можете подумати, які три музичні настрої найкраще пасуватимуть вашому святу.':
+  'Thank you for your request! We will check the date and write to you within a day. In the meantime, you can think about which three musical moods would suit your party best.',
+'Silent Disco можна адаптувати до різних подій — від приватних вечірок і весіль до фестивалів та корпоративів. Оберіть формат, який вас цікавить, і дізнайтеся, як його можна організувати. Більше ідей та порад — у нашому <a href="/blog/">блозі</a>.':
+  'Silent Disco can be adapted to different events, from private parties and weddings to festivals and corporate events. Choose the format that interests you and find out how it can be organised. More ideas and tips are in our <a href="/blog/">blog</a>.',
+'Так, формат можна організувати для шкільної дискотеки, випускного чи тематичного свята. Учасники слухають музику в бездротових навушниках і самостійно обирають один із трьох каналів. Представник SILENT супроводжує технічну частину на місці. Перед бронюванням узгодьте формат із адміністрацією школи та майданчиком.':
+  'Yes, the format can be organised for a school disco, prom or themed party. Participants listen to music in wireless headphones and choose one of three channels themselves. A SILENT representative supports the technical side on site. Before booking, agree the format with the school administration and the venue.',
+'Навушник потрібен кожному учаснику, який хоче слухати музику. Мінімальний комплект SILENT — 40 навушників на 4 години, від 12 000 грн. У вартість входять доставка, встановлення, технічний супровід і вивезення обладнання. Якщо учасників більше або свято має тривати довше, скористайтеся калькулятором нижче. Вкажіть приблизну кількість учасників у заявці — допоможемо підібрати комплект.':
+  'Every participant who wants to listen to music needs a pair of headphones. The minimum SILENT set is 40 headphones for 4 hours, from 12,000 UAH. The price includes delivery, installation, technical support and removal of the equipment. If there are more participants or the party should last longer, use the calculator below. Give the approximate number of participants in your request and we will help you choose a set.',
+'Silent Disco можна провести в актовій залі, спортзалі, їдальні або на подвір’ї, якщо там достатньо місця для танців і є доступ до електроживлення. На встановлення та перевірку сигналу потрібно близько 30 хвилин до початку. Для заходу просто неба передбачте запасний варіант на випадок дощу. Умови проведення заздалегідь узгодьте з адміністрацією школи.':
+  'Silent Disco can be held in an assembly hall, a gym, a canteen or a schoolyard, as long as there is enough room to dance and access to power. Installing and checking the signal takes about 30 minutes before the start. For an open-air event, plan a backup option in case of rain. Agree the conditions with the school administration in advance.',
+'Так. У навушниках є регулятор та обмежувач гучності, а кожен учасник може налаштувати рівень звуку для себе. Перед початком ми пояснюємо, як користуватися обладнанням. Якщо маєте запитання щодо віку учасників або налаштування гучності, обговоріть їх із нами до бронювання.':
+  "Yes. The headphones have a volume control and a volume limiter, and each participant can set the sound level for themselves. Before the start we explain how to use the equipment. If you have questions about participants' ages or volume settings, discuss them with us before booking.",
+'Ні, діджей не обов’язковий. Ми заздалегідь готуємо три плейлісти, а учні самі перемикаються між музичними каналами. Якщо ви хочете запросити діджея для живого сету, повідомте про це в заявці — окремо обговоримо можливість такого формату.':
+  'No, a DJ is not required. We prepare three playlists in advance, and students switch between the music channels themselves. If you would like to invite a DJ for a live set, mention it in your request and we will discuss that option separately.',
+'Достатньо попросити учасників зняти навушники на шию. Тоді вони чутимуть звичайний голос учителя, ведучого чи організатора. Так можна оголошувати конкурси, вітати випускників і вручати нагороди без потреби перекрикувати музику з колонок.':
+  'Just ask participants to put the headphones around their necks. Then they will hear the ordinary voice of the teacher, host or organiser. This way you can announce contests, congratulate graduates and present awards without having to shout over music from speakers.',
+'Рекомендуємо залишати заявку якомога раніше, особливо якщо ви плануєте випускний або свято наприкінці навчального року. Доступність обладнання залежить від дати та інших бронювань. Ми перевіримо вашу дату й пояснимо, як підтвердити замовлення. Бронювання закріплюється після узгодження умов і передоплати.':
+  'We recommend submitting a request as early as possible, especially if you are planning a prom or an end-of-year party. Equipment availability depends on the date and other bookings. We will check your date and explain how to confirm the order. A booking is secured after the terms are agreed and the prepayment is made.',
+'Організатор події відповідає за <a href="/en/faq/#faqA-m3">правомірність використання музики</a>, якщо інше не погоджено окремо. SILENT забезпечує технічне відтворення звуку. Якщо маєте запитання щодо музичного супроводу саме вашого заходу, узгодьте їх із нами до бронювання.':
+  'The event organiser is responsible for the <a href="/en/faq/#faqA-m3">lawful use of music</a>, unless agreed otherwise. SILENT provides the technical playback of sound. If you have questions about the music for your specific event, agree them with us before booking.',
 "Школярі танцюють конгою в навушниках Silent Disco":
   "Students dance a conga line in Silent Disco headphones",
 "Троє дітей у неонових футболках у навушниках Silent Disco":
