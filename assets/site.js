@@ -5932,3 +5932,37 @@ function orderExperience(name, opts){
   })();
 
   window.__siteJs = true;
+
+
+// ---- Фонове відео героя: старт після першої взаємодії (оптимізація, 13.10.2026) ----
+// Виміри Lighthouse (mobile, емульований Moto G, реальне обмеження 4G): з autoplay + preload="auto" оцінка 44 (FCP 6,3 с, TBT 630 мс), бо 19 МБ відео
+// ділить смугу з CSS, шрифтами й скриптами; ця сама сторінка без раннього старту відео — 96 (FCP 0,7 с, LCP 1,6 с). Тож винне саме раннє завантаження
+// ролика, а не його якість: стиснення з відкладеним стартом «після load» майже нічого не дало, бо старт ще потрапляв у вікно вимірювання.
+// Тому ролик підключаємо тут: за першою ж взаємодією (дотик, прокрутка, клавіша, рух миші) або запасним таймером через 12 с після load.
+// Не стартуємо при «заощадженні трафіку», повільній мережі (2G/3G) та зменшеному русі: там лишається постер, дизайн не ламається.
+(function(){
+  const v = document.querySelector('video[data-hero-video]');
+  if (!v) return;
+  const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  const slow = conn && (conn.saveData || /(^|-)2g$|3g/.test(conn.effectiveType || ''));
+  const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (slow || reduced) return;
+  const evs = ['pointerdown', 'pointermove', 'touchstart', 'scroll', 'keydown', 'wheel'];
+  let started = false;
+  function start(){
+    if (started) return;
+    started = true;
+    evs.forEach(ev => window.removeEventListener(ev, start));
+    const srcEl = v.querySelector('source');
+    if (!srcEl) return;
+    v.src = srcEl.src;
+    // Повторна спроба, коли дані вже є: деякі вбудовані браузери відхиляють перший play() до готовності потоку.
+    v.addEventListener('canplay', () => { if (v.paused) v.play().catch(() => {}); }, { once: true });
+    v.load();
+    const p = v.play();
+    if (p && p.catch) p.catch(() => {});
+  }
+  evs.forEach(ev => window.addEventListener(ev, start, { passive: true }));
+  if (document.readyState === 'complete') setTimeout(start, 12000);
+  else window.addEventListener('load', () => setTimeout(start, 12000), { once: true });
+})();
