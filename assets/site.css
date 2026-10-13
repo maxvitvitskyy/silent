@@ -8558,3 +8558,59 @@ html { overflow-x: clip; }
 .art-stat-n { flex: none; font-family: 'Unbounded', sans-serif; font-weight: 800; font-size: clamp(56px, 9vw, 112px); line-height: 1; letter-spacing: -0.04em; }
 .art-stat p { margin: 0; max-width: 46ch; font-size: clamp(16px, 1.5vw, 20px); line-height: 1.45; font-weight: 600; color: rgba(10,10,11,.82); }
 @media (max-width: 700px) { .art-stat { flex-direction: column; align-items: flex-start; gap: 12px; border-radius: 32px; } }
+
+/* Сторінка «Про нас» (/about/): тиша, яка звучить. Hero із фото, що плавно темніє, вступ із цитатою й двома кадрами, три рядки-розділювачі,
+   віра у дві колонки, цінності горизонтальною стрічкою з фото, бачення й велика напівпрозора лаймова скляна плашка над словом SILENT. */
+.ab-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.ab-hero{position:relative;min-height:min(86svh,740px);display:flex;align-items:center;justify-content:center;overflow:hidden;text-align:center}
+.ab-hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.ab-hero-fade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,11,.55) 0%,rgba(10,10,11,.15) 28%,rgba(10,10,11,.55) 62%,var(--night) 100%),linear-gradient(90deg,rgba(10,10,11,.6),transparent 60%)}
+.ab-hero-in{position:relative;padding-top:clamp(130px,13vw,170px);padding-bottom:clamp(60px,8vw,110px)}
+.ab-hero .exp-crumb{margin:0 0 clamp(26px,3vw,40px);justify-content:center}
+.ab-h1{margin:0;font:800 clamp(52px,10.4vw,168px)/.94 'Unbounded',sans-serif;letter-spacing:-.045em;text-transform:uppercase}
+.ab-h1 span:not(.ab-sr){color:var(--lime)}
+.ab-intro{padding:clamp(40px,6vw,90px) 0 0}
+.ab-intro-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(30px,5vw,80px);align-items:center}
+.ab-quote{margin:0 0 22px;font:italic 500 clamp(24px,2.7vw,38px)/1.25 'Lora',serif;color:#fff}
+.ab-intro-text p:not(.ab-quote){margin:0;font-size:clamp(16px,1.3vw,19px);line-height:1.7;color:rgba(255,255,255,.76);max-width:560px}
+.ab-intro-photos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.ab-intro-photos img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:var(--r-lg)}
+.ab-intro-photos img:last-child{margin-top:34px}
+.ab-lines-wrap{margin-top:clamp(40px,5vw,70px)}
+.ab-lines{list-style:none;margin:0;padding:0;display:flex;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.ab-lines li{flex:1 1 auto;padding:clamp(18px,2.2vw,32px) clamp(14px,2vw,36px);border-right:1px solid var(--line);text-align:center;white-space:nowrap;font:600 clamp(10px,1.28vw,19px)/1.3 'Unbounded',sans-serif;color:rgba(255,255,255,.86)}
+.ab-lines li:last-child{border-right:0}.ab-lines .is-lime{color:var(--lime)}
+.ab-belief{padding:clamp(60px,9vw,130px) 0}
+.ab-belief-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:start}
+.ab-belief h2,.ab-vision h2{margin:0;font:800 clamp(30px,3.6vw,56px)/1.04 'Unbounded',sans-serif;letter-spacing:-.04em}
+.ab-belief p{margin:0 0 18px;font-size:16.5px;line-height:1.7;color:rgba(255,255,255,.76)}
+.ab-belief .ab-strong{color:#fff;font-weight:700}
+.ab-vals{padding:0 0 clamp(60px,9vw,120px)}
+.ab-vals-head{display:flex;justify-content:space-between;align-items:baseline;gap:20px;margin-bottom:30px}
+.ab-vals-head h2{margin:0;font:800 clamp(28px,3.2vw,48px)/1.05 'Unbounded',sans-serif;letter-spacing:-.035em}
+.ab-vals-head span{font:700 12px/1 'Manrope',sans-serif;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
+.ab-track{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px max(20px,calc((100vw - 1320px)/2 + 40px)) 26px;scroll-padding-inline:max(20px,calc((100vw - 1320px)/2 + 40px));scrollbar-width:thin;scrollbar-color:var(--lime) transparent;-webkit-overflow-scrolling:touch}
+.ab-panel{position:relative;flex:0 0 min(86vw,540px);height:clamp(500px,66vh,640px);border-radius:var(--r-lg);overflow:hidden;scroll-snap-align:start;display:flex;align-items:flex-end}
+.ab-panel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease-arrive)}
+@media (hover:hover){.ab-panel:hover img{transform:scale(1.05)}}
+.ab-shade{position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,10,11,.95) 5%,rgba(10,10,11,.3) 62%,rgba(10,10,11,.05))}
+.ab-ptext{position:relative;padding:28px}
+.ab-n{display:block;font:800 52px/1 'Unbounded',sans-serif;color:var(--lime);margin-bottom:10px}
+.ab-ptext small[lang=en]{display:block;font:700 12px/1.2 'Manrope',sans-serif;letter-spacing:2px;text-transform:uppercase;color:var(--lime-quiet)}
+.ab-ptext h3{margin:8px 0 12px;font:800 clamp(21px,2vw,26px)/1.15 'Unbounded',sans-serif;letter-spacing:-.02em}
+.ab-ptext p{margin:0;font-size:15.5px;line-height:1.6;color:rgba(255,255,255,.86)}
+.ab-vision{padding:0 0 clamp(60px,9vw,130px)}
+.ab-vision-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(30px,5vw,90px);align-items:start;padding-top:clamp(40px,5vw,70px);}
+.ab-vision-text p{margin:0 0 18px;font-size:17px;line-height:1.7;color:rgba(255,255,255,.8)}
+.ab-vision-text .ab-close{margin-top:26px;font:italic 500 clamp(21px,2.2vw,30px)/1.35 'Lora',serif;color:#fff}
+.ab-cta{position:relative;z-index:2;padding:clamp(60px,8vw,120px) 0 0}
+.ab-plate{position:relative;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(24px,4vw,64px);align-items:end;padding:clamp(32px,4.5vw,64px);border-radius:var(--r-lg);overflow:hidden;isolation:isolate;color:#fff;
+  /* Темна «кімната» з неоновим лаймовим світінням, що тече від країв до центру, і ледь помітною перспективною сіткою (за референсом власника, без зображень всередині). */
+  background:radial-gradient(130% 150% at 50% 42%,rgba(3,6,0,.97) 26%,rgba(26,48,0,.94) 60%,rgba(96,150,0,.96) 100%);
+  border:1px solid rgba(214,255,60,.72);
+  box-shadow:inset 0 0 64px 4px rgba(198,255,0,.5),inset 0 -30px 60px rgba(198,255,0,.55),0 0 70px rgba(198,255,0,.28),0 24px 70px rgba(0,0,0,.4)}
+.ab-plate::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(rgba(198,255,0,.13) 1px,transparent 1px),linear-gradient(90deg,rgba(198,255,0,.13) 1px,transparent 1px);background-size:56px 56px;background-position:center bottom;-webkit-mask-image:radial-gradient(80% 90% at 50% 100%,#000,transparent 85%);mask-image:radial-gradient(80% 90% at 50% 100%,#000,transparent 85%)}
+.ab-plate h2{margin:0;font:800 clamp(30px,4.4vw,68px)/1.02 'Unbounded',sans-serif;letter-spacing:-.04em;text-wrap:balance}
+.ab-plate p{margin:0 0 14px;font-size:clamp(16px,1.35vw,19px);line-height:1.55;font-weight:500;color:rgba(255,255,255,.88)}
+.ab-plate .ab-plate-line{font:800 clamp(16px,1.5vw,20px)/1.3 'Unbounded',sans-serif;margin:18px 0 24px;color:#fff}
+@media(max-width:900px){.ab-intro-grid,.ab-vision-grid,.ab-plate{grid-template-columns:1fr}.ab-belief-grid{grid-template-columns:1fr}.ab-lines{flex-direction:column}.ab-lines li{white-space:normal;font-size:14px;border-right:0;border-bottom:1px solid var(--line)}.ab-lines li:last-child{border-bottom:0}.ab-hero-in{padding-top:120px}.ab-intro-photos img:last-child{margin-top:20px}}

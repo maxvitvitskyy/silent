@@ -98,7 +98,7 @@ def card(p, cats):
 # з обкладинками) + кнопка «Усі статті». Генерується з posts.json і вставляється між маркерами
 # BLOG-MEGA:START/END у шапку кожної української сторінки (меню в нас продубльоване по файлах). В англійську
 # версію не потрапляє: блог поки лише українською (build_en.py вирізає цей блок перед перекладом).
-MEGA_PAGES = ['index.html', 'privacy/index.html', 'experiences/index.html', 'experiences/corporate/index.html',
+MEGA_PAGES = ['index.html', 'privacy/index.html', 'about/index.html', 'experiences/index.html', 'experiences/corporate/index.html',
               'experiences/wedding/index.html', 'experiences/birthday/index.html', 'experiences/silent-disco/index.html', 'experiences/school/index.html', 'faq/index.html']
 MEGA_START = '<!-- BLOG-MEGA:START (генерує tools/build_blog.py, руками не правити) -->'
 MEGA_END = '<!-- BLOG-MEGA:END -->'

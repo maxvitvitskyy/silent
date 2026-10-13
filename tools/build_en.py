@@ -983,7 +983,10 @@ from alt_texts import ALT_T  # noqa: E402  (alt-тексти зображень,
 def strip_blog_mega(s):
     """Mega-меню «Блог» (маркери BLOG-MEGA) є лише в українській шапці: блог поки без англійської версії,
     а назви статей кирилицею зламали б перевірку неперекладеного. Генерує його tools/build_blog.py."""
-    return re.sub(r'[ \t]*<!-- BLOG-MEGA:START.*?<!-- BLOG-MEGA:END -->\n?', '', s, flags=re.S)
+    s = re.sub(r'[ \t]*<!-- BLOG-MEGA:START.*?<!-- BLOG-MEGA:END -->\n?', '', s, flags=re.S)
+    # Сторінки «Про нас» поки лише українською: пункт підвалу в англійській версії не показуємо.
+    s = re.sub(r'[ \t]*<a href="/about/" class="nav-about">Про нас</a>\n?', '', s)
+    return re.sub(r'[ \t]*<li><a href="/about/">Про нас</a></li>\n?', '', s)
 
 
 def translate(s):
@@ -1472,6 +1475,7 @@ def stamp_files():
     # самий site.css і site.js, і без позначки лишалися б зі старими копіями.
     extra = [os.path.join(ROOT, rel) for rel in EXPERIENCE_PAGES]
     extra.append(os.path.join(ROOT, 'privacy', 'index.html'))
+    extra.append(os.path.join(ROOT, 'about', 'index.html'))
     extra.append(os.path.join(ROOT, 'faq', 'index.html'))
     extra.append(DST_FAQ)
     extra.append(DST_EXP)
