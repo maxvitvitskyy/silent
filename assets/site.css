@@ -8567,7 +8567,7 @@ html { overflow-x: clip; }
 .ab-hero-fade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,11,.55) 0%,rgba(10,10,11,.15) 28%,rgba(10,10,11,.55) 62%,var(--night) 100%),linear-gradient(90deg,rgba(10,10,11,.6),transparent 60%)}
 .ab-hero-in{position:relative;padding-top:clamp(130px,13vw,170px);padding-bottom:clamp(60px,8vw,110px)}
 .ab-hero .exp-crumb{margin:0 0 clamp(26px,3vw,40px);justify-content:center}
-.ab-h1{margin:0;font:800 clamp(52px,10.4vw,168px)/.94 'Unbounded',sans-serif;letter-spacing:-.045em;text-transform:uppercase}
+.ab-h1{margin:0;font:800 clamp(40px,7.2vw,104px)/1 'Unbounded',sans-serif;letter-spacing:-.045em;text-transform:uppercase;text-wrap:balance}
 .ab-h1 span:not(.ab-sr){color:var(--lime)}
 .ab-intro{padding:clamp(40px,6vw,90px) 0 0}
 .ab-intro-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(30px,5vw,80px);align-items:center}
@@ -8630,7 +8630,7 @@ html { overflow-x: clip; }
   /* Фото опущене під шапку й зсунуте вправо: обличчя дівчини в навушнику виходить збоку від центрованого заголовка, а не під ним */
   .ab-hero-img{inset:auto 0 0 0;top:60px;height:calc(100% - 60px);object-position:36% 12%}
   .ab-hero .exp-crumb{margin-bottom:18px}
-  .ab-h1{font-size:clamp(40px,12.4vw,52px);line-height:1}
+  .ab-h1{font-size:clamp(34px,10.4vw,44px);line-height:1.02}
   .ab-intro{padding-top:30px}
   .ab-intro-grid{gap:26px}
   .ab-quote{font-size:23px;margin-bottom:14px}
@@ -8674,3 +8674,43 @@ html { overflow-x: clip; }
 @media (max-width:760px){
   .footer-cols > nav.f-col h3{white-space:nowrap;font-size:clamp(8px,2.45vw,10.5px);letter-spacing:.03em;padding-bottom:14px}
 }
+
+/* «Про нас»: підказка галереї цінностей лаймова зі стрілкою вправо. */
+.ab-vals-head .ab-vals-hint{display:inline-flex;align-items:center;gap:6px}
+.ab-vals-hint b{font-weight:inherit;color:var(--lime)}
+.ab-vals-hint svg{color:var(--lime)}
+.ab-vals-hint svg{flex:none}
+
+/* Плашка-заклик: усе по центру одним стовпчиком. Заголовок у два рядки («Нехай ця подія / запам’ятається.»), під ним абзац на комфортній мірі,
+   далі фраза й кнопка. Скло, сітка й світіння по краях не змінюються. */
+.ab-plate{grid-template-columns:1fr;justify-items:center;align-items:center;text-align:center;gap:clamp(18px,2vw,26px);padding:clamp(48px,5.5vw,84px) clamp(28px,5vw,80px)}
+.ab-plate h2{font-size:clamp(30px,4.6vw,68px);line-height:1.04}
+.ab-plate-r{align-items:center;justify-content:flex-start;gap:0;max-width:600px}
+.ab-plate-r>p:first-child{margin:0;font-size:clamp(16px,1.3vw,19px);line-height:1.6}
+.ab-plate .ab-plate-row{display:flex;flex-direction:column;align-items:center;gap:clamp(16px,1.6vw,22px);margin-top:clamp(22px,2.4vw,32px)}
+.ab-plate .ab-plate-line{margin:0}
+.ab-plate .ab-btn{width:auto;min-width:min(100%,300px);padding-inline:36px}
+
+/* Лінки в текстах «Про нас»: без підкреслення, лаймовим кольором. */
+.ab-intro-text a,.ab-belief a,.ab-vision-text a,.ab-plate-r p a{color:var(--lime);text-decoration:none;transition:opacity .2s ease}
+.ab-intro-text a:hover,.ab-belief a:hover,.ab-vision-text a:hover,.ab-plate-r p a:hover{opacity:.78}
+/* Плашка-заклик: абзац ширший (2 рядки на десктопі), фраза в один рядок, блок нижчий. */
+.ab-plate-r{max-width:min(1000px,100%)}
+.ab-plate-r>p:first-child{font-size:clamp(15px,1.28vw,18px)}
+.ab-plate{padding-block:clamp(40px,4.4vw,64px)}
+.ab-plate .ab-plate-row{margin-top:clamp(16px,1.8vw,24px);gap:clamp(12px,1.3vw,18px)}
+.ab-plate .ab-plate-line{white-space:nowrap}
+@media(max-width:640px){.ab-plate .ab-plate-line{white-space:normal}}
+
+/* Статті блогу: текст «по ширині» з автоматичними переносами слів (власник, 13.10.2026).
+   Переноси: hyphens:auto працює за lang="uk" на <html> і словником браузера, тому слова ділиться за правилами української й під ширину екрана.
+   Chrome, Edge, Firefox і Android роблять це добре; Safari (iPhone/Mac) переносить українські слова лише там, де в нього є словник, інакше рядок
+   просто вирівнюється пробілами. Мінімум 6 літер у слові й по 3 до і після переносу, щоб не було «о-/дного» й не більше 2 переносів поспіль. */
+.art-lead, .art-flow p, .art-cards-lead, .art-cards span, .art-cta p, .art-faq .faq-a p, .art-key p + p {
+  text-align: justify; text-justify: inter-word;
+  hyphens: auto; -webkit-hyphens: auto;
+  hyphenate-limit-chars: 6 3 3; hyphenate-limit-lines: 2;
+  overflow-wrap: break-word;
+}
+/* Плашка-вступ: легше накреслення (600 → 400), останній рядок по центру, як було в плашки, балансування вимкнене (воно ламає вирівнювання по ширині). */
+.art-lead { font-weight: 400; font-size: clamp(16px, 1.65vw, 21px); line-height: 1.5; text-align-last: center; text-wrap: wrap; }
