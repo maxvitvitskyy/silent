@@ -8627,6 +8627,8 @@ html { overflow-x: clip; }
 @media(max-width:640px){
   .ab-hero{min-height:0;align-items:flex-end}
   .ab-hero-in{padding-top:104px;padding-bottom:34px}
+  /* Фото опущене під шапку й зсунуте вправо: обличчя дівчини в навушнику виходить збоку від центрованого заголовка, а не під ним */
+  .ab-hero-img{inset:auto 0 0 0;top:60px;height:calc(100% - 60px);object-position:36% 12%}
   .ab-hero .exp-crumb{margin-bottom:18px}
   .ab-h1{font-size:clamp(40px,12.4vw,52px);line-height:1}
   .ab-intro{padding-top:30px}
