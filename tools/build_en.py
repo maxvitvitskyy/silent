@@ -1076,10 +1076,23 @@ STAMPED = re.compile(
 def unstamp(text):
     """Прибирає позначку й повертає канонічні імена. Потрібно до збірки: PATHS шукає точні рядки
     href="assets/site.css", і з хвостом ?v= чи з .min вони б не збіглися."""
-    return STAMPED.sub(lambda m: (m.group(1).replace('.min', '') if m.group(1) else m.group(2)), text)
+    text = STAMPED.sub(lambda m: (m.group(1).replace('.min', '') if m.group(1) else m.group(2)), text)
+    # defer ставить stamp() у готових сторінках; у вихідних його нема, бо PATHS шукає точні рядки <script src="...">.
+    return DEFERRED.sub(lambda m: '<script src="' + m.group(1), text)
+
+
+# Скрипти сайту (gsap, ScrollTrigger, Flip, site.js) підключаються з defer: розбір HTML і перший показ не чекають на їх виконання
+# (Lighthouse mobile: менше блокування основного потоку). Порядок виконання зберігається. Перед ними лише inline-скрипти, що не залежать від gsap.
+DEFERRED = re.compile(r'<script defer src="((?:\.\./)*assets/)')
+SCRIPT_TAG = re.compile(r'<script src="((?:\.\./)*assets/(?:vendor/[A-Za-z.]+\.js|site\.min\.js)\?v=[0-9a-f]+)"')
 
 
 def stamp(text, hashes):
+    text = _stamp(text, hashes)
+    return SCRIPT_TAG.sub(lambda m: '<script defer src="' + m.group(1) + '"', text)
+
+
+def _stamp(text, hashes):
     def one(m):
         if m.group(1):
             canon = m.group(1).replace('.min', '')
