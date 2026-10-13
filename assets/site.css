@@ -8702,15 +8702,11 @@ html { overflow-x: clip; }
 .ab-plate .ab-plate-line{white-space:nowrap}
 @media(max-width:640px){.ab-plate .ab-plate-line{white-space:normal}}
 
-/* Статті блогу: текст «по ширині» з автоматичними переносами слів (власник, 13.10.2026).
-   Переноси: hyphens:auto працює за lang="uk" на <html> і словником браузера, тому слова ділиться за правилами української й під ширину екрана.
-   Chrome, Edge, Firefox і Android роблять це добре; Safari (iPhone/Mac) переносить українські слова лише там, де в нього є словник, інакше рядок
-   просто вирівнюється пробілами. Мінімум 6 літер у слові й по 3 до і після переносу, щоб не було «о-/дного» й не більше 2 переносів поспіль. */
-.art-lead, .art-flow p, .art-cards-lead, .art-cards span, .art-cta p, .art-faq .faq-a p, .art-key p + p {
-  text-align: justify; text-justify: inter-word;
-  hyphens: auto; -webkit-hyphens: auto;
-  hyphenate-limit-chars: 6 3 3; hyphenate-limit-lines: 2;
-  overflow-wrap: break-word;
+/* Статті блогу: «по ширині» з автопереносами лише в плашці-вступі на початку статті (власник, 13.10.2026: у решті текстів так важче читати,
+   там лишається звичайне вирівнювання по лівому краю). Переноси: hyphens:auto працює за lang="uk" на <html>; Chrome, Edge, Firefox і Android ділять
+   українські слова добре, Safari лише там, де в нього є словник. Мінімум 6 літер у слові й по 3 до і після переносу, не більше двох переносів поспіль. */
+.art-lead {
+  text-align: justify; text-justify: inter-word; text-align-last: center;
+  hyphens: auto; -webkit-hyphens: auto; hyphenate-limit-chars: 6 3 3; hyphenate-limit-lines: 2; overflow-wrap: break-word;
+  font-weight: 400; font-size: clamp(16px, 1.65vw, 21px); line-height: 1.5; text-wrap: wrap;
 }
-/* Плашка-вступ: легше накреслення (600 → 400), останній рядок по центру, як було в плашки, балансування вимкнене (воно ламає вирівнювання по ширині). */
-.art-lead { font-weight: 400; font-size: clamp(16px, 1.65vw, 21px); line-height: 1.5; text-align-last: center; text-wrap: wrap; }

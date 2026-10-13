@@ -7,8 +7,8 @@
   ],
   "subtitle": [
     [
-      "День народження, на якому",
-      "кожен слухає своє."
+      "Усі разом, а кожен у своєму ритмі.",
+      "День народження, який запам’ятається."
     ]
   ],
   "pills": [
@@ -18,15 +18,16 @@
     "<b>Київ</b> та Україна"
   ],
   "big": {
-    "src": "images/gal/16_tall.webp",
-    "pos": "50% 35%"
+    "src": "images/birthday/den-narodzhennya-podrugy-pid-syayvom-disco.webp",
+    "pos": "50% 30%"
   },
   "top": {
-    "src": "images/gal/22_sq.webp",
-    "pos": "50% 40%"
+    "src": "images/birthday/den-narodzhennya-selfi-podrug-silent-disco.webp",
+    "pos": "50% 35%"
   },
   "bottom": {
-    "src": "images/gal/35_sq.webp",
+    "src": "images/birthday/den-narodzhennya-kompaniya-pid-vechirnim-nebom.webp",
     "pos": "50% 40%"
-  }
+  },
+  "css": ".big{left:476px;width:398px}.sm{width:294px}.s1,.s2{left:890px !important} .sub{font-weight:500;margin-top:26px} .sub{width:410px;font-size:20px}"
 }

@@ -28,5 +28,5 @@
     "src": "images/wedding/guests-table-conversation.webp",
     "pos": "50% 45%"
   },
-  "css": ".big{left:440px;width:420px}.sm{width:308px}.s1,.s2{left:876px !important}"
+  "css": ".big{left:440px;width:420px}.sm{width:308px}.s1,.s2{left:876px !important} .sub{font-weight:500;margin-top:26px}"
 }

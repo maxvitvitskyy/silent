@@ -28,5 +28,6 @@
   "bottom": {
     "src": "images/corp/neonovi-navushnyky-na-zakhodi-sontsya1.webp",
     "pos": "50% 50%"
-  }
+  },
+  "css": ".sub{font-weight:500;margin-top:26px}"
 }

@@ -2,26 +2,26 @@
   "out": "images/about/og-about.jpg",
   "heading": [
     "Про SILENT",
-    "команда, якій не байдуже"
+    "бути різними, бути разом"
   ],
   "subtitle": [
     [
-      "Ми дбаємо про людей на вашій події"
+      "Ми створюємо події, де кожен може бути собою,"
     ],
     [
-      "і хочемо, щоб її згадували з теплом."
+      "а різноманітність стає частиною атмосфери."
     ]
   ],
   "pills": [
     "<b>Свобода</b> бути собою",
-    "<b>Увага</b> до деталей",
+    "<b>Продуманість</b> у деталях",
     "<b>Враження</b> на першому місці",
-    "<b>Просто</b> для тебе"
+    "<b>Просто</b> долучитися"
   ],
   "template": "template-full-left.html",
   "bg": {
     "src": "images/silent-disco/silent-disco-try-podrugy-na-dyskoteky.webp",
     "pos": "75% 30%"
   },
-  "css": ".p>img{left:470px;right:auto;width:730px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 24%)} .pills{width:660px;max-width:none} .shade{background:linear-gradient(270deg,rgba(10,10,11,0) 30%,rgba(10,10,11,.56) 50%,rgba(10,10,11,.7) 66%,rgba(10,10,11,.74) 100%)}"
+  "css": ".p>img{left:470px;right:auto;width:730px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 24%)} .pills{width:660px;max-width:none} .shade{background:linear-gradient(270deg,rgba(10,10,11,0) 30%,rgba(10,10,11,.56) 50%,rgba(10,10,11,.7) 66%,rgba(10,10,11,.74) 100%)} .sub{font-weight:500;margin-top:34px;font-size:23px}"
 }

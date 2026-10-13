@@ -6,7 +6,10 @@
   ],
   "subtitle": [
     [
-      "Кожен учень слухає свою музику."
+      "Коли у кожного свій плейлист,"
+    ],
+    [
+      "а свято одне на всіх."
     ]
   ],
   "pills": [
@@ -17,8 +20,8 @@
   ],
   "template": "template-full-left.html",
   "bg": {
-    "src": "Resource/KIDS/edbf7cab-52ee-4129-8d8d-218a13fc46f7.png",
-    "pos": "60% 40%"
+    "src": "images/school/shkilna-dyskoteka-dvi-podrugy-sertse.webp",
+    "pos": "50% 55%"
   },
-  "css": ".p>img{left:300px;right:auto;width:985px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%)}.h span+span{font-size:40px;font-weight:400;letter-spacing:-.01em;margin-top:6px}"
+  "css": ".p>img{left:400px;right:auto;width:800px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%)}.h span+span{font-size:40px;font-weight:400;letter-spacing:-.01em;margin-top:6px} .sub{font-weight:500;margin-top:30px;font-size:23px}"
 }
