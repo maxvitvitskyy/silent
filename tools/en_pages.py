@@ -1911,4 +1911,179 @@ T_PAGE_ALL = {
   "Children in Silent Disco headphones with green, blue and red lights dance at a kids' party",
 'Тиха дискотека на дитяче свято: музика в бездротових навушниках, три канали на вибір, своя гучність і організація під ключ у Києві та по Україні.':
   "A silent disco for a kids' party: music in wireless headphones, three channels, own volume and turnkey organisation in Kyiv and across Ukraine.",
+# ---- Студентські події (15.10.2026) ----
+'Дівчина з піднятою рукою танцює в натовпі в навушниках Silent Disco':
+  'A girl with a raised hand dances in a crowd in Silent Disco headphones',
+'Двоє друзів обіймаються й танцюють у навушниках Silent Disco':
+  'Two friends hug and dance in Silent Disco headphones',
+'Дівчина танцює в неонових навушниках Silent Disco на студентській вечірці':
+  'A girl dances in neon Silent Disco headphones at a student party',
+'Гості танцюють на темному танцполі в навушниках Silent Disco':
+  'Guests dance on a dark dance floor in Silent Disco headphones',
+'Дві подруги сміються на нічній вечірці в навушниках Silent Disco':
+  'Two friends laugh at a night party in Silent Disco headphones',
+'Друзі танцюють на галявині під відкритим небом у навушниках Silent Disco':
+  'Friends dance on an open-air lawn in Silent Disco headphones',
+'Друзі танцюють на нічному фестивалі просто неба в навушниках Silent Disco':
+  'Friends dance at an open-air night festival in Silent Disco headphones',
+'Silent Disco для студентів у Києві та Україні | SILENT':
+  'Silent Disco for student events in Kyiv and Ukraine | SILENT',
+'Тиха дискотека для студентських подій: бездротові навушники, три канали музики на вибір, своя гучність і організація під ключ у Києві та по Україні.':
+  'A silent disco for student events: wireless headphones, three music channels, your own volume and turnkey organisation in Kyiv and across Ukraine.',
+'Silent Disco для студентських подій | SILENT':
+  'Silent Disco for student events | SILENT',
+'Студентська вечірка, де кожен слухає свою музику в навушниках, а в залі тихіше. Київ і вся Україна.':
+  'A student party where everyone listens to their own music in headphones and the room stays quieter. Kyiv and all of Ukraine.',
+'Друзі радіють на студентській вечірці в навушниках Silent Disco із кольоровою підсвіткою':
+  'Friends cheer at a student party in Silent Disco headphones with coloured lights',
+'Студентські ради, організатори студентських подій і закладів освіти':
+  'Student councils, organisers of student events and educational institutions',
+'Silent disco для студентських подій':
+  'Silent disco for student events',
+'>для студентських подій<':
+  '>for student events<',
+'Студентська вечірка, випускний чи день факультету, де кожен слухає свою музику й не треба шукати плейліст, який сподобається всім. Гості танцюють у бездротових навушниках, обирають один із трьох музичних каналів і самі налаштовують гучність. SILENT привезе обладнання, усе налаштує та подбає про технічний супровід у Києві й по всій Україні.':
+  'A student party, a graduation or a faculty day where everyone listens to their own music and nobody has to look for a playlist everyone likes. Guests dance in wireless headphones, pick one of three music channels and set the volume themselves. SILENT brings the equipment, sets everything up and takes care of the technical support in Kyiv and across Ukraine.',
+'>Три канали<':
+  'Three channels',
+'Різні жанри на одному танцполі, кожен обирає своє.':
+  'Different genres on one dance floor, everyone picks their own.',
+'>Своя гучність<':
+  'Own volume',
+'Регулятор і обмежувач гучності в навушниках кожного.':
+  "A volume control and limiter in everyone's headphones.",
+'>Колір каналів<':
+  'Channel colour',
+'Підсвітка показує, хто слухає той самий канал.':
+  'The lights show who is listening to the same channel.',
+'>Від 40 штук<':
+  'From 40 units',
+'Мінімальний комплект для вашої студентської події.':
+  'The minimum set for your student event.',
+'Вечірка, де кожен слухає своє':
+  'A party where everyone listens to their own',
+'Різні факультети, різні смаки, один танцпол.':
+  'Different faculties, different tastes, one dance floor.',
+'Студентська подія збирає людей з різних факультетів і курсів, і музичні смаки в них теж різні: хтось любить рок, хтось хіп-хоп, хтось електроніку. З одним плейлістом на всіх завжди хтось стоїть осторонь, а вечірка розпадається на кілька компаній.':
+  'A student event brings together people from different faculties and years, and their musical tastes differ too: some like rock, some hip-hop, some electronic music. With one playlist for everyone somebody always stands aside, and the party splits into several groups.',
+'У навушниках є <a href="/experiences/silent-disco/">три музичні канали</a>, тож кожен обирає собі музику й перемикається між нею протягом вечора. Кольорова підсвітка показує, хто слухає той самий канал, а власний регулятор гучності дає змогу налаштувати звук для себе.':
+  'The headphones have <a href="/en/experiences/silent-disco/">three music channels</a>, so everyone picks their music and switches between it during the evening. The coloured lights show who is listening to the same channel, and a personal volume control lets you adjust the sound for yourself.',
+'У гуртожитку, актовій залі чи на подвір’ї університету гучна музика не завжди доречна. Музика звучить у навушниках, а не з колонок, тож у приміщенні значно тихіше, а щоб поговорити, достатньо зняти навушники.':
+  'In a dormitory, an assembly hall or a university yard loud music is not always appropriate. The music plays in headphones, not from speakers, so the room is much quieter, and to talk you simply take the headphones off.',
+'Кожен слухає своє, а танцюють разом.':
+  'Everyone listens to their own, and you dance together.',
+'Ви готуєте подію. Ми подбаємо про звук.':
+  'You prepare the event. We take care of the sound.',
+'Технічну частину беремо на себе, щоб студентська рада й організатори могли зосередитися на програмі.':
+  'We take on the technical side, so the student council and organisers can focus on the programme.',
+'Менше шуму. Більше вечірки.':
+  'Less noise. More party.',
+'>Без технічних клопотів<':
+  'No technical hassle',
+'Привозимо обладнання, встановлюємо його й перевіряємо сигнал. Після події демонтуємо та забираємо все самі.':
+  'We bring the equipment, set it up and check the signal. After the event we dismantle and take everything away ourselves.',
+'>Гучність можна налаштувати<':
+  'The volume can be adjusted',
+'У навушниках є регулятор та обмежувач гучності. Перед початком ми пояснюємо гостям, як користуватися обладнанням.':
+  'The headphones have a volume control and a volume limiter. Before the start we explain to guests how to use the equipment.',
+'>Легко оголосити програму<':
+  'Easy to announce the programme',
+'Потрібно оголосити конкурс, подякувати гостям чи привітати випускників? Гості знімають навушники й чують звичайний голос, а потім повертаються до музики.':
+  'Need to announce a contest, thank the guests or congratulate the graduates? Guests take the headphones off and hear an ordinary voice, then go back to the music.',
+'>Формат під вашу подію<':
+  'A format for your event',
+'Вечірка факультету, випускний, день першокурсника чи подія в клубі: узгодимо кількість навушників, тривалість і технічні потреби з урахуванням вашої локації.':
+  "A faculty party, a graduation, a freshers' day or an event at a club: we will agree the number of headphones, the duration and the technical needs, taking your location into account.",
+'Навушники вже підготовлені до роботи, тож гостям не потрібно підключати телефони чи розбиратися в налаштуваннях. Ми підготуємо обладнання, перевіримо його та покажемо, як перемикати канали. Далі кожен обирає музику самостійно.':
+  'The headphones are already prepared, so guests do not need to connect phones or work through settings. We prepare the equipment, check it and show how to switch channels. After that everyone chooses music on their own.',
+'>Три канали на вибір<':
+  'Three channels to choose from',
+'На різних каналах можуть звучати різні плейлісти: наприклад, рок, хіп-хоп та електронна музика. Гості перемикаються між ними протягом вечора.':
+  'Different channels can play different playlists: for example, rock, hip-hop and electronic music. Guests switch between them during the evening.',
+'>Колір показує вибір<':
+  'Colour shows the choice',
+'Навушники світяться кольором обраного каналу. Гості бачать, хто слухає ту саму музику, а організатори можуть зорієнтуватися, який канал обрано.':
+  'The headphones glow in the colour of the chosen channel. Guests see who is listening to the same music, and organisers can tell which channel has been chosen.',
+'>Без дротів і складних налаштувань<':
+  'No wires and no complicated setup',
+'Не потрібно підключати власний телефон або налаштовувати кожні навушники окремо. Гості можуть вільно рухатися в межах робочої зони обладнання.':
+  "There is no need to connect your own phone or set up each pair of headphones separately. Guests can move freely within the equipment's working area.",
+'>Перемикайся, коли хочеш<':
+  'Switch whenever you like',
+'Канал можна змінити в будь-який момент вечора: коли набридла одна музика або захотілося до друзів на інший канал.':
+  'You can change the channel at any moment of the evening: when one kind of music gets boring or you want to join friends on another channel.',
+'Розкажіть, коли й де плануєте студентську подію та скільки буде гостей. Ми перевіримо доступність обладнання, допоможемо підібрати комплект і пояснимо наступні кроки.':
+  'Tell us when and where you plan the student event and how many guests there will be. We will check equipment availability, help you choose a set and explain the next steps.',
+'Уточнимо деталі, перевіримо доступність обладнання та підготуємо розрахунок для вашої події. Відповідаємо протягом дня.':
+  'We will clarify the details, check equipment availability and prepare an estimate for your event. We reply within a day.',
+'Гості обирають музику самі, а ви можете зосередитися на події. Після завершення ми демонтуємо та заберемо обладнання.':
+  'Guests choose the music themselves, and you can focus on the event. When it ends, we dismantle and take away the equipment.',
+'Silent Disco підходить не лише для студентських вечірок. Формат можна адаптувати до днів народження, шкільних свят, корпоративів та інших подій. Оберіть формат, який вас цікавить, а ще більше ідей знайдете в нашому <a href="/blog/">блозі</a>.':
+  'Silent Disco is not only for student parties. The format can be adapted to birthdays, school events, corporate events and other occasions. Choose the format you are interested in, and you will find even more ideas in our <a href="/blog/">blog</a> (in Ukrainian).',
+'Студентські події: часті запитання про Silent Disco':
+  'Student events: frequently asked questions about Silent Disco',
+'Чи підходить Silent Disco для студентської вечірки?':
+  'Does Silent Disco suit a student party?',
+'Так, формат можна організувати для студентської вечірки, випускного чи дня факультету. Гості слухають музику в бездротових навушниках і самі обирають один із трьох каналів. Ми привозимо обладнання, налаштовуємо його та супроводжуємо технічну частину. Умови проведення варто заздалегідь узгодити з адміністрацією закладу чи майданчика.':
+  'Yes, the format can be organised for a student party, a graduation or a faculty day. Guests listen to the music in wireless headphones and pick one of three channels themselves. We bring the equipment, set it up and support the technical side. It is worth agreeing the conditions with the administration of the institution or the venue in advance.',
+'Скільки навушників потрібно замовити на студентську подію?':
+  'How many headphones do I need to order for a student event?',
+'Навушник потрібен кожному учаснику, який хоче слухати музику. Мінімальний комплект SILENT — 40 навушників на 4 години, від 12 000 грн. У вартість входять доставка, встановлення, технічний супровід і вивезення обладнання. Якщо учасників більше або подія має тривати довше, скористайтеся калькулятором нижче. Ми допоможемо підібрати комплект під вашу подію.':
+  "Every participant who wants to listen to the music needs a headphone. SILENT's minimum set is 40 headphones for 4 hours, from 12,000 UAH. The price includes delivery, setup, technical support and pickup of the equipment. If there are more participants or the event will run longer, use the calculator below. We will help you choose a set for your event.",
+'Де можна провести студентську Silent Disco?':
+  'Where can a student Silent Disco be held?',
+'Формат можна організувати в актовій залі, спортзалі, клубі, кафе, на подвір’ї університету чи в іншому просторі, де є місце для танців і доступ до електроживлення. На встановлення та перевірку сигналу потрібно близько 30 хвилин до початку. Для події просто неба варто передбачити запасний варіант на випадок дощу. Умови проведення узгоджуємо заздалегідь.':
+  'The format can be organised in an assembly hall, a gym, a club, a cafe, in a university yard or in another space with room to dance and access to power. About 30 minutes before the start are needed for setup and a signal check. For an open-air event it is worth planning a rain backup. We agree the conditions in advance.',
+'Так. У навушниках є регулятор та обмежувач гучності, а кожен учасник може налаштувати рівень звуку для себе. Перед початком ми пояснюємо, як користуватися обладнанням. Якщо маєте додаткові запитання щодо гучності, обговоріть їх із нами до бронювання.':
+  'Yes. The headphones have a volume control and a volume limiter, and each participant can set the sound level for themselves. Before the start we explain how to use the equipment. If you have further questions about the volume, discuss them with us before booking.',
+'Чи потрібен діджей на студентську вечірку?':
+  'Do I need a DJ for a student party?',
+'Ні, діджей не обов’язковий: ми заздалегідь готуємо три плейлісти, а гості самі перемикаються між каналами. Якщо ви хочете запросити діджея чи гурт, повідомте про це в заявці, і ми окремо обговоримо цей варіант. Три канали також можна використати як три команди для танцювальних конкурсів.':
+  'No, a DJ is not required: we prepare three playlists in advance, and guests switch between channels themselves. If you would like to invite a DJ or a band, mention it in your request and we will discuss that option separately. The three channels can also be used as three teams for dance contests.',
+'Як оголосити програму чи подякувати гостям, якщо всі в навушниках?':
+  'How can I announce the programme or thank guests if everyone is in headphones?',
+'Достатньо попросити гостей зняти навушники на шию. Тоді вони чутимуть звичайний голос ведучого чи організатора, а потім знову одягнуть навушники й повернуться до музики. Колонки для оголошень не потрібні.':
+  'It is enough to ask guests to put the headphones around their necks. Then they will hear the ordinary voice of the host or organiser, and afterwards they put the headphones back on and return to the music. Speakers for announcements are not needed.',
+'Рекомендуємо залишати заявку якомога раніше, особливо на випускні, початок і кінець семестру та популярні дати. Доступність обладнання залежить від дати й інших бронювань. Ми перевіримо вашу дату та пояснимо, як підтвердити замовлення. Бронювання закріплюється після узгодження умов і передоплати.':
+  'We recommend sending a request as early as possible, especially for graduations, the start and end of a term and popular dates. Equipment availability depends on the date and other bookings. We will check your date and explain how to confirm the order. A booking is secured after the terms are agreed and the prepayment is made.',
+'Порахуйте бюджет студентської події заздалегідь':
+  'Work out your student event budget in advance',
+'Розкажіть, коли й де плануєте подію та скільки буде гостей. Ми перевіримо доступність дати, допоможемо підібрати комплект навушників і розрахуємо вартість. Ви зосередитеся на програмі, а ми подбаємо про технічну частину.':
+  'Tell us when and where you plan the event and how many guests there will be. We will check the date, help you choose a set of headphones and calculate the cost. You focus on the programme, and we take care of the technical side.',
+'Сплануймо вашу студентську подію':
+  "Let's plan your student event",
+'Перевірте дату <span class="em">студентської</span> події':
+  'Check the date of <span class="em">your student</span> event',
+'Студентська подія':
+  'Student event',
+'У навушниках є <a href="/en/experiences/silent-disco/">три музичні канали</a>, тож кожен обирає собі музику й перемикається між нею протягом вечора. Кольорова підсвітка показує, хто слухає той самий канал, а власний регулятор гучності дає змогу налаштувати звук для себе.':
+  'The headphones have <a href="/en/experiences/silent-disco/">three music channels</a>, so everyone picks their music and switches between it during the evening. The coloured lights show who is listening to the same channel, and a personal volume control lets you adjust the sound for yourself.',
+'>Три канали<':
+  '>Three channels<',
+'>Своя гучність<':
+  '>Own volume<',
+'>Колір каналів<':
+  '>Channel colour<',
+'>Від 40 штук<':
+  '>From 40 units<',
+'>Без технічних клопотів<':
+  '>No technical hassle<',
+'>Гучність можна налаштувати<':
+  '>The volume can be adjusted<',
+'>Легко оголосити програму<':
+  '>Easy to announce the programme<',
+'>Формат під вашу подію<':
+  '>A format for your event<',
+'>Три канали на вибір<':
+  '>Three channels to choose from<',
+'>Колір показує вибір<':
+  '>Colour shows the choice<',
+'>Без дротів і складних налаштувань<':
+  '>No wires and no complicated setup<',
+'>Перемикайся, коли хочеш<':
+  '>Switch whenever you like<',
+'>для студентів<':
+  '>for students<',
+'Друзі сміються й танцюють у навушниках Silent Disco вночі':
+  'Friends laugh and dance in Silent Disco headphones at night',
 }

@@ -1,0 +1,27 @@
+{
+  "out": "images/students/og-students.jpg",
+  "heading": [
+    "Silent Disco",
+    "для студентів"
+  ],
+  "subtitle": [
+    [
+      "Кожен слухає свою музику,"
+    ],
+    [
+      "а вечірка лишається спільною."
+    ]
+  ],
+  "pills": [
+    "Музика <b>в навушниках</b>",
+    "<b>3</b> канали на вибір",
+    "Все <b>під ключ</b>",
+    "<b>Київ</b> та Україна"
+  ],
+  "template": "template-full-left.html",
+  "bg": {
+    "src": "images/students/studentska-vechirka-druzi-raduyutsya-na-vecherytsi.webp",
+    "pos": "50% 30%"
+  },
+  "css": ".p>img{left:400px;right:auto;width:800px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%)}.h span+span{font-size:40px;font-weight:400;letter-spacing:-.01em;margin-top:6px} .sub{font-weight:500;margin-top:30px;font-size:23px}"
+}

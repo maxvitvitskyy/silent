@@ -1132,6 +1132,7 @@ EXPERIENCE_URLS = {
     'Silent disco': '/experiences/silent-disco/',
     'Шкільні свята': '/experiences/school/',
     'Дитячі свята': '/experiences/kids/',
+    'Студентські події': '/experiences/students/',
 }
 
 # Порядок карток на сторінці-списку. Це НЕ дані про продажі: статистики звернень
@@ -1277,6 +1278,7 @@ EXPERIENCE_PAGES = [
     os.path.join('experiences', 'silent-disco', 'index.html'),
     os.path.join('experiences', 'school', 'index.html'),
     os.path.join('experiences', 'kids', 'index.html'),
+    os.path.join('experiences', 'students', 'index.html'),
 ]
 
 
@@ -1291,6 +1293,7 @@ EXP_FAQ_PAGES = {
     os.path.join('experiences', 'silent-disco', 'index.html'): '/experiences/silent-disco/',
     os.path.join('experiences', 'school', 'index.html'): '/experiences/school/',
     os.path.join('experiences', 'kids', 'index.html'): '/experiences/kids/',
+    os.path.join('experiences', 'students', 'index.html'): '/experiences/students/',
 }
 
 
@@ -2310,6 +2313,7 @@ EXP_EN_PAGES = {
     'silent-disco': 'images/silent-disco/og-silent-disco-en.jpg',
     'school': 'images/school/og-school-en.jpg',
     'kids': 'images/kids/og-kids-en.jpg',
+    'students': 'images/students/og-students-en.jpg',
 }
 from en_pages import T_PAGE_ALL   # рядки сторінок досвідів (tools/en_pages.py)
 T_PAGE = {}   # slug -> {укр: англ} (додаткові, лише для однієї сторінки)
