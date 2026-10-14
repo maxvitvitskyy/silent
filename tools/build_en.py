@@ -661,6 +661,7 @@ T = {
 # Підвал: посилання на сторінки замість дублів якорів головної.
 'Для корпоративів': 'Corporate events',
 '>Блог<': '>Blog<',
+'>Про нас<': '>About us<',
 'Для весілля': 'Weddings',
 'Питання і відповіді': 'Questions and answers',
 'Порахувати вартість': 'Work out the cost',
@@ -988,7 +989,7 @@ def strip_blog_mega(s):
     s = re.sub(r'[ \t]*<!-- BLOG-MEGA:START.*?<!-- BLOG-MEGA:END -->\n?', '', s, flags=re.S)
     # Сторінки «Про нас» поки лише українською: пункт підвалу в англійській версії не показуємо.
     s = re.sub(r'[ \t]*<a href="/about/" class="nav-about">Про нас</a>\n?', '', s)
-    return re.sub(r'[ \t]*<li><a href="/about/">Про нас</a></li>\n?', '', s)
+    return s
 
 
 def translate(s):
@@ -1130,6 +1131,7 @@ EXPERIENCE_URLS = {
     'Дні народження': '/experiences/birthday/',
     'Silent disco': '/experiences/silent-disco/',
     'Шкільні свята': '/experiences/school/',
+    'Дитячі свята': '/experiences/kids/',
 }
 
 # Порядок карток на сторінці-списку. Це НЕ дані про продажі: статистики звернень
@@ -1274,6 +1276,7 @@ EXPERIENCE_PAGES = [
     os.path.join('experiences', 'birthday', 'index.html'),
     os.path.join('experiences', 'silent-disco', 'index.html'),
     os.path.join('experiences', 'school', 'index.html'),
+    os.path.join('experiences', 'kids', 'index.html'),
 ]
 
 
@@ -1287,6 +1290,7 @@ EXP_FAQ_PAGES = {
     os.path.join('experiences', 'birthday', 'index.html'): '/experiences/birthday/',
     os.path.join('experiences', 'silent-disco', 'index.html'): '/experiences/silent-disco/',
     os.path.join('experiences', 'school', 'index.html'): '/experiences/school/',
+    os.path.join('experiences', 'kids', 'index.html'): '/experiences/kids/',
 }
 
 
@@ -2305,6 +2309,7 @@ EXP_EN_PAGES = {
     'birthday': 'images/birthday/og-birthday-en.jpg',
     'silent-disco': 'images/silent-disco/og-silent-disco-en.jpg',
     'school': 'images/school/og-school-en.jpg',
+    'kids': 'images/kids/og-kids-en.jpg',
 }
 from en_pages import T_PAGE_ALL   # рядки сторінок досвідів (tools/en_pages.py)
 T_PAGE = {}   # slug -> {укр: англ} (додаткові, лише для однієї сторінки)

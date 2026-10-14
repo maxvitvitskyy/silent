@@ -1634,4 +1634,152 @@ T_PAGE_ALL = {
   "Children dance in Silent Disco headphones glowing in different colours",
 ">на шкільне свято<":
   ">for school events<",
+# ---- Дитячі свята (14.10.2026) ----
+'Silent Disco на дитяче свято в Києві та Україні | SILENT':
+  "Silent Disco for kids' parties in Kyiv and Ukraine | SILENT",
+'Тиха дискотека на дитяче свято: музика в бездротових навушниках, три канали на вибір, своя гучність і організація під ключ у Києві та по Україні.':
+  "A silent disco for a kids' party: music in wireless headphones, three channels to choose from, everyone's own volume and turnkey organisation in Kyiv and across Ukraine.",
+'Silent Disco на дитяче свято | SILENT':
+  "Silent Disco for kids' parties | SILENT",
+'Дитяче свято, де діти танцюють у навушниках під свою музику, а в залі тихіше. Київ і вся Україна.':
+  "A kids' party where children dance in headphones to their own music and the room stays quieter. Kyiv and all of Ukraine.",
+'Троє дітей у неонових футболках і навушниках Silent Disco на дитячому святі':
+  "Three children in neon T-shirts and Silent Disco headphones at a kids' party",
+'Silent disco на дитяче свято':
+  "Silent disco for a kids' party",
+'Батьки, організатори дитячих свят і власники дитячих майданчиків':
+  "Parents, kids' party organisers and owners of children's venues",
+'>на дитяче свято<':
+  ">for kids' parties<",
+'Тиха дискотека (Silent Disco) на дитячий день народження чи свято в клубі: діти танцюють у бездротових навушниках, і кожен обирає один із трьох каналів музики. Колонки не гримлять, тож у залі тихіше, а дорослі спокійно говорять із дітьми. SILENT привезе обладнання, усе налаштує та підтримає захід у Києві й по всій Україні.':
+  "A silent disco for a kids' birthday or a party at a club: children dance in wireless headphones, and each picks one of three music channels. No speakers boom, so the room is quieter and adults can talk with the children calmly. SILENT brings the equipment, sets everything up and supports the event in Kyiv and across Ukraine.",
+'>Колір підсвітки<':
+  '>Colour of the lights<',
+'Навушники світяться кольором каналу, тож дорослі бачать, хто що слухає.':
+  'The headphones glow in the colour of the channel, so adults can see who listens to what.',
+'Кожна дитина обирає музику під свій настрій.':
+  'Every child picks music for their own mood.',
+'Мінімальний комплект для свята.':
+  'The minimum set for a party.',
+'Свято, де кожен танцює під свою музику':
+  'A party where everyone dances to their own music',
+'Різний вік, різні смаки, і всі разом на одному святі.':
+  'Different ages, different tastes, and everyone together at one party.',
+'На дитячому святі збираються діти різного віку. Малюкам до душі пісні з мультфільмів, старші вже хочуть сучасні хіти. З одним плейлістом на всіх хтось нудьгує, а свято розпадається на кілька компаній.':
+  "Children of different ages come to a kids' party. Little ones enjoy songs from cartoons, while older kids already want current hits. With one playlist for everyone, somebody gets bored and the party splits into several groups.",
+'У навушниках є <a href="/en/experiences/silent-disco/">три музичні канали</a>, тож кожна дитина обирає свій і перемикається, коли захоче. Навушники світяться кольором каналу: дорослі одразу бачать, хто що слухає, а діти легко знаходять друзів на тій самій хвилі. Гучність дитина налаштовує сама, а вбудований обмежувач допомагає контролювати її рівень.':
+  'The headphones have <a href="/en/experiences/silent-disco/">three music channels</a>, so every child picks their own and switches whenever they like. The headphones glow in the colour of the channel: adults see at once who listens to what, and children easily find friends on the same wavelength. The child sets the volume themselves, and the built-in limiter helps keep the level under control.',
+'А коли час покликати до торта, оголосити конкурс чи просто поговорити, достатньо зняти навушники на шию. Музика не гримить із колонок, тож у приміщенні значно тихіше, а це зручно там, де гучна музика обмежена.':
+  'And when it is time to call everyone to the cake, announce a contest or simply talk, it is enough to put the headphones around the neck. The music does not boom from speakers, so the room is much quieter, which helps where loud music is restricted.',
+'Своя музика. Одне свято.':
+  'Own music. One party.',
+'Технічну частину беремо на себе, щоб батьки, ведучі й аніматори могли зосередитися на дітях.':
+  'We take on the technical side, so parents, hosts and entertainers can focus on the children.',
+'>Кожна дитина слухає своє<':
+  '>Every child listens to their own<',
+'Три канали дають змогу слухати різні плейлісти на одному танцполі: діти самі обирають, під що танцювати, і не сперечаються про одну пісню на всіх.':
+  'Three channels let different playlists play on one dance floor: children choose what to dance to themselves and do not argue over one song for everyone.',
+'У навушниках є регулятор і обмежувач гучності. Перед початком ми показуємо дітям і дорослим, як користуватися обладнанням.':
+  'The headphones have a volume control and a volume limiter. Before the start we show children and adults how to use the equipment.',
+'>Дорослі все чують і бачать<':
+  '>Adults hear and see everything<',
+'Потрібно покликати до торта чи оголосити конкурс? Діти знімають навушники й чують звичайний голос. А кольорова підсвітка показує, хто на якому каналі.':
+  'Need to call everyone to the cake or announce a contest? Children take the headphones off and hear an ordinary voice. And the coloured lights show who is on which channel.',
+'Узгодимо кількість навушників, тривалість і технічні потреби для дня народження, свята в клубі чи на майданчику з урахуванням умов місця.':
+  'We will agree the number of headphones, the duration and the technical needs for a birthday or a party at a club or venue, taking the conditions of the place into account.',
+'На різних каналах можуть звучати різні плейлісти: наприклад, пісні з мультфільмів, сучасні хіти та танцювальна музика. Діти перемикаються між каналами самі.':
+  'Different channels can play different playlists: for example, songs from cartoons, current hits and dance music. Children switch between channels themselves.',
+'Так легко побачити, хто слухає ту саму музику, і діти знаходять друзів на своїй хвилі. А дорослі бачать, хто на якому каналі.':
+  'That makes it easy to see who listens to the same music, so children find friends on their wavelength. And adults can see who is on which channel.',
+'Діти обирають музику самі, а ви можете зосередитися на святі. Після завершення ми демонтуємо та заберемо обладнання.':
+  'Children choose the music themselves, and you can focus on the party. When it ends, we dismantle and take away the equipment.',
+'Розкажіть, коли й де плануєте свято та скільки буде дітей. Ми перевіримо доступність обладнання, допоможемо підібрати комплект і пояснимо наступні кроки.':
+  'Tell us when and where you plan the party and how many children there will be. We will check equipment availability, help you choose a set and explain the next steps.',
+'Дитячі свята: часті запитання про Silent Disco':
+  "Kids' parties: frequently asked questions about Silent Disco",
+'Чи підходить Silent Disco для дитячого свята?':
+  "Does Silent Disco suit a kids' party?",
+'Так, формат можна організувати для дитячого дня народження, свята в клубі чи на майданчику або тематичної вечірки. Діти слухають музику в бездротових навушниках і самі обирають один із трьох каналів. Представник SILENT супроводжує технічну частину на місці. Якщо маєте запитання щодо віку гостей, обговоріть їх із нами до бронювання.':
+  "Yes, the format can be organised for a kids' birthday, a party at a club or venue, or a themed party. Children listen to the music in wireless headphones and pick one of three channels themselves. A SILENT representative supports the technical side on site. If you have questions about the age of the guests, discuss them with us before booking.",
+'Скільки навушників потрібно замовити на дитяче свято?':
+  "How many headphones do I need to order for a kids' party?",
+'Де можна провести: вдома, у клубі, кафе чи на майданчику?':
+  'Where can it be held: at home, in a club, a cafe or a venue?',
+'Silent Disco можна провести в залі кафе чи дитячого клубу, на майданчику, вдома або на подвір’ї, якщо там достатньо місця для танців і є доступ до електроживлення. На встановлення та перевірку сигналу потрібно близько 30 хвилин до початку. Для заходу просто неба передбачте запасний варіант на випадок дощу. Умови проведення заздалегідь узгодьте з адміністрацією майданчика.':
+  "Silent Disco can be held in a cafe or kids' club hall, at a venue, at home or in a yard, if there is enough space to dance and access to power. About 30 minutes before the start are needed for setup and a signal check. For an open-air event plan a rain backup. Agree the conditions with the venue administration in advance.",
+'Які ігри й конкурси можна провести в навушниках?':
+  'What games and contests can be played in headphones?',
+'Найпростіше зробити з каналів команди: червоний, зелений і синій стають трьома командами, які змагаються, хто краще танцює чи повторює рухи. Можна зіграти в «заморозку»: ведучий зупиняє гру, діти знімають навушники на шию й слухають правила. Також працює спільне співання: усі на одному каналі співають улюблену пісню. Якщо на святі є ведучий чи аніматор, він легко вплете це в програму. Діджей не обов’язковий: ми заздалегідь готуємо три плейлісти, а діти самі перемикаються між каналами.':
+  'The simplest idea is to turn channels into teams: red, green and blue become three teams that compete to dance best or repeat the moves. You can play freeze: the host stops the game, and the children put the headphones around their necks and listen to the rules. Singing together works too: everyone on one channel sings a favourite song. If the party has a host or an entertainer, they can easily weave this into the programme. A DJ is not required: we prepare three playlists in advance, and the children switch between channels themselves.',
+'Як покликати дітей до торта чи оголосити конкурс?':
+  'How do I call the children to the cake or announce a contest?',
+'Достатньо попросити дітей зняти навушники на шию. Тоді вони чутимуть звичайний голос ведучого, батьків чи організатора, а потім знову одягнуть навушники й повернуться до музики. Колонки для оголошень не потрібні.':
+  'It is enough to ask the children to put the headphones around their necks. Then they will hear an ordinary voice of the host, parents or organiser, and afterwards put the headphones back on and return to the music. Speakers for announcements are not needed.',
+'Рекомендуємо залишати заявку якомога раніше, особливо на вихідні, канікули та популярні дати. Доступність обладнання залежить від дати та інших бронювань. Ми перевіримо вашу дату й пояснимо, як підтвердити замовлення. Бронювання закріплюється після узгодження умов і передоплати.':
+  'We recommend sending a request as early as possible, especially for weekends, school holidays and popular dates. Equipment availability depends on the date and other bookings. We will check your date and explain how to confirm the order. A booking is secured after the terms are agreed and the prepayment is made.',
+'Навушник потрібен кожному, хто хоче слухати музику. Мінімальний комплект SILENT — 40 навушників на 4 години, від 12 000 грн. У вартість входять доставка, встановлення, технічний супровід і вивезення обладнання. Якщо учасників більше або свято має тривати довше, скористайтеся калькулятором нижче. Вкажіть приблизну кількість учасників у заявці — допоможемо підібрати комплект.':
+  "Every guest who wants to listen to the music needs a headphone. SILENT's minimum set is 40 headphones for 4 hours, from 12,000 UAH. The price includes delivery, setup, technical support and pickup of the equipment. If there are more participants or the party will run longer, use the calculator below. Give the approximate number of participants in your request and we will help you choose a set.",
+'Порахуйте бюджет дитячого свята заздалегідь':
+  "Work out your kids' party budget in advance",
+'Зробімо дитяче свято особливим':
+  "Let's make your kids' party special",
+'Перевірте дату <span class="em">дитячого</span> свята':
+  'Check the date of <span class="em">your kids\'</span> party',
+'Три дівчинки в навушниках Silent Disco із червоною, синьою й зеленою підсвіткою':
+  'Three girls in Silent Disco headphones with red, blue and green lights',
+'Дві дівчинки усміхаються в навушниках Silent Disco й показують серце':
+  'Two girls smile in Silent Disco headphones and make a heart',
+'Діти танцюють у навушниках Silent Disco із різнокольоровою підсвіткою на дитячому святі':
+  "Children dance in Silent Disco headphones with multicoloured lights at a kids' party",
+'Діти на дитячому святі в навушниках Silent Disco показують знак миру':
+  "Children at a kids' party in Silent Disco headphones make a peace sign",
+'Діти танцюють у залі в навушниках Silent Disco, вид зверху':
+  'Children dance in a hall in Silent Disco headphones, view from above',
+
+'Навушники світяться кольором обраного каналу. Так легко побачити, хто слухає ту саму музику, і діти знаходять друзів на своїй хвилі. А дорослі бачать, хто на якому каналі.':
+  'The headphones glow in the colour of the chosen channel. That makes it easy to see who listens to the same music, so children find friends on their wavelength. And adults can see who is on which channel.',
+'>3 канали музики<':
+  '>3 music channels<',
+'>Своя гучність<':
+  '>Own volume<',
+'Регулятор і обмежувач гучності в навушниках.':
+  'A volume control and a volume limiter in the headphones.',
+'Колір навушників показує, хто на якому каналі.':
+  'The colour of the headphones shows who is on which channel.',
+'Мінімальний комплект для вашого дитячого свята.':
+  "The minimum set for your kids' party.",
+'Кожен слухає своє, а святкують разом.':
+  'Everyone listens to their own, and you celebrate together.',
+'>3 канали<':
+  '>3 channels<',
+'>40+ навушників<':
+  '>40+ headphones<',
+'Регулятор і обмежувач гучності в навушниках кожної дитини.':
+  "A volume control and a volume limiter in every child's headphones.",
+'>Від 40 штук<':
+  '>From 40 units<',
+'Регулятор і обмежувач гучності в навушниках кожної дитини.':
+  'A volume control and limiter in the headphones.',
+'Усміхнена дівчинка махає руками в навушниках Silent Disco на дитячому святі':
+  "A smiling girl waves her hands in Silent Disco headphones at a kids' party",
+'Діти танцюють на неоновій дитячій вечірці в навушниках Silent Disco':
+  "Children dance at a neon kids' party in Silent Disco headphones",
+'Маленька дівчинка в зелених навушниках Silent Disco танцює на святі':
+  'A little girl in green Silent Disco headphones dances at a party',
+'Мама обіймає дочку, обидві в навушниках Silent Disco':
+  'A mother hugs her daughter, both in Silent Disco headphones',
+'Дівчатка в святкових сукнях танцюють у навушниках Silent Disco':
+  'Girls in party dresses dance in Silent Disco headphones',
+'Дівчинка танцює з батьками на дитячому святі в навушниках Silent Disco':
+  "A girl dances with her parents at a kids' party in Silent Disco headphones",
+'Дівчинка в квітчастій сукні крутиться в танці в навушниках Silent Disco':
+  'A girl in a floral dress twirls in Silent Disco headphones',
+'Тато підіймає дитину на святі просто неба, обидва в навушниках Silent Disco':
+  'A dad lifts a child at an open-air party, both in Silent Disco headphones',
+'Мама з трьома дівчатками в святкових сукнях усміхаються в навушниках Silent Disco':
+  'A mother and three girls in party dresses smile in Silent Disco headphones',
+'Дівчатка з мамою усміхаються в навушниках Silent Disco':
+  'Girls and their mum smile in Silent Disco headphones',
+'Діти танцюють у лазерному світлі в навушниках Silent Disco':
+  'Children dance in laser light in Silent Disco headphones',
 }
