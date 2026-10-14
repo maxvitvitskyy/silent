@@ -2526,4 +2526,6 @@ T_PAGE_ALL = {
   'Guests raise their hands at a festival in Silent Disco headphones',
 'Нічний фестиваль просто неба: гості танцюють у неонових навушниках Silent Disco':
   'A night festival with neon headphones: guests dance in Silent Disco headphones',
+'Гості нічного фестивалю з піднятими руками танцюють у навушниках Silent Disco':
+  'Guests of a night festival dance with raised hands in Silent Disco headphones',
 }
