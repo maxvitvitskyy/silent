@@ -2216,4 +2216,6 @@ T_PAGE_ALL = {
   "The three music channels can become three teams: red, green and blue. Arrange a dance contest, a contest for the best move or a game where everyone has to freeze as soon as the music stops. When the host needs to explain the rules, we pause the music or lower the volume if needed, and the rules sound through the microphone in every child's headphones. If the party has an entertainer or a host, they can include such games in their programme. A separate DJ is not required: we prepare the playlists in advance.",
 'Шкільна дискотека, випускний чи тематична вечірка, де кожен може танцювати під улюблену музику. Діти обирають один із трьох музичних каналів, а вчителям і ведучим не доводиться перекрикувати колонки. SILENT привезе обладнання, усе налаштує та подбає про технічний супровід у Києві й по всій Україні.':
   'A school disco, a graduation or a themed party where everyone can dance to the music they love. Children pick one of three music channels, and teachers and hosts do not have to shout over speakers. SILENT brings the equipment, sets everything up and takes care of the technical support in Kyiv and across Ukraine.',
+'Дві подруги танцюють у навушниках Silent Disco із зеленою підсвіткою':
+  'Two friends dance in Silent Disco headphones with green lights',
 }
