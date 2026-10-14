@@ -5700,7 +5700,8 @@ function orderExperience(name, opts){
           c.classList.toggle('is-on', on);
           c.setAttribute('aria-pressed', on ? 'true' : 'false');
         });
-        cards.forEach(el => { el.hidden = !(cat === 'all' || el.dataset.cat === cat); });
+        // data-cat може містити кілька тем через пробіл: стаття показується в кожній зі своїх тем
+        cards.forEach(el => { el.hidden = !(cat === 'all' || (' ' + el.dataset.cat + ' ').indexOf(' ' + cat + ' ') !== -1); });
       };
       let done = false;
       if (animate !== false && grid && cards.length){

@@ -89,7 +89,7 @@ def card(p, cats):
     return ('        <article class="uc-card blog-card%s" data-cat="%s"%s>\n          %s\n'
             '          <div class="uc-body">\n            <span class="blog-cat">%s</span>\n'
             '            <h3>%s</h3>\n            <p>%s</p>\n            %s\n          </div>\n        </article>\n'
-            % (' is-soon' if p['status'] != 'published' else '', p['category'], style, media, esc(cat),
+            % (' is-soon' if p['status'] != 'published' else '', ' '.join([p['category']] + p.get('also', [])), style, media, esc(cat),
                ttl(p), esc(p['excerpt']), foot))
 
 
@@ -235,6 +235,9 @@ def build(preview=False):
     for p in posts:
         if p['category'] not in cats:
             sys.exit('blog: невідома тема %r у %s' % (p['category'], p['slug']))
+        for c_ in p.get('also', []):
+            if c_ not in cats:
+                sys.exit('blog: невідома додаткова тема %r у %s' % (c_, p['slug']))
         if p['status'] not in ('soon', 'draft', 'published'):
             sys.exit('blog: невідомий статус %r у %s' % (p['status'], p['slug']))
         if p['status'] in ('draft', 'published') and not os.path.exists(os.path.join(ROOT, 'blog_src', p['slug'] + '.json')):
@@ -299,7 +302,8 @@ def build(preview=False):
     latest = [p for p in posts if p is not feat][:4]
     counts = {}
     for p in posts:
-        counts[p['category']] = counts.get(p['category'], 0) + 1
+        for c_ in [p['category']] + p.get('also', []):   # стаття рахується в кожній зі своїх тем
+            counts[c_] = counts.get(c_, 0) + 1
 
     def meta(p):
         if p['status'] != 'published':
