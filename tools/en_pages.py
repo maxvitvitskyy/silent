@@ -2220,4 +2220,135 @@ T_PAGE_ALL = {
   'Two friends dance in Silent Disco headphones with green lights',
 'Натовп танцює в червоному світлі в навушниках Silent Disco':
   'A crowd dances in red light in Silent Disco headphones',
+# ---- Фестивалі (15.10.2026) ----
+'Друзі обіймаються під святковим салютом на фестивалі в навушниках Silent Disco':
+  'Friends hug under festival fireworks in Silent Disco headphones',
+'Гості піднімають руки на фестивалі в навушниках Silent Disco':
+  'Guests raise their hands at a festival in Silent Disco headphones',
+'Дівчина танцює на фестивалі в неоновому світлі в навушниках Silent Disco':
+  'A girl dances at a festival in neon light in Silent Disco headphones',
+'Діджейка на даху над нічним містом, гості слухають її в навушниках Silent Disco':
+  'A female DJ on a rooftop above the night city, guests listen in Silent Disco headphones',
+'Нічний фестиваль під відкритим небом: гості танцюють у навушниках Silent Disco':
+  'A night open-air festival: guests dance in Silent Disco headphones',
+'Натовп гостей у неоновому світлі на фестивалі в навушниках Silent Disco':
+  'A crowd of guests in neon light at a festival in Silent Disco headphones',
+'Натовп танцює перед сценою на фестивалі в навушниках Silent Disco':
+  'A crowd dances in front of a stage at a festival in Silent Disco headphones',
+'Silent Disco на фестивалі в Києві та Україні | SILENT':
+  'Silent Disco at festivals in Kyiv and Ukraine | SILENT',
+'Тиха дискотека на фестивалі: бездротові навушники, три музичні канали на вибір, своя гучність і організація під ключ у Києві та по Україні.':
+  'A silent disco at a festival: wireless headphones, three music channels, your own volume and turnkey organisation in Kyiv and across Ukraine.',
+'Silent Disco на фестивалі | SILENT':
+  'Silent Disco at festivals | SILENT',
+'Фестиваль, де кожен слухає свою музику в навушниках, а на майданчику тихіше. Київ і вся Україна.':
+  'A festival where everyone listens to their own music in headphones and the venue is quieter. Kyiv and all of Ukraine.',
+'Гості фестивалю танцюють у навушниках Silent Disco із кольоровою підсвіткою':
+  'Festival guests dance in Silent Disco headphones with coloured lights',
+'Організатори фестивалів, міських свят і культурних подій':
+  'Organisers of festivals, city celebrations and cultural events',
+'Silent disco на фестивалі':
+  'Silent disco at a festival',
+'>на фестивалі<':
+  '>at festivals<',
+'Музичний фестиваль, міське свято чи open-air: формат, у якому на одному майданчику звучить кілька музичних настроїв. Гості танцюють у бездротових навушниках, перемикаються між трьома музичними каналами й налаштовують гучність для себе. SILENT привезе обладнання, усе налаштує та подбає про технічний супровід у Києві й по всій Україні.':
+  'A music festival, a city celebration or an open-air event: a format where several musical moods play on one site. Guests dance in wireless headphones, switch between three music channels and set the volume for themselves. SILENT brings the equipment, sets everything up and takes care of the technical support in Kyiv and across Ukraine.',
+'>Три канали<':
+  '>Three channels<',
+'Кілька музичних настроїв на одному майданчику.':
+  'Several musical moods on one site.',
+'>Своя гучність<':
+  '>Own volume<',
+'Регулятор і обмежувач гучності в навушниках кожного учасника.':
+  "A volume control and limiter in every participant's headphones.",
+'>Колір каналу<':
+  '>Channel colour<',
+'Підсвітка показує, хто слухає ту саму музику.':
+  'The lights show who is listening to the same music.',
+'>Від 40 штук<':
+  '>From 40 units<',
+'Мінімальний комплект для фестивального майданчика.':
+  'The minimum set for a festival site.',
+'Майданчик, де кожен слухає своє':
+  'A site where everyone listens to their own',
+'Різні жанри, різні компанії, один танцпол.':
+  'Different genres, different groups, one dance floor.',
+'На фестивалі збираються люди з різними смаками: хтось прийшов на електроніку, хтось на рок чи хіп-хоп, а хтось просто за атмосферою. Одна сцена не може порадувати всіх одразу, тож частина гостей чекає свого сету. Додаткова тиха локація з навушниками дає їм вибір і робить фестиваль помітнішим серед інших.':
+  'A festival gathers people with different tastes: some came for electronic music, some for rock or hip-hop, and some just for the atmosphere. One stage cannot please everyone at once, so part of the guests wait for their set. An extra silent location with headphones gives them a choice and makes the festival stand out from others.',
+'У Silent Disco можна обирати між <a href="/experiences/silent-disco/">трьома музичними каналами</a>, а власний регулятор гучності дає змогу налаштувати звук для себе. Тож на одному майданчику можуть одночасно звучати різні стилі.':
+  'In Silent Disco you can choose between <a href="/en/experiences/silent-disco/">three music channels</a>, and a personal volume control lets you adjust the sound for yourself. So different styles can play on one site at the same time.',
+'Музика звучить у навушниках, а не з колонок, тож формат зручний там, де гучний звук обмежений: у міському парку, на території закладу чи біля житлових будинків. А щоб поговорити, достатньо зняти навушники.':
+  'The music plays in headphones, not from speakers, so the format suits places where loud sound is restricted: a city park, the grounds of an institution or near residential buildings. And to talk, you simply take the headphones off.',
+'Кожен слухає своє, а свято одне.':
+  'Everyone listens to their own, and the festival is shared.',
+'Менше шуму. Більше музики.':
+  'Less noise. More music.',
+'Ви готуєте фестиваль. Ми подбаємо про звук.':
+  'You prepare the festival. We take care of the sound.',
+'Технічну частину беремо на себе, щоб організатори могли зосередитися на програмі, гостях та атмосфері.':
+  'We take on the technical side, so the organisers can focus on the programme, the guests and the atmosphere.',
+'>Без технічних клопотів<':
+  '>No technical hassle<',
+'Обладнання, налаштування сигналу й демонтаж беремо на себе: у вашому списку справ лишається лише програма.':
+  'We take on the equipment, the signal setup and the dismantling: only the programme is left on your to-do list.',
+'>Гучність можна налаштувати<':
+  '>The volume can be adjusted<',
+'Кожен учасник регулює гучність у своїх навушниках. Перед початком показуємо гостям, як користуватися обладнанням і перемикати канали.':
+  'Each participant controls the volume in their own headphones. Before the start we show guests how to use the equipment and switch channels.',
+'>Легко оголосити програму<':
+  '>Easy to announce the programme<',
+'Потрібно оголосити виступ, розіграш чи важливу інформацію? За потреби зупинимо музику або знизимо гучність, і повідомлення прозвучить через мікрофон просто в навушниках кожного гостя. Після оголошення музика повернеться.':
+  "Need to announce a performance, a prize draw or important information? If needed we will pause the music or lower the volume, and the message will sound through the microphone right in every guest's headphones. After the announcement the music comes back.",
+'>Формат під ваш фестиваль<':
+  '>A format for your festival<',
+'Окрема тиха локація, тематична зона чи додатковий танцпол біля основної сцени: узгодимо кількість навушників, тривалість і технічні потреби з урахуванням вашого майданчика.':
+  'A separate silent location, a themed zone or an extra dance floor next to the main stage: we will agree the number of headphones, the duration and the technical needs, taking your site into account.',
+'>Три канали на вибір<':
+  '>Three channels to choose from<',
+'На різних каналах можуть звучати різні плейлісти: наприклад, електроніка, рок і хіп-хоп. Гості перемикаються між ними протягом вечора.':
+  'Different channels can play different playlists: for example, electronic music, rock and hip-hop. Guests switch between them during the evening.',
+'>Колір показує вибір<':
+  '>Colour shows the choice<',
+'Навушники світяться кольором обраного каналу. Так можна швидко побачити, хто слухає ту саму музику, та знайти компанію для танців.':
+  'The headphones glow in the colour of the chosen channel. That way you can quickly see who is listening to the same music and find company to dance with.',
+'>Перемикайся, коли хочеш<':
+  '>Switch whenever you like<',
+'Набрид один сет або друзі слухають іншу музику? Зміни канал у будь-який момент і продовжуй танцювати.':
+  'Tired of one set, or your friends are listening to different music? Change the channel at any moment and keep dancing.',
+'Розкажіть, коли й де плануєте фестиваль та скільки буде гостей. Ми перевіримо доступність обладнання, допоможемо підібрати комплект і пояснимо наступні кроки.':
+  'Tell us when and where you plan the festival and how many guests there will be. We will check equipment availability, help you choose a set and explain the next steps.',
+'Уточнимо деталі, перевіримо доступність обладнання та підготуємо розрахунок для вашого фестивалю. Відповідаємо протягом дня.':
+  'We will clarify the details, check equipment availability and prepare an estimate for your festival. We reply within a day.',
+'Silent Disco підходить не лише для фестивалів. Формат можна адаптувати до міських свят, концертів, спортивних подій і приватних вечірок. Оберіть формат, який вас цікавить, а ще більше ідей знайдете в нашому <a href="/blog/">блозі</a>.':
+  'Silent Disco is not only for festivals. The format can be adapted to city celebrations, concerts, sports events and private parties. Choose the format you are interested in, and you will find even more ideas in our <a href="/blog/">blog</a> (in Ukrainian).',
+'Фестивалі: часті запитання про Silent Disco':
+  'Festivals: frequently asked questions about Silent Disco',
+'Чи підходить Silent Disco для фестивалю?':
+  'Does Silent Disco suit a festival?',
+'Так, формат підходить для музичних фестивалів, міських свят і open-air подій. Гості слухають музику в бездротових навушниках і самі обирають один із трьох каналів. Ми привозимо обладнання, налаштовуємо його та супроводжуємо технічну частину. Умови проведення заздалегідь узгоджуємо з організаторами та майданчиком.':
+  'Yes, the format suits music festivals, city celebrations and open-air events. Guests listen to the music in wireless headphones and pick one of three channels themselves. We bring the equipment, set it up and support the technical side. We agree the conditions in advance with the organisers and the venue.',
+'Навушник потрібен кожному учаснику, який хоче слухати музику. Мінімальний комплект SILENT — 40 навушників на 4 години, від 12 000 грн. У вартість входять доставка, встановлення, технічний супровід і вивезення обладнання. Якщо гостей більше або подія має тривати довше, скористайтеся калькулятором нижче — він допоможе попередньо оцінити бюджет.':
+  "Every participant who wants to listen to the music needs a headphone. SILENT's minimum set is 40 headphones for 4 hours, from 12,000 UAH. The price includes delivery, setup, technical support and pickup of the equipment. If there are more guests or the event will run longer, use the calculator below: it will help you estimate the budget.",
+'Де можна провести Silent Disco на фестивалі?':
+  'Where can a Silent Disco be held at a festival?',
+'Формат можна організувати на окремій локації фестивалю, у шатрі, на території парку чи закладу або в іншому просторі, де є місце для танців і доступ до електроживлення. На встановлення та перевірку сигналу потрібно близько 30 хвилин до початку. Для події просто неба варто передбачити запасний варіант на випадок дощу. Умови проведення узгоджуємо заздалегідь.':
+  'The format can be organised at a separate festival location, in a tent, in a park or the grounds of an institution, or in another space with room to dance and access to power. About 30 minutes before the start are needed for setup and a signal check. For an open-air event it is worth planning a rain backup. We agree the conditions in advance.',
+'Чи потрібен діджей на фестивалі?':
+  'Do I need a DJ at a festival?',
+'Ні, діджей не обов’язковий: ми заздалегідь готуємо три плейлісти, а гості самі перемикаються між каналами. Якщо хочете запросити діджея чи гурт, повідомте про це в заявці — можливість такого формату обговоримо окремо. Три музичні канали також можна використати для різних жанрів чи сетів на одному майданчику.':
+  'No, a DJ is not required: we prepare three playlists in advance, and guests switch between channels themselves. If you would like to invite a DJ or a band, mention it in your request: we will discuss that option separately. The three music channels can also be used for different genres or sets on one site.',
+'Як оголосити програму чи подякувати гостям, якщо всі в навушниках?':
+  'How can I announce the programme or thank guests if everyone is in headphones?',
+'Є два способи. За потреби ми зупинимо музику й оголосимо потрібне або знизимо гучність, і повідомлення ведучого чи організатора прозвучить через мікрофон просто в навушниках кожного гостя. А щоб поговорити з сусідом чи привітати друзів, достатньо зняти навушники на шию. Після оголошення музика повертається, а гучні колонки для цього не потрібні.':
+  "There are two ways. If needed we will pause the music and make the announcement, or lower the volume, and the message of the host or organiser will sound through the microphone right in every guest's headphones. And to chat with a neighbour or greet friends, it is enough to put the headphones around the neck. After the announcement the music returns, and loud speakers are not needed for this.",
+'Рекомендуємо залишати заявку якомога раніше, особливо на літній сезон, вихідні та великі міські події. Доступність обладнання залежить від дати й інших бронювань. Ми перевіримо вашу дату та пояснимо, як підтвердити замовлення. Бронювання закріплюється після узгодження умов і передоплати.':
+  'We recommend sending a request as early as possible, especially for the summer season, weekends and large city events. Equipment availability depends on the date and other bookings. We will check your date and explain how to confirm the order. A booking is secured after the terms are agreed and the prepayment is made.',
+'Порахуйте бюджет фестивалю заздалегідь':
+  'Work out your festival budget in advance',
+'Сплануймо ваш фестиваль':
+  "Let's plan your festival",
+'Перевірте дату <span class="em">вашого</span> фестивалю':
+  'Check the date of <span class="em">your</span> festival',
+'У Silent Disco можна обирати між <a href="/en/experiences/silent-disco/">трьома музичними каналами</a>, а власний регулятор гучності дає змогу налаштувати звук для себе. Тож на одному майданчику можуть одночасно звучати різні стилі.':
+  'In Silent Disco you can choose between <a href="/en/experiences/silent-disco/">three music channels</a>, and a personal volume control lets you adjust the sound for yourself. So different styles can play on one site at the same time.',
 }

@@ -1,0 +1,27 @@
+{
+  "out": "images/festivals/og-festivals-en.jpg",
+  "heading": [
+    "Silent Disco",
+    "at festivals"
+  ],
+  "subtitle": [
+    [
+      "Everyone listens to their own music,"
+    ],
+    [
+      "and the festival stays one for all."
+    ]
+  ],
+  "pills": [
+    "Music <b>in headphones</b>",
+    "<b>3</b> channels to choose from",
+    "Everything <b>turnkey</b>",
+    "<b>Kyiv</b> &amp; Ukraine"
+  ],
+  "template": "template-full-left.html",
+  "bg": {
+    "src": "images/festivals/festyval-druzi-pid-salyutom.webp",
+    "pos": "50% 25%"
+  },
+  "css": ".p>img{left:400px;right:auto;width:800px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%)}.h span+span{font-size:40px;font-weight:400;letter-spacing:-.01em;margin-top:6px} .sub{font-weight:500;margin-top:30px;font-size:23px}"
+}
