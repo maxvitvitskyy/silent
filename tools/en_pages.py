@@ -2218,4 +2218,6 @@ T_PAGE_ALL = {
   'A school disco, a graduation or a themed party where everyone can dance to the music they love. Children pick one of three music channels, and teachers and hosts do not have to shout over speakers. SILENT brings the equipment, sets everything up and takes care of the technical support in Kyiv and across Ukraine.',
 'Дві подруги танцюють у навушниках Silent Disco із зеленою підсвіткою':
   'Two friends dance in Silent Disco headphones with green lights',
+'Натовп танцює в червоному світлі в навушниках Silent Disco':
+  'A crowd dances in red light in Silent Disco headphones',
 }
