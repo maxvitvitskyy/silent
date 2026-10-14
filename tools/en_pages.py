@@ -867,7 +867,7 @@ T_PAGE_ALL = {
 "Це дискотека без колонок: музика грає в бездротових навушниках кожного гостя. У навушниках три канали з різною музикою, їх можна перемикати одним дотиком, а колір підсвітки показує обраний канал. Докладніше про формат читайте в гіді <a href=\"/blog/tykha-dyskoteka-silent-disco/\">Silent Disco, або тиха дискотека</a>.":
   "It is a disco without speakers: the music plays in every guest's wireless headphones. The headphones have three channels with different music that you can switch with one touch, and the color of the glow shows the chosen channel. Read more about the format in our guide (in Ukrainian): <a href=\"/blog/tykha-dyskoteka-silent-disco/\">Silent Disco, or a silent disco</a>.",
 "Тиха дискотека Silent Disco в Києві та Україні | SILENT":
-  "Silent Disco in Kyiv and Ukraine: a full-service silent disco | SILENT",
+  "Silent Disco in Kyiv and Ukraine: full-service | SILENT",
 "Silent Disco, або тиха дискотека під ключ: музика в бездротових навушниках, три канали на вибір, тиша ззовні. Київ і вся Україна. Перевірте дату.":
   "Silent Disco, or a full-service silent disco: music in wireless headphones, three channels to choose from, silence outside. Kyiv and all of Ukraine. Check a date.",
 "У когось грають улюблені хіти, хтось обирає ретро, а хтось знаходить свій ритм у чомусь зовсім іншому. І всі танцюють разом. SILENT організовує тихі дискотеки під ключ у Києві та по всій Україні: привозимо бездротові навушники з трьома музичними каналами й налаштовуємо все самі.":
@@ -965,7 +965,7 @@ T_PAGE_ALL = {
 "До послуги входять комплект навушників, доставка, встановлення, налаштування й супровід, а також демонтаж і вивезення обладнання. Для мінімального комплекту (40 навушників на 4 години) це від 12 000 грн, а склад замовлення й додаткові опції підтверджуємо під час розрахунку.":
   "The service includes the headphone set, delivery, installation, setup and support, as well as takedown and removal of the equipment. For the minimum set (40 headphones for 4 hours) this starts from 12,000 UAH, and we confirm the contents of the order and any extra options during the calculation.",
 "Тиха дискотека Silent Disco в Києві та по Україні: бездротові навушники з трьома каналами, доставка й налаштування під ключ. Кожен слухає своє.":
-  "Silent Disco, a silent disco in Kyiv and across Ukraine: wireless headphones with three channels, delivery and setup full-service. Everyone listens to their own.",
+  "Silent Disco in Kyiv and across Ukraine: wireless headphones with three channels, delivery and setup included. Everyone listens to their own.",
 "Так, формат можна адаптувати до різних подій. На <a href=\"/en/experiences/wedding/\">весіллі</a> він об’єднує гостей із різними музичними смаками, на <a href=\"/en/experiences/corporate/\">корпоративі</a> додає незвичний сценарій вечора, на <a href=\"/en/experiences/birthday/\">дні народження</a> лишає друзів на одному танцполі, а на дитячому святі дає дітям самим обирати канал. Музичні добірки, кількість обладнання й особливості події узгоджуємо заздалегідь.":
   "Yes, the format can be adapted to different events. At a <a href=\"/en/experiences/wedding/\">wedding</a> it brings together guests with different musical tastes, at a <a href=\"/en/experiences/corporate/\">company party</a> it adds an unusual scenario for the evening, at a <a href=\"/en/experiences/birthday/\">birthday</a> it keeps friends on one dance floor, and at a children's party it lets kids choose the channel themselves. We agree the music selections, the amount of equipment and the specifics of the event in advance.",
 "<b>Під ключ</b> <span>доставка й налаштування</span>":
@@ -1137,7 +1137,7 @@ T_PAGE_ALL = {
   "Thank you for your request! We will check the date and write to you within a day. In the meantime, you can think about which three musical moods will suit your group best.",
 # ---- Корпоративи: оновлення текстів (10.10.2026) ----
 "Silent Disco для корпоративів у Києві та Україні | SILENT":
-  "Silent Disco for corporate events in Kyiv and Ukraine | SILENT",
+  "Silent Disco for corporate events in Kyiv, Ukraine | SILENT",
 "Silent Disco для корпоративів у Києві та Україні. Три музичні канали, бездротові навушники й організація під ключ. Розрахуйте вартість події.":
   "Silent Disco for corporate events in Kyiv and Ukraine. Three music channels, wireless headphones and turnkey organisation. Calculate the cost of your event.",
 "Різна музика, одна команда, спільний досвід. Три музичні канали, бездротові навушники й організація корпоративу під ключ у Києві та по Україні.":
@@ -1520,8 +1520,8 @@ T_PAGE_ALL = {
   'A volume control and limiter in every pair of headphones.',
 '>Музика без колонок<':
   '>Music without speakers<',
-'Музика звучить у навушниках, а не з гучномовців.':
-  'The music plays in the headphones, not through loudspeakers.',
+'Музика звучить у навушниках, а не з колонок.':
+  'The music plays in the headphones, not through speakers.',
 'Мінімальний комплект для шкільного свята.':
   'The minimum set for a school party.',
 'Свято, де кожен знаходить свій ритм':
@@ -2086,4 +2086,134 @@ T_PAGE_ALL = {
   '>for students<',
 'Друзі сміються й танцюють у навушниках Silent Disco вночі':
   'Friends laugh and dance in Silent Disco headphones at night',
+'Друзі радіють у навушниках Silent Disco на студентській вечірці':
+  'Friends cheer in Silent Disco headphones at a student party',
+# ---- Студентські події: редактура за брифом (15.10.2026) ----
+'Студентська вечірка, посвята першокурсників, випускний чи день факультету — формат, у якому не потрібно обирати одну музику для всіх. Гості танцюють у бездротових навушниках, перемикаються між трьома музичними каналами й налаштовують гучність для себе. SILENT привезе обладнання, усе налаштує та подбає про технічний супровід у Києві й по всій Україні.':
+  "A student party, a freshers' welcome, a graduation or a faculty day: a format where you do not have to pick one kind of music for everyone. Guests dance in wireless headphones, switch between three music channels and set the volume for themselves. SILENT brings the equipment, sets everything up and takes care of the technical support in Kyiv and across Ukraine.",
+'>Три музичні канали<':
+  '>Three music channels<',
+'Різні жанри на одному танцполі — кожен обирає своє.':
+  'Different genres on one dance floor: everyone picks their own.',
+'>Своя гучність<':
+  '>Own volume<',
+'Регулятор і обмежувач гучності в навушниках кожного учасника.':
+  "A volume control and limiter in every participant's headphones.",
+'>Колір каналу<':
+  '>Channel colour<',
+'Підсвітка показує, хто слухає ту саму музику.':
+  'The lights show who is listening to the same music.',
+'>Від 40 навушників<':
+  '>From 40 headphones<',
+'Мінімальний комплект для студентської події.':
+  'The minimum set for a student event.',
+'На студентських подіях зустрічаються люди з різних факультетів, курсів і компаній. Хтось хоче танцювати під електроніку, хтось — під хіп-хоп чи рок, а комусь до душі знайомі хіти. Коли на весь зал звучить один плейліст, частина гостей просто не знаходить у ньому своєї музики.':
+  'Student events bring together people from different faculties, years and groups of friends. Some want to dance to electronic music, some to hip-hop or rock, and some enjoy familiar hits. When one playlist plays for the whole hall, part of the guests simply do not find their music in it.',
+'У Silent Disco можна обирати між <a href="/experiences/silent-disco/">трьома музичними каналами</a> й перемикатися протягом вечора. Кольорова підсвітка допомагає побачити, хто слухає той самий канал, а власний регулятор гучності дає змогу налаштувати звук для себе.':
+  'In Silent Disco you can choose between <a href="/en/experiences/silent-disco/">three music channels</a> and switch during the evening. The coloured lights help you see who is listening to the same channel, and a personal volume control lets you adjust the sound for yourself.',
+'І найважливіше — усім не потрібно розходитися по різних кімнатах. Можна танцювати поруч, перемикатися між музикою та компаніями, а коли хочеться поговорити — просто зняти навушники.':
+  'And most importantly, nobody has to split up into different rooms. You can dance side by side, switch between music and groups, and when you want to talk, just take the headphones off.',
+'Технічну частину беремо на себе, щоб студентська рада й організатори могли зосередитися на програмі, гостях та атмосфері.':
+  'We take on the technical side, so the student council and organisers can focus on the programme, the guests and the atmosphere.',
+'>Без технічних клопотів<':
+  '>No technical hassle<',
+'Привозимо обладнання, встановлюємо його та перевіряємо сигнал до початку події. Після завершення самі демонтуємо й забираємо все.':
+  'We bring the equipment, set it up and check the signal before the event starts. When it ends, we dismantle and take everything away ourselves.',
+'>Гучність можна налаштувати<':
+  '>The volume can be adjusted<',
+'Кожен учасник регулює гучність у своїх навушниках. Перед початком пояснюємо, як користуватися обладнанням і перемикати канали.':
+  'Each participant controls the volume in their own headphones. Before the start we explain how to use the equipment and switch channels.',
+'>Легко оголосити програму<':
+  '>Easy to announce the programme<',
+'Потрібно представити виступ, оголосити конкурс чи привітати випускників? Достатньо попросити гостей зняти навушники. Після оголошення можна повернутися до музики.':
+  'Need to introduce a performance, announce a contest or congratulate graduates? Just ask the guests to take the headphones off. After the announcement you can go back to the music.',
+'>Формат під вашу подію<':
+  '>A format for your event<',
+'Посвята першокурсників, день факультету, випускний чи вечірка в університеті — узгодимо кількість навушників, тривалість і технічні потреби з урахуванням вашої локації.':
+  "A freshers' welcome, a faculty day, a graduation or a university party: we will agree the number of headphones, the duration and the technical needs, taking your location into account.",
+'>Колір показує вибір<':
+  '>Colour shows the choice<',
+'Навушники світяться кольором обраного каналу. Так можна швидко побачити, хто слухає ту саму музику, та знайти компанію для танців.':
+  'The headphones glow in the colour of the chosen channel. That way you can quickly see who is listening to the same music and find company to dance with.',
+'>Перемикайся, коли хочеш<':
+  '>Switch whenever you like<',
+'Набрид один плейліст або друзі слухають іншу музику? Зміни канал у будь-який момент вечора й продовжуй танцювати.':
+  'Tired of one playlist, or your friends are listening to different music? Change the channel at any moment of the evening and keep dancing.',
+'Гості обирають музику самі, а ви можете зосередитися на програмі й атмосфері. Після завершення ми демонтуємо та заберемо обладнання.':
+  'Guests choose the music themselves, and you can focus on the programme and the atmosphere. When it ends, we dismantle and take away the equipment.',
+'Silent Disco можна адаптувати до різних подій — від приватних вечірок і весіль до фестивалів, корпоративів та навчальних заходів. Оберіть формат, який вас цікавить, а ще більше ідей знайдете в нашому <a href="/blog/">блозі</a>.':
+  'Silent Disco can be adapted to different events, from private parties and weddings to festivals, corporate events and educational activities. Choose the format you are interested in, and you will find even more ideas in our <a href="/blog/">blog</a> (in Ukrainian).',
+'Так, формат підходить для студентських вечірок, посвяти першокурсників, випускних і днів факультету. Гості слухають музику в бездротових навушниках і самі обирають один із трьох каналів. Ми привозимо обладнання, налаштовуємо його та супроводжуємо технічну частину. Умови проведення заздалегідь узгоджуємо з адміністрацією закладу або майданчиком.':
+  "Yes, the format suits student parties, freshers' welcomes, graduations and faculty days. Guests listen to the music in wireless headphones and pick one of three channels themselves. We bring the equipment, set it up and support the technical side. We agree the conditions in advance with the administration of the institution or the venue.",
+'Скільки навушників потрібно замовити?':
+  'How many headphones do I need to order?',
+'Навушник потрібен кожному учаснику, який хоче слухати музику. Мінімальний комплект SILENT — 40 навушників на 4 години, від 12 000 грн. У вартість входять доставка, встановлення, технічний супровід і вивезення обладнання. Якщо гостей більше або подія має тривати довше, скористайтеся калькулятором нижче — він допоможе попередньо оцінити бюджет.':
+  "Every participant who wants to listen to the music needs a headphone. SILENT's minimum set is 40 headphones for 4 hours, from 12,000 UAH. The price includes delivery, setup, technical support and pickup of the equipment. If there are more guests or the event will run longer, use the calculator below: it will help you estimate the budget.",
+'Так. У навушниках є регулятор та обмежувач гучності, а кожен учасник може налаштувати рівень звуку для себе. Перед початком ми пояснюємо, як користуватися обладнанням. Якщо маєте додаткові запитання щодо гучності, обговоріть їх із нами до бронювання.':
+  'Yes. The headphones have a volume control and a volume limiter, and each participant can set the sound level for themselves. Before the start we explain how to use the equipment. If you have further questions about the volume, discuss them with us before booking.',
+'Ні, діджей не обов’язковий: ми заздалегідь готуємо три плейлісти, а гості самі перемикаються між каналами. Якщо хочете запросити діджея чи гурт, повідомте про це в заявці — можливість такого формату обговоримо окремо. Три музичні канали також можна використати для танцювальних конкурсів між командами.':
+  'No, a DJ is not required: we prepare three playlists in advance, and guests switch between channels themselves. If you would like to invite a DJ or a band, mention it in your request: we will discuss that option separately. The three music channels can also be used for dance contests between teams.',
+'Достатньо попросити гостей зняти навушники на шию. Тоді вони чутимуть звичайний голос ведучого чи організатора. Після оголошення можна знову одягнути навушники й повернутися до музики. Для цього не потрібно зупиняти подію через гучні колонки.':
+  'It is enough to ask guests to put the headphones around their necks. Then they will hear the ordinary voice of the host or organiser. After the announcement they can put the headphones back on and return to the music. There is no need to stop the event because of loud speakers.',
+'Рекомендуємо залишати заявку якомога раніше, особливо на посвяти першокурсників, випускні, початок і кінець семестру та інші популярні дати. Доступність обладнання залежить від дати й інших бронювань. Ми перевіримо вашу дату та пояснимо, як підтвердити замовлення. Бронювання закріплюється після узгодження умов і передоплати.':
+  "We recommend sending a request as early as possible, especially for freshers' welcomes, graduations, the start and end of a term and other popular dates. Equipment availability depends on the date and other bookings. We will check your date and explain how to confirm the order. A booking is secured after the terms are agreed and the prepayment is made.",
+'Оберіть кількість навушників, тривалість події та додаткові опції, щоб отримати попередній розрахунок вартості Silent Disco. Якщо не впевнені, який комплект потрібен, залиште заявку — допоможемо підібрати варіант під вашу подію.':
+  'Choose the number of headphones, the duration of the event and extra options to get a preliminary cost estimate for Silent Disco. If you are not sure which set you need, send a request and we will help you choose an option for your event.',
+'Розкажіть, коли й де плануєте подію та скільки буде гостей. Ми перевіримо доступність дати, допоможемо підібрати комплект навушників і розрахуємо вартість. Ви зосередитеся на програмі та гостях, а ми подбаємо про технічну частину.':
+  'Tell us when and where you plan the event and how many guests there will be. We will check the date, help you choose a set of headphones and calculate the cost. You focus on the programme and the guests, and we take care of the technical side.',
+'Дякуємо за заявку! Ми перевіримо доступність дати й напишемо вам протягом дня. А поки можете подумати, які три музичні настрої найкраще пасуватимуть вашій компанії.':
+  'Thank you for your request! We will check the date and write to you within a day. In the meantime you can think about which three musical moods will suit your group best.',
+'У Silent Disco можна обирати між <a href="/en/experiences/silent-disco/">трьома музичними каналами</a> й перемикатися протягом вечора. Кольорова підсвітка допомагає побачити, хто слухає той самий канал, а власний регулятор гучності дає змогу налаштувати звук для себе.':
+  'In Silent Disco you can choose between <a href="/en/experiences/silent-disco/">three music channels</a> and switch during the evening. The coloured lights help you see who is listening to the same channel, and a personal volume control lets you adjust the sound for yourself.',
+'У Silent Disco можна обирати між <a href="/en/experiences/silent-disco/">трьома музичними каналами</a>, а власний регулятор гучності дає змогу налаштувати звук для себе.':
+  'In Silent Disco you can choose between <a href="/en/experiences/silent-disco/">three music channels</a>, and a personal volume control lets you adjust the sound for yourself.',
+'Обладнання, налаштування сигналу й демонтаж беремо на себе: у вашому списку справ лишається лише програма.':
+  'We take on the equipment, the signal setup and the dismantling: only the programme is left on your to-do list.',
+'Перед початком показуємо гостям, як користуватися навушниками й перемикати канали, тож на це не йде час програми.':
+  'Before the start we show guests how to use the headphones and switch channels, so none of the programme time is spent on it.',
+'Гості обирають музику самі й танцюють. Після завершення ми демонтуємо та заберемо обладнання.':
+  'Guests choose the music themselves and dance. When it ends, we dismantle and take away the equipment.',
+# ---- Оголошення: зупинка музики / мікрофон (15.10.2026) ----
+'Промови, аукціон і танці в одному залі: для оголошень за потреби зупиняємо музику чи знижуємо гучність, і голос ведучого звучить у навушниках кожного.':
+  "Speeches, an auction and dancing in one hall: for announcements we can pause the music or lower the volume, and the host's voice plays in everyone's headphones.",
+'Потрібно представити виступ, оголосити конкурс чи привітати випускників? За потреби зупинимо музику або знизимо гучність, і повідомлення прозвучить через мікрофон просто в навушниках кожного гостя. Після оголошення музика повернеться.':
+  "Need to introduce a performance, announce a contest or congratulate graduates? If needed we will pause the music or lower the volume, and your message will sound through the microphone right in every guest's headphones. After the announcement the music comes back.",
+'Є два способи. За потреби ми зупинимо музику й оголосимо потрібне або знизимо гучність, і повідомлення ведучого чи організатора прозвучить через мікрофон просто в навушниках кожного гостя. А щоб поговорити з сусідом чи привітати друзів, достатньо зняти навушники на шию. Після оголошення музика повертається, а гучні колонки для цього не потрібні.':
+  "There are two ways. If needed we will pause the music and make the announcement, or lower the volume, and the message of the host or organiser will sound through the microphone right in every guest's headphones. And to chat with a neighbour or greet friends, it is enough to put the headphones around the neck. After the announcement the music returns, and loud speakers are not needed for this.",
+'Потрібно покликати до торта, почати гру чи привітати іменинника? За потреби зупинимо музику або знизимо гучність, і слова ведучого чи батьків прозвучать через мікрофон просто в навушниках кожної дитини. А щоб поговорити, дітям достатньо зняти навушники.':
+  "Need to call everyone to the cake, start a game or congratulate the birthday child? If needed we will pause the music or lower the volume, and the words of the host or parents will sound through the microphone right in every child's headphones. And to talk, children simply take the headphones off.",
+'Є два способи. За потреби ми зупинимо музику або знизимо гучність, і повідомлення ведучого, батьків чи організатора прозвучить через мікрофон просто в навушниках кожної дитини. Або діти можуть зняти навушники на шию й почути звичайний голос, а потім знову одягнути їх і повернутися до музики. Гучні колонки для цього не потрібні.':
+  "There are two ways. If needed we will pause the music or lower the volume, and the message of the host, parents or organiser will sound through the microphone right in every child's headphones. Or the children can put the headphones around their necks and hear an ordinary voice, then put them back on and return to the music. Loud speakers are not needed for this.",
+'Коли ведучому потрібно пояснити правила, ми за потреби зупиняємо музику або знижуємо гучність, і правила звучать через мікрофон у навушниках кожної дитини.':
+  "When the host needs to explain the rules, we pause the music or lower the volume if needed, and the rules sound through the microphone in every child's headphones.",
+'Діти обирають один із трьох музичних каналів, а для оголошень ми за потреби зупиняємо музику або знижуємо гучність і говоримо через мікрофон просто в навушники.':
+  'Children pick one of three music channels, and for announcements we pause the music or lower the volume if needed and speak through the microphone right into the headphones.',
+'А коли потрібно оголосити конкурс чи привітати випускників, ми за потреби зупиняємо музику або знижуємо гучність, і повідомлення звучить через мікрофон у навушниках кожного. Щоб поговорити з друзями, достатньо зняти навушники: музика не звучить із колонок, тож спілкуватися в залі значно простіше.':
+  "And when you need to announce a contest or congratulate graduates, we pause the music or lower the volume if needed, and the message sounds through the microphone in everyone's headphones. To talk with friends, just take the headphones off: the music does not play from speakers, so talking in the hall is much easier.",
+'Потрібно оголосити конкурс, вручити нагороду чи привітати випускників? За потреби зупинимо музику або знизимо гучність, і повідомлення прозвучить через мікрофон просто в навушниках кожного учня. Гучні колонки для цього не потрібні.':
+  "Need to announce a contest, present an award or congratulate graduates? If needed we will pause the music or lower the volume, and the message will sound through the microphone right in every student's headphones. Loud speakers are not needed for this.",
+'Є два способи. За потреби ми зупинимо музику або знизимо гучність, і повідомлення вчителя, ведучого чи організатора прозвучить через мікрофон просто в навушниках кожного учасника. Або можна попросити учасників зняти навушники на шию й говорити звичайним голосом. Так можна оголошувати конкурси, вітати випускників і вручати нагороди без потреби перекрикувати музику з колонок.':
+  "There are two ways. If needed we will pause the music or lower the volume, and the message of the teacher, host or organiser will sound through the microphone right in every participant's headphones. Or you can ask participants to put the headphones around their necks and speak in an ordinary voice. This way you can announce contests, congratulate graduates and present awards without shouting over music from speakers.",
+'Потрібно привітати іменинника, сказати тост або просто поговорити? Зніміть навушники на шию. А коли слово адресоване всім, ми за потреби зупинимо музику чи знизимо гучність, і воно прозвучить через мікрофон у навушниках кожного гостя. Потім повертайтеся до свого каналу.':
+  "Need to congratulate the birthday person, give a toast or simply talk? Put the headphones around your neck. And when a few words are meant for everyone, we will pause the music or lower the volume if needed, and they will sound through the microphone in every guest's headphones. Then go back to your channel.",
+'Якщо привітання чи тост адресовані всім, ми за потреби зупинимо музику або знизимо гучність, і слова прозвучать через мікрофон просто в навушниках кожного гостя. А щоб поговорити з сусідом по столу, достатньо зняти навушники на шию й спокійно спілкуватися, а потім знову одягнути їх і повернутися до музики.':
+  "If a greeting or a toast is meant for everyone, we will pause the music or lower the volume if needed, and the words will sound through the microphone right in every guest's headphones. And to chat with a neighbour at the table, it is enough to put the headphones around the neck and talk calmly, then put them back on and return to the music.",
+'Щоб поговорити з іншими гостями, достатньо зняти навушники чи опустити їх на шию, а коли захочеться повернутися до музики, можна знову їх одягнути. Для промов і привітань ми за потреби зупинимо музику або знизимо гучність, і слова прозвучать через мікрофон просто в навушниках кожного гостя. Тож танці та живе спілкування легко поєднуються протягом вечора.':
+  "To talk with other guests, it is enough to take the headphones off or lower them around the neck, and when you want to return to the music, you can put them back on. For speeches and toasts we will pause the music or lower the volume if needed, and the words will sound through the microphone right in every guest's headphones. So dancing and live conversation combine easily throughout the evening.",
+'А щоб поговорити, зніміть навушники на шию: знову чути людей поруч, без перекрикування. Якщо треба привітати чи оголосити щось усім, ми за потреби зупинимо музику або знизимо гучність, і повідомлення прозвучить через мікрофон у навушниках кожного гостя.':
+  "And to talk, put the headphones around your neck: you can hear the people nearby again, without shouting. If you need to greet or announce something to everyone, we will pause the music or lower the volume if needed, and the message will sound through the microphone in every guest's headphones.",
+'Так. Щоб поговорити, зніміть навушники на шию: музика перестане звучати для вас, а голоси поруч будуть звичайними. Потім навушники легко одягнути знову, і танці тривають. Якщо потрібно привітати чи оголосити щось усім одразу, ми за потреби зупинимо музику або знизимо гучність, і повідомлення прозвучить через мікрофон просто в навушниках кожного гостя. Для людей без навушників музика не лунає, тож вечірка не заважає навколишнім.':
+  "Yes. To talk, put the headphones around your neck: the music stops playing for you, and the voices nearby sound ordinary. Then the headphones are easy to put back on, and the dancing continues. If you need to greet or announce something to everyone at once, we will pause the music or lower the volume if needed, and the message will sound through the microphone right in every guest's headphones. For people without headphones the music does not play, so the party does not disturb those around.",
+'Навушники легко зняти, щоб поговорити з колегами. А для привітань і промов ми за потреби зупинимо музику або знизимо гучність, і повідомлення прозвучить через мікрофон у навушниках кожного. Не потрібно обирати між танцями та живим спілкуванням.':
+  "The headphones are easy to take off to talk with colleagues. And for greetings and speeches we will pause the music or lower the volume if needed, and the message will sound through the microphone in everyone's headphones. You do not have to choose between dancing and live conversation.",
+'<b>Спілкування не зупиняється на танцполі</b> <span>Навушники легко зняти, щоб поговорити з колегами. А для привітань і промов ми за потреби зупинимо музику або знизимо гучність, і повідомлення прозвучить через мікрофон у навушниках кожного. Не потрібно обирати між танцями та живим спілкуванням.</span>':
+  "<b>Conversation does not stop on the dance floor</b> <span>The headphones are easy to take off to talk to colleagues. And for greetings and speeches we will pause the music or lower the volume if needed, and the message will sound through the microphone in everyone's headphones. You do not have to choose between dancing and real conversation.</span>",
+'<b>Танці й розмови в одному вечорі</b> <span>Потрібно привітати іменинника, сказати тост або просто поговорити? Зніміть навушники на шию. А коли слово адресоване всім, ми за потреби зупинимо музику чи знизимо гучність, і воно прозвучить через мікрофон у навушниках кожного гостя. Потім повертайтеся до свого каналу.</span>':
+  "<b>Dancing and conversation in one evening</b> <span>Need to congratulate the birthday person, give a toast or simply talk? Put the headphones around your neck. And when a few words are meant for everyone, we will pause the music or lower the volume if needed, and they will sound through the microphone in every guest's headphones. Then go back to your channel.</span>",
+'Шкільна дискотека, випускний чи тематична вечірка, де кожен може танцювати під улюблену музику. Діти обирають один із трьох музичних каналів, а для оголошень ми за потреби зупиняємо музику або знижуємо гучність і говоримо через мікрофон просто в навушники. SILENT привезе обладнання, усе налаштує та подбає про технічний супровід у Києві й по всій Україні.':
+  'A school disco, prom or themed party where everyone can dance to the music they love. Children pick one of three music channels, and for announcements we pause the music or lower the volume if needed and speak through the microphone right into the headphones. SILENT brings the equipment, sets everything up and takes care of the technical support in Kyiv and across Ukraine.',
+'Три музичні канали можна перетворити на три команди — червону, зелену й синю. Влаштуйте танцювальне змагання, конкурс на найкращий рух або гру, у якій потрібно завмерти, щойно зупиниться музика. Коли ведучому потрібно пояснити правила, ми за потреби зупиняємо музику або знижуємо гучність, і правила звучать через мікрофон у навушниках кожної дитини. Якщо на святі є аніматор або ведучий, він може включити такі ігри у свою програму. Окремий діджей не обов’язковий: музичні плейлісти ми готуємо заздалегідь.':
+  "The three music channels can become three teams: red, green and blue. Arrange a dance contest, a contest for the best move or a game where everyone has to freeze as soon as the music stops. When the host needs to explain the rules, we pause the music or lower the volume if needed, and the rules sound through the microphone in every child's headphones. If the party has an entertainer or a host, they can include such games in their programme. A separate DJ is not required: we prepare the playlists in advance.",
+'Шкільна дискотека, випускний чи тематична вечірка, де кожен може танцювати під улюблену музику. Діти обирають один із трьох музичних каналів, а вчителям і ведучим не доводиться перекрикувати колонки. SILENT привезе обладнання, усе налаштує та подбає про технічний супровід у Києві й по всій Україні.':
+  'A school disco, a graduation or a themed party where everyone can dance to the music they love. Children pick one of three music channels, and teachers and hosts do not have to shout over speakers. SILENT brings the equipment, sets everything up and takes care of the technical support in Kyiv and across Ukraine.',
 }
