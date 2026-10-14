@@ -439,8 +439,8 @@ def article_blocks(blocks):
             out.append('<section class="art-blk"><div class="art-flow"><h2>%s</h2>%s</div></section>' % (esc(b['title']), html))
         elif t == 'pair':
             im = b['image']
-            out.append('<div class="art-pair"><figure class="art-pair-img"><img src="%s" alt="%s" loading="lazy" decoding="async" width="1200" height="900"></figure>'
-                       '<blockquote class="art-key"><div class="band-aurora" aria-hidden="true"><div class="aurora-liquid"></div></div><p>%s</p></blockquote></div>' % (esc(im['src']), esc(im['alt']), esc(b['quote'])))
+            out.append('<div class="art-pair"><figure class="art-pair-img"><img src="%s" alt="%s"%s loading="lazy" decoding="async" width="1200" height="900"></figure>'
+                       '<blockquote class="art-key"><div class="band-aurora" aria-hidden="true"><div class="aurora-liquid"></div></div><p>%s</p></blockquote></div>' % (esc(im['src']), esc(im['alt']), (' style="object-position:%s"' % esc(im['pos'])) if im.get('pos') else '', esc(b['quote'])))
         elif t == 'table':
             # Порівняльна таблиця (одна на статтю): заголовок і вступ як у блоку з картками, нижче таблиця на ширину тексту.
             head = ''.join('<th scope="col">%s</th>' % esc(h) for h in b['head'])

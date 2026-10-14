@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-novorichnyi-korporatyv-idei.jpg",
+  "bg": {
+    "src": "images/corp/korporatyv-tanets-pary-pid-svitlom.webp",
+    "pos": "50% 22%"
+  },
+  "heading": [
+    "Новорічний корпоратив",
+    "7 ідей для вечірки"
+  ],
+  "subtitle": [
+    [
+      "Формати, які команда згадуватиме після свят."
+    ]
+  ],
+  "pills": [
+    "<b>Silent Disco</b> для команди",
+    "<b>Музичний</b> батл",
+    "<b>Квіз</b> про колектив",
+    "<b>Таємний</b> Санта"
+  ]
+}

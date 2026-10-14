@@ -8266,7 +8266,8 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
 .art-cta p { font-size: 16px; color: rgba(10,10,11,.75); margin: 0; max-width: none; }
 .art-cta-btn { text-align: center; line-height: 1.3; display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 30px; border-radius: 999px; background: var(--night); color: var(--lime); font-weight: 800; font-size: 15px; }
 /* Плашка з кнопкою: на широких екранах текст ліворуч (не ширше ~60% плашки), кнопка праворуч на рівні нижнього рядка тексту; на вузьких кнопка під текстом (див. мобільний блок нижче). */
-@media (min-width: 801px) {
+/* Поріг 901px, а не 801px: нижче 900px кнопка стає на всю ширину (.art-cta-btn { width: 100% } нижче), і в одному рядку з текстом вона його стискала до слова в рядок. */
+@media (min-width: 901px) {
   .art-cta { flex-wrap: nowrap; align-items: flex-end; }
   .art-cta > div { flex: 0 1 min(620px, 60%); min-width: 0; }
   .art-cta-btn { flex: none; white-space: nowrap; }

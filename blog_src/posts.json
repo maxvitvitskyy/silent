@@ -1,107 +1,116 @@
 {
- "_note": "Список матеріалів блогу. status: soon = заглушка (картка без посилання, мітка «Скоро»), published = стаття готова (потрібен blog_src/<slug>.json). Порядок у списку, «Свіже», «Добірці» й mega-меню збирає tools/build_blog.py сам: готові статті від найновішої (за date_iso), далі заглушки. Нова стаття = запис тут (status published) + blog_src/<slug>.json; заглушку, яку стаття закриває, ВИДАЛИТИ (не лишати дублів теми). featured: true лише в одного матеріалу (Вибір редакції).",
- "categories": [
-  {
-   "id": "wedding",
-   "name": "Весілля"
-  },
-  {
-   "id": "corporate",
-   "name": "Корпоративи"
-  },
-  {
-   "id": "quiet",
-   "name": "Вечірки без шуму"
-  },
-  {
-   "id": "birthday",
-   "name": "Дні народження"
-  },
-  {
-   "id": "price",
-   "name": "Ціна й умови"
-  },
-  {
-   "id": "format",
-   "name": "Формат"
-  }
- ],
- "posts": [
-  {
-   "slug": "vechirka-bez-shumu-sysidy",
-   "status": "published",
-   "category": "quiet",
-   "title": "Як провести вечірку, щоб не заважати сусідам",
-   "menu_sub": "Після 22:00 діє режим тиші, тож розповідаємо, як провести вечірку без скарг.",
-   "excerpt": "Музика лише в навушниках: що це дає в квартирі, у дворі та на майданчику з обмеженням по гучності.",
-   "image": "/images/uc/houseparty.webp",
-   "alt": "Домашня вечірка в навушниках Silent Disco: гості танцюють, сусіди не чують музики"
-  },
-  {
-   "slug": "idei-dlya-korporativu",
-   "status": "published",
-   "category": "corporate",
-   "title": "Ідеї для корпоративу: розваги без конкурсів і сцени",
-   "excerpt": "Що поставити замість конкурсів, щоб нікого не вмовляти, і як провести корпоративну тиху дискотеку.",
-   "image": "/images/corp/nichna-vechirka-pid-syayvom-navushnykiv.webp",
-   "alt": "Колеги в навушниках Silent Disco усміхаються на корпоративі під шатром із гірляндами"
-  },
-  {
-   "slug": "vesillya-voyennyi-stan",
-   "status": "published",
-   "category": "wedding",
-   "title": "Весілля під час війни: розваги й комендантська година",
-   "excerpt": "Що врахувати в програмі, щоб свято було безпечним і закінчилось до початку комендантської години.",
-   "image": "/images/uc/wedding.webp",
-   "alt": "Весілля в навушниках Silent Disco: тиха дискотека для гостей"
-  },
-  {
-   "slug": "skilky-koshtuye-tyha-dyskoteka",
-   "status": "soon",
-   "category": "price",
-   "title": "Скільки коштує тиха дискотека в Україні",
-   "excerpt": "З чого складається ціна й що входить у комплект.",
-   "image": "/images/uc/silentdisco.webp",
-   "alt": "Навушники Silent Disco на танцполі: з чого складається ціна тихої дискотеки"
-  },
-  {
-   "slug": "yak-vidsvyatkuvaty-den-narodzhennya",
-   "status": "published",
-   "category": "birthday",
-   "title": "Як відсвяткувати день народження, щоб гості згадували його з посмішкою",
-   "excerpt": "Ідеї для каналів, простору й гостей, щоб вечірка вдалась без суперечок про плейліст.",
-   "image": "/images/birthday/den-narodzhennya-selfi-v-navushnykakh.webp",
-   "alt": "Дівчина знімає селфі в навушниках Silent Disco на дні народження"
-  },
-  {
-   "slug": "tykha-dyskoteka-silent-disco",
-   "status": "published",
-   "category": "format",
-   "title": "Silent Disco, або тиха дискотека: гід для тих, хто чує про формат уперше",
-   "excerpt": "Що таке Silent Disco, як вона працює, звідки взялась і чому формат стає таким популярним.",
-   "image": "/images/silent-disco/silent-disco-podrugy-tantsyuyut-pid-svitlom.webp",
-   "alt": "Подруги танцюють у світних навушниках Silent Disco: тиха дискотека",
-   "menu_sub": "Що таке тиха дискотека, як вона працює й чому формат стає популярним."
-  },
-  {
-   "slug": "dlya-yakykh-podiy-zamovlyayut-silent-disco",
-   "status": "published",
-   "category": "format",
-   "title": "Для яких подій замовляють Silent Disco: що показали 3000 бронювань",
-   "excerpt": "Дні народження, вечірки, школа, корпоративи й весілля: хто і для чого обирає тиху дискотеку та що це означає для вашої події.",
-   "image": "/images/silent-disco/silent-disco-tanspol-na-festyvali.webp",
-   "alt": "Натовп танцює на фестивалі в бездротових навушниках Silent Disco із червоною, зеленою та синьою підсвіткою",
-   "featured": true,
-   "menu_sub": "Дні народження, вечірки, школа, корпоративи й весілля: що показав аналіз 3000 бронювань вечірок у навушниках."
-  },
-  {
-   "slug": "silent-disco-dlya-riznykh-podiy",
-   "status": "published",
-   "category": "format",
-   "title": "Silent Disco для різних подій: 10 ідей, які варто спробувати",
-   "excerpt": "Від дня народження до йоги: для яких подій підходить вечірка в навушниках і чому формат набагато ширший за звичайну дискотеку.",
-   "image": "/images/silent-disco/silent-disco-kompaniya-pid-salyutom-na-festyvali.webp",
-   "alt": "Компанія танцює на святі просто неба під салютом у бездротових навушниках Silent Disco"
-  }
- ]
+  "_note": "Список матеріалів блогу. status: soon = заглушка (картка без посилання, мітка «Скоро»), published = стаття готова (потрібен blog_src/<slug>.json). Порядок у списку, «Свіже», «Добірці» й mega-меню збирає tools/build_blog.py сам: готові статті від найновішої (за date_iso), далі заглушки. Нова стаття = запис тут (status published) + blog_src/<slug>.json; заглушку, яку стаття закриває, ВИДАЛИТИ (не лишати дублів теми). featured: true лише в одного матеріалу (Вибір редакції).",
+  "categories": [
+    {
+      "id": "wedding",
+      "name": "Весілля"
+    },
+    {
+      "id": "corporate",
+      "name": "Корпоративи"
+    },
+    {
+      "id": "quiet",
+      "name": "Вечірки без шуму"
+    },
+    {
+      "id": "birthday",
+      "name": "Дні народження"
+    },
+    {
+      "id": "price",
+      "name": "Ціна й умови"
+    },
+    {
+      "id": "format",
+      "name": "Формат"
+    }
+  ],
+  "posts": [
+    {
+      "slug": "vechirka-bez-shumu-sysidy",
+      "status": "published",
+      "category": "quiet",
+      "title": "Як провести вечірку, щоб не заважати сусідам",
+      "menu_sub": "Після 22:00 діє режим тиші, тож розповідаємо, як провести вечірку без скарг.",
+      "excerpt": "Музика лише в навушниках: що це дає в квартирі, у дворі та на майданчику з обмеженням по гучності.",
+      "image": "/images/uc/houseparty.webp",
+      "alt": "Домашня вечірка в навушниках Silent Disco: гості танцюють, сусіди не чують музики"
+    },
+    {
+      "slug": "idei-dlya-korporativu",
+      "status": "published",
+      "category": "corporate",
+      "title": "Ідеї для корпоративу: розваги без конкурсів і сцени",
+      "excerpt": "Що поставити замість конкурсів, щоб нікого не вмовляти, і як провести корпоративну тиху дискотеку.",
+      "image": "/images/corp/nichna-vechirka-pid-syayvom-navushnykiv.webp",
+      "alt": "Колеги в навушниках Silent Disco усміхаються на корпоративі під шатром із гірляндами"
+    },
+    {
+      "slug": "vesillya-voyennyi-stan",
+      "status": "published",
+      "category": "wedding",
+      "title": "Весілля під час війни: розваги й комендантська година",
+      "excerpt": "Що врахувати в програмі, щоб свято було безпечним і закінчилось до початку комендантської години.",
+      "image": "/images/uc/wedding.webp",
+      "alt": "Весілля в навушниках Silent Disco: тиха дискотека для гостей"
+    },
+    {
+      "slug": "skilky-koshtuye-tyha-dyskoteka",
+      "status": "soon",
+      "category": "price",
+      "title": "Скільки коштує тиха дискотека в Україні",
+      "excerpt": "З чого складається ціна й що входить у комплект.",
+      "image": "/images/uc/silentdisco.webp",
+      "alt": "Навушники Silent Disco на танцполі: з чого складається ціна тихої дискотеки"
+    },
+    {
+      "slug": "yak-vidsvyatkuvaty-den-narodzhennya",
+      "status": "published",
+      "category": "birthday",
+      "title": "Як відсвяткувати день народження, щоб гості згадували його з посмішкою",
+      "excerpt": "Ідеї для каналів, простору й гостей, щоб вечірка вдалась без суперечок про плейліст.",
+      "image": "/images/birthday/den-narodzhennya-selfi-v-navushnykakh.webp",
+      "alt": "Дівчина знімає селфі в навушниках Silent Disco на дні народження"
+    },
+    {
+      "slug": "tykha-dyskoteka-silent-disco",
+      "status": "published",
+      "category": "format",
+      "title": "Silent Disco, або тиха дискотека: гід для тих, хто чує про формат уперше",
+      "excerpt": "Що таке Silent Disco, як вона працює, звідки взялась і чому формат стає таким популярним.",
+      "image": "/images/silent-disco/silent-disco-podrugy-tantsyuyut-pid-svitlom.webp",
+      "alt": "Подруги танцюють у світних навушниках Silent Disco: тиха дискотека",
+      "menu_sub": "Що таке тиха дискотека, як вона працює й чому формат стає популярним."
+    },
+    {
+      "slug": "dlya-yakykh-podiy-zamovlyayut-silent-disco",
+      "status": "published",
+      "category": "format",
+      "title": "Для яких подій замовляють Silent Disco: що показали 3000 бронювань",
+      "excerpt": "Дні народження, вечірки, школа, корпоративи й весілля: хто і для чого обирає тиху дискотеку та що це означає для вашої події.",
+      "image": "/images/silent-disco/silent-disco-tanspol-na-festyvali.webp",
+      "alt": "Натовп танцює на фестивалі в бездротових навушниках Silent Disco із червоною, зеленою та синьою підсвіткою",
+      "featured": true,
+      "menu_sub": "Дні народження, вечірки, школа, корпоративи й весілля: що показав аналіз 3000 бронювань вечірок у навушниках."
+    },
+    {
+      "slug": "silent-disco-dlya-riznykh-podiy",
+      "status": "published",
+      "category": "format",
+      "title": "Silent Disco для різних подій: 10 ідей, які варто спробувати",
+      "excerpt": "Від дня народження до йоги: для яких подій підходить вечірка в навушниках і чому формат набагато ширший за звичайну дискотеку.",
+      "image": "/images/silent-disco/silent-disco-kompaniya-pid-salyutom-na-festyvali.webp",
+      "alt": "Компанія танцює на святі просто неба під салютом у бездротових навушниках Silent Disco"
+    },
+    {
+      "slug": "novorichnyi-korporatyv-idei",
+      "status": "published",
+      "category": "corporate",
+      "title": "Новорічний корпоратив: 7 ідей для вечірки, яку команда запам'ятає",
+      "excerpt": "Silent Disco, музичний батл, квіз, Таємний Санта та інші формати: як вибрати ідею для новорічного корпоративу під вашу команду.",
+      "image": "/images/corp/yaskrave-selfi-na-vechirtsi-v-navushnykakh.webp",
+      "alt": "Компанія колег усміхається разом на вечірці в бездротових навушниках Silent Disco"
+    }
+  ]
 }
