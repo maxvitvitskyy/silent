@@ -4296,7 +4296,7 @@ function orderExperience(name, opts){
           if (vis){
             const vimg = vis.querySelector('img'), badge = vis.querySelector('.nav-mega-badge'), lead = vis.querySelector('.t-lead');
             subHtml += '<a href="' + vis.getAttribute('href') + '" class="nav-drawer-feature">' +
-              (vimg ? '<img src="' + vimg.getAttribute('src') + '" alt="" loading="lazy">' : '') +
+              (vimg ? '<img src="' + (vis.getAttribute('data-mobile-img') || vimg.getAttribute('src')) + '" alt="" width="640" height="400" decoding="async">' : '') +
               '<span class="nav-drawer-feature-body"><span class="nav-drawer-badge">' + (badge ? badge.textContent.trim() : '') + '</span>' +
               '<strong>' + (lead ? lead.textContent.trim() : '') + '</strong></span></a>';
           }
@@ -4307,7 +4307,7 @@ function orderExperience(name, opts){
               const cat = q.querySelector('.nav-blog-cat'), t = q.querySelector('.nav-blog-t');
               const th = q.getAttribute('data-thumb');
               subHtml += '<a href="' + q.getAttribute('href') + '" class="nav-drawer-post">' +
-                (th ? '<img class="nav-drawer-thumb" src="' + th + '" alt="" loading="lazy" width="56" height="56">' : '') +
+                (th ? '<img class="nav-drawer-thumb" src="' + th + '" alt="" width="56" height="56" decoding="async">' : '') +
                 '<span class="nav-drawer-post-text"><small>' + (cat ? cat.textContent.trim() : '') + '</small><b>' + (t ? t.textContent.trim() : q.textContent.trim()) + '</b></span></a>';
             });
           }
@@ -4455,6 +4455,7 @@ function orderExperience(name, opts){
       drawer.classList.add('show');
       backdrop.classList.add('show');
       nav.classList.add('menu-open');
+      document.documentElement.classList.add('menu-open');
       if (gsMenu) gsOpen();
       burger.setAttribute('aria-expanded', 'true');
       document.documentElement.style.overflow = 'hidden';
@@ -4469,6 +4470,7 @@ function orderExperience(name, opts){
       drawer.classList.remove('show');
       backdrop.classList.remove('show');
       nav.classList.remove('menu-open');
+      document.documentElement.classList.remove('menu-open');
       burger.setAttribute('aria-expanded', 'false');
       // Порядок тут критичний. scrollTo нічого не робить, доки лишається
       // хоч одне з двох: position:fixed на body (в нього тоді просто нема

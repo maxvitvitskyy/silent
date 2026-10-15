@@ -133,6 +133,26 @@ def ordered_posts(posts):
     return sorted(posts, key=lambda p: (0 if p['status'] == 'published' else 1, -day(p), -idx[id(p)] if p['status'] == 'published' else idx[id(p)]))
 
 
+def nav_thumb(image, size, tag):
+    """Мала копія обкладинки для мобільного меню: у меню знімок показується 56px (або ~310px у «Виборі редакції»), а оригінал
+    1100-1400px важить 100+ КБ і декодується під час свайпу, звідси підвисання. Файл лежить у images/nav-thumbs/, створюється
+    при збірці, якщо його ще нема."""
+    from PIL import Image
+    src = os.path.join(ROOT, image.lstrip('/'))
+    name = '%s-%s.webp' % (os.path.splitext(os.path.basename(image))[0], tag)
+    out_dir = os.path.join(ROOT, 'images', 'nav-thumbs')
+    out = os.path.join(out_dir, name)
+    if os.path.exists(src) and (not os.path.exists(out) or os.path.getmtime(out) < os.path.getmtime(src)):
+        os.makedirs(out_dir, exist_ok=True)
+        im = Image.open(src).convert('RGB')
+        w, h = size
+        k = max(w / im.width, h / im.height)
+        im = im.resize((max(w, round(im.width * k)), max(h, round(im.height * k))), Image.LANCZOS)
+        l, t = (im.width - w) // 2, (im.height - h) // 2
+        im.crop((l, t, l + w, t + h)).save(out, 'WEBP', quality=78, method=6)
+    return '/images/nav-thumbs/' + name
+
+
 def blog_mega_html(data):
     cats = {c['id']: c['name'] for c in data['categories']}
     posts = ordered_posts(data['posts'])
@@ -163,8 +183,8 @@ def blog_mega_html(data):
            '<div class="nav-mega-title"><span class="t-lead">%s</span><span class="t-sub">%s</span></div></div>'
            % (esc(feat['title']), esc(feat.get('menu_sub', feat['excerpt']))))
     if live(feat):
-        col1 = ('<a href="/blog/%s/" class="nav-mega-visual">\n                <img src="%s" alt="" loading="lazy">\n                %s\n'
-                '                <span class="nav-mega-cta">Читати статтю%s</span>\n              </a>' % (feat['slug'], esc(feat['image']), vis, _ARROW))
+        col1 = ('<a href="/blog/%s/" class="nav-mega-visual" data-mobile-img="%s">\n                <img src="%s" alt="" loading="lazy">\n                %s\n'
+                '                <span class="nav-mega-cta">Читати статтю%s</span>\n              </a>' % (feat['slug'], nav_thumb(feat['image'], (640, 400), 'feat'), esc(feat['image']), vis, _ARROW))
     else:
         col1 = ('<div class="nav-mega-visual is-soon">\n                <img src="%s" alt="" loading="lazy">\n                %s\n'
                 '                <span class="nav-mega-cta nav-mega-soon">Скоро</span>\n              </div>' % (esc(feat['image']), vis))
@@ -174,7 +194,7 @@ def blog_mega_html(data):
         if live(p):
             # data-thumb: квадратне прев'ю для мобільного меню (JS читає його, на десктопі не використовується)
             return ('<a href="/blog/%s/" class="nav-mega-q" data-thumb="%s"><span class="nav-blog-cat">%s</span><span class="nav-blog-t">%s</span></a>'
-                    % (p['slug'], esc(p['image']), cat, esc(p['title'])))
+                    % (p['slug'], nav_thumb(p['image'], (112, 112), 'sq'), cat, esc(p['title'])))
         return ('<span class="nav-mega-q is-soon"><span class="nav-blog-cat">%s<em>Скоро</em></span><span class="nav-blog-t">%s</span></span>'
                 % (cat, esc(p['title'])))
     col2 = ('<div class="nav-mega-card">\n                <div class="nav-mega-cat-head">%s<a href="/blog/" class="nav-mega-cat">Свіже</a></div>\n'

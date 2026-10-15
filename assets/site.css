@@ -447,6 +447,7 @@
   .nav-drawer-panel {
     position: relative;
     max-height: calc(100vh - 18px - var(--nav-pod-h, 60px) - 24px);
+    max-height: calc(100dvh - 18px - var(--nav-pod-h, 60px) - 24px);
     overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
     display: flex; flex-direction: column;
     padding: 18px 22px calc(22px + env(safe-area-inset-bottom, 0px));
@@ -1028,7 +1029,7 @@
   .nav-drawer-sub.is-open {
     /* 460px — з запасом під довший список («Тихі враження», 8 тем +
        посилання «переглянути всі»), не лише під пʼять розділів «Питання». */
-    max-height: 460px; opacity: 1;
+    max-height: 1100px; opacity: 1;
     transition: max-height 0.38s var(--ease-arrive), opacity 0.3s ease;
   }
   .nav-drawer-sub a {
@@ -8825,3 +8826,10 @@ html { overflow-x: clip; }
   }
   .nav-drawer-sub .nav-drawer-chips a:active { color: var(--lime); padding-left: 12px; border-color: var(--lime); }
 }
+
+/* Поки відкрито мобільне меню, сторінка під ним схована за розмиттям і заблокована, але її нескінченні анімації
+   (аврора, еквалайзер, кільця, хвилі) далі крутились і примушували розмиття перераховуватись щокадру: звідси «підвисання»
+   на свайпі довгого меню. Ставимо їх на паузу (знімається при закритті), саму шапку й меню не чіпаємо. */
+html.menu-open body > *:not(.nav-drawer):not(.nav-drawer-backdrop):not(nav) *,
+html.menu-open body > *:not(.nav-drawer):not(.nav-drawer-backdrop):not(nav) *::before,
+html.menu-open body > *:not(.nav-drawer):not(.nav-drawer-backdrop):not(nav) *::after { animation-play-state: paused !important; }
