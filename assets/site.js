@@ -4384,24 +4384,16 @@ function orderExperience(name, opts){
       '</div>';
     // Інерційний свайп довгого меню: тап по екрану має ЗУПИНЯТИ рух, а не клікати по пункту під пальцем.
     // Скрол-контейнер окремий від скляної панелі (backdrop-filter на скролері ламав зупинку інерції в iOS).
-    // Якщо палець торкнувся, поки меню ще котилось, ми гасимо інерцію (коротке overflow:hidden) і з'їдаємо
-    // клік, що за цим тапом прийшов.
+    // Клік, що прийшов одразу після скролу, ми з'їдаємо. Жодних втручань у сам жест: раніше тимчасове overflow:hidden
+    // на дотик ламало наступний свайп (він не стартував, поки не догорить попередній).
     (function(){
       const sc = drawer.querySelector('.nav-drawer-scroll');
       if (!sc) return;
-      let lastScroll = 0, tapWhileMoving = false;
+      let lastScroll = 0;
       sc.addEventListener('scroll', function(){ lastScroll = performance.now(); }, { passive: true });
-      sc.addEventListener('touchstart', function(){
-        tapWhileMoving = performance.now() - lastScroll < 140;
-        if (tapWhileMoving){
-          sc.style.overflowY = 'hidden';
-          requestAnimationFrame(function(){ requestAnimationFrame(function(){ sc.style.overflowY = ''; }); });
-        }
-      }, { passive: true });
+      // Клік, що прийшов, поки меню ще котилось (скрол був щойно), — це тап-зупинка, а не вибір пункту.
       sc.addEventListener('click', function(e){
-        if (tapWhileMoving || performance.now() - lastScroll < 90){
-          e.preventDefault(); e.stopPropagation(); tapWhileMoving = false;
-        }
+        if (performance.now() - lastScroll < 90){ e.preventDefault(); e.stopPropagation(); }
       }, true);
     })();
     const backdrop = document.createElement('div');
@@ -5685,14 +5677,8 @@ function orderExperience(name, opts){
   document.querySelectorAll('.gal-play, .form-submit, #vboxClose').forEach(function(el){ haptic.attach(el); });
   const calcGo = document.getElementById('calcSubmit');
   if (calcGo) haptic.attach(calcGo, { forward: goLink(calcGo) });
-  // Пункти мобільного меню (посилання й вкладки-акордеони) мають вібровідгук, але накладка-перемикач поверх пункту
-  // перехоплює дотик, а тап по меню, що ще їде за інерцією, мусить його зупинити, а не натиснути пункт. Тому поки
-  // меню скролиться (і ~200мс після), накладки стають непрозорими для дотику (клас is-scrolling на скролері).
-  document.querySelectorAll('.nav-drawer-item-expand').forEach(function(el){ haptic.attach(el); });
-  document.querySelectorAll('.nav-drawer-links > a, .nav-drawer-sub a').forEach(function(a){
-    const h = a.getAttribute('href') || '';
-    haptic.attach(a, { forward: h.charAt(0) === '#' ? null : goLink(a) });
-  });
+  // Пункти мобільного меню вібровідгуку НЕ мають: накладка-перемикач поверх кожного пункту заважала скролу
+  // (свайп не стартував, інерцію не можна було зупинити тапом). Гамбургер поза скролом і лишається з відгуком.
   // Те саме для всього сайту: будь-який скрол (сторінка, горизонтальні стрічки чипів і карток, меню) на мить
   // робить вібро-накладки непрозорими для дотику, тож тап по тому, що ще їде за інерцією, зупиняє рух,
   // а не натискає елемент під пальцем. Подія scroll не спливає, тому слухаємо її в фазі перехоплення.
