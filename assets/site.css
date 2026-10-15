@@ -446,11 +446,10 @@
   .nav-drawer.show { visibility: visible; pointer-events: auto; }
   .nav-drawer-panel {
     position: relative;
-    max-height: calc(100vh - 18px - var(--nav-pod-h, 60px) - 24px);
-    max-height: calc(100dvh - 18px - var(--nav-pod-h, 60px) - 24px);
-    overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
-    display: flex; flex-direction: column;
-    padding: 18px 22px calc(22px + env(safe-area-inset-bottom, 0px));
+    /* Сама панель лише скляна оболонка (розмиття, рамка, заокруглення) і не скролиться: скрол живе в .nav-drawer-scroll.
+       Скролер під backdrop-filter у iOS тримав інерцію й не зупинявся тапом. */
+    overflow: hidden; display: flex; flex-direction: column;
+    padding: 0;
     background: var(--glass-fill-dark);
     border: 1px solid var(--line);
     border-top: none;
@@ -8833,3 +8832,15 @@ html { overflow-x: clip; }
 html.menu-open body > *:not(.nav-drawer):not(.nav-drawer-backdrop):not(nav) *,
 html.menu-open body > *:not(.nav-drawer):not(.nav-drawer-backdrop):not(nav) *::before,
 html.menu-open body > *:not(.nav-drawer):not(.nav-drawer-backdrop):not(nav) *::after { animation-play-state: paused !important; }
+
+/* Скрол-контейнер мобільного меню (див. .nav-drawer-panel). */
+.nav-drawer-scroll {
+  overflow-y: auto; overscroll-behavior: contain;
+  max-height: calc(100vh - 18px - var(--nav-pod-h, 60px) - 24px);
+  max-height: calc(100dvh - 18px - var(--nav-pod-h, 60px) - 24px);
+  padding: 18px 22px calc(22px + env(safe-area-inset-bottom, 0px));
+  display: flex; flex-direction: column;
+}
+
+/* Поки щось скролиться (сторінка, стрічки, меню), вібро-накладки не ловлять дотик: тап зупиняє інерцію, а не натискає елемент. */
+html.is-scrolling .hx-overlay { pointer-events: none !important; }

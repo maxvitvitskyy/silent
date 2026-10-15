@@ -4374,12 +4374,36 @@ function orderExperience(name, opts){
     // тьмянити сторінку, не зачіпаючи саму шапку — деталі в CSS.
     drawer.innerHTML =
       '<div class="nav-drawer-panel" role="dialog" aria-modal="true" aria-label="Меню">' +
-        '<nav class="nav-drawer-links" aria-label="Розділи сторінки">' + linksHtml + '</nav>' +
-        '<div class="nav-drawer-bottom" style="--stagger:' + bottomStagger + '">' +
-          '<div class="nav-drawer-socials">' + socialsHtml + '</div>' +
-          (langHtml ? '<span class="nav-drawer-divider" aria-hidden="true"></span>' + langHtml : '') +
+        '<div class="nav-drawer-scroll">' +
+          '<nav class="nav-drawer-links" aria-label="Розділи сторінки">' + linksHtml + '</nav>' +
+          '<div class="nav-drawer-bottom" style="--stagger:' + bottomStagger + '">' +
+            '<div class="nav-drawer-socials">' + socialsHtml + '</div>' +
+            (langHtml ? '<span class="nav-drawer-divider" aria-hidden="true"></span>' + langHtml : '') +
+          '</div>' +
         '</div>' +
       '</div>';
+    // Інерційний свайп довгого меню: тап по екрану має ЗУПИНЯТИ рух, а не клікати по пункту під пальцем.
+    // Скрол-контейнер окремий від скляної панелі (backdrop-filter на скролері ламав зупинку інерції в iOS).
+    // Якщо палець торкнувся, поки меню ще котилось, ми гасимо інерцію (коротке overflow:hidden) і з'їдаємо
+    // клік, що за цим тапом прийшов.
+    (function(){
+      const sc = drawer.querySelector('.nav-drawer-scroll');
+      if (!sc) return;
+      let lastScroll = 0, tapWhileMoving = false;
+      sc.addEventListener('scroll', function(){ lastScroll = performance.now(); }, { passive: true });
+      sc.addEventListener('touchstart', function(){
+        tapWhileMoving = performance.now() - lastScroll < 140;
+        if (tapWhileMoving){
+          sc.style.overflowY = 'hidden';
+          requestAnimationFrame(function(){ requestAnimationFrame(function(){ sc.style.overflowY = ''; }); });
+        }
+      }, { passive: true });
+      sc.addEventListener('click', function(e){
+        if (tapWhileMoving || performance.now() - lastScroll < 90){
+          e.preventDefault(); e.stopPropagation(); tapWhileMoving = false;
+        }
+      }, true);
+    })();
     const backdrop = document.createElement('div');
     backdrop.className = 'nav-drawer-backdrop';
     backdrop.id = 'navDrawerBackdrop';
@@ -5635,7 +5659,7 @@ function orderExperience(name, opts){
   });
   // Кнопка звуку на плашці каналів, кнопка меню (гамбургер) і фільтри/категорії.
   // + вкладки-акордеони в мобільному меню («Тихі враження», «Питання», «Контакти»).
-  document.querySelectorAll('.ch-mute, .nav-burger, .nav-drawer-item-expand').forEach(function(el){ haptic.attach(el); });
+  document.querySelectorAll('.ch-mute, .nav-burger').forEach(function(el){ haptic.attach(el); });
   // Чипи-фільтри («Silent-досвіди» на головній і корпоративах, каталог /experiences/)
   // — це <button>, дію виконує їхній звичайний обробник. Категорії питань
   // (.faq-nav) і мовний перемикач — <a>: клік по накладці всередині посилання його
@@ -5661,13 +5685,26 @@ function orderExperience(name, opts){
   document.querySelectorAll('.gal-play, .form-submit, #vboxClose').forEach(function(el){ haptic.attach(el); });
   const calcGo = document.getElementById('calcSubmit');
   if (calcGo) haptic.attach(calcGo, { forward: goLink(calcGo) });
-  // Посилання мобільного меню: звичайні переходи на інші сторінки пересилаємо
-  // вручну, а якірні (#...) лишаємо власному обробнику меню (він закриває панель
-  // і гортає сам) — тож forward для них порожній.
+  // Пункти мобільного меню (посилання й вкладки-акордеони) мають вібровідгук, але накладка-перемикач поверх пункту
+  // перехоплює дотик, а тап по меню, що ще їде за інерцією, мусить його зупинити, а не натиснути пункт. Тому поки
+  // меню скролиться (і ~200мс після), накладки стають непрозорими для дотику (клас is-scrolling на скролері).
+  document.querySelectorAll('.nav-drawer-item-expand').forEach(function(el){ haptic.attach(el); });
   document.querySelectorAll('.nav-drawer-links > a, .nav-drawer-sub a').forEach(function(a){
     const h = a.getAttribute('href') || '';
     haptic.attach(a, { forward: h.charAt(0) === '#' ? null : goLink(a) });
   });
+  // Те саме для всього сайту: будь-який скрол (сторінка, горизонтальні стрічки чипів і карток, меню) на мить
+  // робить вібро-накладки непрозорими для дотику, тож тап по тому, що ще їде за інерцією, зупиняє рух,
+  // а не натискає елемент під пальцем. Подія scroll не спливає, тому слухаємо її в фазі перехоплення.
+  (function(){
+    const root = document.documentElement;
+    let t = 0;
+    document.addEventListener('scroll', function(){
+      if (!root.classList.contains('is-scrolling')) root.classList.add('is-scrolling');
+      clearTimeout(t);
+      t = setTimeout(function(){ root.classList.remove('is-scrolling'); }, 220);
+    }, { passive: true, capture: true });
+  })();
 
   // Каталог форматів: назви в один і в два рядки вирівнюємо по нижньому краю (див.
   // .t-two у site.css). Ряд сітки — картки з однаковим offsetTop; якщо хоч одна назва в
