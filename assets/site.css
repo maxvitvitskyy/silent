@@ -8844,3 +8844,9 @@ html.menu-open body > *:not(.nav-drawer):not(.nav-drawer-backdrop):not(nav) *::a
 
 /* Поки щось скролиться (сторінка, стрічки, меню), вібро-накладки не ловлять дотик: тап зупиняє інерцію, а не натискає елемент. */
 html.is-scrolling .hx-overlay { pointer-events: none !important; }
+
+/* Вібро-накладки на широких елементах — лише там, де справді ціль тапу, а не на всій ширині (широка накладка
+   перехоплює свайп, і скрол веде скрипт замість рідного). Прапорець калькулятора: квадрат навколо самого прапорця. */
+.calc-checks label > input.hx-overlay { left: 6px; top: 50%; width: 36px; height: 36px; transform: translateY(-50%); }
+/* Кнопки на всю ширину: накладка по центру, приблизно під написом. */
+.form-submit > input.hx-overlay, #calcSubmit > input.hx-overlay { left: 50%; width: 190px; transform: translateX(-50%); }

@@ -5645,6 +5645,8 @@ function orderExperience(name, opts){
     if (el) haptic.attach(el);
   });
   document.querySelectorAll('.ch-toggle').forEach(function(el){ haptic.attach(el); });
+  // Прапорці калькулятора: вібровідгук лише навколо самого прапорця (розмір накладки в site.css), не на всю
+  // ширину рядка, інакше свайп по рядку вів скрипт з власною інерцією замість рідної.
   document.querySelectorAll('.calc-checks label').forEach(function(label){
     const real = label.querySelector('input[type="checkbox"]:not(.hx-overlay)');
     haptic.attach(label, { forward: function(){ if (real) real.click(); } });
@@ -5674,7 +5676,8 @@ function orderExperience(name, opts){
 
   // Відправка заявки, кнопки відео («Дивитися») і закриття відео. Відкриває ролик
   // уся плитка (клік у стрічці), тож кнопка лише додає відгук поверх.
-  document.querySelectorAll('.gal-play, .form-submit, #vboxClose').forEach(function(el){ haptic.attach(el); });
+  document.querySelectorAll('.gal-play, #vboxClose, .form-submit').forEach(function(el){ haptic.attach(el); });
+  // Кнопки на всю ширину («Надіслати заявку», «Перевірити доступність дати»): накладка лише в центрі, на тексті (див. site.css).
   const calcGo = document.getElementById('calcSubmit');
   if (calcGo) haptic.attach(calcGo, { forward: goLink(calcGo) });
   // Мобільне меню: вібровідгук лише на стрілочках розкриття. Накладка поверх усього пункту сама веде скрол скриптом
