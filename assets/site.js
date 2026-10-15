@@ -3295,7 +3295,10 @@ function orderExperience(name, opts){
   const GA_CONTACTS = [
     ['click_email',     (h) => /^mailto:/i.test(h)],
     ['click_phone',     (h) => /^tel:/i.test(h)],
-    ['click_telegram',  (h) => /^tg:/i.test(h) || (/^https?:\/\/(www\.)?t\.me\//i.test(h) && !/^https?:\/\/(www\.)?t\.me\/share(\/|\?|$)/i.test(h))],
+    // Telegram розділено на дві події: канал (t.me/silent_events) і чат (t.me/silent_ukraine, плаваюча кнопка, «Написати в Telegram»).
+    // Спільного click_telegram більше нема. share-посилання (t.me/share/...) сюди не входять.
+    ['click_telegram_channel', (h) => /^https?:\/\/(www\.)?t\.me\/silent_events(\/|\?|#|$)/i.test(h)],
+    ['click_telegram_chat',    (h) => /^tg:/i.test(h) || (/^https?:\/\/(www\.)?t\.me\//i.test(h) && !/^https?:\/\/(www\.)?t\.me\/(silent_events|share)(\/|\?|#|$)/i.test(h))],
     ['click_instagram', (h) => /^https?:\/\/(www\.)?(instagram\.com|ig\.me)\//i.test(h)],
   ];
   document.addEventListener('click', (e) => {
@@ -3316,7 +3319,11 @@ function orderExperience(name, opts){
     if (a) {
       const href = a.getAttribute('href') || '';
       const hit = GA_CONTACTS.find((c) => c[1](href));
-      if (hit) gtag('event', hit[0], { link_location: gaLinkLocation(a), page_language: gaLang() });
+      if (hit){
+        // link_element: що саме натиснули (іконка соцмереж, плаваюча кнопка чи текстова кнопка/посилання).
+        const el = a.closest('.tg-float') ? 'floating_button' : (a.classList.contains('f-soc') ? 'social_icon' : 'text_link');
+        gtag('event', hit[0], { link_location: gaLinkLocation(a), link_element: el, page_language: gaLang() });
+      }
     }
   });
 
@@ -4362,7 +4369,7 @@ function orderExperience(name, opts){
     const socialsHtml = ''
       + '<a class="f-soc" href="https://www.instagram.com/silent_ukraine/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.05" fill="currentColor" stroke="none"/></svg></a>'
       + '<a class="f-soc" href="https://www.tiktok.com/@silent.ukraine" target="_blank" rel="noopener noreferrer" aria-label="TikTok" title="TikTok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.6 3.2v11.3a3.6 3.6 0 1 1-3.1-3.57"/><path d="M14.6 3.2a5 5 0 0 0 5 5"/></svg></a>'
-      + '<a class="f-soc" href="https://t.me/silent_ukraine" target="_blank" rel="noopener noreferrer" aria-label="Telegram" title="Telegram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.2 4.5 2.9 11.4a.5.5 0 0 0 .04.94l4.6 1.44 1.77 5.3a.5.5 0 0 0 .88.14l2.5-2.9 4.6 3.4a.5.5 0 0 0 .78-.3l3.05-14a.5.5 0 0 0-.66-.58Z"/><path d="m7.54 13.78 11.1-7.4-8.34 8.36-.36 3.9"/></svg></a>'
+      + '<a class="f-soc" href="https://t.me/silent_events" target="_blank" rel="noopener noreferrer" aria-label="Telegram-канал" title="Telegram-канал"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.2 4.5 2.9 11.4a.5.5 0 0 0 .04.94l4.6 1.44 1.77 5.3a.5.5 0 0 0 .88.14l2.5-2.9 4.6 3.4a.5.5 0 0 0 .78-.3l3.05-14a.5.5 0 0 0-.66-.58Z"/><path d="m7.54 13.78 11.1-7.4-8.34 8.36-.36 3.9"/></svg></a>'
       + '<a class="f-soc" href="https://www.youtube.com/channel/UCYJcmOSbk5MDaNXDLjchVyQ" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="5.6" width="18.8" height="12.8" rx="4"/><path d="m10.2 9.4 5 2.6-5 2.6z"/></svg></a>'
       + '<a class="f-soc" href="https://www.facebook.com/profile.php?id=61593832479897" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5"/><path d="M13 17.3V9.6a1.9 1.9 0 0 1 1.9-1.9h1.4M10.6 12.3h5"/></svg></a>';
 

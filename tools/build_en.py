@@ -660,6 +660,7 @@ T = {
 'Калькулятор': 'Calculator',
 # Підвал: посилання на сторінки замість дублів якорів головної.
 'Для корпоративів': 'Corporate events',
+'aria-label="Telegram-канал" title="Telegram-канал"': 'aria-label="Telegram channel" title="Telegram channel"',
 '>Блог<': '>Blog<',
 '>Про нас<': '>About us<',
 'Для весілля': 'Weddings',
