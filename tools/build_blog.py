@@ -604,9 +604,15 @@ def build_article(p, data, cats, posts, shared, card_fn):
                 % (i, esc(f['q']), plus, i, inline(f['a'])))
     half = (len(a['faq']) + 1) // 2
     cols = [a['faq'][:half], a['faq'][half:]]
-    faq = '<div class="faq-list">' + ''.join(
+    # Питання статті подані так само, як на головній і сторінках форматів: останній ряд
+    # тоне в тлі (.faq-teaser::after), під ним кнопка «Всі питання». Це частина шаблону:
+    # кожна нова стаття отримує блок автоматично.
+    faq_more = ('<div class="faq-more"><a href="/faq/" class="btn-ghost">Всі питання'
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" '
+                'stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a></div>')
+    faq = '<div class="faq-teaser"><div class="faq-list">' + ''.join(
         '<div class="faq-col">' + ''.join(faq_item(i + 1 + (half if c else 0), f) for i, f in enumerate(col)) + '</div>'
-        for c, col in enumerate(cols)) + '</div>'
+        for c, col in enumerate(cols)) + '</div>' + faq_more + '</div>'
     by_slug = {x['slug']: x for x in posts}
     stale = [r for r in a_related if r not in by_slug] if (a_related := a.get('related', [])) else []
     if stale:

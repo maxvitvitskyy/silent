@@ -6897,6 +6897,13 @@
     .exp-story-cell { position: static; }
     .exp-story-cell > .exp-story-shots { position: static; }
     .exp-story-shots .s-main { aspect-ratio: 4 / 5; }
+
+    /* Навушники виступають над карткою вгору (масштаб 1.16 від низу, нижня
+       частина ще й заходить під край): на планшетній ширині колонки лягають
+       в одну, відступ до тексту над сценою — лише 40px, і навушники
+       накривали останні рядки кроків. Висота виступу росте разом із шириною
+       сцени (49px на 561, 131px на 900), тому запас теж рахується від vw. */
+    .exp-gear .hp-stage { padding-top: clamp(0px, calc(13.5vw - 12px), 120px); }
   }
 
 
@@ -8751,4 +8758,54 @@ html { overflow-x: clip; }
   .ab-plate h2{font-size:max(19px,calc((100vw - 124px) / 9.8));line-height:1.1;overflow-wrap:normal}
   .ab-plate-r{width:100%;max-width:100%}
   .ab-plate .ab-btn{min-width:0;width:100%;max-width:340px}
+}
+
+/* ---------- Мобільне меню, «Блог»: вибір редакції + три найновіші статті ---------- */
+@media (max-width: 1040px) {
+  .nav-drawer-sub--blog.is-open { max-height: 1100px; }
+  .nav-drawer-sub--blog { padding: 4px 0 8px; gap: 0; }
+  /* Фото-картка «Вибір редакції»: знімок на всю ширину, заголовок поверх затемнення знизу. */
+  .nav-drawer-sub .nav-drawer-feature {
+    position: relative; display: block; padding: 0; margin: 6px 0 4px;
+    border: 0; border-radius: 16px; overflow: hidden; aspect-ratio: 16 / 10;
+    background: #121214;
+  }
+  .nav-drawer-feature img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .nav-drawer-feature::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(10,10,11,0) 30%, rgba(10,10,11,0.88) 100%);
+  }
+  .nav-drawer-feature-body {
+    position: absolute; left: 14px; right: 14px; bottom: 12px; z-index: 1;
+    display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
+  }
+  .nav-drawer-feature strong {
+    font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: 13px; line-height: 1.3;
+    color: #fff; letter-spacing: -0.01em;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .nav-drawer-badge {
+    font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: #0a0a0b; background: var(--lime); border-radius: 999px; padding: 4px 9px;
+  }
+  .nav-drawer-label {
+    margin: 14px 2px 2px 18px; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted);
+  }
+  .nav-drawer-sub a.nav-drawer-post { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; padding: 11px 2px 11px 18px; }
+  .nav-drawer-post small {
+    font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--lime);
+  }
+  .nav-drawer-post span {
+    font-size: 14px; line-height: 1.35; font-weight: 600; color: #fff;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .nav-drawer-sub--blog .nav-drawer-sub-all { margin-top: 2px; }
+  /* Теми блогу лишаються, але стишено: чипи в рядок, не окремі пункти. */
+  .nav-drawer-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 2px 4px 18px; }
+  .nav-drawer-sub .nav-drawer-chips a {
+    display: inline-flex; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px;
+    font-size: 12px; font-weight: 600; color: var(--muted);
+  }
+  .nav-drawer-sub .nav-drawer-chips a:active { color: var(--lime); padding-left: 12px; border-color: var(--lime); }
 }

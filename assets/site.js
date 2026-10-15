@@ -4288,6 +4288,30 @@ function orderExperience(name, opts){
         const ctaLink = allBtn || el.querySelector('.nav-mega-visual');
         const ctaLabel = allBtn || el.querySelector('.nav-mega-cta');
         let subHtml = '';
+        const isBlog = el.classList.contains('nav-item-mega--blog');
+        if (isBlog){
+          // «Блог» на телефоні: фото-картка «Вибір редакції» і три найновіші статті зі «Свіже» (порядок і дані ті самі,
+          // що в десктопній панелі, її генерує tools/build_blog.py), далі кнопка на весь блог і теми чипами.
+          const vis = el.querySelector('.nav-mega-visual');
+          if (vis){
+            const vimg = vis.querySelector('img'), badge = vis.querySelector('.nav-mega-badge'), lead = vis.querySelector('.t-lead');
+            subHtml += '<a href="' + vis.getAttribute('href') + '" class="nav-drawer-feature">' +
+              (vimg ? '<img src="' + vimg.getAttribute('src') + '" alt="" loading="lazy">' : '') +
+              '<span class="nav-drawer-feature-body"><span class="nav-drawer-badge">' + (badge ? badge.textContent.trim() : '') + '</span>' +
+              '<strong>' + (lead ? lead.textContent.trim() : '') + '</strong></span></a>';
+          }
+          const fresh = [].slice.call(el.querySelectorAll('.nav-mega-qs a.nav-mega-q')).slice(0, 3);
+          if (fresh.length){
+            subHtml += '<span class="nav-drawer-label">Свіже</span>';
+            fresh.forEach(q => {
+              const cat = q.querySelector('.nav-blog-cat'), t = q.querySelector('.nav-blog-t');
+              subHtml += '<a href="' + q.getAttribute('href') + '" class="nav-drawer-post"><small>' + (cat ? cat.textContent.trim() : '') + '</small><span>' + (t ? t.textContent.trim() : q.textContent.trim()) + '</span></a>';
+            });
+          }
+          if (ctaLink && ctaLabel){
+            subHtml += '<a href="' + ctaLink.getAttribute('href') + '" class="nav-drawer-sub-all">' + ctaLabel.textContent.trim() + '</a>';
+          }
+        } else {
         if (ctaLink && ctaLabel){
           subHtml += '<a href="' + ctaLink.getAttribute('href') + '" class="nav-drawer-sub-all">' + ctaLabel.textContent.trim() + '</a>';
         }
@@ -4295,12 +4319,13 @@ function orderExperience(name, opts){
           const icon = c.parentElement.querySelector('.nav-mega-icon');
           subHtml += '<a href="' + c.getAttribute('href') + '">' + (icon ? icon.outerHTML : '') + '<span>' + c.textContent + (c.dataset.sub ? '<small>' + c.dataset.sub + '</small>' : '') + '</span></a>';
         });
+        }
         linksHtml +=
           '<button type="button" class="nav-drawer-item-expand" style="--stagger:' + i + '" aria-expanded="false">' +
             '<span>' + trigger.textContent + '</span>' +
             '<span class="nav-drawer-expand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>' +
           '</button>' +
-          '<div class="nav-drawer-sub">' + subHtml + '</div>';
+          '<div class="nav-drawer-sub' + (isBlog ? ' nav-drawer-sub--blog' : '') + '">' + subHtml + '</div>';
       } else {
         linksHtml += '<a href="' + el.getAttribute('href') + '" style="--stagger:' + i + '">' + el.textContent + '</a>';
       }
@@ -4336,7 +4361,7 @@ function orderExperience(name, opts){
       + '<a class="f-soc" href="https://www.tiktok.com/@silent.ukraine" target="_blank" rel="noopener noreferrer" aria-label="TikTok" title="TikTok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.6 3.2v11.3a3.6 3.6 0 1 1-3.1-3.57"/><path d="M14.6 3.2a5 5 0 0 0 5 5"/></svg></a>'
       + '<a class="f-soc" href="https://t.me/silent_ukraine" target="_blank" rel="noopener noreferrer" aria-label="Telegram" title="Telegram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.2 4.5 2.9 11.4a.5.5 0 0 0 .04.94l4.6 1.44 1.77 5.3a.5.5 0 0 0 .88.14l2.5-2.9 4.6 3.4a.5.5 0 0 0 .78-.3l3.05-14a.5.5 0 0 0-.66-.58Z"/><path d="m7.54 13.78 11.1-7.4-8.34 8.36-.36 3.9"/></svg></a>'
       + '<a class="f-soc" href="https://www.youtube.com/channel/UCYJcmOSbk5MDaNXDLjchVyQ" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="5.6" width="18.8" height="12.8" rx="4"/><path d="m10.2 9.4 5 2.6-5 2.6z"/></svg></a>'
-      + '<a class="f-soc" href="mailto:hello.silent.ua@gmail.com" aria-label="Пошта" title="Пошта"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="5.2" width="18.8" height="13.6" rx="2.6"/><path d="m3.4 7 8.05 5.6a1 1 0 0 0 1.1 0L20.6 7"/></svg></a>';
+      + '<a class="f-soc" href="https://www.facebook.com/profile.php?id=61593832479897" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5"/><path d="M13 17.3V9.6a1.9 1.9 0 0 1 1.9-1.9h1.4M10.6 12.3h5"/></svg></a>';
 
     // Свого верху в панелі більше немає: лого, кнопка й гамбургер — це сама
     // шапка (nav.menu-open зливає її назад в один рядок, CSS вище), а
