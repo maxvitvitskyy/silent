@@ -4305,7 +4305,10 @@ function orderExperience(name, opts){
             subHtml += '<span class="nav-drawer-label">Свіже</span>';
             fresh.forEach(q => {
               const cat = q.querySelector('.nav-blog-cat'), t = q.querySelector('.nav-blog-t');
-              subHtml += '<a href="' + q.getAttribute('href') + '" class="nav-drawer-post"><small>' + (cat ? cat.textContent.trim() : '') + '</small><span>' + (t ? t.textContent.trim() : q.textContent.trim()) + '</span></a>';
+              const th = q.getAttribute('data-thumb');
+              subHtml += '<a href="' + q.getAttribute('href') + '" class="nav-drawer-post">' +
+                (th ? '<img class="nav-drawer-thumb" src="' + th + '" alt="" loading="lazy" width="56" height="56">' : '') +
+                '<span class="nav-drawer-post-text"><small>' + (cat ? cat.textContent.trim() : '') + '</small><b>' + (t ? t.textContent.trim() : q.textContent.trim()) + '</b></span></a>';
             });
           }
           if (ctaLink && ctaLabel){

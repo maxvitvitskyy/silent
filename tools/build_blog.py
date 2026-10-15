@@ -172,8 +172,9 @@ def blog_mega_html(data):
     def q(p):
         cat = esc(cats[p['category']])
         if live(p):
-            return ('<a href="/blog/%s/" class="nav-mega-q"><span class="nav-blog-cat">%s</span><span class="nav-blog-t">%s</span></a>'
-                    % (p['slug'], cat, esc(p['title'])))
+            # data-thumb: квадратне прев'ю для мобільного меню (JS читає його, на десктопі не використовується)
+            return ('<a href="/blog/%s/" class="nav-mega-q" data-thumb="%s"><span class="nav-blog-cat">%s</span><span class="nav-blog-t">%s</span></a>'
+                    % (p['slug'], esc(p['image']), cat, esc(p['title'])))
         return ('<span class="nav-mega-q is-soon"><span class="nav-blog-cat">%s<em>Скоро</em></span><span class="nav-blog-t">%s</span></span>'
                 % (cat, esc(p['title'])))
     col2 = ('<div class="nav-mega-card">\n                <div class="nav-mega-cat-head">%s<a href="/blog/" class="nav-mega-cat">Свіже</a></div>\n'
@@ -340,7 +341,7 @@ def build(preview=False):
             '    <p class="exp-crumb"><a href="/">Головна</a> <span aria-hidden="true">&middot;</span> <span class="crumb-now">Блог</span></p>\n'
             '    <div class="blog-head-row">\n'
             '      <h1 class="blog-title">Блог SILENT</h1>\n'
-            '      <p class="blog-lead">Як провести свято без шуму, чим здивувати гостей і де silent disco рятує вечір.</p>\n'
+            '      <p class="blog-lead">Ідеї для свят, нестандартні формати подій і способи здивувати гостей. Розповідаємо, де Silent Disco рятує вечір.</p>\n'
             '    </div>\n'
             '  </div>\n</section>\n\n'
             '<section class="blog-top">\n  <div class="wrap blog-top-grid">\n%s%s  </div>\n</section>\n\n'
