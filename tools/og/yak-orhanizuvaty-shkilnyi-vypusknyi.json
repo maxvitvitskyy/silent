@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-yak-orhanizuvaty-shkilnyi-vypusknyi.jpg",
+  "bg": {
+    "src": "images/school/shkilna-vechirka-pidlitky-v-okulyarakh.webp",
+    "pos": "50% 15%"
+  },
+  "heading": [
+    "Шкільний випускний:",
+    "формат вечора"
+  ],
+  "subtitle": [
+    [
+      "Ідеї для 9-х і 11-х класів: музика, локація й розваги для учнів."
+    ]
+  ],
+  "pills": [
+    "<b>9</b> і <b>11</b> класи",
+    "<b>Формат</b> вечора",
+    "<b>Без</b> конкурсів",
+    "<b>Silent Disco</b>"
+  ]
+}

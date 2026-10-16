@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<script>
+/* Normalise the URL before GA: //, /experiences// and /…/index.html are served as 200 by the host
+   (no server-side 301 on GitHub Pages), so they would split traffic into duplicate paths in reports.
+   Local dev servers must not pollute the real property either. */
+if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || /\.localhost$/.test(location.hostname)) window['ga-disable-G-L60PG6EF3E'] = true;
+(function(){
+  var p = location.pathname, c = p.replace(/\/{2,}/g, '/').replace(/\/index\.html$/, '/');
+  if (c !== p) location.replace(c + location.search + location.hash);
+})();
+</script>
+<!-- Google tag (gtag.js) — навмисно одразу після charset, до решти <head>:
+     так рекомендує сам Google, щоб перегляд сторінки не загубився через
+     ранній редирект чи повільний рендер. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L60PG6EF3E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-L60PG6EF3E');
+</script>
+<!-- Microsoft Clarity — офіційний код проєкту, без змін. -->
+<script type="text/javascript">
+(function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", "ybmupsein1");
+</script>
+<!-- Обкладинка — найбільший видимий елемент першого екрана, тобто саме вона
+     визначає LCP. Задана фоном у CSS, тож preload-сканер знайшов би її лише
+     після побудови CSSOM; явний preload тягне файл під час парсингу <head>. -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Як організувати шкільний випускний: ідеї для 9 і 11 класів — SILENT</title>
+<meta name="description" content="Як організувати випускний для 9-го чи 11-го класу? Як обрати формат вечора, продумати музику, локацію та розваги для учнів.">
+<meta name="theme-color" content="#0a0a0b">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicon-48x48.png" sizes="48x48">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="SILENT">
+<meta property="og:locale" content="uk_UA">
+<meta property="og:title" content="Як організувати шкільний випускний: ідеї для 9 і 11 класів — SILENT">
+<meta property="og:description" content="Як організувати випускний для 9-го чи 11-го класу? Як обрати формат вечора, продумати музику, локацію та розваги для учнів.">
+<meta property="og:url" content="https://silent.org.ua/blog/yak-orhanizuvaty-shkilnyi-vypusknyi/">
+<meta property="og:image" content="https://silent.org.ua/images/blog/og-yak-orhanizuvaty-shkilnyi-vypusknyi.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:alt" content="Підлітки в світних навушниках і окулярах танцюють на шкільній вечірці">
+<meta property="article:published_time" content="2026-10-16">
+<meta property="article:modified_time" content="2026-10-16">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Як організувати шкільний випускний: ідеї для 9 і 11 класів — SILENT">
+<meta name="twitter:description" content="Як організувати випускний для 9-го чи 11-го класу? Як обрати формат вечора, продумати музику, локацію та розваги для учнів.">
+<meta name="twitter:image" content="https://silent.org.ua/images/blog/og-yak-orhanizuvaty-shkilnyi-vypusknyi.jpg">
+<meta name="twitter:image:alt" content="Підлітки в світних навушниках і окулярах танцюють на шкільній вечірці">
+<link rel="canonical" href="https://silent.org.ua/blog/yak-orhanizuvaty-shkilnyi-vypusknyi/">
+<script>
+(function(){
+  var r = document.documentElement;
+  r.className = (r.className + ' js').trim();
+  setTimeout(function(){ if (!window.__siteJs) r.classList.remove('js'); }, 5000);
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="../../assets/site.min.css?v=254f3db2">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": "https://silent.org.ua/blog/yak-orhanizuvaty-shkilnyi-vypusknyi/#article",
+      "mainEntityOfPage": "https://silent.org.ua/blog/yak-orhanizuvaty-shkilnyi-vypusknyi/",
+      "headline": "Як організувати шкільний випускний: формат вечора для 9-х і 11-х класів",
+      "description": "Як організувати випускний для 9-го чи 11-го класу? Як обрати формат вечора, продумати музику, локацію та розваги для учнів.",
+      "inLanguage": "uk-UA",
+      "image": "https://silent.org.ua/images/blog/og-yak-orhanizuvaty-shkilnyi-vypusknyi.jpg",
+      "author": {
+        "@id": "https://silent.org.ua/#organization"
+      },
+      "publisher": {
+        "@id": "https://silent.org.ua/#organization"
+      },
+      "isPartOf": {
+        "@id": "https://silent.org.ua/blog/#webpage"
+      },
+      "datePublished": "2026-10-16",
+      "dateModified": "2026-10-16"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://silent.org.ua/blog/yak-orhanizuvaty-shkilnyi-vypusknyi/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Головна",
+          "item": "https://silent.org.ua/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Блог",
+          "item": "https://silent.org.ua/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Як організувати шкільний випускний: формат вечора для 9-х і 11-х класів",
+          "item": "https://silent.org.ua/blog/yak-orhanizuvaty-shkilnyi-vypusknyi/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://silent.org.ua/blog/yak-orhanizuvaty-shkilnyi-vypusknyi/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "З чого почати організацію шкільного випускного?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Домовтеся про формат із класом і батьківським комітетом, зберіть побажання учнів, визначте бюджет до вибору локації й лише потім обирайте місце з урахуванням сценарію вечора."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Чим відрізняється випускний у 9-му та 11-му класах?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Очікування різні: для частини дев’ятикласників це завершення етапу навчання, для одинадцятикласників ще й символічне завершення шкільного життя. Тому формат одного випускного не варто автоматично переносити на інший."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Як зробити випускний без примусових конкурсів?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Передбачте різні способи взаємодії: музичні побажання класу, спільну фотоісторію, вільну танцювальну частину й необов’язкові командні активності. Ведучий і конкурси мають підтримувати атмосферу, а не займати весь вечір."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Чи підходить Silent Disco для шкільного випускного?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Silent Disco може стати центральною частиною вечірки або окремою активністю після офіційної програми: музика звучить у навушниках, а в SILENT доступні три музичні канали. Докладніше на сторінці Silent Disco на шкільне свято."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Що потрібно узгодити з батьками та школою перед випускним?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Час і правила проведення, відповідальних дорослих, транспорт і завершення вечора, а також фото- й відеозйомку та дозволи на публікацію матеріалів."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Що повідомити SILENT, щоб обговорити Silent Disco на випускний?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Дату, локацію, приблизну кількість учасників і бажаний формат вечора. Залишити заявку можна на сторінці бронювання."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body id="top" class="page-close-cta">
+
+<a class="skip-link" href="#main">Перейти до вмісту</a>
+
+<div class="nav-mega-backdrop" aria-hidden="true"></div>
+<nav>
+  <a href="/" class="logo" aria-label="На головну" translate="no">SILENT<b>.</b></a>
+  <div class="nav-links">
+    <a href="/#how">Як це працює</a>
+    <a href="/#offer">Що входить</a>
+        <div class="nav-item-mega nav-item-mega--exp">
+      <a href="/experiences/" class="nav-mega-trigger">Тихі враження</a>
+      <div class="nav-mega-panel">
+        <div class="nav-mega-grid">
+            <div class="nav-mega-col">
+              <a href="/experiences/" class="nav-mega-visual">
+                <img src="/images/uc/silentdisco.webp" alt="" loading="lazy">
+                <div class="nav-mega-visual-text">
+                  <div class="nav-mega-title"><span class="t-lead">Одна технологія, десятки форматів.</span> <span class="t-sub">Обирайте свій.</span></div>
+                </div>
+                <span class="nav-mega-cta">Усі формати<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+              </a>
+            </div>
+            <div class="nav-mega-col">
+              <div class="nav-mega-card">
+                <div class="nav-mega-cat-head">
+                  <span class="nav-mega-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></svg></span>
+                  <a href="/experiences/#cat-business" class="nav-mega-cat">Бізнес</a>
+                </div>
+                <div class="nav-mega-qs">
+                  <a href="/experiences/corporate/" class="nav-mega-q">Корпоративи</a>
+                  <a href="/experiences/#cat-business" class="nav-mega-q">Конференції</a>
+                  <a href="/experiences/#cat-business" class="nav-mega-q">Благодійні гала</a>
+                  <a href="/experiences/#cat-business" class="nav-mega-q">Тренінги й навчання</a>
+                  <a href="/experiences/#cat-business" class="nav-mega-q">Бренд-активації</a>
+                  <a href="/experiences/#cat-business" class="nav-mega-q">Презентація релізу</a>
+                </div>
+              </div>
+            </div>
+            <div class="nav-mega-col">
+              <div class="nav-mega-card">
+                <div class="nav-mega-cat-head">
+                  <span class="nav-mega-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2L12 3Z"/></svg></span>
+                  <a href="/experiences/#cat-party" class="nav-mega-cat">Свята</a>
+                </div>
+                <div class="nav-mega-qs">
+                  <a href="/experiences/birthday/" class="nav-mega-q">Дні народження</a>
+                  <a href="/experiences/silent-disco/" class="nav-mega-q">Silent disco</a>
+                  <a href="/experiences/wedding/" class="nav-mega-q">Весілля</a>
+                  <a href="/experiences/#cat-party" class="nav-mega-q">Домашні вечірки</a>
+                  <a href="/experiences/#cat-party" class="nav-mega-q">Дівич-вечір</a>
+                  <a href="/experiences/#cat-party" class="nav-mega-q">Діджей-сет наживо</a>
+                </div>
+              </div>
+            </div>
+            <div class="nav-mega-col">
+              <div class="nav-mega-card">
+                <div class="nav-mega-cat-head">
+                  <span class="nav-mega-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a5 5 0 0 1 5 5c0 3-2 5.5-4 6.5l1 2.5h-4l1-2.5c-2-1-4-3.5-4-6.5a5 5 0 0 1 5-5Z"/><path d="M12 17v4"/></svg></span>
+                  <a href="/experiences/#cat-kids" class="nav-mega-cat">Для дітей</a>
+                </div>
+                <div class="nav-mega-qs">
+                  <a href="/experiences/school/" class="nav-mega-q">Шкільні свята</a>
+                  <a href="/experiences/kids/" class="nav-mega-q">Дитячі свята</a>
+                  <a href="/experiences/#cat-kids" class="nav-mega-q">Табори та молодіжні збори</a>
+                  <a href="/experiences/#cat-kids" class="nav-mega-q">Кіно просто неба</a>
+                  <a href="/experiences/#cat-kids" class="nav-mega-q">Квести</a>
+                  <a href="/experiences/#cat-kids" class="nav-mega-q">Гра «Імпостер»</a>
+                </div>
+              </div>
+            </div>
+            <div class="nav-mega-col">
+              <div class="nav-mega-card">
+                <div class="nav-mega-cat-head">
+                  <span class="nav-mega-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 2 9l10 5 10-5-10-5Z"/><path d="M6 11.5V16c0 1.5 2.7 3 6 3s6-1.5 6-3v-4.5"/></svg></span>
+                  <a href="/experiences/#cat-education" class="nav-mega-cat">Навчальні заклади</a>
+                </div>
+                <div class="nav-mega-qs">
+                  <a href="/experiences/students/" class="nav-mega-q">Студентські події</a>
+                  <a href="/experiences/#cat-education" class="nav-mega-q">Екскурсії</a>
+                  <a href="/experiences/#cat-education" class="nav-mega-q">Музеї та галереї</a>
+                  <a href="/experiences/#cat-education" class="nav-mega-q">Майстеркласи</a>
+                  <a href="/experiences/#cat-education" class="nav-mega-q">Синхронний переклад</a>
+                  <a href="/experiences/#cat-education" class="nav-mega-q">Музичні коледжі</a>
+                </div>
+              </div>
+            </div>
+            <div class="nav-mega-col">
+              <div class="nav-mega-card">
+                <div class="nav-mega-cat-head">
+                  <span class="nav-mega-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="17" r="2.5"/><circle cx="17" cy="15" r="2.5"/><path d="M9.5 17V5.5L19.5 4v10.5"/></svg></span>
+                  <a href="/experiences/#cat-culture" class="nav-mega-cat">Культура</a>
+                </div>
+                <div class="nav-mega-qs">
+                  <a href="/experiences/#cat-culture" class="nav-mega-q">Камерні концерти</a>
+                  <a href="/experiences/#cat-culture" class="nav-mega-q">Стендап і комедія</a>
+                  <a href="/experiences/#cat-culture" class="nav-mega-q">Виставки та експо</a>
+                  <a href="/experiences/#cat-culture" class="nav-mega-q">Модні покази</a>
+                  <a href="/experiences/#cat-culture" class="nav-mega-q">Іммерсивні театри</a>
+                  <a href="/experiences/#cat-culture" class="nav-mega-q">Драйв-ін формат</a>
+                </div>
+              </div>
+            </div>
+            <div class="nav-mega-col">
+              <div class="nav-mega-card">
+                <div class="nav-mega-cat-head">
+                  <span class="nav-mega-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-6 4 12 2-6h6"/></svg></span>
+                  <a href="/experiences/#cat-sport" class="nav-mega-cat">Спорт</a>
+                </div>
+                <div class="nav-mega-qs">
+                  <a href="/experiences/#cat-sport" class="nav-mega-q">Йога та ecstatic dance</a>
+                  <a href="/experiences/#cat-sport" class="nav-mega-q">Спортивні події</a>
+                  <a href="/experiences/#cat-sport" class="nav-mega-q">Забіги та прогулянки</a>
+                  <a href="/experiences/#cat-sport" class="nav-mega-q">Медитація</a>
+                  <a href="/experiences/#cat-sport" class="nav-mega-q">Танцювальні змагання</a>
+                </div>
+              </div>
+            </div>
+            <div class="nav-mega-col">
+              <div class="nav-mega-card">
+                <div class="nav-mega-cat-head">
+                  <span class="nav-mega-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M2 20c0-3 2.5-5 6-5s6 2 6 5M14 15c2.8 0 5 2 5 5"/></svg></span>
+                  <a href="/experiences/#cat-community" class="nav-mega-cat">Міські події</a>
+                </div>
+                <div class="nav-mega-qs">
+                  <a href="/experiences/festivals/" class="nav-mega-q">Фестивалі</a>
+                  <a href="/experiences/#cat-community" class="nav-mega-q">Громадські зібрання</a>
+                  <a href="/experiences/#cat-community" class="nav-mega-q">Ярмарки та маркети</a>
+                  <a href="/experiences/#cat-community" class="nav-mega-q">Інклюзивні події</a>
+                  <a href="/experiences/#cat-community" class="nav-mega-q">Події для літніх</a>
+                  <a href="/experiences/#cat-community" class="nav-mega-q">Готелі й ресорти</a>
+                </div>
+              </div>
+            </div>
+            <div class="nav-mega-col">
+              <div class="nav-mega-card">
+                <div class="nav-mega-cat-head">
+                  <span class="nav-mega-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M5 21V11l7-4 7 4v10"/><path d="M9 21v-6h6v6"/></svg></span>
+                  <a href="/experiences/#cat-faith" class="nav-mega-cat">Церкви й табори</a>
+                </div>
+                <div class="nav-mega-qs">
+                  <a href="/experiences/#cat-faith" class="nav-mega-q">Церковні служби та зібрання</a>
+                  <a href="/experiences/#cat-faith" class="nav-mega-q">Церковні та молодіжні табори</a>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <a href="/#price">Ціна</a>
+    <div class="nav-item-mega">
+      <a href="/faq/" class="nav-mega-trigger">Питання</a>
+      <div class="nav-mega-panel">
+        <div class="nav-mega-grid">
+            <div class="nav-mega-col">
+              <a href="/faq/" class="nav-mega-visual">
+                <img src="/images/gal/20_tall.webp" alt="" loading="lazy">
+                <div class="nav-mega-visual-text">
+                  <div class="nav-mega-title"><span class="t-lead">Перш ніж бронювати.</span> <span class="t-sub">Прочитайте це.</span></div>
+                </div>
+                <span class="nav-mega-cta">Всі питання<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+              </a>
+            </div>
+            <div class="nav-mega-col">
+              <div class="nav-mega-card">
+                <div class="nav-mega-cat-head">
+                  <span class="nav-mega-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13v-1a8 8 0 0 1 16 0v1"/><rect x="2.5" y="13" width="5" height="7" rx="2.5"/><rect x="16.5" y="13" width="5" height="7" rx="2.5"/></svg></span>
+                  <a href="/faq/#format" class="nav-mega-cat">Про формат</a>
+                </div>
+                <div class="nav-mega-qs">
+                  <a href="/faq/#faqA-f1" class="nav-mega-q">Що таке silent disco?</a>
+                  <a href="/faq/#faqA-f4" class="nav-mega-q">Чи потрібен діджей?</a>
+                  <a href="/faq/#faqA-f5" class="nav-mega-q">Кому підходить формат?</a>
+                  <a href="/faq/#faqA-f6" class="nav-mega-q">Чим це відрізняється від колонок?</a>
+                  <a href="/faq/#faqA-f2" class="nav-mega-q">Всі гості чують одну музику?</a>
+                  <a href="/faq/#faqA-f3" class="nav-mega-q">Це справді весело?</a>
+                </div>
+              </div>
+            </div>
+            <div class="nav-mega-col">
+              <div class="nav-mega-card">
+                <div class="nav-mega-cat-head">
+                  <span class="nav-mega-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-7.58 7-12a7 7 0 1 0-14 0c0 4.42 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg></span>
+                  <a href="/faq/#organizing" class="nav-mega-cat">Організація та логістика</a>
+                </div>
+                <div class="nav-mega-qs">
+                  <a href="/faq/#faqA-o2" class="nav-mega-q">Скільки часу займає встановлення?</a>
+                  <a href="/faq/#faqA-o5" class="nav-mega-q">Виїжджаєте за межі Києва?</a>
+                  <a href="/faq/#faqA-o3" class="nav-mega-q">Що підготувати з нашого боку?</a>
+                  <a href="/faq/#faqA-o4" class="nav-mega-q">Можна на вулиці чи в дощ?</a>
+                  <a href="/faq/#faqA-o1" class="nav-mega-q">За скільки бронювати дату?</a>
+                  <a href="/faq/#faqA-o6" class="nav-mega-q">Скільки триває подія?</a>
+                </div>
+              </div>
+            </div>
+            <div class="nav-mega-col">
+              <div class="nav-mega-card">
+                <div class="nav-mega-cat-head">
+                  <span class="nav-mega-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12.5 12.5 20a1.5 1.5 0 0 1-2.12 0l-6.38-6.38a1.5 1.5 0 0 1 0-2.12L11.5 4H20v8.5Z"/><circle cx="15.6" cy="8.4" r="1.3" fill="currentColor" stroke="none"/></svg></span>
+                  <a href="/faq/#price" class="nav-mega-cat">Ціна та бронювання</a>
+                </div>
+                <div class="nav-mega-qs">
+                  <a href="/faq/#faqA-p1" class="nav-mega-q">Скільки коштує silent disco?</a>
+                  <a href="/faq/#faqA-p5" class="nav-mega-q">Як забронювати дату?</a>
+                  <a href="/faq/#faqA-p2" class="nav-mega-q">Що входить у вартість?</a>
+                  <a href="/faq/#faqA-p4" class="nav-mega-q">Це остаточна сума?</a>
+                  <a href="/faq/#faqA-p6" class="nav-mega-q">Що впливає на ціну?</a>
+                  <a href="/faq/#faqA-p7" class="nav-mega-q">Скільки коштують опції?</a>
+                </div>
+              </div>
+            </div>
+            <div class="nav-mega-col">
+              <div class="nav-mega-card">
+                <div class="nav-mega-cat-head">
+                  <span class="nav-mega-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20V10M12 20V4M18 20v-7"/></svg></span>
+                  <a href="/faq/#gear" class="nav-mega-cat">Обладнання</a>
+                </div>
+                <div class="nav-mega-qs">
+                  <a href="/faq/#faqA-g1" class="nav-mega-q">Скільки музичних каналів?</a>
+                  <a href="/faq/#faqA-g2" class="nav-mega-q">Скільки тримає заряд навушників?</a>
+                  <a href="/faq/#faqA-g4" class="nav-mega-q">Скільки навушників замовити?</a>
+                  <a href="/faq/#faqA-g6" class="nav-mega-q">Чи заважають спілкуватись?</a>
+                  <a href="/faq/#faqA-g5" class="nav-mega-q">Чи потрібне живлення?</a>
+                  <a href="/faq/#faqA-g3" class="nav-mega-q">Що як загублять навушники?</a>
+                </div>
+              </div>
+            </div>
+            <div class="nav-mega-col">
+              <div class="nav-mega-card">
+                <div class="nav-mega-cat-head">
+                  <span class="nav-mega-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3Z"/><path d="m9 12 2 2 4-4"/></svg></span>
+                  <a href="/faq/#terms" class="nav-mega-cat">Оплата й умови</a>
+                </div>
+                <div class="nav-mega-qs">
+                  <a href="/faq/#faqA-t1" class="nav-mega-q">Яка схема оплати?</a>
+                  <a href="/faq/#faqA-t3" class="nav-mega-q">Чи можна перенести дату?</a>
+                  <a href="/faq/#faqA-t5" class="nav-mega-q">Хто відповідає за навушники?</a>
+                  <a href="/faq/#faqA-t4" class="nav-mega-q">Чи потрібен депозит?</a>
+                  <a href="/faq/#faqA-t2" class="nav-mega-q">Що при скасуванні?</a>
+                  <a href="/faq/#faqA-t6" class="nav-mega-q">Хто платить за поломку?</a>
+                </div>
+              </div>
+            </div>
+            <div class="nav-mega-col">
+              <div class="nav-mega-card">
+                <div class="nav-mega-cat-head">
+                  <span class="nav-mega-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 2.7 17a2 2 0 0 0 1.7 3h15.2a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/></svg></span>
+                  <a href="/faq/#safety" class="nav-mega-cat">Форс-мажор і безпека</a>
+                </div>
+                <div class="nav-mega-qs">
+                  <a href="/faq/#faqA-s1" class="nav-mega-q">Що робити, якщо обладнання дасть збій?</a>
+                  <a href="/faq/#faqA-s2" class="nav-mega-q">Хто відповідає за музику на події?</a>
+                  <a href="/faq/#faqA-s3" class="nav-mega-q">Що буде через форс-мажор?</a>
+                  <a href="/faq/#faqA-s4" class="nav-mega-q">Чи можна перенести через погоду?</a>
+                  <a href="/faq/#faqA-s5" class="nav-mega-q">Хто відповідає за безпеку на заході?</a>
+                  <a href="/faq/#faqA-s6" class="nav-mega-q">Чи потрібен паперовий підпис?</a>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <!-- BLOG-MEGA:START (генерує tools/build_blog.py, руками не правити) -->
+    <div class="nav-item-mega nav-item-mega--blog">
+      <a href="/blog/" class="nav-mega-trigger">Блог</a>
+      <div class="nav-mega-panel">
+        <div class="nav-mega-grid">
+            <div class="nav-mega-col">
+              <a href="/blog/dlya-yakykh-podiy-zamovlyayut-silent-disco/" class="nav-mega-visual" data-mobile-img="/images/nav-thumbs/silent-disco-tanspol-na-festyvali-feat.webp">
+                <img src="/images/silent-disco/silent-disco-tanspol-na-festyvali.webp" alt="" loading="lazy">
+                <div class="nav-mega-visual-text"><span class="nav-mega-badge">Вибір редакції</span><div class="nav-mega-title"><span class="t-lead">Для яких подій замовляють Silent Disco: що показали 3000 бронювань</span> <span class="t-sub">Дні народження, вечірки, школа, корпоративи й весілля: що показав аналіз 3000 бронювань вечірок у навушниках.</span></div></div>
+                <span class="nav-mega-cta">Читати статтю<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+              </a>
+            </div>
+            <div class="nav-mega-col">
+              <div class="nav-mega-card">
+                <div class="nav-mega-cat-head"><span class="nav-mega-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><a href="/blog/" class="nav-mega-cat">Свіже</a></div>
+                <div class="nav-mega-qs">
+                  <a href="/blog/yak-orhanizuvaty-shkilnyi-vypusknyi/" class="nav-mega-q" data-thumb="/images/nav-thumbs/shkilna-vechirka-pidlitky-v-okulyarakh-sq.webp"><span class="nav-blog-cat">Свята</span> <span class="nav-blog-t">Як організувати шкільний випускний: формат вечора для 9-х і 11-х класів</span></a>
+                  <a href="/blog/ostanniy-dzvonyk-idei-dlya-svyata/" class="nav-mega-q" data-thumb="/images/nav-thumbs/shkilna-vechirka-konga-liniya-sq.webp"><span class="nav-blog-cat">Свята</span> <span class="nav-blog-t">Останній дзвоник: як організувати незабутнє шкільне свято</span></a>
+                  <a href="/blog/silent-disco-na-festyvali/" class="nav-mega-q" data-thumb="/images/nav-thumbs/festyval-nichnyi-festyval-z-neonovymy-navushnykamy-sq.webp"><span class="nav-blog-cat">Організація</span> <span class="nav-blog-t">Silent Disco на фестивалі: як організувати окрему музичну зону</span></a>
+                  <a href="/blog/rozvahy-dlya-ditey-na-svyati/" class="nav-mega-q" data-thumb="/images/nav-thumbs/dityache-sviato-tantsyuyut-pid-lazerami-sq.webp"><span class="nav-blog-cat">Ідеї</span> <span class="nav-blog-t">Розваги для дітей на святі: що обрати для великої компанії</span></a>
+                  <a href="/blog/yak-orhanizuvaty-dytyachyi-den-narodzhennya/" class="nav-mega-q" data-thumb="/images/nav-thumbs/dityache-sviato-diti-tantsyuyut-v-neonovomu-svitli-sq.webp"><span class="nav-blog-cat">Свята</span> <span class="nav-blog-t">Як організувати незабутній дитячий день народження: ідеї для активного свята</span></a>
+                  <a href="/blog/idei-dlya-studentskoho-zakhodu/" class="nav-mega-q" data-thumb="/images/nav-thumbs/studentska-vechirka-divchyna-v-zelenykh-okuliarakh-sq.webp"><span class="nav-blog-cat">Ідеї</span> <span class="nav-blog-t">Ідеї для студентського заходу в університеті: чим здивувати молодь</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="nav-mega-col">
+              <div class="nav-mega-card">
+                <div class="nav-mega-cat-head"><span class="nav-mega-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg></span><a href="/blog/#topics" class="nav-mega-cat">Добірка</a></div>
+                <div class="nav-blog-cards">
+                  <a href="/blog/silent-disco-na-festyvali/" class="nav-blog-card"><span class="nav-blog-thumb"><img src="/images/festivals/festyval-nichnyi-festyval-z-neonovymy-navushnykamy.webp" alt="" loading="lazy"></span> <span class="nav-blog-cat">Організація</span> <span class="nav-blog-t">Silent Disco на фестивалі: як організувати окрему музичну зону</span></a>
+                  <a href="/blog/vechirka-bez-shumu-sysidy/" class="nav-blog-card"><span class="nav-blog-thumb"><img src="/images/uc/houseparty.webp" alt="" loading="lazy"></span> <span class="nav-blog-cat">Організація</span> <span class="nav-blog-t">Як провести вечірку, щоб не заважати сусідам</span></a>
+                  <a href="/blog/vesillya-voyennyi-stan/" class="nav-blog-card"><span class="nav-blog-thumb"><img src="/images/uc/wedding.webp" alt="" loading="lazy"></span> <span class="nav-blog-cat">Свята</span> <span class="nav-blog-t">Весілля під час війни: розваги й комендантська година</span></a>
+                  <a href="/blog/ostanniy-dzvonyk-idei-dlya-svyata/" class="nav-blog-card"><span class="nav-blog-thumb"><img src="/images/school/shkilna-vechirka-konga-liniya.webp" alt="" loading="lazy"></span> <span class="nav-blog-cat">Свята</span> <span class="nav-blog-t">Останній дзвоник: як організувати незабутнє шкільне свято</span></a>
+                </div>
+                <a href="/blog/" class="nav-mega-all">Усі статті<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+              </div>
+            </div>
+        </div>
+        <div class="nav-mega-topics" hidden><div class="nav-mega-cat-head"><span class="nav-mega-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg></span><a href="/blog/dlya-yakykh-podiy-zamovlyayut-silent-disco/" class="nav-mega-cat" data-sub="Для яких подій замовляють Silent Disco: що показали 3000 бронювань">Вибір редакції</a></div><div class="nav-mega-cat-head"><span class="nav-mega-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><a href="/blog/yak-orhanizuvaty-shkilnyi-vypusknyi/" class="nav-mega-cat" data-sub="Як організувати шкільний випускний: формат вечора для 9-х і 11-х класів">Найновіше</a></div></div>
+      </div>
+    </div>
+    <!-- BLOG-MEGA:END -->
+    <a href="/about/" class="nav-about">Про нас</a>
+    <span class="lang-switch" role="group" aria-label="Мова сайту">
+      <span class="lang-cur" aria-current="true">UA</span>
+      <a href="/en/" hreflang="en" lang="en">EN</a>
+    </span>
+    <a href="#book" class="nav-cta" data-cta="header_check_date">Перевірити дату</a>
+  </div>
+</nav>
+
+<main id="main" tabindex="-1">
+<header class="art-cover">
+  <img class="art-cover-img" src="/images/school/shkilna-vechirka-pidlitky-v-okulyarakh.webp" alt="Підлітки в світних навушниках і окулярах танцюють на шкільній вечірці" width="1600" height="1067" fetchpriority="high">
+  <div class="art-cover-shade" aria-hidden="true"></div>
+  <div class="wrap art-cover-in">
+    <p class="art-tags"><span class="art-tag is-main">Школа</span> <span class="art-tag">Свята</span></p>
+    <h1 class="art-title">Як організувати шкільний випускний: формат вечора для 9-х і 11-х <em>класів</em></h1>
+    <p class="art-sub">Формат вечора, музика, локація, розваги без примусових конкурсів і домовленості з батьками та школою.</p>
+    <p class="art-meta"><span class="art-by"><img class="art-ava" src="/images/favicon.png" alt="" width="35" height="35"><b>Команда SILENT</b></span> <span class="art-dot" aria-hidden="true">&middot;</span> <span class="art-when"><span>16 жовтня 2026</span> <span aria-hidden="true">&middot;</span> <span>8 хв читання</span></span></p>
+  </div>
+</header>
+<div class="wrap art-body">
+  <p class="art-lead">У випускного вечора є одна непроста особливість: його організовують дорослі, а головними учасниками будуть підлітки. Батькам важливо, щоб усе було безпечно, організовано й відповідало бюджету. Учням хочеться провести час із друзями, слухати улюблену музику й відчути, що це справді особливий вечір, а не черговий захід за шкільним сценарієм. Як знайти формат, який влаштує обидві сторони?</p>
+<section class="art-blk"><div class="art-cols art-split"><div class="art-split-text"><h2>Чим відрізняється випускний у 9‑му та 11‑му класах</h2><p>Починати варто не з пошуку ведучого, списку конкурсів чи вибору декору. Спочатку потрібно домовитися, яким має бути цей вечір, скільки свободи матимуть учні та що саме зробить святкування особливим для конкретного класу.</p><p>Хоча обидва заходи називають випускними, очікування від них можуть відрізнятися. Для частини дев’ятикласників це завершення важливого етапу навчання та прощання зі звичним колективом. Для одинадцятикласників — ще й символічне завершення шкільного життя перед вступом, роботою чи іншими змінами. Тому не варто автоматично переносити формат одного випускного на інший.</p><p>Ці відмінності не означають, що для кожного віку потрібен окремий складний сценарій. Вони допомагають обрати формат, який не доведеться підлаштовувати в останній момент. Про підготовку іншого шкільного свята читайте в статті <a href="/blog/ostanniy-dzvonyk-idei-dlya-svyata/">як організувати останній дзвоник</a>: випускний вечір і останній дзвоник мають різні завдання.</p></div><div class="art-split-list"><p class="art-list-intro">Під час планування врахуйте:</p><ol class="art-list"><li><span class="art-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></span><b>Вік і самостійність учнів.</b> <span>Формат має відповідати тому, як підлітки хочуть проводити час і наскільки самостійно можуть організовувати свою участь.</span></li><li><span class="art-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M15.5 14.4c2.8.2 5.5 2 5.5 5.6"/></svg></span><b>Склад класу.</b> <span>Якщо учні мають різні інтереси, краще передбачити кілька способів долучитися до святкування, а не будувати весь вечір навколо однієї активності.</span></li><li><span class="art-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M9 8V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></svg></span><b>Очікування батьків і школи.</b> <span>Заздалегідь визначте, які правила, часові межі та організаційні умови є обов’язковими.</span></li><li><span class="art-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg></span><b>Значення події для класу.</b> <span>Комусь важливі спільні спогади й тепла атмосфера, комусь — музика, танці та неформальне спілкування.</span></li></ol></div></div></section>
+<section class="art-blk"><div class="art-flow"><h2>З чого почати організацію випускного</h2><p>Щоб не витрачати час на ідеї, які згодом доведеться відкинути, спочатку узгодьте основні рішення.</p> <ol class="art-steps" style="counter-reset: st 0"><li><b>Домовтеся про формат.</b> <span>Обговоріть із класом і батьківським комітетом, що саме хочеться отримати від вечора. Це може бути святкування в ресторані, вечірка в окремій локації, активний формат із музикою й танцями або поєднання кількох частин.</span></li><li><b>Зберіть побажання учнів.</b> <span>Коротке опитування заздалегідь допоможе зрозуміти, що для них важливіше: музична програма, спілкування, фотозона, командні активності чи вільний час із друзями.</span></li><li><b>Визначте бюджет до вибору локації.</b> <span>Бюджет впливає не лише на місце проведення, а й на тривалість події, програму, харчування, декор і технічне забезпечення. Заздалегідь розділіть обов’язкові витрати та додаткові побажання: так варіанти можна порівнювати за однаковими критеріями, а не вибирати локацію лише за фотографіями.</span></li><li><b>Оберіть місце з урахуванням сценарію.</b> <span>Спочатку визначте, що відбуватиметься протягом вечора, і лише потім шукайте простір, який відповідає цим завданням: для танцювальної програми потрібна одна організація простору, для вечері з виступами — інша. Перевірте місткість, доступність транспорту, правила щодо музики, можливість організувати окрему активну зону та умови завершення заходу.</span></li></ol></div></section>
+<div class="art-pair"><figure class="art-pair-img"><img src="/images/school/shkilna-dyskoteka-dvi-podrugy-sertse.webp" alt="Дві школярки в світних навушниках складають серце з рук на шкільній вечірці" loading="lazy" decoding="async" width="1200" height="900"></figure><blockquote class="art-key"><div class="band-aurora" aria-hidden="true"><div class="aurora-liquid"></div></div><p>Спочатку потрібно домовитися, яким має бути цей вечір і скільки свободи матимуть учні.</p></blockquote></div>
+<section class="art-blk"><div class="art-cols"><h2>Яким може бути сучасний випускний</h2><p class="art-cards-lead">Сучасний випускний не обов’язково має бути тематичною вечіркою з дорогим оформленням. Важливіше, щоб формат відповідав характеру класу й залишав достатньо простору для спілкування.</p><ol class="art-cards"><li><span class="art-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></span><b>Вечірка з музикою та танцями.</b> <span>Підійде класам, які хочуть провести вечір активно й не витрачати більшу частину програми на офіційні виступи. Можна передбачити DJ-сет, заздалегідь узгоджений плейліст і час для вільних танців. Визначте, коли починається танцювальна частина і хто відповідає за музику.</span></li><li><span class="art-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M3 15h18M8 5v14M16 5v14"/></svg></span><b>Вечір спогадів і спілкування.</b> <span>Частину програми можна присвятити фотографіям, короткому відео, побажанням одне одному чи символічним моментам, які нагадують про шкільні роки. Не обов’язково робити це довгою церемонією: кілька змістовних елементів залишать достатньо часу для неформального спілкування.</span></li><li><span class="art-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.6-6.5-11A6.5 6.5 0 0 1 12 3.5 6.5 6.5 0 0 1 18.5 10c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg></span><b>Випускний із кількома зонами активностей.</b> <span>Можна поєднати танцювальний простір із фотозоною, місцем для спілкування та однією додатковою активністю. Так не потрібно змушувати всіх одночасно брати участь в одному конкурсі чи виступі, але варто врахувати розміри локації, рух гостей і відповідальних за кожну зону.</span></li><li><span class="art-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l4.5-12L16 15.5z"/><path d="M14 5l1 2M19 9l-2 .5M17 3v2M20 14l-2-1"/></svg></span><b>Випускний із Silent Disco.</b> <span>Музика передається через бездротові навушники, а не через колонки. У SILENT доступні три музичні канали, тому учасники можуть обирати між музичними каналами й перемикатися за настроєм. Це може стати центральною частиною вечірки або окремою активністю після офіційної програми.</span></li></ol></div></section>
+<section class="art-blk"><div class="art-flow"><h2>Що варто знати про Silent Disco на випускному</h2><p>Наприклад, на одному каналі можна слухати сучасні хіти, на іншому — знайомі композиції, а на третьому — музику під інші вподобання класу.</p><p>Оскільки музика звучить у навушниках, колонки не потрібні. Це може бути зручно для певних локацій, але не означає абсолютної тиші: голоси, розмови та інші звуки залишаються чутними.</p><p>Silent Disco особливо цікава тим, що створює незвичні спільні враження: усі перебувають на одному танцполі, але можуть слухати різну музику. Саме ця відмінність робить формат альтернативою звичайній дискотеці. Докладніше про формат на сторінці <a href="/experiences/school/">Silent Disco на шкільне свято</a>.</p></div></section>
+<div class="art-photos is-2"><figure><img src="/images/school/shkilna-vechirka-chervone-svitlo-v-zali.webp" alt="Школярі танцюють у залі при червоному світлі в світних навушниках" loading="lazy" decoding="async" width="1400" height="788" style="object-position: 50% 50%"></figure><figure><img src="/images/school/shkilna-vechirka-tantsiuvalnytsia-v-navushnykakh.webp" alt="Дівчина в навушниках танцює на шкільному випускному вечорі" loading="lazy" decoding="async" width="1400" height="933" style="object-position: 50% 40%"></figure></div>
+<section class="art-blk"><div class="art-cols"><h2>Як зробити програму цікавою без примусових конкурсів</h2><div class="art-cards-flow"><p class="art-cards-lead">Не кожен підліток хоче брати участь у конкурсах перед усім класом. Для одних це можливість проявити себе, для інших — причина почуватися незручно. Тому краще передбачити різні способи взаємодії. Наприклад, можна запропонувати:</p></div><ol class="art-list is-rows"><li><span class="art-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg></span><b>Музичні побажання класу.</b> <span>Учні заздалегідь пропонують композиції, які асоціюються зі шкільними роками або важливими спільними моментами.</span></li><li><span class="art-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M3 15h18M8 5v14M16 5v14"/></svg></span><b>Спільну фотоісторію.</b> <span>Клас збирає фотографії та короткі спогади, які можна показати під час вечора.</span></li><li><span class="art-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span><b>Вільну танцювальну частину.</b> <span>Учні самі вирішують, коли приєднатися до танців, без обов’язкового виступу перед аудиторією.</span></li><li><span class="art-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h12M12 4l4 4-4 4"/><path d="M20 16H8M12 12l-4 4 4 4"/></svg></span><b>Необов’язкові командні активності.</b> <span>Короткі музичні завдання або дружні ігри можуть об’єднати охочих, не перериваючи весь вечір для інших.</span></li></ol><div class="art-cards-flow is-wide"><p class="art-cards-lead">Мета не в тому, щоб повністю відмовитися від ведучого чи конкурсів. Важливо, щоб вони підтримували атмосферу, а не ставали обов’язковою програмою, яка займає весь вечір.</p></div></div></section>
+<section class="art-blk"><div class="art-cols"><h2>Що потрібно узгодити з батьками та школою</h2><div class="art-cards-flow"><p class="art-cards-lead">Навіть якщо випускний організовує батьківський комітет, важливо заздалегідь визначити, хто відповідає за ключові рішення. Це допоможе уникнути ситуації, коли питання безпеки, транспорту чи завершення вечора вирішують уже під час події. Перед бронюванням локації узгодьте:</p></div><ol class="art-cards is-cols is-check"><li><span class="art-chk" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 12.5l4.2 4.2L18.5 7.8"/></svg></span><b>Час і правила проведення.</b> <span>Коли починається й завершується вечір, які обмеження діють на обраній локації та чи потрібні додаткові погодження.</span></li><li><span class="art-chk" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 12.5l4.2 4.2L18.5 7.8"/></svg></span><b>Відповідальних дорослих.</b> <span>Хто координує учнів, контактує з локацією та реагує на організаційні питання.</span></li><li><span class="art-chk" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 12.5l4.2 4.2L18.5 7.8"/></svg></span><b>Транспорт і завершення.</b> <span>Як учні діставатимуться додому та як буде організовано завершення заходу.</span></li><li><span class="art-chk" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 12.5l4.2 4.2L18.5 7.8"/></svg></span><b>Фото й відео.</b> <span>Хто знімає подію, де планують публікувати матеріали та які дозволи необхідні.</span></li></ol><div class="art-cards-flow"><p class="art-cards-lead">Якщо в програмі є технічні активності, заздалегідь погодьте їхні вимоги з організаторами. Для Silent Disco, зокрема, потрібно визначити кількість учасників, час роботи зони та умови розміщення обладнання.</p></div></div></section>
+<section class="art-blk"><div class="art-flow"><h2>Як організувати Silent Disco на випускному під ключ</h2><p>Якщо клас обирає випускний із танцювальною частиною, варто заздалегідь вирішити, хто відповідатиме за музичний формат і технічну організацію.</p><p>SILENT організовує <a href="/experiences/silent-disco/">Silent Disco під ключ</a> у Києві та по Україні: привозить обладнання, налаштовує систему, допомагає гостям розібратися з навушниками, супроводжує технічну частину та демонтує обладнання після події.</p><p>Для підготовки достатньо почати з базових деталей: дати, локації, приблизної кількості учасників і бажаного формату вечора. На їхній основі можна обговорити організаційні умови й визначити, як вписати Silent Disco у програму випускного. Більше форматів для різних подій у каталозі <a href="/experiences/">Тихі враження</a>.</p></div></section>
+  <aside class="art-share" aria-label="Поділитися статтею" data-url="https://silent.org.ua/blog/yak-orhanizuvaty-shkilnyi-vypusknyi/" data-title="Як організувати шкільний випускний: формат вечора для 9-х і 11-х класів">
+    <span class="art-share-label">Поділитися</span>
+    <div class="art-share-row"><a class="art-share-btn" href="https://t.me/share/url?url=https%3A%2F%2Fsilent.org.ua%2Fblog%2Fyak-orhanizuvaty-shkilnyi-vypusknyi%2F&amp;text=%D0%AF%D0%BA%20%D0%BE%D1%80%D0%B3%D0%B0%D0%BD%D1%96%D0%B7%D1%83%D0%B2%D0%B0%D1%82%D0%B8%20%D1%88%D0%BA%D1%96%D0%BB%D1%8C%D0%BD%D0%B8%D0%B9%20%D0%B2%D0%B8%D0%BF%D1%83%D1%81%D0%BA%D0%BD%D0%B8%D0%B9%3A%20%D1%84%D0%BE%D1%80%D0%BC%D0%B0%D1%82%20%D0%B2%D0%B5%D1%87%D0%BE%D1%80%D0%B0%20%D0%B4%D0%BB%D1%8F%209-%D1%85%20%D1%96%2011-%D1%85%20%D0%BA%D0%BB%D0%B0%D1%81%D1%96%D0%B2" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Поділитися в Telegram" data-cta="share-telegram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.2 4.5 2.9 11.4a.5.5 0 0 0 .04.94l4.6 1.44 1.77 5.3a.5.5 0 0 0 .88.14l2.5-2.9 4.6 3.4a.5.5 0 0 0 .78-.3l3.05-14a.5.5 0 0 0-.66-.58z"/><path d="m8 13.2 8.5-5.700"/></svg><span>Telegram</span></a><a class="art-share-btn" href="viber://forward?text=%D0%AF%D0%BA%20%D0%BE%D1%80%D0%B3%D0%B0%D0%BD%D1%96%D0%B7%D1%83%D0%B2%D0%B0%D1%82%D0%B8%20%D1%88%D0%BA%D1%96%D0%BB%D1%8C%D0%BD%D0%B8%D0%B9%20%D0%B2%D0%B8%D0%BF%D1%83%D1%81%D0%BA%D0%BD%D0%B8%D0%B9%3A%20%D1%84%D0%BE%D1%80%D0%BC%D0%B0%D1%82%20%D0%B2%D0%B5%D1%87%D0%BE%D1%80%D0%B0%20%D0%B4%D0%BB%D1%8F%209-%D1%85%20%D1%96%2011-%D1%85%20%D0%BA%D0%BB%D0%B0%D1%81%D1%96%D0%B2%20https%3A%2F%2Fsilent.org.ua%2Fblog%2Fyak-orhanizuvaty-shkilnyi-vypusknyi%2F" target="_blank" rel="noopener noreferrer" title="Viber" aria-label="Поділитися в Viber" data-cta="share-viber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 6.500A2.500 2.500 0 0 1 7.500 4h9A2.500 2.500 0 0 1 19 6.500v6A2.500 2.500 0 0 1 16.500 15H12l-4 4v-4H7.500A2.500 2.500 0 0 1 5 12.500z"/><path d="M9.500 8.500c0 3 2 5 5 5"/></svg><span>Viber</span></a><a class="art-share-btn" href="https://wa.me/?text=%D0%AF%D0%BA%20%D0%BE%D1%80%D0%B3%D0%B0%D0%BD%D1%96%D0%B7%D1%83%D0%B2%D0%B0%D1%82%D0%B8%20%D1%88%D0%BA%D1%96%D0%BB%D1%8C%D0%BD%D0%B8%D0%B9%20%D0%B2%D0%B8%D0%BF%D1%83%D1%81%D0%BA%D0%BD%D0%B8%D0%B9%3A%20%D1%84%D0%BE%D1%80%D0%BC%D0%B0%D1%82%20%D0%B2%D0%B5%D1%87%D0%BE%D1%80%D0%B0%20%D0%B4%D0%BB%D1%8F%209-%D1%85%20%D1%96%2011-%D1%85%20%D0%BA%D0%BB%D0%B0%D1%81%D1%96%D0%B2%20https%3A%2F%2Fsilent.org.ua%2Fblog%2Fyak-orhanizuvaty-shkilnyi-vypusknyi%2F" target="_blank" rel="noopener noreferrer" title="WhatsApp" aria-label="Поділитися в WhatsApp" data-cta="share-whatsapp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19l1.200-3.600A7.500 7.500 0 1 1 9 18z"/><path d="M9.600 9.400c.5 2 2.400 3.900 4.400 4.400l1-1.200-1.800-.8-.7.700c-.9-.4-1.700-1.200-2.100-2.100l.7-.7-.8-1.800z"/></svg><span>WhatsApp</span></a><a class="art-share-btn" href="https://www.threads.net/intent/post?text=%D0%AF%D0%BA%20%D0%BE%D1%80%D0%B3%D0%B0%D0%BD%D1%96%D0%B7%D1%83%D0%B2%D0%B0%D1%82%D0%B8%20%D1%88%D0%BA%D1%96%D0%BB%D1%8C%D0%BD%D0%B8%D0%B9%20%D0%B2%D0%B8%D0%BF%D1%83%D1%81%D0%BA%D0%BD%D0%B8%D0%B9%3A%20%D1%84%D0%BE%D1%80%D0%BC%D0%B0%D1%82%20%D0%B2%D0%B5%D1%87%D0%BE%D1%80%D0%B0%20%D0%B4%D0%BB%D1%8F%209-%D1%85%20%D1%96%2011-%D1%85%20%D0%BA%D0%BB%D0%B0%D1%81%D1%96%D0%B2%20https%3A%2F%2Fsilent.org.ua%2Fblog%2Fyak-orhanizuvaty-shkilnyi-vypusknyi%2F" target="_blank" rel="noopener noreferrer" title="Threads" aria-label="Поділитися в Threads" data-cta="share-threads"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.500 9.500C16.800 6.800 14.800 5.200 12 5.200 8.500 5.200 6.200 7.800 6.200 12S8.500 18.800 12 18.800c3 0 5-1.600 5-4 0-2.200-1.700-3.300-4-3.300-1.800 0-3 .8-3 2.100 0 1.100.9 1.900 2.200 1.900 1.900 0 2.800-1.300 2.800-3.700V10"/></svg><span>Threads</span></a><a class="art-share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fsilent.org.ua%2Fblog%2Fyak-orhanizuvaty-shkilnyi-vypusknyi%2F&amp;text=%D0%AF%D0%BA%20%D0%BE%D1%80%D0%B3%D0%B0%D0%BD%D1%96%D0%B7%D1%83%D0%B2%D0%B0%D1%82%D0%B8%20%D1%88%D0%BA%D1%96%D0%BB%D1%8C%D0%BD%D0%B8%D0%B9%20%D0%B2%D0%B8%D0%BF%D1%83%D1%81%D0%BA%D0%BD%D0%B8%D0%B9%3A%20%D1%84%D0%BE%D1%80%D0%BC%D0%B0%D1%82%20%D0%B2%D0%B5%D1%87%D0%BE%D1%80%D0%B0%20%D0%B4%D0%BB%D1%8F%209-%D1%85%20%D1%96%2011-%D1%85%20%D0%BA%D0%BB%D0%B0%D1%81%D1%96%D0%B2" target="_blank" rel="noopener noreferrer" title="X" aria-label="Поділитися в X" data-cta="share-x"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg><span>X</span></a><a class="art-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fsilent.org.ua%2Fblog%2Fyak-orhanizuvaty-shkilnyi-vypusknyi%2F" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="Поділитися в LinkedIn" data-cta="share-linkedin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2.500"/><path d="M8.500 10.500V16M8.500 8v.01M12 16v-3.500a2 2 0 0 1 4 0V16M12 10.500V16"/></svg><span>LinkedIn</span></a><button type="button" class="art-share-btn art-share-native" data-share="native" title="Поділитися" aria-label="Поділитися" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="12" r="2.500"/><circle cx="18" cy="6" r="2.500"/><circle cx="18" cy="18" r="2.500"/><path d="m8.200 10.800 7.600-3.600M8.200 13.200l7.600 3.600"/></svg><span>Поділитися</span></button><button type="button" class="art-share-btn art-share-copy" data-share="copy" title="Скопіювати посилання" aria-label="Скопіювати посилання"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.700 0l3-3A4 4 0 0 0 13 5.300l-1 1"/><path d="M14 10a4 4 0 0 0-5.700 0l-3 3A4 4 0 0 0 11 18.700l1-1"/></svg><span data-label>Скопіювати посилання</span></button></div>
+    <p class="art-share-hint" role="status" aria-live="polite" hidden></p>
+  </aside>
+  <aside class="art-cta"><div><h2>Плануєте випускний для 9-го або 11-го класу?</h2><p>Розкажіть SILENT про ваш задум, і ми допоможемо розглянути формат танцювальної зони у навушниках та зрозуміти, чи підходить він для вашої події.</p></div><a class="art-cta-btn" href="/#book" data-cta="blog-article-prom">Обговорити випускний</a></aside>
+  <section class="art-faq faq" aria-labelledby="artFaq"><h2 id="artFaq">Питання, які ставлять найчастіше</h2><div class="faq-teaser"><div class="faq-list"><div class="faq-col"><div class="faq-item"><div class="faq-q" role="button" tabindex="0" aria-expanded="false" aria-controls="faqA-a1"><h3>З чого почати організацію шкільного випускного?</h3><div class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></div></div><div class="faq-a" id="faqA-a1" role="region"><p>Домовтеся про формат із класом і батьківським комітетом, зберіть побажання учнів, визначте бюджет до вибору локації й лише потім обирайте місце з урахуванням сценарію вечора.</p></div></div><div class="faq-item"><div class="faq-q" role="button" tabindex="0" aria-expanded="false" aria-controls="faqA-a2"><h3>Чим відрізняється випускний у 9-му та 11-му класах?</h3><div class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></div></div><div class="faq-a" id="faqA-a2" role="region"><p>Очікування різні: для частини дев’ятикласників це завершення етапу навчання, для одинадцятикласників ще й символічне завершення шкільного життя. Тому формат одного випускного не варто автоматично переносити на інший.</p></div></div><div class="faq-item"><div class="faq-q" role="button" tabindex="0" aria-expanded="false" aria-controls="faqA-a3"><h3>Як зробити випускний без примусових конкурсів?</h3><div class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></div></div><div class="faq-a" id="faqA-a3" role="region"><p>Передбачте різні способи взаємодії: музичні побажання класу, спільну фотоісторію, вільну танцювальну частину й необов’язкові командні активності. Ведучий і конкурси мають підтримувати атмосферу, а не займати весь вечір.</p></div></div></div><div class="faq-col"><div class="faq-item"><div class="faq-q" role="button" tabindex="0" aria-expanded="false" aria-controls="faqA-a4"><h3>Чи підходить Silent Disco для шкільного випускного?</h3><div class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></div></div><div class="faq-a" id="faqA-a4" role="region"><p>Silent Disco може стати центральною частиною вечірки або окремою активністю після офіційної програми: музика звучить у навушниках, а в SILENT доступні три музичні канали. Докладніше на сторінці <a href="/experiences/school/">Silent Disco на шкільне свято</a>.</p></div></div><div class="faq-item"><div class="faq-q" role="button" tabindex="0" aria-expanded="false" aria-controls="faqA-a5"><h3>Що потрібно узгодити з батьками та школою перед випускним?</h3><div class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></div></div><div class="faq-a" id="faqA-a5" role="region"><p>Час і правила проведення, відповідальних дорослих, транспорт і завершення вечора, а також фото- й відеозйомку та дозволи на публікацію матеріалів.</p></div></div><div class="faq-item"><div class="faq-q" role="button" tabindex="0" aria-expanded="false" aria-controls="faqA-a6"><h3>Що повідомити SILENT, щоб обговорити Silent Disco на випускний?</h3><div class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></div></div><div class="faq-a" id="faqA-a6" role="region"><p>Дату, локацію, приблизну кількість учасників і бажаний формат вечора. Залишити заявку можна на <a href="/#book">сторінці бронювання</a>.</p></div></div></div></div><div class="faq-more"><a href="/faq/" class="btn-ghost">Всі питання<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a></div></div></section>
+  <section class="art-related" aria-labelledby="artRel"><h2 id="artRel">Читайте також</h2><div class="blog-grid">
+        <article class="uc-card blog-card" data-cat="holidays ideas" style="--tint:199,90,160">
+          <div class="uc-media"><img src="/images/school/shkilna-vechirka-konga-liniya.webp" alt="Школярі танцюють у світних навушниках на шкільному святі, взявшись за плечі" loading="lazy" decoding="async" width="768" height="432"></div>
+          <div class="uc-body">
+            <span class="blog-cat">Свята</span>
+            <h3><a class="blog-title-link" href="/blog/ostanniy-dzvonyk-idei-dlya-svyata/">Останній дзвоник: як організувати незабутнє шкільне свято</a></h3>
+            <p>Як організувати останній дзвоник, щоб свято запам’яталося учням? Ідеї для програми, музики, спільних активностей і Silent Disco.</p>
+            <a class="uc-order" href="/blog/ostanniy-dzvonyk-idei-dlya-svyata/">Читати</a>
+          </div>
+        </article>
+        <article class="uc-card blog-card" data-cat="basics ideas" style="--tint:199,90,166">
+          <div class="uc-media"><img src="/images/silent-disco/silent-disco-tanspol-na-festyvali.webp" alt="Натовп танцює на фестивалі в бездротових навушниках Silent Disco із кольоровою підсвіткою" loading="lazy" decoding="async" width="768" height="432"></div>
+          <div class="uc-body">
+            <span class="blog-cat">Про формат</span>
+            <h3><a class="blog-title-link" href="/blog/dlya-yakykh-podiy-zamovlyayut-silent-disco/">Для яких подій замовляють Silent Disco: що показали 3000 бронювань</a></h3>
+            <p>Дні народження, вечірки, школа, корпоративи й весілля: хто і для чого обирає тиху дискотеку та що це означає для вашої події.</p>
+            <a class="uc-order" href="/blog/dlya-yakykh-podiy-zamovlyayut-silent-disco/">Читати</a>
+          </div>
+        </article>
+        <article class="uc-card blog-card" data-cat="ideas basics" style="--tint:199,90,94">
+          <div class="uc-media"><img src="/images/silent-disco/silent-disco-kompaniya-pid-salyutom-na-festyvali.webp" alt="Компанія танцює на святі просто неба під салютом у бездротових навушниках Silent Disco" loading="lazy" decoding="async" width="768" height="432"></div>
+          <div class="uc-body">
+            <span class="blog-cat">Ідеї</span>
+            <h3><a class="blog-title-link" href="/blog/silent-disco-dlya-riznykh-podiy/">Silent Disco для різних подій: 10 ідей, які варто спробувати</a></h3>
+            <p>Від дня народження до йоги: для яких подій підходить вечірка в навушниках і чому формат набагато ширший за звичайну дискотеку.</p>
+            <a class="uc-order" href="/blog/silent-disco-dlya-riznykh-podiy/">Читати</a>
+          </div>
+        </article>
+</div></section>
+  <p class="art-ask">Лишилися питання? Напишіть нам у <a href="https://t.me/silent_ukraine" target="_blank" rel="noopener noreferrer">Telegram</a> або на <a href="mailto:hello.silent.ua@gmail.com">пошту</a>: відповімо протягом дня.</p>
+</div>
+
+<section class="form-section" id="book">
+  <div class="wrap">
+    <div class="form-card reveal">
+      <div class="form-left">
+        <h2>Перевірте дату <span class="em">своєї</span> події</h2>
+        <p>Залиште заявку — ми зв’яжемося, перевіримо, чи вільна дата, підберемо формат і підтвердимо бронь після узгодження.</p>
+        <div class="form-assure">
+          <div><span class="ok">✓</span> Відповідаємо протягом дня</div>
+          <div><span class="ok">✓</span> Кількість обладнання обмежена, тож дати розбирають наперед</div>
+          <div><span class="ok">✓</span> Заявка ні до чого не зобов’язує — це перевірка доступності</div>
+        </div>
+
+        <!-- Календар — візуальна зручність поверх поля «Бажана дата», а не заміна
+             йому: саме поле лишається доступним із клавіатури й на мобільному. -->
+        <div class="cal" id="cal">
+          <div class="cal-head">
+            <button type="button" class="cal-nav" id="calPrev" aria-label="Попередній місяць">‹</button>
+            <div class="cal-title"><span id="calMonth"></span><b id="calYear"></b></div>
+            <button type="button" class="cal-nav" id="calNext" aria-label="Наступний місяць">›</button>
+          </div>
+          <div class="cal-week"><span>Пн</span> <span>Вт</span> <span>Ср</span> <span>Чт</span> <span>Пт</span> <span>Сб</span> <span>Нд</span></div>
+          <div class="cal-grid" id="calGrid"></div>
+          <p class="cal-foot" id="calFoot">Оберіть дату — вона підставиться у форму</p>
+        </div>
+      </div>
+
+      <div class="form-right">
+        <div id="formFields">
+          <div class="calc-summary-note" id="calcSummaryNote" style="display:none;"></div>
+          <div class="field">
+            <label for="name">Як вас звати</label>
+            <input type="text" id="name" name="name" autocomplete="name" placeholder="Ім’я…">
+          </div>
+          <div class="field">
+            <label for="contact">Телефон або Telegram</label>
+            <input type="text" id="contact" name="contact" autocomplete="tel" spellcheck="false" placeholder="+380… або @нік">
+          </div>
+          <div class="field">
+            <label for="type">Що ви плануєте?</label>
+            <select id="type" name="eventType">
+              <optgroup label="Що вас цікавить">
+                <option>Хочу дізнатися ціну</option>
+                <option>Планую подію</option>
+                <option>Шукаю формат для клієнта</option>
+                <option>Хочу обговорити нестандартний сценарій</option>
+              </optgroup>
+              <optgroup label="Тип події">
+                <option>Весілля</option>
+                <option>День народження</option>
+                <option>Корпоратив</option>
+                <option>Тімбілдинг</option>
+                <option>Випускний</option>
+                <option>Дитяче свято</option>
+                <option>Фестиваль</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="field">
+            <label for="guests">Скільки гостей орієнтовно</label>
+            <select id="guests" name="guests">
+              <option>40–60</option>
+              <option>60–80</option>
+              <option>80–100</option>
+              <option>100+</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="date">Бажана дата</label>
+            <div class="date-wrap"><input type="date" id="date" name="eventDate" autocomplete="off"><span class="date-hint" aria-hidden="true">Оберіть дату, напр. 15 червня</span></div>
+          </div>
+          <div class="field">
+            <label for="source">Як ви про нас дізналися? (необов’язково)</label>
+            <select id="source" name="discovery">
+              <option value="">Оберіть варіант</option>
+              <option>Instagram</option>
+              <option>TikTok</option>
+              <option>Google</option>
+              <option>Facebook</option>
+              <option>YouTube</option>
+              <option>OLX</option>
+              <option>Telegram</option>
+              <option>На події від SILENT</option>
+              <option>Рекомендація</option>
+              <option>Інше</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="comment">Коментар (необов’язково)</label>
+            <textarea id="comment" name="comment" placeholder="Розкажіть більше про подію, побажання щодо локації, часу тощо…" rows="3"></textarea>
+          </div>
+          <p class="form-error" id="formError" role="alert" hidden></p>
+          <button class="form-submit" id="submitBtn" type="button">Надіслати заявку</button>
+          <div class="form-note">Натискаючи, ви погоджуєтесь, що ми зв’яжемося з вами щодо події. Якщо ви заповните контакт і не надішлете заявку, введене теж зберігається — <a href="/privacy/">як саме, написано в політиці</a>.</div>
+        </div>
+        <div class="form-success" id="formSuccess" role="status">
+          <!-- Та сама позначка, що й у вікні: два підтвердження одної дії
+               мусять виглядати як одне. Тут вона теж замінила символ ✦. -->
+          <div class="sig-mark" aria-hidden="true"><img src="/images/silent-mark.webp" alt="" width="64" height="64" decoding="async"></div>
+          <div class="big">Заявку прийнято</div>
+          <p class="checking-date" data-checking-date hidden></p>
+          <p>Дякуємо. Напишемо вам, щойно перевіримо дату — відповідаємо протягом дня.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-aurora" aria-hidden="true">
+    <span class="fa-blob b1"></span><span class="fa-blob b2"></span>
+    <span class="fa-blob b3"></span><span class="fa-blob b4"></span>
+  </div>
+
+  <div class="footer-word-clip" aria-hidden="true"><div class="footer-word">SILENT</div></div>
+
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="footer-cols">
+      <div class="f-col f-brand">
+        <a href="#top" class="f-logo" aria-label="Нагору сторінки" translate="no"><img class="f-logo-mark" src="/images/silent-mark.webp" alt="" width="36" height="36" aria-hidden="true" decoding="async"><span>SILENT<b>.</b></span></a>
+        <p class="f-tagline">Ви кажете дату, ми привозимо вечірку. Так просто. Silent disco у Києві та по всій Україні.</p>
+        <a href="#book" class="btn-primary f-cta" data-cta="footer_leave_request">Залишити заявку</a>
+      </div>
+      <nav class="f-col">
+        <h3>Про Silent disco</h3>
+        <ul>
+          <li><a href="/#idea">Чому silent disco</a></li>
+          <li><a href="/#how">Як це працює</a></li>
+          <li><a href="/#experience">Досвід гостя</a></li>
+          <li><a href="/#offer">Що входить</a></li>
+          <li><a href="/#atmosphere">Атмосфера</a></li>
+        </ul>
+      </nav>
+      <nav class="f-col">
+        <h3>Перед замовленням</h3>
+        <ul>
+          <li><a href="/experiences/" aria-current="page">Тихі враження</a></li>
+          <li><a href="/blog/">Блог</a></li><li><a href="/about/">Про нас</a></li>
+          <li><a href="/#price">Калькулятор</a></li>
+          <li><a href="/faq/">Питання і відповіді</a></li>
+        </ul>
+      </nav>
+      <nav class="f-col f-occasions">
+        <h3>Для яких подій</h3>
+        <ul>
+          <li><a href="/experiences/#cat-business">Бізнес</a></li>
+          <li><a href="/experiences/#cat-party">Свята</a></li>
+          <li><a href="/experiences/#cat-kids">Для дітей</a></li>
+          <li><a href="/experiences/#cat-culture">Культура</a></li>
+          <li><a href="/experiences/">Усі 44 формати</a></li>
+        </ul>
+      </nav>
+      <div class="f-col f-contact">
+        <div class="f-socials">
+        <a class="f-soc" href="https://www.instagram.com/silent_ukraine/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.05" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a class="f-soc" href="https://www.tiktok.com/@silent.ukraine" target="_blank" rel="noopener noreferrer" aria-label="TikTok" title="TikTok">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.6 3.2v11.3a3.6 3.6 0 1 1-3.1-3.57"/><path d="M14.6 3.2a5 5 0 0 0 5 5"/></svg>
+        </a>
+        <a class="f-soc" href="https://t.me/silent_events" target="_blank" rel="noopener noreferrer" aria-label="Telegram-канал" title="Telegram-канал">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.2 4.5 2.9 11.4a.5.5 0 0 0 .04.94l4.6 1.44 1.77 5.3a.5.5 0 0 0 .88.14l2.5-2.9 4.6 3.4a.5.5 0 0 0 .78-.3l3.05-14a.5.5 0 0 0-.66-.58Z"/><path d="m7.54 13.78 11.1-7.4-8.34 8.36-.36 3.9"/></svg>
+        </a>
+        <a class="f-soc" href="https://www.youtube.com/channel/UCYJcmOSbk5MDaNXDLjchVyQ" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="5.6" width="18.8" height="12.8" rx="4"/><path d="m10.2 9.4 5 2.6-5 2.6z"/></svg>
+        </a>
+        <a class="f-soc" href="https://www.facebook.com/profile.php?id=61593832479897" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5"/><path d="M13 17.3V9.6a1.9 1.9 0 0 1 1.9-1.9h1.4M10.6 12.3h5"/></svg>
+        </a>
+        </div>
+        <ul class="f-direct">
+          <li><a href="https://t.me/silent_ukraine" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.2 4.5 2.9 11.4a.5.5 0 0 0 .04.94l4.6 1.44 1.77 5.3a.5.5 0 0 0 .88.14l2.5-2.9 4.6 3.4a.5.5 0 0 0 .78-.3l3.05-14a.5.5 0 0 0-.66-.58Z"/><path d="m7.54 13.78 11.1-7.4-8.34 8.36-.36 3.9"/></svg><span>Написати в Telegram</span></a></li>
+          <li><a href="mailto:hello.silent.ua@gmail.com"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="5.2" width="18.8" height="13.6" rx="2.6"/><path d="m3.4 7 8.05 5.6a1 1 0 0 0 1.1 0L20.6 7"/></svg><span>hello.silent.ua@gmail.com</span></a></li>
+        <li><span class="f-loc"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.6-5.6-6.6-11a6.6 6.6 0 0 1 13.2 0c0 5.4-6.6 11-6.6 11z"/><circle cx="12" cy="10" r="2.4"/></svg><span>Київ · виїзд по Україні</span></span></li>
+</ul>
+        <p class="f-note">Пишіть у будь-який месенджер — відповідаємо швидко.</p>
+      </div>
+      </div>
+      <div class="footer-legal">
+        <span>Silent disco під ключ · Київ · 2026</span>
+        <span>Ціни орієнтовні й не є публічною офертою</span>
+        <span><a href="/privacy/">Політика конфіденційності</a></span>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- Плаваючий контакт у Telegram. Свідомо поза <main>: за роллю це те саме, що
+     й фіксована навігація вгорі — хром сторінки, а не її вміст. Жодного JS:
+     звичайне посилання працює навіть тоді, коли скрипт не доїхав. Іконка — та
+     сама, що в соцмережах футера, щоб на сторінці не з'явилось другої манери
+     малювати іконки. -->
+<a class="tg-float" href="https://t.me/silent_ukraine?text=%D0%9F%D1%80%D0%B8%D0%B2%D1%96%D1%82%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B4%D1%96%D0%B7%D0%BD%D0%B0%D1%82%D0%B8%D1%81%D1%8F%20%D0%B1%D1%96%D0%BB%D1%8C%D1%88%D0%B5%20%D0%BF%D1%80%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%BD%D1%8F%20SILENT%20DISCO%20%D0%B4%D0%BB%D1%8F%20%D0%BC%D0%BE%D1%94%D1%97%20%D0%BF%D0%BE%D0%B4%D1%96%D1%97."
+   target="_blank" rel="noopener noreferrer" aria-label="Написати нам у Telegram">
+  <svg class="tg-float-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.2 4.5 2.9 11.4a.5.5 0 0 0 .04.94l4.6 1.44 1.77 5.3a.5.5 0 0 0 .88.14l2.5-2.9 4.6 3.4a.5.5 0 0 0 .78-.3l3.05-14a.5.5 0 0 0-.66-.58Z"/><path d="m7.54 13.78 11.1-7.4-8.34 8.36-.36 3.9"/></svg>
+  <span class="tg-float-label">Написати нам</span>
+</a>
+
+<!-- Спливне вікно після відправки заявки. Не замінює formSuccess у самій
+     формі — з’являється разом з ним, поверх усієї сторінки. Закрити можна
+     хрестиком, кліком по затемненому фону або Escape; сама заявка й
+     formSuccess при цьому ніяк не змінюються. -->
+<!-- Лайтбокс-карусель для роликів галереї.
+     Слайди будує JS зі списку кнопок у стрічці. Відео завантажується завжди
+     ТІЛЬКИ одне — активне; сусіди стоять постерами, тобто картинками по 23 КБ,
+     які й так уже в кеші після плиток. Інакше відкриття вікна тягло б усі
+     шість роликів, а це 36 МБ.
+     preload="none" на кожному <video> страхує ще раз: навіть коли src уже
+     стоїть, браузер не почне качати, доки не буде play(). -->
+<div class="vbox" id="vbox" aria-hidden="true">
+  <div class="vbox-backdrop" id="vboxBackdrop"></div>
+  <div class="vbox-stage" id="vboxStage" role="dialog" aria-modal="true" aria-label="Відео з події"></div>
+  <button class="vbox-btn vbox-toggle" id="vboxToggle" type="button" aria-label="Пауза або відтворення">
+    <svg class="ic-play" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M9.4 7 18.2 12 9.4 17z" fill="currentColor" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/></svg>
+    <svg class="ic-pause" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M8 5h3v14H8zM13 5h3v14h-3z" fill="currentColor"/></svg>
+  </button>
+  <div class="vbox-dots" id="vboxDots"></div>
+  <button class="vbox-btn vbox-close" id="vboxClose" type="button" aria-label="Закрити">✕</button>
+  <button class="vbox-btn vbox-arrow vbox-prev" id="vboxPrev" type="button" aria-label="Попереднє відео">‹</button>
+  <button class="vbox-btn vbox-arrow vbox-next" id="vboxNext" type="button" aria-label="Наступне відео">›</button>
+</div>
+
+<div class="lead-modal" id="leadModal" aria-hidden="true">
+  <div class="lead-modal-backdrop" id="leadModalBackdrop"></div>
+  <div class="lead-modal-card glass-panel" role="dialog" aria-modal="true" aria-labelledby="leadModalTitle">
+    <button class="lead-modal-close" id="leadModalClose" aria-label="Закрити">✕</button>
+    <!-- П'ять смужок еквалайзера замість готової юнікодної зірочки ✦, яка
+         стояла тут раніше й не мала спільного ні з цим продуктом, ні з його
+         системою іконок. Смужки — та сама позначка «сигнал живий», що й у
+         панелі каналів: заявка пішла в ефір. Виростають один раз і лишаються
+         стояти, тож при повторному надсиланні не набридають. -->
+    <div class="sig-mark" aria-hidden="true"><img src="/images/silent-mark.webp" alt="" width="64" height="64" decoding="async"></div>
+    <div class="lead-modal-big" id="leadModalTitle">Заявку прийнято</div>
+    <!-- Дату підставляє скрипт із поля форми, якщо її вказали. Це головне, що
+         людина хоче почути у відповідь: при одному комплекті на вечір саме
+         дата і є вся угода, а тут видно, що ми зрозуміли її правильно. -->
+    <p class="checking-date" data-checking-date hidden></p>
+    <p class="lead-modal-text">Дякуємо. Напишемо вам, щойно перевіримо дату — відповідаємо протягом дня.</p>
+    <div class="lead-modal-divider"></div>
+    <p class="lead-modal-sub">Залишайтесь на зв’язку — стежте за майбутніми подіями та кулісами SILENT:</p>
+    <div class="lead-modal-socials">
+      <a class="f-soc" href="https://www.instagram.com/silent_ukraine/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.05" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a class="f-soc" href="https://www.facebook.com/profile.php?id=61593832479897" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5"/><path d="M13 17.3V9.6a1.9 1.9 0 0 1 1.9-1.9h1.4M10.6 12.3h5"/></svg>
+      </a>
+      <a class="f-soc" href="https://www.tiktok.com/@silent.ukraine" target="_blank" rel="noopener noreferrer" aria-label="TikTok" title="TikTok">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.6 3.2v11.3a3.6 3.6 0 1 1-3.1-3.57"/><path d="M14.6 3.2a5 5 0 0 0 5 5"/></svg>
+      </a>
+      <a class="f-soc" href="https://t.me/silent_events" target="_blank" rel="noopener noreferrer" aria-label="Telegram-канал" title="Telegram-канал">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.2 4.5 2.9 11.4a.5.5 0 0 0 .04.94l4.6 1.44 1.77 5.3a.5.5 0 0 0 .88.14l2.5-2.9 4.6 3.4a.5.5 0 0 0 .78-.3l3.05-14a.5.5 0 0 0-.66-.58Z"/><path d="m7.54 13.78 11.1-7.4-8.34 8.36-.36 3.9"/></svg>
+      </a>
+      <a class="f-soc" href="https://www.youtube.com/channel/UCYJcmOSbk5MDaNXDLjchVyQ" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="5.6" width="18.8" height="12.8" rx="4"/><path d="m10.2 9.4 5 2.6-5 2.6z"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Рядки, які скрипт виводить сам. Усе інше — статичний текст у розмітці
+     нижче. Оголошується ДО site.js: той читає window.SILENT_I18N при старті. -->
+<script>
+window.SILENT_I18N = {
+  base: '',
+  locale: 'uk-UA',
+  currency: 'грн',
+  hero: [
+      {
+        lines: ['Три хвилі музики', 'грають одночасно —', 'ви обираєте {свою}.'],
+        mLines: [
+          ['Три хвилі', ''],
+          ['музики грають', ''],
+          ['одночасно —', ''],
+          ['ви обираєте', 'sr'],
+          ['{свою}.', '']
+        ],
+        mSub: 'Один вечір — три різні танцполи.',
+        sub: 'Три канали звучать паралельно в навушниках кожного гостя. Хтось танцює під хаус, хтось під поп — і всі поруч, в одному залі.'
+      },
+      {
+        lines: ['Дах, квартира, {офіс} —', 'місце більше', 'не обмеження.'],
+        mLines: [
+          ['Дах, квартира,', ''],
+          ['{офіс} — місце', ''],
+          ['більше не', 'sr'],
+          ['обмеження.', '']
+        ],
+        mSub: 'Вечірка їде туди, куди скажете.',
+        sub: 'Уся звукова система вміщується в навушники: ні колонок, ні вимог до акустики, ні узгодження гучності. Простір для вечірки обираєте ви.'
+      },
+      {
+        lines: ['Танцюйте так,', 'ніби вас {ніхто}', 'не чує.'],
+        mLines: [
+          ['Танцюйте', ''],
+          ['так, ніби вас', 'sr'],
+          ['{ніхто}', ''],
+          ['не чує.', '']
+        ],
+        mSub: 'Бо ніхто й не чує — і вечір триває, скільки хочете.',
+        sub: 'Бо ніхто й не чує. Ззовні лишається тиша, тож вечір триває рівно стільки, скільки хочете ви, а не скільки дозволяє годинник.'
+      }
+  ],
+  sound: { on: 'Звук увімкнено', off: 'Увімкнути звук', mute: 'Вимкнути звук' },
+  calc: {
+    outside: 'виїзд по Україні',
+    reel: 'короткий reels',
+    smoke: 'дим і світло',
+    opts: (list) => `, опції: ${list.join(', ')}`,
+    summary: (qty, hours, opts, total) =>
+      `Розрахунок із калькулятора: ${qty} навушників, ${hours} год${opts}. Орієнтовний бюджет: ${total} грн.`,
+    note: (qty, hours, total) =>
+      `✓ Підтягнули з калькулятора: <b>${qty} навушників, ${hours} год, ~${total} грн</b>. Перевірте коментар нижче — можна доповнити.`
+  },
+  uc: {
+    order: 'Замовити цей досвід',
+    line: (name) => `Цікавить досвід: ${name}.`,
+    note: (name) => `✓ Обраний досвід: <b>${name}</b>. Він уже в коментарі нижче — можна доповнити деталями.`
+  },
+  cal: { foot: 'Дата у формі: ' },
+  video: { clip: (n) => 'Ролик ' + n, prev: 'Попереднє відео', next: 'Наступне відео' },
+  form: {
+    required: 'Будь ласка, вкажіть імʼя і контакт, щоб ми могли звʼязатися.',
+    contactBad: 'Не впізнали контакт. Лишіть номер телефону, @нік або пошту — щоб ми точно вас знайшли.',
+    datePast: 'Ця дата вже минула. Оберіть найближчу зручну або лишіть поле порожнім.',
+    sending: 'Надсилаємо…',
+    netFail: 'Не вдалося надіслати — схоже, зник звʼязок. Спробуйте ще раз або напишіть нам у Telegram.',
+    checking: (d) => `Перевіряємо <b>${d}</b>`
+  }
+};
+</script>
+<!-- GSAP + ScrollTrigger лежать у репозиторії (assets/vendor/), а не на CDN: жодного
+     стороннього запиту на шляху до першої появи блоків. Якщо вони не завантажились,
+     site.js сам лишається на власній появі через IntersectionObserver. -->
+<script defer src="../../assets/vendor/gsap.min.js?v=fa1aeabc"></script>
+<script defer src="../../assets/vendor/ScrollTrigger.min.js?v=ecd3242f"></script>
+<!-- Flip — лише тут: плавне перемикання фільтра тем у каталозі (site.js, «Flexbox Filtering»). -->
+<script defer src="../../assets/vendor/Flip.min.js?v=6b36b1cf"></script>
+<script defer src="../../assets/site.min.js?v=02145c99"></script>
+</body>
+</html>

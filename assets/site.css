@@ -8994,3 +8994,10 @@ html.is-scrolling .hx-overlay { pointer-events: none !important; }
 .blog-latest-thumb { aspect-ratio: auto; align-self: stretch; height: auto; min-height: 112px; }
 .blog-latest-thumb img { position: absolute; inset: 0; }
 @media (max-width: 420px) { .blog-latest-item { grid-template-columns: clamp(92px, 27vw, 110px) minmax(0, 1fr); } }
+
+/* Підзаголовок блогу: на десктопі тягнеться на ВСЮ ширину колонки над «Свіже» (без text-wrap: balance, який стискав рядки) і за висотою
+   дорівнює напису «Блог SILENT» ліворуч: розмір шрифта прив'язаний до ширини вікна так, щоб текст ліг у три рядки на всю колонку. */
+@media (min-width: 901px) {
+  .blog-lead { width: 100%; max-width: none; font-size: clamp(17px, 1.74vw, 24px); line-height: 1.2; text-wrap: pretty; margin: 0 0 4px; color: rgba(255,255,255,.7); }
+}
+@media (max-width: 900px) { .blog-lead { max-width: none; width: 100%; font-size: clamp(17px, 4.6vw, 22px); line-height: 1.3; text-wrap: pretty; } }
