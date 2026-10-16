@@ -216,6 +216,18 @@
       "also": [
         "ideas"
       ]
+    },
+    {
+      "slug": "afterparty-festyvalyu",
+      "status": "published",
+      "category": "organization",
+      "title": "Афтерпаті фестивалю: як продовжити вечір після головної сцени",
+      "excerpt": "Що організувати після головних виступів фестивалю? Ідеї для афтерпаті, вечірньої програми та танців у форматі Silent Disco.",
+      "image": "/images/festivals/festyval-natovp-v-neonovomu-sviatli.webp",
+      "alt": "Нічний фестиваль: натовп гостей у світних навушниках танцює в неоновому світлі",
+      "also": [
+        "ideas"
+      ]
     }
   ]
 }

@@ -1,0 +1,24 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-afterparty-festyvalyu.jpg",
+  "bg": {
+    "src": "images/festivals/festyval-natovp-v-neonovomu-sviatli.webp",
+    "pos": "45% 100%"
+  },
+  "heading": [
+    "Афтерпаті фестивалю:",
+    "як продовжити вечір"
+  ],
+  "subtitle": [
+    [
+      "Формат, розклад і музика після головної сцени, зокрема Silent Disco."
+    ]
+  ],
+  "pills": [
+    "<b>Формат</b> афтерпаті",
+    "<b>Розклад</b> і місце",
+    "<b>Обмеження</b> звуку",
+    "<b>Silent Disco</b>"
+  ],
+  "css": ".p>img{transform:scale(1.04);transform-origin:45% 100%}"
+}
