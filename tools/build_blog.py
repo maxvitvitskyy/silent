@@ -343,10 +343,17 @@ def build(preview=False):
             '        <h2>%s</h2>\n        <p>%s</p>\n      </div>\n      %s\n    </article>\n'
             % (' is-soon' if feat['status'] != 'published' else '', esc(feat['image']), esc(feat['alt']),
                ttl(feat), esc(feat['excerpt']), cta))
+    def latest_thumb(p, i):
+        # Мініатюра ліворуч від тексту: портрет 4:5 (120×150, копія 240×300 для ретіни, кешується в images/nav-thumbs), номер у куті.
+        img = '<img src="%s" alt="" width="120" height="150" loading="lazy" decoding="async" style="position:absolute;inset:0">' % nav_thumb(p['image'], (240, 300), 'p240')
+        num = '<span class="blog-num" aria-hidden="true">%02d</span>' % (i + 1)
+        if p['status'] == 'published':
+            return '<a class="blog-latest-thumb" href="/blog/%s/" tabindex="-1" aria-hidden="true">%s%s</a>' % (p['slug'], img, num)
+        return '<span class="blog-latest-thumb" aria-hidden="true">%s%s</span>' % (img, num)
     items = ''.join(
-        '        <li class="blog-latest-item%s">\n          <span class="blog-num" aria-hidden="true">%02d</span>\n'
+        '        <li class="blog-latest-item%s">\n          %s\n'
         '          <div>\n            <span class="blog-cat">%s</span>\n            <h3>%s</h3>\n            %s\n          </div>\n        </li>\n'
-        % (' is-soon' if p['status'] != 'published' else '', i + 1, esc(cats[p['category']]), ttl(p), meta(p))
+        % (' is-soon' if p['status'] != 'published' else '', latest_thumb(p, i), esc(cats[p['category']]), ttl(p), meta(p))
         for i, p in enumerate(latest))
     latest_html = ('    <aside class="blog-latest glass-panel" aria-labelledby="blogLatestTitle">\n'
                    '      <h2 id="blogLatestTitle" class="blog-latest-title">Свіже</h2>\n      <ol class="blog-latest-list">\n%s      </ol>\n    </aside>\n' % items)

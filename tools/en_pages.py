@@ -2,6 +2,15 @@
 """Англомовні версії рядків сторінок досвідів (корпоративи, весілля). Генерується разом із
 tools/build_en.py: ключ — точний український текст зі сторінки."""
 T_PAGE_ALL = {
+  # Нові UA title/description (16.10.2026) для корпоративів і Silent Disco: EN лишається попереднім (завдання стосувалося лише української версії).
+  'Silent Disco на корпоратив у Києві — під ключ | SILENT':
+    'Silent Disco for corporate events in Kyiv, Ukraine | SILENT',
+  'Корпоратив без суперечок про музику: 3 канали в навушниках, кожен слухає своє. Привеземо, налаштуємо, проведемо в Києві та по Україні. Розрахуйте вартість.':
+    'Silent Disco for corporate events in Kyiv and Ukraine. Three music channels, wireless headphones and turnkey organisation. Calculate the cost of your event.',
+  'Тиха дискотека у Києві — замовити Silent Disco | SILENT':
+    'Silent Disco in Kyiv and Ukraine: full-service | SILENT',
+  'Замовте тиху дискотеку в Києві та по Україні: LED-навушники, 3 музичні канали, доставка й налаштування. Кожен слухає свій трек, ззовні тиша.':
+    'Silent Disco in Kyiv and across Ukraine: wireless headphones with three channels, delivery and setup included. Everyone listens to their own.',
 "Silent Disco для корпоративів у Києві та по Україні — SILENT":
   "Silent Disco for corporate events in Kyiv, Ukraine — SILENT",
 "для корпоративів":

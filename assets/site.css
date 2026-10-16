@@ -8964,3 +8964,33 @@ html.is-scrolling .hx-overlay { pointer-events: none !important; }
   .art-cards.is-check li:has(> span:not(.art-chk)) { align-items: start; row-gap: 6px; }
   .art-cards.is-check li:has(> span:not(.art-chk)) > .art-chk { grid-row: 1 / span 2; }
 }
+
+/* «Свіже» на /blog/: кожен матеріал = мініатюра ліворуч (квадрат із номером у куті) і компактний текст праворуч: тема, заголовок, невелика
+   кнопка «Читати». Раніше великий номер займав окрему колонку, а кнопка була в повний зріст і розтягувала блок. */
+.blog-latest-list { flex: 1 1 auto; display: flex; flex-direction: column; }
+.blog-latest-item { flex: 1 1 0; display: grid; grid-template-columns: clamp(84px, 9vw, 120px) minmax(0, 1fr); column-gap: clamp(14px, 1.6vw, 20px); align-items: center; padding: 16px 0; }
+.blog-latest-thumb { position: relative; display: block; aspect-ratio: 1; border-radius: 18px; overflow: hidden; background: rgba(255,255,255,.06); }
+.blog-latest-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s cubic-bezier(.2,.7,.2,1); }
+@media (hover: hover) and (pointer: fine) { .blog-latest-item:hover .blog-latest-thumb img { transform: scale(1.06); } }
+.blog-latest-thumb .blog-num { position: absolute; top: 8px; left: 8px; padding: 4px 8px; border-radius: 999px; background: rgba(10,10,11,.74); color: var(--lime); font-size: 11px; letter-spacing: .04em; }
+.blog-latest-item > div { gap: 6px; }
+.blog-latest-item h3 { font-size: clamp(14px, 1.2vw, 16px); }
+.blog-latest-item .blog-read { min-height: 36px; padding: 0 16px; margin-top: 4px; font-size: 13px; }
+@media (max-width: 420px) { .blog-latest-item { grid-template-columns: 76px minmax(0, 1fr); } .blog-latest-thumb { border-radius: 14px; } }
+
+/* Мініатюри «Свіже» у форматі 4:5 однакового розміру, а самі пункти однакової висоти незалежно від кількості рядків заголовка:
+   список — сітка з рядками 1fr (усі рядки дорівнюють найвищому), мініатюра по центру пункту. На телефоні мініатюра так само вузька колонка
+   фіксованої ширини, тож усі фото стоять рівно під одним краєм. */
+.blog-latest-list { display: grid; grid-auto-rows: 1fr; }
+.blog-latest-item { flex: none; grid-template-columns: clamp(84px, 9vw, 112px) minmax(0, 1fr); align-items: center; }
+.blog-latest-thumb { aspect-ratio: 4 / 5; width: 100%; align-self: center; }
+@media (max-width: 420px) { .blog-latest-item { grid-template-columns: 80px minmax(0, 1fr); } }
+
+/* Мініатюра «Свіже» займає ВСЮ висоту пункту: від теми зверху до низу кнопки «Читати», тож фото не лишається малим квадратиком поруч з довгим
+   заголовком, а розтягується разом із текстом (однаково на десктопі й телефоні). Ширина колонки фото плавна, а висота береться з рядка
+   сітки: усі пункти однакової висоти, тому і фото однакові. */
+.blog-latest-item { grid-template-columns: clamp(96px, 26vw, 132px) minmax(0, 1fr); }
+@media (min-width: 701px) { .blog-latest-item { grid-template-columns: clamp(92px, 9.5vw, 124px) minmax(0, 1fr); } }
+.blog-latest-thumb { aspect-ratio: auto; align-self: stretch; height: auto; min-height: 112px; }
+.blog-latest-thumb img { position: absolute; inset: 0; }
+@media (max-width: 420px) { .blog-latest-item { grid-template-columns: clamp(92px, 27vw, 110px) minmax(0, 1fr); } }
