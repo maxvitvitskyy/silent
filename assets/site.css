@@ -8850,14 +8850,3 @@ html.is-scrolling .hx-overlay { pointer-events: none !important; }
 .calc-checks label > input.hx-overlay { left: 6px; top: 50%; width: 36px; height: 36px; transform: translateY(-50%); }
 /* Кнопки на всю ширину: накладка по центру, приблизно під написом. */
 .form-submit > input.hx-overlay, #calcSubmit > input.hx-overlay { left: 50%; width: 190px; transform: translateX(-50%); }
-
-/* Калькулятор на телефоні: прапорці й підписи «виїзд по Україні», «короткий reels», «дим і світло» притиснуті
-   до ПРАВОГО краю картки, щоб до них діставав великий палець (на телефоні в одній руці лівий край найдальший).
-   Лише на одноколонній розкладці (≤520px), на ширших екранах два стовпці лишаються як були.
-   row-reverse ставить прапорець справа, текст лягає зліва від нього й вирівнюється вправо; відступ між ними
-   переходить з правого боку прапорця на лівий. Вібро-накладка (.hx-overlay) так само переїжджає праворуч. */
-@media (max-width: 520px){
-  .calc-checks label { flex-direction: row-reverse; text-align: right; }
-  .calc-checks input { margin-right: 0; margin-left: 7px; }
-  .calc-checks label > input.hx-overlay { left: auto; right: 6px; margin-left: 0; }
-}
