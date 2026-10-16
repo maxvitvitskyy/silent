@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-yak-orhanizuvaty-dytyachyi-den-narodzhennya.jpg",
+  "bg": {
+    "src": "images/kids/dityache-sviato-diti-tantsyuyut-v-neonovomu-svitli.webp",
+    "pos": "50% 40%"
+  },
+  "heading": [
+    "Як організувати",
+    "дитячий день народження"
+  ],
+  "subtitle": [
+    [
+      "6 ідей для активного свята: від квестів до Silent Disco."
+    ]
+  ],
+  "pills": [
+    "<b>6</b> ідей",
+    "<b>Музичні</b> ігри",
+    "<b>Квести</b> й творчість",
+    "<b>Silent Disco</b>"
+  ]
+}

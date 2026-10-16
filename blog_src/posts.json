@@ -156,6 +156,18 @@
       "also": [
         "organization"
       ]
+    },
+    {
+      "slug": "yak-orhanizuvaty-dytyachyi-den-narodzhennya",
+      "status": "published",
+      "category": "holidays",
+      "title": "Як організувати незабутній дитячий день народження: ідеї для активного свята",
+      "excerpt": "Плануєте дитячий день народження й хочете відійти від звичних конкурсів? Дізнайтеся про 6 ідей для активного свята, які можна адаптувати до віку дітей, кількості гостей і формату події.",
+      "image": "/images/kids/dityache-sviato-diti-tantsyuyut-v-neonovomu-svitli.webp",
+      "alt": "Діти танцюють у світних навушниках на дитячому святі в неоновому світлі",
+      "also": [
+        "ideas"
+      ]
     }
   ]
 }

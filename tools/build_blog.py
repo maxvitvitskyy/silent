@@ -420,6 +420,10 @@ def article_blocks(blocks):
     """Тіло статті з блоків article.json (схема власника від 06.10.2026):
     text  заголовок + текст у дві рівні колонки (cols: [ліва, права] зливаються в один потік, що CSS ділить на дві вирівняні колонки; або cards: [{t,d}] для карток із нумерацією);
     pair  фото ліворуч і яскрава лаймова плашка з головною думкою праворуч, однакової висоти."""
+    blocks = [dict(b) for b in blocks]
+    for b in blocks:
+        if b.get('sub') and b.get('title'):
+            b['title'] = '\x00' + b['title']
     out = []
     for b in blocks:
         t = b['type']
@@ -465,8 +469,11 @@ def article_blocks(blocks):
                 # layout "rows": перелік на всю ширину в дві колонки рядків із розділювачами. Чергуємо з картками для різноманітності.
                 if b.get('layout') == 'split':
                     txt = ''.join('<p>%s</p>' % inline(x) for x in leads + b.get('foot', []))
-                    out.append('<section class="art-blk"><div class="art-cols art-split"><div class="art-split-text"><h2>%s</h2>%s</div><ol class="art-list">%s</ol></div></section>'
-                               % (esc(b['title']), txt, items))
+                    # list_intro: підводка до переліку («Наприклад, можна організувати такі завдання:») стоїть НАД списком у правій колонці,
+                    # а не в кінці тексту ліворуч, де перелік відірваний від неї.
+                    intro = '<p class="art-list-intro">%s</p>' % inline(b['list_intro']) if b.get('list_intro') else ''
+                    out.append('<section class="art-blk"><div class="art-cols art-split"><div class="art-split-text"><h2>%s</h2>%s</div><div class="art-split-list">%s<ol class="art-list">%s</ol></div></div></section>'
+                               % (esc(b['title']), txt, intro, items))
                     continue
                 if b.get('layout') == 'rows':
                     out.append('<section class="art-blk"><div class="art-cols"><h2>%s</h2>%s<ol class="art-list is-rows">%s</ol>%s</div></section>'
@@ -506,6 +513,10 @@ def article_blocks(blocks):
             lead = '<p class="art-cards-lead">%s</p>' % inline(b['lead']) if b.get('lead') else ''
             out.append('<section class="art-blk"><div class="art-cols"><h2>%s</h2>%s<div class="art-table-wrap"><table class="art-table"><thead><tr>%s</tr></thead><tbody>%s</tbody></table></div></div></section>'
                        % (esc(b['title']), lead, head, rows))
+        elif t == 'intro':
+            # Вступ до групи розділів (наприклад «6 ідей…», за яким ідуть шість пронумерованих розділів): заголовок і один абзац
+            # по центру в одну колонку, більший за заголовки ідей, які після нього йдуть меншим рівнем (sub).
+            out.append('<section class="art-blk art-intro"><h2>%s</h2><p>%s</p></section>' % (esc(b['title']), inline(b['text'])))
         elif t == 'stat':
             # Велика цифра з коротким поясненням: лаймова плашка на ширину тексту (як CTA, але без кнопки).
             out.append('<aside class="art-stat"><div class="art-stat-n">%s</div><p>%s</p></aside>' % (esc(b['value']), inline(b['text'])))
@@ -535,7 +546,8 @@ def article_blocks(blocks):
             out.append('<div class="art-photos is-%d">%s</div>' % (n, figs))
         else:
             sys.exit('blog: невідомий тип блоку %r' % t)
-    return '\n'.join(out)
+    # sub: true у блоці = його H2 меншого рівня (під центрованим заголовком групи)
+    return '\n'.join(out).replace('<h2>\x00', '<h2 class="is-sub">')
 
 
 SHARE_ICONS = {
