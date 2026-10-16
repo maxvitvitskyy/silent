@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-yak-orhanizuvaty-studentsku-vechirku.jpg",
+  "bg": {
+    "src": "images/students/studentska-vechirka-druzi-raduyutsya-na-vecherytsi.webp",
+    "pos": "50% 30%"
+  },
+  "heading": [
+    "Як організувати",
+    "студентську вечірку"
+  ],
+  "subtitle": [
+    [
+      "Формати, музика й розваги для університетської події."
+    ]
+  ],
+  "pills": [
+    "<b>Формати</b> вечірок",
+    "<b>Музика</b> й розваги",
+    "<b>Silent Disco</b>",
+    "<b>Чекліст</b> організатора"
+  ]
+}

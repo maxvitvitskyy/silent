@@ -132,6 +132,30 @@
       "also": [
         "ideas"
       ]
+    },
+    {
+      "slug": "yak-orhanizuvaty-studentsku-vechirku",
+      "status": "published",
+      "category": "organization",
+      "title": "Як організувати студентську вечірку: формати, музика та розваги",
+      "excerpt": "Як організувати студентську вечірку, обрати музику, придумати розваги й підібрати формат для університетської події? Розбираємо практичні ідеї та можливості Silent Disco.",
+      "image": "/images/students/studentska-vechirka-druzi-raduyutsya-na-vecherytsi.webp",
+      "alt": "Студентська вечірка у форматі Silent Disco: друзі танцюють у світних навушниках",
+      "also": [
+        "ideas"
+      ]
+    },
+    {
+      "slug": "idei-dlya-studentskoho-zakhodu",
+      "status": "published",
+      "category": "ideas",
+      "title": "Ідеї для студентського заходу в університеті: чим здивувати молодь",
+      "excerpt": "Шукаєте, чим здивувати студентів? Зібрали 6 ідей для університетських заходів: від тематичних вечірок і музичних батлів до квестів та Silent Disco.",
+      "image": "/images/students/studentska-vechirka-divchyna-v-zelenykh-okuliarakh.webp",
+      "alt": "Студентська вечірка: дівчина в зелених окулярах і світних навушниках серед друзів",
+      "also": [
+        "organization"
+      ]
     }
   ]
 }

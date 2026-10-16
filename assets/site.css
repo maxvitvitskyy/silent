@@ -8850,3 +8850,87 @@ html.is-scrolling .hx-overlay { pointer-events: none !important; }
 .calc-checks label > input.hx-overlay { left: 6px; top: 50%; width: 36px; height: 36px; transform: translateY(-50%); }
 /* Кнопки на всю ширину: накладка по центру, приблизно під написом. */
 .form-submit > input.hx-overlay, #calcSubmit > input.hx-overlay { left: 50%; width: 190px; transform: translateX(-50%); }
+
+/* Довгий вступ блоку з картками в дві рівні колонки на всю ширину (поле lead_cols у статті): як текстові блоки .art-flow,
+   колонки закінчуються на одному рівні, абзац переходить між ними. На вузьких екранах одна колонка. */
+.art-cards-lead.is-two { max-width: none; column-count: 2; column-gap: var(--art-colgap); column-fill: balance; orphans: 1; widows: 1; }
+@media (max-width: 900px) { .art-cards-lead.is-two { column-count: 1; } }
+
+/* Кроки всередині текстового потоку (.art-flow, дві колонки): картка кроку не розривається між колонками
+   (раніше заголовок «03» лишався внизу лівої колонки, а його текст переїжджав у праву), а після списку є
+   повноцінний відступ, інакше абзац одразу під останнім кроком «прилипав» до нього. */
+.art-flow .art-steps { margin: 6px 0 calc(var(--fs) * 2.4); }
+.art-flow .art-steps li { break-inside: avoid; }
+.art-flow .art-steps li:last-child { padding-bottom: 0; }
+
+/* Чекліст у статті (marks: "check"): замість лаймової риски чи номера кожен пункт має лаймовий «чекбокс» із галочкою,
+   щоб блок одразу читався як перелік перевірок. Картки без тексту під заголовком, тож компактні. Розкладка колонок
+   та сама, що в layout "cols"; на вузьких екранах галочка стоїть ліворуч від рядка. */
+.art-cards.is-check li { row-gap: 18px; align-content: start; }
+/* Селектор із .art-cards: інакше загальне правило «.art-cards span» перебиває колір і галочка стає сірувато-білою на лаймі. */
+.art-cards .art-chk { grid-column: 1; grid-row: auto; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: var(--lime); color: #0a0a0b; }
+.art-chk svg { width: 20px; height: 20px; display: block; }
+.art-cards.is-check b { grid-column: 1; }
+@media (max-width: 700px) {
+  .art-cards.is-check li { grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: 16px; padding-block: 20px; }
+  .art-cards.is-check .art-chk, .art-cards.is-check b { grid-row: 1; }
+  .art-cards.is-check b { grid-column: 2; }
+}
+
+/* Вступ і висновок блоку з картками на всю ширину в дві рівні колонки (прапорці lead_cols / foot_cols у статті): абзаци
+   течуть крізь колонки й закінчуються на одному рівні, а не лежать вузьким стовпцем ліворуч із порожнім місцем праворуч.
+   Усередині абзаци лишаються .art-cards-lead (шрифт і колір ті самі), тут знімається лише обмеження ширини. */
+.art-cards-flow { grid-column: 1 / -1; column-count: 2; column-gap: var(--art-colgap); column-fill: balance; }
+.art-cards-flow .art-cards-lead { max-width: none; margin: 0 0 1em; orphans: 1; widows: 1; }
+.art-cards-flow .art-cards-lead:last-child { margin-bottom: 0; }
+.art-cards-flow a { color: var(--lime); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(198,255,0,.45); }
+@media (max-width: 900px) { .art-cards-flow { column-count: 1; } }
+.art-cards-flow.is-wide { column-count: 1; }
+
+/* Легкі переліки замість скляних карток (layout "split" і "rows" у блоці з картками): іконка, жирна назва, пояснення, між
+   пунктами тонкі розділювачі. Блоки статті чергують скло й легкі списки, щоб сторінка не була суцільними боксами.
+   split: текст ліворуч, список праворуч (на вузьких екранах один під одним); rows: список на всю ширину в дві колонки. */
+.art-split { align-items: start; }
+.art-split h2 { max-width: none; }
+.art-split-text { display: flex; flex-direction: column; gap: 1em; min-width: 0; }
+.art-split-text p { margin: 0; max-width: none; }
+.art-split-text h2 { margin-bottom: clamp(8px, 1vw, 14px); }
+.art-list { list-style: none; margin: 0; padding: 0; min-width: 0; }
+.art-list li { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 18px; row-gap: 4px; align-items: center; padding: 20px 0; border-top: 1px solid rgba(255,255,255,.14); }
+.art-list li:last-child { border-bottom: 1px solid rgba(255,255,255,.14); }
+.art-list .art-ic { grid-column: 1; grid-row: span 2; width: 34px; height: 34px; color: var(--lime); line-height: 0; }
+.art-list .art-ic svg { display: block; width: 100%; height: 100%; }
+.art-list b { grid-column: 2; font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: clamp(16px, 1.3vw, 19px); line-height: 1.3; letter-spacing: -0.01em; color: #fff; }
+.art-list span { grid-column: 2; color: rgba(255,255,255,.72); font-size: clamp(16px, 1.3vw, 18px); line-height: 1.6; }
+.art-list .art-n { grid-row: span 2; }
+.art-cols > .art-list.is-rows { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(32px, 5vw, 72px); }
+.art-list.is-rows li:nth-last-child(-n+2) { border-bottom: 1px solid rgba(255,255,255,.14); }
+@media (max-width: 900px) {
+  .art-cols > .art-list.is-rows { grid-template-columns: minmax(0, 1fr); }
+  .art-list.is-rows li:nth-last-child(2) { border-bottom: 0; }
+  .art-list li { padding: 16px 0; }
+}
+/* Список у split тягнеться на висоту тексту ліворуч: пункти ділять її порівну, розділювачі лежать рівно, колонки збалансовані. */
+.art-split { align-items: stretch; }
+.art-split .art-list { display: flex; flex-direction: column; }
+.art-split .art-list li { flex: 1 1 0; }
+@media (max-width: 900px) { .art-split .art-list li { flex: 0 0 auto; } }
+.art-list li, .art-list li:last-child { border-color: rgba(255,255,255,.2); }
+
+/* Іконка в рядку заголовка: раніше велика іконка стояла вгорі й займала два рядки (заголовок і пояснення), тож «пливла» відносно
+   тексту. Тепер іконка й заголовок на одному рядку й центровані між собою, пояснення лежить під заголовком у другій колонці. */
+.art-cards .art-ic, .art-list .art-ic { grid-row: 1; align-self: center; margin-top: 0; width: 32px; height: 32px; }
+.art-cards:not(.is-cols) li:has(> .art-ic) > b, .art-list li:has(> .art-ic) > b { grid-row: 1; align-self: center; }
+.art-cards:not(.is-cols) li:has(> .art-ic) > span:not(.art-ic), .art-list li:has(> .art-ic) > span:not(.art-ic) { grid-row: 2; }
+.art-cards:not(.is-cols) li:has(> .art-ic) { row-gap: 10px; align-items: center; }
+.art-cards.is-cols li:has(> .art-ic) { row-gap: 14px; }
+
+/* Світіння картки з думкою (box-shadow) обрізалось жорстко по правому краю: .art-body з overflow-x: clip різав тінь рівно по краю
+   колонки статті (плашка в .art-pair виходить за неї на запас). Горизонтальну обрізку на сторінці вже тримає html { overflow-x: clip }. */
+.art-body { overflow-x: visible; }
+/* Тінь плашки з думкою тепер виходить назовні не далі ~26px: на телефоні й планшеті в .art-pair запас лише 28px, і 60px-тінь різалась там жорстко. */
+.art-key { box-shadow: 0 0 44px -18px rgba(198,255,0,0.15); }
+/* Справжня причина обрізання: аврора всередині плашки (.band-aurora, розмиті шари) виходила за її межі й світилась назовні, а .art-pair
+   різав це світіння на 48px від краю, тож праворуч було видно вертикальний зріз. Аврора тепер лишається всередині плашки (як у
+   картки гарантії на головній); м'яке зовнішнє світіння дає лише box-shadow, який не обрізається. */
+.art-key { overflow: hidden; }

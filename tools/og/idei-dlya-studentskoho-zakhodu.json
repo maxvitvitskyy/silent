@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-idei-dlya-studentskoho-zakhodu.jpg",
+  "bg": {
+    "src": "images/students/studentska-vechirka-divchyna-v-zelenykh-okuliarakh.webp",
+    "pos": "50% 88%"
+  },
+  "heading": [
+    "Ідеї для студентського",
+    "заходу в університеті"
+  ],
+  "subtitle": [
+    [
+      "Шість форматів: від тематичних вечірок до Silent Disco."
+    ]
+  ],
+  "pills": [
+    "<b>6</b> ідей",
+    "<b>Музичні</b> батли",
+    "<b>Квести</b> й фестивалі",
+    "<b>Silent Disco</b>"
+  ]
+}

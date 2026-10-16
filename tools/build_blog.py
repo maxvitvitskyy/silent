@@ -431,10 +431,13 @@ def article_blocks(blocks):
                 # Вигляд карток можна міняти по блоках, не чіпаючи дизайн-систему: layout "cols" = вертикальні картки в ряд,
                 # marks "icons" = тематична іконка (поле ic у картці, ключі в ART_ICONS) замість номера. Без цього: номери, дві колонки.
                 use_icons = b.get('marks') == 'icons'
+                use_check = b.get('marks') == 'check'   # чекліст: лаймова галочка-«чекбокс» замість номера й іконки (картки без тексту d, лише пункт)
                 use_none = b.get('marks') == 'none'   # без номера й іконки: картка з лаймовою смужкою ліворуч (для переліків без послідовності)
                 def mark(x):
                     if use_none:
                         return ''
+                    if use_check:
+                        return '<span class="art-chk" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 12.5l4.2 4.2L18.5 7.8"/></svg></span>'
                     if use_icons and x.get('ic') in ART_ICONS:
                         return '<span class="art-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">%s</svg></span>' % ART_ICONS[x['ic']]
                     return '<i class="art-n" aria-hidden="true"></i>'
@@ -443,10 +446,34 @@ def article_blocks(blocks):
                     if not x.get('rows'):
                         return ''
                     return '<dl class="art-rows">%s</dl>' % ''.join('<div><dt>%s</dt> <dd>%s</dd></div>' % (esc(l), inline(t)) for l, t in x['rows'])
-                items = ''.join('<li>%s<b>%s</b><span>%s</span>%s</li>' % (mark(x), esc(x['t']), inline(x['d']), rows(x)) for x in b['cards'])
-                lead = '<p class="art-cards-lead">%s</p>' % inline(b['lead']) if b.get('lead') else ''
-                out.append('<section class="art-blk"><div class="art-cols"><h2>%s</h2>%s<ol class="art-cards%s">%s</ol></div></section>'
-                           % (esc(b['title']), lead, (' is-cols' if b.get('layout') in ('cols', 'three') else '') + (' is-three' if b.get('layout') == 'three' else '') + (' is-plain' if use_none else ''), items))
+                items = ''.join('<li>%s<b>%s</b>%s%s</li>' % (mark(x), esc(x['t']), ('<span>%s</span>' % inline(x['d'])) if x.get('d') else '', rows(x)) for x in b['cards'])
+                # lead_cols: true = довгий вступ у дві рівні колонки на всю ширину (замість вузького стовпця ліворуч)
+                # lead може бути списком абзаців; foot: абзаци ПІСЛЯ карток (висновок до переліку) на всю ширину
+                leads = b['lead'] if isinstance(b.get('lead'), list) else ([b['lead']] if b.get('lead') else [])
+                # lead_cols / foot_cols: абзаци вступу чи висновку НА ВСЮ ширину в дві рівні колонки (.art-cards-flow), а не вузьким
+                # стовпцем ліворуч (70ch) з порожнім місцем праворуч. Без прапорців: один вузький абзац, як раніше.
+                def paras(items, cols):
+                    # Короткий текст (до ~200 знаків) у дві колонки дає по 1-2 рядки з «хвостиком» у правій: його лишаємо одним рядком на всю ширину.
+                    if cols and sum(len(x) for x in items) < 200:
+                        return '<div class="art-cards-flow is-wide">%s</div>' % ''.join('<p class="art-cards-lead">%s</p>' % inline(x) for x in items)
+                    if cols:
+                        return '<div class="art-cards-flow">%s</div>' % ''.join('<p class="art-cards-lead">%s</p>' % inline(x) for x in items) if items else ''
+                    return ''.join('<p class="art-cards-lead">%s</p>' % inline(x) for x in items)
+                lead = paras(leads, b.get('lead_cols'))
+                foot = paras(b.get('foot', []), b.get('foot_cols'))
+                # layout "split": текст ліворуч, перелік праворуч легким списком із тонкими розділювачами (без скляних карток);
+                # layout "rows": перелік на всю ширину в дві колонки рядків із розділювачами. Чергуємо з картками для різноманітності.
+                if b.get('layout') == 'split':
+                    txt = ''.join('<p>%s</p>' % inline(x) for x in leads + b.get('foot', []))
+                    out.append('<section class="art-blk"><div class="art-cols art-split"><div class="art-split-text"><h2>%s</h2>%s</div><ol class="art-list">%s</ol></div></section>'
+                               % (esc(b['title']), txt, items))
+                    continue
+                if b.get('layout') == 'rows':
+                    out.append('<section class="art-blk"><div class="art-cols"><h2>%s</h2>%s<ol class="art-list is-rows">%s</ol>%s</div></section>'
+                               % (esc(b['title']), lead, items, foot))
+                    continue
+                out.append('<section class="art-blk"><div class="art-cols"><h2>%s</h2>%s<ol class="art-cards%s">%s</ol>%s</div></section>'
+                           % (esc(b['title']), lead, (' is-cols' if b.get('layout') in ('cols', 'three') else '') + (' is-three' if b.get('layout') == 'three' else '') + (' is-plain' if use_none else '') + (' is-check' if use_check else ''), items, foot))
                 continue
             # Звичайний текстовий блок: ОДИН потік у дві CSS-колонки з вирівнюванням, заголовок першим елементом потоку (у лівій колонці),
             # (column-fill: balance): колонки починаються на одному рівні, закінчуються на одному, а абзац сам
