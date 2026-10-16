@@ -92,14 +92,14 @@
     <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/school/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/school/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/school/"/>
-    <lastmod>2026-10-15</lastmod>
+    <lastmod>2026-10-16</lastmod>
   </url>
   <url>
     <loc>https://silent.org.ua/en/experiences/school/</loc>
     <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/school/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/school/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/school/"/>
-    <lastmod>2026-10-15</lastmod>
+    <lastmod>2026-10-16</lastmod>
   </url>
   <url>
     <loc>https://silent.org.ua/experiences/kids/</loc>
@@ -215,6 +215,10 @@
   </url>
   <url>
     <loc>https://silent.org.ua/blog/silent-disco-na-festyvali/</loc>
+    <lastmod>2026-10-16</lastmod>
+  </url>
+  <url>
+    <loc>https://silent.org.ua/blog/ostanniy-dzvonyk-idei-dlya-svyata/</loc>
     <lastmod>2026-10-16</lastmod>
   </url>
 </urlset>

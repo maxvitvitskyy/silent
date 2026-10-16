@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-ostanniy-dzvonyk-idei-dlya-svyata.jpg",
+  "bg": {
+    "src": "images/school/shkilna-vechirka-konga-liniya.webp",
+    "pos": "50% 20%"
+  },
+  "heading": [
+    "Останній дзвоник:",
+    "ідеї для свята"
+  ],
+  "subtitle": [
+    [
+      "Програма, активності й музика для шкільного свята, яке запам’ятають."
+    ]
+  ],
+  "pills": [
+    "<b>Концепція</b> свята",
+    "<b>Активності</b> для класів",
+    "<b>Музика</b> й танці",
+    "<b>Silent Disco</b>"
+  ]
+}
