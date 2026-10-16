@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-rozvahy-dlya-ditey-na-svyati.jpg",
+  "bg": {
+    "src": "images/kids/dityache-sviato-tantsyuyut-pid-lazerami.webp",
+    "pos": "50% 100%"
+  },
+  "heading": [
+    "Розваги для дітей",
+    "на святі"
+  ],
+  "subtitle": [
+    [
+      "6 ідей для великої компанії: ігри, музика й Silent Disco."
+    ]
+  ],
+  "pills": [
+    "<b>6</b> розваг",
+    "<b>Квести</b> й ігри",
+    "<b>Музика</b> й рух",
+    "<b>Silent Disco</b>"
+  ]
+}
