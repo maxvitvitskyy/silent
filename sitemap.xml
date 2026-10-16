@@ -134,14 +134,14 @@
     <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/festivals/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/festivals/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/festivals/"/>
-    <lastmod>2026-10-15</lastmod>
+    <lastmod>2026-10-16</lastmod>
   </url>
   <url>
     <loc>https://silent.org.ua/en/experiences/festivals/</loc>
     <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/festivals/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/festivals/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/festivals/"/>
-    <lastmod>2026-10-15</lastmod>
+    <lastmod>2026-10-16</lastmod>
   </url>
   <url>
     <loc>https://silent.org.ua/faq/</loc>
@@ -211,6 +211,10 @@
   </url>
   <url>
     <loc>https://silent.org.ua/blog/rozvahy-dlya-ditey-na-svyati/</loc>
+    <lastmod>2026-10-16</lastmod>
+  </url>
+  <url>
+    <loc>https://silent.org.ua/blog/silent-disco-na-festyvali/</loc>
     <lastmod>2026-10-16</lastmod>
   </url>
 </urlset>

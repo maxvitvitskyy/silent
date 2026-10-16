@@ -180,6 +180,18 @@
       "also": [
         "holidays"
       ]
+    },
+    {
+      "slug": "silent-disco-na-festyvali",
+      "status": "published",
+      "category": "organization",
+      "title": "Silent Disco на фестивалі: як організувати окрему музичну зону",
+      "excerpt": "Як організувати Silent Disco на фестивалі: розташування зони, музична програма, навушники, координація гостей і підготовка до події.",
+      "image": "/images/festivals/festyval-nichnyi-festyval-z-neonovymy-navushnykamy.webp",
+      "alt": "Нічний фестиваль: гості танцюють у світних навушниках Silent Disco під гірляндами",
+      "also": [
+        "ideas"
+      ]
     }
   ]
 }

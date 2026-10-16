@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-silent-disco-na-festyvali.jpg",
+  "bg": {
+    "src": "images/festivals/festyval-divchyna-tantsyuye-pid-svitlom.webp",
+    "pos": "50% 28%"
+  },
+  "heading": [
+    "Silent Disco",
+    "на фестивалі"
+  ],
+  "subtitle": [
+    [
+      "Як організувати окрему музичну зону: місце, програма й логістика."
+    ]
+  ],
+  "pills": [
+    "<b>Музична</b> зона",
+    "<b>Розташування</b> й потоки",
+    "<b>Програма</b> каналів",
+    "<b>Під ключ</b>"
+  ]
+}
