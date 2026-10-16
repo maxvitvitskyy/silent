@@ -1591,6 +1591,7 @@ def build():
     s = s[:m.start()] + I18N_EN + s[m.end():]
 
     s = translate(s)
+    s = s.replace('images/og/og-home.jpg', 'images/og/og-home-en.jpg')  # власна англомовна картка
 
     # hreflang не чіпаємо: обидві сторінки мусять називати ту саму пару, тож
     # трійка посилань з index.html переїжджає сюди дослівно. Змінюється лише
