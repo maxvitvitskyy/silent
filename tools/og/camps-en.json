@@ -1,0 +1,27 @@
+{
+  "template": "template-full-left.html",
+  "bg": {
+    "src": "images/students/studentska-vechirka-druzi-tantsyuyut-na-halyavyni.webp",
+    "pos": "60% 28%"
+  },
+  "css": ".p>img{left:400px;right:auto;width:800px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%)}.h span+span{font-size:40px;font-weight:400;letter-spacing:-.01em;margin-top:6px} .sub{font-weight:500;margin-top:30px;font-size:23px}",
+  "out": "images/camps/og-camps-en.jpg",
+  "heading": [
+    "Silent Disco",
+    "for camps"
+  ],
+  "subtitle": [
+    [
+      "Discos, team games and"
+    ],
+    [
+      "evening programmes in headphones."
+    ]
+  ],
+  "pills": [
+    "<b>3</b> music channels",
+    "For <b>all</b> ages",
+    "Everything <b>turnkey</b>",
+    "<b>Kyiv</b> &amp; Ukraine"
+  ]
+}
