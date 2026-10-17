@@ -1,0 +1,24 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-synkhronnyi-pereklad-bohosluzhinnia.jpg",
+  "bg": {
+    "src": "images/church/cerkva-pereklad-v-navushnykakh.webp",
+    "pos": "50% 50%"
+  },
+  "heading": [
+    "Синхронний",
+    "переклад богослужіння"
+  ],
+  "subtitle": [
+    [
+      "Як передати переклад проповіді через бездротові навушники."
+    ]
+  ],
+  "pills": [
+    "<b>Переклад</b> проповіді",
+    "<b>Аудіоканали</b> і мови",
+    "<b>Підготовка</b> системи",
+    "<b>Для церков</b>"
+  ],
+  "css": ""
+}

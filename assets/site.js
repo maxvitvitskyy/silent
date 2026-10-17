@@ -4274,8 +4274,12 @@ function orderExperience(name, opts){
 
     // --stagger нумерує пункти для хвилі появи в CSS (.nav-drawer.show ...);
     // нижній рядок (соцмережі + мова) іде наступним кроком за посиланнями.
-    let linksHtml = '';
-    topEls.forEach((el, i) => {
+    // Перший пункт — «Головна»: лише в мобільному меню (на десктопі логотип веде на головну).
+    // Усі наступні --stagger зсунуті на 1, щоб хвиля появи йшла підряд.
+    const homeEn = document.documentElement.lang === 'en';
+    let linksHtml = '<a href="' + (homeEn ? '/en/' : '/') + '" style="--stagger:0">' + (homeEn ? 'Home' : 'Головна') + '</a>';
+    topEls.forEach((el, idx) => {
+      const i = idx + 1;
       if (el.classList.contains('nav-item-mega')){
         // Сам рядок — тепер повністю кнопка-перемикач, не посилання: тап по
         // напису більше нікуди не веде, лише розгортає підпункти (власник
@@ -4346,7 +4350,7 @@ function orderExperience(name, opts){
     const en = document.documentElement.lang === 'en';
     const ico = function(path){ return '<span class="nav-mega-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + path + '</svg></span>'; };
     linksHtml +=
-      '<button type="button" class="nav-drawer-item-expand" style="--stagger:' + topEls.length + '" aria-expanded="false">' +
+      '<button type="button" class="nav-drawer-item-expand" style="--stagger:' + (topEls.length + 1) + '" aria-expanded="false">' +
         '<span>' + (en ? 'Contacts' : 'Контакти') + '</span>' +
         '<span class="nav-drawer-expand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>' +
       '</button>' +
@@ -4355,7 +4359,7 @@ function orderExperience(name, opts){
         '<a href="mailto:hello.silent.ua@gmail.com">' + ico('<rect x="2.6" y="5.2" width="18.8" height="13.6" rx="2.6"/><path d="m3.4 7 8.05 5.6a1 1 0 0 0 1.1 0L20.6 7"/>') + '<span>hello.silent.ua@gmail.com</span></a>' +
         '<span class="nav-drawer-static">' + ico('<path d="M12 21s-6.6-5.6-6.6-11a6.6 6.6 0 0 1 13.2 0c0 5.4-6.6 11-6.6 11z"/><circle cx="12" cy="10" r="2.4"/>') + '<span>' + (en ? 'Kyiv · we travel across Ukraine' : 'Київ · виїзд по Україні') + '</span></span>' +
       '</div>';
-    const bottomStagger = topEls.length + 1;
+    const bottomStagger = topEls.length + 2;
 
     let langHtml = '';
     if (langSwitch){

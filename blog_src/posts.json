@@ -228,6 +228,18 @@
       "also": [
         "ideas"
       ]
+    },
+    {
+      "slug": "synkhronnyi-pereklad-bohosluzhinnia",
+      "status": "published",
+      "category": "organization",
+      "title": "Синхронний переклад богослужіння: як допомогти кожному почути проповідь своєю мовою",
+      "excerpt": "Як організувати переклад богослужіння для гостей різними мовами? Розповідаємо про бездротові навушники, аудіоканали та підготовку системи.",
+      "image": "/images/church/cerkva-pereklad-v-navushnykakh.webp",
+      "alt": "Дівчина слухає переклад у бездротових навушниках Silent Disco на конференції",
+      "also": [
+        "ideas"
+      ]
     }
   ]
 }
