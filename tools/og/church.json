@@ -1,0 +1,27 @@
+{
+  "out": "images/church/og-church.jpg",
+  "heading": [
+    "Тихий звук",
+    "для церков і зібрань"
+  ],
+  "subtitle": [
+    [
+      "Молодіжний вечір, табір чи зустріч:"
+    ],
+    [
+      "кілька програм в одному просторі."
+    ]
+  ],
+  "pills": [
+    "Музика <b>в навушниках</b>",
+    "<b>3</b> канали на вибір",
+    "Все <b>під ключ</b>",
+    "<b>Київ</b> та Україна"
+  ],
+  "template": "template-full-left.html",
+  "bg": {
+    "src": "images/church/cerkva-kontsert-iz-khrestom.webp",
+    "pos": "50% 45%"
+  },
+  "css": ".p>img{left:400px;right:auto;width:800px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%)}.h span+span{font-size:40px;font-weight:400;letter-spacing:-.01em;margin-top:6px} .sub{font-weight:500;margin-top:30px;font-size:23px}"
+}

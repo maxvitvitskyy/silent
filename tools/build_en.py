@@ -1135,6 +1135,7 @@ EXPERIENCE_URLS = {
     'Дитячі свята': '/experiences/kids/',
     'Студентські події': '/experiences/students/',
     'Фестивалі': '/experiences/festivals/',
+    'Церковні служби та зібрання': '/experiences/church/',
 }
 
 # Порядок карток на сторінці-списку. Це НЕ дані про продажі: статистики звернень
@@ -1282,6 +1283,7 @@ EXPERIENCE_PAGES = [
     os.path.join('experiences', 'kids', 'index.html'),
     os.path.join('experiences', 'students', 'index.html'),
     os.path.join('experiences', 'festivals', 'index.html'),
+    os.path.join('experiences', 'church', 'index.html'),
 ]
 
 
@@ -1298,6 +1300,7 @@ EXP_FAQ_PAGES = {
     os.path.join('experiences', 'kids', 'index.html'): '/experiences/kids/',
     os.path.join('experiences', 'students', 'index.html'): '/experiences/students/',
     os.path.join('experiences', 'festivals', 'index.html'): '/experiences/festivals/',
+    os.path.join('experiences', 'church', 'index.html'): '/experiences/church/',
 }
 
 
@@ -2320,6 +2323,7 @@ EXP_EN_PAGES = {
     'kids': 'images/kids/og-kids-en.jpg',
     'students': 'images/students/og-students-en.jpg',
     'festivals': 'images/festivals/og-festivals-en.jpg',
+    'church': 'images/church/og-church-en.jpg',
 }
 from en_pages import T_PAGE_ALL   # рядки сторінок досвідів (tools/en_pages.py)
 T_PAGE = {}   # slug -> {укр: англ} (додаткові, лише для однієї сторінки)

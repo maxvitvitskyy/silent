@@ -2539,4 +2539,321 @@ T_PAGE_ALL = {
   'A night festival with neon headphones: guests dance in Silent Disco headphones',
 'Гості нічного фестивалю з піднятими руками танцюють у навушниках Silent Disco':
   'Guests of a night festival dance with raised hands in Silent Disco headphones',
+# --- church page ---
+'Концерт зі світловим хрестом на сцені: глядачі слухають у навушниках Silent Disco':
+  'A concert with a glowing cross on stage: the audience listens in Silent Disco headphones',
+'Церковні зібрання':
+  'Church gatherings',
+'Чи підходить такий формат для церковних служб і зібрань?':
+  'Is this format suitable for church services and gatherings?',
+'Так, якщо він доречний у вашій спільноті. Навушники можна використати для молодіжного вечора, дитячої програми, табору чи зустрічі після служби: гості слухають музику в бездротових навушниках і самі обирають один із трьох каналів. Ми привозимо обладнання, налаштовуємо його та супроводжуємо технічну частину. Чи доречний формат для самого богослужіння, вирішує ваша спільнота.':
+  "Yes, if it fits your community. The headphones can be used for a youth evening, a children's programme, a camp or a gathering after the service: guests listen to music in wireless headphones and choose one of three channels themselves. We bring the equipment, set it up and support the technical side. Whether the format fits the worship service itself is for your community to decide.",
+'Де можна провести таку подію?':
+  'Where can such an event be held?',
+'Формат можна організувати в церковній залі, молодіжному просторі, на території храму чи табору, у парку або в іншому місці, де є місце для учасників і доступ до електроживлення. На встановлення та перевірку сигналу потрібно близько 30 хвилин до початку. Для події просто неба варто передбачити запасний варіант на випадок дощу. Умови проведення узгоджуємо заздалегідь.':
+  'The format can be organised in a church hall, a youth space, on the grounds of a church or camp, in a park or in another place with room for participants and access to power. Setup and signal check take about 30 minutes before the start. For an open-air event, plan a backup option in case of rain. We agree the conditions in advance.',
+'Хто готує музику для каналів?':
+  'Who prepares the music for the channels?',
+'Ми заздалегідь готуємо три плейлісти, а гості перемикаються між каналами самостійно. Якщо потрібні певні добірки або ви плануєте живий виступ музикантів, повідомте про це в заявці — окремо узгодимо технічні вимоги й можливість такого сценарію. Послуга діджея не входить до базового комплекту.':
+  'We prepare three playlists in advance, and guests switch between channels themselves. If you need particular playlists or plan a live performance by musicians, mention it in your request: we will separately agree the technical requirements and whether such a scenario is possible. A DJ is not included in the base set.',
+'Чи можна передати переклад або окрему програму в навушники?':
+  'Can interpreting or a separate programme be sent to the headphones?',
+'Це залежить від погодженої технічної схеми та джерела звуку: можливість і спосіб підключення потрібно узгодити до події. Розкажіть про задум у заявці, і ми підкажемо, як це можна організувати. Щоб поспілкуватися з людьми поруч, достатньо зняти навушники на шию.':
+  'It depends on the agreed technical scheme and the sound source: whether and how to connect it must be agreed before the event. Tell us your idea in the request, and we will suggest how it can be organised. To talk to the people next to you, it is enough to take the headphones off onto your neck.',
+'>Церковне зібрання<':
+  '>Church gathering<',
+'Музикантка зі скрипкою в навушниках Silent Disco серед слухачів':
+  'A musician with a violin in Silent Disco headphones among listeners',
+'Люди співають разом просто неба в навушниках Silent Disco':
+  'People sing together in the open air in Silent Disco headphones',
+'Вечір просто неба під гірляндами: гості слухають музику в навушниках Silent Disco':
+  'An open-air evening under string lights: guests listen to music in Silent Disco headphones',
+'Гості слухають гітариста в затишній залі в навушниках Silent Disco':
+  'Guests listen to a guitarist in a cosy hall in Silent Disco headphones',
+'Рекомендуємо залишати заявку якомога раніше, особливо на великі свята, літній сезон і вихідні. Доступність обладнання залежить від дати й інших бронювань. Ми перевіримо вашу дату та пояснимо, як підтвердити замовлення. Бронювання закріплюється після узгодження умов і передоплати.':
+  'We recommend sending a request as early as possible, especially for major holidays, the summer season and weekends. Equipment availability depends on the date and other bookings. We will check your date and explain how to confirm the order. A booking is secured after the terms are agreed and the prepayment is made.',
+'Усміхнена дівчина в навушниках Silent Disco під склепіннями старої зали':
+  'A smiling girl in Silent Disco headphones under the vaults of an old hall',
+'Глядачі в синьо підсвічених навушниках Silent Disco слухають виступ просто неба':
+  'The audience in blue-lit Silent Disco headphones listens to an open-air performance',
+'Люди танцюють у великій залі у світних навушниках Silent Disco':
+  'People dance in a large hall in glowing Silent Disco headphones',
+'Silent Disco для церков — переклад, молитва та події | SILENT':
+  'Silent Disco for churches: interpreting, prayer and events | SILENT',
+'Бездротові навушники SILENT для церковних зібрань, синхронного перекладу, молодіжних зустрічей, ретритів і часу роздумів. Організація під ключ.':
+  'SILENT wireless headphones for church gatherings, simultaneous interpreting, youth meetings, retreats and time for reflection. Turnkey organisation.',
+'Silent Disco для церков і християнських спільнот | SILENT':
+  'Silent Disco for churches and Christian communities | SILENT',
+'Переклад богослужіння, молодіжні зустрічі, час молитви й роздумів: бездротові навушники з кількома каналами. Київ і вся Україна.':
+  'Interpreting for services, youth meetings, time for prayer and reflection: wireless headphones with several channels. Kyiv and all of Ukraine.',
+'Silent Disco для церков і християнських спільнот':
+  'Silent Disco for churches and Christian communities',
+'Церковні спільноти, служителі та організатори християнських заходів':
+  'Church communities, ministers and organisers of Christian events',
+'>для церков <br>і християнських <br>спільнот<':
+  '>for churches <br>and Christian <br>communities<',
+'Богослужіння з перекладом, молодіжні зустрічі, час молитви й роздумів або спільні церковні події: бездротові навушники відкривають нові можливості для організації аудіопростору. Учасники можуть слухати потрібний канал, а SILENT допоможе підготувати обладнання та подбати про технічну частину заходу в Києві й по всій Україні.':
+  'Services with interpreting, youth meetings, time for prayer and reflection or shared church events: wireless headphones open new possibilities for organising the audio space. Participants can listen to the channel they need, and SILENT will prepare the equipment and take care of the technical side of the event in Kyiv and across Ukraine.',
+'data-cta="church_hero_order">Обговорити подію':
+  'Discuss your event',
+'Кілька аудіоканалів':
+  'Several audio channels',
+'Різні мовні версії, аудіопрограми або музичні напрями залежно від конфігурації.':
+  'Different language versions, audio programmes or musical styles, depending on the configuration.',
+'Синхронний переклад':
+  'Simultaneous interpreting',
+'Можливість передавати переклад через окремі канали за наявності відповідних аудіоджерел.':
+  'Interpreting can be sent through separate channels if suitable audio sources are available.',
+'Простір для зосередження':
+  'Space to focus',
+'Можливість слухати вибраний аудіосигнал через навушники без гучних колонок для нього.':
+  'Listen to the chosen audio signal in headphones without loud speakers for it.',
+'Організація під ключ':
+  'Turnkey organisation',
+'Допомагаємо підготувати обладнання, налаштувати його та перевірити перед початком події.':
+  'We help prepare the equipment, set it up and check it before the event starts.',
+'У церковній спільноті можуть зустрічатися люди з різними мовами, досвідом і потребами. Комусь важливо чути проповідь рідною мовою, хтось бере участь у молодіжній зустрічі, а хтось шукає простору для молитви та зосередження.':
+  'A church community can include people with different languages, experiences and needs. For some it matters to hear the sermon in their native language, some take part in a youth meeting, and some look for a place to pray and concentrate.',
+'<a href="/experiences/silent-disco/">Бездротові навушники</a> з кількома аудіоканалами дають змогу організовувати різні формати в межах одного простору. За відповідної технічної конфігурації на окремих каналах можуть передаватися різні мовні версії, аудіопрограми або музичний супровід.':
+  '<a href="/experiences/silent-disco/">Wireless headphones</a> with several audio channels make it possible to organise different formats within one space. With a suitable technical configuration, separate channels can carry different language versions, audio programmes or musical accompaniment.',
+'Ми допомагаємо підібрати комплект і підготувати обладнання відповідно до вашого сценарію, щоб команда церкви могла зосередитися на людях, програмі та змісті зустрічі.':
+  'We help choose a set and prepare the equipment for your scenario, so that the church team can focus on people, the programme and the substance of the meeting.',
+'Технологія підлаштовується під потреби спільноти.':
+  'The technology adapts to the needs of the community.',
+'Silent для церковних подій':
+  'Silent for church events',
+'Один простір. Різні способи слухати.':
+  'One space. Different ways to listen.',
+'Технологія, яка допомагає врахувати різні потреби громади й організувати аудіосупровід відповідно до формату зустрічі.':
+  'Technology that helps take the different needs of the community into account and organise the audio to suit the format of the meeting.',
+'Богослужіння з перекладом':
+  'Services with interpreting',
+'Щоб кожен міг почути своєю мовою. Під час міжнародних богослужінь, конференцій або зустрічей багатомовної громади окремі аудіоканали можуть передавати різні мовні версії проповіді. Учасники обирають потрібний канал і залишаються в спільному просторі з усією громадою. Потрібні окремі аудіосигнали для мовних каналів і відповідна система перекладу, а кількість мов залежить від конфігурації обладнання.':
+  'So that everyone can hear in their own language. During international services, conferences or meetings of a multilingual community, separate audio channels can carry different language versions of the sermon. Participants choose the channel they need and stay in the shared space with the whole community. Separate audio signals for the language channels and a suitable interpreting system are required, and the number of languages depends on the equipment configuration.',
+'Час молитви та роздумів':
+  'Time for prayer and reflection',
+'Простір для тиші й зосередження. Під час ретриту, молитовного дня або особистого часу роздумів навушники можуть передавати спокійну музику, голосовий супровід, біблійні тексти чи керовані роздуми. Кожен учасник слухає вибраний аудіосигнал і може краще зосередитися на власному часі з Богом.':
+  'A space for quiet and focus. During a retreat, a day of prayer or personal time for reflection, the headphones can carry calm music, a voice guide, Bible readings or guided reflections. Each participant listens to the chosen audio signal and can focus better on their own time with God.',
+'Молодь, табори й спільні вечори':
+  'Youth, camps and shared evenings',
+'Для молоді, яка хоче бути разом. Молодіжні вечори, християнські табори, виїзди, музичні вечори та святкування громади можуть поєднувати музику, спілкування й спільні активності. Три канали дають змогу обирати різні плейлісти, а навушники допомагають організувати музичну програму без звичайних гучних колонок. Це додатковий формат, який церква застосовує відповідно до власних цілей і традицій.':
+  'For young people who want to be together. Youth evenings, Christian camps, trips, music evenings and community celebrations can combine music, conversation and shared activities. Three channels let people choose different playlists, and the headphones help organise a music programme without ordinary loud speakers. It is an additional format that a church uses according to its own goals and traditions.',
+'Біблійні заняття та навчання':
+  'Bible studies and training',
+'Кілька аудіопрограм в одному просторі. За відповідної конфігурації різні групи можуть слухати окремі лекції, навчальні матеріали чи аудіоповідомлення в межах одного приміщення. Це може бути корисним для церковних конференцій, навчання служителів і паралельних занять. Кількість одночасних аудіопрограм залежить від кількості каналів і джерел звуку.':
+  'Several audio programmes in one space. With a suitable configuration, different groups can listen to separate lectures, learning materials or audio messages within one room. This can be useful for church conferences, ministry training and parallel sessions. The number of simultaneous audio programmes depends on the number of channels and sound sources.',
+'Сценарії':
+  'Scenarios',
+'Що можна організувати':
+  'What can be organised',
+'Формат підлаштовується під цілі та традиції вашої громади: це додатковий інструмент, а не заміна звичних для церкви форм.':
+  'The format adapts to the goals and traditions of your community: it is an additional tool, not a replacement for the forms your church is used to.',
+'Підключаємо звук. Ви зосереджуєтеся на головному.':
+  'We connect the sound. You focus on what matters most.',
+'Навушники приймають аудіосигнал від передавача, підключеного до відповідного джерела звуку. Учасник обирає доступний канал і слухає його через навушники. Ми допомагаємо підготувати обладнання та перевірити роботу системи до початку події.':
+  'The headphones receive an audio signal from a transmitter connected to the right sound source. A participant chooses an available channel and listens to it through the headphones. We help prepare the equipment and check that the system works before the event.',
+'Визначаємо сценарій':
+  'We define the scenario',
+'Уточнюємо, що саме потрібно передавати: музику, голос промовця, переклад чи іншу аудіопрограму.':
+  "We clarify what exactly needs to be transmitted: music, the speaker's voice, interpreting or another audio programme.",
+'Готуємо аудіоканали':
+  'We prepare the audio channels',
+'Узгоджуємо джерела звуку, кількість каналів і технічну схему відповідно до вашого сценарію. Якщо для перекладу, мікрофонів чи кількох незалежних промовців потрібні додаткові компоненти, домовляємося про це до бронювання.':
+  'We agree on the sound sources, the number of channels and the technical scheme for your scenario. If interpreting, microphones or several independent speakers need additional components, we agree on this before booking.',
+'Налаштовуємо обладнання':
+  'We set up the equipment',
+'Встановлюємо передавачі, перевіряємо сигнал і пояснюємо учасникам, як користуватися навушниками.':
+  'We install the transmitters, check the signal and explain to participants how to use the headphones.',
+'Проводимо перевірку':
+  'We run a check',
+'До початку події тестуємо погоджену конфігурацію, щоб переконатися, що потрібні аудіосигнали передаються на відповідні канали.':
+  'Before the event we test the agreed configuration to make sure that the required audio signals reach the right channels.',
+'Від ідеї до готового аудіопростору':
+  'From an idea to a ready audio space',
+'Розкажіть, для чого вашій церкві потрібні навушники: для богослужіння, перекладу, молодіжної зустрічі, часу роздумів чи іншої події. Ми допоможемо визначити потрібний комплект і узгодити технічні деталі.':
+  'Tell us what your church needs the headphones for: a service, interpreting, a youth meeting, time for reflection or another event. We will help determine the right set and agree on the technical details.',
+'>Ваша подія<':
+  '>Your event<',
+'Ви зосереджуєтеся на служінні':
+  'You focus on your ministry',
+'Учасники користуються навушниками відповідно до погодженого сценарію, а ви можете зосередитися на програмі та громаді. Після події ми демонтуємо й забираємо обладнання, якщо це передбачено замовленням.':
+  'Participants use the headphones according to the agreed scenario, and you can focus on the programme and the community. After the event we dismantle and collect the equipment, if this is included in the order.',
+'>Підготовка<':
+  '>Preparation<',
+'Налаштовуємо систему':
+  'We set up the system',
+'Привозимо й встановлюємо обладнання, підключаємо погоджені джерела звуку та перевіряємо сигнал перед початком події.':
+  'We bring and install the equipment, connect the agreed sound sources and check the signal before the event starts.',
+'>Узгодження<':
+  '>Agreement<',
+'Підбираємо конфігурацію':
+  'We choose the configuration',
+'Уточнимо джерела звуку, кількість каналів, потребу в перекладачах або додатковому обладнанні та підготуємо розрахунок вартості.':
+  'We will clarify the sound sources, the number of channels, the need for interpreters or extra equipment and prepare a cost estimate.',
+'>Заявка<':
+  '>Request<',
+'Розкажіть про свою подію':
+  'Tell us about your event',
+'Вкажіть дату, місце, кількість учасників і формат використання навушників. Якщо плануєте переклад, напишіть, скільки мов потрібно передавати одночасно.':
+  'Give the date, place, number of participants and how you plan to use the headphones. If you plan interpreting, say how many languages need to be transmitted at the same time.',
+'Технологія Silent Disco може використовуватися в різних форматах: від молодіжних вечірок і фестивалів до навчальних заходів та конференцій. Оберіть формат, який вас цікавить, і дізнайтеся, як організувати його за допомогою SILENT. Про сам формат докладно в статті <a href="/blog/tykha-dyskoteka-silent-disco/">«Silent Disco, або тиха дискотека»</a>.':
+  'Silent Disco technology can be used in different formats, from youth parties and festivals to educational events and conferences. Choose the format you are interested in and find out how to organise it with SILENT. For more on the format itself, see the article <a href="/blog/tykha-dyskoteka-silent-disco/">“Silent Disco, or a silent disco”</a>.',
+'Чи можна використовувати Silent Disco під час богослужіння?':
+  'Can Silent Disco be used during a church service?',
+'Так, за умови, що формат і технічна схема відповідають потребам вашої громади. Навушники можуть передавати голос промовця, музичний супровід або переклад через відповідні аудіоканали. Перед бронюванням узгодимо джерела звуку та спосіб підключення.':
+  "Yes, provided that the format and technical scheme suit the needs of your community. The headphones can carry the speaker's voice, musical accompaniment or interpreting through suitable audio channels. Before booking we agree on the sound sources and the way of connecting them.",
+'Чи можна організувати синхронний переклад кількома мовами?':
+  'Can simultaneous interpreting be organised in several languages?',
+'Так, якщо для кожної мови є окремий аудіосигнал і відповідний канал у системі. Учасники обирають канал із потрібною мовою та слухають переклад через навушники. Стандартний комплект SILENT має три канали, тому кількість мов потрібно узгодити з урахуванням доступних каналів, оригінального звуку й необхідної технічної конфігурації.':
+  'Yes, if every language has a separate audio signal and a matching channel in the system. Participants choose the channel with the language they need and listen to the interpreting through the headphones. The standard SILENT set has three channels, so the number of languages must be agreed taking into account the available channels, the original sound and the technical configuration required.',
+'Чи потрібні окремі перекладачі?':
+  'Are separate interpreters needed?',
+'Якщо ви плануєте живий синхронний переклад, потрібно організувати роботу перекладачів і передавання їхнього аудіосигналу до відповідних каналів. Якщо маєте готові записи перекладу, можна розглянути трансляцію попередньо підготовлених аудіоверсій. Конкретний варіант узгоджується до події.':
+  'If you plan live simultaneous interpreting, you need to arrange the work of interpreters and the transmission of their audio signal to the right channels. If you have ready recordings of the interpreting, broadcasting pre-prepared audio versions can be considered. The specific option is agreed before the event.',
+'Чи можна організувати час молитви або роздумів?':
+  'Can time for prayer or reflection be organised?',
+'Так. Навушники можуть передавати спокійну музику, біблійні тексти, голосовий супровід або керовані роздуми. Такий формат можна використовувати під час ретритів, молитовних днів та інших заходів, де важливо зосередитися на вибраному аудіосупроводі.':
+  'Yes. The headphones can carry calm music, Bible readings, a voice guide or guided reflections. This format can be used during retreats, days of prayer and other events where it is important to focus on the chosen audio.',
+'Чи можна проводити кілька занять одночасно?':
+  'Can several sessions run at the same time?',
+'Це можливо за відповідної конфігурації. Кожна незалежна аудіопрограма потребує доступного каналу й окремого джерела звуку. Перед подією потрібно узгодити кількість програм, каналів і технічну схему.':
+  'This is possible with a suitable configuration. Each independent audio programme needs an available channel and a separate sound source. Before the event, the number of programmes, channels and the technical scheme must be agreed.',
+'Чи підходять навушники для молодіжних зустрічей і таборів?':
+  'Are the headphones suitable for youth meetings and camps?',
+'Так. Silent Disco можна використовувати для молодіжних вечорів, таборів, виїздів і неформальних зустрічей. Учасники обирають музичний канал, а організатори можуть провести музичну програму без гучних колонок.':
+  'Yes. Silent Disco can be used for youth evenings, camps, trips and informal meetings. Participants choose a music channel, and the organisers can run a music activity without ordinary loud speakers for it.',
+'Що потрібно для проведення події?':
+  'What is needed to hold the event?',
+'Потреби залежать від сценарію. Для музичного формату потрібні навушники, передавачі та джерела звуку. Для синхронного перекладу потрібні відповідні аудіосигнали й технічна схема підключення перекладачів. Ми уточнимо ваші потреби та пояснимо, що входить у погоджений комплект.':
+  'The needs depend on the scenario. A music format needs headphones, transmitters and sound sources. Simultaneous interpreting needs suitable audio signals and a technical scheme for connecting the interpreters. We will clarify your needs and explain what is included in the agreed set.',
+'Скільки це коштує?':
+  'How much does it cost?',
+'Мінімальний комплект SILENT — 40 навушників на 4 години, від 12 000 грн. У базову вартість входять доставка, встановлення, технічний супровід і вивезення обладнання. Остаточна вартість залежить від дати, місця, тривалості та додаткових технічних потреб. Для сценаріїв із перекладом або кількома незалежними аудіоджерелами склад комплекту потрібно узгодити окремо.':
+  'The minimum SILENT set is 40 headphones for 4 hours, from UAH 12,000. The base price includes delivery, installation, technical support and removal of the equipment. The final cost depends on the date, venue, duration and additional technical needs. For scenarios with interpreting or several independent audio sources, the contents of the set must be agreed separately.',
+'Церкви й християнські спільноти: часті запитання':
+  'Churches and Christian communities: frequently asked questions',
+'Розрахуйте вартість для вашої громади':
+  'Calculate the cost for your community',
+'Оберіть кількість навушників, тривалість події та доступні додаткові опції. Якщо плануєте синхронний переклад або кілька незалежних аудіопрограм, залиште заявку: ми окремо узгодимо технічну конфігурацію.':
+  'Choose the number of headphones, the duration of the event and the available extra options. If you plan simultaneous interpreting or several independent audio programmes, leave a request: we will agree the technical configuration separately.',
+'Це попередній розрахунок. Фінальна вартість залежить від дати, місця проведення, тривалості та погодженої конфігурації обладнання. Остаточну суму підтверджуємо після узгодження деталей. Розрахунок не є публічною офертою.':
+  'This is a preliminary estimate. The final cost depends on the date, venue, duration and the agreed equipment configuration. We confirm the final amount after the details are agreed. The estimate is not a public offer.',
+'Обговорімо, що потрібно вашій громаді':
+  "Let's discuss what your community needs",
+'Розкажіть про вашу церкву та формат зустрічі, яку плануєте. Ми допоможемо визначити, як використати навушники, скільки каналів потрібно й яке обладнання необхідне. Разом узгодимо технічні деталі, щоб ви могли зосередитися на людях і змісті події.':
+  'Tell us about your church and the format of the meeting you plan. We will help determine how to use the headphones, how many channels are needed and what equipment is required. Together we will agree on the technical details so that you can focus on people and the substance of the event.',
+'<h2>Обговорити <span class="em">подію</span></h2>':
+  '<h2>Discuss <span class="em">your event</span></h2>',
+'Залиште заявку: ми зв’яжемося з вами, уточнимо потреби громади та допоможемо підібрати відповідний формат.':
+  'Leave a request: we will contact you, clarify the needs of your community and help choose a suitable format.',
+'<a href="/en/experiences/silent-disco/">Бездротові навушники</a> з кількома аудіоканалами дають змогу організовувати різні формати в межах одного простору. За відповідної технічної конфігурації на окремих каналах можуть передаватися різні мовні версії, аудіопрограми або музичний супровід.':
+  '<a href="/en/experiences/silent-disco/">Wireless headphones</a> with several audio channels make it possible to organise different formats within one space. With a suitable technical configuration, separate channels can carry different language versions, audio programmes or musical accompaniment.',
+'Богослужіння з перекладом':
+  'Services with interpreting',
+'Щоб кожен міг почути своєю мовою.':
+  'So that everyone can hear in their own language.',
+'Під час міжнародних богослужінь, конференцій або зустрічей багатомовної громади окремі аудіоканали можуть передавати різні мовні версії проповіді. Учасники обирають потрібний канал і залишаються в спільному просторі з усією громадою.':
+  'During international services, conferences or meetings of a multilingual community, separate audio channels can carry different language versions of the sermon. Participants choose the channel they need and stay in the shared space with the whole community.',
+'Потрібні окремі аудіосигнали для мовних каналів і відповідна система перекладу, а кількість мов залежить від конфігурації обладнання.':
+  'Separate audio signals for the language channels and a suitable interpreting system are required, and the number of languages depends on the equipment configuration.',
+'Час молитви та роздумів':
+  'Time for prayer and reflection',
+'Простір для тиші й зосередження.':
+  'A space for quiet and focus.',
+'Під час ретриту, молитовного дня або особистого часу роздумів навушники можуть передавати спокійну музику, голосовий супровід, біблійні тексти чи керовані роздуми. Кожен учасник слухає вибраний аудіосигнал і може краще зосередитися на власному часі з Богом.':
+  'During a retreat, a day of prayer or personal time for reflection, the headphones can carry calm music, a voice guide, Bible readings or guided reflections. Each participant listens to the chosen audio signal and can focus better on their own time with God.',
+'Молодь, табори й спільні вечори':
+  'Youth, camps and shared evenings',
+'Для молоді, яка хоче бути разом.':
+  'For young people who want to be together.',
+'Молодіжні вечори, християнські табори, виїзди, музичні вечори та святкування громади можуть поєднувати музику, спілкування й спільні активності. Три канали дають змогу обирати різні плейлісти, а навушники допомагають організувати музичну програму без звичайних гучних колонок.':
+  'Youth evenings, Christian camps, trips, music evenings and community celebrations can combine music, conversation and shared activities. Three channels let people choose different playlists, and the headphones help organise a music programme without ordinary loud speakers.',
+'Це додатковий формат: церква застосовує його відповідно до власних цілей і традицій.':
+  'It is an additional format: a church uses it according to its own goals and traditions.',
+'Біблійні заняття та навчання':
+  'Bible studies and training',
+'Кілька аудіопрограм в одному просторі.':
+  'Several audio programmes in one space.',
+'За відповідної конфігурації різні групи можуть слухати окремі лекції, навчальні матеріали чи аудіоповідомлення в межах одного приміщення. Це може бути корисним для церковних конференцій, навчання служителів і паралельних занять.':
+  'With a suitable configuration, different groups can listen to separate lectures, learning materials or audio messages within one room. This can be useful for church conferences, ministry training and parallel sessions.',
+'Кількість одночасних аудіопрограм залежить від кількості каналів і джерел звуку.':
+  'The number of simultaneous audio programmes depends on the number of channels and sound sources.',
+'Щоб кожен міг почути своєю мовою: на окремих каналах можуть звучати різні мовні версії проповіді, а учасники залишаються в спільному просторі з усією громадою.':
+  'So that everyone can hear in their own language: separate channels can carry different language versions of the sermon, while participants stay in the shared space with the whole community.',
+'Потрібні окремі аудіосигнали й система перекладу; кількість мов залежить від конфігурації.':
+  'Separate audio signals and an interpreting system are required; the number of languages depends on the configuration.',
+'Простір для тиші й зосередження: на ретриті чи молитовному дні навушники можуть передавати спокійну музику, біблійні тексти або керовані роздуми, а кожен слухає вибране.':
+  'A space for quiet and focus: on a retreat or a day of prayer the headphones can carry calm music, Bible readings or guided reflections, and everyone listens to their own choice.',
+'Навушники допомагають зосередитися на вибраному звуці, але не гарантують повної тиші.':
+  'The headphones help you focus on the chosen sound but do not guarantee complete silence.',
+'Молодь і спільні вечори':
+  'Youth and shared evenings',
+'Для молоді, яка хоче бути разом: молодіжні вечори, табори, виїзди та святкування громади. Три канали дають змогу обирати різні плейлісти без звичайних гучних колонок.':
+  'For young people who want to be together: youth evenings, camps, trips and community celebrations. Three channels let people choose different playlists without ordinary loud speakers.',
+'Кілька аудіопрограм в одному просторі: різні групи слухають окремі лекції чи матеріали в межах одного приміщення, наприклад на церковних конференціях і паралельних заняттях.':
+  'Several audio programmes in one space: different groups listen to separate lectures or materials within one room, for example at church conferences and parallel sessions.',
+'Кількість одночасних програм залежить від кількості каналів і джерел звуку.':
+  'The number of simultaneous programmes depends on the number of channels and sound sources.',
+'Гості в затишній залі слухають музику в навушниках Silent Disco':
+  'Guests in a cosy hall listen to music in Silent Disco headphones',
+'Кілька аудіопрограм в одному просторі: різні групи слухають окремі лекції чи матеріали в одному приміщенні, наприклад на конференціях і паралельних заняттях.':
+  'Several audio programmes in one space: different groups listen to separate lectures or materials in one room, for example at conferences and parallel sessions.',
+'Потрібні окремі аудіосигнали й система перекладу; кількість мов залежить від обладнання.':
+  'Separate audio signals and an interpreting system are required; the number of languages depends on the equipment.',
+'Дівчина слухає переклад у бездротових навушниках Silent Disco':
+  'A girl listens to interpreting in wireless Silent Disco headphones',
+
+'Люди в навушниках Silent Disco зосереджено слухають, сидячи на скелях на заході сонця':
+  'People in Silent Disco headphones listen attentively sitting on rocks at sunset',
+
+'Учасники за довгим столом слухають лекцію в навушниках Silent Disco':
+  'Participants at a long table listen to a lecture in Silent Disco headphones',
+
+'Щоб кожен міг почути своєю мовою: на окремих каналах звучать різні мовні версії проповіді, а учасники залишаються в спільному просторі. Потрібні окремі аудіосигнали й система перекладу.':
+  'So that everyone can hear in their own language: separate channels carry different language versions of the sermon, while participants stay in the shared space. Separate audio signals and an interpreting system are required.',
+
+'Простір для тиші й зосередження: на ретриті чи молитовному дні навушники передають спокійну музику, біблійні тексти чи керовані роздуми, а кожен слухає вибране. Повної тиші навушники не гарантують.':
+  'A space for quiet and focus: on a retreat or a day of prayer the headphones carry calm music, Bible readings or guided reflections, and everyone listens to their own choice. They do not guarantee complete silence.',
+
+'Для молоді, яка хоче бути разом: вечори, табори, виїзди та святкування громади. Три канали дають змогу обирати різні плейлісти без гучних колонок, а як застосувати формат, вирішує сама церква.':
+  'For young people who want to be together: evenings, camps, trips and community celebrations. Three channels let people choose different playlists without loud speakers, and the church itself decides how to use the format.',
+
+'Кілька аудіопрограм в одному просторі: різні групи слухають окремі лекції чи матеріали в одному приміщенні. Кількість програм залежить від кількості каналів і джерел звуку.':
+  'Several audio programmes in one space: different groups listen to separate lectures or materials in one room. The number of programmes depends on the number of channels and sound sources.',
+'Окремі канали передають різні мовні версії проповіді. Потрібні аудіосигнали й система перекладу.':
+  'Separate channels carry different language versions of the sermon. Audio signals and an interpreting system are required.',
+'Спокійна музика чи біблійні тексти для зосередження. Повної тиші навушники не гарантують.':
+  'Calm music or Bible readings for focus. The headphones do not guarantee complete silence.',
+'Вечори, табори й виїзди: три канали з різними плейлістами без гучних колонок.':
+  'Evenings, camps and trips: three channels with different playlists, without loud speakers.',
+'Кілька лекцій в одному залі. Кількість програм залежить від каналів і джерел звуку.':
+  'Several lectures in one hall. The number of programmes depends on the channels and sound sources.',
+'Щоб кожен міг почути своєю мовою: на окремих каналах звучать різні мовні версії проповіді, а учасники залишаються в спільному просторі. Потрібні окремі аудіосигнали й система перекладу.':
+  'So that everyone can hear in their own language: separate channels carry different language versions of the sermon, while participants stay in the shared space. Separate audio signals and an interpreting system are required.',
+'Простір для тиші й зосередження: на ретриті чи молитовному дні навушники передають спокійну музику, біблійні тексти чи керовані роздуми, а кожен слухає вибране. Повної тиші навушники не гарантують.':
+  'A space for quiet and focus: on a retreat or a day of prayer the headphones carry calm music, Bible readings or guided reflections, and everyone listens to their own choice. They do not guarantee complete silence.',
+'Для молоді, яка хоче бути разом: вечори, табори, виїзди та святкування громади. Три канали дають змогу обирати різні плейлісти без гучних колонок, а як застосувати формат, вирішує сама церква.':
+  'For young people who want to be together: evenings, camps, trips and community celebrations. Three channels let people choose different playlists without loud speakers, and the church itself decides how to use the format.',
+'Кілька аудіопрограм в одному просторі: різні групи слухають окремі лекції чи матеріали в одному приміщенні. Кількість програм залежить від кількості каналів і джерел звуку.':
+  'Several audio programmes in one space: different groups listen to separate lectures or materials in one room. The number of programmes depends on the number of channels and sound sources.',
+'Мови, програми чи музика на окремих каналах.':
+  'Languages, programmes or music on separate channels.',
+'Переклад через окремі канали за наявності аудіоджерел.':
+  'Interpreting through separate channels if audio sources are available.',
+'Вибраний звук у навушниках, без гучних колонок.':
+  'The chosen sound in headphones, without loud speakers.',
+'Підготуємо, налаштуємо й перевіримо обладнання.':
+  'We prepare, set up and check the equipment.',
+'>Бездротові <br>аудіорішення<':
+  '>Wireless <br>audio solutions<',
+'Від синхронного перекладу богослужінь до молодіжних зустрічей, біблійних занять і часу тиші. SILENT допомагає організувати аудіопростір відповідно до потреб вашої громади за допомогою бездротових навушників і технології Silent Disco, адаптованої для церковних потреб.':
+  'From simultaneous interpreting of services to youth meetings, Bible studies and time for quiet. SILENT helps organise the audio space according to the needs of your community using wireless headphones and Silent Disco technology adapted for church needs.',
+'Обговорити формат':
+  'Discuss the format',
+'>Бездротові<':
+  '>Wireless<',
+'>аудіорішення <br>для церков і <br>християнських <br>спільнот<':
+  '>audio solutions <br>for churches and <br>Christian <br>communities<',
+'Обговорити подію':
+  'Discuss your event',
 }

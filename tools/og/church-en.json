@@ -1,0 +1,27 @@
+{
+  "out": "images/church/og-church-en.jpg",
+  "heading": [
+    "Silent sound",
+    "for churches & gatherings"
+  ],
+  "subtitle": [
+    [
+      "A youth evening, a camp or a meeting:"
+    ],
+    [
+      "several programmes in one space."
+    ]
+  ],
+  "pills": [
+    "Music <b>in headphones</b>",
+    "<b>3</b> channels to choose from",
+    "Everything <b>turnkey</b>",
+    "<b>Kyiv</b> &amp; Ukraine"
+  ],
+  "template": "template-full-left.html",
+  "bg": {
+    "src": "images/church/cerkva-kontsert-iz-khrestom.webp",
+    "pos": "50% 45%"
+  },
+  "css": ".p>img{left:400px;right:auto;width:800px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%)}.h span+span{font-size:40px;font-weight:400;letter-spacing:-.01em;margin-top:6px} .sub{font-weight:500;margin-top:30px;font-size:23px}"
+}
