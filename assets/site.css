@@ -8246,6 +8246,9 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
 .art-flow > :last-child { margin-bottom: 0; }
 .art-flow a { color: var(--lime); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(198,255,0,.45); transition: text-decoration-color .2s, color .2s; }
 .art-flow a:hover { text-decoration-color: var(--lime); color: #fff; }
+/* Посилання у вступній плашці (lead) виглядає так само, як у тексті статті: інакше воно зливається з білим текстом. */
+.art-lead a { color: var(--lime); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(198,255,0,.45); transition: text-decoration-color .2s, color .2s; }
+.art-lead a:hover { text-decoration-color: var(--lime); color: #fff; }
 
 /* Кроки: велика лаймова цифра, жирна назва й пояснення. Лічильник дає 01, 02, 03: нумерація не поїде, коли кроки додають чи прибирають. */
 .art-steps { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; }
