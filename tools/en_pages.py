@@ -1231,7 +1231,7 @@ T_PAGE_ALL = {
   "The format suits offices, restaurants, lofts, country complexes and open-air venues. You need space for guests and dancing, and access to power. About 30 minutes before the start are needed for setup and a signal check. We bring the equipment and take it away after the event. For open-air events, <a href=\"/en/faq/#faqA-o4\">rain protection or a backup location</a> should be agreed in advance.",
 "Що організувати на корпоративі замість конкурсів?":
   "What can I organise at a corporate event instead of contests?",
-"Спробуйте формат, у якому гості самі обирають музику та спосіб участі. Silent Disco дозволяє танцювати, слухати улюблений канал або спілкуватися без необхідності виходити на сцену. Більше ідей читайте в статті <a href=\"/blog/idei-dlya-korporativu/\">Ідеї для корпоративу: розваги без конкурсів і сцени</a>.":
+"Спробуйте формат, у якому гості самі обирають музику та спосіб участі. Silent Disco дає змогу танцювати, слухати улюблений канал або спілкуватися без необхідності виходити на сцену. Більше ідей читайте в статті <a href=\"/blog/idei-dlya-korporativu/\">Ідеї для корпоративу: розваги без конкурсів і сцени</a>.":
   "Try a format where guests choose the music and the way they take part. Silent Disco lets you dance, listen to your favourite channel or chat without having to go on stage. You can find more ideas in our article (in Ukrainian): <a href=\"/blog/idei-dlya-korporativu/\">Ideas for a corporate event: entertainment without contests and a stage</a>.",
 "Коли бронювати й що робити, якщо плани зміняться?":
   "When should I book, and what if plans change?",
@@ -2704,7 +2704,7 @@ T_PAGE_ALL = {
   "Yes, provided that the format and technical scheme suit the needs of your community. The headphones can carry the speaker's voice, musical accompaniment or interpreting through suitable audio channels. Before booking we agree on the sound sources and the way of connecting them.",
 'Чи можна організувати синхронний переклад кількома мовами?':
   'Can simultaneous interpreting be organised in several languages?',
-'Так, якщо для кожної мови є окремий аудіосигнал і відповідний канал у системі. Учасники обирають канал із потрібною мовою та слухають переклад через навушники. Стандартний комплект SILENT має три канали, тому кількість мов потрібно узгодити з урахуванням доступних каналів, оригінального звуку й необхідної технічної конфігурації. Докладніше читайте в статті <a href="/blog/synkhronnyi-pereklad-bohosluzhinnia/">«Синхронний переклад богослужіння»</a>.':
+'Так, якщо для кожної мови є окремий аудіосигнал і відповідний канал у системі. Учасники обирають канал із потрібною мовою та слухають переклад через навушники. Стандартний комплект SILENT має три канали, тому кількість мов потрібно узгодити з урахуванням доступних каналів, оригінального звуку й потрібної технічної конфігурації. Докладніше читайте в статті <a href="/blog/synkhronnyi-pereklad-bohosluzhinnia/">«Синхронний переклад богослужіння»</a>.':
   'Yes, if every language has a separate audio signal and a matching channel in the system. Participants choose the channel with the language they need and listen to the interpreting through the headphones. The standard SILENT set has three channels, so the number of languages must be agreed taking into account the available channels, the original sound and the technical configuration required. For more, see the article <a href="/blog/synkhronnyi-pereklad-bohosluzhinnia/">“Simultaneous interpreting of church services”</a>.',
 'Чи потрібні окремі перекладачі?':
   'Are separate interpreters needed?',
@@ -2740,7 +2740,7 @@ T_PAGE_ALL = {
   'This is a preliminary estimate. The final cost depends on the date, venue, duration and the agreed equipment configuration. We confirm the final amount after the details are agreed. The estimate is not a public offer.',
 'Обговорімо, що потрібно вашій громаді':
   "Let's discuss what your community needs",
-'Розкажіть про вашу церкву та формат зустрічі, яку плануєте. Ми допоможемо визначити, як використати навушники, скільки каналів потрібно й яке обладнання необхідне. Разом узгодимо технічні деталі, щоб ви могли зосередитися на людях і змісті події.':
+'Розкажіть про вашу церкву та формат зустрічі, яку плануєте. Ми допоможемо визначити, як використати навушники, скільки каналів потрібно й яке обладнання потрібне. Разом узгодимо технічні деталі, щоб ви могли зосередитися на людях і змісті події.':
   'Tell us about your church and the format of the meeting you plan. We will help determine how to use the headphones, how many channels are needed and what equipment is required. Together we will agree on the technical details so that you can focus on people and the substance of the event.',
 '<h2>Обговорити <span class="em">подію</span></h2>':
   '<h2>Discuss <span class="em">your event</span></h2>',
