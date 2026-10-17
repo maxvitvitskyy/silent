@@ -708,7 +708,7 @@ def build_article(p, data, cats, posts, shared, card_fn):
             '<div class="blog-grid">\n%s</div></section>\n'
             '  <p class="art-ask">Лишилися питання? Напишіть нам у <a href="https://t.me/silent_ukraine" target="_blank" rel="noopener noreferrer">Telegram</a> '
             'або на <a href="mailto:hello.silent.ua@gmail.com">пошту</a>: відповімо протягом дня.</p>\n</div>\n\n%s'
-            % (esc(a['lead']), article_blocks(a['blocks']), share_block(url, plain_title), esc(cta['title']), esc(cta['text']), esc(cta['href']), esc(cta['track']), esc(cta['button']), faq, rel, shared['form_block']))
+            % (inline(a['lead']), article_blocks(a['blocks']), share_block(url, plain_title), esc(cta['title']), esc(cta['text']), esc(cta['href']), esc(cta['track']), esc(cta['button']), faq, rel, shared['form_block']))
     out = head + nav_block + body + tail
     d = os.path.join(OUT_DIR, slug)
     os.makedirs(d, exist_ok=True)

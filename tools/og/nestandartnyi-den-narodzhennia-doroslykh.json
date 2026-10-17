@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-nestandartnyi-den-narodzhennia-doroslykh.jpg",
+  "bg": {
+    "src": "images/birthday/den-narodzhennya-sviato-na-dvori-v-navushnykakh.webp",
+    "pos": "50% 35%"
+  },
+  "heading": [
+    "Нестандартний день",
+    "народження для дорослих"
+  ],
+  "subtitle": [
+    [
+      "Як перетворити вечірку на подію з музичними сюрпризами."
+    ]
+  ],
+  "pills": [
+    "<b>Музична</b> вечірка",
+    "<b>Особистий</b> плейлист",
+    "<b>Silent Disco</b>",
+    "<b>Сюрпризи</b> для гостей"
+  ]
+}
