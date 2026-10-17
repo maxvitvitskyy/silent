@@ -1,0 +1,24 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-silent-disco-dlya-tserkovnykh-zakhodiv.jpg",
+  "bg": {
+    "src": "images/church/cerkva-vechir-pid-girlyandamy.webp",
+    "pos": "50% 30%"
+  },
+  "heading": [
+    "Silent Disco",
+    "для церкви"
+  ],
+  "subtitle": [
+    [
+      "Для яких заходів громади підходить формат і як його організувати."
+    ]
+  ],
+  "pills": [
+    "<b>Свята</b> громади",
+    "<b>Музичні</b> вечори",
+    "<b>Три канали</b> музики",
+    "<b>Під ключ</b>"
+  ],
+  "css": ".p>img{filter:brightness(1.3) saturate(1.1)}"
+}

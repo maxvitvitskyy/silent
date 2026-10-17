@@ -463,12 +463,17 @@ def article_blocks(blocks):
                 leads = b['lead'] if isinstance(b.get('lead'), list) else ([b['lead']] if b.get('lead') else [])
                 # lead_cols / foot_cols: абзаци вступу чи висновку НА ВСЮ ширину в дві рівні колонки (.art-cards-flow), а не вузьким
                 # стовпцем ліворуч (70ch) з порожнім місцем праворуч. Без прапорців: один вузький абзац, як раніше.
+                def lp(x):
+                    # Абзац з префіксом «||» починає другу колонку (break-before: column), щоб власник керував місцем розриву.
+                    if x.startswith('||'):
+                        return '<p class="art-cards-lead col-break">%s</p>' % inline(x[2:])
+                    return '<p class="art-cards-lead">%s</p>' % inline(x)
                 def paras(items, cols):
                     # Короткий текст (до ~200 знаків) у дві колонки дає по 1-2 рядки з «хвостиком» у правій: його лишаємо одним рядком на всю ширину.
                     if cols and sum(len(x) for x in items) < 200:
                         return '<div class="art-cards-flow is-wide">%s</div>' % ''.join('<p class="art-cards-lead">%s</p>' % inline(x) for x in items)
                     if cols:
-                        return '<div class="art-cards-flow">%s</div>' % ''.join('<p class="art-cards-lead">%s</p>' % inline(x) for x in items) if items else ''
+                        return '<div class="art-cards-flow">%s</div>' % ''.join(lp(x) for x in items) if items else ''
                     return ''.join('<p class="art-cards-lead">%s</p>' % inline(x) for x in items)
                 lead = paras(leads, b.get('lead_cols'))
                 foot = paras(b.get('foot', []), b.get('foot_cols'))
@@ -486,8 +491,8 @@ def article_blocks(blocks):
                     out.append('<section class="art-blk"><div class="art-cols"><h2>%s</h2>%s<ol class="art-list is-rows">%s</ol>%s</div></section>'
                                % (esc(b['title']), lead, items, foot))
                     continue
-                out.append('<section class="art-blk"><div class="art-cols"><h2>%s</h2>%s<ol class="art-cards%s">%s</ol>%s</div></section>'
-                           % (esc(b['title']), lead, (' is-cols' if b.get('layout') in ('cols', 'three') else '') + (' is-three' if b.get('layout') == 'three' else '') + (' is-plain' if use_none else '') + (' is-check' if use_check else ''), items, foot))
+                out.append('<section class="art-blk"><div class="art-cols%s"><h2>%s</h2>%s<ol class="art-cards%s">%s</ol>%s</div></section>'
+                           % (' is-wide-title' if b.get('wide_title') else '', esc(b['title']), lead, (' is-cols' if b.get('layout') in ('cols', 'three') else '') + (' is-three' if b.get('layout') == 'three' else '') + (' is-plain' if use_none else '') + (' is-check' if use_check else ''), items, foot))
                 continue
             # Звичайний текстовий блок: ОДИН потік у дві CSS-колонки з вирівнюванням, заголовок першим елементом потоку (у лівій колонці),
             # (column-fill: balance): колонки починаються на одному рівні, закінчуються на одному, а абзац сам

@@ -240,6 +240,18 @@
       "also": [
         "ideas"
       ]
+    },
+    {
+      "slug": "silent-disco-dlya-tserkovnykh-zakhodiv",
+      "status": "published",
+      "category": "ideas",
+      "title": "Silent Disco для церкви: як організувати незвичний захід для громади",
+      "excerpt": "Як використовувати Silent Disco на церковних заходах? Розповідаємо про музичні зустрічі, свята громади та організацію подій із бездротовими навушниками.",
+      "image": "/images/church/cerkva-vechir-pid-girlyandamy.webp",
+      "alt": "Вечір просто неба під гірляндами: гості слухають музику в навушниках Silent Disco",
+      "also": [
+        "holidays"
+      ]
     }
   ]
 }
