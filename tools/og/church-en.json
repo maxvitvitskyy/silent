@@ -1,15 +1,17 @@
 {
   "out": "images/church/og-church-en.jpg",
   "heading": [
-    "Silent sound",
-    "for churches & gatherings"
+    "Wireless audio",
+    "solutions for",
+    "churches and Christian",
+    "communities"
   ],
   "subtitle": [
     [
-      "A youth evening, a camp or a meeting:"
+      "Interpreting for services, youth meetings,"
     ],
     [
-      "several programmes in one space."
+      "Bible studies and time for quiet."
     ]
   ],
   "pills": [
@@ -23,5 +25,5 @@
     "src": "images/church/cerkva-kontsert-iz-khrestom.webp",
     "pos": "50% 45%"
   },
-  "css": ".p>img{left:400px;right:auto;width:800px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%)}.h span+span{font-size:40px;font-weight:400;letter-spacing:-.01em;margin-top:6px} .sub{font-weight:500;margin-top:30px;font-size:23px}"
+  "css": ".p>img{left:400px;right:auto;width:800px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%)}.h span+span{font-size:33px;font-weight:400;letter-spacing:-.01em;margin-top:6px} .sub{font-weight:500;margin-top:30px;font-size:23px} .pill{padding:10.5px 17px;font-size:13.5px}"
 }

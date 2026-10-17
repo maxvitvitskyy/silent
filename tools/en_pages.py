@@ -2728,10 +2728,10 @@ T_PAGE_ALL = {
   'The needs depend on the scenario. A music format needs headphones, transmitters and sound sources. Simultaneous interpreting needs suitable audio signals and a technical scheme for connecting the interpreters. We will clarify your needs and explain what is included in the agreed set.',
 'Скільки це коштує?':
   'How much does it cost?',
-'Мінімальний комплект SILENT — 40 навушників на 4 години, від 12 000 грн. У базову вартість входять доставка, встановлення, технічний супровід і вивезення обладнання. Остаточна вартість залежить від дати, місця, тривалості та додаткових технічних потреб. Для сценаріїв із перекладом або кількома незалежними аудіоджерелами склад комплекту потрібно узгодити окремо.':
-  'The minimum SILENT set is 40 headphones for 4 hours, from UAH 12,000. The base price includes delivery, installation, technical support and removal of the equipment. The final cost depends on the date, venue, duration and additional technical needs. For scenarios with interpreting or several independent audio sources, the contents of the set must be agreed separately.',
-'Церкви й християнські спільноти: часті запитання':
-  'Churches and Christian communities: frequently asked questions',
+'Для церков і християнських організацій у нас діють особливі умови. Напишіть нам у особисті повідомлення й скажіть, що готуєте проєкт під церковну подію: ми запропонуємо значно вигіднішу ціну, ніж офіційна, вказана на сайті. Остаточну вартість узгоджуємо після уточнення дати, місця й потреб події.':
+  'Churches and Christian organisations get special terms. Message us directly and tell us that you are preparing a project for a church event: we will offer a much better price than the official one shown on the website. We agree the final cost after clarifying the date, venue and needs of the event.',
+'Silent для церков і християнських спільнот: часті запитання':
+  'Silent for churches and Christian communities: frequently asked questions',
 'Розрахуйте вартість для вашої громади':
   'Calculate the cost for your community',
 'Оберіть кількість навушників, тривалість події та доступні додаткові опції. Якщо плануєте синхронний переклад або кілька незалежних аудіопрограм, залиште заявку: ми окремо узгодимо технічну конфігурацію.':
@@ -2812,14 +2812,14 @@ T_PAGE_ALL = {
 'Щоб кожен міг почути своєю мовою: на окремих каналах звучать різні мовні версії проповіді, а учасники залишаються в спільному просторі. Потрібні окремі аудіосигнали й система перекладу.':
   'So that everyone can hear in their own language: separate channels carry different language versions of the sermon, while participants stay in the shared space. Separate audio signals and an interpreting system are required.',
 
-'Простір для тиші й зосередження: на ретриті чи молитовному дні навушники передають спокійну музику, біблійні тексти чи керовані роздуми, а кожен слухає вибране. Повної тиші навушники не гарантують.':
-  'A space for quiet and focus: on a retreat or a day of prayer the headphones carry calm music, Bible readings or guided reflections, and everyone listens to their own choice. They do not guarantee complete silence.',
+'Простір для тиші й зосередження: на ретриті чи молитовному дні навушники передають спокійну музику, біблійні тексти чи керовані роздуми, а кожен слухає вибране й залишається поруч із громадою.':
+  'A space for quiet and focus: on a retreat or a day of prayer the headphones carry calm music, Bible readings or guided reflections, and everyone listens to their own choice while staying close to the community.',
 
-'Для молоді, яка хоче бути разом: вечори, табори, виїзди та святкування громади. Три канали дають змогу обирати різні плейлісти без гучних колонок, а як застосувати формат, вирішує сама церква.':
-  'For young people who want to be together: evenings, camps, trips and community celebrations. Three channels let people choose different playlists without loud speakers, and the church itself decides how to use the format.',
+'Для молоді, яка хоче бути разом: вечори, табори й святкування. Три канали з різними плейлістами, без гучних колонок. Молодь цінує вибір, тож пропонуємо наш флагманський формат Silent Disco.':
+  'For young people who want to be together: evenings, camps and celebrations. Three channels with different playlists, no loud speakers. Young people value choice, so we offer our flagship Silent Disco format.',
 
-'Кілька аудіопрограм в одному просторі: різні групи слухають окремі лекції чи матеріали в одному приміщенні. Кількість програм залежить від кількості каналів і джерел звуку.':
-  'Several audio programmes in one space: different groups listen to separate lectures or materials in one room. The number of programmes depends on the number of channels and sound sources.',
+'Кілька аудіопрограм в одному просторі: різні групи слухають окремі лекції чи матеріали в одному приміщенні. Зручно для конференцій, навчання служителів і паралельних занять.':
+  'Several audio programmes in one space: different groups listen to separate lectures or materials in one room. Convenient for conferences, ministry training and parallel sessions.',
 'Окремі канали передають різні мовні версії проповіді. Потрібні аудіосигнали й система перекладу.':
   'Separate channels carry different language versions of the sermon. Audio signals and an interpreting system are required.',
 'Спокійна музика чи біблійні тексти для зосередження. Повної тиші навушники не гарантують.':
@@ -2830,12 +2830,12 @@ T_PAGE_ALL = {
   'Several lectures in one hall. The number of programmes depends on the channels and sound sources.',
 'Щоб кожен міг почути своєю мовою: на окремих каналах звучать різні мовні версії проповіді, а учасники залишаються в спільному просторі. Потрібні окремі аудіосигнали й система перекладу.':
   'So that everyone can hear in their own language: separate channels carry different language versions of the sermon, while participants stay in the shared space. Separate audio signals and an interpreting system are required.',
-'Простір для тиші й зосередження: на ретриті чи молитовному дні навушники передають спокійну музику, біблійні тексти чи керовані роздуми, а кожен слухає вибране. Повної тиші навушники не гарантують.':
-  'A space for quiet and focus: on a retreat or a day of prayer the headphones carry calm music, Bible readings or guided reflections, and everyone listens to their own choice. They do not guarantee complete silence.',
-'Для молоді, яка хоче бути разом: вечори, табори, виїзди та святкування громади. Три канали дають змогу обирати різні плейлісти без гучних колонок, а як застосувати формат, вирішує сама церква.':
-  'For young people who want to be together: evenings, camps, trips and community celebrations. Three channels let people choose different playlists without loud speakers, and the church itself decides how to use the format.',
-'Кілька аудіопрограм в одному просторі: різні групи слухають окремі лекції чи матеріали в одному приміщенні. Кількість програм залежить від кількості каналів і джерел звуку.':
-  'Several audio programmes in one space: different groups listen to separate lectures or materials in one room. The number of programmes depends on the number of channels and sound sources.',
+'Простір для тиші й зосередження: на ретриті чи молитовному дні навушники передають спокійну музику, біблійні тексти чи керовані роздуми, а кожен слухає вибране й залишається поруч із громадою.':
+  'A space for quiet and focus: on a retreat or a day of prayer the headphones carry calm music, Bible readings or guided reflections, and everyone listens to their own choice while staying close to the community.',
+'Для молоді, яка хоче бути разом: вечори, табори й святкування. Три канали з різними плейлістами, без гучних колонок. Молодь цінує вибір, тож пропонуємо наш флагманський формат Silent Disco.':
+  'For young people who want to be together: evenings, camps and celebrations. Three channels with different playlists, no loud speakers. Young people value choice, so we offer our flagship Silent Disco format.',
+'Кілька аудіопрограм в одному просторі: різні групи слухають окремі лекції чи матеріали в одному приміщенні. Зручно для конференцій, навчання служителів і паралельних занять.':
+  'Several audio programmes in one space: different groups listen to separate lectures or materials in one room. Convenient for conferences, ministry training and parallel sessions.',
 'Мови, програми чи музика на окремих каналах.':
   'Languages, programmes or music on separate channels.',
 'Переклад через окремі канали за наявності аудіоджерел.':

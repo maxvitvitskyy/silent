@@ -1,15 +1,16 @@
 {
   "out": "images/church/og-church.jpg",
   "heading": [
-    "Тихий звук",
-    "для церков і зібрань"
+    "Бездротові",
+    "аудіорішення для церков",
+    "і християнських спільнот"
   ],
   "subtitle": [
     [
-      "Молодіжний вечір, табір чи зустріч:"
+      "Переклад богослужінь, молодіжні зустрічі,"
     ],
     [
-      "кілька програм в одному просторі."
+      "біблійні заняття й час тиші."
     ]
   ],
   "pills": [
@@ -23,5 +24,5 @@
     "src": "images/church/cerkva-kontsert-iz-khrestom.webp",
     "pos": "50% 45%"
   },
-  "css": ".p>img{left:400px;right:auto;width:800px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%)}.h span+span{font-size:40px;font-weight:400;letter-spacing:-.01em;margin-top:6px} .sub{font-weight:500;margin-top:30px;font-size:23px}"
+  "css": ".p>img{left:400px;right:auto;width:800px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%)}.h span+span{font-size:33px;font-weight:400;letter-spacing:-.01em;margin-top:6px} .sub{font-weight:500;margin-top:30px;font-size:23px}"
 }
