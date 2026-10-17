@@ -2889,40 +2889,42 @@ T_PAGE_ALL = {
   '>Silent Disco for camps<',
 'Табір, про який згадуватимуть після повернення додому':
   'A camp people will remember after they get home',
-'Табір — це не лише заняття, розклад і командні завдання. Це ще й моменти, коли учасники знайомляться ближче, відкриваються одне одному та створюють спільні спогади. Silent Disco допомагає зробити такі моменти особливими.':
-  'A camp is not only classes, a schedule and team tasks. It is also the moments when participants get to know each other better, open up and create shared memories. Silent Disco helps make such moments special.',
-'<b>Кожен обирає свою музику</b> <span>Три аудіоканали дають можливість слухати різну музику через ті самі навушники. Учасники можуть перемикатися між каналами, знаходити улюблені треки й танцювати разом, навіть якщо їхні смаки не збігаються.</span>':
-  '<b>Everyone chooses their own music</b> <span>Three audio channels make it possible to listen to different music through the same headphones. Participants can switch between channels, find favourite tracks and dance together even if their tastes do not match.</span>',
-'<b>Активність, у якій є місце кожному</b> <span>Не всі люблять однакові розваги. Можна танцювати, співати, спостерігати за іншими або долучитися до командного змагання. Кожен сам обирає, як саме брати участь.</span>':
-  '<b>An activity with a place for everyone</b> <span>Not everyone likes the same entertainment. You can dance, sing, watch others or join a team contest. Everyone chooses how to take part.</span>',
-'<b>Більше можливостей для табірної програми</b> <span>Silent Disco можна використати як самостійну вечірню подію або інтегрувати в тематичний день, командну гру чи спеціальну програму для учасників.</span>':
-  '<b>More options for the camp programme</b> <span>Silent Disco can be a standalone evening event or be built into a themed day, a team game or a special programme for participants.</span>',
-'<b>Без гучного звуку з колонок</b> <span>Музика передається безпосередньо в навушники, тому подія не потребує потужного звуку з колонок. Це зручний формат для локацій, де важливо враховувати тишу, сусідів або розклад інших активностей.</span>':
-  '<b>No loud sound from speakers</b> <span>Music goes straight to the headphones, so the event does not need powerful speakers. It is a convenient format for locations where quiet, neighbours or the schedule of other activities matter.</span>',
-'<b>Ми беремо технічну частину на себе</b> <span>SILENT організовує формат під ключ: доставляємо обладнання, встановлюємо його, допомагаємо з технічною частиною та забезпечуємо підтримку під час події відповідно до узгодженого пакета.</span>':
-  '<b>We take care of the technical side</b> <span>SILENT organises the format turnkey: we deliver and set up the equipment, help with the technical side and provide support during the event according to the agreed package.</span>',
+'Табір — це не лише заняття й розклад, а й моменти, коли учасники знайомляться ближче та створюють спільні спогади. Silent Disco допомагає зробити їх особливими.':
+  'A camp is not only classes and a schedule but also the moments when participants get to know each other better and create shared memories. Silent Disco helps make them special.',
+'<b>Кожен обирає свою музику</b> <span>Три аудіоканали дають змогу слухати різну музику в тих самих навушниках, тож учасники танцюють разом, навіть якщо смаки не збігаються.</span>':
+  '<b>Everyone chooses their own music</b> <span>Three audio channels let people listen to different music in the same headphones, so participants dance together even if their tastes differ.</span>',
+'<b>Активність, у якій є місце кожному</b> <span>Можна танцювати, співати, спостерігати або долучитися до командного змагання: кожен сам обирає, як брати участь.</span>':
+  '<b>An activity with a place for everyone</b> <span>You can dance, sing, watch or join a team contest: everyone chooses how to take part.</span>',
+'<b>Гнучкість для табірної програми</b> <span>Silent Disco працює як вечірня подія, частина тематичного дня чи командної гри. Музика звучить у навушниках, тож колонки не потрібні.</span>':
+  '<b>Flexibility for the camp programme</b> <span>Silent Disco works as an evening event or part of a themed day or a team game. The music plays in the headphones, so speakers are not needed.</span>',
+'<b>Технічну частину беремо на себе</b> <span>SILENT доставляє й встановлює обладнання та підтримує подію відповідно до узгодженого пакета.</span>':
+  '<b>We take care of the technical side</b> <span>SILENT delivers and sets up the equipment and supports the event according to the agreed package.</span>',
 '>Сценарії для табору<':
   '>Camp scenarios<',
 'Один формат — багато способів провести час разом':
   'One format, many ways to spend time together',
-'<b>Вечір Silent Disco</b> <span>Класична табірна дискотека, у якій замість однієї музичної доріжки — три канали на вибір. Учасники перемикаються між ними, а кольори підсвічування навушників створюють ефект танцювального майданчика, де кожен слухає своє, але всі залишаються разом.</span>':
-  '<b>A Silent Disco evening</b> <span>A classic camp disco where, instead of a single music track, there are three channels to choose from. Participants switch between them, and the colours of the headphone lights create a dance floor where everyone listens to their own music but everyone stays together.</span>',
-'<b>Командні ігри та музичні батли</b> <span>Поділіть учасників на команди за музичними каналами, організуйте танцювальні змагання, музичні вікторини або завдання від ведучого. Формат можна адаптувати під вік учасників і тему табору.</span>':
-  '<b>Team games and music battles</b> <span>Split participants into teams by music channel and organise dance contests, music quizzes or tasks from the host. The format can be adapted to the age of participants and the theme of the camp.</span>',
-'<b>Тематичний вечір</b> <span>Silent Disco легко вписати в загальну концепцію табору: вечір знайомств, день команд, святкова програма або фінальна подія зміни. Навушники стають не просто обладнанням, а частиною спільного досвіду.</span>':
-  '<b>A themed evening</b> <span>Silent Disco easily fits the overall concept of the camp: a getting-to-know-you evening, a team day, a festive programme or the final event of the session. The headphones become not just equipment but part of a shared experience.</span>',
-'<b>Активності на відкритому повітрі</b> <span>Формат можна організувати на відповідній відкритій локації, якщо дозволяють умови, живлення та технічна конфігурація. Це додає гнучкості в плануванні програми табору.</span>':
-  '<b>Outdoor activities</b> <span>The format can be organised at a suitable open-air location if conditions, power supply and technical configuration allow. This adds flexibility when planning the camp programme.</span>',
-'<b>Програма для різних вікових груп</b> <span>Silent Disco можна адаптувати для молодших учасників, підлітків, молодіжних команд або змішаних груп. Важливо лише підібрати відповідну музику, сценарій і тривалість події.</span>':
-  '<b>A programme for different age groups</b> <span>Silent Disco can be adapted for younger participants, teenagers, youth teams or mixed groups. It is only important to choose suitable music, a scenario and the duration of the event.</span>',
-'Як працює Silent Disco?':
-  'How does Silent Disco work?',
-'Silent Disco — це подія, під час якої учасники слухають музику через бездротові навушники, а не через гучні колонки. Кожен може перемикатися між трьома доступними аудіоканалами та самостійно обирати, що слухати.':
-  'Silent Disco is an event where participants listen to music through wireless headphones rather than loud speakers. Everyone can switch between three available audio channels and choose what to listen to.',
-'З боку це виглядає незвично: люди танцюють, співають і взаємодіють, хоча навколо немає звичного гучного музичного супроводу. Саме ця особливість робить формат інтерактивним і запам’ятовуваним.':
-  'From the outside it looks unusual: people dance, sing and interact even though there is no usual loud music around. This is exactly what makes the format interactive and memorable.',
-'Для табору це можливість організувати сучасну музичну активність, яка поєднує різні смаки, додає елемент гри та створює спільний досвід.':
-  'For a camp it is a chance to run a modern music activity that combines different tastes, adds an element of play and creates a shared experience.',
+'<b>Вечір Silent Disco</b> <span>Класична табірна дискотека з трьома каналами на вибір: кожен слухає своє, але всі танцюють разом.</span>':
+  '<b>A Silent Disco evening</b> <span>A classic camp disco with three channels to choose from: everyone listens to their own music, but everyone dances together.</span>',
+'<b>Командні ігри та музичні батли</b> <span>Команди за музичними каналами, танцювальні змагання й вікторини. Формат підлаштовуємо під вік і тему табору.</span>':
+  '<b>Team games and music battles</b> <span>Teams by music channel, dance contests and quizzes. We adapt the format to the age and theme of the camp.</span>',
+'<b>Тематичний вечір</b> <span>Вечір знайомств, день команд чи фінал зміни: навушники стають частиною спільного досвіду.</span>':
+  '<b>A themed evening</b> <span>A getting-to-know-you evening, a team day or the final event of the session: the headphones become part of a shared experience.</span>',
+'<b>Активності на відкритому повітрі</b> <span>Формат можна організувати на відкритій локації, якщо дозволяють умови, живлення й технічна конфігурація.</span>':
+  '<b>Outdoor activities</b> <span>The format can be run at an open-air location if conditions, power and technical configuration allow it.</span>',
+'<b>Програма для різних вікових груп</b> <span>Адаптуємо для молодших учасників, підлітків і змішаних груп: підбираємо музику, сценарій і тривалість.</span>':
+  '<b>A programme for different age groups</b> <span>We adapt it for younger participants, teenagers and mixed groups: we choose the music, the scenario and the duration.</span>',
+'Одягнув. Обрав. Танцюй.':
+  'Put them on. Choose. Dance.',
+'Навушники вже підготовлені до роботи, тож учасникам не потрібно підключати телефони чи розбиратися в налаштуваннях. Ми підготуємо обладнання та покажемо, як перемикати канали. Далі кожен обирає музику самостійно.':
+  'The headphones are already set up, so participants do not need to connect phones or work through settings. We prepare the equipment and show how to switch channels. After that everyone chooses their own music.',
+'<b>Три канали на вибір</b> <span>На різних каналах можуть звучати різні плейлісти. Учасники самостійно обирають музику й перемикаються між нею протягом вечора.</span>':
+  '<b>Three channels to choose from</b> <span>Different channels can play different playlists. Participants choose their own music and switch between it during the evening.</span>',
+'<b>Колір показує вибір</b> <span>Навушники світяться кольором обраного каналу. Так учасники можуть побачити, хто слухає ту саму музику, та знайти однодумців.</span>':
+  '<b>Colour shows the choice</b> <span>The headphones glow in the colour of the chosen channel. This way participants can see who is listening to the same music and find like-minded people.</span>',
+'<b>Без дротів і складних налаштувань</b> <span>Не потрібно підключати власний телефон або налаштовувати навушники окремо. Учасники можуть рухатися в межах робочої зони обладнання.</span>':
+  '<b>No wires or complicated setup</b> <span>There is no need to connect your own phone or set up the headphones separately. Participants can move within the working range of the equipment.</span>',
+'<b>Формат під вашу програму</b> <span>Silent Disco можна організувати як вечірню дискотеку, музичні батли або частину тематичної табірної програми. Сценарій узгоджуємо заздалегідь.</span>':
+  '<b>A format for your programme</b> <span>Silent Disco can be run as an evening disco, music battles or part of a themed camp programme. We agree the scenario in advance.</span>',
 'Чотири кроки до незвичайної табірної події':
   'Four steps to an unusual camp event',
 '>Табір<':
