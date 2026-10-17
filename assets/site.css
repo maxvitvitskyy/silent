@@ -8868,8 +8868,14 @@ html.is-scrolling .hx-overlay { pointer-events: none !important; }
 
 /* Підзаголовок H3 усередині текстового потоку (елемент {"h3": …} у блоці text): менший за H2, лаймовий (рішення власника 17.10.2026), без риски над ним; не лишається самотнім
    унизу колонки (break-after: avoid) і має більший відступ зверху, ніж між абзацами, щоб читався початок нової теми. */
-.art-flow h3 { margin: calc(var(--fs) * 1.2) 0 calc(var(--fs) * 0.7); font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: clamp(17px, 1.5vw, 21px); line-height: 1.3; letter-spacing: -0.01em; color: var(--lime); break-after: avoid; break-inside: avoid; text-wrap: balance; }
+.art-flow h3 { margin: calc(var(--fs) * 2.8) 0 calc(var(--fs) * 0.55); font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: clamp(17px, 1.5vw, 21px); line-height: 1.3; letter-spacing: -0.01em; color: var(--lime); break-after: avoid; break-inside: avoid; text-wrap: balance; }
 .art-flow h2 + h3, .art-flow > h3:first-child { margin-top: 0; }
+
+/* Читабельність статті (UX-проход 17.10.2026): відповіді FAQ у статті мали 14px (13.5px на телефоні) при яскравості .62 — дрібно для основного змістового тексту.
+   Підвищено до 16px з приглушеним, але читабельним білим; лише .art-faq, FAQ головної й /faq/ не змінюються. Те саме для підпису в лаймовому CTA:
+   трохи темніший і з вільнішим інтерліньяжем, бо дрібний сірий на лаймі читається гірше, ніж білий на темному. */
+.art-faq .faq-a p { font-size: 16px; line-height: 1.6; color: rgba(255,255,255,.78); }
+.art-cta p { color: rgba(10,10,11,.86); line-height: 1.55; }
 
 /* Чекліст у статті (marks: "check"): замість лаймової риски чи номера кожен пункт має лаймовий «чекбокс» із галочкою,
    щоб блок одразу читався як перелік перевірок. Картки без тексту під заголовком, тож компактні. Розкладка колонок
