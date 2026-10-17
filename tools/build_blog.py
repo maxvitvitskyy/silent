@@ -502,6 +502,9 @@ def article_blocks(blocks):
             for it in items:
                 if 'p' in it:
                     html += '<p>%s</p>' % inline(it['p'])
+                elif 'h3' in it:
+                    # Підзаголовок H3 усередині розділу (один H2 і кілька H3 під ним): для SEO-ієрархії без дроблення розділу на окремі H2.
+                    html += '<h3>%s</h3>' % esc(it['h3'])
                 elif 'steps' in it:
                     html += '<ol class="art-steps" style="counter-reset: st %d">%s</ol>' % (it.get('start', 1) - 1, ''.join(
                         '<li><b>%s</b><span>%s</span></li>' % (esc(x['t']), inline(x['d'])) for x in it['steps']))

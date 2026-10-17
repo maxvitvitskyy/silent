@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-rozvahy-na-vesillia-riznoho-viku.jpg",
+  "bg": {
+    "src": "images/wedding/vesillya-pochatok-tantsiv-pid-girlyandamy.webp",
+    "pos": "50% 42%"
+  },
+  "heading": [
+    "Розваги на весілля",
+    "для гостей різного віку"
+  ],
+  "subtitle": [
+    [
+      "Як поєднати танці, розмови й музику так, щоб було цікаво кожному."
+    ]
+  ],
+  "pills": [
+    "<b>Ідеї</b> для весілля",
+    "<b>Музика</b> для всіх",
+    "<b>Silent Disco</b>",
+    "<b>Програма</b> без втоми"
+  ]
+}

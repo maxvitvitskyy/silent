@@ -8863,6 +8863,11 @@ html.is-scrolling .hx-overlay { pointer-events: none !important; }
 .art-flow .art-steps li { break-inside: avoid; }
 .art-flow .art-steps li:last-child { padding-bottom: 0; }
 
+/* Підзаголовок H3 усередині текстового потоку (елемент {"h3": …} у блоці text): менший за H2, без лаймової риски; не лишається самотнім
+   унизу колонки (break-after: avoid) і має більший відступ зверху, ніж між абзацами, щоб читався початок нової теми. */
+.art-flow h3 { margin: calc(var(--fs) * 1.2) 0 calc(var(--fs) * 0.7); font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: clamp(17px, 1.5vw, 21px); line-height: 1.3; letter-spacing: -0.01em; color: #fff; break-after: avoid; break-inside: avoid; text-wrap: balance; }
+.art-flow h2 + h3, .art-flow > h3:first-child { margin-top: 0; }
+
 /* Чекліст у статті (marks: "check"): замість лаймової риски чи номера кожен пункт має лаймовий «чекбокс» із галочкою,
    щоб блок одразу читався як перелік перевірок. Картки без тексту під заголовком, тож компактні. Розкладка колонок
    та сама, що в layout "cols"; на вузьких екранах галочка стоїть ліворуч від рядка. */

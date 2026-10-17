@@ -252,6 +252,18 @@
       "also": [
         "holidays"
       ]
+    },
+    {
+      "slug": "rozvahy-na-vesillia-riznoho-viku",
+      "status": "published",
+      "category": "holidays",
+      "title": "Розваги на весілля: як об’єднати гостей різного віку",
+      "excerpt": "Як обрати розваги на весілля, щоб було цікаво друзям, батькам і старшим родичам? Ідеї для спільного святкування та музичної вечірки.",
+      "image": "/images/wedding/vesillya-pochatok-tantsiv-pid-girlyandamy.webp",
+      "alt": "Гості весілля танцюють у світних навушниках просто неба під гірляндами",
+      "also": [
+        "ideas"
+      ]
     }
   ]
 }
