@@ -9048,3 +9048,21 @@ html.is-scrolling .hx-overlay { pointer-events: none !important; }
   .cover-wide .exp-cover-grid { align-items: stretch; }
   .cover-wide .gallery-columns { height: auto; contain: size; }
 }
+
+/* ---------- «Вибір редакції» на телефоні: вертикальна картка 4:5 ----------
+   У одну колонку (≤900px) підзаголовок займав майже всю картку й закривав фото. Тепер
+   на вузькому екрані лишаються бейдж, заголовок угорі й кнопка внизу, а посередині
+   видно саме фото. На 601–900px картка не міняє пропорції, лише ховає підзаголовок. */
+@media (max-width: 900px) {
+  .blog-hero-text p { display: none; }
+}
+@media (max-width: 600px) {
+  .blog-hero-card { aspect-ratio: 4 / 5; min-height: 0; }
+  .blog-hero-text { padding: 20px 20px 0; }
+  .blog-hero-text h2 { font-size: clamp(19px, 5.4vw, 23px); line-height: 1.18; max-width: none; }
+  /* Затемнення трохи глибше й довше, ніж на десктопі, бо заголовок тут лежить прямо на кадрі,
+     а під кнопкою додається легка підкладка, щоб вона не губилась на світлому фото. */
+  .blog-hero-shade { background:
+    linear-gradient(180deg, rgba(10,10,11,.82) 0%, rgba(10,10,11,.5) 30%, rgba(10,10,11,0) 52%),
+    linear-gradient(0deg, rgba(10,10,11,.45) 0%, rgba(10,10,11,0) 22%); }
+}
