@@ -10,7 +10,7 @@
  "subtitle": "Коли церкві потрібен переклад через навушники, як він працює, що підготувати до богослужіння й як зберегти спільність громади.",
  "author": "Команда SILENT",
  "date": "17 жовтня 2026",
- "read": "6 хв читання",
+ "read": "4 хв читання",
  "cover": {
   "src": "/images/church/cerkva-pereklad-v-navushnykakh.webp",
   "alt": "Дівчина слухає переклад у бездротових навушниках Silent Disco на конференції"
@@ -200,5 +200,5 @@
  },
  "og": "/images/blog/og-synkhronnyi-pereklad-bohosluzhinnia.jpg",
  "date_iso": "2026-10-17",
- "modified_iso": "2026-10-17"
+ "modified_iso": "2026-10-19"
 }
