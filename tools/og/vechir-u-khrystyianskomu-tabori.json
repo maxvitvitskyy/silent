@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-vechir-u-khrystyianskomu-tabori.jpg",
+  "bg": {
+    "src": "images/camps/tabir-girlyandy-tantspol-na-travi.webp",
+    "pos": "50% 45%"
+  },
+  "heading": [
+    "Вечір у таборі,",
+    "що об’єднує"
+  ],
+  "subtitle": [
+    [
+      "Як побудувати вечірню програму навколо музики й спільного спілкування."
+    ]
+  ],
+  "pills": [
+    "<b>Музика</b> для всіх",
+    "<b>Командні</b> активності",
+    "<b>Три канали</b> музики",
+    "<b>Під ключ</b>"
+  ]
+}

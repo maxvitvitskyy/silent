@@ -2949,6 +2949,26 @@ T_PAGE_ALL = {
   'SILENT arranges delivery, installation and testing of the equipment according to the agreed terms.',
 'Час створювати спогади':
   'Time to make memories',
+'Гості танцюють у світних навушниках Silent Disco під червоним світлом біля намету на вечірці просто неба':
+  'Guests dancing in glowing Silent Disco headphones under red light by a tent at an open-air party',
+'Три дівчини в світних навушниках Silent Disco дивляться вгору під вечірнім небом із пальмами':
+  'Three girls in glowing Silent Disco headphones looking up at the evening sky with palm trees',
+'Усміхнена дівчина в синіх світних навушниках SILENT. на вечірній вечірці':
+  'A smiling girl in blue glowing SILENT. headphones at an evening party',
+'Двоє друзів показують на камеру й сміються на танцполі в світних навушниках Silent Disco':
+  'Two friends pointing at the camera and laughing on the dance floor in glowing Silent Disco headphones',
+'Дві дівчини в світних навушниках Silent Disco розмовляють на вечірці просто неба':
+  'Two girls in glowing Silent Disco headphones chatting at an open-air party',
+'Усміхнена дівчина танцює в навушниках Silent Disco в променях заходу сонця':
+  'A smiling girl dancing in Silent Disco headphones in the rays of the setting sun',
+'Друзі в навушниках Silent Disco під гірляндами на вечірці просто неба':
+  'Friends in Silent Disco headphones under string lights at an open-air party',
+'Гості танцюють у навушниках Silent Disco просто неба увечері':
+  'Guests dancing in Silent Disco headphones outdoors in the evening',
+'Друзі танцюють у навушниках Silent Disco на пляжі в сонячний день':
+  'Friends dancing in Silent Disco headphones on a beach on a sunny day',
+'Танцпол на пляжі під час заходу сонця: гості в навушниках Silent Disco і діджей':
+  'A beach dance floor at sunset: guests in Silent Disco headphones and a DJ',
 'Учасники отримують навушники, обирають канал і долучаються до програми. Ми забезпечуємо узгоджену технічну підтримку.':
   'Participants receive headphones, choose a channel and join the programme. We provide the agreed technical support.',
 'Вечір просто неба під гірляндами: гості слухають музику в навушниках Silent Disco':
