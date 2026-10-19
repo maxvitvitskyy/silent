@@ -1137,6 +1137,7 @@ EXPERIENCE_URLS = {
     'Фестивалі': '/experiences/festivals/',
     'Церковні служби та зібрання': '/experiences/church/',
     'Церковні та молодіжні табори': '/experiences/camps/',
+    'Табори та молодіжні збори': '/experiences/youth-camps/',
 }
 
 # Порядок карток на сторінці-списку. Це НЕ дані про продажі: статистики звернень
@@ -1186,8 +1187,7 @@ EXPERIENCE_CATEGORIES = [
                                         'Тренінги й навчання',
                                         'Майстеркласи']),
     ('faith',     'Церкви й табори',   ['Церковні служби та зібрання',
-                                        'Церковні та молодіжні табори',
-                                        'Табори та молодіжні збори']),
+                                        'Церковні та молодіжні табори']),
     ('culture',   'Культура',          ['Музеї та галереї', 'Екскурсії', 'Іммерсивні театри',
                                         'Камерні концерти', 'Кіно просто неба', 'Презентація релізу',
                                         'Музичні коледжі',
@@ -1286,6 +1286,7 @@ EXPERIENCE_PAGES = [
     os.path.join('experiences', 'festivals', 'index.html'),
     os.path.join('experiences', 'church', 'index.html'),
     os.path.join('experiences', 'camps', 'index.html'),
+    os.path.join('experiences', 'youth-camps', 'index.html'),
 ]
 
 
@@ -1304,6 +1305,7 @@ EXP_FAQ_PAGES = {
     os.path.join('experiences', 'festivals', 'index.html'): '/experiences/festivals/',
     os.path.join('experiences', 'church', 'index.html'): '/experiences/church/',
     os.path.join('experiences', 'camps', 'index.html'): '/experiences/camps/',
+    os.path.join('experiences', 'youth-camps', 'index.html'): '/experiences/youth-camps/',
 }
 
 
@@ -2328,6 +2330,7 @@ EXP_EN_PAGES = {
     'festivals': 'images/festivals/og-festivals-en.jpg',
     'church': 'images/church/og-church-en.jpg',
     'camps': 'images/camps/og-camps-en.jpg',
+    'youth-camps': 'images/youth-camps/og-youth-camps-en.jpg',
 }
 from en_pages import T_PAGE_ALL   # рядки сторінок досвідів (tools/en_pages.py)
 T_PAGE = {}   # slug -> {укр: англ} (додаткові, лише для однієї сторінки)

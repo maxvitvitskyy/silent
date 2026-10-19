@@ -99,7 +99,7 @@ def card(p, cats):
 # BLOG-MEGA:START/END у шапку кожної української сторінки (меню в нас продубльоване по файлах). В англійську
 # версію не потрапляє: блог поки лише українською (build_en.py вирізає цей блок перед перекладом).
 MEGA_PAGES = ['index.html', 'privacy/index.html', 'about/index.html', 'experiences/index.html', 'experiences/corporate/index.html',
-              'experiences/wedding/index.html', 'experiences/birthday/index.html', 'experiences/silent-disco/index.html', 'experiences/school/index.html', 'experiences/kids/index.html', 'experiences/students/index.html', 'experiences/festivals/index.html', 'experiences/church/index.html', 'experiences/camps/index.html', 'faq/index.html']
+              'experiences/wedding/index.html', 'experiences/birthday/index.html', 'experiences/silent-disco/index.html', 'experiences/school/index.html', 'experiences/kids/index.html', 'experiences/students/index.html', 'experiences/festivals/index.html', 'experiences/church/index.html', 'experiences/camps/index.html', 'faq/index.html', 'experiences/youth-camps/index.html']
 MEGA_START = '<!-- BLOG-MEGA:START (генерує tools/build_blog.py, руками не правити) -->'
 MEGA_END = '<!-- BLOG-MEGA:END -->'
 _SV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">%s</svg>'
@@ -160,23 +160,20 @@ def blog_mega_html(data):
     rest = [p for p in posts if p is not feat]
     # «Свіже»: усі найновіші готові статті (крім «Вибору редакції»), скільки влізає в колонку по висоті: MEGA_FRESH_MAX
     # (виміряно: 6 пунктів по ~70px у картці 550px). Нова стаття стає першою, а найстарша випадає, коли їх стає більше.
-    # «Добірка»: 4 картки з готових статей, без заглушок, і щоразу інший добір: випадковість засіяна хешем поточного
-    # коміту (git HEAD). Між збірками в межах одного коміту добір стабільний (однаковий на всіх сторінках), а з кожним
-    # новим комітом змінюється. Без git береться дата.
+    # «Добірка»: 4 картки зі СТАРІШИХ готових статей (тих, що не потрапили у «Свіже» й не є «Вибором редакції»), тож
+    # меню не дублює одну статтю у двох блоках. Порядок «випадковий», але засіяний хешем СПИСКУ опублікованих слагів,
+    # а не хешем коміту: добір змінюється лише коли додається чи зникає стаття (тоді «Свіже» все одно змінюється),
+    # а звичайні правки сторінок не чіпають меню на десятках файлів. (Раніше сідом був git HEAD: кожен коміт
+    # перетасовував блок на всіх сторінках з меню.) Якщо старших статей менше за 4, добираємо зі «Свіже».
     MEGA_FRESH_MAX = 6
     live_rest = [p for p in rest if p['status'] == 'published']
     fresh = live_rest[:MEGA_FRESH_MAX]
     stubs = [p for p in rest if p['status'] != 'published']
-    try:
-        import subprocess
-        seed = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, stderr=subprocess.DEVNULL).decode().strip()
-    except Exception:
-        import datetime
-        seed = datetime.date.today().isoformat()
-    import random
-    pool = list(live_rest)
+    import hashlib, random
+    seed = hashlib.sha1(','.join(sorted(p['slug'] for p in posts if p['status'] == 'published')).encode()).hexdigest()
+    pool = live_rest[MEGA_FRESH_MAX:]
     random.Random(seed).shuffle(pool)
-    pick = (pool + stubs)[:4]
+    pick = (pool + fresh[::-1] + stubs)[:4]
     ic = lambda k: '<span class="nav-mega-icon" aria-hidden="true">%s</span>' % (_SV % MEGA_ICONS[k])
     live = lambda p: p['status'] == 'published'
     vis = ('<div class="nav-mega-visual-text"><span class="nav-mega-badge">Вибір редакції</span>'

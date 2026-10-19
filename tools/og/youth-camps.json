@@ -1,0 +1,27 @@
+{
+  "template": "template-full-left.html",
+  "bg": {
+    "src": "images/youth-camps/mt-nichnyi-kemping-tantspol-pid-zoryamy.webp",
+    "pos": "65% 40%"
+  },
+  "css": ".p>img{left:400px;right:auto;width:800px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%)}.h span+span{font-size:40px;font-weight:400;letter-spacing:-.01em;margin-top:6px} .sub{font-weight:500;margin-top:30px;font-size:23px}",
+  "out": "images/youth-camps/og-youth-camps.jpg",
+  "heading": [
+    "Silent Disco",
+    "для таборів і виїздів"
+  ],
+  "subtitle": [
+    [
+      "Нічні дискотеки, командні ігри"
+    ],
+    [
+      "й вечори знайомств у навушниках."
+    ]
+  ],
+  "pills": [
+    "<b>3</b> музичні канали",
+    "Для <b>підлітків</b> і молоді",
+    "Все <b>під ключ</b>",
+    "<b>Київ</b> та Україна"
+  ]
+}

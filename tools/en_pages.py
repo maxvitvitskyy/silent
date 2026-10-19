@@ -2949,6 +2949,106 @@ T_PAGE_ALL = {
   'SILENT arranges delivery, installation and testing of the equipment according to the agreed terms.',
 'Час створювати спогади':
   'Time to make memories',
+'Так. Формат можна адаптувати до віку учасників, тематики табору та запланованої активності — від дитячої дискотеки до вечірньої програми для підлітків і молоді. Шукаєте формат для світських молодіжних таборів і виїздів? Дивіться <a href="/experiences/youth-camps/">Silent Disco для молодіжних таборів і виїздів</a>.':
+  'Yes. The format can be adapted to the age of participants, the theme of the camp and the planned activity, from a children’s disco to an evening programme for teenagers and young people. Looking for a format for secular youth camps and trips? See <a href="/experiences/youth-camps/">Silent Disco for youth camps and trips</a>.',
+'Так. Формат можна адаптувати до віку учасників, тематики табору та запланованої активності — від дитячої дискотеки до вечірньої програми для підлітків і молоді. Шукаєте формат для світських молодіжних таборів і виїздів? Дивіться <a href="/en/experiences/youth-camps/">Silent Disco для молодіжних таборів і виїздів</a>.':
+  'Yes. The format can be adapted to the age of participants, the theme of the camp and the planned activity, from a children’s disco to an evening programme for teenagers and young people. Looking for a format for secular youth camps and trips? See <a href="/en/experiences/youth-camps/">Silent Disco for youth camps and trips</a>.',
+'<b>Три канали на вибір</b> <span>Кожен слухає своє, а танцюють разом.</span>':
+  '<b>Three channels to choose from</b> <span>Everyone listens to their own, everyone dances together.</span>',
+'<b>Без гучних колонок</b> <span>Музика в навушниках, а не з колонок.</span>':
+  '<b>No loud speakers</b> <span>Music in headphones, not from speakers.</span>',
+'<b>Власна гучність</b> <span>Регулятор і обмежувач гучності.</span>':
+  '<b>Your own volume</b> <span>A volume control and a limiter.</span>',
+'<b>Швидкий старт</b> <span>Збірка й тест — близько 30 хвилин.</span>':
+  '<b>Quick start</b> <span>Setup and testing take about 30 minutes.</span>',
+'<b>Виїзди й активності просто неба</b> <span>Формат можна організувати на відкритій локації, якщо дозволяють умови, живлення й технічна конфігурація.</span>':
+  '<b>Trips and open-air activities</b> <span>The format can be run at an open-air location if conditions, power and technical configuration allow it.</span>',
+'<b>Командні ігри та музичні батли</b> <span>Команди за кольором навушників, танцювальні змагання й вікторини. Формат підлаштовуємо під вік і тему зміни.</span>':
+  '<b>Team games and music battles</b> <span>Teams by headphone colour, dance contests and quizzes. We adapt the format to the age and theme of the session.</span>',
+'<b>Програма для різних вікових груп</b> <span>Адаптуємо для підлітків, студентів і змішаних груп: підбираємо музику, сценарій і тривалість.</span>':
+  '<b>A programme for different age groups</b> <span>We adapt it for teenagers, students and mixed groups: we choose the music, the scenario and the duration.</span>',
+'<b>Формат під вашу програму</b> <span>Silent Disco можна організувати як нічну дискотеку, музичні батли чи частину тематичного дня зміни. Сценарій узгоджуємо заздалегідь.</span>':
+  '<b>A format for your programme</b> <span>Silent Disco can be run as a night disco, music battles or part of a themed day of the session. We agree the scenario in advance.</span>',
+'<b>Нічна дискотека</b> <span>Танцюйте разом, навіть якщо музичні смаки різні.</span>':
+  '<b>Night disco</b> <span>Dance together, even if musical tastes differ.</span>',
+'<b>Командні ігри</b> <span>Ділімо учасників за кольором навушників і запускаємо змагання.</span>':
+  '<b>Team games</b> <span>We split participants by headphone colour and start the contest.</span>',
+'Silent Disco для молодіжних таборів і виїздів | SILENT':
+  'Silent Disco for youth camps and trips | SILENT',
+'Silent Disco для молодіжних таборів і виїздів':
+  'Silent Disco for youth camps and trips',
+'Silent Disco для молодіжних таборів і виїздів під ключ: три музичні канали, бездротові навушники, нічні дискотеки й командні ігри. Від 12 000 грн.':
+  'Turnkey Silent Disco for youth camps and trips: three music channels, wireless headphones, night discos and team games. From UAH 12,000.',
+'Молодіжні табори та виїзди':
+  'Youth camps and trips',
+'Організатори молодіжних таборів і виїздів, куратори груп та вожаті':
+  'Organisers of youth camps and trips, group leaders and camp counsellors',
+'Молодь танцює в навушниках Silent Disco на нічній вечірці в таборі':
+  'Young people dancing in Silent Disco headphones at a night party at camp',
+'Чи можна регулювати гучність у навушниках?':
+  'Can the volume in the headphones be adjusted?',
+'У навушниках є регулятор та обмежувач гучності, а кожен учасник може налаштувати рівень звуку для себе.':
+  'The headphones have a volume control and a volume limiter, and each participant can set the sound level for themselves.',
+'Так. Формат можна адаптувати до віку учасників, тематики табору та запланованої активності — від дитячої дискотеки до вечірньої програми для підлітків і молоді. Для церковних і християнських таборів є окрема сторінка: <a href="/en/experiences/camps/">Silent Disco для церковних і молодіжних таборів</a>.':
+  'Yes. The format can be adapted to the age of participants, the theme of the camp and the planned activity, from a children’s disco to an evening programme for teenagers and young people. For church and Christian camps there is a separate page: <a href="/en/experiences/camps/">Silent Disco for church and youth camps</a>.',
+'для молодіжних <br>таборів і виїздів':
+  'for youth camps <br>and trips',
+'Вечір, який об’єднує всю зміну':
+  'An evening that brings the whole session together',
+'Один формат — багато способів провести вечір':
+  'One format, many ways to spend the evening',
+'Чотири кроки до вечора, який згадуватимуть':
+  'Four steps to an evening people will remember',
+'Молодіжні табори та виїзди: часті запитання про Silent Disco':
+  'Youth camps and trips: frequently asked questions about Silent Disco',
+'Дві подруги з віялом танцюють у навушниках Silent Disco на вечірці':
+  'Two friends with a fan dancing in Silent Disco headphones at a party',
+'Табір із наметами на заході сонця: сцена й учасники в навушниках Silent Disco':
+  'A camp with tents at sunset: the stage and participants in Silent Disco headphones',
+'Нічний кемпінг: учасники танцюють у навушниках Silent Disco перед сценою під зорями':
+  'A night campsite: participants dancing in Silent Disco headphones in front of the stage under the stars',
+'Вечір без гучних колонок':
+  'An evening without loud speakers',
+'Музика звучить у навушниках, а не з колонок, тож вечір не залежить від акустики майданчика. Голоси й сміх учасників, звісно, лишаються чутними.':
+  'The music plays in headphones, not speakers, so the evening does not depend on the venue’s acoustics. Participants’ voices and laughter naturally stay audible.',
+'Командний дух':
+  'Team spirit',
+'Колір навушників показує канал, а канал — команду. Так легко ділити групу на команди для ігор і змагань.':
+  'The headphone colour shows the channel, and the channel shows the team. It makes it easy to split the group into teams for games and contests.',
+'Нічна дискотека':
+  'Night disco',
+'Класична табірна вечірка з трьома каналами на вибір: кожен слухає своє, але всі танцюють разом.':
+  'A classic camp party with three channels to choose from: everyone listens to their own, but everyone dances together.',
+'Команди за кольором навушників, танцювальні змагання й вікторини. Формат підлаштовуємо під вік і тему зміни.':
+  'Teams by headphone colour, dance contests and quizzes. We adapt the format to the age and theme of the session.',
+'Вечір знайомств':
+  'Icebreaker evening',
+'Перший вечір зміни, день команд чи фінал: навушники допомагають групі швидше познайомитися й розговоритися.':
+  'The first evening of the session, a team day or the finale: the headphones help the group get to know each other and start talking faster.',
+'Виїзди й активності просто неба':
+  'Trips and open-air activities',
+'Адаптуємо для підлітків, студентів і змішаних груп: підбираємо музику, сценарій і тривалість.':
+  'We adapt it for teenagers, students and mixed groups: we choose the music, scenario and duration.',
+'Silent Disco можна організувати як нічну дискотеку, музичні батли чи частину тематичного дня зміни. Сценарій узгоджуємо заздалегідь.':
+  'Silent Disco can be run as a night disco, music battles or part of a themed day of the session. We agree the scenario in advance.',
+'Поділіться датою, локацією, кількістю учасників і тим, яку подію плануєте: дискотеку, командні ігри чи вечір знайомств.':
+  'Share the date, location, number of participants and the event you are planning: a disco, team games or an icebreaker evening.',
+'Вечори знайомств':
+  'Icebreaker evenings',
+'Допоможіть новій групі швидко познайомитися й розговоритися.':
+  'Help a new group get to know each other and start talking quickly.',
+'Ділімо учасників за кольором навушників і запускаємо змагання.':
+  'We split participants by headphone colour and start the contest.',
+'Підлітки й молодь':
+  'Teens and youth',
+'Музика під вік групи, а гучність кожен регулює сам.':
+  'Music suited to the group’s age, and everyone controls their own volume.',
+'Подаруйте учасникам табору чи виїзду вечір, який об’єднає музику, рух і нові знайомства. SILENT привозить Silent Disco під ключ: бездротові навушники, три музичні канали та організацію події, яка стане яскравою частиною програми зміни.':
+  'Give camp or trip participants an evening that brings together music, movement and new friendships. SILENT brings turnkey Silent Disco: wireless headphones, three music channels and an event that becomes a bright part of the session programme.',
+'Навушники вже підготовлені до роботи, тож учасникам не потрібно підключати телефони. Ми налаштуємо обладнання й покажемо, як перемикати канали, а далі кожен обирає музику сам.':
+  'The headphones are already set up, so participants do not need to connect phones. We set up the equipment and show how to switch channels, then everyone chooses music themselves.',
+'Табір чи виїзд — це не лише програма й розклад, а й вечори, нові знайомства та жарти, які лишаються надовго. Silent Disco допомагає зробити такі вечори яскравими й спільними.':
+  'A camp or trip is not only a programme and a schedule, but also evenings, new friendships and jokes that stay with you for a long time. Silent Disco helps make such evenings bright and shared.',
 'Так. Silent Disco можна використовувати для молодіжних вечорів, <a href="/experiences/camps/">таборів</a>, виїздів і неформальних зустрічей. Учасники обирають музичний канал, а організатори можуть провести музичну програму без гучних колонок.':
   'Yes. Silent Disco can be used for youth evenings, <a href="/experiences/camps/">camps</a>, trips and informal meetings. Participants choose a music channel, and the organisers can run a music activity without ordinary loud speakers for it.',
 'Так. Silent Disco можна використовувати для молодіжних вечорів, <a href="/en/experiences/camps/">таборів</a>, виїздів і неформальних зустрічей. Учасники обирають музичний канал, а організатори можуть провести музичну програму без гучних колонок.':
