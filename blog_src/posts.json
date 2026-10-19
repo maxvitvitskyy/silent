@@ -288,6 +288,18 @@
       "also": [
         "holidays"
       ]
+    },
+    {
+      "slug": "silent-disco-komandni-igry-khrystyianskyi-tabir",
+      "status": "published",
+      "category": "ideas",
+      "title": "Silent Disco у християнському таборі: вечірка та 4 командні гри",
+      "excerpt": "Як провести Silent Disco у християнському таборі та урізноманітнити вечір чотирма командними іграми: музичний батл, таємне завдання, імпостер і місія без слів.",
+      "image": "/images/camps/tabir-zakhid-sontsya-namioty-ta-stsena.webp",
+      "alt": "Молодіжний табір під час вечірки на заході сонця: учасники танцюють перед сценою серед наметів",
+      "also": [
+        "holidays"
+      ]
     }
   ]
 }

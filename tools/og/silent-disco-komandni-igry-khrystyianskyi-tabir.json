@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-silent-disco-komandni-igry-khrystyianskyi-tabir.jpg",
+  "bg": {
+    "src": "images/camps/tabir-zakhid-sontsya-namioty-ta-stsena.webp",
+    "pos": "50% 45%"
+  },
+  "heading": [
+    "Silent Disco",
+    "у християнському таборі"
+  ],
+  "subtitle": [
+    [
+      "Вечірка та 4 командні гри: батл, таємне завдання, імпостер, місія."
+    ]
+  ],
+  "pills": [
+    "<b>Вечірка</b> в таборі",
+    "<b>4 командні</b> гри",
+    "<b>Три канали</b> музики",
+    "<b>Під ключ</b>"
+  ]
+}

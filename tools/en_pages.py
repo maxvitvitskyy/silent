@@ -2185,8 +2185,8 @@ T_PAGE_ALL = {
 'Гості обирають музику самі й танцюють. Після завершення ми демонтуємо та заберемо обладнання.':
   'Guests choose the music themselves and dance. When it ends, we dismantle and take away the equipment.',
 # ---- Оголошення: зупинка музики / мікрофон (15.10.2026) ----
-'Промови, аукціон і танці в одному залі: для оголошень за потреби зупиняємо музику чи знижуємо гучність, і голос ведучого звучить у навушниках кожного.':
-  "Speeches, an auction and dancing in one hall: for announcements we can pause the music or lower the volume, and the host's voice plays in everyone's headphones.",
+'Благодійний вечір із танцями: музика звучить у навушниках, а в залі лишається тиша для розмов, аукціону й промов.':
+  "A charity evening with dancing: the music plays in headphones, so the hall stays quiet for conversations, the auction and speeches.",
 'Потрібно представити виступ, оголосити конкурс чи привітати випускників? За потреби зупинимо музику або знизимо гучність, і повідомлення прозвучить через мікрофон просто в навушниках кожного гостя. Після оголошення музика повернеться.':
   "Need to introduce a performance, announce a contest or congratulate graduates? If needed we will pause the music or lower the volume, and your message will sound through the microphone right in every guest's headphones. After the announcement the music comes back.",
 'Є два способи. За потреби ми зупинимо музику й оголосимо потрібне або знизимо гучність, і повідомлення ведучого чи організатора прозвучить через мікрофон просто в навушниках кожного гостя. А щоб поговорити з сусідом чи привітати друзів, достатньо зняти навушники на шию. Після оголошення музика повертається, а гучні колонки для цього не потрібні.':
@@ -2949,6 +2949,16 @@ T_PAGE_ALL = {
   'SILENT arranges delivery, installation and testing of the equipment according to the agreed terms.',
 'Час створювати спогади':
   'Time to make memories',
+'Так. Silent Disco можна використовувати для молодіжних вечорів, <a href="/experiences/camps/">таборів</a>, виїздів і неформальних зустрічей. Учасники обирають музичний канал, а організатори можуть провести музичну програму без гучних колонок.':
+  'Yes. Silent Disco can be used for youth evenings, <a href="/experiences/camps/">camps</a>, trips and informal meetings. Participants choose a music channel, and the organisers can run a music activity without ordinary loud speakers for it.',
+'Так. Silent Disco можна використовувати для молодіжних вечорів, <a href="/en/experiences/camps/">таборів</a>, виїздів і неформальних зустрічей. Учасники обирають музичний канал, а організатори можуть провести музичну програму без гучних колонок.':
+  'Yes. Silent Disco can be used for youth evenings, <a href="/en/experiences/camps/">camps</a>, trips and informal meetings. Participants choose a music channel, and the organisers can run a music activity without ordinary loud speakers for it.',
+'Так. Їх можна використовувати в музичних батлах, <a href="/blog/silent-disco-komandni-igry-khrystyianskyi-tabir/">командних іграх</a> та інших активностях, якщо сценарій і технічна конфігурація це дозволяють. Для спеціальних форматів варто заздалегідь узгодити технічні потреби.':
+  'Yes. They can be used in music battles, <a href="/blog/silent-disco-komandni-igry-khrystyianskyi-tabir/">team games</a> and other activities if the scenario and technical configuration allow it. For special formats it is worth agreeing the technical needs in advance.',
+'Як організувати вечір у християнському таборі?':
+  'How to organise an evening at a Christian camp?',
+'Побудуйте вечір навколо музики, командної взаємодії та спільного спілкування й узгодьте формат із цінностями табору та віком учасників. Ідеї для програми — у статті про <a href="/blog/vechir-u-khrystyianskomu-tabori/">вечір у християнському таборі</a>, а правила чотирьох командних ігор — у статті про <a href="/blog/silent-disco-komandni-igry-khrystyianskyi-tabir/">Silent Disco і командні ігри в таборі</a>.':
+  'Build the evening around music, teamwork and shared time together, and match the format to the camp’s values and the age of the participants. Ideas for the programme are in the article about an <a href="/blog/vechir-u-khrystyianskomu-tabori/">evening at a Christian camp</a>, and the rules of four team games are in the article about <a href="/blog/silent-disco-komandni-igry-khrystyianskyi-tabir/">Silent Disco and team games at camp</a>.',
 'Гості танцюють у світних навушниках Silent Disco під червоним світлом біля намету на вечірці просто неба':
   'Guests dancing in glowing Silent Disco headphones under red light by a tent at an open-air party',
 'Три дівчини в світних навушниках Silent Disco дивляться вгору під вечірнім небом із пальмами':

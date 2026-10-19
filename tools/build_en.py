@@ -1857,8 +1857,8 @@ T_CARDS = {
   "The speaker's voice plays in the headphones, so it can be heard even outdoors and amid city noise.",
 "Подруги з різними смаками танцюють разом, кожна під свій канал, а для сусідів тихо.":
   "Friends with different tastes dance together, each to her own channel, while it stays quiet for the neighbours.",
-"Промови, аукціон і танці в одному залі: для оголошень за потреби зупиняємо музику чи знижуємо гучність, і голос ведучого звучить у навушниках кожного.":
-  "Speeches, an auction and dancing in one hall: for announcements we can pause the music or lower the volume, and the host's voice plays in everyone's headphones.",
+"Благодійний вечір із танцями: музика звучить у навушниках, а в залі лишається тиша для розмов, аукціону й промов.":
+  "A charity evening with dancing: the music plays in headphones, so the hall stays quiet for conversations, the auction and speeches.",
 "Виступ діджея, який чують у навушниках, а не з колонок: можна просто неба чи там, де звук обмежений.":
   "A DJ set heard in the headphones rather than from speakers: possible outdoors or where sound is restricted.",
 "Голос тренера звучить у навушниках учасників, тож його чути й серед шуму та руху.":

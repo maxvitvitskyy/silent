@@ -8915,6 +8915,9 @@ html.is-scrolling .hx-overlay { pointer-events: none !important; }
 .art-list b { grid-column: 2; font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: clamp(16px, 1.3vw, 19px); line-height: 1.3; letter-spacing: -0.01em; color: #fff; }
 .art-list span { grid-column: 2; color: rgba(255,255,255,.72); font-size: clamp(16px, 1.3vw, 18px); line-height: 1.6; }
 .art-list .art-n { grid-row: span 2; }
+/* Нумерація кроків у переліку (split/rows): у .art-cards лічильник уже є, у .art-list його не було, тому цифри показувались як «00». */
+.art-list { counter-reset: card; }
+.art-list li { counter-increment: card; }
 .art-cols > .art-list.is-rows { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(32px, 5vw, 72px); }
 .art-list.is-rows li:nth-last-child(-n+2) { border-bottom: 1px solid rgba(255,255,255,.14); }
 @media (max-width: 900px) {
