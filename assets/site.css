@@ -9220,7 +9220,7 @@ body:has(.legal-toc){overflow-x:clip}
 .legal-dl dt{font-weight:700;color:#fff}
 .legal-dl dd{margin:0;line-height:1.6;color:rgba(255,255,255,.74)}
 .legal .legal-contact{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px}
-.legal .legal-contact span{color:rgba(255,255,255,.74)}
+.legal .legal-contact span{flex:0 0 100%;color:rgba(255,255,255,.74)}
 .legal .legal-contact a{padding:8px 14px;border:1px solid rgba(198,255,0,.35);border-radius:999px}
 .legal-card{display:grid;gap:6px;margin:4px 0 0;padding:20px 22px;font-style:normal;border:1px solid rgba(255,255,255,.14);border-radius:18px;background:var(--glass-fill-1);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
 .legal-card strong{font-size:17px;font-weight:700;color:#fff}

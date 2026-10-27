@@ -812,6 +812,7 @@ T = {
 'Тімбілдинг': 'Team building',
 'Дитяче свято': 'Kids\' party',
 'Фестиваль': 'Festival',
+'Конференція': 'Conference',
 'Скільки гостей орієнтовно': 'Roughly how many guests',
 'Бажана дата': 'Preferred date',
 'Оберіть дату, напр. 15 червня': 'Pick a date, e.g. June 15',
@@ -1135,6 +1136,7 @@ EXPERIENCE_URLS = {
     'Дитячі свята': '/experiences/kids/',
     'Студентські події': '/experiences/students/',
     'Фестивалі': '/experiences/festivals/',
+    'Конференції': '/experiences/conferences/',
     'Церковні служби та зібрання': '/experiences/church/',
     'Церковні та молодіжні табори': '/experiences/camps/',
     'Табори та молодіжні збори': '/experiences/youth-camps/',
@@ -1287,6 +1289,7 @@ EXPERIENCE_PAGES = [
     os.path.join('experiences', 'church', 'index.html'),
     os.path.join('experiences', 'camps', 'index.html'),
     os.path.join('experiences', 'youth-camps', 'index.html'),
+    os.path.join('experiences', 'conferences', 'index.html'),
 ]
 
 
@@ -1306,6 +1309,7 @@ EXP_FAQ_PAGES = {
     os.path.join('experiences', 'church', 'index.html'): '/experiences/church/',
     os.path.join('experiences', 'camps', 'index.html'): '/experiences/camps/',
     os.path.join('experiences', 'youth-camps', 'index.html'): '/experiences/youth-camps/',
+    os.path.join('experiences', 'conferences', 'index.html'): '/experiences/conferences/',
 }
 
 
@@ -2331,6 +2335,7 @@ EXP_EN_PAGES = {
     'church': 'images/church/og-church-en.jpg',
     'camps': 'images/camps/og-camps-en.jpg',
     'youth-camps': 'images/youth-camps/og-youth-camps-en.jpg',
+    'conferences': 'images/conferences/og-conferences-en.jpg',
 }
 from en_pages import T_PAGE_ALL   # рядки сторінок досвідів (tools/en_pages.py)
 T_PAGE = {}   # slug -> {укр: англ} (додаткові, лише для однієї сторінки)
