@@ -6036,3 +6036,36 @@ function orderExperience(name, opts){
   if (document.readyState === 'complete') setTimeout(start, 12000);
   else window.addEventListener('load', () => setTimeout(start, 12000), { once: true });
 })();
+
+/* /privacy/: підсвічування активного розділу в змісті. Активний — останній розділ, верх якого вже
+   пройшов лінію під шапкою (≈ scroll-margin-top 110px); без IntersectionObserver-стрибків між короткими
+   розділами. Лише десктопний `.legal-toc` (на мобільному зміст згорнутий у details). */
+(function () {
+  const toc = document.querySelector('.legal-toc');
+  if (!toc) return;
+  const links = [...toc.querySelectorAll('a[href^="#s"]')];
+  const secs = links.map(a => document.getElementById(a.getAttribute('href').slice(1)));
+  if (!secs.every(Boolean)) return;
+  let cur = -1, raf = 0;
+  function update() {
+    raf = 0;
+    const line = 140;
+    let i = 0;
+    for (let k = 0; k < secs.length; k++) if (secs[k].getBoundingClientRect().top <= line) i = k;
+    if (i === cur) return;
+    cur = i;
+    links.forEach((a, k) => {
+      const on = k === i;
+      a.classList.toggle('is-active', on);
+      if (on) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current');
+    });
+    // Активний пункт лишається видимим у прокручуваному змісті, не зсуваючи сторінку.
+    const a = links[i], t = a.offsetTop, h = a.offsetHeight;
+    if (t < toc.scrollTop || t + h > toc.scrollTop + toc.clientHeight)
+      toc.scrollTo({ top: t - toc.clientHeight / 2, behavior: 'instant' });
+  }
+  function onScroll() { if (!raf) raf = requestAnimationFrame(update); }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  update();
+})();

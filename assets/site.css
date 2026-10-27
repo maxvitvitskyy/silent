@@ -9194,6 +9194,11 @@ html.is-scrolling .hx-overlay { pointer-events: none !important; }
 .legal-toc a,.legal-toc-m a{display:flex;gap:8px;padding:7px 0;font-size:14px;line-height:1.35;color:var(--muted);transition:color .2s ease}
 .legal-toc a span,.legal-toc-m a span{flex:none;min-width:2.2ch;color:var(--lime)}
 .legal-toc a:hover,.legal-toc-m a:hover{color:#fff}
+.legal-toc a{position:relative;transition:color .2s ease,transform .25s ease}
+.legal-toc a.is-active{color:#fff;font-weight:700;transform:translateX(6px)}
+.legal-toc a.is-active span{color:var(--lime)}
+.legal-toc a.is-active::before{content:'';position:absolute;left:-14px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:var(--lime);box-shadow:0 0 10px rgba(198,255,0,.7)}
+@media (prefers-reduced-motion:reduce){.legal-toc a{transition:none}.legal-toc a.is-active{transform:none}}
 .legal-toc-m{display:none}
 /* position:sticky не працює, коли body має overflow-x:hidden (він стає контейнером прокрутки). clip обрізає так само, але прокрутки не створює;
    лише на сторінці зі змістом. */
