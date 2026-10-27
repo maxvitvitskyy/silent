@@ -9095,3 +9095,33 @@ html.is-scrolling .hx-overlay { pointer-events: none !important; }
 }
 .art-list .art-chk svg { width: 19px; height: 19px; display: block; }
 .art-list li:has(> .art-chk) > b { grid-row: 1; align-self: start; }
+
+/* «Про нас» (27.10.2026): опис і кнопка під заголовком у hero, абзаци вступу та дві компактні секції:
+   «Свій вибір. Спільний момент.» (чотири картки) і «Від ідеї до спільного досвіду.» (чотири кроки). Лише .ab-*, інші сторінки не зачіпає. */
+.ab-lead{max-width:640px;margin:clamp(18px,2.2vw,28px) auto 0;font-size:clamp(16px,1.4vw,20px);line-height:1.6;font-weight:500;color:rgba(255,255,255,.84);text-wrap:balance}
+.ab-hero-btn{display:inline-flex;margin-top:clamp(22px,2.6vw,34px)}
+.ab-intro-text p:not(.ab-quote)+p{margin-top:14px}
+.ab-gives,.ab-how{padding:0 0 clamp(60px,9vw,120px)}
+.ab-sec-h{margin:0;font:800 clamp(28px,3.2vw,48px)/1.05 'Unbounded',sans-serif;letter-spacing:-.03em}
+.ab-gives .ab-sec-h{margin-bottom:clamp(24px,3vw,40px)}
+.ab-gives-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,1.4vw,20px)}
+.ab-gives-grid li{border:1px solid var(--line);border-top:2px solid var(--lime-quiet);border-radius:var(--r-lg);padding:clamp(22px,2vw,30px);background:rgba(255,255,255,.03)}
+.ab-gives-grid h3,.ab-steps h3{margin:0 0 10px;font:800 clamp(17px,1.5vw,20px)/1.2 'Unbounded',sans-serif;letter-spacing:-.02em}
+.ab-gives-grid p,.ab-steps p{margin:0;font-size:15.5px;line-height:1.6;color:rgba(255,255,255,.76)}
+.ab-how-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,4vw,56px);align-items:end;margin-bottom:clamp(26px,3.4vw,46px)}
+.ab-how-head p{margin:0;font-size:clamp(16px,1.3vw,19px);line-height:1.65;color:rgba(255,255,255,.76);max-width:520px}
+.ab-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(18px,2.4vw,36px)}
+.ab-steps li{border-top:1px solid var(--line);padding-top:18px}
+.ab-sn{display:block;margin-bottom:12px;font:800 clamp(26px,2.6vw,34px)/1 'Unbounded',sans-serif;color:var(--lime)}
+@media(max-width:900px){
+  .ab-gives-grid,.ab-steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ab-how-head{grid-template-columns:1fr;gap:14px}
+}
+@media(max-width:640px){
+  .ab-gives,.ab-how{padding-bottom:48px}
+  .ab-gives-grid,.ab-steps{grid-template-columns:1fr}
+  .ab-gives .ab-sec-h{margin-bottom:20px}
+  .ab-sec-h{font-size:clamp(26px,7.6vw,32px)}
+  .ab-lead{font-size:15.5px}
+  .ab-steps{gap:16px}
+}
