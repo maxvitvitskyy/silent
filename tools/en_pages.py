@@ -3138,141 +3138,220 @@ T_PAGE_ALL = {
 }
 
 
-# --- Сторінка «Конференції» (27.10.2026). Ключ — точний український текст; рядки з посиланнями
-# мають два ключі (з UA- і з /en/-адресою), їх додає цикл унизу.
+
+# --- Сторінка «Конференції» (28.10.2026, за брифом власника). Ключ — точний український текст;
+# рядки з посиланнями мають два ключі (з UA- і з /en/-адресою), другий додає цикл унизу.
 _CONF = {
-"""Silent Disco на конференції в Києві та Україні | SILENT""":
-  """Silent Disco at conferences in Kyiv and Ukraine | SILENT""",
-"""Тихий звук для конференцій: бездротові навушники, три канали на вибір, нетворкінг-вечір, паралельні сесії й переклад. Організація під ключ у Києві та по Україні.""":
-  """Quiet sound for conferences: wireless headphones, three channels to choose from, an evening networking party, parallel sessions and interpretation. Turnkey organisation in Kyiv and across Ukraine.""",
-"""Silent Disco на конференції | SILENT""":
-  """Silent Disco at conferences | SILENT""",
-"""Конференція, де кожен слухає свою частину програми в навушниках, а зал лишається тихим. Київ і вся Україна.""":
-  """A conference where everyone listens to their own part of the programme in headphones and the hall stays quiet. Kyiv and all of Ukraine.""",
-"""Учасниця конференції слухає переклад у бездротових навушниках Silent Disco""":
-  """A conference attendee listens to interpretation in wireless Silent Disco headphones""",
-"""Організатори конференцій, форумів і бізнес-подій""":
-  """Organisers of conferences, forums and business events""",
-"""Silent disco на конференції""":
-  """Silent disco at a conference""",
-""">на конференції<""":
-  """>at conferences<""",
-"""Бездротові навушники з трьома каналами звуку допомагають провести нетворкінг-вечір після програми, розвести паралельні сесії в одному залі та передати переклад тим, кому він потрібен. Звук лунає лише в навушниках учасників, тож зал лишається тихим. SILENT привезе обладнання, усе налаштує та подбає про технічний супровід у Києві й по всій Україні.""":
-  """Wireless headphones with three sound channels help you run an evening networking party after the programme, separate parallel sessions in one hall and deliver interpretation to those who need it. Sound plays only in the attendees' headphones, so the hall stays quiet. SILENT brings the equipment, sets everything up and handles technical support in Kyiv and across Ukraine.""",
-"""Різні потоки звуку в одному залі.""":
-  """Different streams of sound in one hall.""",
-"""Звук лунає лише в навушниках учасників.""":
-  """Sound plays only in the attendees' headphones.""",
-"""Мінімальний комплект для конференції.""":
-  """The minimum set for a conference.""",
+"""Конференції в навушниках — Silent Disco під ключ | SILENT""":
+  """Conferences in headphones: turnkey Silent Disco | SILENT""",
+"""Аудіосупровід конференцій, воркшопів і бізнес-заходів у бездротових навушниках. 3 аудіоканали, технічний супровід, Київ та виїзд по Україні.""":
+  """Audio for conferences, workshops and business events in wireless headphones. 3 audio channels, technical support, Kyiv and trips across Ukraine.""",
+"""Конференції в навушниках — Silent Disco | SILENT""":
+  """Conferences in headphones: Silent Disco | SILENT""",
+"""Аудіосупровід доповідей, воркшопів і бізнес-заходів у бездротових навушниках SILENT. Київ і виїзд по Україні.""":
+  """Audio for talks, workshops and business events in SILENT wireless headphones. Kyiv and trips across Ukraine.""",
+"""Учасники конференції за столами в бездротових навушниках Silent Disco""":
+  """Conference attendees at tables in wireless Silent Disco headphones""",
+"""Silent Disco для конференцій""":
+  """Silent Disco for conferences""",
+""">Бездротові навушники<""":
+  """>Wireless headphones<""",
+""">для конференцій та бізнес-заходів<""":
+  """>for conferences and business events<""",
+"""Доповіді, воркшопи та аудіоконтент у бездротових навушниках. SILENT допомагає організувати аудіосупровід конференцій і бізнес-заходів, коли важливо почути кожного спікера та продумати звук під формат події.""":
+  """Talks, workshops and audio content in wireless headphones. SILENT helps organise audio for conferences and business events when it matters that everyone can hear each speaker and the sound is planned around the format of the event.""",
+"""Обговорити конференцію""":
+  """Discuss your conference""",
+"""Як це працює""":
+  """How it works""",
+"""3 аудіоканали""":
+  """3 audio channels""",
+"""Стандартний формат.""":
+  """The standard format.""",
+"""Київ та Україна""":
+  """Kyiv and Ukraine""",
+"""Виїжджаємо по всій країні.""":
+  """We travel across the country.""",
+"""Під ключ""":
+  """Turnkey""",
+"""Доставка, монтаж, супровід.""":
+  """Delivery, setup, support.""",
+"""Від 40 навушників""":
+  """From 40 headphones""",
+"""Базова пропозиція.""":
+  """The basic offer.""",
 """Велика конференц-зала зі сценою, учасники слухають доповідь у навушниках Silent Disco""":
   """A large conference hall with a stage, attendees listen to a talk in Silent Disco headphones""",
 """Учасники конференції за столами слухають спікера в навушниках Silent Disco""":
   """Conference attendees at tables listen to a speaker in Silent Disco headphones""",
+"""Учасники конференції за столами слухають доповідь у навушниках Silent Disco""":
+  """Conference attendees at tables listen to a talk in Silent Disco headphones""",
+"""Учасниця конференції з бейджем налаштовує бездротові навушники Silent Disco""":
+  """A conference attendee with a badge adjusts wireless Silent Disco headphones""",
 """Нетворкінг на виставці: учасники з бейджами спілкуються в навушниках Silent Disco""":
   """Networking at an expo: attendees with badges chat in Silent Disco headphones""",
 """Воркшоп за спільним столом: учасники в навушниках Silent Disco""":
   """A workshop at a shared table: attendees in Silent Disco headphones""",
 """Бренд-активація в атріумі: гості слухають музику в навушниках Silent Disco""":
   """A brand activation in an atrium: guests listen to music in Silent Disco headphones""",
-"""Вечірній нетворкінг після конференції: гості в атріумі слухають музику в навушниках Silent Disco""":
-  """Evening networking after a conference: guests in an atrium listen to music in Silent Disco headphones""",
-"""Одна програма. Три потоки звуку.""":
-  """One programme. Three streams of sound.""",
-"""Кожен слухає своє, а подія лишається спільною.""":
-  """Everyone listens to their own, and the event stays shared.""",
-"""На конференції в кожного свої цілі: хтось іде на доповідь, хтось на воркшоп, хтось шукає нових знайомих. Коли все відбувається в одному просторі, звук однієї зони легко заважає іншій. Бездротові навушники прибирають цю проблему: кожен чує лише свою частину програми, а зал залишається тихим.""":
-  """At a conference everyone has their own goals: some go to a talk, some to a workshop, some look for new contacts. When it all happens in one space, the sound from one zone easily disturbs another. Wireless headphones remove the problem: everyone hears only their own part of the programme, and the hall stays quiet.""",
-"""У стандартному комплекті <a href="/experiences/silent-disco/">три канали</a>: це три окремі потоки звуку, між якими учасник перемикається одним дотиком. Так можуть звучати паралельні сесії, переклад різними мовами або музика для вечірньої частини.""":
-  """The standard set has <a href="/experiences/silent-disco/">three channels</a>: three separate streams of sound that an attendee switches between with one touch. They can carry parallel sessions, interpretation in different languages or music for the evening part.""",
-"""Щоб поспілкуватися з колегою чи спікером, достатньо зняти навушники на шию: нетворкінг лишається живим, а в залі тихо.""":
-  """To talk to a colleague or a speaker, just slide the headphones down to your neck: networking stays lively and the hall stays quiet.""",
-"""Один простір. Кожен слухає своє.""":
-  """One space. Everyone listens to their own.""",
-"""Менше шуму. Більше змісту.""":
-  """Less noise. More substance.""",
-"""Ви збираєте спікерів. Ми подбаємо про звук.""":
-  """You bring the speakers together. We take care of the sound.""",
-"""Беремо на себе технічну частину навушників, щоб ваша команда могла зосередитися на програмі, спікерах та учасниках.""":
-  """We take on the technical side of the headphones so that your team can focus on the programme, the speakers and the attendees.""",
-"""Перед початком показуємо учасникам, як перемикати канали й користуватися навушниками, тож це не забирає часу програми. У навушниках є регулятор та обмежувач гучності.""":
-  """Before the start we show attendees how to switch channels and use the headphones, so it takes no programme time. The headphones have a volume control and limiter.""",
-"""Голос спікера в навушниках""":
-  """The speaker's voice in the headphones""",
-"""Потрібно, щоб доповідь, переклад чи оголошення звучали в навушниках учасників? Попередьте команду SILENT заздалегідь, і ми налаштуємо аудіосистему під ваш сценарій.""":
-  """Need a talk, interpretation or an announcement to play in the attendees' headphones? Let the SILENT team know in advance and we will set up the audio system for your scenario.""",
-"""Формат під вашу подію""":
-  """A format for your event""",
-"""Нетворкінг-вечір після програми, тиха зона для воркшопів чи паралельні сесії в одному залі — узгодимо кількість навушників, тривалість і технічні потреби з урахуванням вашого майданчика.""":
-  """An evening networking party after the programme, a quiet zone for workshops or parallel sessions in one hall: we will agree the number of headphones, the duration and the technical needs with your venue in mind.""",
-"""Одягнув. Обрав. Слухай.""":
-  """Put on. Choose. Listen.""",
-"""Навушники підготовлені до роботи, тому учасникам не потрібно підключати телефони чи розбиратися в налаштуваннях. Ми підготуємо обладнання, перевіримо його та покажемо, як перемикати канали. Далі кожен обирає потрібний потік сам.""":
-  """The headphones are ready to use, so attendees don't need to connect phones or work through settings. We prepare the equipment, check it and show how to switch channels. After that everyone picks the stream they need.""",
-"""На різних каналах можуть звучати різні потоки — наприклад, паралельні сесії, переклад чи музика для вечірньої частини. Учасники перемикаються між ними протягом дня.""":
-  """Different channels can carry different streams, for example parallel sessions, interpretation or music for the evening part. Attendees switch between them during the day.""",
-"""Навушники світяться кольором обраного каналу. Так учасники й організатори швидко бачать, хто слухає той самий потік.""":
-  """The headphones glow in the colour of the chosen channel. This lets attendees and organisers see quickly who is listening to the same stream.""",
-"""Звук під ваш сценарій""":
-  """Sound for your scenario""",
-"""Сценарій узгоджуємо з організаторами до події: навушники можуть працювати в окремій зоні або як частина вечірньої програми.""":
-  """We agree the scenario with the organisers before the event: the headphones can work in a separate zone or as part of the evening programme.""",
-"""Від заявки до конференції — чотири прості кроки""":
-  """From request to conference: four simple steps""",
-"""Розкажіть, коли й де відбудеться конференція, скільки учасників очікуєте та для чого потрібні навушники: вечірній нетворкінг, паралельні сесії чи переклад. Ми перевіримо доступність обладнання, допоможемо підібрати комплект і узгодимо технічні деталі.""":
-  """Tell us when and where the conference takes place, how many attendees you expect and what the headphones are for: evening networking, parallel sessions or interpretation. We will check equipment availability, help you choose a set and agree the technical details.""",
-"""Дата, майданчик, сценарій""":
-  """Date, venue, scenario""",
-"""Вкажіть дату, місце проведення, приблизну кількість учасників і бажаний формат: нетворкінг-вечір, паралельні сесії чи переклад.""":
-  """Give the date, the venue, the approximate number of attendees and the format you want: a networking evening, parallel sessions or interpretation.""",
-"""Приїдемо орієнтовно за 30 хвилин до початку, встановимо обладнання, перевіримо сигнал і пояснимо учасникам, як користуватися навушниками.""":
-  """We arrive about 30 minutes before the start, set up the equipment, check the signal and explain to attendees how to use the headphones.""",
-"""Конференція""":
-  """Conference""",
-"""Ви працюєте з учасниками""":
-  """You work with the attendees""",
-"""Учасники слухають свою частину програми, а ми супроводжуємо погоджену технічну частину.""":
-  """Attendees listen to their own part of the programme, and we support the agreed technical side.""",
-"""Silent Disco можна адаптувати не лише до конференцій, а й до корпоративів, тренінгів, презентацій, благодійних гала та приватних вечірок. Оберіть формат, який вас цікавить, а більше ідей для подій знайдете в нашому <a href="/blog/">блозі</a>, зокрема <a href="/blog/idei-dlya-korporativu/">ідеї для корпоративу</a>.""":
-  """Silent Disco can be adapted not only to conferences but also to corporate events, trainings, presentations, charity galas and private parties. Choose the format you are interested in, and you will find more event ideas in our <a href="/blog/">blog</a> (in Ukrainian), including <a href="/blog/idei-dlya-korporativu/">ideas for a corporate party</a>.""",
-"""Конференції: часті запитання про Silent Disco""":
-  """Conferences: frequently asked questions about Silent Disco""",
-"""Чи підходить Silent Disco для конференції?""":
-  """Is Silent Disco suitable for a conference?""",
-"""Так. Навушники можна використати для вечірнього нетворкінгу після програми, окремої тихої зони або сценарію, де різні групи слухають своє в одному просторі. Учасники слухають звук у бездротових навушниках і самі перемикають один із трьох каналів. Ми привозимо обладнання, налаштовуємо його та супроводжуємо технічну частину. Формат і умови роботи узгоджуємо з організаторами та майданчиком.""":
-  """Yes. The headphones can be used for evening networking after the programme, a separate quiet zone or a scenario where different groups listen to their own thing in one space. Attendees listen in wireless headphones and switch between three channels themselves. We bring the equipment, set it up and support the technical side. The format and conditions are agreed with the organisers and the venue.""",
-"""Навушник потрібен кожному учаснику, який хоче слухати звук. Мінімальний комплект SILENT — 40 навушників на 4 години, від 12 000 грн. У вартість входять доставка, встановлення, технічний супровід і вивезення обладнання. Для більшої кількості учасників або довшої події скористайтеся калькулятором нижче, щоб попередньо оцінити бюджет.""":
-  """Every attendee who wants to listen needs a headphone. SILENT's minimum set is 40 headphones for 4 hours, from 12,000 UAH. The price includes delivery, setup, technical support and pickup of the equipment. For more attendees or a longer event, use the calculator below to estimate the budget.""",
-"""Чи можна використати навушники для паралельних сесій або воркшопів?""":
-  """Can the headphones be used for parallel sessions or workshops?""",
-"""Так, це один зі сценаріїв: різні групи слухають свій потік звуку в одному залі й не заважають одна одній. Стандартний комплект має три канали. Розкажіть у заявці, скільки потоків і груп у вашій програмі, а ми налаштуємо систему під цей сценарій.""":
-  """Yes, this is one of the scenarios: different groups listen to their own stream of sound in one hall without disturbing each other. The standard set has three channels. Tell us in the request how many streams and groups your programme has, and we will set up the system for this scenario.""",
-"""Чи можна передавати синхронний переклад через навушники?""":
-  """Can simultaneous interpretation be delivered through the headphones?""",
-"""Так. Переклад звучить на окремому каналі, а учасник обирає потрібну мову. Попередьте команду SILENT заздалегідь, і ми узгодимо кількість мов, джерело звуку та схему підключення. Навушники не замінюють перекладача: вони передають його голос учасникам, які обрали відповідний канал.""":
-  """Yes. The interpretation plays on a separate channel, and the attendee picks the language they need. Let the SILENT team know in advance and we will agree the number of languages, the sound source and the connection scheme. The headphones do not replace the interpreter: they carry their voice to attendees who chose the right channel.""",
-"""Так. У навушниках є регулятор та обмежувач гучності, а кожен учасник може налаштувати рівень звуку для себе. Перед початком ми пояснюємо, як користуватися обладнанням. Обмежувач допомагає контролювати рівень звуку, але не є гарантією абсолютної безпеки для слуху.""":
-  """Yes. The headphones have a volume control and limiter, and every attendee can set the sound level for themselves. Before the start we explain how to use the equipment. The limiter helps keep the sound level under control but is not a guarantee of absolute hearing safety.""",
-"""Як оголосити перерву чи важливу інформацію, якщо учасники в навушниках?""":
-  """How do I announce a break or important information if attendees are wearing headphones?""",
-"""Є два сценарії. Щоб поспілкуватися з людьми поруч, достатньо зняти навушники на шию. Якщо потрібно передати оголошення всім учасникам через навушники, попередьте команду SILENT заздалегідь, і ми налаштуємо аудіосистему під ваш сценарій.""":
-  """There are two scenarios. To talk to people nearby, just slide the headphones down to your neck. If you need to deliver an announcement to all attendees through the headphones, let the SILENT team know in advance and we will set up the audio system for your scenario.""",
-"""Рекомендуємо залишати заявку якомога раніше, особливо на вихідні та великі події в місті. Доступність обладнання залежить від дати й інших бронювань. Ми перевіримо вашу дату та пояснимо, як підтвердити замовлення. Бронювання закріплюється після узгодження умов і передоплати.""":
-  """We recommend submitting a request as early as possible, especially for weekends and large city events. Equipment availability depends on the date and other bookings. We will check your date and explain how to confirm the order. A booking is secured after the terms are agreed and the prepayment is made.""",
-"""Організатор події відповідає за <a href="/faq/#faqA-m3">правомірність використання музики</a>, якщо інше не погоджено окремо. SILENT забезпечує технічне відтворення звуку. Якщо плануєте живу музику, трансляцію або інший нестандартний сценарій, узгодьте музичні та технічні вимоги до бронювання.""":
-  """The event organiser is responsible for the <a href="/faq/#faqA-m3">lawful use of music</a> unless agreed otherwise. SILENT provides the technical playback of sound. If you plan live music, a broadcast or another non-standard scenario, agree the music and technical requirements before booking.""",
-"""Порахуйте бюджет навушників для конференції""":
-  """Estimate the headphone budget for your conference""",
-"""Оберіть кількість навушників, тривалість і додаткові опції, щоб отримати попередній розрахунок вартості Silent Disco. Якщо плануєте вечірній нетворкінг, паралельні сесії, переклад або інший сценарій, опишіть його в заявці — допоможемо підібрати комплект під вашу подію.""":
-  """Choose the number of headphones, the duration and extra options to get a preliminary Silent Disco price. If you plan evening networking, parallel sessions, interpretation or another scenario, describe it in the request and we will help you choose a set for your event.""",
-"""Зробіть звук на конференції гнучким""":
-  """Make the sound at your conference flexible""",
-"""Розкажіть, яку конференцію ви організовуєте, для чого потрібні навушники та скільки учасників очікуєте. Ми перевіримо доступність обладнання, допоможемо підібрати комплект і розрахуємо вартість. Ви зосередитеся на програмі конференції, а ми подбаємо про технічну частину.""":
-  """Tell us which conference you are organising, what the headphones are for and how many attendees you expect. We will check equipment availability, help you choose a set and calculate the price. You focus on the conference programme, and we take care of the technical side.""",
-"""Обговорити <span class="em">Silent Disco</span> для конференції""":
-  """Discuss <span class="em">Silent Disco</span> for your conference""",
+"""Вечірня подія в атріумі: гості слухають музику в навушниках Silent Disco""":
+  """An evening event in an atrium: guests listen to music in Silent Disco headphones""",
+"""Накриті столи в залі, на столах бездротові навушники Silent Disco""":
+  """Laid tables in a hall with wireless Silent Disco headphones on them""",
+"""Чому навушники""":
+  """Why headphones""",
+"""Коли звичайного звуку недостатньо""":
+  """When ordinary sound is not enough""",
+"""Конференції не завжди проходять у форматі однієї сцени й одного виступу. Іноді потрібно організувати воркшопи, аудіосупровід виставки або кілька аудіопотоків у межах одного заходу.""":
+  """Conferences do not always run as one stage and one talk. Sometimes you need to organise workshops, audio for an exhibition or several audio streams within one event.""",
+"""Навушники допомагають передавати звук без традиційного озвучення через колонки для слухачів. Це відкриває більше можливостей для організації простору, особливо там, де важливо контролювати поширення звуку.""":
+  """Headphones let you deliver sound without conventional loudspeaker sound for listeners. This opens up more options for organising the space, especially where it matters to control how sound spreads.""",
+"""Повної тиші в приміщенні це не створює: голоси людей та навколишні звуки залишаються чутними. Зате, щоб поспілкуватися з колегою, достатньо зняти навушники на шию.""":
+  """It does not create complete silence in the room: people's voices and surrounding sounds stay audible. On the other hand, to talk to a colleague you just slide the headphones down to your neck.""",
+"""Кілька аудіосесій. Один простір. Більше можливостей для конференції.""":
+  """Several audio sessions. One space. More possibilities for your conference.""",
+"""Сценарії""":
+  """Scenarios""",
+"""Як використовувати SILENT на конференції""":
+  """How to use SILENT at a conference""",
+"""Доповіді та виступи""":
+  """Talks and presentations""",
+"""Передавайте голос спікера безпосередньо в навушники учасників. Такий формат може бути зручним для відкритих просторів, виставкових майданчиків і подій, де важливо організувати персональне прослуховування.""":
+  """Send the speaker's voice straight to the attendees' headphones. This format can be convenient for open spaces, exhibition venues and events where personal listening matters.""",
+"""Воркшопи та тренінги""":
+  """Workshops and trainings""",
+"""Продумайте аудіосупровід практичних занять, інструкцій і навчальних активностей. Конфігурацію звуку підбираємо залежно від формату, кількості груп і джерел аудіо.""":
+  """Plan the audio for hands-on sessions, instructions and learning activities. We choose the sound configuration depending on the format, the number of groups and the audio sources.""",
+"""Паралельні аудіосесії""":
+  """Parallel audio sessions""",
+"""Коли програма передбачає кілька сесій, окремі аудіоканали можуть допомогти організувати прослуховування в одному просторі. Кількість незалежних потоків залежить від погодженої технічної конфігурації.""":
+  """When the programme includes several sessions, separate audio channels can help organise listening in one space. The number of independent streams depends on the agreed technical configuration.""",
+"""Виставки та експо""":
+  """Exhibitions and expos""",
+"""Аудіорозповіді, презентаційний контент та інші звукові матеріали можна передавати через навушники. Це може бути зручним рішенням для стендів і просторів, де відвідувачам потрібно зосередитися на конкретному контенті.""":
+  """Audio stories, presentation content and other sound material can be delivered through headphones. It can be a convenient solution for stands and spaces where visitors need to focus on specific content.""",
+"""Міжнародні конференції""":
+  """International conferences""",
+"""Навушники можуть використовуватися для прослуховування перекладу, якщо передбачені перекладачі, необхідні аудіоджерела та відповідна конфігурація каналів. Технічні можливості й кількість мов узгоджуємо індивідуально.""":
+  """Headphones can be used to listen to interpretation if interpreters, the necessary audio sources and a suitable channel configuration are in place. We agree the technical options and the number of languages individually.""",
+"""Що дає формат конференції в навушниках""":
+  """What a conference in headphones gives you""",
+"""Персональне прослуховування""":
+  """Personal listening""",
+"""Учасники слухають аудіо через навушники й можуть налаштовувати власну гучність.""":
+  """Attendees listen through headphones and can adjust their own volume.""",
+"""Гнучкіше використання простору""":
+  """More flexible use of space""",
+"""Можливість передавати звук без традиційного озвучення через колонки може бути корисною на майданчиках із різними активностями.""":
+  """Delivering sound without conventional loudspeaker sound can be useful at venues with different activities running side by side.""",
+"""Аудіоканали під різні потреби""":
+  """Audio channels for different needs""",
+"""Три аудіоканали стандартного формату дають змогу продумати різні сценарії прослуховування в межах сумісної конфігурації.""":
+  """The three audio channels of the standard format let you plan different listening scenarios within a compatible configuration.""",
+"""Технічна організація під ключ""":
+  """Turnkey technical organisation""",
+"""SILENT доставляє, встановлює та налаштовує обладнання, супроводжує подію й збирає його після завершення відповідно до погоджених умов.""":
+  """SILENT delivers, installs and configures the equipment, supports the event and dismantles it afterwards according to the agreed terms.""",
+"""Від планування до готового аудіорішення""":
+  """From planning to a ready audio solution""",
+"""Починаємо з вашої програми, простору та кількості учасників. На цій основі визначаємо, яка конфігурація SILENT підійде для події.""":
+  """We start with your programme, the space and the number of attendees. On that basis we decide which SILENT configuration suits the event.""",
+"""Задача""":
+  """Brief""",
+"""Розбираємося із завданням""":
+  """We work out the brief""",
+"""Дізнаємося дату, локацію, кількість гостей, формат конференції та потреби в аудіосупроводі.""":
+  """We learn the date, location, number of guests, conference format and audio needs.""",
+"""Конфігурація""":
+  """Configuration""",
+"""Узгоджуємо конфігурацію""":
+  """We agree the configuration""",
+"""Визначаємо кількість навушників, джерела звуку, канали та технічні умови.""":
+  """We determine the number of headphones, sound sources, channels and technical conditions.""",
+"""Підготовка""":
+  """Preparation""",
+"""Готуємо обладнання""":
+  """We prepare the equipment""",
+"""Погоджуємо логістику, час монтажу та організацію видачі навушників.""":
+  """We agree the logistics, setup time and how the headphones are handed out.""",
+"""Супровід""":
+  """Support""",
+"""Супроводжуємо подію""":
+  """We support the event""",
+"""Встановлюємо систему, перевіряємо її роботу, забезпечуємо технічний супровід і збираємо обладнання після завершення відповідно до узгодженого пакета.""":
+  """We install the system, check that it works, provide technical support and dismantle the equipment afterwards according to the agreed package.""",
+"""Що входить""":
+  """What is included""",
+"""Організацію аудіоформату беремо на себе""":
+  """We take the audio format off your hands""",
+"""<a href="/">SILENT</a> — це не просто навушники. Ми організовуємо технічну частину аудіоформату, щоб вам не довелося самостійно розбиратися з обладнанням.""":
+  """<a href="/">SILENT</a> is not just headphones. We organise the technical side of the audio format so that you don't have to deal with the equipment yourself.""",
+"""бездротові навушники відповідно до замовлення;""":
+  """wireless headphones as per the order;""",
+"""підготовка та налаштування системи;""":
+  """preparing and configuring the system;""",
+"""доставка та монтаж відповідно до погоджених умов;""":
+  """delivery and setup according to the agreed terms;""",
+"""технічний супровід заходу;""":
+  """technical support during the event;""",
+"""демонтаж і збір обладнання.""":
+  """dismantling and collecting the equipment.""",
+"""SILENT працює не лише для конференцій. У розділі «<a href="/experiences/">Тихі враження</a>» зібрано інші формати: <a href="/experiences/corporate/">корпоративи</a>, презентації, тренінги й приватні вечірки. Як працює Silent Disco загалом, розповідаємо <a href="/experiences/silent-disco/">на окремій сторінці</a>, а ідеї для подій шукайте в нашому <a href="/blog/">блозі</a>.""":
+  """SILENT works for more than conferences. The “<a href="/experiences/">Silent experiences</a>” section collects other formats: <a href="/experiences/corporate/">corporate parties</a>, presentations, trainings and private parties. How Silent Disco works in general is explained <a href="/experiences/silent-disco/">on a separate page</a>, and you will find event ideas in our <a href="/blog/">blog</a> (in Ukrainian).""",
+"""Поширені запитання про Silent Disco для конференцій""":
+  """Frequently asked questions about Silent Disco for conferences""",
+"""Чи можна проводити кілька сесій одночасно?""":
+  """Can several sessions run at the same time?""",
+"""Це залежить від кількості аудіоканалів, джерел звуку та конфігурації обладнання. Стандартний формат SILENT передбачає три канали. Перед замовленням перевіряємо, чи відповідає система програмі вашої конференції.""":
+  """It depends on the number of audio channels, the sound sources and the equipment configuration. The standard SILENT format has three channels. Before you order, we check whether the system fits your conference programme.""",
+"""Чи підходить SILENT для синхронного перекладу?""":
+  """Is SILENT suitable for simultaneous interpretation?""",
+"""Навушники можуть використовуватися для прослуховування перекладу за наявності перекладача, відповідного аудіосигналу та сумісної конфігурації. Можливості, кількість мов і технічну схему узгоджуємо окремо.""":
+  """The headphones can be used to listen to interpretation if there is an interpreter, a suitable audio signal and a compatible configuration. We agree the options, the number of languages and the technical scheme separately.""",
+"""Скільки коштує конференція в навушниках?""":
+  """How much does a conference in headphones cost?""",
+"""Базовий орієнтир — від 12 000 грн за 40 навушників на 4 години. Фінальна вартість залежить від локації, тривалості, кількості обладнання та технічних потреб.""":
+  """The basic guide price is from UAH 12,000 for 40 headphones for 4 hours. The final price depends on the location, duration, amount of equipment and technical needs.""",
+"""Яка мінімальна кількість навушників?""":
+  """What is the minimum number of headphones?""",
+"""Базова пропозиція SILENT починається від 40 навушників. Якщо формат конференції має особливості, обговоримо їх перед підтвердженням замовлення.""":
+  """The basic SILENT offer starts from 40 headphones. If your conference format has special features, we will discuss them before the order is confirmed.""",
+"""Чи працюєте ви за межами Києва?""":
+  """Do you work outside Kyiv?""",
+"""Так, SILENT працює в Києві та виїжджає по Україні. Вартість і можливість виїзду узгоджуємо з урахуванням локації та дати.""":
+  """Yes, SILENT works in Kyiv and travels across Ukraine. We agree the price and whether we can come based on the location and date.""",
+"""Хто встановлює обладнання та супроводжує конференцію?""":
+  """Who installs the equipment and supports the conference?""",
+"""Команда SILENT готує та налаштовує систему, перевіряє її роботу й забезпечує технічний супровід відповідно до погодженого пакета.""":
+  """The SILENT team prepares and configures the system, checks that it works and provides technical support according to the agreed package.""",
+"""Чи можна організувати аудіосупровід у великому залі?""":
+  """Can you provide audio in a large hall?""",
+"""Можливість залежить від особливостей приміщення, відстаней, перешкод та конфігурації системи. Перед подією погоджуємо технічні вимоги й умови роботи.""":
+  """It depends on the features of the room, distances, obstacles and the system configuration. Before the event we agree the technical requirements and working conditions.""",
+"""Чи можна налаштувати гучність у навушниках?""":
+  """Can the volume in the headphones be adjusted?""",
+"""Так. У навушниках є регулятор та обмежувач гучності, а кожен учасник може налаштувати рівень звуку для себе. Обмежувач допомагає контролювати рівень звуку, але не є гарантією абсолютної безпеки для слуху.""":
+  """Yes. The headphones have a volume control and limiter, and every attendee can set the sound level for themselves. The limiter helps keep the sound level under control but is not a guarantee of absolute hearing safety.""",
+"""Скільки коштує SILENT для конференції""":
+  """How much does SILENT cost for a conference""",
+"""Вартість залежить від кількості навушників, тривалості події, локації та технічної конфігурації. Базовий орієнтир SILENT — від 12 000 грн за 40 навушників на 4 години. Калькулятор нижче дає орієнтовний розрахунок для стандартного формату. Для конференцій із додатковими аудіопотоками, перекладом або специфічними технічними вимогами вартість узгоджується індивідуально.""":
+  """The price depends on the number of headphones, the duration of the event, the location and the technical configuration. The basic SILENT guide price is from UAH 12,000 for 40 headphones for 4 hours. The calculator below gives an approximate price for the standard format. For conferences with extra audio streams, interpretation or specific technical requirements, the price is agreed individually.""",
+"""Плануєте конференцію? Обговорімо аудіоформат""":
+  """Planning a conference? Let's talk about the audio format""",
+"""Розкажіть про вашу подію, програму та локацію. Ми допоможемо визначити, чи підійде SILENT для вашого формату, і запропонуємо наступний крок.""":
+  """Tell us about your event, programme and location. We will help work out whether SILENT suits your format and suggest the next step.""",
+"""Дата, локація та приблизна кількість учасників — цього достатньо, щоб почати розмову.""":
+  """The date, location and approximate number of attendees are enough to start the conversation.""",
 }
+_CONF["""Афтерпаті на конференції"""] = """After-party at the conference"""
+_CONF["""Після офіційної програми продовжіть вечір у форматі Silent Disco: учасники слухають музику в навушниках і самі обирають один із трьох музичних каналів. Так легше неформально поспілкуватися після насиченого дня."""] = """After the official programme, carry on the evening as a Silent Disco: attendees listen to music in headphones and pick one of three music channels themselves. It makes it easier to chat informally after a busy day."""
+_CONF["""Організатори конференцій, форумів і бізнес-подій"""] = """Organisers of conferences, forums and business events"""
+_CONF["""Обговорити <span class="em">Silent Disco</span> для конференції"""] = """Discuss <span class="em">Silent Disco</span> for your conference"""
+def _en_href(t):
+    for a in ('<a href="/experiences/', '<a href="/faq/', '<a href="/">'):
+        t = t.replace(a, a.replace('href="/', 'href="/en/', 1))
+    return t
 for _k, _v in list(_CONF.items()):
     T_PAGE_ALL[_k] = _v
     if '<a href="/' in _k:
-        T_PAGE_ALL[_k.replace('<a href="/', '<a href="/en/')] = _v.replace('<a href="/', '<a href="/en/')
+        T_PAGE_ALL[_en_href(_k)] = _en_href(_v)

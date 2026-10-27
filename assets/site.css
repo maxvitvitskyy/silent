@@ -9245,3 +9245,31 @@ body:has(.legal-toc){overflow-x:clip}
   .legal-list--cols{columns:1}
   .legal-dl>div{grid-template-columns:minmax(0,1fr);gap:4px}
 }
+
+/* Сторінка «Конференції»: список «Що входить» у колонці тексту — той самий ритм, що в .gear-steps,
+   але без нумерації (це перелік, а не послідовність): лаймова крапка замість «01». */
+.gear-steps--plain{gap:6px}
+.gear-steps--plain li::before{content:"";min-width:0;width:6px;height:6px;margin:.62em 8px 0 2px;border-radius:50%;background:var(--lime-quiet)}
+.gear-steps--plain span{font-size:clamp(15px,1.15vw,16.5px);color:rgba(255,255,255,.82)}
+
+/* Сторінка «Конференції»: H1 довший за «Silent Disco / на фестивалі» («Конференції в навушниках — більше
+   можливостей для вашої події»), тож перший рядок менший за стандартні 13.4cqw, а друга частина
+   переноситься у 2–3 рядки замість nowrap, який виштовхував її під колонку знімків. */
+.exp-cover-gallery .exp-title--long{font-size:min(10.6cqw,78px)}
+.exp-cover-gallery .exp-title--long .t-lead{white-space:normal}
+.exp-cover-gallery .exp-title--long .t-sub{white-space:normal;font-size:.4em;line-height:1.22;letter-spacing:-.01em;max-width:24em;margin-top:.5em}
+
+/* Сторінка «Конференції», блок «Сценарії»: колаж «широкий знімок угорі, два під ним» замість стандартного
+   «високий ліворуч, два стовпчиком праворуч». Лише з модифікатором, решта сторінок не змінюється. */
+.exp-story-shots--wide{grid-template-columns:1fr 1fr;grid-template-rows:minmax(0,1.2fr) minmax(0,1fr)}
+.exp-story-shots--wide .s-main{grid-row:1;grid-column:1 / -1}
+@media (max-width:999px){
+  .exp-story-shots--wide .s-main{aspect-ratio:16 / 10}
+  .exp-story-shots--wide .s-a,.exp-story-shots--wide .s-b{aspect-ratio:1 / 1;height:auto}
+}
+
+/* Сторінка «Конференції»: шість карток сценаріїв (.scen-cards--six) — три в ряд на десктопі, дві на планшеті, одна на телефоні.
+   Базові .scen-cards (церкви) розраховані на чотири, тож лише цей модифікатор міняє колонки. */
+.scen-cards--six{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:999px){.scen-cards--six{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:599px){.scen-cards--six{grid-template-columns:minmax(0,1fr)}}
