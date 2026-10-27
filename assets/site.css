@@ -9098,7 +9098,7 @@ html.is-scrolling .hx-overlay { pointer-events: none !important; }
 
 /* «Про нас» (27.10.2026): опис і кнопка під заголовком у hero, абзаци вступу та дві компактні секції:
    «Свій вибір. Спільний момент.» (чотири картки) і «Від ідеї до спільного досвіду.» (чотири кроки). Лише .ab-*, інші сторінки не зачіпає. */
-.ab-lead{max-width:640px;margin:clamp(18px,2.2vw,28px) auto 0;font-size:clamp(16px,1.4vw,20px);line-height:1.6;font-weight:500;color:rgba(255,255,255,.84);text-wrap:balance}
+.ab-lead{max-width:1020px;margin:clamp(18px,2.2vw,28px) auto 0;font-size:clamp(16px,1.4vw,20px);line-height:1.6;font-weight:500;color:rgba(255,255,255,.84);text-wrap:balance}
 .ab-hero-btn{display:inline-flex;margin-top:clamp(22px,2.6vw,34px)}
 .ab-intro-text p:not(.ab-quote)+p{margin-top:14px}
 .ab-gives,.ab-how{padding:0 0 clamp(60px,9vw,120px)}
@@ -9133,3 +9133,45 @@ html.is-scrolling .hx-overlay { pointer-events: none !important; }
 @media(max-width:640px){
   .ab-ptext{min-height:clamp(221px,calc(287px - (100vw - 400px) * .33),287px)}
 }
+
+/* «Про нас», плашка-заклик: вища на десктопі й планшеті (було ~375px при 1180px). Збільшені лише вертикальні поля, тож сітка, скло
+   й світіння не змінюються; на телефоні (≤640px) лишаються власні поля. */
+@media(min-width:641px){
+  .ab-plate{padding-block:clamp(72px,8.6vw,132px)}
+}
+
+/* «Про нас», плашка-заклик: прозоріша темна «кімната», щоб велике слово SILENT за нею проглядало крізь скло й було видно, як воно
+   розмивається. Градієнт той самий, але з меншою непрозорістю; розмиття трохи слабше. Центр (де текст) лишається темнішим для читабельності. */
+.ab-plate{background:radial-gradient(130% 150% at 50% 42%,rgba(0,2,0,.4) 34%,rgba(14,28,0,.26) 62%,rgba(96,150,0,.3) 100%);-webkit-backdrop-filter:blur(22px) saturate(1.5);backdrop-filter:blur(22px) saturate(1.5)}
+/* Слово SILENT заходить під плашку глибше (було ~9vw), а нижнє внутрішнє світіння слабше, щоб крізь скло було видно розмиті літери. */
+@media(min-width:641px){
+  .ab-cta{margin-bottom:clamp(-230px,-12.5vw,-100px)}
+  .ab-plate{box-shadow:inset 0 0 110px 12px rgba(198,255,0,.5),inset 0 -40px 90px rgba(198,255,0,.34),0 0 120px rgba(198,255,0,.42),0 24px 70px rgba(0,0,0,.4)}
+}
+
+/* Перспективна «кімната» плашки-заклику: справжня одноточкова перспектива. Одна перспектива на самій плашці (точка сходу в її центрі),
+   чотири площини (стеля, підлога, ліва й права стіни) — тієї самої сітки 64px з ліній 1.5px, повернуті на 90° навколо крайок плашки й
+   простягнуті вглиб на 1300px. Площини сходяться в крайках і всі ведуть в одну точку, тому лінії не перетинаються й не розходяться.
+   Розчинення в глибину — маска вздовж площини. Старі ::before/::after плашки вимкнені. */
+.ab-plate::before,.ab-plate::after{display:none}
+.ab-plate{perspective:520px;perspective-origin:50% 50%}
+.ab-pw{position:absolute;z-index:-1;pointer-events:none;background-image:linear-gradient(rgba(198,255,0,.6) 0,rgba(198,255,0,.6) .75px,transparent .75px,transparent calc(100% - .75px),rgba(198,255,0,.6) calc(100% - .75px)),linear-gradient(90deg,rgba(198,255,0,.6) 0,rgba(198,255,0,.6) .75px,transparent .75px,transparent calc(100% - .75px),rgba(198,255,0,.6) calc(100% - .75px));background-size:64px 64px;background-position:0 0;background-repeat:round}
+/* Лінії лежать рівно на краях плитки, а плитка (64px) розтягується до цілого числа клітинок (background-repeat:round): на крайках кімнати
+   (кутах) сходяться лінії двох площин в одну спільну, а решта розподілена рівномірно, без двох ліній поруч. */
+.ab-pw-t{left:0;right:0;top:0;height:1300px;transform-origin:50% 0;transform:rotateX(-90deg);-webkit-mask-image:linear-gradient(180deg,#000 4%,transparent 34%);mask-image:linear-gradient(180deg,#000 4%,transparent 34%)}
+.ab-pw-b{left:0;right:0;bottom:0;height:1300px;transform-origin:50% 100%;transform:rotateX(90deg);-webkit-mask-image:linear-gradient(0deg,#000 4%,transparent 34%);mask-image:linear-gradient(0deg,#000 4%,transparent 34%)}
+.ab-pw-l{top:0;bottom:0;left:0;width:1300px;transform-origin:0 50%;transform:rotateY(90deg);-webkit-mask-image:linear-gradient(90deg,#000 4%,transparent 34%);mask-image:linear-gradient(90deg,#000 4%,transparent 34%)}
+.ab-pw-r{top:0;bottom:0;right:0;width:1300px;transform-origin:100% 50%;transform:rotateY(-90deg);-webkit-mask-image:linear-gradient(270deg,#000 4%,transparent 34%);mask-image:linear-gradient(270deg,#000 4%,transparent 34%)}
+
+/* «Про нас», плашка-заклик на телефоні: вища (було ~384px при 390px шириною), збільшені лише вертикальні поля. */
+@media(max-width:640px){
+  .ab-plate{padding-top:78px;padding-bottom:74px}
+}
+
+/* «Про нас», polish: (1) заголовки карток «Свій вибір» у чотири колонки різної довжини (1 і 2 рядки), тому описи починались на різній висоті;
+   резервуємо два рядки, щоб верх тексту збігався. (2) У плашці-заклику більший відступ над кнопкою: від абзацу до рядка з фразою
+   і від фрази до кнопки. */
+@media(min-width:901px){
+  .ab-gives-grid h3{min-height:2.4em}
+}
+.ab-plate .ab-plate-row{margin-top:clamp(26px,2.6vw,34px);gap:clamp(24px,2.5vw,34px)}
