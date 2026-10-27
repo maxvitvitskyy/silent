@@ -473,6 +473,17 @@ def article_blocks(blocks):
                         return '<div class="art-cards-flow">%s</div>' % ''.join(lp(x) for x in items) if items else ''
                     return ''.join('<p class="art-cards-lead">%s</p>' % inline(x) for x in items)
                 lead = paras(leads, b.get('lead_cols'))
+                # image: {src, alt, pos} (не для split): вступний текст у лівій половині, праворуч знімок, що показує, про що розділ;
+                # перелік (картки чи рядки) іде нижче на всю ширину.
+                if b.get('image') and b.get('layout') != 'split':
+                    _im = b['image']
+                    try:
+                        from PIL import Image as _I
+                        _w, _h = _I.open(os.path.join(ROOT, _im['src'].lstrip('/'))).size
+                    except Exception:
+                        _w, _h = 1200, 900
+                    lead = ('<div class="art-media-row"><div class="art-media-text">%s</div><figure class="art-media-fig"><img src="%s" alt="%s" loading="lazy" decoding="async" width="%d" height="%d"%s></figure></div>'
+                            % (lead, esc(_im['src']), esc(_im['alt']), _w, _h, (' style="object-position: %s"' % esc(_im['pos'])) if _im.get('pos') else ''))
                 foot = paras(b.get('foot', []), b.get('foot_cols'))
                 # layout "split": текст ліворуч, перелік праворуч легким списком із тонкими розділювачами (без скляних карток);
                 # layout "rows": перелік на всю ширину в дві колонки рядків із розділювачами. Чергуємо з картками для різноманітності.
@@ -507,12 +518,14 @@ def article_blocks(blocks):
                         '<li><b>%s</b><span>%s</span></li>' % (esc(x['t']), inline(x['d'])) for x in it['steps']))
                 else:
                     sys.exit('blog: невідомий елемент колонки %r' % it)
-            out.append('<section class="art-blk"><div class="art-flow"><h2>%s</h2>%s</div></section>' % (esc(b['title']), html))
+            # nosplit: абзаци не розриваються між колонками (інакше речення обривається посеред думки на стику колонок)
+            out.append('<section class="art-blk%s"><div class="art-flow"><h2>%s</h2>%s</div></section>' % (' art-nosplit' if b.get('nosplit') else '', esc(b['title']), html))
         elif t == 'pair':
             im = b['image']
             out.append('<div class="art-pair"><figure class="art-pair-img"><img src="%s" alt="%s"%s loading="lazy" decoding="async" width="1200" height="900"></figure>'
                        '<blockquote class="art-key"><div class="band-aurora" aria-hidden="true"><div class="aurora-liquid"></div></div><p>%s</p></blockquote></div>' % (esc(im['src']), esc(im['alt']), (' style="object-position:%s"' % esc(im['pos'])) if im.get('pos') else '', esc(b['quote'])))
         elif t == 'table':
+            # compare: true = нейтральне порівняння «було / наше»: остання колонка виділена цілком, колонки розділені лініями.
             # Порівняльна таблиця (одна на статтю): заголовок і вступ як у блоку з картками, нижче таблиця на ширину тексту.
             head = ''.join('<th scope="col">%s</th>' % esc(h) for h in b['head'])
             # marks: ['no', 'yes'] (за колонками після підпису рядка) додає червоний хрестик чи лаймову галочку; підпис колонки лишається в комірці
@@ -523,8 +536,8 @@ def article_blocks(blocks):
                 return '<td%s><span class="art-cell-l">%s</span>%s</td>' % ((' class="is-%s"' % m) if m else '', esc(b['head'][i + 1]), inline(c))
             rows = ''.join('<tr><th scope="row">%s</th>%s</tr>' % (esc(r[0]), ''.join(cell(i, c) for i, c in enumerate(r[1:]))) for r in b['rows'])
             lead = '<p class="art-cards-lead">%s</p>' % inline(b['lead']) if b.get('lead') else ''
-            out.append('<section class="art-blk"><div class="art-cols"><h2>%s</h2>%s<div class="art-table-wrap"><table class="art-table"><thead><tr>%s</tr></thead><tbody>%s</tbody></table></div></div></section>'
-                       % (esc(b['title']), lead, head, rows))
+            out.append('<section class="art-blk"><div class="art-cols"><h2>%s</h2>%s<div class="art-table-wrap"><table class="art-table%s"><thead><tr>%s</tr></thead><tbody>%s</tbody></table></div></div></section>'
+                       % (esc(b['title']), lead, (' is-compare' if b.get('compare') else ''), head, rows))
         elif t == 'intro':
             # Вступ до групи розділів (наприклад «6 ідей…», за яким ідуть шість пронумерованих розділів): заголовок і один абзац
             # по центру в одну колонку, більший за заголовки ідей, які після нього йдуть меншим рівнем (sub).
@@ -555,11 +568,16 @@ def article_blocks(blocks):
             figs = ''.join('<figure><img src="%s" alt="%s" loading="lazy" decoding="async" width="%d" height="%d"%s></figure>'
                            % ((esc(im['src']), esc(im['alt'])) + _wh(im['src']) + (((' style="object-position: %s"' % esc(im['pos'])) if im.get('pos') else ''),))
                            for im in b['images'])
-            out.append('<div class="art-photos is-%d">%s</div>' % (n, figs))
+            # attach: true = знімки стоять ближче до попереднього блоку (ілюструють його), а не окремим розділом через повний відступ
+            out.append('<div class="art-photos is-%d%s">%s</div>' % (n, ' is-attached' if b.get('attach') else '', figs))
         else:
             sys.exit('blog: невідомий тип блоку %r' % t)
     # sub: true у блоці = його H2 меншого рівня (під центрованим заголовком групи)
-    return '\n'.join(out).replace('<h2>\x00', '<h2 class="is-sub">')
+    html = '\n'.join(out)
+    # Блок зі знімком (art-media-row): заголовок переходить у ліву частину над текстом, тож знімок починається на рівні заголовка
+    # і тягнеться на всю висоту «заголовок + текст».
+    html = re.sub(r'(<h2>[^<]*</h2>)(<div class="art-media-row"><div class="art-media-text">)', r'\2\1', html)
+    return html.replace('<h2>\x00', '<h2 class="is-sub">')
 
 
 SHARE_ICONS = {

@@ -1,0 +1,22 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-navushnyky-dlia-konferentsii.jpg",
+  "bg": {
+    "src": "images/conferences/konferentsiya-uchasnyky-v-zelenykh-navushnykakh.webp",
+    "pos": "50% 46%"
+  },
+  "heading": [
+    "Навушники для конференції",
+    "як організувати звук"
+  ],
+  "subtitle": [
+    [
+      "Як почути кожного спікера в одному залі."
+    ]
+  ],
+  "pills": [
+    "<b>Паралельні</b> сесії",
+    "<b>Воркшопи</b> й доповіді",
+    "<b>Бізнес</b>-події"
+  ]
+}

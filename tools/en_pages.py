@@ -3296,8 +3296,8 @@ _CONF = {
   """technical support during the event;""",
 """демонтаж і збір обладнання.""":
   """dismantling and collecting the equipment.""",
-"""SILENT працює не лише для конференцій. У розділі «<a href="/experiences/">Тихі враження</a>» зібрано інші формати: <a href="/experiences/corporate/">корпоративи</a>, презентації, тренінги й приватні вечірки. Як працює Silent Disco загалом, розповідаємо <a href="/experiences/silent-disco/">на окремій сторінці</a>, а ідеї для подій шукайте в нашому <a href="/blog/">блозі</a>.""":
-  """SILENT works for more than conferences. The “<a href="/experiences/">Silent experiences</a>” section collects other formats: <a href="/experiences/corporate/">corporate parties</a>, presentations, trainings and private parties. How Silent Disco works in general is explained <a href="/experiences/silent-disco/">on a separate page</a>, and you will find event ideas in our <a href="/blog/">blog</a> (in Ukrainian).""",
+"""SILENT працює не лише для конференцій. У розділі «<a href="/experiences/">Тихі враження</a>» зібрано інші формати: <a href="/experiences/corporate/">корпоративи</a>, презентації, тренінги й приватні вечірки. Як працює Silent Disco загалом, розповідаємо <a href="/experiences/silent-disco/">на окремій сторінці</a>, а ідеї для подій шукайте в нашому <a href="/blog/">блозі</a>, зокрема <a href="/blog/navushnyky-dlia-konferentsii/">як організувати звук для учасників конференції</a> і <a href="/blog/navushnyky-na-konferentsii-stsenarii/">шість сценаріїв використання навушників</a>.""":
+  """SILENT works for more than conferences. The “<a href="/experiences/">Silent experiences</a>” section collects other formats: <a href="/experiences/corporate/">corporate parties</a>, presentations, trainings and private parties. How Silent Disco works in general is explained <a href="/experiences/silent-disco/">on a separate page</a>, and you will find event ideas in our <a href="/blog/">blog</a> (in Ukrainian), including <a href="/blog/navushnyky-dlia-konferentsii/">how to organise sound for conference attendees</a> and <a href="/blog/navushnyky-na-konferentsii-stsenarii/">six ways to use headphones</a>.""",
 """Поширені запитання про Silent Disco для конференцій""":
   """Frequently asked questions about Silent Disco for conferences""",
 """Чи можна проводити кілька сесій одночасно?""":
@@ -3345,6 +3345,12 @@ _CONF = {
 }
 _CONF["""Афтерпаті на конференції"""] = """After-party at the conference"""
 _CONF["""Після офіційної програми продовжіть вечір у форматі Silent Disco: учасники слухають музику в навушниках і самі обирають один із трьох музичних каналів. Так легше неформально поспілкуватися після насиченого дня."""] = """After the official programme, carry on the evening as a Silent Disco: attendees listen to music in headphones and pick one of three music channels themselves. It makes it easier to chat informally after a busy day."""
+_CONF["""Повна зала учасників конференції слухає виступ у світних синіх навушниках Silent Disco"""] = """A full hall of conference attendees listens to a talk in glowing blue Silent Disco headphones"""
+_CONF["""Учасниця конференції в синіх навушниках Silent Disco дивиться на сцену й екран у великій залі"""] = """A conference attendee in blue Silent Disco headphones looks at the stage and screen in a large hall"""
+_CONF["""Учасники конференції в зелених навушниках Silent Disco слухають виступ"""] = """Conference attendees in green Silent Disco headphones listen to a talk"""
+_CONF["""Учасниці конференції за столами слухають доповідь у синіх навушниках Silent Disco"""] = """Conference attendees at tables listen to a talk in blue Silent Disco headphones"""
+_CONF["""Велика конференц-зала: на кожному стільці висять сині навушники Silent Disco, на сцені три екрани"""] = """A large conference hall: blue Silent Disco headphones hang on every chair, three screens on the stage"""
+_CONF["""Ряди стільців перед екраном, на кожному висять навушники Silent Disco"""] = """Rows of chairs facing a screen with Silent Disco headphones hanging on each"""
 _CONF["""Організатори конференцій, форумів і бізнес-подій"""] = """Organisers of conferences, forums and business events"""
 _CONF["""Обговорити <span class="em">Silent Disco</span> для конференції"""] = """Discuss <span class="em">Silent Disco</span> for your conference"""
 def _en_href(t):

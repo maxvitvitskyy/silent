@@ -300,6 +300,30 @@
       "also": [
         "holidays"
       ]
+    },
+    {
+      "slug": "navushnyky-dlia-konferentsii",
+      "status": "published",
+      "category": "business",
+      "title": "Навушники для конференції: як організувати звук для учасників",
+      "excerpt": "Коли конференції потрібні бездротові навушники, як розвести кілька виступів в одному просторі та що перевірити до початку.",
+      "image": "/images/conferences/konferentsiya-zala-z-ekranom-i-spikerom.webp",
+      "alt": "Учасниця конференції в синіх навушниках Silent Disco дивиться на сцену й екран у великій залі",
+      "also": [
+        "organization"
+      ]
+    },
+    {
+      "slug": "navushnyky-na-konferentsii-stsenarii",
+      "status": "published",
+      "category": "business",
+      "title": "Сценарії використання навушників на конференції: від доповідей до афтерпаті",
+      "excerpt": "Доповіді, воркшопи, паралельні сесії, виставки, переклад та афтерпаті: що варто врахувати в кожному сценарії.",
+      "image": "/images/conferences/konferentsiya-audytoriya-v-synikh-navushnykakh.webp",
+      "alt": "Повна зала учасників конференції слухає виступ у світних синіх навушниках Silent Disco",
+      "also": [
+        "ideas"
+      ]
     }
   ]
 }

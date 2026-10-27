@@ -1,0 +1,22 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-navushnyky-na-konferentsii-stsenarii.jpg",
+  "bg": {
+    "src": "images/conferences/konferentsiya-audytoriya-v-synikh-navushnykakh.webp",
+    "pos": "50% 60%"
+  },
+  "heading": [
+    "Навушники на конференції",
+    "6 сценаріїв використання"
+  ],
+  "subtitle": [
+    [
+      "Від доповідей до афтерпаті."
+    ]
+  ],
+  "pills": [
+    "<b>Доповіді</b> й воркшопи",
+    "<b>Паралельні</b> сесії",
+    "<b>Виставки</b> й афтерпаті"
+  ]
+}
