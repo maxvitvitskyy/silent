@@ -9175,3 +9175,68 @@ html.is-scrolling .hx-overlay { pointer-events: none !important; }
   .ab-gives-grid h3{min-height:2.4em}
 }
 .ab-plate .ab-plate-row{margin-top:clamp(26px,2.6vw,34px);gap:clamp(24px,2.5vw,34px)}
+
+/* ---------- /privacy/: ієрархія довгого юридичного тексту (27.10.2026) ----------
+   Це сторінка «для читання»: людина приходить із питанням («що ви збираєте?», «як видалити?»). Тому: 1) смуга «Коротко» з чотирма
+   відповідями над текстом; 2) зміст (липкий збоку на десктопі, згорнутий на телефоні); 3) розділи розділені тонкою лінією, номер лаймовий;
+   4) короткі списки у дві колонки; 5) головні гарантії виділені блоком; 6) контакти карткою. Зміст самих положень не змінюється. */
+.exp-head-lead + .exp-head-note{margin-top:14px}
+.legal-sum{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin:0 0 clamp(40px,5vw,72px);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.legal-sum>div{padding:clamp(18px,2vw,28px) clamp(14px,1.8vw,26px);border-right:1px solid var(--line)}
+.legal-sum>div:last-child{border-right:0}
+.legal-sum span{display:block;margin-bottom:10px;font:700 12px/1.2 'Manrope',sans-serif;letter-spacing:2px;text-transform:uppercase;color:var(--muted-2)}
+.legal-sum p{margin:0;font-size:clamp(15px,1.25vw,17px);line-height:1.5;font-weight:600;color:#fff}
+.legal-sum a{color:var(--lime);border-bottom:1px solid rgba(198,255,0,.35);overflow-wrap:anywhere}
+.legal-layout{display:grid;grid-template-columns:minmax(220px,280px) minmax(0,68ch);gap:clamp(40px,6vw,96px);align-items:start}
+.legal-toc{position:sticky;top:112px;max-height:calc(100vh - 140px);overflow:auto;padding-right:6px}
+.legal-toc-h{margin:0 0 14px;font:700 12px/1 'Manrope',sans-serif;letter-spacing:3px;text-transform:uppercase;color:var(--muted-2)}
+.legal-toc ol,.legal-toc-m ol{list-style:none;margin:0;padding:0}
+.legal-toc a,.legal-toc-m a{display:flex;gap:8px;padding:7px 0;font-size:14px;line-height:1.35;color:var(--muted);transition:color .2s ease}
+.legal-toc a span,.legal-toc-m a span{flex:none;min-width:2.2ch;color:var(--lime)}
+.legal-toc a:hover,.legal-toc-m a:hover{color:#fff}
+.legal-toc-m{display:none}
+/* position:sticky не працює, коли body має overflow-x:hidden (він стає контейнером прокрутки). clip обрізає так само, але прокрутки не створює;
+   лише на сторінці зі змістом. */
+body:has(.legal-toc){overflow-x:clip}
+.legal{max-width:none}
+.legal-sec{margin-top:clamp(32px,4vw,52px);padding-top:clamp(32px,4vw,52px);border-top:1px solid var(--line);scroll-margin-top:110px}
+.legal-sec:first-child{margin-top:0;padding-top:0;border-top:0}
+.legal .legal-sec h2{margin:0 0 16px;font-size:clamp(20px,2vw,26px);text-wrap:balance}
+.legal-n{margin-right:.15em;color:var(--lime)}
+.legal p{color:rgba(255,255,255,.74)}
+.legal-list{list-style:none;margin:0 0 18px;padding:0}
+.legal-list li{position:relative;padding:5px 0 5px 22px;font-size:16px;line-height:1.55;color:rgba(255,255,255,.74)}
+.legal-list li::before{content:"";position:absolute;left:3px;top:.95em;width:6px;height:6px;border-radius:50%;background:var(--lime-quiet)}
+.legal-list--cols{columns:2;column-gap:28px}
+.legal-list--cols li{break-inside:avoid}
+.legal .legal-key{margin:18px 0;padding:14px 18px;border:1px solid rgba(198,255,0,.3);border-radius:14px;background:rgba(198,255,0,.06);font-weight:600;color:#fff}
+.legal-dl{margin:0 0 14px;border-top:1px solid var(--line)}
+.legal-dl>div{display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;padding:12px 0;border-bottom:1px solid var(--line)}
+.legal-dl dt{font-weight:700;color:#fff}
+.legal-dl dd{margin:0;line-height:1.6;color:rgba(255,255,255,.74)}
+.legal .legal-contact{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px}
+.legal .legal-contact span{color:rgba(255,255,255,.74)}
+.legal .legal-contact a{padding:8px 14px;border:1px solid rgba(198,255,0,.35);border-radius:999px}
+.legal-card{display:grid;gap:6px;margin:4px 0 0;padding:20px 22px;font-style:normal;border:1px solid rgba(255,255,255,.14);border-radius:18px;background:var(--glass-fill-1);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
+.legal-card strong{font-size:17px;font-weight:700;color:#fff}
+.legal-card span{color:var(--muted)}
+.legal-card a{width:fit-content}
+@media(max-width:1000px){
+  .legal-layout{grid-template-columns:minmax(0,1fr);gap:0}
+  .legal-toc{display:none}
+  .legal-toc-m{display:block;margin:0 0 30px;padding:0 18px;border:1px solid var(--line);border-radius:16px}
+  .legal-toc-m summary{padding:16px 0;font-weight:700;cursor:pointer;color:#fff}
+  .legal-toc-m ol{padding-bottom:12px}
+}
+@media(max-width:900px){
+  .legal-sum{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .legal-sum>div:nth-child(2){border-right:0}
+  .legal-sum>div:nth-child(-n+2){border-bottom:1px solid var(--line)}
+}
+@media(max-width:560px){
+  .legal-sum{grid-template-columns:minmax(0,1fr)}
+  .legal-sum>div{border-right:0;border-bottom:1px solid var(--line)}
+  .legal-sum>div:last-child{border-bottom:0}
+  .legal-list--cols{columns:1}
+  .legal-dl>div{grid-template-columns:minmax(0,1fr);gap:4px}
+}
