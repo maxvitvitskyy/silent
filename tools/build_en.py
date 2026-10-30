@@ -990,7 +990,8 @@ def strip_blog_mega(s):
     а назви статей кирилицею зламали б перевірку неперекладеного. Генерує його tools/build_blog.py."""
     s = re.sub(r'[ \t]*<!-- BLOG-MEGA:START.*?<!-- BLOG-MEGA:END -->\n?', '', s, flags=re.S)
     # Сторінка «Про нас» має англійську версію: посилання на неї ведуть на /en/about/.
-    s = s.replace('href="/about/"', 'href="/en/about/"')
+    # Посилання перемикача мови (є hreflang) не чіпаємо: UA-посилання на сторінці /en/about/ має вести на /about/.
+    s = re.sub(r'href="/about/"(?![^>]*hreflang)', 'href="/en/about/"', s)
     return s
 
 
@@ -1137,6 +1138,7 @@ EXPERIENCE_URLS = {
     'Студентські події': '/experiences/students/',
     'Фестивалі': '/experiences/festivals/',
     'Конференції': '/experiences/conferences/',
+    'Йога та ecstatic dance': '/experiences/yoga/',
     'Церковні служби та зібрання': '/experiences/church/',
     'Церковні та молодіжні табори': '/experiences/camps/',
     'Табори та молодіжні збори': '/experiences/youth-camps/',
@@ -1290,6 +1292,7 @@ EXPERIENCE_PAGES = [
     os.path.join('experiences', 'camps', 'index.html'),
     os.path.join('experiences', 'youth-camps', 'index.html'),
     os.path.join('experiences', 'conferences', 'index.html'),
+    os.path.join('experiences', 'yoga', 'index.html'),
 ]
 
 
@@ -1310,6 +1313,7 @@ EXP_FAQ_PAGES = {
     os.path.join('experiences', 'camps', 'index.html'): '/experiences/camps/',
     os.path.join('experiences', 'youth-camps', 'index.html'): '/experiences/youth-camps/',
     os.path.join('experiences', 'conferences', 'index.html'): '/experiences/conferences/',
+    os.path.join('experiences', 'yoga', 'index.html'): '/experiences/yoga/',
 }
 
 
@@ -2337,6 +2341,7 @@ EXP_EN_PAGES = {
     'camps': 'images/camps/og-camps-en.jpg',
     'youth-camps': 'images/youth-camps/og-youth-camps-en.jpg',
     'conferences': 'images/conferences/og-conferences-en.jpg',
+    'yoga': 'images/yoga/og-yoga-en.jpg',
 }
 from en_pages import T_PAGE_ALL, T_ABOUT   # рядки сторінок досвідів і «Про нас» (tools/en_pages.py)
 T_PAGE = {}   # slug -> {укр: англ} (додаткові, лише для однієї сторінки)

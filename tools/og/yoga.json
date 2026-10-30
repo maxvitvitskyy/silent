@@ -1,0 +1,27 @@
+{
+  "out": "images/yoga/og-yoga.jpg",
+  "heading": [
+    "Йога та",
+    "ecstatic dance"
+  ],
+  "subtitle": [
+    [
+      "Практика в тиші: голос і музика"
+    ],
+    [
+      "лише в навушниках учасників."
+    ]
+  ],
+  "pills": [
+    "Звук <b>у навушниках</b>",
+    "<b>3</b> канали музики",
+    "Все <b>під ключ</b>",
+    "<b>Київ</b> та Україна"
+  ],
+  "template": "template-full-left.html",
+  "bg": {
+    "src": "images/yoga/nichna-medytatsiya-v-navushnykakh-silent.webp",
+    "pos": "50% 50%"
+  },
+  "css": ".p>img{left:400px;right:auto;width:800px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%)}.h span+span{font-size:40px;font-weight:400;letter-spacing:-.01em;margin-top:6px} .sub{font-weight:500;margin-top:30px;font-size:23px}"
+}

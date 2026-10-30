@@ -3363,6 +3363,123 @@ for _k, _v in list(_CONF.items()):
         T_PAGE_ALL[_en_href(_k)] = _en_href(_v)
 
 
+# --- Сторінка «Йога та ecstatic dance» (en/experiences/yoga/): рядки лише цієї сторінки.
+_YOGA = {
+'Silent Disco для йоги та ecstatic dance в Києві та Україні | SILENT': 'Silent Disco for yoga and ecstatic dance in Kyiv and across Ukraine | SILENT',
+'Йога, медитація й ecstatic dance в бездротових навушниках: голос інструктора й музика лише у вухах учасників, три канали на вибір, організація під ключ у Києві та по Україні.':
+  'Yoga, meditation and ecstatic dance in wireless headphones: the instructor’s voice and the music only in participants’ ears, three channels to choose from, turnkey organisation in Kyiv and across Ukraine.',
+'Silent Disco для йоги та ecstatic dance | SILENT': 'Silent Disco for yoga and ecstatic dance | SILENT',
+'Практика в тиші: голос інструктора й музика лише в навушниках учасників. Київ і вся Україна.':
+  'Practice in silence: the instructor’s voice and the music only in participants’ headphones. Kyiv and all of Ukraine.',
+'Група займається йогою просто неба ввечері в світних навушниках Silent Disco':
+  'A group practises yoga outdoors in the evening in glowing Silent Disco headphones',
+'Silent disco для йоги та ecstatic dance': 'Silent disco for yoga and ecstatic dance',
+'Інструктори, студії та організатори йога-подій, медитацій і ecstatic dance':
+  'Instructors, studios and organisers of yoga events, meditations and ecstatic dance',
+'для йоги та ecstatic dance': 'for yoga and ecstatic dance',
+'Практика, у якій голос інструктора й музика звучать лише в навушниках, а довкола тихо: у залі, на даху чи в парку. Бездротові навушники мають три канали музики, які учасники перемикають одним дотиком. SILENT привезе обладнання, усе налаштує та подбає про технічний супровід у Києві й по всій Україні.':
+  'A practice where the instructor’s voice and the music play only in the headphones, while it stays quiet all around: in a hall, on a rooftop or in a park. The wireless headphones have three music channels that participants switch with one touch. SILENT brings the equipment, sets everything up and handles technical support in Kyiv and across Ukraine.',
+'Розтяжка, медитація й танець на різних каналах.': 'Stretching, meditation and dance on different channels.',
+'Тиша навколо, звук лише в навушниках.': 'Quiet all around, sound only in the headphones.',
+'Мінімальний комплект для групи на практиці.': 'The minimum set for a practice group.',
+'Жінка в позі намасте під гірляндами на нічній тихій практиці в навушниках Silent Disco':
+  'A woman in namaste under string lights at a quiet night practice in Silent Disco headphones',
+'Усміхнена учасниця тягнеться в боковій розтяжці на груповій йога-практиці в навушниках SILENT':
+  'A smiling participant reaches into a side stretch at a group yoga practice in SILENT headphones',
+'Ряд людей у позі собаки мордою вниз на килимках, у навушниках Silent Disco для йоги':
+  'A row of people in downward dog on mats, in Silent Disco headphones for yoga',
+'Жінка в позі намасте під гірляндами на нічній тихій практиці в навушниках':
+  'A woman in namaste under string lights at a quiet night practice in headphones',
+'Silent disco для йоги': 'Silent disco for yoga',
+'Практика в тиші. Звук лише для вас.': 'Practice in silence. Sound only for you.',
+'Голос і музика приходять прямо в навушники, тож простір не змагається зі звуком.':
+  'The voice and the music arrive straight in the headphones, so the space does not compete with sound.',
+'Йога й ecstatic dance тримаються на увазі до себе. У великій групі, у відкритому просторі чи поруч із містом цю увагу легко збити: хтось не чує інструктора, хтось відволікається на шум. У навушниках голос і музика звучать просто біля вуха, а кожен налаштовує гучність під себе.':
+  'Yoga and ecstatic dance rely on attention to yourself. In a big group, in an open space or next to the city, that attention is easy to lose: someone cannot hear the instructor, someone is distracted by noise. In headphones the voice and the music sound right by the ear, and everyone sets the volume for themselves.',
+'На <a href="/experiences/silent-disco/">трьох каналах</a> можуть звучати різні речі. Наприклад, спокійна музика для розминки й розтяжки, глибока ембієнт-добірка для медитації та ритм для вільного танцю. Учасники перемикаються самі, тож один простір вміщує різні практики й різний настрій.':
+  'The <a href="/experiences/silent-disco/">three channels</a> can carry different things. For example, calm music for the warm-up and stretching, a deep ambient selection for meditation and a beat for free dance. Participants switch on their own, so one space holds different practices and different moods.',
+'Формат працює і в залі, і просто неба: на даху, в парку, на березі чи в шатрі, де є електроживлення. Щоб поспілкуватися з сусідом, достатньо зняти навушники на шию.':
+  'The format works both indoors and outdoors: on a rooftop, in a park, on a shore or in a tent where there is power. To chat with a neighbour, just slide the headphones down to your neck.',
+'Тиша навколо. Музика всередині.': 'Quiet outside. Music inside.',
+'Велика група на йозі в шатрі з теплим світлом, усі в навушниках Silent Disco':
+  'A large group doing yoga in a warmly lit tent, everyone in Silent Disco headphones',
+'Йога в скляній студії на даху: група в позі воїна, у навушниках Silent Disco':
+  'Yoga in a glass rooftop studio: a group in warrior pose, in Silent Disco headphones',
+'Жінка відпочиває в позі шавасани в світних навушниках SILENT на тихій практиці':
+  'A woman rests in savasana in glowing SILENT headphones at a quiet practice',
+'Менше шуму. Більше практики.': 'Less noise. More practice.',
+'Ви ведете практику. Ми подбаємо про звук.': 'You lead the practice. We take care of the sound.',
+'Беремо на себе технічну частину Silent Disco, щоб інструктор і організатори могли зосередитися на групі.':
+  'We take on the technical side of Silent Disco so the instructor and organisers can focus on the group.',
+'Обладнання, налаштування сигналу й демонтаж беремо на себе: інструктору лишається лише практика.':
+  'We handle the equipment, signal setup and dismantling: the instructor is left with the practice only.',
+'Перед початком коротко показуємо, як одягнути навушники й перемикати канали, тож це не забирає часу заняття.':
+  'Before the start we briefly show how to put the headphones on and switch channels, so it does not eat into class time.',
+'Голос інструктора в навушниках': 'The instructor’s voice in the headphones',
+'Ведете практику голосом? Попередьте команду, ми налаштуємо підключення так, щоб голос звучав у навушниках усіх учасників. Деталі узгодимо заздалегідь.':
+  'Leading the practice by voice? Let the team know and we will set up the connection so your voice plays in every participant’s headphones. We agree the details in advance.',
+'Формат під ваш простір': 'A format for your space',
+'Ранкова практика на даху, нічна медитація в залі чи ecstatic dance просто неба: узгодимо кількість навушників, тривалість і технічні потреби з урахуванням вашого місця.':
+  'A morning practice on a rooftop, a night meditation in a hall or ecstatic dance outdoors: we agree the number of headphones, the duration and the technical needs for your venue.',
+'Одягнули. Обрали. Занурилися.': 'Put on. Choose. Dive in.',
+'Навушники вже налаштовані, тож учасникам не потрібно підключати телефони чи розбиратися в налаштуваннях. Ми підготуємо обладнання, перевіримо його та покажемо, як перемикати музичні канали. Далі кожен налаштовує звук під себе й просто практикує.':
+  'The headphones are already set up, so participants do not need to pair phones or work through settings. We prepare the equipment, check it and show how to switch music channels. After that everyone sets the sound for themselves and simply practises.',
+'На різних каналах можуть звучати розтяжка, медитація й танець. Учасники перемикаються між ними протягом заняття.':
+  'Stretching, meditation and dance can play on different channels. Participants switch between them during the session.',
+'Навушники світяться кольором обраного каналу, тож одразу видно, хто слухає те саме.':
+  'The headphones glow in the colour of the chosen channel, so you can see at once who is listening to the same thing.',
+'Не потрібно підключати власний телефон. Учасники вільно рухаються на килимках у межах робочої зони обладнання.':
+  'There is no need to connect your own phone. Participants move freely on their mats within the equipment’s working zone.',
+'Плейлисти й сценарій узгоджуємо з вами до події: канали можуть бути окремими етапами практики або вільним вибором учасників.':
+  'We agree the playlists and the scenario with you before the event: channels can be separate stages of the practice or a free choice for participants.',
+'Від заявки до практики в тиші — чотири прості кроки': 'From request to a practice in silence: four simple steps',
+'Розкажіть, коли й де відбудеться практика, скільки учасників очікуєте та який формат плануєте: йога, медитація чи ecstatic dance. Ми перевіримо доступність обладнання, допоможемо підібрати комплект і узгодимо технічні деталі.':
+  'Tell us when and where the practice will take place, how many participants you expect and what format you plan: yoga, meditation or ecstatic dance. We will check equipment availability, help choose a set and agree the technical details.',
+'Нічна медитація просто неба: жінка в світних навушниках SILENT тримає намасте під гірляндами':
+  'An open-air night meditation: a woman in glowing SILENT headphones holds namaste under string lights',
+'Дата, місце, формат': 'Date, place, format',
+'Вкажіть дату, місце проведення, приблизну кількість учасників і формат: йога, медитація, ecstatic dance чи їхнє поєднання.':
+  'Give the date, the venue, the approximate number of participants and the format: yoga, meditation, ecstatic dance or a mix.',
+'Практика': 'Practice',
+'Ви ведете групу': 'You lead the group',
+'Учасники обирають музику й занурюються в практику, а ми супроводжуємо погоджену технічну частину.':
+  'Participants choose the music and dive into the practice while we support the agreed technical side.',
+'Приїдемо орієнтовно за 30 хвилин до початку, встановимо обладнання, перевіримо сигнал і пояснимо учасникам, як користуватися навушниками.':
+  'We arrive about 30 minutes before the start, set up the equipment, check the signal and explain to participants how to use the headphones.',
+'Silent Disco можна адаптувати не лише до йоги й ecstatic dance, а й до медитацій, спортивних подій, забігів і прогулянок, фестивалів та корпоративів. Оберіть формат, який вас цікавить, а більше ідей для подій знайдете в нашому <a href="/blog/">блозі</a>.':
+  'Silent Disco can be adapted not only to yoga and ecstatic dance but also to meditations, sports events, runs and walks, festivals and corporate parties. Pick the format you are interested in, and find more event ideas in our <a href="/blog/">blog</a>.',
+'Йога та ecstatic dance: часті запитання про Silent Disco': 'Yoga and ecstatic dance: frequently asked questions about Silent Disco',
+'Чи підходить Silent Disco для йоги та ecstatic dance?': 'Is Silent Disco suitable for yoga and ecstatic dance?',
+'Так. Silent Disco можна організувати як тиху практику в залі чи просто неба: йога, медитація, ecstatic dance або їхнє поєднання. Учасники слухають музику й голос інструктора в бездротових навушниках і самі обирають один із трьох каналів. Ми привозимо обладнання, налаштовуємо його та супроводжуємо технічну частину. Формат і умови узгоджуємо з вами та майданчиком.':
+  'Yes. Silent Disco can be organised as a quiet practice indoors or outdoors: yoga, meditation, ecstatic dance or a mix. Participants listen to the music and the instructor’s voice in wireless headphones and choose one of three channels themselves. We bring the equipment, set it up and support the technical side. We agree the format and terms with you and the venue.',
+'Де можна провести практику в навушниках?': 'Where can a practice in headphones take place?',
+'У залі чи студії, на даху, в парку, на березі, у шатрі або в іншому просторі, де є місце для килимків і доступ до електроживлення. На встановлення та перевірку сигналу потрібно близько 30 хвилин до початку. Для практики просто неба варто передбачити запасний варіант на випадок дощу. Умови проведення узгоджуємо заздалегідь.':
+  'In a hall or studio, on a rooftop, in a park, on a shore, in a tent or in any other space with room for mats and access to power. Setting up and checking the signal takes about 30 minutes before the start. For an outdoor practice it is worth planning a backup in case of rain. We agree the conditions in advance.',
+'Чи потрібен діджей або музикант?': 'Do we need a DJ or a musician?',
+'Ні, не обов’язково. Ми заздалегідь готуємо три плейлисти, а учасники перемикаються між каналами самостійно. Якщо плануєте живий сет для ecstatic dance або виступ музиканта, повідомте про це в заявці — окремо узгодимо технічні вимоги й можливість такого сценарію. Послуга діджея не входить до базового комплекту.':
+  'No, not necessarily. We prepare three playlists in advance and participants switch between channels on their own. If you plan a live set for ecstatic dance or a musician’s performance, mention it in your request and we will separately agree the technical requirements and whether such a scenario is possible. A DJ is not part of the basic set.',
+'Як інструктор говоритиме з групою, якщо всі в навушниках?': 'How will the instructor speak to the group if everyone is in headphones?',
+'Попередьте команду, що ведете практику голосом, і ми налаштуємо підключення так, щоб голос інструктора звучав у навушниках усіх учасників. Щоб поспілкуватися з людьми поруч, достатньо зняти навушники на шию. Деталі узгоджуємо до події.':
+  'Tell the team you lead the practice by voice and we will set up the connection so the instructor’s voice plays in every participant’s headphones. To talk to the people nearby, just slide the headphones down to your neck. We agree the details before the event.',
+'Рекомендуємо залишати заявку якомога раніше, особливо на літній сезон, вихідні та ранкові практики просто неба. Доступність обладнання залежить від дати й інших бронювань. Ми перевіримо вашу дату та пояснимо, як підтвердити замовлення. Бронювання закріплюється після узгодження умов і передоплати.':
+  'We recommend sending a request as early as possible, especially for the summer season, weekends and outdoor morning practices. Equipment availability depends on the date and other bookings. We will check your date and explain how to confirm the order. A booking is secured once the terms are agreed and the prepayment is made.',
+'Організатор події відповідає за <a href="/faq/#faqA-m3">правомірність використання музики</a>, якщо інше не погоджено окремо. SILENT забезпечує технічне відтворення звуку. Якщо плануєте живий сет, трансляцію або інший нестандартний сценарій, узгодьте музичні та технічні вимоги до бронювання.':
+  'The event organiser is responsible for the <a href="/faq/#faqA-m3">lawful use of the music</a> unless agreed otherwise. SILENT provides the technical playback of sound. If you plan a live set, a broadcast or another non-standard scenario, agree the music and technical requirements before booking.',
+'Порахуйте бюджет тихої практики': 'Estimate the budget of a quiet practice',
+'Оберіть кількість навушників, тривалість і додаткові опції, щоб отримати попередній розрахунок вартості Silent Disco. Якщо плануєте серію занять чи нестандартний сценарій, опишіть його в заявці — допоможемо підібрати комплект.':
+  'Choose the number of headphones, the duration and extra options to get a preliminary Silent Disco estimate. If you plan a series of classes or a non-standard scenario, describe it in your request and we will help choose a set.',
+'Подаруйте своїй практиці тишу': 'Give your practice the gift of silence',
+'Розкажіть, яку практику проводите, де і скільки учасників очікуєте. Ми перевіримо доступність обладнання, допоможемо підібрати комплект і розрахуємо вартість. Ви зосередитеся на групі, а ми подбаємо про технічну частину.':
+  'Tell us what practice you run, where and how many participants you expect. We will check equipment availability, help choose a set and work out the cost. You focus on the group, and we take care of the technical side.',
+'Обговорити <span class="em">Silent Disco</span> для йоги та ecstatic dance': 'Discuss <span class="em">Silent Disco</span> for yoga and ecstatic dance',
+'Йога чи ecstatic dance': 'Yoga or ecstatic dance',
+}
+for _k, _v in list(_YOGA.items()):
+    T_PAGE_ALL[_k] = _v
+    if '<a href="/' in _k:
+        T_PAGE_ALL[_en_href(_k)] = _en_href(_v)
+
+
 # --- Сторінка «Про нас» (en/about/): рядки лише цієї сторінки, у T_PAGE_ALL не потрапляють (інші сторінки їх не бачать).
 T_ABOUT = {
   'SILENT створює Silent Disco в Україні: музика стає особистою, а події лишаються спільними. Наші цінності, бачення й підхід до організації вечірок.':
