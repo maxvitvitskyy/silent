@@ -1,0 +1,22 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-yoga-v-navushnykakh.jpg",
+  "bg": {
+    "src": "images/yoga/yoha-v-hotychnii-zali-v-navushnykakh.webp",
+    "pos": "50% 100%"
+  },
+  "heading": [
+    "Йога в навушниках",
+    "що таке Silent Yoga"
+  ],
+  "subtitle": [
+    [
+      "Голос інструктора й музика в навушниках."
+    ]
+  ],
+  "pills": [
+    "<b>Голос</b> і музика",
+    "<b>Власний</b> темп",
+    "<b>Просто неба</b> чи в залі"
+  ]
+}

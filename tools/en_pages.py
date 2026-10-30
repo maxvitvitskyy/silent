@@ -3568,6 +3568,9 @@ _YOGA['Решту беремо на себе, а ви проводите зан�
 _YOGA['>Бронювання<'] = '>Booking<'
 _YOGA['Як закріпити дату?'] = 'How do we secure the date?'
 _YOGA['Бронювання закріплюється після узгодження умов і передоплати. Рекомендуємо залишати заявку якомога раніше, особливо на літній сезон, вихідні та ранкові практики просто неба: доступність обладнання залежить від дати й інших бронювань.'] = 'A booking is secured once the terms are agreed and the prepayment is made. We recommend sending a request as early as possible, especially for the summer season, weekends and outdoor morning practices: equipment availability depends on the date and other bookings.'
+_YOGA['<b>Корисно знати про Silent Yoga:</b> <a href="/blog/yoga-v-navushnykakh/">Йога в навушниках: що таке Silent Yoga і як проходить практика</a>'] = '<b>Good to know about Silent Yoga:</b> <a href="/blog/yoga-v-navushnykakh/">Yoga in headphones: what Silent Yoga is and how a session works</a>'
+_YOGA['Так, якщо локація відповідає технічним вимогам системи. Перед подією потрібно узгодити покриття сигналу, живлення, погодні умови та захист обладнання від вологи. Як підготувати саме заняття на природі, читайте в <a href="/blog/yoga-na-pryrodi/">практичному гайді</a>.'] = 'Yes, if the venue meets the technical requirements of the system. Before the event you need to agree signal coverage, power, weather conditions and protecting the equipment from moisture. For how to prepare an outdoor class itself, read the <a href="/blog/yoga-na-pryrodi/">practical guide</a>.'
+_YOGA['Інші Тихі враження'] = 'More Silent experiences'
 for _k, _v in list(_YOGA.items()):
     T_PAGE_ALL[_k] = _v
     if '<a href="/' in _k:

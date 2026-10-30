@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-yoga-na-pryrodi.jpg",
+  "bg": {
+    "src": "images/yoga/yoha-na-travi-v-parku-v-navushnykakh.webp",
+    "pos": "50% 14%"
+  },
+  "heading": [
+    "Йога на природі",
+    "як організувати заняття"
+  ],
+  "subtitle": [
+    [
+      "Локація, погода, звук і сценарій."
+    ]
+  ],
+  "pills": [
+    "<b>Вибір</b> місця",
+    "<b>Погода</b> і план Б",
+    "<b>Звук</b> просто неба",
+    "<b>План</b> заняття"
+  ]
+}

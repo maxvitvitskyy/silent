@@ -324,6 +324,30 @@
       "also": [
         "ideas"
       ]
+    },
+    {
+      "slug": "yoga-v-navushnykakh",
+      "status": "published",
+      "category": "basics",
+      "title": "Йога в навушниках: що таке Silent Yoga і як проходить практика",
+      "excerpt": "Що таке Silent Yoga, як у навушниках звучать голос інструктора й музика та чого очікувати від першого заняття.",
+      "image": "/images/yoga/yoha-v-hotychnii-zali-v-navushnykakh.webp",
+      "alt": "Учасниця в позі випаду на килимку, позаду велика зала людей у світних синіх навушниках",
+      "also": [
+        "ideas"
+      ]
+    },
+    {
+      "slug": "yoga-na-pryrodi",
+      "status": "published",
+      "category": "organization",
+      "title": "Йога на природі: як організувати заняття просто неба",
+      "excerpt": "Вибір локації, погода, підготовка, сценарій і звук: що продумати, щоб заняття йогою просто неба було комфортним.",
+      "image": "/images/yoga/yoha-na-travi-v-parku-v-navushnykakh.webp",
+      "alt": "Четверо людей виконують позу воїна на яскравих килимках на траві в парку під вечірнім сонцем, у навушниках",
+      "also": [
+        "ideas"
+      ]
     }
   ]
 }
