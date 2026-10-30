@@ -1,27 +1,28 @@
 {
   "out": "images/yoga/og-yoga.jpg",
   "heading": [
-    "Йога та",
-    "ecstatic dance"
+    "Йога",
+    "в бездротових",
+    "навушниках"
   ],
   "subtitle": [
     [
-      "Практика в тиші: голос і музика"
+      "Голос інструктора й музика"
     ],
     [
-      "лише в навушниках учасників."
+      "безпосередньо в навушниках учасників."
     ]
   ],
   "pills": [
-    "Звук <b>у навушниках</b>",
-    "<b>3</b> канали музики",
+    "Аудіосупровід <b>практик</b>",
+    "<b>3</b> аудіоканали",
     "Все <b>під ключ</b>",
     "<b>Київ</b> та Україна"
   ],
   "template": "template-full-left.html",
   "bg": {
-    "src": "images/yoga/nichna-medytatsiya-v-navushnykakh-silent.webp",
-    "pos": "50% 50%"
+    "src": "images/yoga/tykha-yoha-pid-synimy-vohnyamy.webp",
+    "pos": "50% 82%"
   },
-  "css": ".p>img{left:400px;right:auto;width:800px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%)}.h span+span{font-size:40px;font-weight:400;letter-spacing:-.01em;margin-top:6px} .sub{font-weight:500;margin-top:30px;font-size:23px}"
+  "css": ".p>img{left:420px;right:auto;width:800px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%)}.h span+span{font-size:34px;font-weight:400;letter-spacing:-.01em;margin-top:6px} .sub{font-weight:500;margin-top:30px;font-size:23px} .h span+span+span{margin-top:0}"
 }
