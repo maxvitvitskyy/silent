@@ -57,9 +57,9 @@ if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || /\.localhost
 <meta name="twitter:image" content="https://silent.org.ua/images/about/og-about.jpg">
 <meta name="twitter:image:alt" content="Друзі танцюють у світних навушниках Silent Disco: про SILENT">
 <link rel="canonical" href="https://silent.org.ua/about/">
-<!-- Англійської версії цієї сторінки поки немає, тож hreflang тут не
-     оголошується: пара мов, у якій одна половина не існує, шкодить більше за
-     її відсутність. Додати разом із перекладом. -->
+<link rel="alternate" hreflang="uk" href="https://silent.org.ua/about/">
+<link rel="alternate" hreflang="en" href="https://silent.org.ua/en/about/">
+<link rel="alternate" hreflang="x-default" href="https://silent.org.ua/about/">
 <script>
 (function(){
   var r = document.documentElement;
@@ -405,6 +405,10 @@ if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || /\.localhost
     </div>
     <!-- BLOG-MEGA:END -->
     <a href="/about/" class="nav-about">Про нас</a>
+    <span class="lang-switch" role="group" aria-label="Мова сайту">
+      <span class="lang-cur" aria-current="true">UA</span>
+      <a href="/en/about/" hreflang="en" lang="en">EN</a>
+    </span>
     <a href="/#book" class="nav-cta" data-cta="header_check_date">Перевірити дату</a>
   </div>
 </nav>

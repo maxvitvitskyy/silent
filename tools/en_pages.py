@@ -3361,3 +3361,146 @@ for _k, _v in list(_CONF.items()):
     T_PAGE_ALL[_k] = _v
     if '<a href="/' in _k:
         T_PAGE_ALL[_en_href(_k)] = _en_href(_v)
+
+
+# --- Сторінка «Про нас» (en/about/): рядки лише цієї сторінки, у T_PAGE_ALL не потрапляють (інші сторінки їх не бачать).
+T_ABOUT = {
+  'SILENT створює Silent Disco в Україні: музика стає особистою, а події лишаються спільними. Наші цінності, бачення й підхід до організації вечірок.':
+    'SILENT creates Silent Disco in Ukraine: music becomes personal while events stay shared. Our values, vision and approach to organising parties.',
+  'Про SILENT | SILENT':
+    'About SILENT | SILENT',
+  'Музика стає особистою, а емоції спільними. Про SILENT, наші цінності й бачення: Silent Disco в Києві та по Україні.':
+    'Music becomes personal, emotions shared. About SILENT, our values and vision: Silent Disco in Kyiv and across Ukraine.',
+  'Друзі танцюють у світних навушниках Silent Disco: про SILENT':
+    'Friends dance in glowing Silent Disco headphones: about SILENT',
+  'Пара танцює обійнявшись у навушниках Silent Disco':
+    "A couple dance in each other's arms in Silent Disco headphones",
+  'Компанія подруг разом на вечірці в навушниках Silent Disco':
+    'A group of girlfriends together at a party in Silent Disco headphones',
+  'Цінності SILENT, гортайте вбік':
+    'SILENT values, scroll sideways',
+  'Усміхнена дівчина крупним планом слухає музику в навушниках Silent Disco':
+    'A smiling girl in close-up listens to music in Silent Disco headphones',
+  'Пара танцює в навушниках Silent Disco в неоновому світлі':
+    'A couple dance in Silent Disco headphones in neon light',
+  'Три навушники Silent Disco з підсвіткою на святковому столі зі свічками':
+    'Three Silent Disco headphones with backlight on a festive table with candles',
+  'Натовп танцює у світних навушниках Silent Disco':
+    'A crowd dances in glowing Silent Disco headphones',
+  'Про SILENT: Silent Disco в Україні | SILENT':
+    'About SILENT: Silent Disco in Ukraine | SILENT',
+  'Про SILENT: бути різними, бути разом':
+    'About SILENT: be different, be together',
+  'Ми створюємо нові можливості для подій за допомогою бездротової аудіотехнології. Щоб кожен міг обирати своє, відкривати нові враження та залишатися частиною спільного моменту.':
+    'We create new possibilities for events with wireless audio technology, so that everyone can choose their own, discover new experiences and stay part of a shared moment.',
+  'Спільність починається з вільного вибору.':
+    'Togetherness begins with free choice.',
+  'У кожного свій ритм, свої вподобання, своє бачення ідеального моменту. Ми віримо, що спільні враження не вимагають однаковості.':
+    "Everyone has their own rhythm, their own tastes, their own idea of the perfect moment. We believe shared experiences don't require sameness.",
+  'SILENT дає можливість обирати власний аудіоканал, музику та спосіб взаємодії, залишаючись у спільному просторі події.':
+    'SILENT lets you choose your own audio channel, music and way of interacting while staying in the shared space of the event.',
+  'Нас надихає ідея, що технологія може не віддаляти людей одне від одного, а допомагати їм знаходити більше способів бути разом.':
+    "We are inspired by the idea that technology doesn't have to pull people apart but can help them find more ways to be together.",
+  'Без зайвого шуму.':
+    'No unnecessary noise.',
+  'Без необхідності бути однаковими.':
+    'No need to be the same.',
+  'Зі свободою бути собою.':
+    'With the freedom to be yourself.',
+  'Більше, ніж тиха дискотека.':
+    'More than a silent disco.',
+  '— технологічна основа SILENT, але не межа наших можливостей.':
+    '— the technological foundation of SILENT, but not the limit of what we can do.',
+  'Ми допомагаємо організовувати події, у яких бездротові навушники стають інструментом нових вражень: від вечірок і свят до фестивалів, таборів, молодіжних зустрічей та інших':
+    'We help organise events in which wireless headphones become a tool for new experiences: from parties and celebrations to festivals, camps, youth meetups and other',
+  'Це можливість переосмислити звичний сценарій події, додати інтерактивності й створити простір, у якому різні люди можуть знайти щось своє.':
+    "It's a chance to rethink the familiar event scenario, add interactivity and create a space where different people can find something of their own.",
+  'Свій вибір. Спільний момент.':
+    'Your choice. A shared moment.',
+  'Різні музичні смаки не повинні розділяти людей. Кожен обирає свій канал, залишаючись частиною спільної події.':
+    "Different musical tastes shouldn't divide people. Everyone picks their own channel while remaining part of the shared event.",
+  'Звичні зустрічі можуть відкриватися по-новому. Silent Disco додає подіям інтерактивності, гри та несподіваних емоцій.':
+    'Familiar gatherings can open up in a new way. Silent Disco adds interactivity, play and unexpected emotions to events.',
+  'Один формат може стати основою для дискотеки, командної гри, тематичного вечора або іншої активності, адаптованої під конкретну подію.':
+    'One format can become the basis for a disco, a team game, a themed evening or another activity adapted to a specific event.',
+  'Ми допомагаємо підібрати формат, підготувати обладнання та організувати технічну частину відповідно до погоджених умов.':
+    'We help choose the format, prepare the equipment and organise the technical side according to the agreed terms.',
+  'Від ідеї до спільного досвіду.':
+    'From an idea to a shared experience.',
+  'Кожна подія має свій характер. Тому ми починаємо не з обладнання, а з розуміння того, що саме ви хочете створити.':
+    "Every event has its own character. That's why we start not with the equipment but with understanding what exactly you want to create.",
+  'Обговорюємо формат події, кількість учасників, локацію та ваші очікування.':
+    'We discuss the event format, the number of participants, the location and your expectations.',
+  'Узгоджуємо необхідне обладнання, сценарій використання та технічні деталі.':
+    'We agree the equipment, the scenario of use and the technical details.',
+  'Організовуємо доставку, встановлення та підготовку обладнання відповідно до погодженого пакета.':
+    'We organise delivery, installation and preparation of the equipment according to the agreed package.',
+  'Забезпечуємо передбачену домовленостями технічну підтримку під час події.':
+    'We provide the technical support agreed for the event.',
+  'Ми починаємо не з обладнання, а з того, що мають відчути люди. Тому шукаємо нові способи зробити знайомі формати подій цікавішими: з інтерактивністю, грою й несподіваними моментами.':
+    "We start not with the equipment but with what people should feel. That's why we look for new ways to make familiar event formats more interesting: with interactivity, play and unexpected moments.",
+  'Ми поважаємо різні вподобання. Кожен гість обирає власний канал і спосіб брати участь, а спільність не вимагає від усіх слухати чи розважатися однаково.':
+    "We respect different preferences. Every guest picks their own channel and way to take part, and togetherness doesn't require everyone to listen or have fun in the same way.",
+  'Продумана організація, зрозумілі домовленості й увага до потреб замовника важать для нас не менше, ніж сама технологія. Гості можуть не помітити цих деталей, але саме вони тримають подію.':
+    "Thoughtful organisation, clear agreements and attention to the client's needs matter to us as much as the technology itself. Guests may not notice these details, but they are what holds an event together.",
+  'Незвичний формат не має означати складну організацію. Ми налаштовуємо обладнання й пояснюємо гостям, як усе працює, щоб вони швидко відчули себе частиною події.':
+    "An unusual format shouldn't mean complicated organisation. We set up the equipment and explain to guests how everything works so that they quickly feel part of the event.",
+  'Ми хочемо, щоб спільних вражень ставало більше.':
+    'We want there to be more shared experiences.',
+  'Ми бачимо майбутнє SILENT як розвиток нових':
+    'We see the future of SILENT as the development of new',
+  ', де технологія відкриває більше можливостей для взаємодії, творчості та свободи вибору.':
+    ', where technology opens up more room for interaction, creativity and freedom of choice.',
+  'Ми прагнемо розвивати культуру подій, у якій люди можуть бути різними, залишаючись разом.':
+    'We aim to develop an event culture in which people can be different and still stay together.',
+  'Використовуючи сучасні технології, ми переосмислюємо звичні події та створюємо нові враження — змінюючи не лише те, що ви чуєте, а й те, як взаємодієте та відчуваєте одне одного.':
+    'By using modern technology we rethink familiar events and create new experiences, changing not only what you hear but also how you interact with and feel each other.',
+  'Маєте ідею для події? Розкажіть нам про неї. Разом знайдемо формат SILENT, який допоможе втілити ваш задум.':
+    'Have an idea for an event? Tell us about it. Together we will find a SILENT format that helps bring your plan to life.',
+  'Створімо щось особливе разом.':
+    "Let's create something special together.",
+  'Бути різними.<br><span>Бути разом.</span>':
+    'Be different.<br><span>Be together.</span>',
+  'Нехай ця подія<br>запам’ятається.':
+    'Let this event<br>be remembered.',
+  '>Наші формати<':
+    '>Our formats<',
+  '>форматів<':
+    '>formats<',
+  '>Свобода вибору<':
+    '>Freedom of choice<',
+  '>Новий досвід<':
+    '>A new experience<',
+  '>Більше можливостей<':
+    '>More possibilities<',
+  '>Продумана організація<':
+    '>Thoughtful organisation<',
+  '>Розуміємо задум<':
+    '>We understand your idea<',
+  '>Підбираємо рішення<':
+    '>We choose the solution<',
+  '>Готуємо подію<':
+    '>We prepare the event<',
+  '>Допомагаємо втілити<':
+    '>We help bring it to life<',
+  '>Наші цінності<':
+    '>Our values<',
+  'Гортайте вбік:':
+    'Swipe sideways:',
+  '>4 принципи<':
+    '>4 principles<',
+  '>Враження на першому місці<':
+    '>Experience first<',
+  '>Свобода бути собою<':
+    '>Freedom to be yourself<',
+  '>Продуманість у деталях<':
+    '>Thoughtful by design<',
+  '>Просто долучитися<':
+    '>Easy to join<',
+  '>Наше бачення<':
+    '>Our vision<',
+  '>форматів подій<':
+    '>event formats<',
+  '"name": "Про нас"':
+    '"name": "About us"',
+}

@@ -1,0 +1,27 @@
+{
+  "out": "images/about/og-about-en.jpg",
+  "heading": [
+    "About SILENT",
+    "be different, be together"
+  ],
+  "subtitle": [
+    [
+      "We create events where everyone can be themselves,"
+    ],
+    [
+      "and diversity becomes part of the atmosphere."
+    ]
+  ],
+  "pills": [
+    "<b>Freedom</b> to be yourself",
+    "<b>Thoughtful</b> by design",
+    "<b>Experience</b> first",
+    "<b>Easy</b> to join"
+  ],
+  "template": "template-full-left.html",
+  "bg": {
+    "src": "images/silent-disco/silent-disco-try-podrugy-na-dyskoteky.webp",
+    "pos": "75% 30%"
+  },
+  "css": ".p>img{left:470px;right:auto;width:730px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 24%)} .pills{width:660px;max-width:none} .shade{background:linear-gradient(270deg,rgba(10,10,11,0) 30%,rgba(10,10,11,.56) 50%,rgba(10,10,11,.7) 66%,rgba(10,10,11,.74) 100%)} .sub{font-weight:500;margin-top:34px;font-size:23px}"
+}

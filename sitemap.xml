@@ -251,7 +251,17 @@
   </url>
   <url>
     <loc>https://silent.org.ua/about/</loc>
-    <lastmod>2026-10-13</lastmod>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/about/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/about/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/about/"/>
+    <lastmod>2026-10-29</lastmod>
+  </url>
+  <url>
+    <loc>https://silent.org.ua/en/about/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/about/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/about/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/about/"/>
+    <lastmod>2026-10-29</lastmod>
   </url>
   <url>
     <loc>https://silent.org.ua/blog/nestandartnyi-den-narodzhennia-doroslykh/</loc>

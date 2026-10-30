@@ -989,8 +989,8 @@ def strip_blog_mega(s):
     """Mega-меню «Блог» (маркери BLOG-MEGA) є лише в українській шапці: блог поки без англійської версії,
     а назви статей кирилицею зламали б перевірку неперекладеного. Генерує його tools/build_blog.py."""
     s = re.sub(r'[ \t]*<!-- BLOG-MEGA:START.*?<!-- BLOG-MEGA:END -->\n?', '', s, flags=re.S)
-    # Сторінки «Про нас» поки лише українською: пункт підвалу в англійській версії не показуємо.
-    s = re.sub(r'[ \t]*<a href="/about/" class="nav-about">Про нас</a>\n?', '', s)
+    # Сторінка «Про нас» має англійську версію: посилання на неї ведуть на /en/about/.
+    s = s.replace('href="/about/"', 'href="/en/about/"')
     return s
 
 
@@ -1548,6 +1548,7 @@ def stamp_files():
     extra = [os.path.join(ROOT, rel) for rel in EXPERIENCE_PAGES]
     extra.append(os.path.join(ROOT, 'privacy', 'index.html'))
     extra.append(os.path.join(ROOT, 'about', 'index.html'))
+    extra.append(os.path.join(ROOT, 'en', 'about', 'index.html'))
     extra.append(os.path.join(ROOT, 'faq', 'index.html'))
     extra.append(DST_FAQ)
     extra.append(DST_EXP)
@@ -2337,7 +2338,7 @@ EXP_EN_PAGES = {
     'youth-camps': 'images/youth-camps/og-youth-camps-en.jpg',
     'conferences': 'images/conferences/og-conferences-en.jpg',
 }
-from en_pages import T_PAGE_ALL   # рядки сторінок досвідів (tools/en_pages.py)
+from en_pages import T_PAGE_ALL, T_ABOUT   # рядки сторінок досвідів і «Про нас» (tools/en_pages.py)
 T_PAGE = {}   # slug -> {укр: англ} (додаткові, лише для однієї сторінки)
 
 
@@ -2411,6 +2412,65 @@ def build_experience_page_en(slug):
 
 
 
+# ============================================== Сторінка «Про нас» (en/about/)
+# Збирається з about/index.html так само, як сторінки досвідів: власні рядки сторінки — у tools/en_pages.py
+# (T_PAGE_ALL, блок _ABOUT). Сторінка лежить на один рівень від кореня, EN-копія на два.
+def build_about_en():
+    src = os.path.join(ROOT, 'about', 'index.html')
+    dst = os.path.join(ROOT, 'en', 'about', 'index.html')
+    if not os.path.exists(src):
+        return
+    s = unstamp(io.open(src, encoding='utf-8').read())
+    ua_url = _SITE + '/about/'
+    en_url = _SITE + '/en/about/'
+    hl = re.findall(r'<link rel="alternate" hreflang="[^"]*" href="[^"]*">\n?', s)
+    if len(hl) != 3:
+        sys.exit('hreflang-пара не знайдена на about/')
+    for h in hl:
+        s = s.replace(h, '@@HL@@' if h is hl[0] else '', 1)
+    s = s.replace(ua_url, en_url)
+    s = s.replace('@@HL@@', ''.join(hl))
+    s = s.replace('<html lang="uk">', '<html lang="en">')
+    s = s.replace('<meta property="og:locale" content="uk_UA">', '<meta property="og:locale" content="en_US">')
+    s = s.replace('"inLanguage": "uk"', '"inLanguage": "en"')
+    s = s.replace('"item": "https://silent.org.ua/"', '"item": "https://silent.org.ua/en/"')
+    s = s.replace('="../', '="../../')
+    s = s.replace(PATHS[0][0], PATHS[0][1])
+    s = re.sub(r'href="/(#[^"]*)?"', lambda m: 'href="/en/' + (m.group(1) or '') + '"', s)
+    s = s.replace('href="/faq/', 'href="/en/faq/')
+    s = EXP_LINK.sub('href="/en/experiences/', s)
+    sw_ua = ('    <span class="lang-switch" role="group" aria-label="Мова сайту">\n'
+             '      <span class="lang-cur" aria-current="true">UA</span>\n'
+             '      <a href="/en/about/" hreflang="en" lang="en">EN</a>\n'
+             '    </span>')
+    sw_en = ('    <span class="lang-switch" role="group" aria-label="Site language">\n'
+             '      <a href="/about/" hreflang="uk" lang="uk">UA</a>\n'
+             '      <span class="lang-cur" aria-current="true">EN</span>\n'
+             '    </span>')
+    if s.count(sw_ua) != 1:
+        sys.exit('перемикач мови не знайдено на about/')
+    s = s.replace(sw_ua, sw_en)
+    m = re.search(r'<script>\nwindow\.SILENT_I18N = \{[\s\S]*?\n\};\n</script>', s)
+    if not m:
+        sys.exit('блок SILENT_I18N не знайдено на about/')
+    s = s[:m.start()] + I18N_FAQ_EN.replace("base: ''", "base: '../../'", 1) + s[m.end():]
+    s = strip_blog_mega(s)
+    merged = dict(T)
+    merged.update(T_FAQ)
+    merged.update(T_EXP)
+    merged.update(ALT_T)
+    merged.update(T_PAGE_ALL)
+    merged.update(T_ABOUT)
+    for k in sorted(merged, key=len, reverse=True):
+        s = flexible(k).sub(lambda mm, v=merged[k]: v, s)
+    s = s.replace('images/about/og-about.jpg', 'images/about/og-about-en.jpg')
+    os.makedirs(os.path.dirname(dst), exist_ok=True)
+    io.open(dst, 'w', encoding='utf-8').write(s)
+    assert_translated(s, 'en/about/index.html')
+    print('en/about/index.html зібрано:', len(s.split('\n')), 'рядків, неперекладеного немає')
+
+
+
 def apply_home_faq(path, url_path, lang):
     """FAQPage-вузол на головній (UA і EN): збирається з видимих .faq-item, як на інших сторінках."""
     if not os.path.exists(path):
@@ -2461,6 +2521,7 @@ if __name__ == '__main__':
     apply_catalog_itemlist(DST_EXP, 'en')
     for _slug in EXP_EN_PAGES:
         build_experience_page_en(_slug)
+    build_about_en()
     # Блог збираємо з уже готового experiences/index.html (шапка, підвал, форма).
     sys.path.insert(0, os.path.join(ROOT, 'tools'))
     import build_blog
