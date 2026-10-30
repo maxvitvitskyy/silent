@@ -9321,3 +9321,8 @@ body:has(.legal-toc){overflow-x:clip}
    (повна одна колонка лише на телефоні); знімок у блоці зі знімком на проміжних ширинах ширший за 4:3, щоб не займати пів екрана. */
 @media (max-width:1100px) and (min-width:701px){.art-cards.is-three{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:900px) and (min-width:601px){.art-media-fig{aspect-ratio:16 / 9}}
+
+/* Сторінка йоги: H1 «Йога / в бездротових навушниках» — стандартний розмір, як у «Silent Disco / на фестивалі»,
+   але друга частина переноситься у два рядки («в бездротових / навушниках») замість nowrap, який
+   виштовхував її під колонку знімків. Без кегля .4em, що давав задрібний підзаголовок. */
+.exp-cover-gallery .exp-title--wrap .t-sub{white-space:normal;max-width:8.6em;line-height:1.08}
