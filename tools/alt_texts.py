@@ -83,7 +83,7 @@ CARDS = {
  'festival': ('Фестиваль із тихою сценою в навушниках Silent Disco', 'A festival with a silent stage in Silent Disco headphones'),
  'churchcamp': ('Церковний і молодіжний табір із музикою в навушниках Silent Disco', 'A church and youth camp with music in Silent Disco headphones'),
  'conference': ('Конференція з тихим нетворкінгом у навушниках Silent Disco', 'A conference with quiet networking in Silent Disco headphones'),
- 'community': ('Громадське зібрання з музикою в навушниках Silent Disco', 'A community gathering with music in Silent Disco headphones'),
+ 'community': ('Громадський простір з музикою в навушниках Silent Disco', 'A public space with music in Silent Disco headphones'),
  'hen': ('Дівич-вечір у навушниках Silent Disco', 'A hen party in Silent Disco headphones'),
  'gala': ('Благодійне гала з тихою дискотекою в навушниках Silent Disco', 'A charity gala with a silent disco in Silent Disco headphones'),
  'dj': ('Діджей-сет наживо для гостей у навушниках Silent Disco', 'A live DJ set for guests in Silent Disco headphones'),

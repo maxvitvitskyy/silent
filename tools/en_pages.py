@@ -3577,6 +3577,88 @@ for _k, _v in list(_YOGA.items()):
         T_PAGE_ALL[_en_href(_k)] = _en_href(_v)
 
 
+# --- Сторінка «Громадські простори» (/experiences/public-spaces/): рядки лише цієї сторінки.
+_PS = {}
+_PS["""Бігуни в навушниках Silent Disco на набережній під час заходу сонця, позаду видно місто"""] = """Runners in Silent Disco headphones on an embankment at sunset with the city behind"""
+_PS["""Пара танцює на бруківці міської площі, а глядачі довкола слухають музику в навушниках Silent Disco"""] = """A couple dances on the cobbles of a city square while onlookers listen to music in Silent Disco headphones"""
+_PS["""Кіноперегляд просто неба вночі: глядачі в шезлонгах слухають звук фільму в навушниках"""] = """An open-air film screening at night: viewers in deckchairs listen to the film’s sound in headphones"""
+_PS["""Гості в навушниках Silent Disco на вечірньому ринку під гірляндами серед будиночків із кіосками"""] = """Guests in Silent Disco headphones at an evening market under string lights among the stalls"""
+_PS["""Компанія друзів танцює в навушниках Silent Disco на фестивалі в горах"""] = """A group of friends dances in Silent Disco headphones at a festival in the mountains"""
+_PS["""Троє людей у світних навушниках дивляться на небо під час заходу сонця"""] = """Three people in glowing headphones look at the sky at sunset"""
+_PS["""Гості танцюють у навушниках Silent Disco на вечірній площі під гірляндами"""] = """Guests dance in Silent Disco headphones on an evening square under string lights"""
+_PS["""Silent Disco для громадських просторів у Києві та Україні | SILENT"""] = """Silent Disco for public spaces in Kyiv and Ukraine | SILENT"""
+_PS["""Тиха дискотека для громадських просторів у парках, на площах, набережних і у дворах: бездротові навушники, три музичні канали, менше шуму для сусідів. Київ і вся Україна."""] = """Silent disco for public spaces in parks, squares, embankments and courtyards: wireless headphones, three music channels, less noise for neighbours. Kyiv and all of Ukraine."""
+_PS["""Silent Disco для громадських просторів | SILENT"""] = """Silent Disco for public spaces | SILENT"""
+_PS["""Парк, площа чи двір: музика звучить у навушниках, а навколо тихо. Київ і вся Україна."""] = """A park, a square or a courtyard: the music plays in headphones and it stays quiet around. Kyiv and all of Ukraine."""
+_PS["""Тиха дискотека для громадських просторів: бездротові навушники, три музичні канали на вибір, менше шуму для околиць і організація під ключ у Києві та по Україні."""] = """Silent disco for public spaces: wireless headphones, three music channels to choose from, less noise for the surroundings and turnkey organisation in Kyiv and across Ukraine."""
+_PS["""Організатори міських свят і подій у громадських просторах"""] = """Organisers of city celebrations and events in public spaces"""
+_PS["""Парк, площа, набережна чи двір: звук має дістатися тих, хто прийшов, і не заважати тим, хто поруч. Гості слухають музику в бездротових навушниках і самі обирають один із трьох музичних каналів, а простір навколо лишається спокійнішим. SILENT привезе обладнання, усе налаштує та подбає про технічний супровід у Києві й по всій Україні."""] = """A park, a square, an embankment or a courtyard: the sound should reach those who came and not disturb those nearby. Guests listen in wireless headphones and choose one of three music channels themselves, while the space around stays calmer. SILENT brings the equipment, sets everything up and takes care of the technical side in Kyiv and across Ukraine."""
+_PS["""Гості танцюють на пляжі на заході сонця навколо діджея в навушниках Silent Disco"""] = """Guests dance on a beach at sunset around a DJ in Silent Disco headphones"""
+_PS["""Чоловік із піднятими руками танцює в натовпі на площі в навушниках Silent Disco"""] = """A man with raised hands dances in a crowd on a square in Silent Disco headphones"""
+_PS["""Дві дівчини розмовляють у парку в навушниках Silent Disco"""] = """Two girls talk in a park wearing Silent Disco headphones"""
+_PS["""Гості танцюють під гірляндами на вечірньому майданчику в навушниках Silent Disco"""] = """Guests dance under string lights at an evening venue in Silent Disco headphones"""
+_PS["""Мінімальний комплект для заходу."""] = """The minimum set for an event."""
+_PS["""Звук лишається в навушниках гостей."""] = """The sound stays in the guests’ headphones."""
+_PS["""Різні смаки на одному майданчику."""] = """Different tastes on one site."""
+_PS["""Громадські простори"""] = """Public spaces"""
+_PS["""Один простір. Різні програми. Тихо навколо."""] = """One space. Different programmes. Quiet around."""
+_PS["""Кожен слухає своє, а місто навколо лишається спокійним."""] = """Everyone listens to their own, and the city around stays calm."""
+_PS["""Парк, площа, набережна чи двір — це місця, де збираються різні люди: діти й дорослі, сусіди й гості міста. Колонки змушують обирати одну музику для всіх і ділять простір із тими, хто прийшов не за нею."""] = """A park, a square, an embankment or a courtyard are places where different people meet: children and adults, neighbours and visitors. Speakers force one kind of music on everyone and share the space with those who did not come for it."""
+_PS["""У форматі Silent Disco музика звучить у бездротових навушниках. На <a href="/experiences/silent-disco/">трьох каналах</a> одночасно можуть грати різні програми: танцювальна, спокійна чи дитяча. Гості перемикаються між ними самі й залишаються на одному майданчику."""] = """In the Silent Disco format the music plays in wireless headphones. On <a href="/experiences/silent-disco/">three channels</a> different programmes can play at once: dance, calm or children’s. Guests switch between them themselves and stay on one site."""
+_PS["""Так можна провести вечірні танці, кіно просто неба, ранкову практику, екскурсію чи міське свято. Щоб поговорити з друзями, достатньо зняти навушники на шию."""] = """This works for evening dancing, open-air cinema, a morning practice, a guided walk or a city celebration. To talk to friends, just lower the headphones to your neck."""
+_PS["""Один простір. Різні програми."""] = """One space. Different programmes."""
+_PS["""Менше шуму. Більше змісту."""] = """Less noise. More substance."""
+_PS["""Ви збираєте людей. Ми подбаємо про звук."""] = """You bring people together. We take care of the sound."""
+_PS["""Беремо технічну частину на себе, щоб ваша команда мала час на людей, програму й безпеку майданчика."""] = """We take the technical side, so your team has time for people, the programme and the safety of the site."""
+_PS["""Тихіше для околиць"""] = """Quieter for the surroundings"""
+_PS["""Звук лишається в навушниках гостей, тож захід менше впливає на мешканців поруч. Дозволи та вимоги майданчика узгоджує організатор із власником території чи місцевою владою: формат допомагає зробити звучання стриманішим, але не замінює погодження."""] = """The sound stays in the guests’ headphones, so the event affects the nearby residents less. Permits and venue requirements are arranged by the organiser with the owner of the territory or the local authority: the format helps make the sound more restrained but does not replace the approval."""
+_PS["""Програма для різних груп"""] = """A programme for different groups"""
+_PS["""Дитяча зона, танці для дорослих і спокійний канал для старших можуть працювати одночасно, і ніхто не мусить слухати чуже."""] = """A children’s zone, dancing for adults and a calm channel for older guests can run at the same time, and nobody has to listen to someone else’s music."""
+_PS["""Одне обладнання, багато сценаріїв"""] = """One set of equipment, many scenarios"""
+_PS["""Вечірня дискотека, кіноперегляд просто неба, ранкова практика, екскурсія чи майстер-клас: сценарій узгоджуємо заздалегідь і налаштовуємо під нього канали."""] = """An evening disco, open-air cinema, a morning practice, a guided walk or a workshop: we agree on the scenario in advance and set up the channels for it."""
+_PS["""Видача й повернення без черги"""] = """Handout and return without queues"""
+_PS["""Заздалегідь обговорюємо, як гості отримують і повертають навушники та скільки точок видачі потрібно, щоб на вході не збиралася черга."""] = """We discuss in advance how guests get and return the headphones and how many handout points are needed, so no queue forms at the entrance."""
+_PS["""Сценарій узгоджуємо з організаторами до події: навушники можуть працювати на окремому майданчику або як частина програми зібрання."""] = """We agree on the scenario with the organisers before the event: the headphones can work on a separate site or as part of the gathering’s programme."""
+_PS["""Від заявки до заходу — чотири прості кроки"""] = """From request to the event: four simple steps"""
+_PS["""Розкажіть, де й коли відбудеться зібрання, скільки людей очікуєте та яку роль має виконувати музика чи звук у вашій програмі. Ми перевіримо доступність обладнання, допоможемо підібрати комплект і узгодимо технічні деталі, зокрема живлення на майданчику."""] = """Tell us where and when the gathering will take place, how many people you expect and what role music or sound should play in your programme. We will check equipment availability, help choose a set and agree the technical details, including power on site."""
+_PS["""Вкажіть дату, місце проведення, приблизну кількість учасників і бажаний формат: танці, кіно просто неба, ранкова практика чи екскурсія."""] = """Give the date, the venue, the approximate number of participants and the format you want: dancing, open-air cinema, a morning practice or a guided walk."""
+_PS["""Зібрання"""] = """Gathering"""
+_PS["""Ви працюєте з людьми"""] = """You work with the people"""
+_PS["""Гості обирають музику й насолоджуються заходом, а ми супроводжуємо погоджену технічну частину."""] = """Guests choose their music and enjoy the event, while we support the agreed technical part."""
+_PS["""Silent Disco можна адаптувати не лише до громадських просторів, а й до фестивалів, концертів, спортивних подій, корпоративів і приватних вечірок. Оберіть формат, який найближчий до вашої події."""] = """Silent Disco can be adapted not only to public spaces but also to festivals, concerts, sports events, corporate parties and private events. Pick the format closest to your event."""
+_PS["""Громадські простори: часті запитання про Silent Disco"""] = """Public spaces: frequently asked questions about Silent Disco"""
+_PS["""Чи підходить Silent Disco для заходу в парку, на площі чи у дворі?"""] = """Is Silent Disco suitable for an event in a park, on a square or in a courtyard?"""
+_PS["""Так, якщо є місце для гостей і доступ до електроживлення. Музика звучить у навушниках, тож майданчик лишається тихішим, ніж зі звичайними колонками. Формат, кількість навушників і сценарій узгоджуємо з організатором заздалегідь."""] = """Yes, if there is room for guests and access to power. The music plays in headphones, so the site stays quieter than with ordinary speakers. We agree the format, the number of headphones and the scenario with the organiser in advance."""
+_PS["""Чи потрібен дозвіл на проведення зібрання?"""] = """Is a permit needed for the gathering?"""
+_PS["""Це залежить від міста, майданчика й типу заходу. Дозволи та погодження збирає організатор — із власником території чи місцевою владою, ми їх замінити не можемо. Те, що музика звучить у навушниках, допомагає зробити захід тихішим, але рішення ухвалює той, хто видає дозвіл."""] = """It depends on the city, the site and the type of event. Permits and approvals are arranged by the organiser with the owner of the territory or the local authority, and we cannot replace them. Music in headphones helps make the event quieter, but the decision is made by whoever issues the permit."""
+_PS["""Чи можна одночасно обслужити дітей і дорослих?"""] = """Can children and adults be served at the same time?"""
+_PS["""Так. На трьох каналах можуть звучати різні програми, наприклад дитяча, танцювальна й спокійна. Для дітей радимо одразу обмежити гучність на нижчому рівні, про це подбаємо до початку. Діти мають бути під наглядом дорослих."""] = """Yes. Three channels can carry different programmes, for example a children’s one, a dance one and a calm one. For children we recommend limiting the volume at a lower level from the start, and we take care of that before the event begins. Children should stay under adult supervision."""
+_PS["""Чи можна показати кіно або провести екскурсію чи практику з навушниками?"""] = """Can we show a film or run a guided walk or a practice with headphones?"""
+_PS["""Так. Звук фільму, голос ведучого чи інструктора можна подати в навушники, а ті самі навушники придатні для вечірніх танців. Якщо голос має звучати в навушниках у всіх учасників, попередьте команду: ми налаштуємо подачу під ваш сценарій."""] = """Yes. The sound of a film or the voice of a host or instructor can be fed into the headphones, and the same headphones work for evening dancing. If a voice has to play in every participant’s headphones, let the team know: we will set up the feed for your scenario."""
+_PS["""Що робити, якщо дощ або повітряна тривога?"""] = """What if it rains or there is an air-raid alert?"""
+_PS["""Для заходу просто неба варто мати запасний варіант на випадок дощу. Якщо оголошено повітряну тривогу, безпека гостей важливіша за програму: навушники й передавач легко перенести, тож за наявності укриття поруч програму можна продовжити там. Умови перенесення й форс-мажору описані на <a href="/faq/">сторінці питань</a>."""] = """For an open-air event it is worth having a backup plan in case of rain. If an air-raid alert is announced, the guests’ safety matters more than the programme: the headphones and the transmitter are easy to move, so if there is a shelter nearby the programme can continue there. The terms for rescheduling and force majeure are described on the <a href="/en/faq/">questions page</a>."""
+_PS["""Порахуйте бюджет заходу в громадському просторі"""] = """Calculate the budget of an event in a public space"""
+_PS["""Якщо плануєте кілька зон, вечірню програму чи інший сценарій, опишіть його в заявці — допоможемо підібрати комплект під ваш захід."""] = """If you plan several zones, an evening programme or another scenario, describe it in the request and we will help choose a set for your event."""
+_PS["""Додайте своєму простору тихий звук без обмежень колонок"""] = """Give your space quiet sound without the limits of speakers"""
+_PS["""Розкажіть, який захід ви організовуєте, де плануєте Silent Disco та скільки людей очікуєте. Ми перевіримо доступність обладнання, допоможемо підібрати комплект і розрахуємо вартість. Ви зосередитеся на програмі та людях, а ми подбаємо про технічну частину."""] = """Tell us what event you are organising, where you plan the Silent Disco and how many people you expect. We will check equipment availability, help choose a set and calculate the cost. You focus on the programme and the people, and we take care of the technical side."""
+_PS["""Обговорити <span class="em">Silent Disco</span> для вашого простору"""] = """Discuss <span class="em">Silent Disco</span> for your space"""
+_PS["""Громадський простір"""] = """Public space"""
+_PS["""Оберіть кількість навушників, тривалість і додаткові опції, щоб отримати попередній розрахунок вартості Silent Disco. Якщо плануєте кілька зон, вечірню програму чи інший сценарій, опишіть його в заявці — допоможемо підібрати комплект під ваш захід."""] = """Choose the number of headphones, the duration and extra options to get a preliminary Silent Disco cost estimate. If you plan several zones, an evening programme or another scenario, describe it in the request and we will help choose a set for your event."""
+_PS['"name": "Silent disco для громадських просторів"'] = '"name": "Silent disco for public spaces"'
+_PS['>для громадських просторів<'] = '>for public spaces<'
+_PS['>Тихіше навколо<'] = '>Quieter around<'
+_PS["""Гості танцюють на траві просто неба в різнокольорових навушниках Silent Disco"""] = """Guests dance on the grass outdoors in colourful Silent Disco headphones"""
+_PS["""Хлопець у навушниках Silent Disco слухає музику на вечірньому заході просто неба"""] = """A guy in Silent Disco headphones listens to music at an evening open-air event"""
+_PS["""Випускники в мантіях підкидають шапки на бруківці площі перед підсвіченою будівлею, у навушниках"""] = """Graduates in gowns toss their caps on a cobbled square in front of a lit building, wearing headphones"""
+_PS["""Дві усміхнені подруги в навушниках Silent Disco в натовпі на міському святі"""] = """Two smiling friends in Silent Disco headphones in a crowd at a city celebration"""
+_PS["""Родина з донькою танцює в навушниках Silent Disco на святковому майданчику"""] = """A family with a daughter dances in Silent Disco headphones at a celebration"""
+_PS["""Гості танцюють і співають у навушниках Silent Disco під склепінням зали"""] = """Guests dance and sing in Silent Disco headphones under the vault of a hall"""
+_PS['>для громадських<br>просторів<'] = '>for public<br>gatherings<'
+for _k, _v in list(_PS.items()):
+    T_PAGE_ALL[_k] = _v
+    if '<a href="/' in _k:
+        T_PAGE_ALL[_en_href(_k)] = _en_href(_v)
+
 # --- Сторінка «Про нас» (en/about/): рядки лише цієї сторінки, у T_PAGE_ALL не потрапляють (інші сторінки їх не бачать).
 T_ABOUT = {
   'SILENT створює Silent Disco в Україні: музика стає особистою, а події лишаються спільними. Наші цінності, бачення й підхід до організації вечірок.':

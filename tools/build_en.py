@@ -643,7 +643,7 @@ T = {
 'Інклюзивні події': 'Inclusive events',
 'Кожен регулює гучність під себе — подія стає доступною для гостей із сенсорною чутливістю.':
   'Everyone sets their own volume, which makes the event accessible to guests with sensory sensitivities.',
-'Громадські зібрання': 'Community gatherings',
+'Громадські простори': 'Public spaces',
 'Лекції, покази, зустрічі спільноти — чути кожне слово навіть на відкритому майданчику.':
   'Talks, screenings, community meetings — every word audible even in an open space.',
 'Ярмарки та маркети': 'Fairs and markets',
@@ -1139,6 +1139,7 @@ EXPERIENCE_URLS = {
     'Фестивалі': '/experiences/festivals/',
     'Конференції': '/experiences/conferences/',
     'Йога та ecstatic dance': '/experiences/yoga/',
+    'Громадські простори': '/experiences/public-spaces/',
     'Церковні служби та зібрання': '/experiences/church/',
     'Церковні та молодіжні табори': '/experiences/camps/',
     'Табори та молодіжні збори': '/experiences/youth-camps/',
@@ -1205,7 +1206,7 @@ EXPERIENCE_CATEGORIES = [
                                         'Танцювальні змагання',
                                         'Медитація',
                                         'Забіги та прогулянки']),
-    ('community', 'Міські події',      ['Фестивалі', 'Громадські зібрання',
+    ('community', 'Міські події',      ['Фестивалі', 'Громадські простори',
                                         'Ярмарки та маркети', 'Інклюзивні події',
                                         'Благодійні гала',
                                         'Бар-тури',
@@ -1244,7 +1245,7 @@ EXPERIENCE_ORDER = [
     'Табори та молодіжні збори',
     'Конференції',
     'Йога та ecstatic dance',
-    'Громадські зібрання',
+    'Громадські простори',
     'Домашні вечірки',
     'Дівич-вечір',
     'Кіно просто неба',
@@ -1293,6 +1294,7 @@ EXPERIENCE_PAGES = [
     os.path.join('experiences', 'youth-camps', 'index.html'),
     os.path.join('experiences', 'conferences', 'index.html'),
     os.path.join('experiences', 'yoga', 'index.html'),
+    os.path.join('experiences', 'public-spaces', 'index.html'),
 ]
 
 
@@ -1314,6 +1316,7 @@ EXP_FAQ_PAGES = {
     os.path.join('experiences', 'youth-camps', 'index.html'): '/experiences/youth-camps/',
     os.path.join('experiences', 'conferences', 'index.html'): '/experiences/conferences/',
     os.path.join('experiences', 'yoga', 'index.html'): '/experiences/yoga/',
+    os.path.join('experiences', 'public-spaces', 'index.html'): '/experiences/public-spaces/',
 }
 
 
@@ -2342,6 +2345,7 @@ EXP_EN_PAGES = {
     'youth-camps': 'images/youth-camps/og-youth-camps-en.jpg',
     'conferences': 'images/conferences/og-conferences-en.jpg',
     'yoga': 'images/yoga/og-yoga-en.jpg',
+    'public-spaces': 'images/public-spaces/og-public-spaces-en.jpg',
 }
 from en_pages import T_PAGE_ALL, T_ABOUT   # рядки сторінок досвідів і «Про нас» (tools/en_pages.py)
 T_PAGE = {}   # slug -> {укр: англ} (додаткові, лише для однієї сторінки)

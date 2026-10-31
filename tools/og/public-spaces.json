@@ -1,0 +1,28 @@
+{
+  "out": "images/public-spaces/og-public-spaces.jpg",
+  "heading": [
+    "Silent Disco",
+    "для громадських",
+    "просторів"
+  ],
+  "subtitle": [
+    [
+      "Музика в навушниках для парків, площ"
+    ],
+    [
+      "і дворів. Тихо для всіх навколо."
+    ]
+  ],
+  "pills": [
+    "Музика <b>в навушниках</b>",
+    "<b>3</b> канали на вибір",
+    "Тихіше <b>для сусідів</b>",
+    "<b>Київ</b> та Україна"
+  ],
+  "template": "template-full-left.html",
+  "bg": {
+    "src": "images/public-spaces/vechirnia-ploshcha-hirliandy-tantsi.webp",
+    "pos": "50% 40%"
+  },
+  "css": ".p>img{left:400px;right:auto;width:800px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%)}.h span+span{font-size:40px;font-weight:400;letter-spacing:-.01em;margin-top:6px} .sub{font-weight:500;margin-top:30px;font-size:23px}"
+}

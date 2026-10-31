@@ -1,0 +1,28 @@
+{
+  "out": "images/public-spaces/og-public-spaces-en.jpg",
+  "heading": [
+    "Silent Disco",
+    "for public",
+    "spaces"
+  ],
+  "subtitle": [
+    [
+      "Music in headphones for parks, squares"
+    ],
+    [
+      "and courtyards. Quiet for everyone around."
+    ]
+  ],
+  "pills": [
+    "Music <b>in headphones</b>",
+    "<b>3</b> channels to choose from",
+    "Quieter <b>for neighbours</b>",
+    "<b>Kyiv</b> &amp; Ukraine"
+  ],
+  "template": "template-full-left.html",
+  "bg": {
+    "src": "images/public-spaces/vechirnia-ploshcha-hirliandy-tantsi.webp",
+    "pos": "50% 40%"
+  },
+  "css": ".p>img{left:400px;right:auto;width:800px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%)}.h span+span{font-size:40px;font-weight:400;letter-spacing:-.01em;margin-top:6px} .sub{font-weight:500;margin-top:30px;font-size:23px}"
+}

@@ -9326,3 +9326,8 @@ body:has(.legal-toc){overflow-x:clip}
    але друга частина переноситься у два рядки («в бездротових / навушниках») замість nowrap, який
    виштовхував її під колонку знімків. Без кегля .4em, що давав задрібний підзаголовок. */
 .exp-cover-gallery .exp-title--wrap .t-sub{white-space:normal;max-width:8.6em;line-height:1.08}
+
+/* Сторінка «Громадські простори»: H1 у три рядки («Silent Disco» / «для громадських» / «зібрань»).
+   Розрив ставить <br> у розмітці, тому обмеження ширини .exp-title--wrap (8.6em) тут знімаємо:
+   воно переносило «для» окремим рядком і давало чотири рядки замість трьох. */
+.exp-cover-gallery .exp-title .t-sub.t-sub--lines{white-space:nowrap;max-width:none}
