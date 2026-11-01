@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-yak-organizuvaty-zvuk-na-zakhodi-prosto-neba.jpg",
+  "bg": {
+    "src": "images/public-spaces/slukhaie-muzyku-pid-namotamy.webp",
+    "pos": "50% 30%"
+  },
+  "heading": [
+    "Звук на заході",
+    "просто неба"
+  ],
+  "subtitle": [
+    [
+      "Шум, мовлення, музика та вибір формату."
+    ]
+  ],
+  "pills": [
+    "<b>Фоновий</b> шум",
+    "<b>Вибір</b> формату",
+    "<b>Тест</b> до початку",
+    "<b>Навушники</b> чи колонки"
+  ]
+}

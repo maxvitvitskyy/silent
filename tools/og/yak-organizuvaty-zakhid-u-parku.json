@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-yak-organizuvaty-zakhid-u-parku.jpg",
+  "bg": {
+    "src": "images/public-spaces/rozmova-v-parku.webp",
+    "pos": "50% 27%"
+  },
+  "heading": [
+    "Захід у парку",
+    "або сквері"
+  ],
+  "subtitle": [
+    [
+      "Локація, правила, звук і безпека."
+    ]
+  ],
+  "pills": [
+    "<b>Вибір</b> локації",
+    "<b>Правила</b> простору",
+    "<b>Звук</b> просто неба",
+    "<b>План</b> на випадок змін"
+  ]
+}

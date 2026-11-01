@@ -9334,3 +9334,11 @@ body:has(.legal-toc){overflow-x:clip}
 .exp-cover-gallery .exp-title--ps .t-lead{white-space:normal;max-width:11em}
 .exp-cover-gallery .exp-title--ps .t-sub{font-size:.5em;line-height:1.2;margin-top:.55em}
 
+
+/* Статті блогу: чекліст-картки (.is-check) на телефоні компактніші. Вісім-дванадцять пунктів по ~92px робили довгу стрічку, тож
+   відступ і галочка менші, а лаймова «галочка» лишається впізнаваною (мінімальна ціль дотику тут не потрібна: це не кнопки). */
+@media (max-width: 700px) {
+  .art-cards.is-check li { padding-block: 13px; column-gap: 14px; }
+  .art-cards .art-chk { width: 30px; height: 30px; border-radius: 9px; }
+  .art-chk svg { width: 18px; height: 18px; }
+}

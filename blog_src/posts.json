@@ -348,6 +348,30 @@
       "also": [
         "ideas"
       ]
+    },
+    {
+      "slug": "yak-organizuvaty-zakhid-u-parku",
+      "status": "published",
+      "category": "organization",
+      "title": "Як організувати захід у парку або сквері: практичний чекліст",
+      "excerpt": "Вибір локації, правила, сценарій, звук, безпека й чекліст: що продумати, щоб захід просто неба пройшов спокійно.",
+      "image": "/images/public-spaces/rozmova-v-parku.webp",
+      "alt": "Дві дівчини розмовляють на траві в парку, у світних навушниках Silent Disco",
+      "also": [
+        "ideas"
+      ]
+    },
+    {
+      "slug": "yak-organizuvaty-zvuk-na-zakhodi-prosto-neba",
+      "status": "published",
+      "category": "organization",
+      "title": "Як організувати звук на заході просто неба",
+      "excerpt": "Фоновий шум, мовлення, музика, вибір аудіоформату й тестування: як зробити, щоб учасники чули головне.",
+      "image": "/images/public-spaces/slukhaie-muzyku-pid-namotamy.webp",
+      "alt": "Хлопець у світних навушниках слухає музику на вечірньому заході просто неба",
+      "also": [
+        "basics"
+      ]
     }
   ]
 }
