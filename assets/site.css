@@ -9327,7 +9327,10 @@ body:has(.legal-toc){overflow-x:clip}
    виштовхував її під колонку знімків. Без кегля .4em, що давав задрібний підзаголовок. */
 .exp-cover-gallery .exp-title--wrap .t-sub{white-space:normal;max-width:8.6em;line-height:1.08}
 
-/* Сторінка «Громадські простори»: H1 у три рядки («Silent Disco» / «для громадських» / «зібрань»).
-   Розрив ставить <br> у розмітці, тому обмеження ширини .exp-title--wrap (8.6em) тут знімаємо:
-   воно переносило «для» окремим рядком і давало чотири рядки замість трьох. */
-.exp-cover-gallery .exp-title .t-sub.t-sub--lines{white-space:nowrap;max-width:none}
+/* Сторінка «Громадські простори»: H1 «Заходи в громадських просторах / із бездротовими навушниками» довший за
+   стандартні заголовки форматів, тож кегль менший, ніж у .exp-title--long (різниця в довжині першого рядка:
+   «Заходи в громадських просторах» проти «Бездротові навушники»), а перший рядок може переноситись у два. */
+.exp-cover-gallery .exp-title--ps{font-size:min(8.6cqw,62px);line-height:1.04}
+.exp-cover-gallery .exp-title--ps .t-lead{white-space:normal;max-width:11em}
+.exp-cover-gallery .exp-title--ps .t-sub{font-size:.5em;line-height:1.2;margin-top:.55em}
+
