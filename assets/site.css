@@ -2474,6 +2474,8 @@
     padding: 0;
   }
   .band-bare h2 { margin-bottom: 0; }
+  /* Кнопка у фінальному блоці без картки (public-spaces, home-parties, camps): без цього <a> лишався inline і нульового відступу, тож налазив на абзац. */
+  .band-bare > .btn-primary { display: inline-flex; margin-top: 28px; }
   /* Мозаїка всередині самої плашки, а не за нею. Своє overflow: hidden плюс
      border-radius: inherit — коробка повторює скруглення плашки й обрізає
      плями точно по її рамці, тож нічого не вилазить за кант.

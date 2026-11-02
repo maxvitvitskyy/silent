@@ -1100,8 +1100,8 @@ T_PAGE_ALL = {
   "Every guest who wants to listen to the music needs a headphone. SILENT's minimum order is 40 headphones for 4 hours, from 12,000 UAH including delivery, setup, support and pickup. If you have more guests or want the party to run longer, you can work out the cost in the calculator below. Tell us the number of guests in your request and we will help you choose a set.",
 "Чи можна провести день народження вдома, у дворі чи в кафе?":
   "Can I hold a birthday at home, in the yard or in a café?",
-"Так, формат підходить для домашніх вечірок, дворів, терас, кафе та інших локацій. Потрібно передбачити місце для танців і доступ до електроживлення для обладнання. Ми привозимо й налаштовуємо систему, а після події забираємо її. Для заходів просто неба варто заздалегідь передбачити запасний план на випадок дощу. Ідеї для програми й каналів читайте в статті <a href=\"/blog/yak-vidsvyatkuvaty-den-narodzhennya/\">Як відсвяткувати день народження, щоб гості згадували його з посмішкою</a>.":
-  "Yes, the format suits home parties, yards, terraces, cafés and other locations. You need to provide a place to dance and access to power for the equipment. We bring and set up the system and take it away after the event. For open-air events it is worth preparing a rain backup in advance. Ideas for the programme and channels are in our article (in Ukrainian): <a href=\"/blog/yak-vidsvyatkuvaty-den-narodzhennya/\">How to celebrate a birthday so that guests remember it with a smile</a>.",
+"Так, формат підходить для <a href=\"/experiences/home-parties/\">домашніх вечірок</a>, дворів, терас, кафе та інших локацій. Потрібно передбачити місце для танців і доступ до електроживлення для обладнання. Ми привозимо й налаштовуємо систему, а після події забираємо її. Для заходів просто неба варто заздалегідь передбачити запасний план на випадок дощу. Ідеї для програми й каналів читайте в статті <a href=\"/blog/yak-vidsvyatkuvaty-den-narodzhennya/\">Як відсвяткувати день народження, щоб гості згадували його з посмішкою</a>.":
+  "Yes, the format suits <a href=\"/experiences/home-parties/\">home parties</a>, yards, terraces, cafés and other locations. You need to provide a place to dance and access to power for the equipment. We bring and set up the system and take it away after the event. For open-air events it is worth preparing a rain backup in advance. Ideas for the programme and channels are in our article (in Ukrainian): <a href=\"/blog/yak-vidsvyatkuvaty-den-narodzhennya/\">How to celebrate a birthday so that guests remember it with a smile</a>.",
 "Чи потрібен діджей для тихої дискотеки?":
   "Do I need a DJ for a silent disco?",
 "Ні, це необов’язково. Ми наперед готуємо три плейлісти, а гості самостійно перемикаються між каналами. Якщо хочеться живого DJ-сету, напишіть про це в заявці, і ми обговоримо цей варіант окремо.":
@@ -4080,7 +4080,7 @@ _h2('Що варто знати перед домашньою вечіркою?'
 _h2('Чи можна влаштувати Silent Disco у квартирі?', 'Can I hold a Silent Disco in a flat?')
 _h2('Так. Формат можна організувати в квартирі, приватному будинку або іншому просторі, якщо кількість гостей і умови локації дозволяють комфортно розміститися. Заздалегідь узгодимо кількість навушників та організацію простору.', 'Yes. The format can be organised in a flat, a private house or another space, as long as the number of guests and the conditions of the location allow everyone to fit comfortably. We agree the number of headphones and the layout of the space in advance.')
 _h2('Чи не заважатиме музика сусідам?', 'Will the music disturb the neighbours?')
-_h2('Музика передається в навушники, тому немає потреби вмикати її на колонки. Це допомагає суттєво зменшити поширення музичного звуку. Водночас розмови, рух, кроки та інші звуки залишаються. Формат не гарантує повної відсутності шуму або скарг.', 'The music is sent to headphones, so there is no need to play it on speakers. This helps significantly reduce how far the music carries. At the same time, conversations, movement, footsteps and other sounds remain. The format does not guarantee a complete absence of noise or complaints.')
+_h2('Музика передається в навушники, тому немає потреби вмикати її на колонки. Це допомагає суттєво зменшити поширення музичного звуку. Водночас розмови, рух, кроки та інші звуки залишаються. Формат не гарантує повної відсутності шуму або скарг. Практичні кроки зібрано в статті <a href="/blog/vechirka-bez-shumu-sysidy/">Як провести вечірку, щоб не заважати сусідам</a>.', 'The music is sent to headphones, so there is no need to play it on speakers. This helps significantly reduce how far the music carries. At the same time, conversations, movement, footsteps and other sounds remain. The format does not guarantee a complete absence of noise or complaints. Practical steps are in our article on hosting a party without disturbing the neighbours (in Ukrainian).')
 _h2('Скільки гостей можуть брати участь?', 'How many guests can take part?')
 _h2('Мінімальне замовлення — 40 навушників. Можливість забезпечити більшу кількість залежить від доступності обладнання на дату. Узгодимо це під час заявки.', 'The minimum order is 40 headphones. Whether we can provide more depends on equipment availability on the date. We agree this when you submit a request.')
 _h2('Чи можна обирати різну музику?', 'Can guests choose different music?')
@@ -4123,3 +4123,10 @@ for _k, _v in _HP3.items():
         T_PAGE_ALL[_en_href(_k)] = _en_href(_v)
 
 T_PAGE_ALL['Наречена в фаті та подруги танцюють у навушниках Silent Disco на дівич-вечорі'] = 'A bride in a veil and her friends dance in Silent Disco headphones at a hen party'
+
+# JSON-LD FAQ збирається з видимого тексту без тегів: для відповідей із посиланнями потрібен і «плоский» ключ.
+import re as _re_hp
+for _k, _v in list(T_PAGE_ALL.items()):
+    if 'для <a href="/experiences/home-parties/">домашніх вечірок</a>' in _k:
+        T_PAGE_ALL[_re_hp.sub(r'<[^>]+>', '', _k)] = _re_hp.sub(r'<[^>]+>', '', _v)
+        T_PAGE_ALL[_en_href(_k)] = _en_href(_v)
