@@ -2,8 +2,8 @@
   "template": "template-blog.html",
   "out": "images/blog/og-yak-sklasty-pleylist-dlya-vechirky.jpg",
   "bg": {
-    "src": "images/home-parties/selfi-v-navushnykakh.webp",
-    "pos": "50% 30%"
+    "src": "images/home-parties/dvi-podruhy-pidskazhut-obkladynka.webp",
+    "pos": "50% 100%"
   },
   "heading": [
     "Плейлист",
