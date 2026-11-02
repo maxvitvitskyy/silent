@@ -9333,6 +9333,8 @@ body:has(.legal-toc){overflow-x:clip}
 .exp-cover-gallery .exp-title--ps{font-size:min(8.6cqw,62px);line-height:1.04}
 .exp-cover-gallery .exp-title--ps .t-lead{white-space:normal;max-width:11em}
 .exp-cover-gallery .exp-title--ps .t-sub{font-size:.5em;line-height:1.2;margin-top:.55em}
+/* «Домашні вечірки»: заголовок із трьох рядків («Домашня / вечірка в / навушниках») має запас по ширині колонки, тож кегль більший, ніж у «Громадських просторів». */
+.exp-cover-gallery .exp-title--ps.exp-title--hp{font-size:min(10.2cqw,72px)}
 
 
 /* Статті блогу: чекліст-картки (.is-check) на телефоні компактніші. Вісім-дванадцять пунктів по ~92px робили довгу стрічку, тож
