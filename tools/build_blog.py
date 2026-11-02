@@ -526,6 +526,10 @@ def article_blocks(blocks):
             for it in items:
                 if 'p' in it:
                     html += '<p>%s</p>' % inline(it['p'])
+                elif 'ul' in it or 'checks' in it:
+                    # Маркований список у потоці статті: 'ul' — крапки, 'checks' — лаймові галочки (чекліст, який зручно копіювати)
+                    kind = 'checks' if 'checks' in it else 'ul'
+                    html += '<ul class="art-%s">%s</ul>' % (kind, ''.join('<li>%s</li>' % inline(x) for x in it[kind]))
                 elif 'tip' in it:
                     # Практична примітка під абзацом (наприклад, «Коли грати»): лаймова мітка + стриманий текст
                     html += '<p class="art-tip"><b>%s</b> %s</p>' % (esc(it['tip'][0]), inline(it['tip'][1]))
@@ -556,7 +560,7 @@ def article_blocks(blocks):
             rows = ''.join('<tr><th scope="row">%s</th>%s</tr>' % (esc(r[0]), ''.join(cell(i, c) for i, c in enumerate(r[1:]))) for r in b['rows'])
             lead = '<p class="art-cards-lead">%s</p>' % inline(b['lead']) if b.get('lead') else ''
             out.append('<section class="art-blk"><div class="art-cols"><h2>%s</h2>%s<div class="art-table-wrap"><table class="art-table%s"><thead><tr>%s</tr></thead><tbody>%s</tbody></table></div></div></section>'
-                       % (esc(b['title']), lead, (' is-compare' if b.get('compare') else ''), head, rows))
+                       % (esc(b['title']), lead, (' is-compare' if b.get('compare') else '') + (' is-fill' if b.get('fill') else ''), head, rows))
         elif t == 'intro':
             # Вступ до групи розділів (наприклад «6 ідей…», за яким ідуть шість пронумерованих розділів): заголовок і один абзац
             # по центру в одну колонку, більший за заголовки ідей, які після нього йдуть меншим рівнем (sub).

@@ -4780,3 +4780,5 @@ for _k, _v in _HEN2.items():
 T_PAGE_ALL['Перевірити <span class="em">дату дівич-вечора</span>'] = 'Check <span class="em">your hen party date</span>'
 
 T_PAGE_ALL['Підготуйте музичний сценарій із композиціями, які мають значення саме для неї. Додайте спільні танці, несподівані треки та особливі моменти. Приклад вечора: <a href="/blog/divych-vechir-u-navushnykakh/">Дівич-вечір у навушниках Silent Disco</a>.'] = 'Prepare a music plan with songs that matter to her in particular. Add shared dances, unexpected tracks and special moments. An example of such an evening is in our article on a hen party in headphones (in Ukrainian).'
+
+T_PAGE_ALL['Не потрібно мати готовий сценарій. Розкажіть про свою ідею — ми допоможемо організувати аудіоформат. Загальний план підготовки: <a href="/blog/yak-organizuvaty-divych-vechir/">як організувати дівич-вечір</a>.'] = 'You do not need a ready plan. Tell us your idea and we will help organise the audio format. A general preparation plan is in our article on how to organise a hen party (in Ukrainian).'

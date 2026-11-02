@@ -8875,6 +8875,12 @@ html.is-scrolling .hx-overlay { pointer-events: none !important; }
 /* Практична примітка в потоці статті («Коли грати»): лаймова мітка над приглушеним текстом, зліва тонка риска. Відділяє пораду від опису, тож список ігор сканується очима. */
 .art-flow .art-tip { margin: calc(var(--fs) * -0.5) 0 calc(var(--fs) * 1.9); padding-left: 16px; border-left: 2px solid rgba(198,255,0,.45); font-size: .94em; color: var(--muted); break-inside: avoid; }
 .art-flow .art-tip b { display: block; margin-bottom: 3px; font-family: 'Manrope', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2.4px; text-transform: uppercase; color: var(--lime); }
+/* Списки в потоці статті: .art-ul — лаймові крапки, .art-checks — галочки (чекліст). Рядки розділені тонкою лінією, елемент не розривається між колонками. */
+.art-flow .art-ul, .art-flow .art-checks { list-style: none; margin: 0 0 calc(var(--fs) * 1.9); padding: 0; break-inside: avoid; }
+.art-flow .art-ul li, .art-flow .art-checks li { position: relative; padding: calc(var(--fs) * .55) 0 calc(var(--fs) * .55) 30px; border-top: 1px solid rgba(255,255,255,.1); }
+.art-flow .art-ul li:last-child, .art-flow .art-checks li:last-child { border-bottom: 1px solid rgba(255,255,255,.1); }
+.art-flow .art-ul li::before { content: ''; position: absolute; left: 8px; top: calc(var(--fs) * 1.15); width: 7px; height: 7px; border-radius: 50%; background: var(--lime); }
+.art-flow .art-checks li::before { content: ''; position: absolute; left: 0; top: calc(var(--fs) * .7); width: 18px; height: 18px; border-radius: 6px; background: var(--lime) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230a0a0b' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.2 4.2L19 7'/%3E%3C/svg%3E") center/12px no-repeat; }
 
 /* Читабельність статті (UX-проход 17.10.2026): підпис у лаймовому CTA трохи темніший і з вільнішим інтерліньяжем, бо дрібний сірий на лаймі
    читається гірше, ніж білий на темному. Розмір відповідей FAQ лишається таким, як у решти сайту (14px, 13.5px на телефоні): власник повернув його 17.10.2026. */
@@ -9348,4 +9354,19 @@ body:has(.legal-toc){overflow-x:clip}
   .art-cards.is-check li { padding-block: 13px; column-gap: 14px; }
   .art-cards .art-chk { width: 30px; height: 30px; border-radius: 9px; }
   .art-chk svg { width: 18px; height: 18px; }
+}
+
+/* Таблиця-шаблон для заповнення (.art-table.is-fill, поле "fill": true): остання колонка підсвічена як місце для суми, у комірках порожній пунктирний рядок; два нижні рядки («Разом» і «На одну учасницю») виділені. */
+.art-table.is-fill thead th:last-child { background: rgba(198,255,0,.14); border-left: 2px solid rgba(198,255,0,.5); }
+.art-table.is-fill td:last-child { background: rgba(198,255,0,.05); border-left: 2px solid rgba(198,255,0,.5); vertical-align: bottom; }
+.art-table.is-fill td:last-child::after { content: ''; display: block; height: 1.5em; width: min(160px, 100%); border-bottom: 2px dashed rgba(198,255,0,.55); }
+.art-table.is-fill tbody tr:nth-last-child(2) th, .art-table.is-fill tbody tr:nth-last-child(2) td { border-top: 2px solid rgba(255,255,255,.22); }
+.art-table.is-fill tbody tr:nth-last-child(-n+2) th { color: var(--lime); }
+.art-table.is-fill tbody tr:nth-last-child(-n+2) td:not(:last-child) { color: #fff; }
+@media (max-width: 720px) {
+  .art-table.is-fill td { margin-top: 8px; }
+  .art-table.is-fill td:last-child { border: 1px solid rgba(198,255,0,.4); border-radius: 14px; }
+  .art-table.is-fill td:last-child::after { height: 1.7em; width: 100%; }
+  .art-table.is-fill tbody tr:nth-last-child(2) { border-top: 2px solid rgba(255,255,255,.22); }
+  .art-table.is-fill tbody tr:nth-last-child(2) th, .art-table.is-fill tbody tr:nth-last-child(2) td { border-top: 0; }
 }

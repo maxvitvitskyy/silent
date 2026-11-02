@@ -408,6 +408,18 @@
       "also": [
         "holidays"
       ]
+    },
+    {
+      "slug": "yak-organizuvaty-divych-vechir",
+      "status": "published",
+      "category": "organization",
+      "title": "Як організувати дівич-вечір: план, бюджет і чекліст для подруг",
+      "excerpt": "Послідовний план від бажань нареченої до чекліста: шаблон бюджету, розподіл ролей, вибір формату й локації.",
+      "image": "/images/hen-party/nevesta-spalnia-divych-vechir.webp",
+      "alt": "Наречена в пір’яному халаті й фаті танцює з подругами в спальні у світних навушниках Silent Disco",
+      "also": [
+        "holidays"
+      ]
     }
   ]
 }
