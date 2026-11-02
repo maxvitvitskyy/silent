@@ -1,0 +1,22 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-ihry-dlya-vechirky-vdoma.jpg",
+  "bg": {
+    "src": "images/home-parties/druzi-vdoma-na-dyvani.webp",
+    "pos": "50% 78%"
+  },
+  "heading": [
+    "Ігри для",
+    "вечірки вдома"
+  ],
+  "subtitle": [
+    [
+      "10 ідей для компанії друзів."
+    ]
+  ],
+  "pills": [
+    "<b>Знайомство</b> без ніяковості",
+    "<b>Музичні</b> батли",
+    "<b>Програма</b> вечора"
+  ]
+}

@@ -526,6 +526,9 @@ def article_blocks(blocks):
             for it in items:
                 if 'p' in it:
                     html += '<p>%s</p>' % inline(it['p'])
+                elif 'tip' in it:
+                    # Практична примітка під абзацом (наприклад, «Коли грати»): лаймова мітка + стриманий текст
+                    html += '<p class="art-tip"><b>%s</b> %s</p>' % (esc(it['tip'][0]), inline(it['tip'][1]))
                 elif 'h3' in it:
                     # Підзаголовок H3 усередині розділу (один H2 і кілька H3 під ним): для SEO-ієрархії без дроблення розділу на окремі H2.
                     html += '<h3>%s</h3>' % esc(it['h3'])
@@ -664,8 +667,10 @@ def build_article(p, data, cats, posts, shared, card_fn):
     if published:
         ld['@graph'][0]['datePublished'] = a.get('date_iso', a['date'])
         ld['@graph'][0]['dateModified'] = a.get('modified_iso', a.get('date_iso', a['date']))
-    ld['@graph'].append({'@type': 'FAQPage', '@id': url + '#faq', 'mainEntity': [
-        {'@type': 'Question', 'name': f['q'], 'acceptedAnswer': {'@type': 'Answer', 'text': re.sub(r'\[\[[^|\]]+\|([^\]]+)\]\]', r'\1', f['a'])}} for f in a['faq']]})
+    # Стаття без блоку питань («faq» не задано або порожнє) не отримує ні FAQPage-розмітки, ні секції.
+    if a.get('faq'):
+        ld['@graph'].append({'@type': 'FAQPage', '@id': url + '#faq', 'mainEntity': [
+            {'@type': 'Question', 'name': f['q'], 'acceptedAnswer': {'@type': 'Answer', 'text': re.sub(r'\[\[[^|\]]+\|([^\]]+)\]\]', r'\1', f['a'])}} for f in a['faq']]})
     assets = shared['head_assets'].replace('../assets/', '../../assets/')
     head = (shared['pre'] + '<title>%s</title>\n<meta name="description" content="%s">\n%s'
             '<meta name="theme-color" content="#0a0a0b">\n'
@@ -708,8 +713,9 @@ def build_article(p, data, cats, posts, shared, card_fn):
         return ('<div class="faq-item"><div class="faq-q" role="button" tabindex="0" aria-expanded="false" aria-controls="faqA-a%d">'
                 '<h3>%s</h3>%s</div><div class="faq-a" id="faqA-a%d" role="region"><p>%s</p></div></div>'
                 % (i, esc(f['q']), plus, i, inline(f['a'])))
-    half = (len(a['faq']) + 1) // 2
-    cols = [a['faq'][:half], a['faq'][half:]]
+    faq_list = a.get('faq') or []
+    half = (len(faq_list) + 1) // 2
+    cols = [faq_list[:half], faq_list[half:]]
     # Питання статті подані так само, як на головній і сторінках форматів: останній ряд
     # тоне в тлі (.faq-teaser::after), під ним кнопка «Всі питання». Це частина шаблону:
     # кожна нова стаття отримує блок автоматично.
@@ -733,13 +739,12 @@ def build_article(p, data, cats, posts, shared, card_fn):
             '  <p class="art-lead">%s</p>\n%s\n%s'
             '  <aside class="art-cta"><div><h2>%s</h2><p>%s</p></div>'
             '<a class="art-cta-btn" href="%s" data-cta="%s">%s</a></aside>\n'
-            '  <section class="art-faq faq" aria-labelledby="artFaq"><h2 id="artFaq">Питання, які ставлять найчастіше</h2>'
-            '%s</section>\n'
+            '%s'
             '  <section class="art-related" aria-labelledby="artRel"><h2 id="artRel">Читайте також</h2>'
             '<div class="blog-grid">\n%s</div></section>\n'
             '  <p class="art-ask">Лишилися питання? Напишіть нам у <a href="https://t.me/silent_ukraine" target="_blank" rel="noopener noreferrer">Telegram</a> '
             'або на <a href="mailto:hello.silent.ua@gmail.com">пошту</a>: відповімо протягом дня.</p>\n</div>\n\n%s'
-            % (inline(a['lead']), article_blocks(a['blocks']), share_block(url, plain_title), esc(cta['title']), esc(cta['text']), esc(cta['href']), esc(cta['track']), esc(cta['button']), faq, rel, shared['form_block']))
+            % (inline(a['lead']), article_blocks(a['blocks']), share_block(url, plain_title), esc(cta['title']), esc(cta['text']), esc(cta['href']), esc(cta['track']), esc(cta['button']), ('  <section class="art-faq faq" aria-labelledby="artFaq"><h2 id="artFaq">Питання, які ставлять найчастіше</h2>%s</section>\n' % faq) if faq_list else '', rel, shared['form_block']))
     out = head + nav_block + body + tail
     d = os.path.join(OUT_DIR, slug)
     os.makedirs(d, exist_ok=True)

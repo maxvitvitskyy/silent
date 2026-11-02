@@ -1,0 +1,22 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-yak-sklasty-pleylist-dlya-vechirky.jpg",
+  "bg": {
+    "src": "images/home-parties/selfi-v-navushnykakh.webp",
+    "pos": "50% 30%"
+  },
+  "heading": [
+    "Плейлист",
+    "для вечірки"
+  ],
+  "subtitle": [
+    [
+      "Настрій, темп і різні смаки гостей."
+    ]
+  ],
+  "pills": [
+    "<b>Етапи</b> вечора",
+    "<b>Різні</b> смаки",
+    "<b>Чекліст</b> перед вечіркою"
+  ]
+}

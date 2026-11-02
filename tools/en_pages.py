@@ -4130,3 +4130,7 @@ for _k, _v in list(T_PAGE_ALL.items()):
     if 'для <a href="/experiences/home-parties/">домашніх вечірок</a>' in _k:
         T_PAGE_ALL[_re_hp.sub(r'<[^>]+>', '', _k)] = _re_hp.sub(r'<[^>]+>', '', _v)
         T_PAGE_ALL[_en_href(_k)] = _en_href(_v)
+
+# --- «Домашні вечірки»: посилання на статті блогу (UA-only, в EN простий текст)
+T_PAGE_ALL['Без особливого приводу й сценарію: просто вечір, коли кожен слухає своє, а танцюєте ви разом. Підійде для квартири чи приватного будинку. Ідеї для програми — у статті <a href="/blog/ihry-dlya-vechirky-vdoma/">Ігри для вечірки вдома</a>.'] = 'No special occasion and no script: just an evening when everyone listens to their own thing and you dance together. Works for a flat or a private house. Programme ideas are in our article on party games at home (in Ukrainian).'
+T_PAGE_ALL['Ні, це необов’язково. Ми наперед готуємо три музичні добірки (як їх скласти, читайте в статті <a href="/blog/yak-sklasty-pleylist-dlya-vechirky/">Як скласти плейлист для вечірки</a>), а гості самі перемикаються між каналами. Якщо хочеться живого DJ-сету, напишіть про це в заявці, і ми обговоримо цей варіант окремо.'] = 'No, it is optional. We prepare three music selections in advance (how to build one is in our article on party playlists, in Ukrainian) and guests switch between channels themselves. If you would like a live DJ set, mention it in the request and we will discuss that option separately.'
