@@ -4138,3 +4138,5 @@ T_PAGE_ALL['Ні, це необов’язково. Ми наперед готу
 T_PAGE_ALL['Замовити <span class="em">домашню вечірку</span>'] = 'Order <span class="em">a home party</span>'
 
 T_PAGE_ALL['Перевірити <span class="em">дату вечірки</span>'] = 'Check <span class="em">your party date</span>'
+
+T_PAGE_ALL['Готові влаштувати вечірку, де кожен на своїй хвилі?'] = 'Ready to throw a party where everyone is on their own wavelength?'
