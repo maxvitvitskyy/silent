@@ -668,7 +668,8 @@ def build_article(p, data, cats, posts, shared, card_fn):
         ld['@graph'][0]['datePublished'] = a.get('date_iso', a['date'])
         ld['@graph'][0]['dateModified'] = a.get('modified_iso', a.get('date_iso', a['date']))
     # Стаття без блоку питань («faq» не задано або порожнє) не отримує ні FAQPage-розмітки, ні секції.
-    if a.get('faq'):
+    # "faq_schema": false — питання видимі на сторінці, але FAQPage-розмітку не додаємо (за замовчуванням додаємо).
+    if a.get('faq') and a.get('faq_schema', True):
         ld['@graph'].append({'@type': 'FAQPage', '@id': url + '#faq', 'mainEntity': [
             {'@type': 'Question', 'name': f['q'], 'acceptedAnswer': {'@type': 'Answer', 'text': re.sub(r'\[\[[^|\]]+\|([^\]]+)\]\]', r'\1', f['a'])}} for f in a['faq']]})
     assets = shared['head_assets'].replace('../assets/', '../../assets/')

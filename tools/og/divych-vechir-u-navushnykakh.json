@@ -1,0 +1,22 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-divych-vechir-u-navushnykakh.jpg",
+  "bg": {
+    "src": "images/hen-party/nevesta-smiietsia-z-podruhamy.webp",
+    "pos": "50% 40%"
+  },
+  "heading": [
+    "Дівич-вечір",
+    "у навушниках"
+  ],
+  "subtitle": [
+    [
+      "Сценарій, ігри й ідеї для подруг."
+    ]
+  ],
+  "pills": [
+    "<b>Сценарій</b> вечора",
+    "<b>Ігри</b> без реквізиту",
+    "<b>Музика</b> для кожної"
+  ]
+}
