@@ -4513,3 +4513,15 @@ for _k, _v in _HEN.items():
     T_PAGE_ALL[_k] = _v
     if '<a href="/' in _k:
         T_PAGE_ALL[_en_href(_k)] = _en_href(_v)
+
+# --- «Дівич-вечір»: alt-тексти фото від власника (04.11.2026)
+for _k, _v in {
+ 'Наречена в фаті зі стрічкою «Bride» сміється й танцює з подругами у світних навушниках Silent Disco на терасі': 'A bride in a veil and a «Bride» sash laughs and dances with her friends in glowing Silent Disco headphones on a terrace',
+ 'Наречена в пір’яному халаті й фаті танцює з подругами в спальні у світних навушниках Silent Disco': 'A bride in a feather-trimmed robe and veil dances with her friends in a bedroom in glowing Silent Disco headphones',
+ 'Подруги з келихами шампанського сміються й танцюють у світних навушниках Silent Disco': 'Friends with glasses of champagne laugh and dance in glowing Silent Disco headphones',
+ 'Наречена у фаті танцює з піднятою рукою серед подруг у світних навушниках Silent Disco у дворі під гірляндами': 'A bride in a veil dances with a raised hand among her friends in glowing Silent Disco headphones in a yard under string lights',
+ 'Наречена у фаті сміється з подругами за столиком у світних навушниках Silent Disco': 'A bride in a veil laughs with her friends at a table in glowing Silent Disco headphones',
+ 'Чотири подруги танцюють у вечірніх сукнях і світних навушниках Silent Disco': 'Four friends dance in evening dresses and glowing Silent Disco headphones',
+ 'Дівчина в чорній сукні танцює із закритими очима між подругами у світних навушниках Silent Disco': 'A girl in a black dress dances with her eyes closed between friends in glowing Silent Disco headphones',
+}.items():
+    T_PAGE_ALL[_k] = _v
