@@ -4039,7 +4039,7 @@ _h2('Організуй танці просто неба без необхідн
 _h2('>Тематична вечірка<', '>Themed party<')
 _h2('Ретро, улюблені хіти, електроніка або власна музична концепція. Створи атмосферу, яка відповідає саме твоїй компанії.', 'Retro, favourite hits, electronic or your own musical concept. Create an atmosphere that suits your crowd.')
 _h2('>Сюрприз для близьких<', '>A surprise for loved ones<')
-_h2('Хочеш здивувати друзів або організувати особливий вечір для своєї людини? Silent Disco стане несподіваним елементом святкування.', 'Want to surprise your friends or arrange a special evening for someone close? Silent Disco will be an unexpected part of the celebration.')
+_h2('Хочеш здивувати друзів або організувати особливий вечір для близьких? Silent Disco стане несподіваним елементом святкування.', 'Want to surprise your friends or arrange a special evening for your loved ones? Silent Disco will be an unexpected part of the celebration.')
 _h2('Гості танцюють у навушниках Silent Disco на вечірці у дворі під гірляндами', 'Guests dance in Silent Disco headphones at a yard party under string lights')
 _h2('Подруги танцюють у неоновому світлі на тематичній вечірці в навушниках', 'Friends dance in neon light at a themed party in headphones')
 _h2('Ти створюєш вечірку. Ми подбаємо про техніку.', 'You create the party. We take care of the equipment.')
@@ -4094,7 +4094,7 @@ _h2('Ні, це необов’язково. Ми наперед готуємо 
 _h2('Як забронювати дату?', 'How do I book a date?')
 _h2('Залиш заявку із бажаною датою, локацією та кількістю гостей. Ми перевіримо доступність обладнання, узгодимо деталі та повідомимо умови бронювання.', 'Submit a request with your preferred date, location and number of guests. We will check equipment availability, agree the details and tell you the booking terms.')
 _h2('Готовий перевести вечірку на свою хвилю?', 'Ready to move your party onto your own wavelength?')
-_h2('Розкажи, що плануєш — день народження, вечірку з друзями чи особливий вечір удвох. Допоможемо підібрати формат і перевіримо доступність дати.', 'Tell us what you are planning: a birthday, a party with friends or a special evening for two. We will help choose a format and check date availability.')
+_h2('Розкажи, що плануєш — день народження, вечірку з друзями, дівич-вечір чи святкування для близьких. Допоможемо підібрати формат і перевіримо доступність дати.', 'Tell us what you are planning: a birthday, a party with friends, a hen party or a celebration for loved ones. We will help choose a format and check date availability.')
 for _k, _v in _HP2.items():
     if _k in T_PAGE_ALL and T_PAGE_ALL[_k] != _v:
         print('КОНФЛІКТ ключа (лишаю наявний):', _k[:60], '|', T_PAGE_ALL[_k][:50])
@@ -4134,3 +4134,7 @@ for _k, _v in list(T_PAGE_ALL.items()):
 # --- «Домашні вечірки»: посилання на статті блогу (UA-only, в EN простий текст)
 T_PAGE_ALL['Без особливого приводу й сценарію: просто вечір, коли кожен слухає своє, а танцюєте ви разом. Підійде для квартири чи приватного будинку. Ідеї для програми — у статті <a href="/blog/ihry-dlya-vechirky-vdoma/">Ігри для вечірки вдома</a>.'] = 'No special occasion and no script: just an evening when everyone listens to their own thing and you dance together. Works for a flat or a private house. Programme ideas are in our article on party games at home (in Ukrainian).'
 T_PAGE_ALL['Ні, це необов’язково. Ми наперед готуємо три музичні добірки (як їх скласти, читайте в статті <a href="/blog/yak-sklasty-pleylist-dlya-vechirky/">Як скласти плейлист для вечірки</a>), а гості самі перемикаються між каналами. Якщо хочеться живого DJ-сету, напишіть про це в заявці, і ми обговоримо цей варіант окремо.'] = 'No, it is optional. We prepare three music selections in advance (how to build one is in our article on party playlists, in Ukrainian) and guests switch between channels themselves. If you would like a live DJ set, mention it in the request and we will discuss that option separately.'
+
+T_PAGE_ALL['Замовити <span class="em">домашню вечірку</span>'] = 'Order <span class="em">a home party</span>'
+
+T_PAGE_ALL['Перевірити <span class="em">дату вечірки</span>'] = 'Check <span class="em">your party date</span>'
