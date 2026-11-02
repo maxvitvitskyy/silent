@@ -4003,3 +4003,123 @@ for _k, _v in list(_HP.items()):
     T_PAGE_ALL[_k] = _v
     if '<a href="/' in _k:
         T_PAGE_ALL[_en_href(_k)] = _en_href(_v)
+
+# --- «Домашні вечірки», друга редакція (03.11.2026): нові рядки сторінки. Спільні ключі не перезаписуємо.
+_HP2 = {}
+def _h2(k, v): _HP2[k] = v
+_h2('Silent Disco для домашньої вечірки — ціна та замовлення | SILENT', 'Silent Disco for a home party: price and booking | SILENT')
+_h2('Домашня вечірка в навушниках: три музичні канали, бездротові навушники, доставка й налаштування під ключ у Києві та Україні. Від 12 000 грн. Перевірте дату.', 'A home party in headphones: three music channels, wireless headphones, delivery and setup turnkey in Kyiv and across Ukraine. From UAH 12,000. Check your date.')
+_h2('Домашня вечірка в навушниках: три музичні канали на вибір, обладнання й технічна частина під ключ. Вдома, у дворі чи на терасі. Від 12 000 грн.', 'A home party in headphones: three music channels to choose from, equipment and the technical side turnkey. At home, in the yard or on the terrace. From UAH 12,000.')
+_h2('>Домашня вечірка в навушниках<', '>A home party in headphones<')
+_h2('Влаштуй незвичайну вечірку вдома, у дворі чи на терасі. Три музичні канали, бездротові навушники та музика для кожного. SILENT привезе обладнання, налаштує систему й подбає про технічну частину вечора.', 'Throw an unusual party at home, in the yard or on the terrace. Three music channels, wireless headphones and music for everyone. SILENT brings the equipment, sets up the system and takes care of the technical side of the evening.')
+_h2('>Замовити домашню вечірку<', '>Order a home party<')
+_h2('>Організація під ключ<', '>Turnkey organisation<')
+_h2('Вечірка, де кожен на своїй хвилі', 'A party where everyone is on their own wavelength')
+_h2('У кожного свій музичний смак. Хтось танцює під електроніку, хтось чекає улюблені хіти, а хтось прийшов просто провести час із друзями.', 'Everyone has their own taste in music. Some dance to electronic, some wait for their favourite hits, and some just came to spend time with friends.')
+_h2('З Silent Disco не потрібно обирати один плейліст для всіх. Кожен може знайти свій ритм, залишаючись частиною спільної вечірки.', 'With Silent Disco you do not have to choose one playlist for everyone. Everyone can find their own rhythm while staying part of a shared party.')
+_h2('>Три музичні світи<', '>Three musical worlds<')
+_h2('Три канали музики — три різні настрої. Перемикайся між ними та знаходь треки, під які хочеться танцювати.', 'Three music channels, three different moods. Switch between them and find tracks you want to dance to.')
+_h2('>Разом, але по-своєму<', '>Together, in your own way<')
+_h2('Друзі можуть слухати різну музику, але танцювати поруч. А колір підсвітки навушників додає вечірці власної атмосфери.', 'Friends can listen to different music but dance side by side. And the colour of the headphones’ glow gives the party its own atmosphere.')
+_h2('>Музика без колонок<', '>Music without speakers<')
+_h2('Музика звучить у навушниках, а не на всю квартиру чи двір. Це допомагає зменшити музичний шум для оточення, хоча не усуває всі звуки вечірки.', 'The music plays in headphones, not across the whole flat or yard. This helps reduce music noise for the surroundings, although it does not remove every sound of the party.')
+_h2('>Танцюй або спілкуйся<', '>Dance or chat<')
+_h2('Хочеш поговорити з другом? Просто зніми навушники. Хочеш повернутися на танцпол? Одягай їх знову.', 'Want to talk to a friend? Just take the headphones off. Want to get back on the dance floor? Put them on again.')
+_h2('>Сценарії<', '>Scenarios<')
+_h2('Привід може бути будь-яким', 'Any occasion will do')
+_h2('Не обов’язково чекати особливої нагоди. Silent Disco перетворює звичайну зустріч із друзями на вечір, який запам’ятовується.', 'You do not have to wait for a special occasion. Silent Disco turns an ordinary get-together with friends into an evening you remember.')
+_h2('>День народження<', '>Birthday<')
+_h2('Збери друзів, увімкни три музичні канали й нехай кожен знайде свій настрій. Жодних суперечок про те, що має грати наступним. <a href="/experiences/birthday/">Silent Disco на день народження</a>.', 'Gather your friends, switch on three music channels and let everyone find their own mood. No arguments about what should play next. <a href="/experiences/birthday/">Silent Disco for a birthday</a>.')
+_h2('>Вечірка з друзями<', '>Party with friends<')
+_h2('Звичайна зустріч може стати справжнім танцполом. Для квартири, приватного будинку або затишного двору.', 'An ordinary get-together can turn into a real dance floor. For a flat, a private house or a cosy yard.')
+_h2('>Дівич-вечір<', '>Hen party<')
+_h2('Спільні танці, улюблені пісні та свій музичний вайб для кожної подруги. Формат, який легко зробити частиною вашого сценарію.', 'Dancing together, favourite songs and a musical vibe of her own for every friend. A format that is easy to make part of your plan.')
+_h2('>Вечірка у дворі або на терасі<', '>A party in the yard or on the terrace<')
+_h2('Організуй танці просто неба без необхідності озвучувати весь двір колонками. Заздалегідь узгодимо технічні умови локації.', 'Dance outdoors without having to fill the whole yard with speakers. We agree the technical conditions of the location in advance.')
+_h2('>Тематична вечірка<', '>Themed party<')
+_h2('Ретро, улюблені хіти, електроніка або власна музична концепція. Створи атмосферу, яка відповідає саме твоїй компанії.', 'Retro, favourite hits, electronic or your own musical concept. Create an atmosphere that suits your crowd.')
+_h2('>Сюрприз для близьких<', '>A surprise for loved ones<')
+_h2('Хочеш здивувати друзів або організувати особливий вечір для своєї людини? Silent Disco стане несподіваним елементом святкування.', 'Want to surprise your friends or arrange a special evening for someone close? Silent Disco will be an unexpected part of the celebration.')
+_h2('Гості танцюють у навушниках Silent Disco на вечірці у дворі під гірляндами', 'Guests dance in Silent Disco headphones at a yard party under string lights')
+_h2('Подруги танцюють у неоновому світлі на тематичній вечірці в навушниках', 'Friends dance in neon light at a themed party in headphones')
+_h2('Ти створюєш вечірку. Ми подбаємо про техніку.', 'You create the party. We take care of the equipment.')
+_h2('Не потрібно самостійно шукати обладнання, розбиратися з підключеннями та налаштовувати аудіосистему.', 'You do not need to look for equipment yourself, work out the connections or set up an audio system.')
+_h2('SILENT допоможе підготувати формат вечірки, привезе погоджений комплект і забезпечить технічну частину відповідно до замовлення.', 'SILENT helps prepare the party format, brings the agreed kit and handles the technical side according to your order.')
+_h2('>Підготовка обладнання<', '>Equipment preparation<')
+_h2('Підготуємо навушники та необхідне обладнання відповідно до погодженого формату.', 'We prepare the headphones and the necessary equipment according to the agreed format.')
+_h2('>Доставка та налаштування<', '>Delivery and setup<')
+_h2('Узгодимо час приїзду, підготуємо систему на локації та перевіримо її роботу.', 'We agree the arrival time, set up the system on site and test that it works.')
+_h2('>Допомога під час старту<', '>Help at the start<')
+_h2('Пояснимо гостям, як користуватися навушниками, та забезпечимо погоджений технічний супровід.', 'We explain to guests how to use the headphones and provide the agreed technical support.')
+_h2('>Завершення вечірки<', '>End of the party<')
+_h2('Організуємо збір і перевірку обладнання відповідно до погоджених умов.', 'We collect and check the equipment according to the agreed terms.')
+_h2('Як працює домашня Silent Disco?', 'How does a home Silent Disco work?')
+_h2('Усе просто: музика передається безпосередньо в бездротові навушники. Кожен гість сам обирає, що слухати та наскільки голосно.', 'It is simple: the music is sent straight to wireless headphones. Each guest chooses what to listen to and how loud.')
+_h2('>Отримай навушники<', '>Get your headphones<')
+_h2('Кожен гість отримує підготовлені бездротові навушники.', 'Every guest gets prepared wireless headphones.')
+_h2('>Обери музику<', '>Choose your music<')
+_h2('Перемикайся між трьома музичними каналами та знаходь свій улюблений.', 'Switch between the three music channels and find your favourite.')
+_h2('>Налаштуй гучність<', '>Set the volume<')
+_h2('Регулюй звук під власний комфорт.', 'Adjust the sound to your own comfort.')
+_h2('>Танцюй разом<', '>Dance together<')
+_h2('Слухай, танцюй, спілкуйся та залишайся частиною вечірки.', 'Listen, dance, chat and stay part of the party.')
+_h2('До вечірки — чотири прості кроки', 'Four simple steps to the party')
+_h2('Розкажи нам, що плануєш. Ми допоможемо організувати Silent Disco відповідно до твого формату.', 'Tell us what you are planning. We will help organise Silent Disco to fit your format.')
+_h2('>Залиш заявку<', '>Submit a request<')
+_h2('Вкажи бажану дату, локацію та приблизну кількість гостей.', 'Give the date you want, the location and the approximate number of guests.')
+_h2('>Узгодимо деталі<', '>We agree the details<')
+_h2('Обговоримо формат, тривалість, доступність обладнання та вартість.', 'We discuss the format, duration, equipment availability and cost.')
+_h2('>Підготуємо все необхідне<', '>We prepare everything<')
+_h2('Погодимо логістику, час доставки й налаштування обладнання.', 'We agree logistics and the time of delivery and equipment setup.')
+_h2('>Час святкувати<', '>Time to celebrate<')
+_h2('Приходять гості, починається музика — і вечірка переходить на твою хвилю.', 'Guests arrive, the music starts, and the party moves onto your wavelength.')
+_h2('>Перевірити доступність дати<', '>Check date availability<')
+_h2('Скільки коштує домашня Silent Disco?', 'How much does a home Silent Disco cost?')
+_h2('Вартість залежить від кількості навушників, тривалості вечірки, локації та додаткових потреб. Базовий комплект — від 12 000 грн за 40 навушників на 4 години. Плануєш іншу кількість гостей або довший вечір? Розрахуй свій варіант або залиш заявку.', 'The cost depends on the number of headphones, the length of the party, the location and any extra needs. The base kit starts from UAH 12,000 for 40 headphones for 4 hours. Planning a different number of guests or a longer evening? Calculate your option or submit a request.')
+_h2('Що варто знати перед домашньою вечіркою?', 'What to know before a home party')
+_h2('Чи можна влаштувати Silent Disco у квартирі?', 'Can I hold a Silent Disco in a flat?')
+_h2('Так. Формат можна організувати в квартирі, приватному будинку або іншому просторі, якщо кількість гостей і умови локації дозволяють комфортно розміститися. Заздалегідь узгодимо кількість навушників та організацію простору.', 'Yes. The format can be organised in a flat, a private house or another space, as long as the number of guests and the conditions of the location allow everyone to fit comfortably. We agree the number of headphones and the layout of the space in advance.')
+_h2('Чи не заважатиме музика сусідам?', 'Will the music disturb the neighbours?')
+_h2('Музика передається в навушники, тому немає потреби вмикати її на колонки. Це допомагає суттєво зменшити поширення музичного звуку. Водночас розмови, рух, кроки та інші звуки залишаються. Формат не гарантує повної відсутності шуму або скарг.', 'The music is sent to headphones, so there is no need to play it on speakers. This helps significantly reduce how far the music carries. At the same time, conversations, movement, footsteps and other sounds remain. The format does not guarantee a complete absence of noise or complaints.')
+_h2('Скільки гостей можуть брати участь?', 'How many guests can take part?')
+_h2('Мінімальне замовлення — 40 навушників. Можливість забезпечити більшу кількість залежить від доступності обладнання на дату. Узгодимо це під час заявки.', 'The minimum order is 40 headphones. Whether we can provide more depends on equipment availability on the date. We agree this when you submit a request.')
+_h2('Чи можна обирати різну музику?', 'Can guests choose different music?')
+_h2('Так. У стандартному форматі доступні три музичні канали. Кожен гість може перемикатися між ними та регулювати гучність.', 'Yes. The standard format has three music channels. Each guest can switch between them and adjust the volume.')
+_h2('Чи можна провести вечірку у дворі або на терасі?', 'Can the party be held in a yard or on a terrace?')
+_h2('Так, якщо локація дозволяє налаштувати обладнання та забезпечити належні умови проведення заходу. Заздалегідь узгодимо живлення, розташування системи, погодні ризики та інші технічні деталі.', 'Yes, if the location allows the equipment to be set up and proper conditions to be provided. We agree power, system placement, weather risks and other technical details in advance.')
+_h2('Що входить у вартість?', 'What is included in the price?')
+_h2('Базовий пакет включає погоджений комплект обладнання та організаційний і технічний супровід відповідно до умов замовлення: доставку, встановлення, супровід і вивіз. Склад послуги узгоджуємо заздалегідь.', 'The base package includes the agreed equipment kit and organisational and technical support according to the order: delivery, setup, on-site support and collection. We agree the scope of the service in advance.')
+_h2('Чи потрібно запрошувати власного діджея?', 'Do I need to bring my own DJ?')
+_h2('Ні, це необов’язково. Ми наперед готуємо три музичні добірки, а гості самі перемикаються між каналами. Якщо хочеться живого DJ-сету, напишіть про це в заявці, і ми обговоримо цей варіант окремо.', 'No, it is optional. We prepare three music selections in advance and guests switch between channels themselves. If you would like a live DJ set, mention it in the request and we will discuss that option separately.')
+_h2('Як забронювати дату?', 'How do I book a date?')
+_h2('Залиш заявку із бажаною датою, локацією та кількістю гостей. Ми перевіримо доступність обладнання, узгодимо деталі та повідомимо умови бронювання.', 'Submit a request with your preferred date, location and number of guests. We will check equipment availability, agree the details and tell you the booking terms.')
+_h2('Готовий перевести вечірку на свою хвилю?', 'Ready to move your party onto your own wavelength?')
+_h2('Розкажи, що плануєш — день народження, вечірку з друзями чи особливий вечір удвох. Допоможемо підібрати формат і перевіримо доступність дати.', 'Tell us what you are planning: a birthday, a party with friends or a special evening for two. We will help choose a format and check date availability.')
+for _k, _v in _HP2.items():
+    if _k in T_PAGE_ALL and T_PAGE_ALL[_k] != _v:
+        print('КОНФЛІКТ ключа (лишаю наявний):', _k[:60], '|', T_PAGE_ALL[_k][:50])
+        continue
+    T_PAGE_ALL[_k] = _v
+    if '<a href="/' in _k:
+        T_PAGE_ALL[_en_href(_k)] = _en_href(_v)
+
+# --- «Домашні вечірки»: розведення повторів між блоками (03.11.2026)
+_HP3 = {
+  'Збери друзів і подаруй їм вечір, який вони запам’ятають. Жодних суперечок про те, що має грати наступним. <a href="/experiences/birthday/">Silent Disco на день народження</a>.': 'Gather your friends and give them an evening they will remember. No arguments about what should play next. <a href="/experiences/birthday/">Silent Disco for a birthday</a>.',
+  'Базовий пакет включає погоджений комплект обладнання та організаційний і технічний супровід відповідно до умов замовлення. Точний склад послуги й додаткові опції узгоджуємо заздалегідь, а орієнтир за вартістю можна побачити в калькуляторі.': 'The base package includes the agreed equipment kit and organisational and technical support according to the order. We agree the exact scope of the service and any extras in advance, and you can see a price guide in the calculator.',
+  '>Музика на будь-який настрій.<': '>Music for every mood.<',
+  '>Ви лише запрошуєте гостей.<': '>You just invite the guests.<',
+  'Без особливого приводу й сценарію: просто вечір, коли кожен слухає своє, а танцюєте ви разом. Підійде для квартири чи приватного будинку.': 'No special occasion and no script: just an evening when everyone listens to their own thing and you dance together. Works for a flat or a private house.',
+  'Танці просто неба: у дворі, саду чи на терасі. Заздалегідь узгодимо живлення й технічні умови локації.': 'Dancing outdoors: in the yard, the garden or on the terrace. We agree power and the technical conditions of the location in advance.',
+  'Ретро-вечір, дрес-код або власна музична концепція. Створи атмосферу, яка відповідає саме твоїй компанії.': 'A retro night, a dress code or your own musical concept. Create an atmosphere that suits your crowd.',
+  'Ми допоможемо підібрати формат і візьмемо на себе технічну частину відповідно до замовлення.': 'We help you choose a format and take on the technical side according to your order.',
+  'Танцюй разом з гостями й залишайся частиною вечірки.': 'Dance together with the guests and stay part of the party.',
+  'Підкажемо, що підготувати вам: місце для гостей, розетку, а для двору ще й запасний план на випадок дощу.': 'We will tell you what to prepare: space for guests, a socket and, for a yard, a backup plan in case of rain.',
+  'Так. У стандартному форматі доступні три музичні канали, і гість може перемикатися між ними в будь-який момент вечора, навіть посеред танцю.': 'Yes. The standard format has three music channels, and a guest can switch between them at any moment of the evening, even mid-dance.',
+}
+for _k, _v in _HP3.items():
+    T_PAGE_ALL[_k] = _v
+    if '<a href="/' in _k:
+        T_PAGE_ALL[_en_href(_k)] = _en_href(_v)
+
+T_PAGE_ALL['Наречена в фаті та подруги танцюють у навушниках Silent Disco на дівич-вечорі'] = 'A bride in a veil and her friends dance in Silent Disco headphones at a hen party'
