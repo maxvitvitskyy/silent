@@ -3353,35 +3353,19 @@ function orderExperience(name, opts){
         utmCampaign: params.get('utm_campaign') || '',
       };
     }
-    // os/device/browser з User-Agent. Порядок перевірок важливий, і саме на ньому була помилка: рядок macOS містить
-    // «Mac OS X», а старе правило /iphone|mac os/ позначало iOS-ом кожен Mac. Тепер iOS — лише iPhone/iPad/iPod
-    // (і iPad у режимі «настільного сайту», який видає себе за Macintosh, але має мультитач). Браузер: Edge, Opera,
-    // Chrome на iOS (CriOS) і Firefox на iOS (FxiOS) містять у UA слова Chrome/Safari, тож їх шукаємо ДО них.
-    // Функція чиста (ua, maxTouchPoints на вході), щоб її можна було перевірити на будь-якому UA.
-    function detectTech(ua, touch){
-      ua = ua || '';
-      const isIpad = /ipad/i.test(ua) || (/macintosh/i.test(ua) && touch > 1);
-      const isIphone = /iphone|ipod/i.test(ua);
-      let os = '';
-      if (isIphone || isIpad) os = 'iOS';
-      else if (/android/i.test(ua)) os = 'Android';
-      else if (/windows/i.test(ua)) os = 'Windows';
-      else if (/mac os x|macintosh/i.test(ua)) os = 'macOS';
-      else if (/cros/i.test(ua)) os = 'ChromeOS';
-      else if (/linux/i.test(ua)) os = 'Linux';
-      let device = 'desktop';
-      if (isIpad || (/android/i.test(ua) && !/mobile/i.test(ua))) device = 'tablet';
-      else if (isIphone || /mobile|android|blackberry/i.test(ua)) device = 'mobile';
-      let browser = '';
-      if (/edg(e|a|ios)?\//i.test(ua)) browser = 'Edge';
-      else if (/opr\/|opera/i.test(ua)) browser = 'Opera';
-      else if (/firefox|fxios/i.test(ua)) browser = 'Firefox';
-      else if (/chrome|crios/i.test(ua)) browser = 'Chrome';
-      else if (/safari/i.test(ua)) browser = 'Safari';
-      return { device, os, browser };
-    }
     function getTechData(){
-      return detectTech(navigator.userAgent, navigator.maxTouchPoints || 0);
+      const ua = navigator.userAgent;
+      let device = 'desktop', os = '', browser = '';
+      if (/mobile|android|iphone|ipod|blackberry/i.test(ua)) device = 'mobile';
+      if (/iphone|mac os/i.test(ua)) os = 'iOS';
+      else if (/android/i.test(ua)) os = 'Android';
+      else if (/win/i.test(ua)) os = 'Windows';
+      else if (/linux/i.test(ua)) os = 'Linux';
+      if (/chrome/i.test(ua)) browser = 'Chrome';
+      else if (/firefox/i.test(ua)) browser = 'Firefox';
+      else if (/safari/i.test(ua) && !/chrome/i.test(ua)) browser = 'Safari';
+      else if (/edge/i.test(ua)) browser = 'Edge';
+      return { device, os, browser };
     }
     function generateLeadId(){
       return 'lead_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
@@ -3923,101 +3907,6 @@ function orderExperience(name, opts){
     return lead;
   }
 
-  // ---- GA4: generate_lead ----
-  // Тип форми = сторінка, з якої надіслано: «home», «outdoor-cinema», «hen-party»… (мовний префікс /en/ не рахується).
-  // Це не вільний текст і не персональні дані, тож його можна слати в аналітику.
-  function leadFormType(){
-    const parts = location.pathname.replace(/^\/en(?=\/|$)/, '').split('/').filter(Boolean);
-    if (!parts.length) return 'home';
-    return (parts[0] === 'experiences' && parts[1]) ? parts[1] : parts[0];
-  }
-
-  // Тестові надсилання не мусять потрапляти у звіти. Вмикається адресою ?test_lead=1 (або ?debug=1),
-  // прапорець лишається на всю вкладку (sessionStorage), щоб його не губити при навігації; ?test_lead=0 вимикає.
-  // На localhost GA вимкнений ще в <head> (ga-disable), тож там тест і так нічого не шле.
-  function isLeadTest(){
-    try {
-      const q = new URLSearchParams(location.search);
-      const v = q.get('test_lead') || q.get('debug');
-      if (v === '1') sessionStorage.setItem('lead_test', '1');
-      else if (v === '0') sessionStorage.removeItem('lead_test');
-      return sessionStorage.getItem('lead_test') === '1';
-    } catch (e) { return false; }
-  }
-
-  // client_id з cookie _ga (GA1.1.<число>.<число> → «число.число»). Потрібен лише запасному серверному шляху,
-  // щоб подія склеїлась із відвідувачем. Якщо cookie нема (розширення, режим «без cookie»), даємо стабільний
-  // псевдо-ідентифікатор на основі lead_id: подія дійде, але як окремий відвідувач.
-  function gaClientId(leadId){
-    const m = /(?:^|;\s*)_ga=GA\d\.\d\.(\d+\.\d+)/.exec(document.cookie || '');
-    if (m) return m[1];
-    const n = String(leadId || '').replace(/\D/g, '').slice(-10) || String(Date.now()).slice(-10);
-    return n.slice(0, 9) + '.' + n.slice(-9);
-  }
-
-  // Запасний шлях через Measurement Protocol. Спрацьовує, лише якщо браузерна подія не підтвердилась:
-  // розширення (uBlock, Privacy Badger тощо) блокує gtag.js або запит до google-analytics.com, а `gtag()` при цьому
-  // лишається просто функцією-заглушкою над масивом dataLayer і нічого не повідомляє про невдачу.
-  // Підтвердження дає event_callback: його викликає справжній gtag.js після відправки. Не прийшов за 3с — вважаємо
-  // подію втраченою й надсилаємо GET-маячок на скрипт заявок із ?ga_fallback=1. Сам MP-запит робить Apps Script
-  // (tools/lead-apps-script/ga4-fallback.gs): секрет API лишається на сервері, а не в публічному JS.
-  // Якщо на боці скрипта нічого не розгорнуто, маячок нешкідливий: нічого не пише й нічого не ламає.
-  const GA_FALLBACK_MS = 3000;
-  function sendLeadToGa(lead, utm, tech){
-    const test = isLeadTest();
-    const params = {
-      lead_id: lead.leadId || '',
-      form_type: leadFormType(),
-      event_type: lead.eventType,
-      // format: груба категорія без вільного тексту (укр. і англ. назви опцій)
-      format: /весілл|wedding/i.test(lead.eventType || '') ? 'wedding'
-        : /корпоратив|company|corporate|тімбілдинг|team/i.test(lead.eventType || '') ? 'corporate' : 'other',
-      page_language: gaLang(),
-      guests: lead.guests,
-      discovery: lead.discovery,
-      utm_source: utm.utmSource || '',
-      utm_medium: utm.utmMedium || '',
-      utm_campaign: utm.utmCampaign || '',
-      device: tech.device || '',
-      os: tech.os || '',
-      browser: tech.browser || ''
-    };
-    if (typeof gtag !== 'function') return;
-    // Один lead_id: одна подія generate_lead на вкладку, навіть якщо код надсилання відпрацює вдруге
-    // (подвійний клік, повторний виклик, гонка подій). Прапорець у sessionStorage переживає й перезапуск блоку.
-    const sentKey = 'ga_lead_' + params.lead_id;
-    try {
-      if (!test && sessionStorage.getItem(sentKey)) return;
-      if (!test) sessionStorage.setItem(sentKey, '1');
-    } catch (e) { /* sessionStorage недоступний: лишається прапорець leadEventSent */ }
-    if (test){
-      // Тест: інша назва події й debug_mode, тож вона видна в DebugView, але не лічиться як generate_lead.
-      gtag('event', 'test_generate_lead', Object.assign({ debug_mode: true }, params));
-      return;
-    }
-    let confirmed = false;
-    gtag('event', 'generate_lead', Object.assign({
-      transport_type: 'beacon',
-      event_callback: () => { confirmed = true; },
-      event_timeout: GA_FALLBACK_MS
-    }, params));
-    setTimeout(() => {
-      if (confirmed) return;
-      try {
-        const q = new URLSearchParams({
-          ga_fallback: '1',
-          lead_id: params.lead_id,
-          form_type: params.form_type,
-          cid: gaClientId(params.lead_id),
-          lang: params.page_language,
-          format: params.format,
-          utm_source: params.utm_source, utm_medium: params.utm_medium, utm_campaign: params.utm_campaign
-        });
-        fetch(LEAD_URL + '?' + q.toString(), { method: 'GET', mode: 'no-cors', keepalive: true });
-      } catch (e) { /* фоновий запасний шлях нічого не мусить ламати */ }
-    }, GA_FALLBACK_MS + 200);
-  }
-
   // Уся робота з формою жила на верхньому рівні файла й припускала, що поля
   // існують. На сторінках без форми — як список досвідів — перше ж звертання
   // до неіснуючого поля валило site.js цілком, а з ним і все, що нижче за
@@ -4137,13 +4026,7 @@ function orderExperience(name, opts){
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(formData),
         mode: 'no-cors'
-      }).then((res) => {
-        // З mode:'no-cors' відповідь завжди «opaque» і статус недоступний, тож тут перевіряється лише те, що можна:
-        // якщо відповідь прозора (змінили mode на cors, або запит пішов через проксі) і не ok, це помилка, а не успіх:
-        // форма лишається, подія не шлеться. Опак-відповідь вважаємо доставленою (див. коментар вище).
-        if (res && res.type !== 'opaque' && res.ok === false){
-          throw new Error('Сервер заявок відповів ' + res.status);
-        }
+      }).then(() => {
         // Клас, а не style.display: поля мусять лишити за собою місце, бо від їхніх
         // прямокутників рахується висота календаря в лівій колонці. Деталі — у
         // коментарі до .form-right у site.css.
@@ -4152,13 +4035,27 @@ function orderExperience(name, opts){
         document.getElementById('formSuccess').classList.add('show');
         if (typeof window.__openLeadModal === 'function') window.__openLeadModal();
 
-        // GA4: generate_lead — саме тут, у гілці успіху (після того, як запит на сервер пішов без обриву
-        // мережі), а не одразу після кліку. Подія рахує лише надсилання, що реально відправились; параметр
-        // lead_id той самий, що пишеться в таблицю заявок. Жодних персональних даних: імʼя, контакт і коментар
-        // сюди не йдуть. Деталі, тестовий режим і запасний шлях — у sendLeadToGa вище.
-        if (!leadEventSent) {
+        // GA4: generate_lead — саме тут, у гілці успіху, а не одразу після кліку.
+        // Подія тепер рахує лише ті надсилання, які реально пішли: у звітах лідів
+        // стане трохи менше, і це правдивіша цифра, а не втрата.
+        // Жодних персональних даних: ні імʼя, ні контакт, ні коментар сюди не йдуть.
+        if (!leadEventSent && typeof gtag === 'function') {
           leadEventSent = true;
-          sendLeadToGa(formData, utm, tech);
+          gtag('event', 'generate_lead', {
+            event_type: formData.eventType,
+            // format: груба категорія без вільного тексту (укр. і англ. назви опцій)
+            format: /весілл|wedding/i.test(formData.eventType || '') ? 'wedding'
+              : /корпоратив|company|corporate|тімбілдинг|team/i.test(formData.eventType || '') ? 'corporate' : 'other',
+            page_language: gaLang(),
+            guests: formData.guests,
+            discovery: formData.discovery,
+            utm_source: utm.utmSource || '',
+            utm_medium: utm.utmMedium || '',
+            utm_campaign: utm.utmCampaign || '',
+            device: tech.device || '',
+            os: tech.os || '',
+            browser: tech.browser || ''
+          });
         }
       }).catch(err => {
         console.error('Помилка при відправці заявки:', err);
