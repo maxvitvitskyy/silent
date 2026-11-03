@@ -8876,7 +8876,8 @@ html.is-scrolling .hx-overlay { pointer-events: none !important; }
 .art-flow .art-tip { margin: calc(var(--fs) * -0.5) 0 calc(var(--fs) * 1.9); padding-left: 16px; border-left: 2px solid rgba(198,255,0,.45); font-size: .94em; color: var(--muted); break-inside: avoid; }
 .art-flow .art-tip b { display: block; margin-bottom: 3px; font-family: 'Manrope', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2.4px; text-transform: uppercase; color: var(--lime); }
 /* Списки в потоці статті: .art-ul — лаймові крапки, .art-checks — галочки (чекліст). Рядки розділені тонкою лінією, елемент не розривається між колонками. */
-.art-flow .art-ul, .art-flow .art-checks { list-style: none; margin: 0 0 calc(var(--fs) * 1.9); padding: 0; break-inside: avoid; }
+.art-flow .art-ul, .art-flow .art-checks { list-style: none; margin: 0 0 calc(var(--fs) * 1.9); padding: 0; }   /* список може переходити між колонками (інакше колонки не вирівнюються), але рядок лишається цілим */
+.art-flow .art-ul li, .art-flow .art-checks li { break-inside: avoid; }
 .art-flow .art-ul li, .art-flow .art-checks li { position: relative; padding: calc(var(--fs) * .55) 0 calc(var(--fs) * .55) 30px; border-top: 1px solid rgba(255,255,255,.1); }
 .art-flow .art-ul li:last-child, .art-flow .art-checks li:last-child { border-bottom: 1px solid rgba(255,255,255,.1); }
 .art-flow .art-ul li::before { content: ''; position: absolute; left: 8px; top: calc(var(--fs) * 1.15); width: 7px; height: 7px; border-radius: 50%; background: var(--lime); }

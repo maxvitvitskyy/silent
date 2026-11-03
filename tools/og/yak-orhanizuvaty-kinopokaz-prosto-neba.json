@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-yak-orhanizuvaty-kinopokaz-prosto-neba.jpg",
+  "bg": {
+    "src": "images/outdoor-cinema/hlyadachi-zeleni-navushnyky-zakhid-sontsia.webp",
+    "pos": "50% 30%"
+  },
+  "heading": [
+    "Як організувати",
+    "кінопоказ просто неба"
+  ],
+  "subtitle": [
+    [
+      "Обладнання, звук і покроковий план."
+    ]
+  ],
+  "pills": [
+    "<b>Покроковий</b> план",
+    "<b>Звук</b> для показу",
+    "<b>Чекліст</b> перед відкриттям"
+  ],
+  "css": ".p>img{inset:auto;left:0;top:-280px;width:100%;height:915px}"
+}

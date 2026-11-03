@@ -420,6 +420,30 @@
       "also": [
         "holidays"
       ]
+    },
+    {
+      "slug": "yak-orhanizuvaty-kinopokaz-prosto-neba",
+      "status": "published",
+      "category": "organization",
+      "title": "Як організувати кінопоказ просто неба: обладнання, звук і покроковий план",
+      "excerpt": "Формат, локація, екран, звук, права на фільм і чекліст: що потрібно для кіновечора на відкритому повітрі.",
+      "image": "/images/outdoor-cinema/kino-na-travi-zakhid-sontsia-shyroke.webp",
+      "alt": "Глядачі в шезлонгах дивляться кіно просто неба на надувному екрані на заході сонця в парку",
+      "also": [
+        "ideas"
+      ]
+    },
+    {
+      "slug": "kino-prosto-neba-u-dvori-terasi",
+      "status": "published",
+      "category": "organization",
+      "title": "Кіно просто неба у дворі, на терасі чи даху: як організувати кіновечір",
+      "excerpt": "Простір, звук, світло, живлення й погода: як підготувати кіновечір і коли доречні бездротові навушники.",
+      "image": "/images/outdoor-cinema/hlyadachi-v-kriselkakh-na-terasi.webp",
+      "alt": "Глядачі в червоних кріслах дивляться кіно на терасі у світних навушниках Silent Disco",
+      "also": [
+        "ideas"
+      ]
     }
   ]
 }

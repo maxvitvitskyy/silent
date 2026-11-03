@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-kino-prosto-neba-u-dvori-terasi.jpg",
+  "bg": {
+    "src": "images/outdoor-cinema/hlyadachi-v-kriselkakh-na-terasi.webp",
+    "pos": "50% 55%"
+  },
+  "heading": [
+    "Кіно просто неба",
+    "у дворі чи на терасі"
+  ],
+  "subtitle": [
+    [
+      "Простір, звук і погода: як підготувати кіновечір."
+    ]
+  ],
+  "pills": [
+    "<b>Двір,</b> тераса, дах",
+    "<b>Звук</b> без гучних колонок",
+    "<b>План</b> на випадок погоди"
+  ],
+  "css": ".p>img{inset:auto;left:0;top:-62px;width:100%;height:700px}"
+}
