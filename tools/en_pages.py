@@ -5200,3 +5200,9 @@ for _k, _v in _CIN.items():
 T_PAGE_ALL['Перевірити <span class="em">дату кінопоказу</span>'] = 'Check <span class="em">the screening date</span>'
 
 T_PAGE_ALL['Глядачі в шезлонгах у навушниках дивляться кіно на великому надувному екрані під час заходу сонця'] = 'Viewers in deckchairs in headphones watch a film on a big inflatable screen at sunset'
+
+T_PAGE_ALL['Глядачі в навушниках SILENT на шезлонгах під пледами з попкорном дивляться вечірній показ'] = 'Viewers in SILENT headphones on deckchairs under blankets with popcorn watch an evening screening'
+T_PAGE_ALL['Глядачі в світних навушниках у шезлонгах на подвір’ї дивляться кіно на великому надувному екрані ввечері'] = 'Viewers in glowing headphones in deckchairs in a courtyard watch a film on a big inflatable screen in the evening'
+
+T_PAGE_ALL['Покажіть фільм у дворі, парку чи на даху без колонок на всю територію: звук надходить у бездротові навушники глядачів. SILENT привезе навушники, налаштує аудіо й подбає про технічну частину звуку. Екран, проєктор і права на показ фільму забезпечує організатор.'] = 'Show a film in a yard, a park or on a rooftop without speakers across the whole area: the sound goes into the viewers’ wireless headphones. SILENT brings the headphones, sets up the audio and takes care of the technical side of the sound. The screen, the projector and the right to show the film are provided by the organiser.'
+T_PAGE_ALL['Так, але вони не входять у послугу SILENT. Дозволи від власника території чи місцевої влади, право на публічний показ фільму, а також екран і проєктор забезпечує організатор. Ми відповідаємо за навушники, налаштування й технічний супровід звуку.'] = 'Yes, but they are not part of the SILENT service. Permits from the owner of the territory or the local authorities, the right to show the film publicly, as well as the screen and the projector, are provided by the organiser. We take care of the headphones, the setup and technical support of the sound.'
