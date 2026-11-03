@@ -1795,19 +1795,19 @@ T_PAGE_ALL = {
 'День народження, вечірка в дитячому клубі чи свято просто неба — Silent Disco перетворює знайому розвагу на гру з музикою. Діти танцюють у бездротових навушниках, перемикаються між трьома музичними каналами й самі обирають, що слухати. А коли час до торта, конкурсів чи розмов, достатньо зняти навушники. SILENT привезе обладнання, усе налаштує та подбає про технічний супровід у Києві й по всій Україні.':
   "A birthday, a party at a kids' club or an open-air celebration: Silent Disco turns a familiar entertainment into a game with music. Children dance in wireless headphones, switch between three music channels and choose what to listen to themselves. And when it is time for the cake, the contests or a chat, it is enough to take the headphones off. SILENT brings the equipment, sets everything up and takes care of the technical support in Kyiv and across Ukraine.",
 '>Три музичні канали<':
-  'Three music channels',
+  '>Three music channels<',
 'Мультфільми, хіти й танцювальна музика — кожен обирає своє.':
   'Cartoons, hits and dance music: everyone picks their own.',
 '>Гучність під контролем<':
-  'Volume under control',
+  '>Volume under control<',
 'Кожен налаштовує комфортний для себе рівень звуку.':
   'Everyone sets a sound level that is comfortable for them.',
 '>Кольори каналів<':
-  'Channel colours',
+  '>Channel colours<',
 'Підсвітка показує, хто слухає той самий канал.':
   'The lights show who is listening to the same channel.',
 '>Від 40 навушників<':
-  'From 40 headphones',
+  '>From 40 headphones<',
 'Мінімальний комплект для дитячого свята.':
   "The minimum set for a kids' party.",
 'Різний вік, різні смаки — і всі разом на одному танцполі.':
@@ -1819,37 +1819,37 @@ T_PAGE_ALL = {
 'Коли час кликати до торта, оголошувати конкурс або просто поговорити, достатньо зняти навушники. Музика не звучить із колонок, тож формат зручний для приміщень, де гучний звук небажаний або обмежений.':
   'When it is time to call everyone to the cake, announce a contest or just talk, it is enough to take the headphones off. The music does not play from speakers, so the format suits rooms where loud sound is unwelcome or restricted.',
 '>Кожна дитина слухає своє<':
-  'Every child listens to their own',
+  '>Every child listens to their own<',
 'Три музичні канали дають змогу обирати різні плейлісти на одному танцполі. Діти самі перемикаються між музикою, а організаторам не потрібно підбирати один плейліст, який сподобається абсолютно всім.':
   'Three music channels let you choose different playlists on one dance floor. Children switch between the music themselves, and organisers do not have to find one playlist that absolutely everyone likes.',
 '>Гучність можна налаштувати<':
-  'The volume can be adjusted',
+  '>The volume can be adjusted<',
 'У навушниках є регулятор та обмежувач гучності. Перед початком ми пояснюємо дітям і дорослим, як користуватися обладнанням.':
   'The headphones have a volume control and a volume limiter. Before the start we explain to children and adults how to use the equipment.',
 '>Легко оголосити конкурс<':
-  'Easy to announce a contest',
+  '>Easy to announce a contest<',
 'Потрібно покликати до торта, почати гру чи привітати іменинника? Діти знімають навушники й чують звичайний голос. А кольорова підсвітка допомагає побачити, хто слухає той самий канал.':
   'Need to call everyone to the cake, start a game or congratulate the birthday child? Children take the headphones off and hear an ordinary voice. And the coloured lights help you see who is listening to the same channel.',
 '>Формат під ваше свято<':
-  'A format for your party',
+  '>A format for your party<',
 'День народження вдома, вечірка в дитячому клубі чи свято на майданчику — узгодимо кількість навушників, тривалість та технічні потреби з урахуванням умов вашої локації.':
   "A birthday at home, a party at a kids' club or a celebration at a venue: we will agree the number of headphones, the duration and the technical needs, taking your location's conditions into account.",
 'Навушники вже підготовлені до роботи, тому дітям не потрібно підключати телефони чи розбиратися в налаштуваннях. Ми підготуємо обладнання, перевіримо його та покажемо, як перемикати канали. Далі кожен зможе обирати музику самостійно.':
   'The headphones are already prepared, so children do not need to connect phones or work through settings. We prepare the equipment, check it and show how to switch channels. After that everyone can choose music on their own.',
 '>Три канали на вибір<':
-  'Three channels to choose from',
+  '>Three channels to choose from<',
 'На різних каналах можуть звучати різні плейлісти: наприклад, пісні з мультфільмів, сучасні хіти та танцювальна музика. Діти можуть перемикатися між ними протягом свята.':
   'Different channels can play different playlists: for example, songs from cartoons, current hits and dance music. Children can switch between them during the party.',
 '>Колір показує вибір<':
-  'Colour shows the choice',
+  '>Colour shows the choice<',
 'Навушники світяться кольором обраного каналу. Діти бачать, хто слухає ту саму музику, а дорослі можуть зорієнтуватися, який канал обрано.':
   'The headphones glow in the colour of the chosen channel. Children see who is listening to the same music, and adults can tell which channel has been chosen.',
 '>Без дротів і складних налаштувань<':
-  'No wires and no complicated setup',
+  '>No wires and no complicated setup<',
 'Не потрібно підключати власний телефон або налаштовувати кожні навушники окремо. Учасники можуть вільно рухатися в межах робочої зони обладнання.':
   "There is no need to connect your own phone or set up each pair of headphones separately. Participants can move freely within the equipment's working area.",
 '>Ми подбаємо про технічну частину<':
-  'We take care of the technical side',
+  '>We take care of the technical side<',
 'Привозимо обладнання, встановлюємо його, перевіряємо сигнал і пояснюємо гостям, як користуватися навушниками. Після свята демонтуємо та забираємо обладнання.':
   'We bring the equipment, set it up, check the signal and explain to the guests how to use the headphones. After the party we dismantle and take the equipment away.',
 'Розкажіть, коли й де плануєте дитяче свято та скільки буде учасників. Ми перевіримо доступність обладнання, допоможемо підібрати комплект і пояснимо наступні кроки.':
@@ -1905,15 +1905,15 @@ T_PAGE_ALL = {
 'День народження, вечірка в дитячому клубі чи свято просто неба — Silent Disco перетворює знайому розвагу на гру з музикою. Діти танцюють у бездротових навушниках, перемикаються між трьома музичними каналами й самі обирають, що слухати. SILENT привезе обладнання, усе налаштує та подбає про технічний супровід у Києві й по всій Україні.':
   "A birthday, a party at a kids' club or an open-air celebration: Silent Disco turns a familiar entertainment into a game with music. Children dance in wireless headphones, switch between three music channels and choose what to listen to themselves. SILENT brings the equipment, sets everything up and takes care of the technical support in Kyiv and across Ukraine.",
 '>Без технічних клопотів<':
-  'No technical hassle',
+  '>No technical hassle<',
 'Привозимо обладнання, встановлюємо його й перевіряємо сигнал. Після свята демонтуємо та забираємо все самі.':
   'We bring the equipment, set it up and check the signal. After the party we dismantle and take everything away ourselves.',
 '>Легко оголосити конкурс<':
-  'Easy to announce a contest',
+  '>Easy to announce a contest<',
 'Потрібно покликати до торта, почати гру чи привітати іменинника? Діти знімають навушники й чують звичайний голос, а потім повертаються до музики.':
   'Need to call everyone to the cake, start a game or congratulate the birthday child? Children take the headphones off and hear an ordinary voice, then go back to the music.',
 '>Перемикайся, коли хочеш<':
-  'Switch whenever you like',
+  '>Switch whenever you like<',
 'Канал можна змінити в будь-який момент свята: коли набридла одна музика або захотілося до друзів на інший канал.':
   'You can change the channel at any moment of the party: when one kind of music gets boring or you want to join friends on another channel.',
 'Діти в навушниках Silent Disco із зеленою, синьою й червоною підсвіткою танцюють на дитячому святі':
@@ -1954,19 +1954,19 @@ T_PAGE_ALL = {
 'Студентська вечірка, випускний чи день факультету, де кожен слухає свою музику й не треба шукати плейліст, який сподобається всім. Гості танцюють у бездротових навушниках, обирають один із трьох музичних каналів і самі налаштовують гучність. SILENT привезе обладнання, усе налаштує та подбає про технічний супровід у Києві й по всій Україні.':
   'A student party, a graduation or a faculty day where everyone listens to their own music and nobody has to look for a playlist everyone likes. Guests dance in wireless headphones, pick one of three music channels and set the volume themselves. SILENT brings the equipment, sets everything up and takes care of the technical support in Kyiv and across Ukraine.',
 '>Три канали<':
-  'Three channels',
+  '>Three channels<',
 'Різні жанри на одному танцполі, кожен обирає своє.':
   'Different genres on one dance floor, everyone picks their own.',
 '>Своя гучність<':
-  'Own volume',
+  '>Own volume<',
 'Регулятор і обмежувач гучності в навушниках кожного.':
   "A volume control and limiter in everyone's headphones.",
 '>Колір каналів<':
-  'Channel colour',
+  '>Channel colour<',
 'Підсвітка показує, хто слухає той самий канал.':
   'The lights show who is listening to the same channel.',
 '>Від 40 штук<':
-  'From 40 units',
+  '>From 40 units<',
 'Мінімальний комплект для вашої студентської події.':
   'The minimum set for your student event.',
 'Вечірка, де кожен слухає своє':
@@ -1988,37 +1988,37 @@ T_PAGE_ALL = {
 'Менше шуму. Більше вечірки.':
   'Less noise. More party.',
 '>Без технічних клопотів<':
-  'No technical hassle',
+  '>No technical hassle<',
 'Привозимо обладнання, встановлюємо його й перевіряємо сигнал. Після події демонтуємо та забираємо все самі.':
   'We bring the equipment, set it up and check the signal. After the event we dismantle and take everything away ourselves.',
 '>Гучність можна налаштувати<':
-  'The volume can be adjusted',
+  '>The volume can be adjusted<',
 'У навушниках є регулятор та обмежувач гучності. Перед початком ми пояснюємо гостям, як користуватися обладнанням.':
   'The headphones have a volume control and a volume limiter. Before the start we explain to guests how to use the equipment.',
 '>Легко оголосити програму<':
-  'Easy to announce the programme',
+  '>Easy to announce the programme<',
 'Потрібно оголосити конкурс, подякувати гостям чи привітати випускників? Гості знімають навушники й чують звичайний голос, а потім повертаються до музики.':
   'Need to announce a contest, thank the guests or congratulate the graduates? Guests take the headphones off and hear an ordinary voice, then go back to the music.',
 '>Формат під вашу подію<':
-  'A format for your event',
+  '>A format for your event<',
 'Вечірка факультету, випускний, день першокурсника чи подія в клубі: узгодимо кількість навушників, тривалість і технічні потреби з урахуванням вашої локації.':
   "A faculty party, a graduation, a freshers' day or an event at a club: we will agree the number of headphones, the duration and the technical needs, taking your location into account.",
 'Навушники вже підготовлені до роботи, тож гостям не потрібно підключати телефони чи розбиратися в налаштуваннях. Ми підготуємо обладнання, перевіримо його та покажемо, як перемикати канали. Далі кожен обирає музику самостійно.':
   'The headphones are already prepared, so guests do not need to connect phones or work through settings. We prepare the equipment, check it and show how to switch channels. After that everyone chooses music on their own.',
 '>Три канали на вибір<':
-  'Three channels to choose from',
+  '>Three channels to choose from<',
 'На різних каналах можуть звучати різні плейлісти: наприклад, рок, хіп-хоп та електронна музика. Гості перемикаються між ними протягом вечора.':
   'Different channels can play different playlists: for example, rock, hip-hop and electronic music. Guests switch between them during the evening.',
 '>Колір показує вибір<':
-  'Colour shows the choice',
+  '>Colour shows the choice<',
 'Навушники світяться кольором обраного каналу. Гості бачать, хто слухає ту саму музику, а організатори можуть зорієнтуватися, який канал обрано.':
   'The headphones glow in the colour of the chosen channel. Guests see who is listening to the same music, and organisers can tell which channel has been chosen.',
 '>Без дротів і складних налаштувань<':
-  'No wires and no complicated setup',
+  '>No wires and no complicated setup<',
 'Не потрібно підключати власний телефон або налаштовувати кожні навушники окремо. Гості можуть вільно рухатися в межах робочої зони обладнання.':
   "There is no need to connect your own phone or set up each pair of headphones separately. Guests can move freely within the equipment's working area.",
 '>Перемикайся, коли хочеш<':
-  'Switch whenever you like',
+  '>Switch whenever you like<',
 'Канал можна змінити в будь-який момент вечора: коли набридла одна музика або захотілося до друзів на інший канал.':
   'You can change the channel at any moment of the evening: when one kind of music gets boring or you want to join friends on another channel.',
 'Розкажіть, коли й де плануєте студентську подію та скільки буде гостей. Ми перевіримо доступність обладнання, допоможемо підібрати комплект і пояснимо наступні кроки.':
