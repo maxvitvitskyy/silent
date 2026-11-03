@@ -290,7 +290,7 @@ T = {
 'Компанія рухається між локаціями зі своєю музикою. Вечірка не закінчується на порозі закладу.': 'The group moves between venues with its own music. The party does not stop at the door.',
 'Готелі й ресорти': 'Hotels and resorts',
 'Вечірка біля басейну чи на терасі, яка не будить гостей у номерах і не впирається в години тиші.': 'A party by the pool or on the terrace that does not wake guests in their rooms or run into quiet hours.',
-'Дівич-вечір': 'Bachelorette party',
+'Дівич-вечір': 'Hen party',
 'Свій плейлист у навушниках і можливість говорити звичайним голосом, не перекрикуючи музику.': 'Your own playlist in the headphones, and the option to talk in a normal voice instead of shouting over the music.',
 'Стендап і комедія': 'Stand-up and comedy',
 'Кожне слово доходить до останнього ряду. Реакція залу не глушить наступну репліку.': 'Every word reaches the back row. The room’s laughter does not drown the next line.',
