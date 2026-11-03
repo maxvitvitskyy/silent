@@ -1,0 +1,27 @@
+{
+  "out": "images/outdoor-cinema/og-outdoor-cinema.jpg",
+  "heading": [
+    "Кіно просто неба",
+    "в навушниках"
+  ],
+  "subtitle": [
+    [
+      "Звук фільму в навушниках глядачів,"
+    ],
+    [
+      "а не з колонок на всю територію."
+    ]
+  ],
+  "pills": [
+    "<b>3</b> аудіоканали",
+    "Від <b>40</b> навушників",
+    "Звук <b>під ключ</b>",
+    "<b>Київ</b> та Україна"
+  ],
+  "template": "template-full-left.html",
+  "bg": {
+    "src": "images/outdoor-cinema/kino-na-vulytsi-pid-hirliandamy.webp",
+    "pos": "50% 45%"
+  },
+  "css": ".p>img{left:470px;right:auto;width:730px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 22%)}.h span+span{font-size:40px;font-weight:400;letter-spacing:-.01em;margin-top:6px} .sub{font-weight:500;margin-top:30px;font-size:23px}"
+}
