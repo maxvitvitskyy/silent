@@ -468,3 +468,7 @@ OG-картка сторінки Silent Disco (09.10.2026) зібрана за `
 
 `/en/about/` генерує `build_about_en()` у `tools/build_en.py` з `about/index.html` (шляхи ../ → ../../, перемикач мови, hreflang, I18N-блок). Власні рядки сторінки лежать у `T_ABOUT` наприкінці `tools/en_pages.py` (окремий словник, щоб не зачепити переклади інших сторінок). Пункт «Про нас» тепер є в англійській шапці й підвалі й веде на `/en/about/` (раніше `strip_blog_mega` його ховав). OG: `tools/og/about-en.json` → `images/about/og-about-en.jpg`. Правиш текст у `about/index.html` — додай/онови ключ у `T_ABOUT`, збірка падає на кирилиці.
 
+
+## Заявка → GA4 generate_lead (03.11.2026)
+
+`sendLeadToGa()` у `assets/site.js` (поруч із `buildLead`): подія шле `lead_id` (той самий, що в таблиці) і `form_type` (slug сторінки: `home`, `outdoor-cinema`…). Тест: `?test_lead=1` (або `?debug=1`) шле замість неї `test_generate_lead` з `debug_mode`, `?test_lead=0` вимикає; прапорець у sessionStorage. Consent Mode на сайті не налаштований (банера нема): якщо з'явиться, `gtag('consent','default',…)` має стояти в `<head>` ДО `gtag('config')`. Браузерну подію підтверджує `event_callback`; не підтвердилась за 3с (блокувальник) — GET-маячок `?ga_fallback=1` на скрипт заявок, а сервер шле Measurement Protocol: код у `tools/lead-apps-script/ga4-fallback.gs`, **у Apps Script ще треба розгорнути** (секрет API лише в Script properties). Скрипт заявок (doPost) у репозиторії відсутній, `tools/dashboard-apps-script` — інший проєкт.

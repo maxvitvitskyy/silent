@@ -4978,7 +4978,7 @@
 
   .lead-modal-text { color: var(--muted); font-size: 14px; }
   .lead-modal-divider {
-    height: 1px; margin: 24px 0 20px;
+    height: 1px; margin: 22px 0 18px;
     background: linear-gradient(90deg, transparent, var(--line) 20%, var(--line) 80%, transparent);
   }
   .lead-modal-sub { color: var(--muted); font-size: 13px; margin-bottom: 16px; }

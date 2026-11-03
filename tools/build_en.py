@@ -319,8 +319,8 @@ T = {
 
 # --- вікно після надсилання заявки ----------------------------------------
 'Заявку прийнято': 'Request received',
-'Дякуємо. Напишемо вам, щойно перевіримо дату — відповідаємо протягом дня.':
-  'Thank you. We will write as soon as we have checked the date, and we answer within the day.',
+'Дякуємо, що обрали SILENT. Напишемо вам протягом дня.':
+  'Thank you for choosing SILENT. We will write to you within the day.',
 
 
 # --- сторінка 404 --------------------------------------------------------
