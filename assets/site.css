@@ -9072,9 +9072,11 @@ html.is-scrolling .hx-overlay { pointer-events: none !important; }
    блоку з перевагами). contain: size не дає її двом високим колонкам
    розтягнути сам рядок: висоту вона бере в рядка, а не навпаки. */
 @media (min-width: 1000px) {
-  .cover-wide .exp-cover-grid { align-items: stretch; }
-  .cover-wide .gallery-columns { height: auto; contain: size; }
+  .exp-cover-gallery .exp-cover-grid { align-items: stretch; }
+  .exp-cover-gallery .gallery-columns { height: auto; contain: size; }
 }
+/* (Правило вище раніше стосувалось лише .cover-wide; тепер усіх сторінок із двома колонками знімків: нижній край
+   стрічки завжди збігається з нижнім краєм карток-фактів ліворуч, хоч скільки рядків у тексті.) */
 
 /* ---------- «Вибір редакції» на телефоні: вертикальна картка 4:5 ----------
    У одну колонку (≤900px) підзаголовок займав майже всю картку й закривав фото. Тепер
