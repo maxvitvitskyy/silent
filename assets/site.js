@@ -3353,19 +3353,35 @@ function orderExperience(name, opts){
         utmCampaign: params.get('utm_campaign') || '',
       };
     }
-    function getTechData(){
-      const ua = navigator.userAgent;
-      let device = 'desktop', os = '', browser = '';
-      if (/mobile|android|iphone|ipod|blackberry/i.test(ua)) device = 'mobile';
-      if (/iphone|mac os/i.test(ua)) os = 'iOS';
+    // os/device/browser з User-Agent. Порядок перевірок важливий, і саме на ньому була помилка: рядок macOS містить
+    // «Mac OS X», а старе правило /iphone|mac os/ позначало iOS-ом кожен Mac. Тепер iOS — лише iPhone/iPad/iPod
+    // (і iPad у режимі «настільного сайту», який видає себе за Macintosh, але має мультитач). Браузер: Edge, Opera,
+    // Chrome на iOS (CriOS) і Firefox на iOS (FxiOS) містять у UA слова Chrome/Safari, тож їх шукаємо ДО них.
+    // Функція чиста (ua, maxTouchPoints на вході), щоб її можна було перевірити на будь-якому UA.
+    function detectTech(ua, touch){
+      ua = ua || '';
+      const isIpad = /ipad/i.test(ua) || (/macintosh/i.test(ua) && touch > 1);
+      const isIphone = /iphone|ipod/i.test(ua);
+      let os = '';
+      if (isIphone || isIpad) os = 'iOS';
       else if (/android/i.test(ua)) os = 'Android';
-      else if (/win/i.test(ua)) os = 'Windows';
+      else if (/windows/i.test(ua)) os = 'Windows';
+      else if (/mac os x|macintosh/i.test(ua)) os = 'macOS';
+      else if (/cros/i.test(ua)) os = 'ChromeOS';
       else if (/linux/i.test(ua)) os = 'Linux';
-      if (/chrome/i.test(ua)) browser = 'Chrome';
-      else if (/firefox/i.test(ua)) browser = 'Firefox';
-      else if (/safari/i.test(ua) && !/chrome/i.test(ua)) browser = 'Safari';
-      else if (/edge/i.test(ua)) browser = 'Edge';
+      let device = 'desktop';
+      if (isIpad || (/android/i.test(ua) && !/mobile/i.test(ua))) device = 'tablet';
+      else if (isIphone || /mobile|android|blackberry/i.test(ua)) device = 'mobile';
+      let browser = '';
+      if (/edg(e|a|ios)?\//i.test(ua)) browser = 'Edge';
+      else if (/opr\/|opera/i.test(ua)) browser = 'Opera';
+      else if (/firefox|fxios/i.test(ua)) browser = 'Firefox';
+      else if (/chrome|crios/i.test(ua)) browser = 'Chrome';
+      else if (/safari/i.test(ua)) browser = 'Safari';
       return { device, os, browser };
+    }
+    function getTechData(){
+      return detectTech(navigator.userAgent, navigator.maxTouchPoints || 0);
     }
     function generateLeadId(){
       return 'lead_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
@@ -3967,6 +3983,13 @@ function orderExperience(name, opts){
       browser: tech.browser || ''
     };
     if (typeof gtag !== 'function') return;
+    // Один lead_id: одна подія generate_lead на вкладку, навіть якщо код надсилання відпрацює вдруге
+    // (подвійний клік, повторний виклик, гонка подій). Прапорець у sessionStorage переживає й перезапуск блоку.
+    const sentKey = 'ga_lead_' + params.lead_id;
+    try {
+      if (!test && sessionStorage.getItem(sentKey)) return;
+      if (!test) sessionStorage.setItem(sentKey, '1');
+    } catch (e) { /* sessionStorage недоступний: лишається прапорець leadEventSent */ }
     if (test){
       // Тест: інша назва події й debug_mode, тож вона видна в DebugView, але не лічиться як generate_lead.
       gtag('event', 'test_generate_lead', Object.assign({ debug_mode: true }, params));
@@ -4114,7 +4137,13 @@ function orderExperience(name, opts){
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(formData),
         mode: 'no-cors'
-      }).then(() => {
+      }).then((res) => {
+        // З mode:'no-cors' відповідь завжди «opaque» і статус недоступний, тож тут перевіряється лише те, що можна:
+        // якщо відповідь прозора (змінили mode на cors, або запит пішов через проксі) і не ok, це помилка, а не успіх:
+        // форма лишається, подія не шлеться. Опак-відповідь вважаємо доставленою (див. коментар вище).
+        if (res && res.type !== 'opaque' && res.ok === false){
+          throw new Error('Сервер заявок відповів ' + res.status);
+        }
         // Клас, а не style.display: поля мусять лишити за собою місце, бо від їхніх
         // прямокутників рахується висота календаря в лівій колонці. Деталі — у
         // коментарі до .form-right у site.css.
