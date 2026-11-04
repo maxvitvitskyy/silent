@@ -5795,3 +5795,24 @@ for _k, _v in [
 # посилання в англійській версії мають префікс /en/ ще до перекладу
 _k = 'Благодійний фестиваль чи ярмарок із вечірньою частиною: тихий танцпол можна додати до програми просто неба. Докладніше: <a href="/experiences/festivals/">Silent Disco на фестивалі</a>.'
 T_PAGE_ALL.setdefault(_en_href(_k), _en_href(T_PAGE_ALL[_k]))
+
+for _k, _v in [
+ ('Афтепаті й благодійна вечірка', 'Afterparty and charity party'),
+ ('Коли промови та основна програма завершуються, простір змінюється на танцпол, а гості обирають музику за настроєм. Так само працює вечірка, на яку гості купують квитки, щоб потанцювати.',
+  'When the speeches and main programme end, the space turns into a dance floor and guests pick music by mood. A party where guests buy tickets to dance works the same way.'),
+ ('Зал, шатро чи просто неба', 'Hall, marquee or outdoors'),
+ ('Тераса, шатро, благодійний фестиваль чи ярмарок із вечірньою частиною: формат можна адаптувати після перевірки умов локації, логістики та технічних можливостей. Докладніше: <a href="/experiences/festivals/">Silent Disco на фестивалі</a>.',
+  'A terrace, marquee, charity festival or fair with an evening part: the format can be adapted after checking venue conditions, logistics and technical options. More: <a href="/experiences/festivals/">Silent Disco at festivals</a>.'),
+]:
+    T_PAGE_ALL.setdefault(_k, _v)
+_k = 'Тераса, шатро, благодійний фестиваль чи ярмарок із вечірньою частиною: формат можна адаптувати після перевірки умов локації, логістики та технічних можливостей. Докладніше: <a href="/experiences/festivals/">Silent Disco на фестивалі</a>.'
+T_PAGE_ALL.setdefault(_en_href(_k), _en_href(T_PAGE_ALL[_k]))
+
+for _k, _v in [
+ ('Ви проводите вечір', 'You host the evening'),
+ ('Гості самі обирають музику, а ви ведете програму й приймаєте гостей. Технічну частину Silent Disco беремо на себе в межах погодженого пакета.',
+  'Guests pick the music themselves while you run the programme and welcome them. We take care of the technical side of Silent Disco within the agreed package.'),
+ ('Узгодимо обсяг послуги, технічні деталі й умови замовлення, після чого підтвердимо бронювання.',
+  'We agree the scope of service, technical details and order terms, then confirm the booking.'),
+]:
+    T_PAGE_ALL.setdefault(_k, _v)
