@@ -5816,3 +5816,19 @@ for _k, _v in [
   'We agree the scope of service, technical details and order terms, then confirm the booking.'),
 ]:
     T_PAGE_ALL.setdefault(_k, _v)
+
+
+# Короткі тексти над калькулятором (04.11.2026)
+for _k, _v in [
+ ('Остаточна вартість залежить від кількості навушників, дати, локації та опцій. Скористайтеся калькулятором або залиште заявку: розрахуємо для вашого вечора.', 'The final price depends on the number of headphones, date, venue and options. Use the calculator or leave a request and we will work it out for your evening.'),
+ ('Для стандартного формату скористайтеся калькулятором. Якщо потрібні додаткові аудіопотоки, переклад чи особливі технічні вимоги, вартість узгоджуємо індивідуально.', 'For a standard format, use the calculator. If you need extra audio streams, interpretation or special technical requirements, we agree the price individually.'),
+ ('Орієнтовний бюджет покаже калькулятор. Потрібно більше навушників чи додатковий час? Залиште заявку: перевіримо доступність обладнання й уточнимо вартість.', 'The calculator shows an approximate budget. Need more headphones or extra time? Leave a request and we will check equipment availability and confirm the price.'),
+ ('Орієнтовний бюджет покаже калькулятор. Виїзд за межі Києва та додаткові опції можуть змінити остаточну вартість, її уточнимо після заявки.', 'The calculator shows an approximate budget. Travel outside Kyiv and extra options can change the final price, which we confirm after your request.'),
+ ('Остаточна вартість залежить від кількості навушників, тривалості та локації. Порахуйте орієнтир у калькуляторі або залиште заявку.', 'The final price depends on the number of headphones, duration and venue. Work out a guide figure in the calculator or leave a request.'),
+ ('Остаточна вартість залежить від кількості навушників, тривалості та локації. Розрахуй свій варіант або залиш заявку.', 'The final price depends on the number of headphones, duration and venue. Work out your own option or leave a request.'),
+ ('Вартість залежить від кількості навушників і тривалості. Доставка, встановлення, підтримка й демонтаж входять у погоджений пакет.', 'The price depends on the number of headphones and duration. Delivery, setup, support and dismantling are part of the agreed package.'),
+ ('Орієнтир покаже калькулятор. Окрема зона чи вечірня активність? Опишіть сценарій у заявці, підберемо комплект.', 'The calculator gives a guide figure. A separate zone or an evening activity? Describe the scenario in your request and we will pick a set.'),
+ ('Орієнтир покаже калькулятор. Не впевнені, який комплект потрібен? Залиште заявку, допоможемо підібрати.', 'The calculator gives a guide figure. Not sure which set you need? Leave a request and we will help you choose.'),
+ ('Вартість залежить від кількості навушників, тривалості й технічних потреб. Розкажіть про ваш формат, погодимо конфігурацію.', 'The price depends on the number of headphones, duration and technical needs. Tell us about your format and we will agree the configuration.'),
+]:
+    T_PAGE_ALL.setdefault(_k, _v)
