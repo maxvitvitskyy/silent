@@ -1,0 +1,27 @@
+{
+  "out": "images/charity/og-charity-en.jpg",
+  "heading": [
+    "Charity gala",
+    "in headphones"
+  ],
+  "subtitle": [
+    [
+      "The programme stays clear,"
+    ],
+    [
+      "and dancing never drowns out talk."
+    ]
+  ],
+  "pills": [
+    "<b>3</b> music channels",
+    "From <b>40</b> headphones",
+    "<b>Turnkey</b> service",
+    "<b>Kyiv</b> &amp; Ukraine"
+  ],
+  "template": "template-full-left.html",
+  "bg": {
+    "src": "images/charity/halavechir-zal-zi-stsenoiu.webp",
+    "pos": "50% 50%"
+  },
+  "css": ".p>img{left:400px;right:auto;width:800px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%)}.h span+span{font-size:40px;font-weight:400;letter-spacing:-.01em;margin-top:6px} .sub{font-weight:500;margin-top:30px;font-size:23px}"
+}

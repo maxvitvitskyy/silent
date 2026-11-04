@@ -5456,3 +5456,152 @@ for _k, _v in _CINEN3.items():
     T_PAGE_ALL[_k] = _v
     if '<a href="/' in _k:
         T_PAGE_ALL[_en_href(_k)] = _en_href(_v)
+
+# Кіно просто неба: речення про екран/проєктор/права прибрано з першого екрана (лишилось у FAQ)
+T_PAGE_ALL['Проведіть кінопоказ у дворі, парку, на даху чи іншій локації зі звуком у бездротових навушниках. SILENT доставить обладнання, підключить його до джерела аудіо та налаштує звук для глядачів.'] = 'Hold a screening in a yard, a park, on a rooftop or in another location with the sound in wireless headphones. SILENT delivers the equipment, connects it to the audio source and sets up the sound for the viewers.'
+T_PAGE_ALL['>Проведіть кінопоказ у дворі, парку, на даху чи іншій локації зі звуком у бездротових навушниках. SILENT доставить обладнання, підключить його до джерела аудіо та налаштує звук для глядачів.<'] = '>Hold a screening in a yard, a park, on a rooftop or in another location with the sound in wireless headphones. SILENT delivers the equipment, connects it to the audio source and sets up the sound for the viewers.<'
+T_PAGE_ALL['Так, але вони не входять у послугу SILENT. Дозволи від власника території чи місцевої влади, право на публічний показ фільму, а також екран, проєктор і відеосигнал забезпечує організатор. Ми відповідаємо за навушники, налаштування й технічний супровід звуку.'] = 'Yes, but they are not part of the SILENT service. Permits from the owner of the territory or the local authorities, the right to show the film publicly, as well as the screen, the projector and the video signal, are provided by the organiser. We take care of the headphones, the setup and technical support of the sound.'
+
+
+# --- Сторінка «Благодійні гала» (experiences/charity/): рядки лише цієї сторінки
+_CHAR = [
+ ('Silent Disco на благодійне гала — ціна та замовлення | SILENT', 'Silent Disco for a charity gala: price and booking | SILENT'),
+ ('Silent Disco для благодійного гала у Києві та по Україні: програма в навушниках, танці після неї. 3 музичні канали, організація під ключ. Від 12 000 грн.',
+  'Silent Disco for a charity gala in Kyiv and across Ukraine: the programme in headphones, dancing after it. 3 music channels, turnkey service. From UAH 12,000.'),
+ ('Гості у вечірніх нарядах танцюють у світних навушниках Silent Disco на благодійному гала', 'Guests in evening wear dance in glowing Silent Disco headphones at a charity gala'),
+ ('Silent Disco на благодійне гала', 'Silent Disco for a charity gala'),
+ ('Оренда бездротових навушників для благодійних вечорів і гала', 'Wireless headphone rental for charity evenings and galas'),
+ ('Організатори благодійних гала й вечорів', 'Organisers of charity galas and evenings'),
+ ('Благодійні гала', 'Charity galas'),
+ ('Благодійне гала в навушниках', 'Charity gala in headphones'),
+ ('Благодійний вечір, де програму чути чітко, а танці не перекривають розмови. Музика звучить у бездротових навушниках гостей, а не з колонок. SILENT привезе навушники, налаштує звук і подбає про технічну частину.',
+  'A charity evening where the programme is heard clearly and the dancing does not drown out conversation. Music plays in your guests’ wireless headphones, not from speakers. SILENT brings the headphones, sets up the sound and takes care of the technical side.'),
+ ('Замовити для гала', 'Book for your gala'),
+ ('Кожен гість обирає свій настрій.', 'Every guest picks their own mood.'),
+ ('Зал чи просто неба', 'Hall or outdoors'),
+ ('Зал, шатро, літній майданчик.', 'Hall, marquee, summer terrace.'),
+ ('Ви з гостями, ми зі звуком.', 'You host, we run the sound.'),
+ ('Гості за столиками дивляться на сцену в залі благодійного гала зі світлом і екраном', 'Guests at tables watch the stage in a charity gala hall with lights and a screen'),
+ ('Усміхнена пара в святковому вбранні у світних навушниках Silent Disco на гала', 'A smiling couple in formal wear in glowing Silent Disco headphones at a gala'),
+ ('Світні навушники Silent Disco на святковому столі гала-вечора', 'Glowing Silent Disco headphones on a gala dinner table'),
+ ('Тиша для промов. Музика для танців.', 'Quiet for the speeches. Music for the dancing.'),
+ ('Благодійне гала має дві частини, яким потрібне різне. Промови, аукціон і розмови з гостями потребують тиші. Танці потребують музики.',
+  'A charity gala has two parts that need different things. Speeches, the auction and conversations with guests need quiet. Dancing needs music.'),
+ ('Silent Disco — це формат, у якому музика звучить не з колонок, а в бездротових навушниках кожного гостя: є три канали з різною музикою, які перемикаються одним дотиком. Так в одному залі вистачає місця і розмовам, і танцям.',
+  'Silent Disco is a format where the music plays not from speakers but in each guest’s wireless headphones: there are three channels with different music, switched with one touch. So one room has space for both conversation and dancing.'),
+ ('Програма звучить чітко', 'The programme sounds clear'),
+ ('Промови, аукціон і подяки можна подати в навушники, тож їх чути з будь-якого місця залу. Попередьте команду, і ми налаштуємо звук.',
+  'Speeches, the auction and thank-yous can be sent to the headphones, so they are heard from anywhere in the hall. Tell our team in advance and we will set up the sound.'),
+ ('Танці без гучних колонок', 'Dancing without loud speakers'),
+ ('Після програми гості вмикають музику в навушниках: хтось обирає хіти, хтось електроніку, хтось спокійніший канал.',
+  'After the programme guests switch on the music in their headphones: some choose hits, some electronic, some a calmer channel.'),
+ ('Гучність обирає кожен', 'Everyone sets their own volume'),
+ ('Кожен гість сам регулює гучність, тож вечір комфортний і для тих, хто не любить гучну музику.',
+  'Each guest adjusts the volume themselves, so the evening is comfortable for those who dislike loud music too.'),
+ ('Розмови залишаються', 'Conversation stays'),
+ ('Щоб поговорити з гостем чи партнером, достатньо зняти навушники.', 'To talk to a guest or a partner, just take the headphones off.'),
+ ('Сценарії', 'Scenarios'),
+ ('Для яких благодійних вечорів це працює?', 'Which charity evenings does this suit?'),
+ ('Від офіційного гала з аукціоном до вечірки після програми. Оберіть сценарій, який найближчий до вашого заходу.',
+  'From a formal gala with an auction to a party after the programme. Pick the scenario closest to your event.'),
+ ('Гала-вечір з аукціоном', 'Gala dinner with an auction'),
+ ('Програма, промови й аукціон звучать у навушниках кожного гостя, тож нікому не треба перекрикувати зал.',
+  'The programme, speeches and auction play in every guest’s headphones, so nobody has to shout over the room.'),
+ ('Гості у вечірніх сукнях і смокінгах танцюють у навушниках Silent Disco після офіційної частини',
+  'Guests in evening dresses and tuxedos dance in Silent Disco headphones after the formal part'),
+ ('Афтепаті після програми', 'Afterparty after the programme'),
+ ('Коли офіційна частина завершилась, вечір продовжують танці. Гості обирають канал за настроєм, а ті, хто хоче поговорити, просто знімають навушники.',
+  'When the formal part is over, the evening continues with dancing. Guests choose a channel by mood, and those who want to talk simply take the headphones off.'),
+ ('Пара танцює під дзеркальною кулею в шатрі у світних навушниках Silent Disco', 'A couple dances under a mirror ball in a marquee in glowing Silent Disco headphones'),
+ ('Благодійна вечірка з квитками', 'Ticketed charity party'),
+ ('Вечір, на який гості купують квитки й приходять танцювати. Три канали дають кожному свою музику, а формат виглядає незвично й запам’ятовується.',
+  'An evening where guests buy tickets and come to dance. Three channels give everyone their own music, and the format looks unusual and stays in memory.'),
+ ('Подруги у вечірніх сукнях сміються й розмовляють у світних навушниках Silent Disco', 'Friends in evening dresses laugh and talk in glowing Silent Disco headphones'),
+ ('Вечір подяки волонтерам і партнерам', 'Thank-you evening for volunteers and partners'),
+ ('Камерний вечір для команди, волонтерів і тих, хто підтримав збір. Слова подяки лунають чітко, а після них можна потанцювати разом.',
+  'An intimate evening for the team, volunteers and those who supported the fundraiser. Words of thanks are heard clearly, and afterwards you can dance together.'),
+ ('Дівчина в світних навушниках стоїть перед натовпом гостей із синьою підсвіткою навушників уночі',
+  'A girl in glowing headphones stands before a crowd of guests with blue-lit headphones at night'),
+ ('Захід там, де діють обмеження щодо шуму', 'An event where noise limits apply'),
+ ('Музика в навушниках зменшує звук для оточення. Розмови й оплески залишаються чутними, тому умови локації варто уточнити заздалегідь. Допоможемо узгодити технічну частину.',
+  'Music in headphones lowers the sound for the surroundings. Conversation and applause stay audible, so it is worth checking the venue’s conditions in advance. We will help agree the technical side.'),
+ ('Усміхнена дівчина танцює вночі просто неба в навушниках Silent Disco з червоною підсвіткою', 'A smiling girl dances outdoors at night in Silent Disco headphones with red lighting'),
+ ('Збір просто неба', 'Outdoor fundraiser'),
+ ('Благодійний фестиваль чи ярмарок із вечірньою частиною: тихий танцпол можна розгорнути й там, де колонки недоречні. Докладніше про формат: <a href="/experiences/festivals/">Silent Disco на фестивалі</a>.',
+  'A charity festival or fair with an evening part: a silent dance floor can be set up even where speakers are out of place. More on the format: <a href="/experiences/festivals/">Silent Disco at festivals</a>.'),
+ ('Ви збираєте гостей. Ми подбаємо про звук.', 'You bring the guests. We take care of the sound.'),
+ ('Організація благодійного вечора має багато деталей, і звук не повинен бути ще однією. Вам не потрібно шукати обладнання, налаштовувати аудіосистему чи організовувати технічний процес.',
+  'A charity evening has plenty of details, and sound should not be one more. You do not need to find equipment, set up an audio system or run the technical process.'),
+ ('Підготуємо навушники, узгодимо музику й те, що має звучати в навушниках: лише танці чи ще й програма вечора.',
+  'We prepare the headphones and agree the music and what should play in them: dancing only, or the evening’s programme as well.'),
+ ('Гості у смарагдових сукнях і смокінгах танцюють у світних навушниках Silent Disco на гала', 'Guests in emerald dresses and tuxedos dance in glowing Silent Disco headphones at a gala'),
+ ('Пара в жовтій сукні сміється під дзеркальною кулею у світних навушниках Silent Disco', 'A couple in a yellow dress laughs under a mirror ball in glowing Silent Disco headphones'),
+ ('Три світні навушники Silent Disco на святковому столі з квітами та келихами', 'Three glowing Silent Disco headphones on a festive table with flowers and glasses'),
+ ('Одягнули навушники — і вечір почався', 'Headphones on, and the evening begins'),
+ ('Музика звучить безпосередньо в навушниках. Кожен гість обирає канал і комфортну гучність, а весь зал залишається разом.',
+  'The music plays directly in the headphones. Each guest picks a channel and a comfortable volume, while the whole room stays together.'),
+ ('Кожен гість отримує підготовлені бездротові навушники.', 'Each guest receives prepared wireless headphones.'),
+ ('Перемикайтеся між трьома музичними каналами та знаходьте свою музику.', 'Switch between three music channels and find your music.'),
+ ('Кожен гість встановлює комфортний для себе рівень гучності.', 'Each guest sets a volume that suits them.'),
+ ('Танцюйте й спілкуйтесь', 'Dance and talk'),
+ ('Слухайте музику та танцюйте. Щоб поговорити з гостями, просто зніміть навушники.', 'Listen and dance. To talk to guests, just take the headphones off.'),
+ ('Від задуму до вашого гала', 'From idea to your gala'),
+ ('Не потрібно мати готовий сценарій вечора. Розкажіть про захід, і ми допоможемо організувати звук у навушниках.',
+  'You do not need a ready-made programme. Tell us about the event and we will help organise the sound in headphones.'),
+ ('Світні навушники Silent Disco на святковому столі з квітами для благодійного гала', 'Glowing Silent Disco headphones on a festive table with flowers for a charity gala'),
+ ('Розкажіть про захід', 'Tell us about the event'),
+ ('Вкажіть бажану дату, локацію та приблизну кількість гостей.', 'Give the date you want, the location and the approximate number of guests.'),
+ ('Обговоримо, що звучатиме в навушниках: лише музика чи ще й програма вечора, а також тривалість, кількість навушників і вартість.',
+  'We will discuss what plays in the headphones: music only or the evening’s programme as well, plus duration, number of headphones and price.'),
+ ('Вечір', 'Evening'),
+ ('Час для вашого вечора', 'Time for your evening'),
+ ('Зустрічайте гостей і ведіть програму. Технічну частину звуку беремо на себе в межах погодженого пакета.',
+  'Welcome your guests and run the programme. We take care of the technical side of the sound within the agreed package.'),
+ ('Silent Disco можна адаптувати не лише до благодійних вечорів, а й до <a href="/experiences/corporate/">корпоративів</a>, <a href="/experiences/conferences/">конференцій</a>, <a href="/experiences/festivals/">фестивалів</a> і приватних свят. Оберіть формат, який найближчий до вашої події.',
+  'Silent Disco can be adapted not only to charity evenings but also to <a href="/experiences/corporate/">corporate events</a>, <a href="/experiences/conferences/">conferences</a>, <a href="/experiences/festivals/">festivals</a> and private celebrations. Pick the format closest to your event.'),
+ ('Що варто знати перед благодійним гала в навушниках?', 'What to know before a charity gala in headphones'),
+ ('Що таке Silent Disco на благодійному гала?', 'What is Silent Disco at a charity gala?'),
+ ('Це формат, у якому музика звучить не з колонок, а в бездротових навушниках гостей. Є три музичні канали, між якими можна перемикатися. Після офіційної частини гості танцюють кожен під свою музику, а розмови й програма не змагаються з гучним звуком. Докладніше про формат: <a href="/experiences/silent-disco/">що таке Silent Disco</a>.',
+  'It is a format where music plays not from speakers but in guests’ wireless headphones. There are three music channels to switch between. After the formal part guests dance each to their own music, and conversation and the programme do not compete with loud sound. More on the format: <a href="/experiences/silent-disco/">what Silent Disco is</a>.'),
+ ('Скільки коштує Silent Disco для благодійного вечора?', 'How much does Silent Disco cost for a charity evening?'),
+ ('Базовий комплект SILENT коштує від 12 000 грн за 40 навушників на 4 години. Фінальна вартість залежить від кількості гостей, тривалості, локації та додаткових опцій. Орієнтир можна отримати через калькулятор.',
+  'The basic SILENT set starts from UAH 12,000 for 40 headphones for 4 hours. The final price depends on the number of guests, duration, venue and extra options. You can get a guide figure with the calculator.'),
+ ('Скільки гостей може бути?', 'How many guests can take part?'),
+ ('Чи можна подати в навушники промови й аукціон?', 'Can speeches and the auction be sent to the headphones?'),
+ ('Так. Голос ведучого, промови й оголошення можна подати в навушники разом із музикою. Попередьте команду, і ми налаштуємо звук.',
+  'Yes. The host’s voice, speeches and announcements can be sent to the headphones along with the music. Tell our team and we will set up the sound.'),
+ ('Чи підійде формат гостям, які не люблять гучну музику?', 'Does the format suit guests who dislike loud music?'),
+ ('Кожен гість сам регулює гучність у своїх навушниках, тож вечір комфортніший для тих, кому важко на гучних заходах. Щоб поговорити, навушники можна будь-коли зняти.',
+  'Each guest adjusts the volume in their own headphones, so the evening is more comfortable for those who find loud events hard. To talk, the headphones can be taken off at any time.'),
+ ('Чи можна провести гала в залі з обмеженнями щодо шуму?', 'Can the gala be held in a venue with noise limits?'),
+ ('Музика в навушниках зменшує звук для оточення, проте розмови, оплески й спів гостей залишаються чутними. Тому умови локації варто уточнити заздалегідь. Допоможемо узгодити технічні умови.',
+  'Music in headphones lowers the sound for the surroundings, but conversation, applause and guests’ singing stay audible. So it is worth checking the venue’s conditions in advance. We will help agree the technical conditions.'),
+ ('Як забронювати Silent Disco для гала?', 'How do I book Silent Disco for a gala?'),
+ ('Залиште заявку із бажаною датою, локацією та кількістю гостей. Ми перевіримо доступність обладнання, уточнимо деталі й повідомимо вартість. Бронювання підтверджується відповідно до погоджених умов оплати.',
+  'Leave a request with your date, location and number of guests. We will check equipment availability, clarify the details and tell you the price. The booking is confirmed according to the agreed payment terms.'),
+ ('Зробіть своє гала особливим', 'Make your gala special'),
+ ('Розкажіть, який благодійний вечір плануєте. Допоможемо підібрати формат, узгодити деталі й перевірити доступність дати.',
+  'Tell us what charity evening you are planning. We will help pick the format, agree the details and check date availability.'),
+ ('Скільки коштує Silent Disco на благодійне гала?', 'How much does Silent Disco cost for a charity gala?'),
+ ('Перевірити <span class="em">дату гала</span>', 'Check <span class="em">your gala date</span>'),
+ ('Благодійне гала', 'Charity gala'),
+]
+for _k, _v in _CHAR:
+    # короткі рядки — лише у формі '>текст<', щоб не зіпсувати довші тексти підрядком
+    _forms = [('>' + _k + '<', '>' + _v + '<')]
+    if len(_k) >= 30:
+        _forms.append((_k, _v))
+    for _kk, _vv in _forms:
+        T_PAGE_ALL.setdefault(_kk, _vv)
+        if '<a href="/' in _kk:
+            T_PAGE_ALL.setdefault(_en_href(_kk), _en_href(_vv))
+    _pk = _re_hp.sub(r'<[^>]+>', '', _k)
+    if _pk != _k:
+        T_PAGE_ALL.setdefault(_pk, _re_hp.sub(r'<[^>]+>', '', _v))
+
+for _k, _v in [
+ ('Ні, не обов’язково. Музичні добірки можна підготувати заздалегідь. Якщо потрібен живий DJ-сет, його можливість і умови узгоджуються окремо.',
+  'No, not necessarily. Music selections can be prepared in advance. If you want a live DJ set, its availability and terms are agreed separately.'),
+ ('Гості за столиками дивляться на сцену в залі благодійного гала', 'Guests at tables watch the stage in a charity gala hall'),
+]:
+    T_PAGE_ALL.setdefault(_k, _v)
