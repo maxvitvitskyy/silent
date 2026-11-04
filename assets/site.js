@@ -4968,6 +4968,8 @@ function orderExperience(name, opts){
         const r = card.getBoundingClientRect();
         card.style.setProperty('--spot-x', (cx - r.left).toFixed(1) + 'px');
         card.style.setProperty('--spot-y', (cy - r.top).toFixed(1) + 'px');
+        // Частка висоти (0–100%) — для змішування двох кольорів дуги на «Досвіді гостя».
+        card.style.setProperty('--spot-t', Math.max(0, Math.min(100, (cy - r.top) / r.height * 100)).toFixed(1) + '%');
       }
 
       document.addEventListener('pointermove', function(e){
@@ -4979,6 +4981,7 @@ function orderExperience(name, opts){
           if (card){
             card.style.removeProperty('--spot-x');
             card.style.removeProperty('--spot-y');
+            card.style.removeProperty('--spot-t');
           }
           card = hit;
         }

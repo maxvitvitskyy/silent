@@ -5832,3 +5832,6 @@ for _k, _v in [
  ('Вартість залежить від кількості навушників, тривалості й технічних потреб. Розкажіть про ваш формат, погодимо конфігурацію.', 'The price depends on the number of headphones, duration and technical needs. Tell us about your format and we will agree the configuration.'),
 ]:
     T_PAGE_ALL.setdefault(_k, _v)
+
+
+T_PAGE_ALL.setdefault(">Ви на події. Ми на звуці.<", ">You run the event. We run the sound.<")
