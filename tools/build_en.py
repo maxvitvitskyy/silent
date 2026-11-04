@@ -484,8 +484,8 @@ T = {
 'Навушники на шию — і розмова йде звичайним голосом. Без «що?» і «повтори!» крізь гуркіт колонок.':
   'Headphones down to the neck and the conversation runs at a normal voice. No “what?” or “say that again!” over booming speakers.',
 'LED-візуал у кожному кадрі': 'LED visuals in every shot',
-'Підсвітка на кожному гості перетворює зал на готову картинку. Фото й відео виходять яскравими без окремого світлового обладнання.':
-  'The glow on every guest turns the room into a ready-made picture. Photos and video come out bright with no separate lighting rig.',
+'Підсвітка на кожному гості перетворює зал на готову картинку. Фото й відео виходять дуже яскравими й атмосферними.':
+  'The glow on every guest turns the room into a ready-made picture. Photos and video come out vivid and atmospheric.',
 'Формат, якого ще не бачили': "A format they haven't seen before",
 'Танці «в тиші» — незвичне відчуття вже з перших хвилин. Гості проводять час не так, як на звичайній вечірці.':
   "Dancing “in silence” feels unfamiliar from the first minutes. Guests spend the evening in a way they simply don't at an ordinary party.",

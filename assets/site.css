@@ -9450,3 +9450,21 @@ body:has(.legal-toc){overflow-x:clip}
     radial-gradient(closest-side at 72% 40%, rgba(255,47,208,0.24), transparent 80%),
     radial-gradient(closest-side at 62% 78%, rgba(255,47,208,0.16), transparent 80%);
 }
+
+/* Пульсація сяйва за іконками «Досвіду гостя»: повільне «дихання» — яскравість
+   і розмір підсвітки (лише opacity/transform, без перемальовки розмиття).
+   Фази різні в кожної картки, щоб шість сяйв не билися в унісон. Не
+   рухається при prefers-reduced-motion і поки відкрите мобільне меню. */
+@keyframes artPulse {
+  0%, 100% { opacity: 0.55; transform: scale(0.92); }
+  50%      { opacity: 1;    transform: scale(1.12); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .benefit-card .b-art::before { animation: artPulse 3.6s ease-in-out infinite; }
+  .benefits-grid .benefit-card:nth-child(2) .b-art::before { animation-duration: 4.2s; animation-delay: -1.1s; }
+  .benefits-grid .benefit-card:nth-child(3) .b-art::before { animation-duration: 3.9s; animation-delay: -2.3s; }
+  .benefits-grid .benefit-card:nth-child(4) .b-art::before { animation-duration: 4.5s; animation-delay: -0.6s; }
+  .benefits-grid .benefit-card:nth-child(5) .b-art::before { animation-duration: 3.4s; animation-delay: -1.8s; }
+  .benefits-grid .benefit-card:nth-child(6) .b-art::before { animation-duration: 4.0s; animation-delay: -2.9s; }
+  html.menu-open .benefit-card .b-art::before { animation-play-state: paused; }
+}
