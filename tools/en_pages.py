@@ -5745,3 +5745,53 @@ for _k, _v in _CHAR2:
     _pk = _re_hp.sub(r'<[^>]+>', '', _k)
     if _pk != _k:
         T_PAGE_ALL.setdefault(_pk, _re_hp.sub(r'<[^>]+>', '', _v))
+
+for _k, _v in [
+ ('Що потрібно узгодити щодо звуку перед гала?', 'What should be agreed about sound before the gala?'),
+ ('Чи потрібна передача промов або оголошень у навушники, які джерела звуку підключати, як працюватиме мікрофон і хто керуватиме переходами між частинами програми. Також узгоджуємо, як Silent Disco взаємодіятиме з основною AV-командою та обладнанням локації.',
+  'Whether speeches or announcements need to be sent to the headphones, which sound sources to connect, how the microphone will work and who will manage the transitions between parts of the programme. We also agree how Silent Disco will work with the main AV team and the venue’s equipment.'),
+ ('Чи забезпечує SILENT звук і техніку всього гала?', 'Does SILENT provide the sound and equipment for the whole gala?'),
+ ('Ні. SILENT відповідає за Silent Disco: навушники, музичні канали та їхнє налаштування. Основна звукова система, сценічне обладнання, трансляція й інша AV-техніка забезпечуються окремо, якщо інше не погоджено в замовленні.',
+  'No. SILENT is responsible for Silent Disco: the headphones, music channels and their setup. The main sound system, stage equipment, broadcast and other AV equipment are provided separately unless agreed otherwise in the order.'),
+]:
+    T_PAGE_ALL.setdefault(_k, _v)
+
+for _k, _v in [
+ ('Музика не заповнює весь простір залу, тому формат може бути доречним у локаціях з обмеженнями щодо гучності. Умови локації перевіряємо заздалегідь.',
+  'Music does not fill the whole room, so the format can suit venues with volume restrictions. We check the venue conditions in advance.'),
+ ('Різні смаки й покоління гостей — на одному танцполі: кожен слухає своє, і нікому не доводиться домовлятися про одну музику.',
+  'Different tastes and generations on one dance floor: everyone listens to their own, and nobody has to agree on one kind of music.'),
+ ('Поєднайте офіційну програму, благодійний аукціон і вечірні танці: після останнього лота гості переходять до музики.',
+  'Combine the formal programme, a charity auction and evening dancing: after the last lot guests move on to the music.'),
+ ('Коли промови та основна програма завершуються, простір змінюється на танцпол, а гості обирають музику за настроєм.',
+  'When the speeches and main programme end, the space turns into a dance floor and guests pick music by mood.'),
+ ('Незвичний формат вечора з музикою в навушниках: гості приходять потанцювати й залишаються частиною спільної події.',
+  'An unusual evening format with music in headphones: guests come to dance and stay part of one shared event.'),
+ ('Підберемо кількість навушників і комплектацію під ваш формат вечора та підготуємо обладнання.',
+  'We pick the number of headphones and the set that fits your evening format and prepare the equipment.'),
+]:
+    T_PAGE_ALL.setdefault(_k, _v)
+
+for _k, _v in [
+ ('Дві частини вечора в одному залі', 'Two parts of the evening in one room'),
+ ('Від офіційної програми до танців без зміни локації: гості не розходяться, а вечір не розпадається на дві події.',
+  'From the formal programme to dancing without changing venue: guests stay together and the evening does not split into two events.'),
+ ('Благодійний фестиваль чи ярмарок із вечірньою частиною: тихий танцпол можна додати до програми просто неба. Докладніше: <a href="/experiences/festivals/">Silent Disco на фестивалі</a>.',
+  'A charity festival or fair with an evening part: a silent dance floor can be added to an outdoor programme. More: <a href="/experiences/festivals/">Silent Disco at festivals</a>.'),
+ ('Підготуємо розрахунок за вашими параметрами та перевіримо, чи вільне обладнання на дату.', 'We prepare a quote for your parameters and check that the equipment is free on the date.'),
+ ('Чи можна поєднати Silent Disco з аукціоном і промовами?', 'Can Silent Disco be combined with an auction and speeches?'),
+ ('Так, формат можна розглянути для події з аукціоном. Чи передавати промови, оголошення й ставки в навушники, залежить від конфігурації та підключення звукових джерел, тому це потрібно погодити до замовлення. Також узгоджуємо, як працюватиме мікрофон, хто керуватиме переходами між частинами програми та як Silent Disco взаємодіятиме з основною AV-командою й обладнанням локації.',
+  'Yes, the format can be considered for an event with an auction. Whether speeches, announcements and bids are sent to the headphones depends on the configuration and how the sound sources are connected, so it must be agreed before the order. We also agree how the microphone will work, who will manage transitions between parts of the programme and how Silent Disco will work with the main AV team and the venue’s equipment.'),
+ ('Чи складно гостям користуватися навушниками?', 'Is it hard for guests to use the headphones?'),
+ ('Ні. Гість одягає навушники, перемикає канал одним дотиком і сам регулює гучність. Якщо потрібно, наша команда допоможе гостям на місці в межах погодженого супроводу.',
+  'No. A guest puts the headphones on, switches channel with one touch and sets the volume themselves. If needed, our team will help guests on site within the agreed support.'),
+ ('Чи можна замовити більше ніж 40 навушників?', 'Can I order more than 40 headphones?'),
+ ('Як швидко отримати орієнтир щодо вартості?', 'How can I quickly get a price estimate?'),
+ ('Скористайтеся калькулятором на цій сторінці або залиште заявку з датою, локацією та кількістю гостей — підготуємо розрахунок.',
+  'Use the calculator on this page or leave a request with the date, venue and number of guests, and we will prepare a quote.'),
+]:
+    T_PAGE_ALL.setdefault(_k, _v)
+
+# посилання в англійській версії мають префікс /en/ ще до перекладу
+_k = 'Благодійний фестиваль чи ярмарок із вечірньою частиною: тихий танцпол можна додати до програми просто неба. Докладніше: <a href="/experiences/festivals/">Silent Disco на фестивалі</a>.'
+T_PAGE_ALL.setdefault(_en_href(_k), _en_href(T_PAGE_ALL[_k]))
