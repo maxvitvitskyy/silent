@@ -1,3 +1,32 @@
+/* Власні шрифти (assets/fonts, змінні woff2 із Google Fonts, лише cyrillic/latin і їхні -ext).
+   Раніше йшли з fonts.googleapis.com: два додаткові з'єднання й ланцюжок CSS → woff2 перед
+   першим текстом. unicode-range змушує завантажувати тільки ті файли, чиї символи є на сторінці
+   (₴ живе в cyrillic-ext). Ті, що потрібні першому екрану, preload-яться в <head> кожної сторінки. */
+@font-face { font-family: 'Lora'; font-style: italic; font-weight: 400 600; font-display: swap;
+  src: url(fonts/lora-italic-cyrillic-ext.woff2) format('woff2'); unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F; }
+@font-face { font-family: 'Lora'; font-style: italic; font-weight: 400 600; font-display: swap;
+  src: url(fonts/lora-italic-cyrillic.woff2) format('woff2'); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: 'Lora'; font-style: italic; font-weight: 400 600; font-display: swap;
+  src: url(fonts/lora-italic-latin-ext.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Lora'; font-style: italic; font-weight: 400 600; font-display: swap;
+  src: url(fonts/lora-italic-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Manrope'; font-style: normal; font-weight: 200 800; font-display: swap;
+  src: url(fonts/manrope-cyrillic-ext.woff2) format('woff2'); unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F; }
+@font-face { font-family: 'Manrope'; font-style: normal; font-weight: 200 800; font-display: swap;
+  src: url(fonts/manrope-cyrillic.woff2) format('woff2'); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: 'Manrope'; font-style: normal; font-weight: 200 800; font-display: swap;
+  src: url(fonts/manrope-latin-ext.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Manrope'; font-style: normal; font-weight: 200 800; font-display: swap;
+  src: url(fonts/manrope-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Unbounded'; font-style: normal; font-weight: 300 800; font-display: swap;
+  src: url(fonts/unbounded-cyrillic-ext.woff2) format('woff2'); unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F; }
+@font-face { font-family: 'Unbounded'; font-style: normal; font-weight: 300 800; font-display: swap;
+  src: url(fonts/unbounded-cyrillic.woff2) format('woff2'); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: 'Unbounded'; font-style: normal; font-weight: 300 800; font-display: swap;
+  src: url(fonts/unbounded-latin-ext.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Unbounded'; font-style: normal; font-weight: 300 800; font-display: swap;
+  src: url(fonts/unbounded-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
 /* SILENT — спільні стилі української та англомовної версій.
    Вийняті з <style> в index.html без жодної зміни правил: обидві сторінки
    мусять виглядати однаково, тож стилі мають бути буквально одним файлом, а
@@ -9468,3 +9497,17 @@ body:has(.legal-toc){overflow-x:clip}
   .benefits-grid .benefit-card:nth-child(6) .b-art::before { animation-duration: 4.0s; animation-delay: -2.9s; }
   html.menu-open .benefit-card .b-art::before { animation-play-state: paused; }
 }
+
+/* Барабан у геро /experiences/ і /faq/: стартові від'ємні відступи вікна збігаються з тими, що потім
+   ставить applyGeometry() у site.js (padding картки = 7% її ширини, тобто ≈8.14% ширини її вмісту; буфер
+   зліва — 13% для форматів і 22% для питань). Раніше CSS мав 0 і 15%, а JS уже після першого кадру
+   виправляв це inline, і вікно «стрибало» на ~25px вгору: CLS 0.17–0.26 (Lighthouse mobile). Тепер JS
+   лише доводить значення до піксельної точності. Хмара (--cloud) без padding — відступів не потрібно. */
+.exp-head-reel .exp-reel-window { margin-top: -8.14cqw; margin-bottom: -8.14cqw; margin-left: -13%; }
+.exp-head-reel--q .exp-reel-window { margin-left: -22%; }
+.exp-head-reel--cloud .exp-reel-window { margin-top: 0; margin-bottom: 0; }
+/* Той самий збіг для списку всередині вікна: JS ставить left = буфер і width = 100% − буфер (буфер = 13% ширини
+   вмісту картки, 22% для питань; 1cqw = 1% цієї ширини). Раніше CSS мав left 15% / width 85% від ширини ВІКНА,
+   і весь список (висота ~1700px) зсувався вбік уже після першого кадру: решта CLS /experiences/. */
+.exp-head-reel .exp-reel-list { left: 13cqw; width: calc(100% - 13cqw); }
+.exp-head-reel--q .exp-reel-list { left: 22cqw; width: calc(100% - 22cqw); }

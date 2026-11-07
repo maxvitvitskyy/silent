@@ -64,11 +64,10 @@ if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || /\.localhost
   setTimeout(function(){ if (!window.__siteJs) r.classList.remove('js'); }, 5000);
 })();
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="../../../assets/site.min.css?v=1286cff8">
+<!-- Шрифти свої (assets/fonts), без запитів до Google; preload — лише ті, що потрібні на першому екрані. -->
+<link rel="preload" href="../../../assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../../assets/fonts/unbounded-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../../assets/site.min.css?v=2a127632">
 <!-- Хлібні крихти як над заголовком + послуга цієї сторінки. Опис — той самий, що в meta description; ціна — та сама база, що в калькуляторі. -->
 <script type="application/ld+json">
 {
@@ -555,20 +554,20 @@ if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || /\.localhost
          рядами на планшеті й телефоні. -->
     <div class="gallery-columns" aria-hidden="true">
       <div class="gallery-col gallery-col-1">
-        <img style="object-position:50% 50%" width="933" height="1400" src="../../../images/public-spaces/hirliandy-nich-tantsi.webp" alt="">
-        <img style="object-position:50% 45%" width="1050" height="1400" src="../../../images/public-spaces/vechirnia-ploshcha-dvi-tantsivnytsi.webp" alt="">
-        <img style="object-position:50% 45%" width="1050" height="1400" src="../../../images/public-spaces/zakhid-sontsia-pamy.webp" alt="">
-        <img style="object-position:50% 50%" width="933" height="1400" src="../../../images/public-spaces/hirliandy-nich-tantsi.webp" alt="">
-        <img style="object-position:50% 45%" width="1050" height="1400" src="../../../images/public-spaces/vechirnia-ploshcha-dvi-tantsivnytsi.webp" alt="">
-        <img style="object-position:50% 45%" width="1050" height="1400" src="../../../images/public-spaces/zakhid-sontsia-pamy.webp" alt="">
+        <img style="object-position:50% 50%" width="640" height="960" src="../../../images/public-spaces/hirliandy-nich-tantsi-sm.webp" alt="">
+        <img style="object-position:50% 45%" width="640" height="853" src="../../../images/public-spaces/vechirnia-ploshcha-dvi-tantsivnytsi-sm.webp" alt="">
+        <img style="object-position:50% 45%" width="640" height="853" src="../../../images/public-spaces/zakhid-sontsia-pamy-sm.webp" alt="">
+        <img style="object-position:50% 50%" width="640" height="960" src="../../../images/public-spaces/hirliandy-nich-tantsi-sm.webp" alt="">
+        <img style="object-position:50% 45%" width="640" height="853" src="../../../images/public-spaces/vechirnia-ploshcha-dvi-tantsivnytsi-sm.webp" alt="">
+        <img style="object-position:50% 45%" width="640" height="853" src="../../../images/public-spaces/zakhid-sontsia-pamy-sm.webp" alt="">
       </div>
       <div class="gallery-col gallery-col-2">
-        <img style="object-position:50% 45%" width="1120" height="1400" src="../../../images/public-spaces/trio-druziv-nichna-ploshcha.webp" alt="">
-        <img style="object-position:50% 45%" width="1231" height="1277" src="../../../images/public-spaces/slukhaie-muzyku-pid-namotamy.webp" alt="">
-        <img style="object-position:50% 45%" width="1050" height="1400" src="../../../images/public-spaces/zala-pid-kupolom-tantsi.webp" alt="">
-        <img style="object-position:50% 45%" width="1120" height="1400" src="../../../images/public-spaces/trio-druziv-nichna-ploshcha.webp" alt="">
-        <img style="object-position:50% 45%" width="1231" height="1277" src="../../../images/public-spaces/slukhaie-muzyku-pid-namotamy.webp" alt="">
-        <img style="object-position:50% 45%" width="1050" height="1400" src="../../../images/public-spaces/zala-pid-kupolom-tantsi.webp" alt="">
+        <img style="object-position:50% 45%" width="640" height="800" src="../../../images/public-spaces/trio-druziv-nichna-ploshcha-sm.webp" alt="">
+        <img style="object-position:50% 45%" width="640" height="664" src="../../../images/public-spaces/slukhaie-muzyku-pid-namotamy-sm.webp" alt="">
+        <img style="object-position:50% 45%" width="640" height="853" src="../../../images/public-spaces/zala-pid-kupolom-tantsi-sm.webp" alt="">
+        <img style="object-position:50% 45%" width="640" height="800" src="../../../images/public-spaces/trio-druziv-nichna-ploshcha-sm.webp" alt="">
+        <img style="object-position:50% 45%" width="640" height="664" src="../../../images/public-spaces/slukhaie-muzyku-pid-namotamy-sm.webp" alt="">
+        <img style="object-position:50% 45%" width="640" height="853" src="../../../images/public-spaces/zala-pid-kupolom-tantsi-sm.webp" alt="">
       </div>
       </div>
     </div>
@@ -1668,6 +1667,6 @@ window.SILENT_I18N = {
      site.js сам лишається на власній появі через IntersectionObserver. -->
 <script defer src="../../../assets/vendor/gsap.min.js?v=fa1aeabc"></script>
 <script defer src="../../../assets/vendor/ScrollTrigger.min.js?v=ecd3242f"></script>
-<script defer src="../../../assets/site.min.js?v=5bc035ac"></script>
+<script defer src="../../../assets/site.min.js?v=a8d86c7a"></script>
 </body>
 </html>

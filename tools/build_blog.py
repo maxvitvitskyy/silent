@@ -705,7 +705,7 @@ def build_article(p, data, cats, posts, shared, card_fn):
     cover = ('<header class="art-cover">\n  <img class="art-cover-img" src="%s" alt="%s" width="1600" height="1067" fetchpriority="high">\n'
              '  <div class="art-cover-shade" aria-hidden="true"></div>\n  <div class="wrap art-cover-in">\n'
              '    <p class="art-tags">%s</p>\n    <h1 class="art-title">%s</h1>\n    <p class="art-sub">%s</p>\n'
-             '    <p class="art-meta"><span class="art-by"><img class="art-ava" src="/images/favicon.png" alt="" width="35" height="35"><b>%s</b></span>'
+             '    <p class="art-meta"><span class="art-by"><img class="art-ava" src="/images/favicon-70.webp" alt="" width="35" height="35"><b>%s</b></span>'
              '<span class="art-dot" aria-hidden="true">&middot;</span>'
              '<span class="art-when"><span>%s</span><span aria-hidden="true">&middot;</span><span>%s</span></span></p>\n  </div>\n</header>\n'
              % (esc(a['cover']['src']), esc(a['cover']['alt']), tags,

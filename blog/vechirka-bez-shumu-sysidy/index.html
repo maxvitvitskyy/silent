@@ -66,11 +66,12 @@ if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || /\.localhost
   setTimeout(function(){ if (!window.__siteJs) r.classList.remove('js'); }, 5000);
 })();
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="../../assets/site.min.css?v=1286cff8">
+<!-- Шрифти свої (assets/fonts), без запитів до Google; preload — лише ті, що потрібні на першому екрані. -->
+<link rel="preload" href="../../assets/fonts/unbounded-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/manrope-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/unbounded-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/site.min.css?v=2a127632">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -530,7 +531,7 @@ if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || /\.localhost
     <p class="art-tags"><span class="art-tag is-main">Вечірки без шуму</span> <span class="art-tag">Silent Disco</span></p>
     <h1 class="art-title">Як провести вечірку, щоб не заважати сусідам, <em>не вимикаючи музику</em></h1>
     <p class="art-sub">Після 22:00 в Україні діє режим тиші. Розповідаємо, що це означає для вечірки і як зберегти музику та настрій без колонок, які чути крізь стіну.</p>
-    <p class="art-meta"><span class="art-by"><img class="art-ava" src="/images/favicon.png" alt="" width="35" height="35"><b>Команда SILENT</b></span> <span class="art-dot" aria-hidden="true">&middot;</span> <span class="art-when"><span>6 жовтня 2026</span> <span aria-hidden="true">&middot;</span> <span>8 хв читання</span></span></p>
+    <p class="art-meta"><span class="art-by"><img class="art-ava" src="/images/favicon-70.webp" alt="" width="35" height="35"><b>Команда SILENT</b></span> <span class="art-dot" aria-hidden="true">&middot;</span> <span class="art-when"><span>6 жовтня 2026</span> <span aria-hidden="true">&middot;</span> <span>8 хв читання</span></span></p>
   </div>
 </header>
 <div class="wrap art-body">
@@ -922,6 +923,6 @@ window.SILENT_I18N = {
 <script defer src="../../assets/vendor/ScrollTrigger.min.js?v=ecd3242f"></script>
 <!-- Flip — лише тут: плавне перемикання фільтра тем у каталозі (site.js, «Flexbox Filtering»). -->
 <script defer src="../../assets/vendor/Flip.min.js?v=6b36b1cf"></script>
-<script defer src="../../assets/site.min.js?v=5bc035ac"></script>
+<script defer src="../../assets/site.min.js?v=a8d86c7a"></script>
 </body>
 </html>

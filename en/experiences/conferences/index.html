@@ -64,11 +64,10 @@ if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || /\.localhost
   setTimeout(function(){ if (!window.__siteJs) r.classList.remove('js'); }, 5000);
 })();
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="../../../assets/site.min.css?v=1286cff8">
+<!-- Шрифти свої (assets/fonts), без запитів до Google; preload — лише ті, що потрібні на першому екрані. -->
+<link rel="preload" href="../../../assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../../assets/fonts/unbounded-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../../assets/site.min.css?v=2a127632">
 <!-- Хлібні крихти як над заголовком + послуга цієї сторінки. Опис — той самий, що в meta description; ціна — та сама база, що в калькуляторі. -->
 <script type="application/ld+json">
 {
@@ -555,20 +554,20 @@ if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || /\.localhost
          рядами на планшеті й телефоні. -->
     <div class="gallery-columns" aria-hidden="true">
       <div class="gallery-col gallery-col-1">
-        <img style="object-position:50% 35%" width="1122" height="1402" src="../../../images/conferences/konferentsiya-uchasnyky-v-zelenykh-navushnykakh.webp" alt="">
-        <img style="object-position:50% 55%" width="1254" height="1254" src="../../../images/conferences/konferentsiya-velyka-zala-z-navushnykamy-na-stiltsyakh.webp" alt="">
-        <img style="object-position:50% 55%" width="1086" height="1448" src="../../../images/conferences/konferentsiya-navushnyky-na-stiltsyakh-pered-pochatkom.webp" alt="">
-        <img style="object-position:50% 35%" width="1122" height="1402" src="../../../images/conferences/konferentsiya-uchasnyky-v-zelenykh-navushnykakh.webp" alt="">
-        <img style="object-position:50% 55%" width="1254" height="1254" src="../../../images/conferences/konferentsiya-velyka-zala-z-navushnykamy-na-stiltsyakh.webp" alt="">
-        <img style="object-position:50% 55%" width="1086" height="1448" src="../../../images/conferences/konferentsiya-navushnyky-na-stiltsyakh-pered-pochatkom.webp" alt="">
+        <img style="object-position:50% 35%" width="640" height="800" src="../../../images/conferences/konferentsiya-uchasnyky-v-zelenykh-navushnykakh-sm.webp" alt="">
+        <img style="object-position:50% 55%" width="640" height="640" src="../../../images/conferences/konferentsiya-velyka-zala-z-navushnykamy-na-stiltsyakh-sm.webp" alt="">
+        <img style="object-position:50% 55%" width="640" height="853" src="../../../images/conferences/konferentsiya-navushnyky-na-stiltsyakh-pered-pochatkom-sm.webp" alt="">
+        <img style="object-position:50% 35%" width="640" height="800" src="../../../images/conferences/konferentsiya-uchasnyky-v-zelenykh-navushnykakh-sm.webp" alt="">
+        <img style="object-position:50% 55%" width="640" height="640" src="../../../images/conferences/konferentsiya-velyka-zala-z-navushnykamy-na-stiltsyakh-sm.webp" alt="">
+        <img style="object-position:50% 55%" width="640" height="853" src="../../../images/conferences/konferentsiya-navushnyky-na-stiltsyakh-pered-pochatkom-sm.webp" alt="">
       </div>
       <div class="gallery-col gallery-col-2">
-        <img style="object-position:50% 40%" width="1263" height="1246" src="../../../images/conferences/konferentsiya-uchasnytsi-za-stolamy-v-navushnykakh.webp" alt="">
-        <img style="object-position:50% 50%" width="1254" height="1254" src="../../../images/conferences/konferentsiya-audytoriya-v-synikh-navushnykakh.webp" alt="">
-        <img style="object-position:50% 45%" width="1087" height="1446" src="../../../images/conferences/konferentsiya-zala-z-ekranom-i-spikerom.webp" alt="">
-        <img style="object-position:50% 40%" width="1263" height="1246" src="../../../images/conferences/konferentsiya-uchasnytsi-za-stolamy-v-navushnykakh.webp" alt="">
-        <img style="object-position:50% 50%" width="1254" height="1254" src="../../../images/conferences/konferentsiya-audytoriya-v-synikh-navushnykakh.webp" alt="">
-        <img style="object-position:50% 45%" width="1087" height="1446" src="../../../images/conferences/konferentsiya-zala-z-ekranom-i-spikerom.webp" alt="">
+        <img style="object-position:50% 40%" width="640" height="631" src="../../../images/conferences/konferentsiya-uchasnytsi-za-stolamy-v-navushnykakh-sm.webp" alt="">
+        <img style="object-position:50% 50%" width="640" height="640" src="../../../images/conferences/konferentsiya-audytoriya-v-synikh-navushnykakh-sm.webp" alt="">
+        <img style="object-position:50% 45%" width="640" height="851" src="../../../images/conferences/konferentsiya-zala-z-ekranom-i-spikerom-sm.webp" alt="">
+        <img style="object-position:50% 40%" width="640" height="631" src="../../../images/conferences/konferentsiya-uchasnytsi-za-stolamy-v-navushnykakh-sm.webp" alt="">
+        <img style="object-position:50% 50%" width="640" height="640" src="../../../images/conferences/konferentsiya-audytoriya-v-synikh-navushnykakh-sm.webp" alt="">
+        <img style="object-position:50% 45%" width="640" height="851" src="../../../images/conferences/konferentsiya-zala-z-ekranom-i-spikerom-sm.webp" alt="">
       </div>
     </div>
   </div>
@@ -1731,6 +1730,6 @@ window.SILENT_I18N = {
      site.js сам лишається на власній появі через IntersectionObserver. -->
 <script defer src="../../../assets/vendor/gsap.min.js?v=fa1aeabc"></script>
 <script defer src="../../../assets/vendor/ScrollTrigger.min.js?v=ecd3242f"></script>
-<script defer src="../../../assets/site.min.js?v=5bc035ac"></script>
+<script defer src="../../../assets/site.min.js?v=a8d86c7a"></script>
 </body>
 </html>

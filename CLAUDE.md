@@ -469,3 +469,18 @@ OG-картка сторінки Silent Disco (09.10.2026) зібрана за `
 `/en/about/` генерує `build_about_en()` у `tools/build_en.py` з `about/index.html` (шляхи ../ → ../../, перемикач мови, hreflang, I18N-блок). Власні рядки сторінки лежать у `T_ABOUT` наприкінці `tools/en_pages.py` (окремий словник, щоб не зачепити переклади інших сторінок). Пункт «Про нас» тепер є в англійській шапці й підвалі й веде на `/en/about/` (раніше `strip_blog_mega` його ховав). OG: `tools/og/about-en.json` → `images/about/og-about-en.jpg`. Правиш текст у `about/index.html` — додай/онови ключ у `T_ABOUT`, збірка падає на кирилиці.
 
 
+
+## Швидкість (оптимізація 07.11.2026)
+
+- **Шрифти свої:** `assets/fonts/*.woff2` (змінні Unbounded/Manrope/Lora, лише cyrillic/latin і їхні `-ext`), `@font-face` на початку
+  `assets/site.css`. У `<head>` кожної сторінки — лише `preload` 4 файлів (UA) і жодних запитів до Google; `stamp_files()` у
+  `build_en.py` прибирає кириличні preload з `en/`. На головній `hold` знімає `__fontsIn()`, який викликає скрипт одразу ПІСЛЯ
+  `<link>` на site.css (не на DOMContentLoaded: він настає після всіх defer-скриптів).
+- **Колаж у геро сторінок досвідів** (`.gallery-columns`): `tools/make_gallery_sm.py` (викликається першим кроком `build_en.py`)
+  робить `<ім'я>-sm.webp` шириною 640 і переписує src у UA-сторінках. Нова сторінка форматів → просто `python3 tools/build_en.py`.
+- **Відео героя:** `video/web/hero-bg-v3.mp4` (~9,6 МБ) і `hero-bg-sm.mp4` (~3,9 МБ, ≤720px, вибирає `site.js`). Старий
+  `hero-bg-v2.mp4` (19 МБ) більше не підключений.
+- **CLS барабана** (`.exp-head-reel`): стартові відступи вікна й `left/width` списку в CSS (у `cqw`) збігаються з тим, що ставить
+  `applyGeometry()`; міняєш геометрію в JS — міняй і тут, інакше повернеться зсув 0.13–0.26.
+- **Як міряти:** `npx lighthouse@12 <url> --only-categories=performance` (Chrome headless) проти локального сервера З gzip
+  (python `http.server` не стискає й завищує вагу втричі). Живий Lighthouse від DataForSEO дає 402 (платний).

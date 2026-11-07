@@ -6028,7 +6028,10 @@ function orderExperience(name, opts){
     evs.forEach(ev => window.removeEventListener(ev, start));
     const srcEl = v.querySelector('source');
     if (!srcEl) return;
-    v.src = srcEl.src;
+    // Вузькі екрани (≤720px) отримують менший файл: 720×406, ~4 МБ замість ~10 МБ (оригінал 1280×720 важив 19 МБ).
+    // Шлях беремо з атрибута (відносний, правильний і для /en/) і міняємо лише ім'я файлу.
+    const small = window.matchMedia && window.matchMedia('(max-width: 720px)').matches;
+    v.src = small ? new URL((srcEl.getAttribute('src') || '').replace('hero-bg-v3.mp4', 'hero-bg-sm.mp4'), document.baseURI).href : srcEl.src;
     // Повторна спроба, коли дані вже є: деякі вбудовані браузери відхиляють перший play() до готовності потоку.
     v.addEventListener('canplay', () => { if (v.paused) v.play().catch(() => {}); }, { once: true });
     v.load();

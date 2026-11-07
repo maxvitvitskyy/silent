@@ -1584,6 +1584,9 @@ def stamp_files():
         # режимі 'w' обнуляє файл одразу, і будь-яка помилка нижче лишила б на
         # диску порожнечу замість сторінки.
         out = unglue(stamp(unstamp(text), hashes))
+        # Англійським сторінкам кириличні шрифти не потрібні: preload із UA-джерела тут зайвий (даремні ~45 КБ).
+        if os.sep + 'en' + os.sep in path:
+            out = re.sub(r'<link rel="preload" href="[^"]*-cyrillic\.woff2"[^>]*>\n?', '', out)
         io.open(path, 'w', encoding='utf-8').write(out)
     print('версію активів проставлено: ' +
           ', '.join(rel.rsplit('/', 1)[1] + '=' + hashes[rel] for rel in STAMPED_FILES))
@@ -2531,6 +2534,10 @@ def apply_catalog_itemlist(path, lang):
 if __name__ == '__main__':
     # Першим: дописує теми й кнопки фільтра в сам index.html, з якого далі
     # збирається все інше.
+    # Малі копії плиток колажу в геро сторінок досвідів (src переписується в UA-джерелах до генерації EN).
+    sys.path.insert(0, os.path.join(ROOT, 'tools'))
+    import make_gallery_sm
+    print('make_gallery_sm: змінено сторінок', make_gallery_sm.run())
     build_home_filter()
     apply_home_faq(SRC, '/', 'uk')
     build()
