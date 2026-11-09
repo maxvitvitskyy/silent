@@ -9520,4 +9520,4 @@ body:has(.legal-toc){overflow-x:clip}
 
 
 /* Іскри над еквалайзером (09.11.2026): канвас на всю панель під її вмістом, курсор не ловить. */
-.hero-strip .ch-sparks { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+#channels > .ch-sparks { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
