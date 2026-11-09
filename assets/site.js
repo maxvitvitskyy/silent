@@ -681,6 +681,99 @@ function orderExperience(name, opts){
   }
   const glowBlob = document.getElementById('chGlowBlob');
   const outlineEq = document.getElementById('chOutlineEq');
+
+  // ---- Іскри над еквалайзером активного каналу (09.11.2026) ----
+  // Стовпчики лишаються на CSS-анімації; тут лише дрібні світні іскри, що відриваються від верхівок найвищих у цю мить стовпчиків
+  // і плавно пливуть угору на всю висоту панелі (повільне гальмування, легке погойдування, м'яке проявлення й згасання).
+  // Їх мало (≈3 на секунду, не більше 14 разом). Канвас під вмістом, спрайт-світлячок без shadowBlur; усе спить, коли панель поза
+  // екраном, вкладка прихована, канал заглушено або увімкнено «зменшений рух».
+  (function(){
+    if (!outlineEq || !stripEl) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const bars = [].slice.call(outlineEq.querySelectorAll('span'));
+    if (!bars.length) return;
+    const cv = document.createElement('canvas');
+    cv.className = 'ch-sparks'; cv.setAttribute('aria-hidden', 'true');
+    stripEl.insertBefore(cv, stripEl.firstChild);
+    const cx = cv.getContext('2d');
+    const TAU = 6.2832;
+    let W = 0, H = 0, vis = true, raf = 0, last = 0, acc = 0, spr = null, sprColor = '';
+    const sparks = [];
+    function fit(){
+      const r = stripEl.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
+      W = Math.round(r.width); H = Math.round(r.height);
+      cv.width = W * dpr; cv.height = H * dpr;
+      cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    function sprite(color){
+      if (spr && sprColor === color) return spr;
+      sprColor = color;
+      spr = document.createElement('canvas'); spr.width = spr.height = 32;
+      const g = spr.getContext('2d'), gr = g.createRadialGradient(16, 16, 0, 16, 16, 16);
+      gr.addColorStop(0, '#fff'); gr.addColorStop(0.22, color); gr.addColorStop(1, 'rgba(0,0,0,0)');
+      g.fillStyle = gr; g.fillRect(0, 0, 32, 32);
+      return spr;
+    }
+    function frame(ms){
+      raf = 0;
+      if (!vis || document.hidden) { last = 0; return; }
+      const dt = last ? Math.min(0.05, (ms - last) / 1000) : 0.016; last = ms;
+      const on = outlineEq.classList.contains('on') && !stripEl.classList.contains('is-silent');
+      const color = outlineEq.style.getPropertyValue('--glow-color') || '#ff4757';
+      if (on && W){
+        acc += dt * 3.6;
+        while (acc >= 1){
+          acc -= 1;
+          if (sparks.length >= 18) break;
+          // Із трьох випадкових видимих стовпчиків беремо найвищий: іскра відривається від гребеня.
+          const st = stripEl.getBoundingClientRect(), eq = outlineEq.getBoundingClientRect();
+          const n = Math.max(1, Math.floor((eq.width - 3) / 12) + 1);
+          let best = null;
+          for (let q = 0; q < 3; q++){
+            const r = bars[Math.floor(Math.random() * Math.min(n, bars.length))].getBoundingClientRect();
+            if (!best || r.top < best.top) best = r;
+          }
+          sparks.push({ x0: best.left - st.left + 1.5, y: best.top - st.top - 2, vy: 16 + Math.random() * 26, ph: Math.random() * TAU, ph2: Math.random() * TAU,
+                        fr: 0.5 + Math.random() * 0.9, fr2: 1.7 + Math.random() * 1.6, sw: 5 + Math.random() * 9, sz: 2.5 + Math.random() * 3.5, tw: 3 + Math.random() * 5,
+                        life: 0, max: 2.6 + Math.random() * 2.2, drift: (Math.random() - 0.5) * 10 });
+        }
+      }
+      cx.clearRect(0, 0, W, H);
+      if (sparks.length){
+        const sp = sprite(color);
+        cx.globalCompositeOperation = 'lighter';
+        for (let i = sparks.length - 1; i >= 0; i--){
+          const p = sparks[i];
+          p.life += dt;
+          const k = p.life / p.max;
+          if (k >= 1 || p.y < 0){ sparks.splice(i, 1); continue; }
+          // Як жар над полум'ям: тепло несе вгору майже рівно, а повітря погойдує вбік двома накладеними хвилями; розмах росте з висотою.
+          // Лічильник життя дає плавне проявлення, мерехтіння (twinkle) і довге згасання; іскра дрібнішає, остигаючи.
+          p.y -= p.vy * dt * (0.8 + 0.5 * k);
+          const sway = (Math.sin(p.life * p.fr * TAU * 0.5 + p.ph) + 0.45 * Math.sin(p.life * p.fr2 * TAU * 0.5 + p.ph2)) * p.sw * (0.25 + k);
+          const x = p.x0 + sway + p.drift * p.life * 0.5;
+          const flick = 0.72 + 0.28 * Math.sin(p.life * p.tw * TAU * 0.5 + p.ph);
+          const fade = Math.min(1, k / 0.22) * Math.pow(1 - k, 1.4) * Math.min(1, p.y / 24) * flick;
+          const s2 = p.sz * (1 - k * 0.55);
+          cx.globalAlpha = 0.85 * fade;
+          cx.drawImage(sp, x - s2 * 1.6, p.y - s2 * 1.6, s2 * 3.2, s2 * 3.2);
+          cx.globalAlpha = Math.min(1, fade * 1.15);
+          cx.fillStyle = '#fff';
+          cx.fillRect(x - s2 * 0.22, p.y - s2 * 0.22, s2 * 0.44, s2 * 0.44);
+        }
+        cx.globalAlpha = 1; cx.globalCompositeOperation = 'source-over';
+      }
+      if (on || sparks.length) raf = requestAnimationFrame(frame);
+    }
+    function wake(){ if (!raf && vis && !document.hidden) raf = requestAnimationFrame(frame); }
+    if ('IntersectionObserver' in window) new IntersectionObserver(es => { vis = es[0].isIntersecting; if (vis) wake(); }, { threshold: 0 }).observe(stripEl);
+    document.addEventListener('visibilitychange', wake);
+    window.addEventListener('resize', fit, { passive: true });
+    // Канал міняється кліком, а не завжди на тому ж кадрі: розбуджуємо цикл і за кліком у панелі.
+    stripEl.addEventListener('click', () => setTimeout(wake, 50));
+    setInterval(wake, 1500);
+    fit(); wake();
+  })();
   window.addEventListener('resize', () => {
     const activeIdx = btns.findIndex(b => b.classList.contains('active'));
     if (activeIdx !== -1) litStrip(channels[activeIdx].color, activeIdx);

@@ -9517,3 +9517,7 @@ body:has(.legal-toc){overflow-x:clip}
    коли ролик почав грати, hv-on розтоплює його поверх постера. Позиція фону = object-position відео, щоб кадри збігались. */
 .hero-video-frame.hv-bg { background-size: cover; background-position: 60% 30%; }
 @media (max-width: 760px) { .hero .hero-video-frame.hv-bg { background-position: 62% 66%; } }
+
+
+/* Іскри над еквалайзером (09.11.2026): канвас на всю панель під її вмістом, курсор не ловить. */
+.hero-strip .ch-sparks { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
