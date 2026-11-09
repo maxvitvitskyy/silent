@@ -802,50 +802,43 @@ function orderExperience(name, opts){
   // scrub: 0.6 — рух наздоганяє прокрутку з невеликою інерцією, без ривків.
   // gsap.matchMedia сам повертає елементам початковий стан, коли умова
   // перестає діяти (вікно звузили до планшета, увімкнули reduce-motion).
+  // Переписано (09.11.2026): раніше це був scrub-твін ScrollTrigger у gsap.matchMedia. Будь-який ST.refresh() (а їх на сторінці кілька: зміна висоти
+  // документа, load, таймери після появи блоків) і будь-який перезапуск matchMedia повертали твін у початок: заголовок і кнопки на мить падали на
+  // нуль, а потім підстрибували назад — саме той «скачок» при наведенні мишки посеред геро. Тепер положення — проста чиста функція від поточної
+  // прокрутки (transform + opacity, кожен кадр), у ній нічого скидати нема. Старт і кінець ті самі: від верху геро до «bottom 35%».
   (function(){
-    const G = window.gsap, ST = window.ScrollTrigger;
     const hero = document.querySelector('.hero');
-    if (!G || !ST || !hero) return;
-    G.registerPlugin(ST);
-    G.matchMedia().add('(min-width: 1000px) and (prefers-reduced-motion: no-preference)', function(){
-      const top = hero.querySelector('.hero-top'), bottom = hero.querySelector('.hero-bottom');
-      if (!top || !bottom) return;
-      // scrub: true, а не 0.6: згладжування тримало внутрішній твін, який міг застрягнути напівшляху (вкладка пролежала у фоні, повернення
-      // з bfcache, швидкий скрол угору), і текст геро лишався напівпрозорим на вже нульовій прокрутці. Без згладжування прозорість завжди дорівнює
-      // функції від поточної прокрутки, застрягати нема чому.
-      const tl = G.timeline({
-        defaults: { ease: 'none' },
-        scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom 35%', scrub: true, invalidateOnRefresh: true }
-      });
-      tl.to(top,    { y: -70, opacity: 0.15 }, 0)
-        .to(bottom, { y: -36, opacity: 0.25 }, 0);
-      // Страховка: коли прокрутка біля верху, доводимо в нуль самі; в іншому місці просто змушуємо ScrollTrigger перерахувати стан за
-      // поточною прокруткою (повернення на вкладку, pageshow, зміна розміру).
-      let idle = 0;
-      const settle = () => {
-        if (window.scrollY <= 4){
-          tl.progress(0);
-          G.set([top, bottom], { opacity: 1, y: 0 });
-        } else if (tl.scrollTrigger){
-          tl.scrollTrigger.update(true);
-        }
-      };
-      const onScroll = () => { clearTimeout(idle); idle = setTimeout(settle, 160); };
-      const onVisible = () => { if (!document.hidden) settle(); };
-      window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('pageshow', settle);
-      window.addEventListener('focus', settle);
-      window.addEventListener('resize', settle);
-      document.addEventListener('visibilitychange', onVisible);
-      ST.addEventListener('refresh', settle);
-      settle();
-      return () => {
-        window.removeEventListener('scroll', onScroll); window.removeEventListener('pageshow', settle); window.removeEventListener('focus', settle);
-        window.removeEventListener('resize', settle); document.removeEventListener('visibilitychange', onVisible);
-        ST.removeEventListener('refresh', settle); clearTimeout(idle);
-      };
-
-    });
+    if (!hero) return;
+    const top = hero.querySelector('.hero-top'), bottom = hero.querySelector('.hero-bottom');
+    if (!top || !bottom) return;
+    const mq = window.matchMedia('(min-width: 1000px) and (prefers-reduced-motion: no-preference)');
+    let start = 0, span = 1, raf = 0, active = false;
+    const ease1 = p => p * p, ease2 = p => p * p * p;
+    function measure(){
+      const r = hero.getBoundingClientRect();
+      start = r.top + window.scrollY;
+      span = Math.max(1, (r.height - 0.35 * window.innerHeight));
+    }
+    function paint(){
+      raf = 0;
+      if (!active) return;
+      const p = Math.min(1, Math.max(0, (window.scrollY - start) / span));
+      top.style.transform = p ? 'translate3d(0,' + (-44 * ease1(p)).toFixed(2) + 'px,0)' : '';
+      top.style.opacity = p ? (1 - 0.65 * ease2(p)).toFixed(3) : '';
+      bottom.style.transform = p ? 'translate3d(0,' + (-24 * ease1(p)).toFixed(2) + 'px,0)' : '';
+      bottom.style.opacity = p ? (1 - 0.55 * ease2(p)).toFixed(3) : '';
+    }
+    const queue = () => { if (!raf) raf = requestAnimationFrame(paint); };
+    function apply(){
+      active = mq.matches;
+      if (active){ measure(); queue(); }
+      else { top.style.transform = top.style.opacity = bottom.style.transform = bottom.style.opacity = ''; }
+    }
+    window.addEventListener('scroll', queue, { passive: true });
+    window.addEventListener('resize', () => { if (active){ measure(); queue(); } }, { passive: true });
+    window.addEventListener('load', () => { if (active){ measure(); queue(); } }, { once: true });
+    if (mq.addEventListener) mq.addEventListener('change', apply); else if (mq.addListener) mq.addListener(apply);
+    apply();
   })();
 
   // ---- Channel audio ----
@@ -972,13 +965,23 @@ function orderExperience(name, opts){
     let autoTimer = null;
     const current = () => btns.findIndex(b => b.classList.contains('active'));
     function stop(){ clearTimeout(autoTimer); autoTimer = null; }
+    // Пауза ще й тоді, коли курсор над геро або геро вже їде з кадру (09.11.2026): інакше таймер міняв канал просто під час прокрутки чи наведення на
+    // текст, і заголовок з підзаголовком раптом «підскакували» й гаснули (анімація swap-in) — виглядало як збій паралаксу.
+    const heroEl = document.querySelector('.hero');
+    let heroHover = false;
+    const heroAway = () => window.scrollY > 40;
     function start(){
       if (reduceMotion || isMuted || soundOn || document.hidden) return;
       stop();
       autoTimer = setTimeout(() => {
+        if (heroHover || heroAway()) { start(); return; }
         setChannel((current() + 1) % channels.length);
         start();
       }, AUTO_MS);
+    }
+    if (heroEl){
+      heroEl.addEventListener('mouseenter', () => { heroHover = true; });
+      heroEl.addEventListener('mouseleave', () => { heroHover = false; });
     }
     btns.forEach(b => b.addEventListener('click', () => { stop(); start(); }));
     if (muteBtn) muteBtn.addEventListener('click', () => { stop(); start(); });
