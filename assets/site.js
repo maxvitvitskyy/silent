@@ -2220,7 +2220,13 @@ function orderExperience(name, opts){
     if (h3) G.fromTo(h3, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', delay: at + 0.22, clearProps: 'opacity,transform' });
     if (p)  G.fromTo(p,  { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.65, ease: 'power3.out', delay: at + 0.32, clearProps: 'opacity,transform' });
     if (cta) G.fromTo(cta, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.55, ease: 'power3.out', delay: at + 0.45, clearProps: 'opacity,transform' });
-    if (icon) G.fromTo(icon, { opacity: 0, scale: 0.3, rotation: -25 },
+    // Ілюстрація (09.11.2026): не вистрибує, а проявляється з розмитого світіння: спершу велике розмиття й пересвіт, що
+    // «тече» у чіткий неоновий малюнок. Іконки-SVG (інші сторінки) лишаються з масштабом, бо blur на дрібних лініях виглядає брудно.
+    if (icon && icon.classList.contains('b-art')) G.fromTo(icon,
+      { opacity: 0, scale: 1.12, filter: 'blur(28px) brightness(2.4) saturate(1.5)' },
+      { opacity: 1, scale: 1, filter: 'blur(0px) brightness(1) saturate(1)', duration: 1.6, ease: 'power2.out', delay: at + 0.5,
+        clearProps: 'opacity,transform,filter' });
+    else if (icon) G.fromTo(icon, { opacity: 0, scale: 0.3, rotation: -25 },
       { opacity: 1, scale: 1, rotation: 0, duration: 0.8, ease: 'back.out(2.2)', delay: at + 0.38, clearProps: 'opacity,transform' });
   }
   // Знімки: «завіса» знизу вгору, як у «Атмосфері». Колаж у розповіді (.exp-story-shots)
@@ -6031,6 +6037,18 @@ function orderExperience(name, opts){
     // Вузькі екрани (≤720px) отримують менший файл: 720×406, ~4 МБ замість ~10 МБ (оригінал 1280×720 важив 19 МБ).
     // Шлях беремо з атрибута (відносний, правильний і для /en/) і міняємо лише ім'я файлу.
     const small = window.matchMedia && window.matchMedia('(max-width: 720px)').matches;
+    // Плавний перехід постер → відео (09.11.2026): постер переїжджає з <video> на фон рамки, відео стартує прозорим і
+    // розтоплюється поверх нього, коли справді пішов перший кадр (подія playing); запасний таймер на випадок, якщо вона не прийде.
+    const frame = v.parentElement;
+    if (frame && v.poster) {
+      frame.style.backgroundImage = 'url("' + v.poster + '")';
+      frame.classList.add('hv-bg');
+      v.removeAttribute('poster');
+      v.classList.add('hv-wait');
+      const show = () => requestAnimationFrame(() => v.classList.add('hv-on'));
+      v.addEventListener('playing', show, { once: true });
+      setTimeout(show, 6000);
+    }
     v.src = small ? new URL((srcEl.getAttribute('src') || '').replace('hero-bg-v3.mp4', 'hero-bg-sm.mp4'), document.baseURI).href : srcEl.src;
     // Повторна спроба, коли дані вже є: деякі вбудовані браузери відхиляють перший play() до готовності потоку.
     v.addEventListener('canplay', () => { if (v.paused) v.play().catch(() => {}); }, { once: true });
