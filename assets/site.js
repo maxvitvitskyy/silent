@@ -6044,9 +6044,18 @@ function orderExperience(name, opts){
       frame.style.backgroundImage = 'url("' + v.poster + '")';
       frame.classList.add('hv-bg');
       v.removeAttribute('poster');
-      v.classList.add('hv-wait');
-      const show = () => requestAnimationFrame(() => v.classList.add('hv-on'));
-      v.addEventListener('playing', show, { once: true });
+      // Фейд через Web Animations: стартує рівно від 0 у момент першого реального кадру й не залежить від того,
+      // чи встигла сторінка перемалювати стан «прозоре» перед додаванням класу (через це CSS-перехід міг не спрацювати).
+      v.style.opacity = '0';
+      let shown = false;
+      const show = () => {
+        if (shown) return; shown = true;
+        if (!v.animate) { v.style.opacity = ''; return; }
+        const an = v.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 1600, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards' });
+        an.onfinish = () => { v.style.opacity = ''; an.cancel(); };
+      };
+      if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(() => show());
+      else v.addEventListener('playing', show, { once: true });
       setTimeout(show, 6000);
     }
     v.src = small ? new URL((srcEl.getAttribute('src') || '').replace('hero-bg-v3.mp4', 'hero-bg-sm.mp4'), document.baseURI).href : srcEl.src;
@@ -6057,8 +6066,11 @@ function orderExperience(name, opts){
     if (p && p.catch) p.catch(() => {});
   }
   evs.forEach(ev => window.addEventListener(ev, start, { passive: true }));
-  if (document.readyState === 'complete') setTimeout(start, 12000);
-  else window.addEventListener('load', () => setTimeout(start, 12000), { once: true });
+  // Старт (09.11.2026): раніше чекали першої взаємодії або 12 с, і відео здавалось «довго не запускається».
+  // Тепер стартуємо одразу після load + 0,5 с (перший екран уже намальований, LCP позаду), без очікування дотику.
+  const kick = () => setTimeout(start, 500);
+  if (document.readyState === 'complete') kick();
+  else window.addEventListener('load', kick, { once: true });
 })();
 
 /* /privacy/: підсвічування активного розділу в змісті. Активний — останній розділ, верх якого вже

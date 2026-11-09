@@ -9516,7 +9516,4 @@ body:has(.legal-toc){overflow-x:clip}
 /* Плавний перехід постер → відео в героєві (09.11.2026). site.js переносить постер на фон рамки й ховає відео (hv-wait);
    коли ролик почав грати, hv-on розтоплює його поверх постера. Позиція фону = object-position відео, щоб кадри збігались. */
 .hero-video-frame.hv-bg { background-size: cover; background-position: 60% 30%; }
-.hero-video-frame video.hv-wait { opacity: 0; transition: opacity 1.4s ease; }
-.hero-video-frame video.hv-wait.hv-on { opacity: 1; }
 @media (max-width: 760px) { .hero .hero-video-frame.hv-bg { background-position: 62% 66%; } }
-@media (prefers-reduced-motion: reduce) { .hero-video-frame video.hv-wait { transition: none; } }
