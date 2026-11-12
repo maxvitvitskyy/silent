@@ -9407,7 +9407,7 @@ body:has(.legal-toc){overflow-x:clip}
 
 /* ---------- «Досвід гостя»: неонові ілюстрації на скляних картках ----------
    Замість лінійних SVG у кожній картці стоїть намальована неонова фігура
-   (images/guest-icons/guest-N.webp, прозорий WebP із власним сяйвом) праворуч,
+   (images/guest-icons/guest-N-v2.webp, прозорий WebP; сяйво додає CSS) праворуч,
    на пів картки; текст займає ліву частину. Позиціювання лише через flex/inset
    без transform: GSAP (gsBenefit) крутить сам .b-icon, і transform його б
    перебив. Рамка звичайна; дуга наведення (::after) світиться кольорами
@@ -9441,11 +9441,21 @@ body:has(.legal-toc){overflow-x:clip}
 }
 .benefit-card .b-art img {
   display: block; width: 100%; height: auto;
-  filter: drop-shadow(0 0 12px color-mix(in srgb, var(--ic1) 40%, transparent));
+  /* Плоскі фірмові ілюстрації (12.11.2026) замість неонових: власного сяйва в них нема, тож м'який ореол дає drop-shadow —
+     однаковий для всіх шести карток, без винятків (раніше «Особиста гучність» мала filter: none під неонову дугу). */
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--ic1) 32%, transparent));
 }
+/* Оптичне вирівнювання двох ілюстрацій (рішення власника 12.11.2026): у «Три канали» малюнок широкий і здається більшим за решту,
+   у «LED-візуал» вертикальний — меншим. Масштаб на самому <img>: GSAP крутить обгортку .b-art і робить їй clearProps, тож ці
+   значення він не зачіпає, а розкладки transform не міняє (сусідні елементи стоять на місці). */
+.benefits-grid .benefit-card:nth-child(1) .b-art img { transform: scale(0.93); }
+.benefits-grid .benefit-card:nth-child(5) .b-art img { transform: scale(1.145); }
+
 .benefits-grid .benefit-card h3,
 .benefits-grid .benefit-card p { padding-right: 42%; }
 @media (max-width: 560px) {
+  /* На телефоні картка вужча, і при 1.145 ілюстрація «LED-візуал» діставала до тексту — там лишаємо помірне збільшення. */
+  .benefits-grid .benefit-card:nth-child(5) .b-art img { transform: scale(1.07); }
   .benefit-card .b-art { top: 0; bottom: 0; }
   .benefits-grid .benefit-card { padding-bottom: 52px; }
   .benefits-grid .benefit-card h3,
@@ -9468,18 +9478,6 @@ body:has(.legal-toc){overflow-x:clip}
 }
 @media (prefers-reduced-transparency: reduce) {
   .benefit-card .b-art::before { filter: none; }
-}
-
-/* «Особиста гучність»: сяйво навколо напівкола йде за його кольором — лайм
-   ліворуч, плавно в маджент праворуч, а не лайм по всьому колу. Власне
-   сяйво зображення вже має ці кольори, тож drop-shadow тут вимкнено, а
-   підсвітка позаду розкладена за кольорами дуги. */
-.benefits-grid .benefit-card:nth-child(3) .b-art img { filter: none; }
-.benefits-grid .benefit-card:nth-child(3) .b-art::before {
-  background:
-    radial-gradient(closest-side at 28% 42%, rgba(182,255,26,0.20), transparent 80%),
-    radial-gradient(closest-side at 72% 40%, rgba(255,47,208,0.24), transparent 80%),
-    radial-gradient(closest-side at 62% 78%, rgba(255,47,208,0.16), transparent 80%);
 }
 
 /* Пульсація сяйва за іконками «Досвіду гостя»: повільне «дихання» — яскравість
