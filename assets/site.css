@@ -1275,7 +1275,7 @@
     /* Один шар і жодної заглушки під ним: знімок має альфа-канал, фігура вже
        вирізана. Розмита мініатюра, яку я підкладав раніше, світилася крізь цю
        прозорість і читалась як ореол — і обрізалась об край коробки над головою. */
-    background-image: url('../images/hero-dancer.webp');
+    background-image: url('../images/hero-dancer-v2.webp');
     background-size: contain;
     background-position: center bottom;
     background-repeat: no-repeat;
@@ -1463,7 +1463,7 @@
          Спільний десктопний кадр 1300px тут був утричі важчий за потрібне, а
          це найбільший файл сторінки й він їде по тому самому вузькому каналу,
          що й критичний CSS. 1040px ширини вистачає з запасом. */
-      background-image: url('../images/hero-dancer-m.webp');
+      background-image: url('../images/hero-dancer-m-v2.webp');
       position: absolute;
       right: -24%;
       bottom: 96px;
@@ -9680,10 +9680,13 @@ html[lang="en"] .form-left h2 { --fh-x: 5.3em; }
 .ab-plate > img.ab-stk-disco     { --r: 8deg;  right: 5%;   top: 8%;     width: 12.5%; }
 .ab-plate > img.ab-stk-headphones{ --r: 5deg;  right: 4%;   bottom: 8%;  width: 14.5%; }
 @media (max-width: 899px) {
-  .ab-plate { padding-top: 124px; }
-  .ab-plate > img.ab-stk-girl, .ab-plate > img.ab-stk-headphones { display: none; }
-  .ab-plate > img.ab-stk-camera { left: 6%; top: 18px; width: 27%; }
-  .ab-plate > img.ab-stk-disco  { right: 8%; top: 14px; width: 19%; }
+  /* Два стікери по діагоналі, як на плашці гарантії на головній: камера вгорі ліворуч, дівчина внизу праворуч.
+     Верхній і нижній відступи плашки більші за наліпки, щоб вони не лягали на текст і кнопку. */
+  .ab-plate { padding-top: 124px; padding-bottom: 128px; }
+  .ab-plate > img.ab-stk-disco, .ab-plate > img.ab-stk-headphones { display: none; }
+  .ab-plate > img.ab-stk-camera { --r: -8deg; left: 5%; top: 14px; bottom: auto; right: auto; width: min(31%, 116px); }
+  .ab-plate > img.ab-stk-girl   { --r: 6deg;  right: 4%; bottom: 12px; top: auto; left: auto; width: min(31%, 116px); }
+}
 }
 @media (prefers-reduced-motion: no-preference) {
   html.js .ab-plate:not(.in) > img.ab-stk { opacity: 0; }
@@ -9715,4 +9718,19 @@ html[lang="en"] .form-left h2 { --fh-x: 5.3em; }
 @media (min-width: 901px) { .ab-gives-grid h3 { display: flex; align-items: center; justify-content: center; } }
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   .ab-gives-grid li:hover > img.ab-gi { transform: translateY(-5px) rotate(-2.5deg) scale(1.03); }
+}
+
+/* Сітка плашки-заклику на телефоні (13.11.2026): справжня 3D-«кімната» з чотирьох площин 1300px під маскою (.ab-pw) на вузьких екранах
+   дає лише слабкі смужки по краях, а на частині мобільних браузерів (iOS Safari: 3D + mask-image + overflow:hidden) зникає зовсім. Тож
+   до 640px площини вимкнено, а сітку малює плоский ::before: клітинки 40px, що проявляються до країв плашки (маска — радіальна),
+   це та сама «кімната», але без 3D, тому вона видима скрізь однаково. */
+@media (max-width: 640px) {
+  .ab-plate .ab-pw { display: none; }
+  .ab-plate::before {
+    display: block; content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; left: 0; right: 0; height: auto; bottom: 0; transform: none;
+    background-image: linear-gradient(rgba(198,255,0,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(198,255,0,.5) 1px, transparent 1px);
+    background-size: 40px 40px; background-position: center;
+    -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 50%, transparent 30%, #000 100%);
+    mask-image: radial-gradient(ellipse 85% 75% at 50% 50%, transparent 30%, #000 100%);
+  }
 }
