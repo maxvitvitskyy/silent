@@ -368,7 +368,9 @@
       -webkit-backdrop-filter: var(--glass-blur);
       box-shadow: 0 8px 32px -12px rgba(0,0,0,0.5);
     }
-    .logo { padding: 0 0 0 10px; }
+    /* Слово стоїть від лівого краю рівно так само, як від верху й низу: пігулка 60px, рядок
+       логотипа 27.2px, отже по 16.4px згори й знизу. Зліва: 1px рамки + 6px падінга <nav> + 9.4px. */
+    .logo { padding: 0 0 0 9.4px; }
     .nav-links { padding: 0 0 0 12px; gap: 8px; }
     /* Відступ від скляного краю до вмісту — однаковий з усіх боків капсули:
        12px навколо іконки (60px висота − 36px іконка = 24, порівну по 12) і
@@ -421,8 +423,14 @@
       overflow: hidden; display: inline-flex; align-items: center; justify-content: center;
       border: none; background: transparent; padding: 0; cursor: pointer; flex: none;
       -webkit-tap-highlight-color: transparent;
-      transition: width 0.45s var(--ease-arrive), opacity 0.3s ease, visibility 0.45s;
+      transition: width 0.45s var(--ease-arrive), opacity 0.3s ease, visibility 0.45s,
+                  margin-left 0.45s var(--ease-arrive);
     }
+    /* Поки гамбургер згорнутий (шапка ще не розʼєдналась), між кнопкою й правим краєм лишався зайвий
+       просвіт: сам гамбургер нульової ширини, але flex-gap 8px між ним і кнопкою нікуди не дівається.
+       Підтягуємо його назад, щоб кнопка стояла від краю рівно так само, як від верху й низу (8.6px),
+       і вкладалась у заокруглення пігулки. У розʼєднаному стані відступ повертається до нуля. */
+    nav:not(.nav-split) .nav-burger { margin-left: -6.4px; }
     nav.nav-split .nav-burger { width: 40px; opacity: 1; visibility: visible; pointer-events: auto; }
 
     .nav-burger-lines { position: relative; width: 18px; height: 13px; flex: none; }
@@ -9559,8 +9567,18 @@ body:has(.legal-toc){overflow-x:clip}
 
 /* Плавний перехід постер → відео в героєві (09.11.2026). site.js переносить постер на фон рамки й ховає відео (hv-wait);
    коли ролик почав грати, hv-on розтоплює його поверх постера. Позиція фону = object-position відео, щоб кадри збігались. */
+/* Кадрування заставки окреме від кадрування відео: поки показується заставка, у <video> ще стоїть
+   атрибут poster (site.js знімає його в момент старту), тож селектор [poster] б'є саме по цій фазі,
+   а .hv-bg — по тій самій картинці вже у фоні рамки під час розчинення. На десктопі значення ті
+   самі, що й у ролика (60% 30%); окреме кадрування потрібне лише на телефоні, див. @media нижче. */
+.hero-video-frame video[poster] { object-position: 60% 30%; }
 .hero-video-frame.hv-bg { background-size: cover; background-position: 60% 30%; }
-@media (max-width: 760px) { .hero .hero-video-frame.hv-bg { background-position: 62% 66%; } }
+@media (max-width: 760px) {
+  /* Телефон: фото на всю висоту (cover), як і було, — знизу воно розчиняється в затемненні.
+     По горизонталі кадр зміщений ліворуч, ближче до малинового світла. */
+  .hero .hero-video-frame video[poster] { object-position: 35% 78%; }
+  .hero .hero-video-frame.hv-bg { background-position: 35% 78%; }
+}
 
 
 /* Іскри над еквалайзером (09.11.2026): канвас на всю панель під її вмістом, курсор не ловить. */

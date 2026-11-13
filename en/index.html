@@ -52,11 +52,11 @@ if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || /\.localhost
      ~284 КБ — найбільший видимий елемент екрана і саме він визначає LCP; без
      цього рядка він стартував на ~13 мс пізніше за crowd і без пріоритету,
      тобто в спільній черзі з галереєю сценаріїв.
-     hero-crowd.webp той самий кадр, що раніше стояв фоном hero — тепер це
+     hero-crowd-v3.webp той самий кадр, що раніше стояв фоном hero — тепер це
      постер відео (<video poster>): видно одразу, поки сам ролик іще не
      доїхав чи не почав програватись, і той самий рядок preload прискорює й
      цю першу картинку. -->
-<link rel="preload" as="image" href="../images/hero-crowd.webp" fetchpriority="high">
+<link rel="preload" as="image" href="../images/hero-crowd-v3.webp" fetchpriority="high">
 <!-- Фігура — найважчий файл сторінки й теж фон у CSS, тож браузер знаходив її
      лише після того, як приїхав і розібрався весь site.css: у вимірі це 695 мс
      замість 470. Тут її адреса оголошена ще до зовнішнього файла, тож пошук
@@ -341,7 +341,7 @@ if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || /\.localhost
 <!-- Шрифти свої (assets/fonts), без запитів до Google; preload — лише ті, що потрібні на першому екрані. -->
 <link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/unbounded-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../assets/site.min.css?v=0e4ec818">
+<link rel="stylesheet" href="../assets/site.min.css?v=d14137dc">
 <script>window.__fontsIn && window.__fontsIn();</script>
 </head>
 <body id="top">
@@ -637,7 +637,7 @@ if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || /\.localhost
              Виміряно Lighthouse mobile (емульований Moto G, реальне тротлінг 4G, 13.10.2026): з autoplay + preload="auto" 19 МБ відео ділить смугу
              з CSS і скриптами: оцінка 44, FCP 6,3 с, TBT 630 мс. З тією ж сторінкою, але без раннього старту відео (видно лише той самий постер):
              оцінка 96, FCP 0,7 с, LCP 1,6 с. Людині це нічого не змінює: постер — той самий кадр, ролик підхоплює його за мить після першого руху. -->
-      <video muted loop playsinline preload="none" poster="../images/hero-crowd.webp" aria-hidden="true" data-hero-video>
+      <video muted loop playsinline preload="none" poster="../images/hero-crowd-v3.webp" aria-hidden="true" data-hero-video>
         <source src="../video/web/hero-bg-v3.mp4" type="video/mp4">
       </video>
     </div>
