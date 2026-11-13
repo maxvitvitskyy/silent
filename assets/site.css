@@ -2067,7 +2067,12 @@
     z-index: calc(var(--i) + 1);        /* наступна поверх попередньої */
     margin-top: -34px;   /* перекриття помітне, але з'їдає лише падінг сусідньої */
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    /* Колонка цифри фіксованої ширини = дві табличні цифри (1.79em кегля), тож
+       заголовки в усіх п'яти плашках стартують з однієї лінії. Пігулка на
+       десктопі — праворуч, на телефоні — під цифрою (див. @media нижче). */
+    --nf: 78px;
+    --idx: calc(var(--nf) * 1.79);
+    grid-template-columns: var(--idx) 1fr auto;
     /* Не center: у «Обладнання» опис в один рядок, у решти — у два, і при
        центруванні кожен блок сідав на свою висоту, тож заголовки не збігались
        між плашками. Від верху вони вирівняні однаково завжди. */
@@ -2130,8 +2135,10 @@
   /* цифра намальована обведенням, тож на темному тлі вона читається як контур,
      а при наведенні заливається лаймом */
   .slab-num {
+    grid-column: 1; grid-row: 1;
+    width: var(--idx); text-align: center;
     font-family: 'Unbounded', sans-serif;
-    font-size: 78px; font-weight: 800; line-height: 0.78;
+    font-size: var(--nf); font-weight: 800; line-height: 0.78;
     /* Рівна ширина цифр. «01» вужче за «02»: одиниця тонка, і колонка з цифрою
        виходила на 20px вужчою — через це заголовок у першій плашці стояв ближче
        до цифри, ніж у решти. З tabular-nums усі номери однакової ширини. */
@@ -2143,8 +2150,9 @@
     margin-top: 7px;
     -webkit-text-stroke: 1.5px color-mix(in srgb, var(--lime) calc(var(--f, 0) * 100%), rgba(255,255,255,0.26));
     color: rgba(198,255,0,calc(0.14 * var(--f, 0)));
-    /* Цифра ледь виїжджає вправо разом із підйомом — паралакс усередині плашки. */
-    transform: translate3d(calc(var(--f, 0) * 6px), 0, 0);
+    /* Без паралаксу (13.11.2026): раніше цифра виїжджала на 6px вправо разом із підйомом,
+       і власник бачив, як вона «з'їжджає» й ніби зменшується. Тепер цифра стоїть на місці,
+       рухається лише сама плашка. */
     user-select: none;
   }
   /* Текст лежить над затемненням: темніє поверхня плашки, а не написи на ній —
@@ -2155,7 +2163,9 @@
   /* Місце під два рядки резервуємо завжди: з прихованим описом плашки інакше
      мали б різну висоту без видимої причини. */
   .slab-body p { color: var(--muted); font-size: 14.5px; line-height: 1.5; max-width: 62ch; min-height: 44px; }
+  .slab-body { grid-column: 2; }
   .slab-meta {
+    grid-column: 3;
     align-self: center;
     white-space: nowrap;
     font-size: 11.5px; letter-spacing: 1.2px; text-transform: uppercase;
@@ -2172,7 +2182,7 @@
      непомітне: у момент перемикання дві сусідні мають майже однакову висоту. */
   .slab.is-top { z-index: 20; }
   /* Без руху: лише колір і світіння, стопка стоїть на місці. */
-  @media (prefers-reduced-motion: reduce){ .slab, .slab-num { transform: none !important; } }
+  @media (prefers-reduced-motion: reduce){ .slab { transform: none !important; } }
 
   .slabs-foot { margin-top: 18px; font-size: 13px; color: var(--muted-2); }
 
@@ -2181,8 +2191,11 @@
       /* Перша колонка фіксованої ширини: у ній і цифра, і підпис, а підписи
          різної довжини («у базовій ціні» / «за бажанням»). При auto колонка
          міряла б себе по вмісту й заголовок стартував би з різного місця. */
-      grid-template-columns: 96px 1fr;
-      grid-template-rows: auto auto;
+      --nf: 50px;
+      grid-template-columns: var(--idx) 1fr;
+      /* Другий рядок — 1fr: зайва висота опису праворуч іде в нього, а не в
+         перший, тож пігулка стоїть одразу під цифрою, а не «висить» унизу. */
+      grid-template-rows: auto 1fr;
       align-items: start;
       gap: 0 14px;
       /* Нижній падінг = перекриттю (48px). Раніше було 24px, і на вузькому
@@ -2197,7 +2210,7 @@
       margin-top: -48px;
       border-radius: var(--r-md);
     }
-    .slab-num { grid-column: 1; grid-row: 1; font-size: 48px; margin-top: 5px; }
+    .slab-num { margin-top: 5px; }
     /* Активна плашка виходить наверх — але тоді вона накрила б заголовок
        наступної. Тому наступні одночасно відсуваються рівно на перекриття:
        transform, а не margin, тож нічого не перераховується й нічого не смикає
@@ -2205,11 +2218,14 @@
     .slab { --push: 48px; }
     .slab.is-top { z-index: 30; }
     /* Підпис — під цифру, а не під опис: унизу його накривала б наступна плашка. */
+    /* Пігулка рівно під цифрою: ширина = ширина чорнил «02»…«05» (1.71em кегля
+       цифри, без бічних полів гліфів), текст по центру — один стовпчик (13.11.2026). */
     .slab-meta {
       grid-column: 1; grid-row: 2;
-      justify-self: start; align-self: start;
-      margin: 12px 0 0;
-      padding: 4px 8px; font-size: 10.5px; letter-spacing: 0.6px;
+      justify-self: center; align-self: start;
+      width: calc(var(--nf) * 1.71);
+      margin-top: 12px; padding: 4px 0;
+      text-align: center; font-size: 10px; letter-spacing: 0.4px;
     }
     .slab-body { grid-column: 2; grid-row: 1 / span 2; }
     .slab-body h3 { font-size: 17.5px; }
@@ -9021,39 +9037,11 @@ body:has(.legal-toc){overflow-x:clip}
   to   { opacity: 1; transform: rotate(var(--r, 0deg)); }
 }
 
-/* ── Заголовок форми заявки: два рядки + наліпка-календар (13.11.2026) ──
-   Той самий заголовок у всіх сторінках, тож без зміни розмітки (інакше
-   ламаються англійські переклади): перенос перед .em робить ::before з \A,
-   а наліпка — ::after заголовка, що сидить там, де раніше стояло «своєї події»,
-   праворуч від першого рядка, і трохи виступає за верхню межу картки.
-   Положення — в em, бо кегль заголовка плаває (clamp). */
-.form-left h2 { position: relative; }
-/* UA: перенос уже в розмітці (<br class="fh"> перед «дату»); EN: перед .em */
-.form-left h2 .em::before { content: "\A"; white-space: pre; }
-.form-left h2 .em::before { content: none; }
-.form-left h2::after {
-  content: ""; position: absolute; z-index: 2; pointer-events: none;
-  left: calc(var(--fh-x, 5.9em) + 1.1em); top: -3em;
-  width: 3.7em; aspect-ratio: 183 / 178;
-  background: url("/images/stickers/stk-calendar-v4.webp") center / contain no-repeat;
-  transform: rotate(7deg); transform-origin: 50% 60%;
-}
-html[lang="en"] .form-left h2 { --fh-x: 5.3em; }
-@media (prefers-reduced-motion: no-preference) {
-  html.js .form-card:not(.rv-done) .form-left h2::after { opacity: 0; }
-  html.js .form-card.rv-done .form-left h2::after { animation: stickSlap .55s cubic-bezier(.2,1.5,.4,1) .25s both; --r: 7deg; }
-}
+/* Заголовок форми заявки в два рядки (13.11.2026): перенос стоїть у розмітці (UA — <br class="fh">
+   перед «дату», EN додає build_en.py). Наліпку-календар біля заголовка прибрано за рішенням власника. */
 
 /* EN на телефоні: заголовок гарантії в чотири рядки, дискокуля впритул до тексту — піднята (13.11.2026) */
 @media (max-width: 759px) { html[lang="en"] .band > img.sticker-disco { top: -56px; } }
-
-/* Десктоп: наліпка-календар у порожньому місці праворуч від заголовка форми, більша
-   і з помітним виступом за верхню межу картки (13.11.2026). Телефон лишається
-   на розкладці від першого рядка (там праворуч місця немає). */
-@media (min-width: 761px) {
-  .form-left h2::after { left: auto; right: .6em; top: -3.1em; width: 5.7em; }
-  html[lang="en"] .form-left h2::after { right: .3em; top: -3.5em; width: 5em; }
-}
 
 /* ── «Про нас», фінальна плашка: наліпки по кутах (13.11.2026) ──
    Позиції й ширини в % від плашки (вона position:relative; overflow:hidden), тож
