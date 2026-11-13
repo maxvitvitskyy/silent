@@ -9669,3 +9669,50 @@ html[lang="en"] .form-left h2 { --fh-x: 5.3em; }
   .form-left h2::after { left: auto; right: .6em; top: -3.1em; width: 5.7em; }
   html[lang="en"] .form-left h2::after { right: .3em; top: -3.5em; width: 5em; }
 }
+
+/* ── «Про нас», фінальна плашка: наліпки по кутах (13.11.2026) ──
+   Позиції й ширини в % від плашки (вона position:relative; overflow:hidden), тож
+   розкладка тримається на будь-якій десктопній ширині; текст по центру ≤600px, з боків ~330px вільного місця.
+   Появу («шльоп») веде той самий stickSlap, що й на плашці гарантії; --r — нахил. */
+.ab-plate > img.ab-stk { position: absolute; z-index: 1; height: auto; max-width: none; pointer-events: none; user-select: none; transform: rotate(var(--r,0deg)); transform-origin: 50% 60%; }
+.ab-plate > img.ab-stk-camera    { --r: -8deg; left: 4%;    top: 9%;     width: 14.5%; }
+.ab-plate > img.ab-stk-girl      { --r: -4deg; left: 4.5%;  bottom: 7%;  width: 14.5%; }
+.ab-plate > img.ab-stk-disco     { --r: 8deg;  right: 5%;   top: 8%;     width: 12.5%; }
+.ab-plate > img.ab-stk-headphones{ --r: 5deg;  right: 4%;   bottom: 8%;  width: 14.5%; }
+@media (max-width: 899px) {
+  .ab-plate { padding-top: 124px; }
+  .ab-plate > img.ab-stk-girl, .ab-plate > img.ab-stk-headphones { display: none; }
+  .ab-plate > img.ab-stk-camera { left: 6%; top: 18px; width: 27%; }
+  .ab-plate > img.ab-stk-disco  { right: 8%; top: 14px; width: 19%; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html.js .ab-plate:not(.in) > img.ab-stk { opacity: 0; }
+  html.js .ab-plate.in > img.ab-stk { animation: stickSlap .55s cubic-bezier(.2,1.5,.4,1) both; }
+  html.js .ab-plate.in > img.ab-stk-girl { animation-delay: .15s; }
+  html.js .ab-plate.in > img.ab-stk-disco { animation-delay: .3s; }
+  html.js .ab-plate.in > img.ab-stk-headphones { animation-delay: .45s; }
+}
+
+/* «Про нас», «Свій вибір. Спільний момент.» (13.11.2026, polish): ілюстрація — головний елемент картки.
+   Велика, по центру, виступає над верхнім краєм картки на ~40% своєї висоти (мова наліпок, як у плашці гарантії
+   й заклику), а заголовок і текст стоять по центру під нею. --gi — висота малюнка, --gi-over — виступ; від них
+   залежать і проміжок над картками (щоб виступ не заліз на заголовок секції), і проміжок між рядами в 2-/1-колонковій
+   сітці. Малюнки мають прозорі поля й лаймовий «змах», тому оптично вирівнюється по центру сам. */
+.ab-gives { --gi: clamp(132px, 12.5vw, 176px); --gi-over: calc(var(--gi) * .46); }
+.ab-gives .ab-sec-h { margin-bottom: calc(var(--gi-over) + clamp(22px, 2.6vw, 34px)); }
+.ab-gives-grid { row-gap: calc(var(--gi-over) + 16px); }
+.ab-gives-grid li {
+  position: relative; text-align: center; padding-top: 0;
+  background: radial-gradient(80% 46% at 50% 0%, rgba(198,255,0,.075), transparent 72%), rgba(255,255,255,.03);
+}
+.ab-gives-grid li > img.ab-gi {
+  display: block; height: var(--gi); width: auto; max-width: none;
+  margin: calc(var(--gi-over) * -1) auto 16px; pointer-events: none; user-select: none;
+  transform-origin: 50% 70%; transition: transform .45s cubic-bezier(.2,.8,.2,1);
+}
+.ab-gives-grid h3 { text-wrap: balance; }
+.ab-gives-grid p { text-wrap: pretty; max-width: 34ch; margin-inline: auto; }
+@media (min-width: 901px) { .ab-gives-grid h3 { display: flex; align-items: center; justify-content: center; } }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .ab-gives-grid li:hover > img.ab-gi { transform: translateY(-5px) rotate(-2.5deg) scale(1.03); }
+}
