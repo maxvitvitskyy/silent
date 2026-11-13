@@ -205,7 +205,12 @@
   body > nav {
     position: fixed; top: 18px; left: 18px; right: 18px; z-index: 50;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 24px;
+    /* Горизонтальний відступ дорівнює вертикальному просвіту до кнопки «Перевірити дату»
+       (73px пігулка − 42.8px кнопка = по 15.1px згори й знизу; з рамкою 1px це рівно 14px
+       падінга). Було 24px, і кнопка стояла від правого краю далі, ніж від верхнього й нижнього,
+       — заокруглення не вкладались одне в одне. Слово логотипа тримає свій відступ саме на
+       .logo нижче: текстові 14px замало. */
+    padding: 14px;
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     background: var(--glass-fill-1);
@@ -216,7 +221,7 @@
     margin: 0 auto;
     box-shadow: 0 8px 32px -12px rgba(0,0,0,0.5);
   }
-  .logo { font-family: 'Unbounded'; font-weight: 700; font-size: 17px; letter-spacing: 0.02em; display: flex; align-items: center; }
+  .logo { font-family: 'Unbounded'; font-weight: 700; font-size: 17px; letter-spacing: 0.02em; display: flex; align-items: center; padding-left: 10px; }
   .logo b { color: var(--ch); transition: color 0.6s ease; }
   .nav-links { display: flex; gap: 26px; align-items: center; font-size: 13.5px; font-weight: 500; }
   .nav-links a { color: var(--muted); transition: color 0.25s; }
@@ -272,10 +277,33 @@
      десктопної розкладки, а не на власній довільній ширині. */
   @media (max-width: 1100px){ .nav-links .lang-switch { display: none; } }
 
-  /* Іконка-логотип і гамбургер живуть у DOM завжди (їх додає JS у site.js),
-     але на десктопі це не повинно бути видно ніколи — там пігулка не
-     розʼєднується, і сам елемент лишається просто не намальованим. */
-  .logo-icon, .nav-burger { display: none; }
+  /* Гамбургер живе в DOM завжди (його додає JS у site.js), але на десктопі
+     пігулка не розʼєднується, тож він лишається просто не намальованим. */
+  .nav-burger { display: none; }
+
+  /* Знак SILENT біля слова в шапці (рішення власника 12.11.2026). Його видно лише
+     на повній десктопній ширині: від 1200px між логотипом і пунктами меню лишається
+     ≈50px, а нижче логотип починав тиснути на меню (на 1154px просвіт був 3px), тож
+     там лишається саме слово. 43px — рівно висота кнопки «Перевірити дату», тож
+     пігулка лишається тієї самої висоти (73px), що й без знака, і відступ під
+     якірні посилання чіпати не треба. Нижче 1040px цей елемент живе за іншими правилами —
+     крос-фейд зі словом при розʼєднанні капсул (див. @media нижче), і ті правила
+     стоять далі за текстом, тож перекривають display:none звідси. */
+  .logo-icon { display: none; }
+  .logo-icon img {
+    width: 100%; height: auto; aspect-ratio: 1 / 1; display: block;
+    filter: drop-shadow(0 0 6px rgba(198,255,0,0.3));
+  }
+  @media (min-width: 1200px){
+    /* Лівий бік: видимий край знака має стояти так само, як права грань кнопки (15px).
+       У самому файлі ліворуч ще 15% прозорого поля (6.5px на 43px), тож .logo гасить
+       свій текстовий відступ, а знак зсувається на цю різницю. */
+    .logo { padding-left: 0; }
+    .logo-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 43px; flex: none; margin-right: 10px; margin-left: -6.5px;
+    }
+  }
 
   /* ---------- NAV: РІДКЕ СКЛО НА МОБІЛЬНІЙ (розʼєднання шапки при скролі) ----------
      На старті хром (фон/рамка/розмиття) лежить на самому <nav> — це один
@@ -347,7 +375,7 @@
        прийомом у інший бік. Обидві завжди в DOM — це крос-фейд, не заміна. */
     .logo-icon {
       display: inline-flex; align-items: center; justify-content: center;
-      width: 0; opacity: 0; overflow: hidden; flex: none;
+      width: 0; opacity: 0; overflow: hidden; flex: none; margin-right: 0;
       transition: width 0.45s var(--ease-arrive), opacity 0.3s ease, margin 0.45s var(--ease-arrive);
     }
     /* width:100% від обгортки, а не власний px: обгортка сама міняє
