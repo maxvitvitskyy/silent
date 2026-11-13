@@ -2,6 +2,10 @@
    Раніше йшли з fonts.googleapis.com: два додаткові з'єднання й ланцюжок CSS → woff2 перед
    першим текстом. unicode-range змушує завантажувати тільки ті файли, чиї символи є на сторінці
    (₴ живе в cyrillic-ext). Ті, що потрібні першому екрану, preload-яться в <head> кожної сторінки. */
+@font-face { font-family: 'Playfair Display'; font-style: italic; font-weight: 900; font-display: swap;
+  src: url(fonts/playfair-italic-900-cyrillic.woff2) format('woff2'); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: 'Playfair Display'; font-style: italic; font-weight: 900; font-display: swap;
+  src: url(fonts/playfair-italic-900-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: 'Lora'; font-style: italic; font-weight: 400 600; font-display: swap;
   src: url(fonts/lora-italic-cyrillic-ext.woff2) format('woff2'); unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F; }
 @font-face { font-family: 'Lora'; font-style: italic; font-weight: 400 600; font-display: swap;
@@ -168,7 +172,10 @@
     transition: background 0.8s ease;
   }
   h1,h2,h3 { font-family: 'Unbounded', sans-serif; letter-spacing: -0.02em; }
-  .em { font-family: 'Lora', serif; font-style: italic; }
+  /* Акцентне слово в заголовках — Playfair Display Black Italic (вибір власника, 13.11.2026; було Lora). */
+  /* Висота малих літер: Unbounded ≈ 57–59% кегля, Playfair ≈ 53% (виміряно canvas), тож без підгонки
+     акцент виглядав дрібнішим і «просівшим» на лінії. 1.1 вирівнює (виміряно: верх малих літер 18.8 vs 18.8px при 32px) верх малих літер (13.11.2026). */
+  .em { font-family: 'Playfair Display', 'Lora', serif; font-style: italic; font-weight: 900; font-size: 1.1em; line-height: 1; }
   a { color: inherit; text-decoration: none; }
 
   /* Visible keyboard focus — lime ring, only for keyboard users. */
