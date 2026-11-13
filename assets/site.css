@@ -9584,3 +9584,47 @@ body:has(.legal-toc){overflow-x:clip}
 /* Іскри над еквалайзером (09.11.2026): канвас на всю панель під її вмістом, курсор не ловить. */
 #channels > .ch-sparks { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
 
+
+
+/* ── Наліпки на плашці гарантії (12.11.2026) ───────────────────────────────────────────────────────────
+   Дві фірмові ілюстрації — дискокуля й пара в навушниках — «приклеєні» до плашки як стікери, без білого
+   контуру (власник просив спершу так). Позиції задані від кутів плашки, а не від центру, тож при зміні ширини
+   вони тримаються своїх боків.
+   Десктоп (≥1180px): збоку від тексту є місце — пара внизу ліворуч (чорні силуети, тому всередині плашки: над чорним
+   тлом сторінки форма зникає), дискокуля вгорі праворуч і вилазить над краєм (вона світла, читається на будь-якому тлі).
+   Телефон і планшет — по діагоналі, навпаки: дискокуля ВГОРІ ліворуч на краю плашки, пара ВНИЗУ праворуч. На кнопку вони
+   НЕ налазять (власник: наліпка зливається з кнопкою за кольором): лаймова стрічка пари й сама кнопка — один колір.
+   На вузькому екрані кнопка майже на всю ширину, збоку від неї місця нема, тож плашці додано нижній відступ, і
+   пара сидить під кнопкою, частково виходячи за нижній край.
+   Селектор з img (0,2,1) потрібен, бо `.band > :not(.band-aurora)` (0,2,0) інакше повертає position:relative. */
+.band > img.sticker {
+  position: absolute; z-index: 2; height: auto; max-width: none; pointer-events: none; user-select: none;
+  transform: rotate(var(--r, 0deg)); transform-origin: 50% 60%;
+}
+.band--stickers { padding-bottom: 94px; }
+.band > img.sticker-disco  { --r: -12deg; width: 108px; left: 4px;  top: -36px; right: auto; bottom: auto; }
+.band > img.sticker-couple { --r: 6deg;   width: 132px; right: 6px; bottom: -48px; left: auto; top: auto; }
+@media (min-width: 760px) {
+  .band--stickers { padding-bottom: 54px; }
+  .band > img.sticker-disco  { width: 140px; left: 24px;  top: -46px; }
+  .band > img.sticker-couple { width: 200px; right: 30px; bottom: -40px; }
+}
+@media (min-width: 1180px) {
+  .band--stickers h2 { max-width: 760px; }
+  /* Обидві наліпки на 10% більші за попередню версію, і пара теж трохи виходить за нижній край, як дискокуля за верхній
+     (власник). Вилазить лише нижня темна смуга силуетів, обличчя й лаймова стрічка лишаються всередині. */
+  .band > img.sticker-couple { --r: -5deg; width: 286px; left: 36px;  right: auto; top: auto; bottom: -26px; }
+  .band > img.sticker-disco  { --r: 16deg; width: 165px; right: 74px; left: auto; bottom: auto; top: -48px; }
+}
+/* Приклеювання: після появи плашки кожна наліпка «шльопається» зверху — збільшена й перекошена,
+   з перельотом у кінці. Без JS і при reduced-motion вони просто стоять на місці. */
+@media (prefers-reduced-motion: no-preference) {
+  html.js .band--stickers:not(.in) > img.sticker { opacity: 0; }
+  html.js .band--stickers.in > img.sticker { animation: stickSlap .55s cubic-bezier(.2,1.5,.4,1) both; }
+  html.js .band--stickers.in > img.sticker-couple { animation-delay: .15s; }
+  html.js .band--stickers.in > img.sticker-disco  { animation-delay: .38s; }
+}
+@keyframes stickSlap {
+  from { opacity: 0; transform: translateY(16px) scale(1.45) rotate(calc(var(--r, 0deg) + 16deg)); }
+  to   { opacity: 1; transform: rotate(var(--r, 0deg)); }
+}
