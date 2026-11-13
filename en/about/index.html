@@ -97,7 +97,7 @@ if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || /\.localhost
 <!-- Шрифти свої (assets/fonts), без запитів до Google; preload — лише ті, що потрібні на першому екрані. -->
 <link rel="preload" href="../../assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../../assets/fonts/unbounded-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../assets/site.min.css?v=81391450">
+<link rel="stylesheet" href="../../assets/site.min.css?v=12204fd3">
 </head>
 <body id="top">
 
@@ -374,6 +374,14 @@ if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || /\.localhost
 
 <section class="ab-hero">
   <img class="ab-hero-img" src="../../images/silent-disco/silent-disco-podrugy-tantsyuyut-pid-svitlom.webp" width="1400" height="788" alt="" decoding="async" fetchpriority="high">
+  <!-- Те саме фонове відео, що в геро головної (13.11.2026). Стартує з site.js (блок «Фонове відео героя»): після load + 0,5 с,
+       не при заощадженні трафіку / повільній мережі / зменшеному русі — тоді лишається фото вище. Постер — кадр головної,
+       site.js переносить його у фон рамки й розчиняє відео поверх. Телефон (≤720px) отримує hero-bg-sm.mp4. -->
+  <div class="ab-hero-video">
+    <video muted loop playsinline preload="none" poster="../../images/hero-crowd-v3.webp" aria-hidden="true" data-hero-video>
+      <source src="../../video/web/hero-bg-v3.mp4" type="video/mp4">
+    </video>
+  </div>
   <div class="ab-hero-fade" aria-hidden="true"></div>
   <div class="wrap ab-hero-in">
     <p class="exp-crumb"><a href="/en/">Home</a> <span aria-hidden="true">&middot;</span> <span class="crumb-now">About us</span></p>

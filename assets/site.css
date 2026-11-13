@@ -9106,3 +9106,16 @@ body:has(.legal-toc){overflow-x:clip}
     mask-image: radial-gradient(ellipse 85% 75% at 50% 50%, transparent 30%, #000 100%);
   }
 }
+
+/* «Про нас»: фонове відео геро (13.11.2026) — те саме, що на головній. Рамка лежить над фото .ab-hero-img і під
+   затемненням .ab-hero-fade. Поки відео не пішло, воно приховане (видно фото); site.js у момент старту знімає poster
+   і розчиняє відео поверх фото. Фон-постер, який site.js ставить рамці (.hv-bg), тут вимкнено. Без відео (повільна
+   мережа, зменшений рух) сторінка лишається з фото. */
+.ab-hero-video{position:absolute;inset:0}
+.ab-hero-video video{width:100%;height:100%;object-fit:cover;object-position:60% 40%;display:block}
+.ab-hero-video video[poster]{visibility:hidden}
+.ab-hero-video.hv-bg{background:none!important}  /* відео розчиняється просто поверх фото сторінки, без проміжного кадру */
+@media (max-width:720px){
+  .ab-hero-video{top:60px}
+  .ab-hero-video video{object-position:50% 30%}
+}
