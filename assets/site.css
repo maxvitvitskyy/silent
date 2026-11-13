@@ -295,13 +295,21 @@
     filter: drop-shadow(0 0 6px rgba(198,255,0,0.3));
   }
   @media (min-width: 1200px){
-    /* Лівий бік: видимий край знака має стояти так само, як права грань кнопки (15px).
-       У самому файлі ліворуч ще 15% прозорого поля (6.5px на 43px), тож .logo гасить
-       свій текстовий відступ, а знак зсувається на цю різницю. */
-    .logo { padding-left: 0; }
+    /* Просвіт навколо знака однаковий з трьох боків — зліва, згори й знизу (23.2px), як у
+       кнопки справа. Хитрість у тім, що в самому файлі навколо малюнка є прозоре поле
+       (видиме займає 72.5% ширини, 61.7% висоти, причому згори 17.5%, а знизу 20.8% — не
+       порівну). Тому коробка елемента = РІВНО видимий малюнок (31.2×26.5), а картинка 43px
+       лежить у ній абсолютно й вилазить прозорими краями. Тоді flex центрує саме малюнок
+       (згори = знизу), а .logo своїм відступом ставить його на ту саму відстань зліва.
+       Розмір самого знака при цьому не змінився. */
+    .logo { padding-left: 8.2px; }
     .logo-icon {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 43px; flex: none; margin-right: 10px; margin-left: -6.5px;
+      display: block; position: relative; overflow: visible;
+      width: 31.2px; height: 26.5px; flex: none; margin-right: 15px;
+    }
+    .logo-icon img {
+      position: absolute; left: -6.45px; top: -7.52px;
+      width: 43px; height: 43px; max-width: none; aspect-ratio: auto;
     }
   }
 
