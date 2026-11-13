@@ -179,7 +179,7 @@
   a { color: inherit; text-decoration: none; }
 
   /* Visible keyboard focus — lime ring, only for keyboard users. */
-  a:focus-visible, button:focus-visible, .ch-btn:focus-visible,
+  a:focus-visible, button:focus-visible,
   .faq-q:focus-visible, [tabindex]:focus-visible, input:focus-visible,
   select:focus-visible, textarea:focus-visible {
     outline: 2px solid var(--lime);
@@ -1516,7 +1516,6 @@
     /* Порожнеча між кнопками й панеллю на цій висоті читалась як діра. */
     .hero .hero-actions { margin-top: 34px; }
   }
-
 
   /* Геометрія hero повторює меню. Меню має max-width 1320, відступ 18px від
      країв екрана і 24px падінга плюс 1px рамки всередині — тож текст і кнопки
@@ -3730,7 +3729,6 @@
   @keyframes faDrift3 { from { transform: translate(0,0) scale(0.96); } to { transform: translate(-8%, -9%) scale(1.14); } }
   @keyframes faDrift4 { from { transform: translate(0,0) scale(1); }    to { transform: translate(6%, -12%) scale(1.1); } }
 
-
   /* Blended into the gradient rather than painted on top of it, so the letters
      read as light passing through the mesh — and the form above blurs their tops. */
   /* The clip only exists to cut the letters at the page edges. Its own font-size
@@ -3914,7 +3912,6 @@
     .footer-inner { margin-top: 18px; padding-top: 22px; }
     .footer-legal { flex-direction: column; gap: 4px; margin-top: 20px; padding-top: 13px; }
   }
-
 
   /* Приховане лише тоді, коли є кому показати. Раніше 54 блоки з 55 мали
      opacity: 0 просто в CSS, і будь-яка причина, через яку не виконався
@@ -4618,7 +4615,6 @@
     .uc-gallery.is-simple .uc-next { right: 10px; }
   }
 
-
   /* below 1240px the arrows would collide with the cards, so tuck them inside.
      Межа саме 1239, а не більше: від 1240px діє full-bleed правило вище, яке
      ставить стрілки на краї монітора, і ширший брейкпоінт його б перебив —
@@ -4648,7 +4644,6 @@
        картка й так виглядає з-за краю — підказки-стрілки достатньо. */
     #more .uc-gallery { --uc-col: 272px; }
   }
-
 
   /* ---------- WHAT TO EXPECT ---------- */
   .testimonials { padding: var(--sec-pad) 0; }
@@ -5063,7 +5058,7 @@
     height: 1px; margin: 22px 0 18px;
     background: linear-gradient(90deg, transparent, var(--line) 20%, var(--line) 80%, transparent);
   }
-  .lead-modal-sub { color: var(--muted); font-size: 13px; margin-bottom: 16px; }
+  
   /* flex:1 на кожній іконці розтягує ряд рівно на всю ширину картки й сам
      перерозподіляє простір, якщо іконок стане більше чи менше — на відміну
      від фіксованого gap, тут не треба нічого підганяти вручну. */
@@ -5265,24 +5260,11 @@
     padding: 116px 0 clamp(36px, 5vh, 56px);
     overflow: hidden;
   }
-  .exp-cover-shot {
-    position: absolute; inset: 0;
-    background: url('../images/shift-new.webp') center 42% / cover no-repeat;
-    /* Знімок ширший за кадр, тож повільний наїзд не оголює краю. */
-    transform: scale(1.06);
-  }
+  
   /* Вуаль двошарова: вертикальний градієнт садить текст у темряву внизу, а
      горизонтальний лишає праву частину кадру світлою — там обличчя, і воно
      мусить читатись. Один суцільний шар забив би знімок рівно настільки, що
      він перестав би бути знімком. */
-  .exp-cover-veil {
-    position: absolute; inset: 0;
-    background:
-      linear-gradient(180deg, rgba(10,10,11,0.82) 0%, rgba(10,10,11,0.30) 38%, rgba(10,10,11,0.86) 88%, var(--night) 100%),
-      linear-gradient(90deg, rgba(10,10,11,0.88) 0%, rgba(10,10,11,0.45) 46%, rgba(10,10,11,0.10) 100%);
-  }
-  .exp-cover-inner { position: relative; z-index: 1; }
-
 
   .exp-crumb a { color: var(--muted); border-bottom: 1px solid rgba(255,255,255,0.22); }
   .exp-crumb a:hover { color: #fff; border-bottom-color: var(--lime); }
@@ -5329,7 +5311,7 @@
      нічим. При 900px спільні 11vh давали 99px і відсували заголовок рівно за
      межу кадру. Далі по сторінці ритм лишається звичайним. */
   .exp-cover + .exp-section { padding-top: calc(var(--sec-pad) * 0.68); }
-  .exp-section-alt { background: var(--night-2); }
+  
   .exp-h2 {
     font-family: 'Unbounded', sans-serif; font-weight: 700;
     font-size: clamp(27px, 3.8vw, 52px); line-height: 1.06; letter-spacing: -0.03em;
@@ -5352,81 +5334,11 @@
      велике повітря лишається там, де за заголовком одразу йдуть картки. */
   .exp-page .h2:has(+ .section-lead) { margin-bottom: 16px; }
 
-  .exp-sub { font-size: 15.5px; line-height: 1.6; color: var(--muted); max-width: 44ch; }
-
-  /* Три твердження як широкі рядки на лініях, а не як три однакові картки.
-     Канальний колір — вертикальна риска ліворуч: той самий словник, що й
-     у панелі каналів на головній, але без жодного світіння. */
-  .exp-claims { display: grid; gap: 0; }
-  .exp-claim {
-    display: grid; grid-template-columns: minmax(0, 24ch) minmax(0, 1fr);
-    gap: clamp(24px, 5vw, 72px);
-    padding: clamp(28px, 4vh, 44px) 0 clamp(28px, 4vh, 44px) 26px;
-    border-top: 1px solid var(--line);
-    position: relative;
-  }
-  .exp-claim:last-child { border-bottom: 1px solid var(--line); }
-  .exp-claim::before {
-    content: ''; position: absolute; left: 0; top: clamp(28px, 4vh, 44px);
-    /* 1px, не 2: кольорова лінія товщою за пікселя на елементі списку —
-       рівно той прийом, який видає шаблон. Канал тут лишається світлом. */
-    width: 1px; height: 2.1em;
-    background: var(--ch-mark, var(--lime));
-  }
-  .exp-claim h3 {
-    font-family: 'Unbounded', sans-serif; font-weight: 600;
-    font-size: clamp(18px, 1.9vw, 24px); line-height: 1.2; letter-spacing: -0.02em;
-    margin: 0;
-  }
-  .exp-claim p { font-size: 15.5px; line-height: 1.62; color: var(--muted); margin: 0; max-width: 62ch; }
-
-  /* ---------- Логістика ---------- */
-  .exp-two { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 88px); align-items: start; }
-  .exp-two-head { position: sticky; top: 112px; }
-  .exp-two-head .exp-h2 { margin-bottom: 18px; }
-  .exp-shot {
-    margin-top: 32px; border-radius: var(--r-md); overflow: hidden;
-    border: 1px solid var(--line);
-  }
-  .exp-shot img { display: block; width: 100%; height: 260px; object-fit: cover; }
-
-  /* Порядок тут несе зміст: це послідовність вечора, а не перелік переваг —
-     тому нумерація видима. Дрібна й на своєму місці, а не гігантські 01/02/03. */
-  .exp-steps { list-style: none; counter-reset: s; margin: 0; padding: 0; }
-  .exp-steps li {
-    counter-increment: s;
-    padding: clamp(22px, 3.4vh, 34px) 0 clamp(22px, 3.4vh, 34px) 54px;
-    border-top: 1px solid var(--line);
-    position: relative;
-  }
-  .exp-steps li:last-child { border-bottom: 1px solid var(--line); }
-  .exp-steps li::before {
-    content: counter(s, decimal-leading-zero);
-    position: absolute; left: 0; top: clamp(22px, 3.4vh, 34px);
-    font-family: 'Unbounded', sans-serif; font-size: 13.5px; font-weight: 600;
-    color: var(--lime); letter-spacing: 0.04em;
-  }
-  .exp-steps h3 {
-    font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: 20px;
-    letter-spacing: -0.01em; margin: 0 0 8px;
-  }
-  .exp-steps p { font-size: 15px; line-height: 1.6; color: var(--muted); margin: 0; max-width: 56ch; }
-
-  /* ---------- Умови ---------- */
-  .exp-notes { display: grid; gap: clamp(20px, 3vh, 30px); max-width: 78ch; }
-  .exp-notes p { font-size: clamp(15.5px, 1.5vw, 18px); line-height: 1.62; color: var(--muted); margin: 0; }
-  .exp-notes b { color: var(--ink-inv); font-weight: 600; }
-
   /* ---------- Стрічка інших досвідів ---------- */
   /* Секція та сама, що на головній, тож стилі .usecases працюють як є —
      включно з плямою: тут вона нічому не заважає, під блоком просто йдуть
      відгуки, а не кнопка дії, тож другого джерела лайму поруч немає. */
 
-  @media (max-width: 900px){
-    .exp-two { grid-template-columns: 1fr; }
-    .exp-two-head { position: static; }
-    .exp-claim { grid-template-columns: 1fr; gap: 12px; }
-  }
   @media (max-width: 600px){
     /* На телефоні кадр портретний за визначенням, тож обрізання неминуче:
        ведемо фокус трохи лівіше, де в кадрі стоїть більше людей. Висоту
@@ -5436,67 +5348,15 @@
        розділу він давав майже двісті пікселів порожнечі, і це читалось як
        діра, а не як повітря. */
     .exp-cover { min-height: 72svh; padding-top: 96px; padding-bottom: 40px; }
-    .exp-cover-shot { background-position: 38% 34%; }
+    
     /* Бокового градієнта тут не треба: композиції «текст ліворуч, обличчя
        праворуч» на телефоні не існує, а темний лівий край просто ховав знімок. */
-    .exp-cover-veil {
-      /* Текст на телефоні займає верхні ~45% кадру, тож саме там вуаль мусить
-         тримати щільність. Світле вікно лишається нижче, між текстом і низом —
-         знімок там читається як люди, а не як темна текстура. */
-      background: linear-gradient(180deg,
-        rgba(10,10,11,0.88) 0%,
-        rgba(10,10,11,0.80) 30%,
-        rgba(10,10,11,0.54) 48%,
-        rgba(10,10,11,0.24) 64%,
-        rgba(10,10,11,0.82) 88%,
-        var(--night) 100%);
-    }
+    
     .exp-title { font-size: clamp(31px, 9.4vw, 44px); max-width: 13ch; }
     .exp-actions { gap: 10px; }
     .exp-actions .btn-primary, .exp-actions .btn-ghost { flex: 1 1 100%; text-align: center; }
     .exp-facts { gap: 18px 32px; }
-    .exp-shot img { height: 200px; }
-  }
-
-  /* ---------- Пояснювальний блок і комплект ---------- */
-  /* Сторінка-приклад тримає пояснення формату одним зв'язним текстом, а не
-     переліком переваг. Тут так само: спершу абзаци, і лише потім три рядки,
-     які підсумовують сказане. */
-  .exp-intro { display: grid; gap: 20px; max-width: 74ch; margin-bottom: clamp(36px, 5vh, 56px); }
-  .exp-intro p { font-size: clamp(15.5px, 1.5vw, 18px); line-height: 1.62; color: var(--muted); margin: 0; }
-  .exp-intro-lead { color: var(--ink-inv) !important; font-size: clamp(17px, 1.9vw, 22px) !important; line-height: 1.5 !important; }
-
-  /* Один рядок, який на сторінці-прикладі стоїть окремим твердженням між
-     абзацом і наступним блоком. Не цитата: це властивість формату, тож без
-     лапок і без курсиву — просто більший кегль на власній лінії. */
-  .exp-pull {
-    font-family: 'Unbounded', sans-serif; font-weight: 500;
-    font-size: clamp(19px, 2.4vw, 30px); line-height: 1.28; letter-spacing: -0.02em;
-    max-width: 24ch; margin: 0 0 clamp(40px, 6vh, 72px);
-    padding-left: 22px; border-left: 1px solid var(--lime);
-  }
-
-  .exp-kit { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.62fr); gap: clamp(32px, 5vw, 72px); align-items: start; }
-  .exp-kit-list { list-style: none; margin: 0; padding: 0; }
-  .exp-kit-list li {
-    display: grid; gap: 6px;
-    padding: clamp(18px, 2.6vh, 26px) 0;
-    border-top: 1px solid var(--line);
-  }
-  .exp-kit-list li:last-child { border-bottom: 1px solid var(--line); }
-  .exp-kit-list b {
-    font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: 16px;
-    letter-spacing: -0.01em;
-  }
-  .exp-kit-list span { font-size: 15px; line-height: 1.55; color: var(--muted); max-width: 54ch; }
-  .exp-kit-shot { border-radius: var(--r-md); overflow: hidden; border: 1px solid var(--line); position: sticky; top: 112px; }
-  .exp-kit-shot img { display: block; width: 100%; height: auto; }
-
-  /* Секція питань успадковує компонент із головної. */
-
-  @media (max-width: 900px){
-    .exp-kit { grid-template-columns: 1fr; }
-    .exp-kit-shot { position: static; order: -1; }
+    
   }
 
   /* ---------- Сторінка-список досвідів ---------- */
@@ -6079,16 +5939,7 @@
   /* Іконки намальовані, а не емодзі: емодзі малюються по-різному на кожній
      системі, збиваються з кольору сторінки й видають шаблон. Обводка 1.15 і
      круглі кінці — той самий словник, що в .b-icon на головній. */
-  .feat-grid {
-    display: grid;
-    /* Рівно три колонки на широкому екрані, а не auto-fit: карток шість, і при
-       автопідборі на 1440 вони лягали 4+2 з діркою в останньому ряду. Три дають
-       два повні ряди. Нижче сітка сама переходить у дві колонки й одну. */
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(16px, 2vw, 26px);
-  }
-  @media (max-width: 980px){ .feat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (max-width: 620px){ .feat-grid { grid-template-columns: 1fr; } }
+
   .feat {
     padding: clamp(24px, 3vh, 32px);
     border: 1px solid var(--line);
@@ -6096,28 +5947,17 @@
     border-radius: var(--r-md);
     background: var(--glass-fill-dark);
   }
-  .feat-icon { width: 34px; height: 34px; margin-bottom: 18px; color: var(--lime); }
-  .feat-icon svg { width: 100%; height: 100%; display: block; }
+
   .feat h3 {
     font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: 17px;
     letter-spacing: -0.01em; line-height: 1.25; margin: 0 0 10px;
   }
   .feat p { font-size: 15px; line-height: 1.58; color: var(--muted); margin: 0; }
 
-  /* Абзац одразу після виділеного рядка продовжує його, тож без відступу зверху. */
-  .exp-after-pull {
-    font-size: clamp(15.5px, 1.5vw, 18px); line-height: 1.62;
-    color: var(--muted); max-width: 62ch; margin: -18px 0 0;
-  }
-
   /* ---------- Відгуки ---------- */
   /* Без зірок, аватарів і нахилів: це три короткі репліки, і будь-яка додаткова
      атрибутика додавала б ваги тому, чого в них немає. */
-  .quote-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: clamp(16px, 2vw, 26px);
-  }
+  
   .quote { margin: 0; padding: clamp(24px, 3vh, 32px) 0 0; border-top: 1px solid var(--line); }
   .quote blockquote {
     margin: 0 0 14px;
@@ -6125,45 +5965,6 @@
     font-size: clamp(16px, 1.6vw, 19px); line-height: 1.52; color: var(--ink-inv);
   }
   .quote figcaption { font-size: 13px; color: var(--muted-2); }
-
-  /* Нижній відступ заклику навмисно НЕ обнулено: калькулятор над ним, сам
-     заклик і форма під ним мають однаковий відступ секції, тож заголовок
-     стоїть рівно посередині між калькулятором і формою (як на /experiences/).
-     Раніше тут було padding-bottom:0 — і від тексту до форми виходило вдвічі
-     менше, ніж від калькулятора до заголовка. */
-  .exp-ready-note { color: var(--muted-2) !important; margin-top: 10px !important; }
-
-  /* ================= ЖУРНАЛЬНА КОМПОЗИЦІЯ СТОРІНКИ ДОСВІДУ ================= */
-  /* Світ і структура ті самі. Змінюється лише те, як текст стоїть у кадрі:
-     замість рівномірного затемнення — визначене темне поле, через край якого
-     переходить заголовок; замість одного стовпця — вступ, дві колонки й врізка
-     на полі. Це журнальні прийоми, і вони не чіпають ні порядок розділів, ні
-     формулювання. */
-
-  /* ---------- Обкладинка ---------- */
-  /* Раніше вуаль рівно гасила весь кадр, і знімок був однаково тьмяний скрізь.
-     Тепер ліворуч суцільне поле ночі з коротким спадом, праворуч знімок майже
-     чистий — як розворот, де текст лежить на фарбі, а фотографія дихає. */
-  @media (min-width: 901px) {
-    .exp-cover-mag .exp-cover-veil {
-      background:
-        linear-gradient(180deg, rgba(10,10,11,0.72) 0%, rgba(10,10,11,0.12) 30%, rgba(10,10,11,0.30) 72%, var(--night) 100%),
-        linear-gradient(90deg, var(--night) 0%, var(--night) 34%, rgba(10,10,11,0.86) 46%, rgba(10,10,11,0.28) 62%, rgba(10,10,11,0.06) 100%);
-    }
-    .exp-cover-mag .exp-cover-shot { background-position: 78% 40%; }
-    /* Заголовок навмисно ширший за темне поле: його хвіст лягає на знімок, і
-       саме цей перехід робить композицію розворотом, а не колонкою на тлі. */
-    .exp-cover-mag .exp-title { max-width: none; width: min(62vw, 980px); }
-    .exp-cover-mag .exp-lead { max-width: 44%; }
-    /* Три колонки, а не рядок із переносами: «Офіс, тераса, ресторан» довший за
-       сусідів, і в рядку він ламав трійку на 2+1. У колонках кожен факт має
-       свою смугу й переноситься всередині неї, не зачіпаючи інших. */
-    .exp-cover-mag .exp-facts {
-      display: grid; grid-template-columns: auto 1fr auto;
-      gap: 0 clamp(26px, 3vw, 52px);
-      max-width: 62%;
-    }
-  }
 
   /* Два ваги в одному заголовку: назва продукту важка, уточнення легке. Одна
      родина, різна вага — контраст, який не потребує другого шрифту. */
@@ -6177,107 +5978,18 @@
     margin-top: 0.06em;
   }
 
-  /* ---------- Вступ і дві колонки ---------- */
-  /* Вступний абзац крупніший за основний текст — так журнал відділяє «про що
-     це» від самого тексту, не вдаючись до ярлика над заголовком. */
-  .exp-standfirst {
-    font-size: clamp(19px, 2.3vw, 29px); line-height: 1.38; letter-spacing: -0.015em;
-    color: var(--ink-inv); max-width: 30ch;
-    margin: 0 0 clamp(32px, 4.5vh, 52px);
-  }
-  .exp-spread {
-    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.42fr);
-    gap: clamp(28px, 4vw, 72px); align-items: start;
-  }
-  /* Дві колонки тільки там, де текст короткий: три абзаци вкладаються в один
-     екран, тож читач не мусить вертатися вгору по другу колонку. Це єдина
-     умова, за якої газетний набір на екрані працює. */
-  .exp-columns { columns: 2; column-gap: clamp(24px, 3vw, 44px); }
-  .exp-columns p {
-    font-size: 15.5px; line-height: 1.62; color: var(--muted);
-    margin: 0 0 15px; break-inside: avoid;
-  }
-  .exp-columns p:last-child { margin-bottom: 0; }
-
-  /* Врізка стоїть на полі, а не в потоці — так її читають як репліку збоку. */
-  .exp-aside { border-top: 1px solid var(--lime); padding-top: 18px; }
-  .exp-aside .exp-pull {
-    border: 0; padding: 0; margin: 0;
-    font-size: clamp(18px, 1.9vw, 24px); line-height: 1.3; max-width: none;
-  }
-
-  /* ---------- Відгуки ---------- */
-  /* Не три однакові картки: перша репліка велика й на всю ширину, дві інші —
-     під нею меншим кеглем. Це та сама ієрархія, що в журналі між винесеною
-     цитатою і підписами до неї. */
-  .quote-spread { display: grid; gap: clamp(26px, 3.4vw, 46px); }
-  .quote-spread .quote-lead { grid-column: 1 / -1; }
-  .quote-spread .quote-lead blockquote { font-size: clamp(22px, 3.1vw, 40px); line-height: 1.24; }
-  .quote-spread .quote-lead { border-top-color: rgba(198,255,0,0.5); }
-  @media (min-width: 761px) {
-    .quote-spread { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .quote-spread .quote-lead blockquote { max-width: 22ch; }
-  }
-
-  @media (max-width: 900px) {
-    .exp-spread { grid-template-columns: 1fr; }
-    .exp-columns { columns: 1; }
-    .exp-aside { border-top-width: 1px; }
-  }
-
   /* ================= ДООПРАЦЮВАННЯ СТОРІНКИ ДОСВІДУ ================= */
 
   /* ---------- Смуга фактів у герої ---------- */
   /* На всю ширину й обмежена лініями згори та знизу — це підсумок першого
      екрана, а не приписка збоку від тексту. Чотири пункти навмисно близькі за
      довжиною заголовків: нерівні довжини робили з рядка гребінку. */
-  @media (min-width: 901px) {
-    .exp-cover-mag .exp-facts {
-      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 0 clamp(20px, 2.4vw, 40px);
-      max-width: none; width: 100%;
-    }
-  }
+  
   .exp-facts {
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
     padding: 20px 0;
   }
-  /* Три канали названі своїми іменами й своїми кольорами: сама цифра «3» нічого
-     не показувала, а тут одразу видно, що саме їх три і які вони. */
-  .exp-facts .f-ch { display: flex; flex-wrap: wrap; gap: 0 10px; align-items: baseline; }
-  .exp-facts .f-ch i {
-    font-style: normal; color: var(--ch);
-    font-family: 'Unbounded', sans-serif; font-weight: 700;
-    font-size: clamp(15px, 1.5vw, 19px); letter-spacing: 0.01em;
-  }
-
-  /* ---------- Дві колонки у вступному розділі ---------- */
-  .exp-duo {
-    display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
-    gap: clamp(30px, 5vw, 86px); align-items: start;
-  }
-  .exp-duo-left .exp-h2 { margin-bottom: 20px; }
-  .exp-duo-left .exp-standfirst { margin: 0; max-width: 26ch; }
-  /* Права колонка має власну ієрархію: перший абзац крупніший за решту, а
-     ключове речення винесене на лаймову лінію. Інакше це була б рівна стіна
-     тексту, у якій усі речення важать однаково. */
-  .exp-duo-right p { font-size: 15.5px; line-height: 1.64; color: var(--muted); margin: 0 0 16px; }
-  .exp-duo-right p:last-child { margin-bottom: 0; }
-  .exp-duo-open { font-size: 17px !important; color: var(--ink-inv) !important; }
-  .exp-duo-mark {
-    color: var(--ink-inv) !important;
-    font-family: 'Unbounded', sans-serif; font-weight: 500;
-    font-size: clamp(16px, 1.6vw, 19px) !important; line-height: 1.34 !important;
-    border-left: 1px solid var(--lime); padding-left: 18px;
-    margin: 24px 0 24px !important;
-  }
-
-  /* ---------- «Що це дає» як продовження, а не окремий блок ---------- */
-  /* Без власного тла й без жорсткої межі: розділ читається далі тим самим
-     диханням, а не починається наново. */
-  .exp-feat-part { padding-top: clamp(40px, 6vh, 72px); }
-  .exp-feat-part .exp-h2 { margin-bottom: clamp(28px, 4vh, 44px); }
 
   /* ---------- Стрічка форматів: без стрілок ---------- */
   /* Дві смужки внизу ліворуч — це стрілки гортання, які на цій сторінці нікуди
@@ -6329,228 +6041,17 @@
   }
 
   @media (max-width: 900px) {
-    .exp-duo { grid-template-columns: 1fr; }
+    
     .exp-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 24px; }
   }
 
-  /* Назви каналів мусять важити стільки ж, скільки сусідні заголовки в смузі:
-     інакше перший пункт читається як підпис, а не як факт. */
-  .exp-facts .f-ch i { font-size: clamp(17px, 1.9vw, 23px); }
-
-  /* ---------- Hero з метрикою (велика цифра) ---------- */
-  .exp-cover-hero-metric .exp-cover-inner { display: flex; flex-direction: column; align-items: flex-start; }
-
-  .exp-hero-metric {
-    margin-bottom: 44px;
-    display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
-  }
-  .exp-metric-number {
-    font-family: 'Unbounded', sans-serif;
-    font-size: clamp(120px, 18vw, 200px);
-    font-weight: 700;
-    line-height: 1;
-    color: var(--lime);
-    text-shadow: 0 0 40px rgba(198, 255, 0, 0.25);
-  }
-  .exp-metric-label {
-    font-size: clamp(14px, 2.2vw, 18px);
-    font-weight: 500;
-    color: var(--muted);
-    letter-spacing: -0.02em;
-  }
-
-  @media (max-width: 860px) {
-    .exp-metric-number { font-size: 80px; }
-    .exp-metric-label { font-size: 14px; }
-  }
-
-  /* ---------- Сценарій вечірки: 4 кроки ---------- */
-  .exp-scenario { padding: clamp(60px, 10vh, 100px) 0; }
-
-  .scenario-steps {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: clamp(24px, 4vw, 40px);
-    margin-top: clamp(40px, 6vh, 60px);
-  }
-  .scenario-step {
-    position: relative;
-    padding: clamp(24px, 4vw, 32px);
-    border: 1px solid var(--line);
-    border-radius: var(--r-md);
-    background: rgba(14, 14, 15, 0.4);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    transition: all 0.35s ease;
-  }
-  .scenario-step:hover {
-    border-color: var(--lime);
-    background: rgba(14, 14, 15, 0.6);
-  }
-
-  .step-num {
-    position: absolute; top: clamp(12px, 2vw, 20px); right: clamp(16px, 3vw, 24px);
-    font-family: 'Unbounded', sans-serif;
-    font-size: clamp(32px, 8vw, 48px);
-    font-weight: 700;
-    color: rgba(198, 255, 0, 0.15);
-    line-height: 1;
-  }
-
-  .scenario-step h3 {
-    font-size: clamp(16px, 2.5vw, 20px);
-    font-weight: 700;
-    color: var(--lime);
-    margin-bottom: 12px;
-    margin-top: 8px;
-  }
-  .scenario-step p {
-    font-size: clamp(13px, 1.8vw, 15px);
-    line-height: 1.6;
-    color: var(--muted);
-    margin: 0;
-  }
-
-  .step-icon {
-    position: absolute; bottom: clamp(16px, 3vw, 24px); right: clamp(16px, 3vw, 24px);
-    width: clamp(40px, 8vw, 56px);
-    height: clamp(40px, 8vw, 56px);
-    opacity: 0.2;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .step-icon svg { width: 100%; height: 100%; stroke: currentColor; }
-
-  @media (max-width: 720px) {
-    .scenario-steps { grid-template-columns: 1fr; }
-    .scenario-step { padding: 20px; }
-    .step-num { font-size: 28px; }
-    .scenario-step h3 { font-size: 16px; margin-bottom: 10px; }
-    .scenario-step p { font-size: 13px; }
-  }
-
-  /* ---------- Картка без фотографії ---------- */
-  /* Доки знімка немає, місце під нього займає тематична іконка, а не порожнє
-     поле: порожнеча читалась як зламане зображення. Іконка мальована в тій
-     самій манері, що решта на сайті, і одразу каже, про що картка. */
-  .uc-ph {
-    position: absolute; inset: 0;
-    display: grid; place-items: center;
-    background:
-      radial-gradient(120% 120% at 50% 0%, rgba(198,255,0,0.07), transparent 62%),
-      var(--night-2);
-    color: rgba(198,255,0,0.42);
-  }
-  .uc-ph svg { width: 34%; max-width: 78px; height: auto; }
-  .uc-card:hover .uc-ph { color: rgba(198,255,0,0.62); }
-  .uc-ph, .uc-card:hover .uc-ph { transition: color 0.3s ease; }
-
-  /* ================= ОБКЛАДИНКА-ПОЛЕ ================= */
-  /* Попередня обкладинка (.exp-cover-shot + .exp-cover-veil + велика цифра)
-     була одним знімком на весь кадр під вуаллю. Проблема не в знімку, а в
-     арифметиці: вуаль, достатня, щоб заголовок читався, гасила саме те, заради
-     чого знімок стоїть, а один кадр не показує, що вечірок було багато.
-
-     Тут кадр розібраний на шари. Темне поле замість коробки: у секції немає ні
-     рамки, ні власного фону, ні заокруглення — вона просто ділянка ночі.
-     Ліворуч текст на затемненій половині, праворуч стрічка з восьми знімків,
-     що течуть назустріч одна одній, під ними живий градієнт — той самий
-     .aurora-liquid, що й на головній, не друга його копія. Краї стрічки
-     зроблені маскою, а не лінією: знімки виходять із темряви й у темряву
-     йдуть, тож у кадрі немає жодного різаного краю. */
-
-  .exp-cover-field {
-    /* Вище за попередню обкладинку: стрічці потрібна висота, інакше в кадр
-       входить півтора знімка і рух читається як смикання, а не як течія. */
-    min-height: clamp(560px, 86svh, 880px);
-    align-items: center;
-    padding: clamp(104px, 13vh, 136px) 0 clamp(28px, 4vh, 48px);
-    background: var(--night);
-  }
-
-  /* Обгортка градієнта живе за тими самими правилами, що .benefits-aurora:
-     коробка більша за секцію, спільне розмиття, край розчинений маскою. Ліва
-     межа стоїть на 34%, щоб світло піднімалось під стрічкою й лише краєм
-     заходило під заголовок — під самим текстом воно має бути вже майже
-     згаслим, інакше падає контраст. */
-  .exp-field-aurora {
-    position: absolute; inset: -22% -8% -26% 34%; z-index: 0;
-    overflow: hidden;
-    filter: blur(64px) saturate(1.25);
-    opacity: 1;
-  }
-
-  /* Ширма горизонтальна, а не суцільна: ліва половина мусить бути майже
-     чорною під заголовком, права — лишити і градієнт, і знімки видимими. Одне
-     рівне затемнення забрало б і те, і те. */
-  .exp-field-scrim {
-    position: absolute; inset: 0; z-index: 0;
-    background: linear-gradient(90deg,
-      var(--night) 0%, var(--night) 37%,
-      rgba(10,10,11,0.80) 52%, rgba(10,10,11,0.26) 72%, rgba(10,10,11,0) 88%);
-  }
-
-  .exp-cover-field .exp-cover-inner {
-    display: grid; align-items: center;
-    grid-template-columns: minmax(0, 46%) minmax(0, 1fr);
-    grid-template-areas: 'text strip' 'facts facts';
-    column-gap: clamp(24px, 3vw, 56px);
-    row-gap: clamp(30px, 5vh, 56px);
-  }
-  .exp-field-text { grid-area: text; }
-  .exp-marquee    { grid-area: strip; }
-  .exp-cover-field .exp-facts { grid-area: facts; }
-
-  /* Хлібна крихта стає пігулкою. На полі без рамок дрібний текст у розрядку
-     губиться між заголовком і градієнтом, а заповнена пігулка читається як
-     об'єкт — і при цьому лишається справжнім посиланням угору по ієрархії,
-     тобто не перетворюється на декорацію. */
-  .exp-cover-field .exp-crumb {
-    display: inline-flex; align-items: center; gap: 7px;
-    padding: 8px 14px; border-radius: 999px;
-    background: rgba(198,255,0,0.14); color: var(--lime);
-    margin-bottom: 24px;
-  }
-  .exp-cover-field .exp-crumb a { color: inherit; border-bottom-color: rgba(198,255,0,0.4); }
-  .exp-cover-field .exp-crumb a:hover { color: #fff; border-bottom-color: #fff; }
-
-  .exp-cover-field .exp-title { max-width: 12ch; margin-bottom: 22px; }
-  .exp-cover-field .exp-lead  { max-width: 38ch; }
-
-  /* ---------- Стрічка знімків ---------- */
-  /* Дві колонки, що їдуть у протилежні боки: одна вгору, друга вниз. Рух
-     повільний і рівний (linear), бо будь-яке пом'якшення на нескінченній петлі
-     читається як ривок на стику. Набір плиток у кожній колонці подвоєний, і
-     зсув на половину висоти повертає стрічку рівно в початок — шва немає.
-     Половина вимагає поправки на півпроміжка: 50% висоти доріжки — це набір
-     плюс 7.5 проміжків, а повний оберт — набір плюс 8. */
-  .exp-marquee {
-    --mq-gap: clamp(12px, 1.4vw, 20px);
-    position: relative; overflow: hidden;
-    height: clamp(420px, 64svh, 680px);
-    display: flex; gap: var(--mq-gap);
-    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 15%, #000 70%, transparent 100%);
-            mask-image: linear-gradient(180deg, transparent 0%, #000 15%, #000 70%, transparent 100%);
-  }
   /* Стрічка виходить за контейнер до самого краю екрана. Інакше права колонка
      обривається рівною вертикаллю на межі .wrap — тобто тим самим різаним
      краєм, якого ми позбулись зверху і знизу маскою. Відступ рахуємо з
      геометрії контейнера: 18px поля + 25px внутрішнього відступу, а ширше
      1356px — половина різниці до 1320px плюс ті самі 25px. Секція обрізає
      надлишок, тож горизонтальної прокрутки не з'являється. */
-  @media (min-width: 901px) {
-    .exp-cover-field .exp-marquee {
-      margin-right: calc(-1 * max(43px, (100vw - 1320px) / 2 + 25px));
-    }
-  }
 
-  .exp-marquee-col { position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; }
-  .exp-marquee-track {
-    position: absolute; inset: 0 0 auto 0;
-    display: flex; flex-direction: column; gap: var(--mq-gap);
-    will-change: transform;
-  }
-  .exp-marquee-up   .exp-marquee-track { animation: expMarqUp   26s linear infinite; }
-  .exp-marquee-down .exp-marquee-track { animation: expMarqDown 26s linear infinite; }
   @keyframes expMarqUp {
     from { transform: translateY(0); }
     to   { transform: translateY(calc(-50% - var(--mq-gap) / 2)); }
@@ -6560,75 +6061,8 @@
     to   { transform: translateY(0); }
   }
 
-  .exp-tile { flex: none; width: 100%; overflow: hidden; background: var(--night-2); }
-  .exp-tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  /* Два силуети по черзі: коло і м'який прямокутник. Однакові плитки читались
-     би як сітка каталогу, а чергування робить зі стрічки композицію. */
-  .exp-tile-round { border-radius: 50%; aspect-ratio: 183 / 178; }
-  .exp-tile-soft  { border-radius: var(--r-lg); aspect-ratio: 3 / 4; }
-
-  /* ---------- Факти ---------- */
-  /* Без верхньої лінії й без плашки: рівна лінія під заголовком читається як
-     верхній край коробки, а рівно цього на полі бути не мусить. Іконка стоїть
-     прямо на полі, без круглої підкладки — підкладка потрібна там, де таких
-     пунктів шість і більше й повторення дисків робить із них чекліст. */
-  .exp-cover-field .exp-facts {
-    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: clamp(16px, 2vw, 28px);
-    /* Жодної лінії: і верхньої, і нижньої. Рівна волосінь під фактами
-       читається як край коробки — рівно те, чого на полі бути не мусить. */
-    border: 0; padding-top: 0; padding-bottom: 0; max-width: none;
-  }
-  .exp-cover-field .exp-facts li { flex-direction: row; align-items: flex-start; gap: 14px; }
-  .exp-fact-ico {
-    flex: none; width: clamp(26px, 2.2vw, 34px); height: auto;
-    color: var(--lime); margin-top: 2px;
-  }
-  .exp-cover-field .exp-facts b { font-size: clamp(15px, 1.4vw, 18px); }
-  .exp-cover-field .exp-facts span { font-size: 13px; }
-
   /* ---------- Вузький екран ---------- */
-  @media (max-width: 900px) {
-    .exp-cover-field {
-      min-height: 0;
-      padding: clamp(92px, 12vh, 112px) 0 clamp(28px, 4vh, 40px);
-    }
-    .exp-cover-field .exp-cover-inner {
-      grid-template-columns: minmax(0, 1fr);
-      grid-template-areas: 'text' 'strip' 'facts';
-      row-gap: clamp(26px, 4vh, 38px);
-    }
-    /* Світло переїжджає під стрічку: на вузькому екрані текст і знімки стоять
-       один під одним, тож затемнювати половину кадру вже нічого. */
-    .exp-field-aurora { inset: 30% -24% -22% -24%; opacity: 1; }
-    .exp-field-scrim {
-      background: linear-gradient(180deg,
-        var(--night) 0%, var(--night) 30%, rgba(10,10,11,0.45) 46%, rgba(10,10,11,0) 72%);
-    }
-    .exp-cover-field .exp-title { max-width: 11ch; }
-    .exp-cover-field .exp-lead  { max-width: none; }
-
-    /* Стрічка кладеться набік: у портреті вертикальний рух з'їдає висоту,
-       якої на телефоні й так немає, тож ті самі дві доріжки їдуть
-       горизонтально — одна вліво, друга вправо. Розмітка та сама. */
-    .exp-marquee {
-      height: clamp(200px, 28svh, 260px);
-      flex-direction: column;
-      -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
-              mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
-    }
-    .exp-marquee-track {
-      inset: 0 auto 0 0; height: 100%;
-      flex-direction: row;
-    }
-    .exp-marquee-up   .exp-marquee-track { animation-name: expMarqLeft; }
-    .exp-marquee-down .exp-marquee-track { animation-name: expMarqRight; }
-    .exp-tile { width: auto; height: 100%; }
-    .exp-tile-soft { border-radius: var(--r-md); }
-
-    .exp-cover-field .exp-facts { grid-template-columns: 1fr 1fr; gap: 20px 16px; }
-    .exp-fact-ico { width: 24px; }
-  }
+  
   @keyframes expMarqLeft {
     from { transform: translateX(0); }
     to   { transform: translateX(calc(-50% - var(--mq-gap) / 2)); }
@@ -6637,14 +6071,6 @@
     from { transform: translateX(calc(-50% - var(--mq-gap) / 2)); }
     to   { transform: translateX(0); }
   }
-
-  /* Іконка стоїть у рядок із текстом, а сам текст лишається стовпчиком:
-     заголовок факту й уточнення під ним. Без цієї обгортки flex розкладав би
-     іконку, назву й уточнення в один ряд. */
-  .exp-cover-field .exp-facts .f-txt {
-    display: flex; flex-direction: column; gap: 4px; min-width: 0;
-  }
-
 
   /* ======================================================================
      ОБКЛАДИНКА КОРПОРАТИВІВ
@@ -6897,9 +6323,6 @@
     .exp-cover-gallery { --cover-top: 104px; }
   }
 
-
-
-
   /* ---------- Корпоративна тиха дискотека: знімки + текст ---------- */
   .exp-story-grid {
     display: grid;
@@ -7000,7 +6423,6 @@
     .exp-gear .hp-stage { padding-top: clamp(0px, calc(13.5vw - 12px), 120px); }
   }
 
-
   /* ---------- «Як це працює»: бенто з чотирьох кроків ---------- */
   .process-head {
     display: grid;
@@ -7096,7 +6518,6 @@
     .pb-card { min-height: 0; }
   }
 
-
   /* ---------- «Як це влаштовано»: демонстрація каналів ---------- */
   /* Дзеркало до .exp-story: текст стоїть у розмітці першим, тож сам
      потрапляє в ліву колонку, а сцена з навушниками — у праву. */
@@ -7145,10 +6566,6 @@
      тексту: після списку відступ як у списку, після абзаців — як між абзацами. */
   .exp-story-text p.story-sub { color: #fff; font-weight: 600; }
   .gear-steps + p.story-close { margin-top: clamp(22px, 3vh, 30px); }
-  .gear-hint {
-    margin: clamp(22px, 3vh, 30px) 0 0;
-    font-size: clamp(13px, 1vw, 14.5px); color: var(--muted-2, rgba(255,255,255,0.45));
-  }
 
   .hp-stage { display: flex; flex-direction: column; gap: clamp(36px, 4.4vw, 60px); }
 
@@ -7304,7 +6721,6 @@
      .hp-gear лишається по центру (він і так має власну стелю — clamp(...,
      71%, 620px) — тож на дуже широкому таблеті навушники не роздуваються
      разом із карткою). */
-
 
   /* ---------- Телефон лежачи ---------- */
   /* Той самий запит, що й для hero на головній. Тут він потрібен не менше:
@@ -7493,24 +6909,15 @@
   .f-ico.i-bars .bi-bar:nth-child(6) { animation-delay: .45s; }
   @keyframes icBarFull { 0%, 100% { scale: 1 1; } 50% { scale: 1 1.3; } }
 
-  .b-icon.i-toggle .bi-knob { animation: icKnob 1.5s cubic-bezier(.65,0,.35,1) infinite paused; }
   @keyframes icKnob { 0%, 100% { translate: 0 0; } 45%, 55% { translate: -8px 0; } }
 
-  .b-icon.i-volume .bi-wave { animation: icWave 1.5s ease-out infinite paused; }
-  .b-icon.i-volume .bi-wave:nth-child(3) { animation-delay: .22s; }
   @keyframes icWave { 0% { opacity: .25; translate: -2px 0; } 45% { opacity: 1; translate: 0 0; } 100% { opacity: .25; translate: -2px 0; } }
 
-  .b-icon.i-chat .bi-b1 { animation: icB1 1.6s ease-in-out infinite paused; }
-  .b-icon.i-chat .bi-b2 { animation: icB2 1.6s ease-in-out infinite paused; animation-delay: .2s; }
   @keyframes icB1 { 0%, 100% { translate: 0 0; } 50% { translate: -1.2px -1.2px; } }
   @keyframes icB2 { 0%, 100% { translate: 0 0; } 50% { translate: 1.2px 1.2px; } }
 
-  .b-icon.i-camera .bi-lens { animation: icLens 1.8s ease-in-out infinite paused; }
   @keyframes icLens { 0%, 70%, 100% { scale: 1; } 82% { scale: 0.45; } }
 
-  .b-icon.i-spark .bi-star { animation: icStar 2.4s ease-in-out infinite paused; }
-  .b-icon.i-spark .bi-spk  { animation: icTwinkle 1.6s ease-in-out infinite paused; }
-  .b-icon.i-spark .bi-spk2 { animation: icTwinkle 1.6s ease-in-out infinite paused; animation-delay: .5s; }
   @keyframes icStar { 0%, 100% { rotate: 0deg; scale: 1; } 50% { rotate: 18deg; scale: 1.08; } }
   @keyframes icTwinkle { 0%, 100% { opacity: .3; scale: .7; } 50% { opacity: 1; scale: 1.15; } }
 
@@ -7717,7 +7124,7 @@
      сторінці рубрика виглядала інакше. Новий надзаголовок = цей самий клас,
      власних font-* у нього бути не повинно. Колір — за роллю: декор (.eyebrow,
      .story-eyebrow) = канал на 80%, крихта = приглушена, «поточна» = лайм. */
-  :is(.eyebrow, .story-eyebrow, .exp-crumb, .exp-cover-gallery .exp-crumb, .exp-cover-field .exp-crumb) {
+  :is(.eyebrow, .story-eyebrow, .exp-crumb, .exp-cover-gallery .exp-crumb) {
     font-family: 'Manrope', sans-serif;
     font-weight: 700;
     font-size: 12px;
@@ -7935,7 +7342,6 @@
   }
   .form-left p a.ask-link:hover { color: #e4ff66; text-shadow: 0 0 14px rgba(198,255,0,0.45); }
 
-
   /* «Хмара питань» у геро /faq/ на планшеті (641–1099px): розкладка вже
      вертикальна — картка стоїть над заголовком, а не поруч. Базова картка тут
      обмежена 620px і притиснута вліво, тож праворуч лишалась порожнеча. Беремо
@@ -7970,7 +7376,6 @@
   @media (min-width: 1000px) and (max-width: 1239px){
     .faq-nav { margin-inline: -25px; padding-inline: 25px; scroll-padding-inline: 25px; }
   }
-
 
   /* Те саме для /experiences/ (і для всіх рядків .exp-filter на сайті).
      1) Віджет «SILENT. + формат» у геро вражень: від 641 до 1099px розкладка
@@ -8119,8 +7524,6 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
   .exp-story-grid > .hp-stage { order: 2; }
 }
 
-
-
 /* Текстові посилання всередині абзаців (FAQ-відповіді, підписи секцій): лаймове підкреслення,
    щоб було видно, що це лінк. Кнопки й картки сюди не потрапляють (вони не в p). */
 .faq-a p a, .section-lead a {
@@ -8131,7 +7534,6 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
 }
 .faq-a p a:hover, .section-lead a:hover { text-decoration-color: var(--lime); }
 .faq-a p a.faq-cta { text-decoration: none; }
-
 
 /* ---------- Блог (/blog/): журнальна сітка ----------
    Зверху «Вибір редакції» й колонка «Свіже», нижче перемикач тем і сітка карток тієї самої
@@ -8312,8 +7714,7 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
 .art-faq h2, .art-related h2 { max-width: calc(50% - clamp(16px, 2.5vw, 36px)); }
 /* Дві явні колонки однакового розміру: текст розкладений так, щоб вони були рівні за висотою (правило власника, 06.10.2026). */
 .art-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--art-colgap); row-gap: clamp(20px, 2.4vw, 32px); align-items: start; font-size: clamp(16px, 1.3vw, 18px); line-height: 1.7; color: rgba(255,255,255,.84); }
-.art-col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
-.art-col p, .art-col ol { margin: 0; max-width: none; }
+
 .art-cols a { color: var(--lime); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(198,255,0,.45); transition: text-decoration-color .2s, color .2s; }
 .art-cols a:hover { text-decoration-color: var(--lime); color: #fff; }
 .art-cols h2 { grid-column: 1 / -1; max-width: calc(50% - var(--art-colgap) / 2); margin: 0; }
@@ -8337,7 +7738,7 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
 /* Кроки: велика лаймова цифра, жирна назва й пояснення. Лічильник дає 01, 02, 03: нумерація не поїде, коли кроки додають чи прибирають. */
 .art-steps { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; }
 /* Кроки після вступного абзацу: окрема група з тонкою лінією й помітно більшим відступом, щоб не зливалися з текстом над ними. */
-.art-col p + .art-steps { margin-top: 14px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.14); }
+
 .art-steps li { counter-increment: st; display: grid; grid-template-columns: 64px minmax(0, 1fr); column-gap: 14px; padding: 16px 0; border-top: 1px solid rgba(255,255,255,.12); }
 .art-steps li:first-child { border-top: 0; padding-top: 0; }
 .art-steps li:last-child { padding-bottom: 0; }
@@ -8415,7 +7816,7 @@ section.faq:not(.exp-section) .faq-nav { margin-top: 44px; margin-bottom: 32px; 
   .art-cols h2 { max-width: none; }
   .art-flow { column-count: 1; }
   .art-cards li { grid-template-columns: auto minmax(0, 1fr); }
-  .art-col { gap: 16px; }
+  
   .art-steps li { grid-template-columns: 52px minmax(0, 1fr); }
   .art-faq h2, .art-related h2 { max-width: none; }
   .art-pair { grid-template-columns: minmax(0, 1fr); }
@@ -8904,13 +8305,7 @@ html { overflow-x: clip; }
     display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
   .nav-drawer-sub--blog .nav-drawer-sub-all { margin-top: 2px; padding-left: 0; }
-  /* Теми блогу лишаються, але стишено: чипи в рядок, не окремі пункти. */
-  .nav-drawer-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 2px 4px 18px; }
-  .nav-drawer-sub .nav-drawer-chips a {
-    display: inline-flex; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px;
-    font-size: 12px; font-weight: 600; color: var(--muted);
-  }
-  .nav-drawer-sub .nav-drawer-chips a:active { color: var(--lime); padding-left: 12px; border-color: var(--lime); }
+
 }
 
 /* Поки відкрито мобільне меню, сторінка під ним схована за розмиттям і заблокована, але її нескінченні анімації
@@ -8937,11 +8332,6 @@ html.is-scrolling .hx-overlay { pointer-events: none !important; }
 .calc-checks label > input.hx-overlay { left: 6px; top: 50%; width: 36px; height: 36px; transform: translateY(-50%); }
 /* Кнопки на всю ширину: накладка по центру, приблизно під написом. */
 .form-submit > input.hx-overlay, #calcSubmit > input.hx-overlay { left: 50%; width: 190px; transform: translateX(-50%); }
-
-/* Довгий вступ блоку з картками в дві рівні колонки на всю ширину (поле lead_cols у статті): як текстові блоки .art-flow,
-   колонки закінчуються на одному рівні, абзац переходить між ними. На вузьких екранах одна колонка. */
-.art-cards-lead.is-two { max-width: none; column-count: 2; column-gap: var(--art-colgap); column-fill: balance; orphans: 1; widows: 1; }
-@media (max-width: 900px) { .art-cards-lead.is-two { column-count: 1; } }
 
 /* Кроки всередині текстового потоку (.art-flow, дві колонки): картка кроку не розривається між колонками
    (раніше заголовок «03» лишався внизу лівої колонки, а його текст переїжджав у праву), а після списку є
@@ -9432,7 +8822,6 @@ body:has(.legal-toc){overflow-x:clip}
 /* «Домашні вечірки»: заголовок із трьох рядків («Домашня / вечірка в / навушниках») має запас по ширині колонки, тож кегль більший, ніж у «Громадських просторів». */
 .exp-cover-gallery .exp-title--ps.exp-title--hp{font-size:min(10.2cqw,72px)}
 
-
 /* Статті блогу: чекліст-картки (.is-check) на телефоні компактніші. Вісім-дванадцять пунктів по ~92px робили довгу стрічку, тож
    відступ і галочка менші, а лаймова «галочка» лишається впізнаваною (мінімальна ціль дотику тут не потрібна: це не кнопки). */
 @media (max-width: 700px) {
@@ -9571,7 +8960,6 @@ body:has(.legal-toc){overflow-x:clip}
 .exp-head-reel .exp-reel-list { left: 13cqw; width: calc(100% - 13cqw); }
 .exp-head-reel--q .exp-reel-list { left: 22cqw; width: calc(100% - 22cqw); }
 
-
 /* Плавний перехід постер → відео в героєві (09.11.2026). site.js переносить постер на фон рамки й ховає відео (hv-wait);
    коли ролик почав грати, hv-on розтоплює його поверх постера. Позиція фону = object-position відео, щоб кадри збігались. */
 /* Кадрування заставки окреме від кадрування відео: поки показується заставка, у <video> ще стоїть
@@ -9587,11 +8975,8 @@ body:has(.legal-toc){overflow-x:clip}
   .hero .hero-video-frame.hv-bg { background-position: 35% 78%; }
 }
 
-
 /* Іскри над еквалайзером (09.11.2026): канвас на всю панель під її вмістом, курсор не ловить. */
 #channels > .ch-sparks { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
-
-
 
 /* ── Наліпки на плашці гарантії (12.11.2026) ───────────────────────────────────────────────────────────
    Дві фірмові ілюстрації — дискокуля й пара в навушниках — «приклеєні» до плашки як стікери, без білого
@@ -9686,7 +9071,6 @@ html[lang="en"] .form-left h2 { --fh-x: 5.3em; }
   .ab-plate > img.ab-stk-disco, .ab-plate > img.ab-stk-headphones { display: none; }
   .ab-plate > img.ab-stk-camera { --r: -8deg; left: 5%; top: 14px; bottom: auto; right: auto; width: min(31%, 116px); }
   .ab-plate > img.ab-stk-girl   { --r: 6deg;  right: 4%; bottom: 12px; top: auto; left: auto; width: min(31%, 116px); }
-}
 }
 @media (prefers-reduced-motion: no-preference) {
   html.js .ab-plate:not(.in) > img.ab-stk { opacity: 0; }
