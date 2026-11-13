@@ -291,7 +291,7 @@
      стоять далі за текстом, тож перекривають display:none звідси. */
   .logo-icon { display: none; }
   .logo-icon img {
-    width: 100%; height: auto; aspect-ratio: 1 / 1; display: block;
+    width: 100%; height: auto; aspect-ratio: 183 / 178; display: block;
     filter: drop-shadow(0 0 6px rgba(198,255,0,0.3));
   }
   @media (min-width: 1200px){
@@ -394,7 +394,7 @@
        overflow:hidden на .logo-icon просто зрізав їй край. Тепер
        картинка завжди рівно така, як контейнер, у будь-якому стані. */
     .logo-icon img {
-      width: 100%; height: auto; aspect-ratio: 1 / 1; display: block;
+      width: 100%; height: auto; aspect-ratio: 183 / 178; display: block;
       filter: drop-shadow(0 0 0 transparent);
       transition: filter 0.4s ease;
     }
@@ -6557,7 +6557,7 @@
   .exp-tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
   /* Два силуети по черзі: коло і м'який прямокутник. Однакові плитки читались
      би як сітка каталогу, а чергування робить зі стрічки композицію. */
-  .exp-tile-round { border-radius: 50%; aspect-ratio: 1 / 1; }
+  .exp-tile-round { border-radius: 50%; aspect-ratio: 183 / 178; }
   .exp-tile-soft  { border-radius: var(--r-lg); aspect-ratio: 3 / 4; }
 
   /* ---------- Факти ---------- */
@@ -9627,4 +9627,38 @@ body:has(.legal-toc){overflow-x:clip}
 @keyframes stickSlap {
   from { opacity: 0; transform: translateY(16px) scale(1.45) rotate(calc(var(--r, 0deg) + 16deg)); }
   to   { opacity: 1; transform: rotate(var(--r, 0deg)); }
+}
+
+/* ── Заголовок форми заявки: два рядки + наліпка-календар (13.11.2026) ──
+   Той самий заголовок у всіх сторінках, тож без зміни розмітки (інакше
+   ламаються англійські переклади): перенос перед .em робить ::before з \A,
+   а наліпка — ::after заголовка, що сидить там, де раніше стояло «своєї події»,
+   праворуч від першого рядка, і трохи виступає за верхню межу картки.
+   Положення — в em, бо кегль заголовка плаває (clamp). */
+.form-left h2 { position: relative; }
+/* UA: перенос уже в розмітці (<br class="fh"> перед «дату»); EN: перед .em */
+.form-left h2 .em::before { content: "\A"; white-space: pre; }
+.form-left h2 .em::before { content: none; }
+.form-left h2::after {
+  content: ""; position: absolute; z-index: 2; pointer-events: none;
+  left: calc(var(--fh-x, 5.9em) + 1.1em); top: -3em;
+  width: 3.7em; aspect-ratio: 183 / 178;
+  background: url("/images/stickers/stk-calendar-v4.webp") center / contain no-repeat;
+  transform: rotate(7deg); transform-origin: 50% 60%;
+}
+html[lang="en"] .form-left h2 { --fh-x: 5.3em; }
+@media (prefers-reduced-motion: no-preference) {
+  html.js .form-card:not(.rv-done) .form-left h2::after { opacity: 0; }
+  html.js .form-card.rv-done .form-left h2::after { animation: stickSlap .55s cubic-bezier(.2,1.5,.4,1) .25s both; --r: 7deg; }
+}
+
+/* EN на телефоні: заголовок гарантії в чотири рядки, дискокуля впритул до тексту — піднята (13.11.2026) */
+@media (max-width: 759px) { html[lang="en"] .band > img.sticker-disco { top: -56px; } }
+
+/* Десктоп: наліпка-календар у порожньому місці праворуч від заголовка форми, більша
+   і з помітним виступом за верхню межу картки (13.11.2026). Телефон лишається
+   на розкладці від першого рядка (там праворуч місця немає). */
+@media (min-width: 761px) {
+  .form-left h2::after { left: auto; right: .6em; top: -3.1em; width: 5.7em; }
+  html[lang="en"] .form-left h2::after { right: .3em; top: -3.5em; width: 5em; }
 }

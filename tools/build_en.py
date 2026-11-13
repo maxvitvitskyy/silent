@@ -986,6 +986,7 @@ from alt_texts import ALT_T  # noqa: E402  (alt-тексти зображень,
 
 
 def strip_blog_mega(s):
+    s = s.replace('Перевірте<br class="fh"> дату', 'Перевірте дату')  # UA-перенос заголовка форми
     """Mega-меню «Блог» (маркери BLOG-MEGA) є лише в українській шапці: блог поки без англійської версії,
     а назви статей кирилицею зламали б перевірку неперекладеного. Генерує його tools/build_blog.py."""
     s = re.sub(r'[ \t]*<!-- BLOG-MEGA:START.*?<!-- BLOG-MEGA:END -->\n?', '', s, flags=re.S)
@@ -1556,7 +1557,21 @@ def unglue(s):
     return s
 
 
+def en_form_heading_break():
+    # Англійський заголовок форми ламаємо так само, як український: «Check the» / «date of …»,
+    # інакше наліпка-календар (CSS, h2::after) налізала б на довгий перший рядок.
+    for dp, _, fs in os.walk(os.path.join(ROOT, 'en')):
+        for fn in fs:
+            if fn.endswith('.html'):
+                fp = os.path.join(dp, fn)
+                t = io.open(fp, encoding='utf-8').read()
+                u = t.replace('<h2>Check the date ', '<h2>Check the<br class="fh"> date ')
+                if u != t:
+                    io.open(fp, 'w', encoding='utf-8').write(u)
+
+
 def stamp_files():
+    en_form_heading_break()
     minify_assets()
     hashes = {}
     for rel in STAMPED_FILES:
