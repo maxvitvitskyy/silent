@@ -241,6 +241,7 @@ PATHS = [
  ('poster="images/', 'poster="../images/'),
  ('data-video="video/',   'data-video="../video/'),
  ('src="video/',    'src="../video/'),
+ ('data-src-sm="video/', 'data-src-sm="../video/'),   # мобільна версія відео геро (site.js читає data-src-sm)
  ("url('images/",  "url('../images/"),
 ]
 

@@ -637,8 +637,11 @@ if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || /\.localhost
              Виміряно Lighthouse mobile (емульований Moto G, реальне тротлінг 4G, 13.10.2026): з autoplay + preload="auto" 19 МБ відео ділить смугу
              з CSS і скриптами: оцінка 44, FCP 6,3 с, TBT 630 мс. З тією ж сторінкою, але без раннього старту відео (видно лише той самий постер):
              оцінка 96, FCP 0,7 с, LCP 1,6 с. Людині це нічого не змінює: постер — той самий кадр, ролик підхоплює його за мить після першого руху. -->
-      <video muted loop playsinline preload="none" poster="../images/hero-crowd-v3.webp" aria-hidden="true" data-hero-video>
-        <source src="../video/web/hero-bg-v3.mp4" type="video/mp4">
+      <!-- Якість (14.11.2026, власник): десктоп — hero-bg-hq.mp4 (1920×1080, ~4 Мбіт/с, 45 МБ, той самий файл, що на «Про нас»),
+           телефон (≤720px) — hero-bg-v2.mp4 (1280×720, 1,7 Мбіт/с, 19 МБ) через data-src-sm. Ролик вантажиться після load,
+           до того видно постер, тож на перший екран вага не впливає. -->
+      <video muted loop playsinline preload="none" poster="../images/hero-crowd-v3.webp" aria-hidden="true" data-hero-video data-src-sm="../video/web/hero-bg-v2.mp4">
+        <source src="../video/web/hero-bg-hq.mp4" type="video/mp4">
       </video>
     </div>
   </div>
