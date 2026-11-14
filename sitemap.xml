@@ -507,4 +507,18 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/translation/"/>
     <lastmod>2026-11-14</lastmod>
   </url>
+  <url>
+    <loc>https://silent.org.ua/experiences/dj-set/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/dj-set/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/dj-set/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/dj-set/"/>
+    <lastmod>2026-11-14</lastmod>
+  </url>
+  <url>
+    <loc>https://silent.org.ua/en/experiences/dj-set/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/dj-set/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/dj-set/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/dj-set/"/>
+    <lastmod>2026-11-14</lastmod>
+  </url>
 </urlset>

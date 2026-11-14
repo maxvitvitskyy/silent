@@ -6096,3 +6096,123 @@ for _k, _v in list(_TRANS.items()):
     T_PAGE_ALL[_k] = _v
     if '<a href="/' in _k:
         T_PAGE_ALL[_en_href(_k)] = _en_href(_v)
+
+# Сторінка «Діджей-сет наживо» (/experiences/dj-set/, 14.11.2026).
+_DJ = {
+'Діджей-сет у навушниках: до трьох діджеїв одночасно | SILENT': 'Live DJ set in headphones: up to three DJs at once | SILENT',
+'Діджей-сет наживо в бездротових навушниках | SILENT': 'Live DJ set in wireless headphones | SILENT',
+'Діджей-сет наживо в бездротових навушниках: ваш діджей грає, гості чують сет у навушниках, а довкола тихо. До трьох діджеїв на трьох каналах. Київ і виїзд по Україні.':
+  'A live DJ set in wireless headphones: your DJ plays, guests hear the set in headphones, and it stays quiet around. Up to three DJs on three channels. Kyiv and across Ukraine.',
+'Ваш діджей грає, гості чують сет у бездротових навушниках, а довкола тихо. До трьох діджеїв одночасно.':
+  'Your DJ plays, guests hear the set in wireless headphones, and it stays quiet around. Up to three DJs at once.',
+'Діджей грає наживо, гості танцюють у бездротових навушниках SILENT з піднятими руками': 'A DJ plays live, guests dance in wireless SILENT headphones with hands in the air',
+'Діджей-сет у навушниках від SILENT': 'Live DJ set in headphones by SILENT',
+'Silent disco з живим діджеєм': 'Silent disco with a live DJ',
+'Організатори вечірок, корпоративів, весіль, фестивалів і діджеї': 'Organisers of parties, corporate events, weddings and festivals, and DJs',
+'<span class="t-lead">Діджей-сет наживо</span> <span class="t-sub">у бездротових навушниках SILENT</span>':
+  '<span class="t-lead">Live DJ set</span> <span class="t-sub">in wireless SILENT headphones</span>',
+'Ваш діджей грає наживо, а гості чують сет у бездротових навушниках, тож довкола тихо: можна на даху, просто неба чи там, де звук обмежений. До трьох діджеїв одночасно, кожен на своєму каналі. SILENT підключає пульт, видає навушники й супроводжує вечір.':
+  'Your DJ plays live and guests hear the set in wireless headphones, so it stays quiet around: on a rooftop, outdoors or wherever sound is restricted. Up to three DJs at once, each on their own channel. SILENT connects the decks, hands out the headphones and supports the evening.',
+'Обговорити сет': 'Discuss your set',
+'<b>До 3 діджеїв</b> <span>Кожен на своєму каналі.</span>': '<b>Up to 3 DJs</b> <span>Each on their own channel.</span>',
+'Живий сет там, де колонки недоречні': 'A live set where speakers are not an option',
+'Дах із видом на місто, двір історичного будинку, тераса ресторану чи зал музею: саме тут найкраще звучить живий сет, і саме тут найчастіше кажуть «після десятої тихо» або «колонки не можна».':
+  'A rooftop with a city view, the courtyard of a historic building, a restaurant terrace or a museum hall: this is where a live set sounds best, and this is exactly where you most often hear "quiet after ten" or "no speakers".',
+'У форматі SILENT діджей грає як завжди, на своєму пульті, а звук іде не в колонки, а в бездротові навушники гостей. На танцполі драйв, а за двадцять метрів тиша, і вечір не впирається в сусідів чи правила локації.':
+  'With SILENT the DJ plays as usual on their own decks, but the sound goes into guests\' wireless headphones instead of speakers. The dance floor is buzzing, twenty metres away it is silent, and the evening is not limited by neighbours or venue rules.',
+'У навушниках три канали. На кожному може грати окремий діджей, а якщо діджей один, на вільних каналах звучать плейлисти SILENT. Колір підсвітки показує, хто кого слухає.':
+  'The headphones have three channels. A separate DJ can play on each, and if there is one DJ, SILENT playlists play on the free channels. The light colour shows who is listening to whom.',
+'Живий сет. До трьох діджеїв. Ззовні тиша.': 'A live set. Up to three DJs. Silence outside.',
+'Де живий сет у навушниках особливо доречний': 'Where a live set in headphones works best',
+'Дахи, тераси й просто неба': 'Rooftops, terraces and outdoors',
+'Захід сонця, вид на місто й живий сет без скарг від сусідів: звук лишається в навушниках гостей, тож вечір можна не згортати о десятій.':
+  'Sunset, a city view and a live set without complaints from neighbours: the sound stays in guests\' headphones, so the evening does not have to end at ten.',
+'Діджей-батл': 'DJ battle',
+'Два чи три діджеї грають одночасно, кожен на своєму каналі, а гості голосують ногами, перемикаючись між ними. Колір підсвітки показує, хто веде.':
+  'Two or three DJs play at the same time, each on their own channel, and guests vote with their feet by switching between them. The light colour shows who is winning.',
+'Діджей-сет в офісі, лофті чи ресторані без проблем зі звуком. Хто хоче поговорити, знімає навушники на шию, а танцпол живе далі.':
+  'A DJ set in an office, loft or restaurant with no sound issues. Anyone who wants to talk slips the headphones down round their neck, and the dance floor carries on.',
+'Весілля й афтепаті': 'Weddings and afterparties',
+'Ваш весільний діджей продовжує сет після того, як локація просить вимкнути колонки. Молодь на одному каналі, батьки на іншому.':
+  'Your wedding DJ keeps playing after the venue asks to turn the speakers off. The young crowd on one channel, the parents on another.',
+'Фестивалі й міські події': 'Festivals and city events',
+'Окрема тиха сцена, яка не перекрикує головну: діджеї грають у навушники, а танцпол світиться кольорами каналів.':
+  'A separate silent stage that does not compete with the main one: DJs play into the headphones and the dance floor glows in channel colours.',
+'Незвичні локації': 'Unusual venues',
+'Музей, галерея, бібліотека чи двір пам’ятки: живий сет там, де звичайна вечірка неможлива через акустику чи правила.':
+  'A museum, gallery, library or the courtyard of a landmark: a live set where a normal party is impossible because of acoustics or rules.',
+'Як працює діджей-сет у навушниках': 'How a live DJ set in headphones works',
+'<b>Діджей грає на своєму пульті</b> <span>Діджей приходить зі своєю апаратурою, а SILENT підключає її вихід до передавача. Звук іде в бездротові навушники гостей, а не в колонки.</span>':
+  '<b>The DJ plays on their own decks</b> <span>The DJ brings their own equipment and SILENT connects its output to the transmitter. The sound goes into guests\' wireless headphones, not into speakers.</span>',
+'<b>До трьох діджеїв одночасно</b> <span>Кожен діджей грає на своєму каналі. Якщо діджей один, на вільних каналах звучать плейлисти SILENT.</span>':
+  '<b>Up to three DJs at once</b> <span>Each DJ plays on their own channel. If there is one DJ, SILENT playlists play on the free channels.</span>',
+'<b>Гість обирає, кого слухати</b> <span>Канал перемикається одним дотиком, а колір підсвітки показує, хто на якому сеті. У кожного свій регулятор гучності.</span>':
+  '<b>Guests choose who to listen to</b> <span>The channel switches with a single touch, and the light colour shows who is on which set. Everyone has their own volume control.</span>',
+'<b>Технічна організація під ключ</b> <span>SILENT привозить і налаштовує обладнання, підключає пульти, видає навушники, супроводжує вечір і збирає комплект після завершення відповідно до погоджених умов.</span>':
+  '<b>Turnkey technical organisation</b> <span>SILENT brings and sets up the equipment, connects the decks, hands out headphones, supports the evening and collects the kit afterwards, as agreed.</span>',
+'Технічну частину сету беремо на себе': 'We take care of the technical side of the set',
+'<a href="/">SILENT</a> — це не просто навушники. Діджея запрошуєте ви, а ми робимо так, щоб його сет почули всі гості: привозимо систему, підключаємо пульт і супроводжуємо вечір.':
+  '<a href="/">SILENT</a> is more than headphones. You book the DJ, and we make sure every guest hears the set: we bring the system, connect the decks and support the evening.',
+'<span>бездротові навушники для всіх гостей;</span>': '<span>wireless headphones for all guests;</span>',
+'<span>передавач і підключення пульта кожного діджея;</span>': '<span>a transmitter and a connection for each DJ\'s decks;</span>',
+'<span>плейлисти SILENT на вільних каналах;</span>': '<span>SILENT playlists on the free channels;</span>',
+'<span>технічний супровід протягом вечора.</span>': '<span>technical support throughout the evening.</span>',
+'Від ідеї до першого треку': 'From idea to the first track',
+'Починаємо з локації, кількості гостей і того, скільки діджеїв гратиме. На цій основі визначаємо комплект і логістику.':
+  'We start with the venue, the number of guests and how many DJs will play. From there we work out the kit and the logistics.',
+'Дізнаємося дату, локацію, кількість гостей і скільки діджеїв гратиме.': 'We find out the date, venue, number of guests and how many DJs will play.',
+'Визначаємо кількість навушників, канали для діджеїв і плейлистів, місце для пульта й живлення.': 'We agree the number of headphones, channels for DJs and playlists, and where the decks and power will be.',
+'Погоджуємо логістику, час монтажу, підключення апаратури діджеїв і видачу навушників.': 'We agree the logistics, set-up time, connecting the DJs\' equipment and how headphones are handed out.',
+'Супроводжуємо вечір': 'We support the evening',
+'Підключаємо пульти, перевіряємо звук із кожним діджеєм, видаємо навушники й збираємо їх після завершення відповідно до узгодженого пакета.':
+  'We connect the decks, run a sound check with each DJ, hand out the headphones and collect them afterwards, as agreed in the package.',
+'Живий сет лише один із форматів. У розділі «<a href="/experiences/">Тихі враження</a>» зібрано інші: <a href="/experiences/silent-disco/">Silent Disco з плейлистами</a>, <a href="/experiences/corporate/">корпоративи</a>, <a href="/experiences/wedding/">весілля</a> і <a href="/experiences/festivals/">фестивалі</a>. Поради для вечірок шукайте в <a href="/blog/">блозі</a>: <a href="/blog/vechirka-bez-shumu-sysidy/">як провести вечірку, щоб не заважати сусідам</a> і <a href="/blog/afterparty-festyvalyu/">афтепаті фестивалю</a>.':
+  'A live set is just one of the formats. Our <a href="/experiences/">Quiet Experiences</a> section brings together others: <a href="/experiences/silent-disco/">Silent Disco with playlists</a>, <a href="/experiences/corporate/">corporate parties</a>, <a href="/experiences/wedding/">weddings</a> and <a href="/experiences/festivals/">festivals</a>.',
+'Поширені запитання про діджей-сет у навушниках': 'Frequently asked questions about a live DJ set in headphones',
+'Чи надаєте ви діджея?': 'Do you provide a DJ?',
+'Ні, діджея запрошуєте ви. SILENT забезпечує технічну частину: підключає апаратуру діджея до передавача, видає гостям навушники й супроводжує вечір.':
+  'No, you book the DJ. SILENT handles the technical side: connects the DJ\'s equipment to the transmitter, hands out headphones to guests and supports the evening.',
+'Скільки діджеїв можуть грати одночасно?': 'How many DJs can play at once?',
+'До трьох. Кожен діджей грає на своєму каналі, а гості перемикаються між сетами одним дотиком.': 'Up to three. Each DJ plays on their own channel, and guests switch between sets with a single touch.',
+'На якій апаратурі грає діджей?': 'What equipment does the DJ play on?',
+'На своїй: пульт, ноутбук чи інша апаратура, з якою він звик грати. SILENT підключає її вихід до передавача й перевіряє звук до старту.':
+  'Their own: decks, a laptop or whatever they are used to playing on. SILENT connects its output to the transmitter and checks the sound before the start.',
+'Що звучить на каналах, де не грає діджей?': 'What plays on the channels without a DJ?',
+'Плейлисти SILENT, які ми готуємо наперед під формат вечора. Так у гостей завжди є вибір, навіть якщо діджей один.': 'SILENT playlists that we prepare in advance for the evening. So guests always have a choice, even with one DJ.',
+'Скільки коштує діджей-сет у навушниках?': 'How much does a live DJ set in headphones cost?',
+'Базовий орієнтир — від 12 000 грн за 40 навушників на 4 години. Фінальна вартість залежить від дати, локації, тривалості та кількості навушників. Гонорар діджея в цю суму не входить.':
+  'As a guide, prices start at UAH 12,000 for 40 headphones for 4 hours. The final cost depends on the date, location, duration and number of headphones. The DJ\'s fee is not included.',
+'Чи можна провести сет просто неба?': 'Can the set be held outdoors?',
+'Так, якщо поруч є живлення для пульта й передавача і є запасний план на дощ: намет, навіс чи приміщення. Умови локації обговорюємо заздалегідь.':
+  'Yes, if there is power nearby for the decks and the transmitter and a backup plan for rain: a tent, canopy or indoor space. We discuss the venue conditions in advance.',
+'Так. У навушниках є регулятор та обмежувач гучності, а кожен гість налаштовує рівень звуку для себе. Обмежувач допомагає контролювати рівень звуку, але не є гарантією абсолютної безпеки для слуху.':
+  'Yes. The headphones have a volume control and limiter, and each guest sets the level for themselves. The limiter helps keep the volume in check but is not a guarantee of complete hearing safety.',
+'Скільки коштує діджей-сет у навушниках': 'How much a live DJ set in headphones costs',
+'Для стандартного формату скористайтеся калькулятором: база розрахована на 40 навушників і 4 години. Гонорар діджея у вартість не входить. Якщо діджеїв кілька чи локація має особливі умови, вартість узгоджуємо індивідуально.':
+  'For the standard format, use the calculator: the base covers 40 headphones and 4 hours. The DJ\'s fee is not included. If there are several DJs or the venue has special requirements, we agree the price individually.',
+'Плануєте вечір із діджеєм? Обговорімо сет': 'Planning an evening with a DJ? Let\'s talk about the set',
+'Розкажіть про локацію, кількість гостей і діджеїв. Ми підкажемо, як зробити живий сет у навушниках, і запропонуємо наступний крок.':
+  'Tell us about the venue, the number of guests and DJs. We\'ll suggest how to run a live set in headphones and propose the next step.',
+'Дата, локація, кількість діджеїв і приблизна кількість гостей — цього достатньо, щоб почати розмову.': 'The date, venue, number of DJs and a rough number of guests are enough to start the conversation.',
+'Обговорити <span class="em">діджей-сет</span> у навушниках': 'Discuss a <span class="em">DJ set</span> in headphones',
+'Залиште заявку — перевіримо доступність обладнання та зв’яжемося з вами, щоб узгодити сет і технічні деталі.':
+  'Leave a request and we\'ll check equipment availability and get in touch to agree the set and technical details.',
+'<option selected>Діджей-сет</option>': '<option selected>DJ set</option>',
+'Діджей у навушниках SILENT грає сет за пультом, позаду танцюють гості': 'A DJ in SILENT headphones plays a set at the decks, guests dance behind',
+'Гостя торкається чаші навушників SILENT, щоб перемкнутися на інший канал': 'A guest touches the ear cup of her SILENT headphones to switch to another channel',
+'Навушники SILENT лежать на столі поруч із діджейським пультом': 'SILENT headphones lie on the table next to the DJ decks',
+'Діджей-батл: два пульти поруч, гості в червоних і синіх навушниках': 'DJ battle: two sets of decks side by side, guests in red and blue headphones',
+'Корпоратив у лофті: діджей грає, колеги танцюють у навушниках SILENT': 'A corporate party in a loft: the DJ plays, colleagues dance in SILENT headphones',
+'Весільна вечірка в саду: діджей за пультом, гості танцюють у навушниках SILENT': 'A wedding party in a garden: the DJ at the decks, guests dance in SILENT headphones',
+'Тихий танцпол під шатром на фестивалі, діджей грає для гостей у навушниках': 'A silent dance floor under a festival tent, a DJ plays for guests in headphones',
+'Нічний діджей-сет у залі музею, гості танцюють серед експонатів у навушниках': 'A night DJ set in a museum hall, guests dance among the exhibits in headphones',
+'Гостям на вході видають навушники SILENT перед діджей-сетом': 'Guests are handed SILENT headphones at the entrance before the DJ set',
+'Діджей у навушниках SILENT за пультом на вечірці в саду': 'A DJ in SILENT headphones at the decks at a garden party',
+'Технік SILENT перевіряє навушники перед вечіркою біля кейса з комплектом': 'A SILENT technician checks headphones before the party next to the case with the kit',
+'Фінальний сет вечора: натовп у навушниках SILENT з піднятими руками': 'The final set of the night: a crowd in SILENT headphones with hands in the air',
+}
+for _k, _v in list(_DJ.items()):
+    T_PAGE_ALL[_k] = _v
+    if '<a href="/' in _k:
+        T_PAGE_ALL[_en_href(_k)] = _en_href(_v)
+T_PAGE_ALL['Діджей грає на даху на заході сонця, гості танцюють у навушниках SILENT'] = 'A DJ plays on a rooftop at sunset, guests dance in SILENT headphones'
