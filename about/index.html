@@ -99,7 +99,7 @@ if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || /\.localhost
 <link rel="preload" href="../assets/fonts/manrope-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../assets/fonts/unbounded-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../assets/site.min.css?v=12204fd3">
+<link rel="stylesheet" href="../assets/site.min.css?v=872f8376">
 </head>
 <body id="top">
 
@@ -420,10 +420,12 @@ if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || /\.localhost
   <img class="ab-hero-img" src="../images/silent-disco/silent-disco-podrugy-tantsyuyut-pid-svitlom.webp" width="1400" height="788" alt="" decoding="async" fetchpriority="high">
   <!-- Те саме фонове відео, що в геро головної (13.11.2026). Стартує з site.js (блок «Фонове відео героя»): після load + 0,5 с,
        не при заощадженні трафіку / повільній мережі / зменшеному русі — тоді лишається фото вище. Постер — кадр головної,
-       site.js переносить його у фон рамки й розчиняє відео поверх. Телефон (≤720px) отримує hero-bg-sm.mp4. -->
+       site.js переносить його у фон рамки й розчиняє відео поверх. Тут якісніша версія, ніж на головній
+       (власник, 13.11.2026): hero-bg-hq.mp4 — 1920×1080, ~4 Мбіт/с, 45 МБ, з того самого videoplayback.mp4 (обрізка 5,96 с / 90 с);
+       телефон (≤720px) — hero-bg-v2.mp4 (1280×720, 1,7 Мбіт/с) через data-src-sm. Вантажиться після load, на LCP не впливає. -->
   <div class="ab-hero-video">
-    <video muted loop playsinline preload="none" poster="../images/hero-crowd-v3.webp" aria-hidden="true" data-hero-video>
-      <source src="../video/web/hero-bg-v3.mp4" type="video/mp4">
+    <video muted loop playsinline preload="none" poster="../images/hero-crowd-v3.webp" aria-hidden="true" data-hero-video data-src-sm="../video/web/hero-bg-v2.mp4">
+      <source src="../video/web/hero-bg-hq.mp4" type="video/mp4">
     </video>
   </div>
   <div class="ab-hero-fade" aria-hidden="true"></div>
@@ -758,6 +760,6 @@ window.SILENT_I18N = {
      site.js сам лишається на власній появі через IntersectionObserver. -->
 <script defer src="../assets/vendor/gsap.min.js?v=fa1aeabc"></script>
 <script defer src="../assets/vendor/ScrollTrigger.min.js?v=ecd3242f"></script>
-<script defer src="../assets/site.min.js?v=db5d97ae"></script>
+<script defer src="../assets/site.min.js?v=29a28f46"></script>
 </body>
 </html>

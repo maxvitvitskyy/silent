@@ -8113,7 +8113,13 @@ html { overflow-x: clip; }
 .ab-hero-in{position:relative;padding-top:clamp(130px,13vw,170px);padding-bottom:clamp(60px,8vw,110px)}
 .ab-hero .exp-crumb{margin:0 0 clamp(26px,3vw,40px);justify-content:center}
 .ab-h1{margin:0;font:800 clamp(40px,7.2vw,104px)/1 'Unbounded',sans-serif;letter-spacing:-.045em;text-transform:uppercase;text-wrap:balance}
-.ab-h1 span:not(.ab-sr){color:var(--lime)}
+.ab-h1 span:not(.ab-sr):not(.vf-ch){color:var(--lime)}
+/* Великі заголовки зі змінною товщиною за курсором (13.11.2026): «Про нас» (геро й заклик), /experiences/, /faq/, /privacy/,
+   /blog/ і головні слова (.t-lead) у геро сторінок форматів. site.js (список VF_TITLES) розбиває текст на літери .vf-ch і веде
+   вагу кожної від відстані до миші. Без миші, на телефоні й без JS заголовок лишається як був. .vf-sr — текст для скрінрідера. */
+.vf-on{cursor:default}
+.vf-on .vf-ch{font-weight:inherit}  /* звичайний inline: inline-block дав би переноси посеред слова */
+.vf-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .ab-intro{padding:clamp(40px,6vw,90px) 0 0}
 .ab-intro-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(30px,5vw,80px);align-items:center}
 .ab-quote{margin:0 0 22px;font:italic 500 clamp(24px,2.7vw,38px)/1.25 'Lora',serif;color:#fff}

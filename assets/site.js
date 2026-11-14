@@ -6154,7 +6154,9 @@ function orderExperience(name, opts){
       else v.addEventListener('playing', show, { once: true });
       setTimeout(show, 6000);
     }
-    v.src = small ? new URL((srcEl.getAttribute('src') || '').replace('hero-bg-v3.mp4', 'hero-bg-sm.mp4'), document.baseURI).href : srcEl.src;
+    // data-src-sm (13.11.2026, «Про нас»): сторінка може сама назвати файл для телефона, інакше — заміна імені v3 → sm, як на головній.
+    const smAttr = v.getAttribute('data-src-sm');
+    v.src = small ? new URL(smAttr || (srcEl.getAttribute('src') || '').replace('hero-bg-v3.mp4', 'hero-bg-sm.mp4'), document.baseURI).href : srcEl.src;
     // Повторна спроба, коли дані вже є: деякі вбудовані браузери відхиляють перший play() до готовності потоку.
     v.addEventListener('canplay', () => { if (v.paused) v.play().catch(() => {}); }, { once: true });
     v.load();
@@ -6200,4 +6202,103 @@ function orderExperience(name, opts){
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll, { passive: true });
   update();
+})();
+
+/* Великі заголовки зі змінною товщиною за курсором (13.11.2026; спершу «Про нас», потім інші великі заголовки).
+   Кожна літера отримує власну вагу Unbounded (200–900): ціль — гауссіана від відстані до курсора (по вертикалі відстань
+   рахується «важче», щоб світився саме рядок під мишею), видиме значення доганяє ціль за експонентою від часу, як у
+   «Стопці плашок». За замовчуванням (власник, 13.11.2026) заголовок має свою звичайну вагу (800); ефект живе лише, поки
+   курсор над заголовком: біля курсора лишається жирно, далі тоншає до BASE; після виходу все плавно вертається.
+   Пік = звичайна вага, тож заголовок ніколи не стає ширшим, ніж у спокої, і рядки не переносяться.
+   Позиції літер кешуються (вимірювати щокадру після запису ваг = форсований layout); оновлюються при вході курсора й resize.
+   Лише пристрої з мишею. Доступність: для скрінрідера — прихована копія тексту (.vf-sr), літери aria-hidden.
+   Який заголовок отримує ефект — список VF_TITLES; розбиття на літери зберігає вкладені span/em/br і їхні кольори. */
+(function () {
+  const VF_TITLES = '.ab-h1, .ab-plate h2, .exp-head-title, .exp-title .t-lead, .blog-title';
+  if (!window.matchMedia || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  const BASE = 260, RATE = 9;          // RATE — швидкість доганяння, 1/с
+  document.querySelectorAll(VF_TITLES).forEach(h => {
+    const PEAK = parseInt(getComputedStyle(h).fontWeight, 10) || 800;
+    // <br> у textContent зникає без пробілу («подіязапам'ятається»), тож рахуємо текст із копії, де br → пробіл.
+    const cl = h.cloneNode(true); cl.querySelectorAll('br').forEach(br => br.replaceWith(' ')); cl.querySelectorAll('.ab-sr').forEach(e => e.remove());
+    const text = cl.textContent.replace(/\s+/g, ' ').trim();
+    const chars = [];
+    (function split(node) {
+      [...node.childNodes].forEach(c => {
+        if (c.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          for (const ch of c.textContent) {
+            if (/\s/.test(ch)) { frag.appendChild(document.createTextNode(ch)); continue; }
+            const s = document.createElement('span');
+            s.className = 'vf-ch'; s.textContent = ch; s.setAttribute('aria-hidden', 'true');
+            frag.appendChild(s); chars.push({ el: s, x: 0, y: 0, w: PEAK, t: PEAK });
+          }
+          c.replaceWith(frag);
+        } else if (c.nodeType === 1 && c.tagName !== 'BR' && !c.classList.contains('ab-sr')) split(c);
+      });
+    })(h);
+    if (!chars.length) return;
+    // .ab-h1 уже має поруч прихований <h1>; іншим заголовкам — власна прихована копія тексту.
+    if (h.classList.contains('ab-h1')) h.setAttribute('aria-hidden', 'true');
+    else { const sr = document.createElement('span'); sr.className = 'vf-sr'; sr.textContent = text; h.appendChild(sr); }
+    h.classList.add('vf-on');
+    // Кернінг (виправлення стрибків, 13.11.2026). Браузер кернить пару лише всередині одного «шматка» тексту з однаковими
+    // властивостями: поки сусідні літери мають різну вагу, кернінгу між ними нема, а коли вага випадково збігається (обидві
+    // 800 чи обидві 260) — пара склеюється й літера смикається, напр. «УС» на /faq/ ближче на 12px. Тому кернінг пари
+    // вимірюємо один раз (у спокої, після завантаження шрифтів), задаємо його сталим margin-left у em, а браузерний вимикаємо:
+    // у спокої літери стоять рівно там, де стояли, а під час руху відстань змінюється плавно.
+    function bakeKerning() {
+      const fsz = parseFloat(getComputedStyle(h).fontSize) || 60;
+      // міряємо в спокої: якщо курсор уже над заголовком, ваги тимчасово скидаємо до звичайної
+      const saved = chars.map(c => c.el.style.fontWeight);
+      h.querySelectorAll('br.vf-br').forEach(br => br.remove());
+      chars.forEach(c => { c.el.style.marginLeft = ''; c.el.style.fontWeight = ''; });
+      h.style.fontKerning = '';
+      const on = chars.map(c => c.el.getBoundingClientRect());
+      h.style.fontKerning = 'none';
+      const off = chars.map(c => c.el.getBoundingClientRect());
+      for (let i = 1; i < chars.length; i++) {
+        if (Math.abs(on[i].top - on[i - 1].top) > 2 || Math.abs(off[i].top - off[i - 1].top) > 2) continue;   // різні рядки
+        const k = (on[i].left - on[i - 1].left) - (off[i].left - off[i - 1].left);
+        if (Math.abs(k) > 0.05) chars[i].el.style.marginLeft = (k / fsz).toFixed(4) + 'em';
+      }
+      // Переноси: заголовки з text-wrap: balance вибирають між майже рівними варіантами, і сотої пікселя досить, щоб
+      // слово перескочило на інший рядок (так було з «A hen party / in headphones»). Якщо рядки розійшлися з
+      // оригіналом, ставимо явний <br class="vf-br"> там, де рядок починався з кернінгом.
+      const after = chars.map(c => c.el.getBoundingClientRect());
+      for (let i = 1; i < chars.length; i++) {
+        const wasStart = on[i].top - on[i - 1].top > 2, isStart = after[i].top - after[i - 1].top > 2;
+        if (wasStart && !isStart) chars[i].el.before(Object.assign(document.createElement('br'), { className: 'vf-br' }));
+      }
+      chars.forEach((c, i) => { c.el.style.fontWeight = saved[i]; });
+    }
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(bakeKerning); else bakeKerning();
+    let bakeT = 0;
+    window.addEventListener('resize', () => { clearTimeout(bakeT); bakeT = setTimeout(bakeKerning, 150); }, { passive: true });
+
+    let fs = 60, px = null, py = null, raf = 0, last = 0;
+    function measure() {
+      fs = parseFloat(getComputedStyle(h).fontSize) || 60;
+      chars.forEach(c => { const r = c.el.getBoundingClientRect(); c.x = r.left + r.width / 2 + scrollX; c.y = r.top + r.height / 2 + scrollY; });
+    }
+    function frame(now) {
+      raf = 0;
+      const dt = Math.min(0.05, last ? (now - last) / 1000 : 0.016); last = now;
+      const R = fs * 1.7, a = 1 - Math.exp(-RATE * dt);
+      let moving = false;
+      chars.forEach(c => {
+        if (px === null) c.t = PEAK;
+        else { const dx = c.x - px, dy = (c.y - py) * 1.8; c.t = BASE + (PEAK - BASE) * Math.exp(-(dx * dx + dy * dy) / (R * R)); }
+        const d = c.t - c.w;
+        if (Math.abs(d) > 0.5) { c.w += d * a; moving = true; } else c.w = c.t;
+        c.el.style.fontWeight = Math.round(c.w);
+      });
+      if (moving) raf = requestAnimationFrame(frame); else last = 0;
+    }
+    const kick = () => { if (!raf) raf = requestAnimationFrame(frame); };
+    h.addEventListener('pointerenter', measure);
+    h.addEventListener('pointermove', e => { if (e.pointerType !== 'mouse') return; px = e.pageX; py = e.pageY; kick(); }, { passive: true });
+    h.addEventListener('pointerleave', () => { px = py = null; kick(); });
+    window.addEventListener('resize', measure, { passive: true });
+  });
 })();
