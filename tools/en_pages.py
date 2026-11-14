@@ -5973,3 +5973,126 @@ _TOURS2 = {
 }
 for _k, _v in _TOURS2.items():
     T_PAGE_ALL[_k] = _v
+
+# Сторінка «Синхронний переклад» (/experiences/translation/, 14.11.2026).
+_TRANS = {
+'Обладнання для синхронного перекладу — навушники під ключ | SILENT': 'Simultaneous interpretation equipment, turnkey headphones | SILENT',
+'Синхронний переклад у навушниках | SILENT': 'Simultaneous interpretation in headphones | SILENT',
+'Синхронний переклад у бездротових навушниках: до трьох мов одночасно, мікрофони для перекладачів і технічний супровід. Київ і виїзд по Україні.':
+  'Simultaneous interpretation in wireless headphones: up to three languages at once, microphones for interpreters and technical support. Kyiv and across Ukraine.',
+'Перекладач говорить у мікрофон, гості чують переклад у бездротових навушниках і самі обирають мову. До трьох мов одночасно.':
+  'The interpreter speaks into a microphone, guests hear the interpretation in wireless headphones and choose their own language. Up to three languages at once.',
+'Перекладачка говорить у мікрофон у конференц-залі, слухачі в навушниках SILENT трьох кольорів': 'An interpreter speaks into a microphone in a conference hall, listeners in SILENT headphones of three colours',
+'Обладнання для синхронного перекладу від SILENT': 'Simultaneous interpretation equipment by SILENT',
+'Обладнання для синхронного перекладу': 'Simultaneous interpretation equipment',
+'Організатори міжнародних конференцій, тренінгів, церковних служінь і ділових зустрічей': 'Organisers of international conferences, trainings, church services and business meetings',
+'<span class="t-lead">Синхронний переклад</span> <span class="t-sub">у бездротових навушниках SILENT</span>':
+  '<span class="t-lead">Simultaneous interpretation</span> <span class="t-sub">in wireless SILENT headphones</span>',
+'Перекладач говорить у мікрофон, а гості чують переклад у бездротових навушниках і самі обирають мову: до трьох мов одночасно. SILENT привозить навушники й мікрофони для перекладачів, налаштовує систему та супроводжує подію.':
+  'The interpreter speaks into a microphone, and guests hear the interpretation in wireless headphones and choose their own language: up to three languages at once. SILENT brings the headphones and the interpreters’ microphones, sets up the system and supports the event.',
+'Обговорити переклад': 'Discuss interpretation',
+'<b>До 3 мов</b> <span>Кожна на своєму каналі.</span>': '<b>Up to 3 languages</b> <span>Each on its own channel.</span>',
+'Коли в залі говорять різними мовами': 'When the room speaks different languages',
+'Іноземний спікер, міжнародні гості, служіння для громади з різних країн: частина залу не розуміє мову виступу. Послідовний переклад подовжує програму вдвічі, а без перекладу половина гостей просто чекає кінця.':
+  'A foreign speaker, international guests, a service for a congregation from different countries: part of the room doesn’t understand the language on stage. Consecutive interpretation doubles the length of the programme, and without interpretation half the guests simply wait for it to end.',
+'З синхронним перекладом перекладач говорить у мікрофон паралельно зі спікером, а слухачі чують його голос у бездротових навушниках. Програма йде у своєму темпі, і кожен розуміє, що відбувається на сцені.':
+  'With simultaneous interpretation, the interpreter speaks into a microphone alongside the speaker, and listeners hear them in wireless headphones. The programme keeps its pace, and everyone understands what’s happening on stage.',
+'Мову гості обирають самі: у навушниках три канали, перемикання одним дотиком, а колір підсвітки показує обраний канал. Кому переклад не потрібен, слухає зал як завжди, без навушників.':
+  'Guests choose the language themselves: the headphones have three channels, switched with a single touch, and the light colour shows which channel is on. Anyone who doesn’t need interpretation listens to the room as usual, without headphones.',
+'Один виступ. До трьох мов. Кожен чує свою.': 'One talk. Up to three languages. Everyone hears their own.',
+'Де потрібен синхронний переклад': 'Where simultaneous interpretation is needed',
+'Конференції та форуми': 'Conferences and forums',
+'Іноземний спікер на сцені, а зала слухає його своєю мовою: кожна мова йде окремим каналом, і гість сам обирає потрібний. Колір підсвітки одразу показує, хто який канал слухає.':
+  'A foreign speaker on stage, and the room listens in its own language: each language runs on a separate channel and guests pick the one they need. The light colour shows at a glance who is listening to which channel.',
+'Церковні служіння': 'Church services',
+'Переклад проповіді для гостей і громади з інших країн, не перериваючи служіння: перекладач говорить тихо в мікрофон, а решта залу слухає як завжди.':
+  'Interpretation of the sermon for guests and members from other countries without interrupting the service: the interpreter speaks quietly into a microphone, and the rest of the room listens as usual.',
+'Тренінги та семінари': 'Trainings and seminars',
+'Запрошений іноземний тренер веде програму в живому темпі, а учасники чують переклад у навушниках і встигають записувати, не чекаючи пауз на переклад.':
+  'A visiting foreign trainer runs the programme at a lively pace, and participants hear the interpretation in their headphones and keep up with their notes, with no pauses for interpretation.',
+'Ділові зустрічі та делегації': 'Business meetings and delegations',
+'Переговори, візит партнерів чи презентація для делегації: перекладач сидить збоку, а гості слухають його в навушниках, і розмова йде без постійних пауз.':
+  'Negotiations, a partner visit or a presentation for a delegation: the interpreter sits to the side, guests listen in headphones, and the conversation flows without constant pauses.',
+'Міжнародні весілля': 'International weddings',
+'Церемонія українською, а рідні й друзі з іншої країни чують кожне слово своєю мовою. Обітниці звучать один раз, а розуміють їх усі.':
+  'The ceremony is in Ukrainian, and family and friends from another country hear every word in their own language. The vows are spoken once, and everyone understands them.',
+'Лекції та освітні події': 'Lectures and educational events',
+'Гостьова лекція, відкрите заняття чи день для іноземних студентів: лектор говорить своєю мовою, а аудиторія слухає переклад у навушниках.':
+  'A guest lecture, an open class or a day for international students: the lecturer speaks their own language, and the audience listens to the interpretation in headphones.',
+'Як працює синхронний переклад SILENT': 'How SILENT simultaneous interpretation works',
+'<b>Перекладач говорить у мікрофон</b> <span>Кожен перекладач отримує від SILENT свій мікрофон-передавач, і його голос іде окремим каналом у навушники слухачів.</span>':
+  '<b>The interpreter speaks into a microphone</b> <span>Each interpreter gets their own microphone transmitter from SILENT, and their voice goes on a separate channel to the listeners’ headphones.</span>',
+'<b>Гість обирає мову</b> <span>У навушниках три канали: мова перемикається одним дотиком, а колір підсвітки показує, який канал увімкнено.</span>':
+  '<b>Guests choose the language</b> <span>The headphones have three channels: the language switches with a single touch, and the light colour shows which channel is on.</span>',
+'<b>Кожен регулює гучність</b> <span>У навушниках є регулятор гучності: слухач налаштовує звук під себе.</span>':
+  '<b>Everyone sets their own volume</b> <span>The headphones have a volume control, so each listener adjusts the sound to suit them.</span>',
+'<b>Технічна організація під ключ</b> <span>SILENT привозить і налаштовує обладнання, видає навушники на вході, супроводжує подію й збирає комплект після завершення відповідно до погоджених умов.</span>':
+  '<b>Turnkey technical organisation</b> <span>SILENT brings and sets up the equipment, hands out headphones at the entrance, supports the event and collects the kit afterwards, as agreed.</span>',
+'Технічну частину перекладу беремо на себе': 'We take care of the technical side of interpretation',
+'<a href="/">SILENT</a> — це не просто навушники. Перекладачів запрошуєте ви, а ми робимо так, щоб їх почули: привозимо систему, налаштовуємо канали під мови й супроводжуємо подію.':
+  '<a href="/">SILENT</a> is more than headphones. You bring the interpreters, and we make sure they’re heard: we bring the system, set up a channel for each language and support the event.',
+'<span>бездротові навушники для всіх слухачів перекладу;</span>': '<span>wireless headphones for everyone listening to the interpretation;</span>',
+'<span>мікрофони-передавачі для перекладачів, по одному на мову;</span>': '<span>microphone transmitters for the interpreters, one per language;</span>',
+'<span>налаштування каналів під мови й перевірка звуку до початку;</span>': '<span>setting up a channel for each language and a sound check before the start;</span>',
+'<span>видача навушників на вході й збір наприкінці;</span>': '<span>handing out headphones at the entrance and collecting them at the end;</span>',
+'<span>технічний супровід протягом події.</span>': '<span>technical support throughout the event.</span>',
+'Від програми до першого слова перекладу': 'From the programme to the first interpreted word',
+'Починаємо з вашої програми, мов перекладу й кількості слухачів. На цій основі визначаємо комплект і логістику.':
+  'We start with your programme, the languages you need and the number of listeners. From there we work out the kit and the logistics.',
+'Дізнаємося дату, локацію, кількість слухачів і мови, на які потрібен переклад.': 'We find out the date, the venue, the number of listeners and the languages you need.',
+'Визначаємо кількість навушників, мікрофони для перекладачів, канали під мови та місце перекладачів у залі.':
+  'We agree the number of headphones, microphones for the interpreters, a channel for each language and where the interpreters sit in the room.',
+'Погоджуємо логістику, час монтажу та видачу навушників на вході.': 'We agree the logistics, set-up time and how headphones are handed out at the entrance.',
+'Налаштовуємо канали, перевіряємо звук із перекладачами, видаємо навушники й збираємо їх після завершення відповідно до узгодженого пакета.':
+  'We set up the channels, run a sound check with the interpreters, hand out the headphones and collect them afterwards, as agreed in the package.',
+'Ті самі навушники працюють не лише для перекладу. У розділі «<a href="/experiences/">Тихі враження</a>» зібрано інші формати: <a href="/experiences/conferences/">конференції</a>, <a href="/experiences/church/">церковні служби та зібрання</a>, <a href="/experiences/tours/">радіогід для екскурсій</a> і <a href="/experiences/corporate/">корпоративи</a>. Більше про переклад у навушниках читайте в <a href="/blog/">блозі</a>: <a href="/blog/synkhronnyi-pereklad-bohosluzhinnia/">синхронний переклад на богослужінні</a> і <a href="/blog/navushnyky-dlia-konferentsii/">навушники для конференції</a>.':
+  'The same headphones work for much more than interpretation. Our <a href="/experiences/">Quiet Experiences</a> section brings together other formats: <a href="/experiences/conferences/">conferences</a>, <a href="/experiences/church/">church services and gatherings</a>, <a href="/experiences/tours/">tour guide systems</a> and <a href="/experiences/corporate/">corporate parties</a>.',
+'Поширені запитання про синхронний переклад у навушниках': 'Frequently asked questions about simultaneous interpretation in headphones',
+'Чи надаєте ви перекладачів?': 'Do you provide interpreters?',
+'Ні, перекладачів запрошуєте ви. SILENT забезпечує обладнання: навушники для слухачів, мікрофони-передавачі для перекладачів, налаштування каналів і технічний супровід.':
+  'No, you bring the interpreters. SILENT provides the equipment: headphones for listeners, microphone transmitters for interpreters, channel set-up and technical support.',
+'Скільки мов можна перекладати одночасно?': 'How many languages can be interpreted at once?',
+'До трьох. Кожна мова йде окремим каналом зі свого мікрофона, а слухач обирає потрібний канал у навушниках одним дотиком.':
+  'Up to three. Each language runs on a separate channel from its own microphone, and listeners pick the channel they need with a single touch.',
+'Скільки коштує обладнання для синхронного перекладу?': 'How much does simultaneous interpretation equipment cost?',
+'Базовий орієнтир — від 12 000 грн за 40 навушників на 4 години. Фінальна вартість залежить від дати, локації, тривалості та кількості навушників. Робота перекладачів у цю суму не входить.':
+  'As a guide, prices start at UAH 12,000 for 40 headphones for 4 hours. The final cost depends on the date, location, duration and number of headphones. Interpreters’ fees are not included.',
+'Базова пропозиція SILENT починається від 40 навушників на 4 години. Якщо слухачів перекладу менше, вартість рахується за базовим комплектом.':
+  'The SILENT base offer starts at 40 headphones for 4 hours. If fewer people need interpretation, the price is calculated for the base kit.',
+'Чи можна взяти обладнання в оренду без вашої команди?': 'Can we rent the equipment without your team?',
+'Ні. SILENT працює під ключ: команда привозить обладнання, налаштовує канали, перевіряє звук із перекладачами, супроводжує подію й забирає комплект.':
+  'No. SILENT works turnkey: our team brings the equipment, sets up the channels, runs a sound check with the interpreters, supports the event and takes the kit away.',
+'Чи потрібні навушники всім гостям?': 'Does every guest need headphones?',
+'Ні. Навушники отримують ті, кому потрібен переклад, а решта гостей слухає спікера в залі як завжди.':
+  'No. Headphones go to those who need interpretation, and the other guests listen to the speaker in the room as usual.',
+'Так. У навушниках є регулятор та обмежувач гучності, а кожен слухач може налаштувати рівень звуку для себе. Обмежувач допомагає контролювати рівень звуку, але не є гарантією абсолютної безпеки для слуху.':
+  'Yes. The headphones have a volume control and limiter, and each listener can set the level for themselves. The limiter helps keep the volume in check but is not a guarantee of complete hearing safety.',
+'Скільки коштує обладнання для синхронного перекладу': 'How much simultaneous interpretation equipment costs',
+'Для стандартного формату скористайтеся калькулятором: база розрахована на 40 навушників і 4 години. Робота перекладачів у вартість не входить. Якщо подія має особливі технічні умови, вартість узгоджуємо індивідуально.':
+  'For the standard format, use the calculator: the base covers 40 headphones and 4 hours. Interpreters’ fees are not included. If the event has special technical requirements, we agree the price individually.',
+'Плануєте подію з перекладом? Обговорімо мови й зал': 'Planning an event with interpretation? Let’s talk languages and the room',
+'Розкажіть про програму, мови й кількість слухачів. Ми підкажемо, як організувати переклад у навушниках, і запропонуємо наступний крок.':
+  'Tell us about the programme, the languages and the number of listeners. We’ll suggest how to organise interpretation in headphones and propose the next step.',
+'Дата, локація, мови й приблизна кількість слухачів — цього достатньо, щоб почати розмову.': 'The date, the venue, the languages and a rough number of listeners are enough to start the conversation.',
+'Обговорити <span class="em">синхронний переклад</span> у навушниках': 'Discuss <span class="em">simultaneous interpretation</span> in headphones',
+'Залиште заявку — перевіримо доступність обладнання та зв’яжемося з вами, щоб узгодити мови й технічні деталі.':
+  'Leave a request and we’ll check equipment availability and get in touch to agree the languages and technical details.',
+'<option selected>Захід із перекладом</option>': '<option selected>Event with interpretation</option>',
+'Синхронна перекладачка говорить у мікрофон у залі, слухачі попереду в навушниках SILENT': 'A simultaneous interpreter speaks into a microphone in the hall, listeners ahead in SILENT headphones',
+'Слухачка торкається чаші навушників SILENT, щоб перемкнути канал з потрібною мовою': 'A listener touches the ear cup of her SILENT headphones to switch to the channel with her language',
+'Навушники SILENT лежать на стільцях у залі перед початком події': 'SILENT headphones lie on the chairs in the hall before the event starts',
+'Конференц-зала з іноземним спікером, слухачі в навушниках SILENT червоного, зеленого й синього кольору': 'A conference hall with a foreign speaker, listeners in red, green and blue SILENT headphones',
+'Недільне служіння: частина громади слухає переклад проповіді в навушниках SILENT': 'A Sunday service: some of the congregation listen to the interpreted sermon in SILENT headphones',
+'Тренінг у лофті: іноземна тренерка біля фліпчарту, учасники слухають переклад у навушниках SILENT': 'A training session in a loft: a foreign trainer at a flipchart, participants listening to the interpretation in SILENT headphones',
+'Ділова зустріч у переговорній: іноземні гості слухають переклад у навушниках SILENT, перекладачка з мікрофоном': 'A business meeting in a boardroom: foreign guests listen to the interpretation in SILENT headphones, an interpreter with a microphone',
+'Міжнародне весілля в саду: іноземні гості слухають переклад церемонії в навушниках SILENT': 'An international garden wedding: foreign guests listen to the interpreted ceremony in SILENT headphones',
+'Лекція в університетській аудиторії: іноземні студенти слухають переклад у навушниках SILENT': 'A lecture in a university hall: international students listen to the interpretation in SILENT headphones',
+'На вході в залу гостям видають навушники SILENT для перекладу': 'At the entrance to the hall, guests are handed SILENT headphones for interpretation',
+'Навушники SILENT у руках крупним планом, на чаші вертикальний логотип': 'A close-up of SILENT headphones in someone’s hands, the vertical logo on the ear cup',
+'Двоє перекладачів за столом у глибині зали перекладають у мікрофони': 'Two interpreters at a table at the back of the hall interpreting into microphones',
+'Іноземна делегація на виробництві слухає переклад у навушниках SILENT': 'A foreign delegation on a factory tour listens to the interpretation in SILENT headphones',
+}
+for _k, _v in list(_TRANS.items()):
+    T_PAGE_ALL[_k] = _v
+    if '<a href="/' in _k:
+        T_PAGE_ALL[_en_href(_k)] = _en_href(_v)
