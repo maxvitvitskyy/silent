@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-radiohid-dlia-ekskursii.jpg",
+  "bg": {
+    "src": "images/tours/ekskursiya-hid-vede-hrupu-starym-mistom.webp",
+    "pos": "50% 35%"
+  },
+  "heading": [
+    "Радіогід",
+    "для екскурсії"
+  ],
+  "subtitle": [
+    [
+      "Як зробити, щоб гіда чула вся група."
+    ]
+  ],
+  "pills": [
+    "<b>Гід</b> на ходу",
+    "Звук <b>у навушниках</b>",
+    "<b>Шкільні</b> екскурсії"
+  ],
+  "css": ".p>img{inset:auto;left:0;top:-130px;width:1200px;height:800px}"
+}

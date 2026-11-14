@@ -1,0 +1,22 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-vesillia-bez-veduchoho.jpg",
+  "bg": {
+    "src": "images/wedding/vesillya-pochatok-tantsiv-pid-girlyandamy.webp",
+    "pos": "50% 35%"
+  },
+  "heading": [
+    "Весілля",
+    "без ведучого"
+  ],
+  "subtitle": [
+    [
+      "Хто тримає таймінг, тости й музику."
+    ]
+  ],
+  "pills": [
+    "<b>Координатор</b> дня",
+    "<b>Плейлисти</b> наперед",
+    "<b>3 канали</b> для гостей"
+  ]
+}

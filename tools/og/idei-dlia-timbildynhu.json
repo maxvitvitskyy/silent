@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-idei-dlia-timbildynhu.jpg",
+  "bg": {
+    "src": "images/blog/timbildynh-komandnyi-tanets.webp",
+    "pos": "50% 22%"
+  },
+  "heading": [
+    "Ідеї для тімбілдингу",
+    "без сцени"
+  ],
+  "subtitle": [
+    [
+      "Активності, де кожен бере участь по-своєму."
+    ]
+  ],
+  "pills": [
+    "<b>Батл</b> каналів",
+    "<b>Музична</b> вікторина",
+    "<b>Офіс</b> чи виїзд"
+  ],
+  "css": ".p>img{inset:auto;left:0;top:-130px;width:1200px;height:800px}"
+}

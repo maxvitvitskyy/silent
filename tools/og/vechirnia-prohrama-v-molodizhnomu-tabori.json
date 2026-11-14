@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-vechirnia-prohrama-v-molodizhnomu-tabori.jpg",
+  "bg": {
+    "src": "images/youth-camps/mt-nichnyi-kemping-tantspol-pid-zoryamy.webp",
+    "pos": "50% 40%"
+  },
+  "heading": [
+    "Вечори в таборі",
+    "без гучних колонок"
+  ],
+  "subtitle": [
+    [
+      "Дискотека, батли й вечір знайомств."
+    ]
+  ],
+  "pills": [
+    "<b>Дискотека</b> під зорями",
+    "<b>Команди</b> за кольорами",
+    "<b>Власна</b> гучність"
+  ],
+  "css": ".p>img{inset:auto;left:0;top:-130px;width:1200px;height:800px}"
+}

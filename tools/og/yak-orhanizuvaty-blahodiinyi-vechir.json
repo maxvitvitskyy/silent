@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-yak-orhanizuvaty-blahodiinyi-vechir.jpg",
+  "bg": {
+    "src": "images/charity/hosti-halavechora-tantsiuiut.webp",
+    "pos": "50% 30%"
+  },
+  "heading": [
+    "Благодійний вечір",
+    "без шуму"
+  ],
+  "subtitle": [
+    [
+      "Програма, аукціон і танці в одній залі."
+    ]
+  ],
+  "pills": [
+    "<b>Промови</b> й аукціон",
+    "<b>Танці</b> в навушниках",
+    "<b>3 канали</b> музики"
+  ],
+  "css": ".p>img{inset:auto;left:0;top:-130px;width:1200px;height:800px}"
+}

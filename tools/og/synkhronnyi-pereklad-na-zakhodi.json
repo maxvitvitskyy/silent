@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-synkhronnyi-pereklad-na-zakhodi.jpg",
+  "bg": {
+    "src": "images/translation/pereklad-konferentsiya-zala-try-kanaly.webp",
+    "pos": "50% 35%"
+  },
+  "heading": [
+    "Синхронний переклад",
+    "на заході"
+  ],
+  "subtitle": [
+    [
+      "Одна програма для гостей з різними мовами."
+    ]
+  ],
+  "pills": [
+    "До <b>3 мов</b>",
+    "<b>Мікрофони</b> перекладачам",
+    "<b>Конференції</b> й тренінги"
+  ],
+  "css": ".p>img{inset:auto;left:0;top:-130px;width:1200px;height:800px}"
+}

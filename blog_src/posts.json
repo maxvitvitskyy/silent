@@ -1,449 +1,533 @@
 {
-  "_note": "Список матеріалів блогу. status: soon = заглушка (картка без посилання, мітка «Скоро»), published = стаття готова (потрібен blog_src/<slug>.json). Порядок у списку, «Свіже», «Добірці» й mega-меню збирає tools/build_blog.py сам: готові статті від найновішої (за date_iso), далі заглушки. Нова стаття = запис тут (status published) + blog_src/<slug>.json; заглушку, яку стаття закриває, ВИДАЛИТИ (не лишати дублів теми). featured: true лише в одного матеріалу (Вибір редакції). Теми блогу (14.10.2026): шість широких тем за питанням читача (Про формат, Ідеї, Бізнес, Свята, Організація, Ціна й умови), а не окремі види подій. category: головна тема (підпис на картці), also: додаткові теми, за якими стаття теж потрапляє у фільтр.",
-  "categories": [
-    {
-      "id": "basics",
-      "name": "Про формат"
-    },
-    {
-      "id": "ideas",
-      "name": "Ідеї"
-    },
-    {
-      "id": "business",
-      "name": "Бізнес"
-    },
-    {
-      "id": "holidays",
-      "name": "Свята"
-    },
-    {
-      "id": "organization",
-      "name": "Організація"
-    },
-    {
-      "id": "price",
-      "name": "Ціна й умови"
-    }
-  ],
-  "posts": [
-    {
-      "slug": "vechirka-bez-shumu-sysidy",
-      "status": "published",
-      "category": "organization",
-      "title": "Як провести вечірку, щоб не заважати сусідам",
-      "menu_sub": "Після 22:00 діє режим тиші, тож розповідаємо, як провести вечірку без скарг.",
-      "excerpt": "Музика лише в навушниках: що це дає в квартирі, у дворі та на майданчику з обмеженням по гучності.",
-      "image": "/images/uc/houseparty.webp",
-      "alt": "Домашня вечірка в навушниках Silent Disco: гості танцюють, сусіди не чують музики",
-      "also": [
-        "holidays"
-      ]
-    },
-    {
-      "slug": "idei-dlya-korporativu",
-      "status": "published",
-      "category": "business",
-      "title": "Ідеї для корпоративу: розваги без конкурсів і сцени",
-      "excerpt": "Що поставити замість конкурсів, щоб нікого не вмовляти, і як провести корпоративну тиху дискотеку.",
-      "image": "/images/corp/nichna-vechirka-pid-syayvom-navushnykiv.webp",
-      "alt": "Колеги в навушниках Silent Disco усміхаються на корпоративі під шатром із гірляндами",
-      "also": [
-        "ideas"
-      ]
-    },
-    {
-      "slug": "vesillya-voyennyi-stan",
-      "status": "published",
-      "category": "holidays",
-      "title": "Весілля під час війни: розваги й комендантська година",
-      "excerpt": "Що врахувати в програмі, щоб свято було безпечним і закінчилось до початку комендантської години.",
-      "image": "/images/uc/wedding.webp",
-      "alt": "Весілля в навушниках Silent Disco: тиха дискотека для гостей",
-      "also": [
-        "organization"
-      ]
-    },
-    {
-      "slug": "skilky-koshtuye-tyha-dyskoteka",
-      "status": "soon",
-      "category": "price",
-      "title": "Скільки коштує тиха дискотека в Україні",
-      "excerpt": "З чого складається ціна й що входить у комплект.",
-      "image": "/images/uc/silentdisco.webp",
-      "alt": "Навушники Silent Disco на танцполі: з чого складається ціна тихої дискотеки"
-    },
-    {
-      "slug": "yak-vidsvyatkuvaty-den-narodzhennya",
-      "status": "published",
-      "category": "holidays",
-      "title": "Як відсвяткувати день народження, щоб гості згадували його з посмішкою",
-      "excerpt": "Ідеї для каналів, простору й гостей, щоб вечірка вдалась без суперечок про плейліст.",
-      "image": "/images/birthday/den-narodzhennya-selfi-v-navushnykakh.webp",
-      "alt": "Дівчина знімає селфі в навушниках Silent Disco на дні народження",
-      "also": [
-        "ideas"
-      ]
-    },
-    {
-      "slug": "tykha-dyskoteka-silent-disco",
-      "status": "published",
-      "category": "basics",
-      "title": "Silent Disco, або тиха дискотека: гід для тих, хто чує про формат уперше",
-      "excerpt": "Що таке Silent Disco, як вона працює, звідки взялась і чому формат стає таким популярним.",
-      "image": "/images/silent-disco/silent-disco-podrugy-tantsyuyut-pid-svitlom.webp",
-      "alt": "Подруги танцюють у світних навушниках Silent Disco: тиха дискотека",
-      "menu_sub": "Що таке тиха дискотека, як вона працює й чому формат стає популярним."
-    },
-    {
-      "slug": "dlya-yakykh-podiy-zamovlyayut-silent-disco",
-      "status": "published",
-      "category": "basics",
-      "title": "Для яких подій замовляють Silent Disco: що показали 3000 бронювань",
-      "excerpt": "Дні народження, вечірки, школа, корпоративи й весілля: хто і для чого обирає тиху дискотеку та що це означає для вашої події.",
-      "image": "/images/silent-disco/silent-disco-tanspol-na-festyvali.webp",
-      "alt": "Натовп танцює на фестивалі в бездротових навушниках Silent Disco із кольоровою підсвіткою",
-      "featured": true,
-      "menu_sub": "Дні народження, вечірки, школа, корпоративи й весілля: що показав аналіз 3000 бронювань вечірок у навушниках.",
-      "also": [
-        "ideas"
-      ]
-    },
-    {
-      "slug": "silent-disco-dlya-riznykh-podiy",
-      "status": "published",
-      "category": "ideas",
-      "title": "Silent Disco для різних подій: 10 ідей, які варто спробувати",
-      "excerpt": "Від дня народження до йоги: для яких подій підходить вечірка в навушниках і чому формат набагато ширший за звичайну дискотеку.",
-      "image": "/images/silent-disco/silent-disco-kompaniya-pid-salyutom-na-festyvali.webp",
-      "alt": "Компанія танцює на святі просто неба під салютом у бездротових навушниках Silent Disco",
-      "also": [
-        "basics"
-      ]
-    },
-    {
-      "slug": "novorichnyi-korporatyv-idei",
-      "status": "published",
-      "category": "business",
-      "title": "Новорічний корпоратив: 7 ідей для вечірки, яку команда запам'ятає",
-      "excerpt": "Silent Disco, музичний батл, квіз, Таємний Санта та інші формати: як вибрати ідею для новорічного корпоративу під вашу команду.",
-      "image": "/images/corp/yaskrave-selfi-na-vechirtsi-v-navushnykakh.webp",
-      "alt": "Компанія колег усміхається разом на вечірці в бездротових навушниках Silent Disco",
-      "also": [
-        "ideas"
-      ]
-    },
-    {
-      "slug": "yak-orhanizuvaty-studentsku-vechirku",
-      "status": "published",
-      "category": "organization",
-      "title": "Як організувати студентську вечірку: формати, музика та розваги",
-      "excerpt": "Як організувати студентську вечірку, обрати музику, придумати розваги й підібрати формат для університетської події? Розбираємо практичні ідеї та можливості Silent Disco.",
-      "image": "/images/students/studentska-vechirka-druzi-raduyutsya-na-vecherytsi.webp",
-      "alt": "Студентська вечірка у форматі Silent Disco: друзі танцюють у світних навушниках",
-      "also": [
-        "ideas"
-      ]
-    },
-    {
-      "slug": "idei-dlya-studentskoho-zakhodu",
-      "status": "published",
-      "category": "ideas",
-      "title": "Ідеї для студентського заходу в університеті: чим здивувати молодь",
-      "excerpt": "Шукаєте, чим здивувати студентів? Зібрали 6 ідей для університетських заходів: від тематичних вечірок і музичних батлів до квестів та Silent Disco.",
-      "image": "/images/students/studentska-vechirka-divchyna-v-zelenykh-okuliarakh.webp",
-      "alt": "Студентська вечірка: дівчина в зелених окулярах і світних навушниках серед друзів",
-      "also": [
-        "organization"
-      ]
-    },
-    {
-      "slug": "yak-orhanizuvaty-dytyachyi-den-narodzhennya",
-      "status": "published",
-      "category": "holidays",
-      "title": "Як організувати незабутній дитячий день народження: ідеї для активного свята",
-      "excerpt": "Плануєте дитячий день народження й хочете відійти від звичних конкурсів? Дізнайтеся про 6 ідей для активного свята, які можна адаптувати до віку дітей, кількості гостей і формату події.",
-      "image": "/images/kids/dityache-sviato-diti-tantsyuyut-v-neonovomu-svitli.webp",
-      "alt": "Діти танцюють у світних навушниках на дитячому святі в неоновому світлі",
-      "also": [
-        "ideas"
-      ]
-    },
-    {
-      "slug": "rozvahy-dlya-ditey-na-svyati",
-      "status": "published",
-      "category": "ideas",
-      "title": "Розваги для дітей на святі: що обрати для великої компанії",
-      "excerpt": "Як зацікавити велику компанію дітей на святі? Розглядаємо 6 форматів розваг, які допомагають поєднати спільні ігри, музику, рух і свободу вибору.",
-      "image": "/images/kids/dityache-sviato-tantsyuyut-pid-lazerami.webp",
-      "alt": "Діти танцюють у світних навушниках під лазерним світлом на дитячій вечірці",
-      "also": [
-        "holidays"
-      ]
-    },
-    {
-      "slug": "silent-disco-na-festyvali",
-      "status": "published",
-      "category": "organization",
-      "title": "Silent Disco на фестивалі: як організувати окрему музичну зону",
-      "excerpt": "Як організувати Silent Disco на фестивалі: розташування зони, музична програма, навушники, координація гостей і підготовка до події.",
-      "image": "/images/festivals/festyval-nichnyi-festyval-z-neonovymy-navushnykamy.webp",
-      "alt": "Нічний фестиваль: гості танцюють у світних навушниках Silent Disco під гірляндами",
-      "also": [
-        "ideas"
-      ]
-    },
-    {
-      "slug": "ostanniy-dzvonyk-idei-dlya-svyata",
-      "status": "published",
-      "category": "holidays",
-      "title": "Останній дзвоник: як організувати незабутнє шкільне свято",
-      "excerpt": "Як організувати останній дзвоник, щоб свято запам’яталося учням? Ідеї для програми, музики, спільних активностей і Silent Disco.",
-      "image": "/images/school/shkilna-vechirka-konga-liniya.webp",
-      "alt": "Школярі танцюють у світних навушниках на шкільному святі, взявшись за плечі",
-      "also": [
-        "ideas"
-      ]
-    },
-    {
-      "slug": "yak-orhanizuvaty-shkilnyi-vypusknyi",
-      "status": "published",
-      "category": "holidays",
-      "title": "Як організувати шкільний випускний: формат вечора для 9-х і 11-х класів",
-      "excerpt": "Як організувати випускний для 9-го чи 11-го класу? Як обрати формат вечора, продумати музику, локацію та розваги для учнів.",
-      "image": "/images/school/shkilna-vechirka-pidlitky-v-okulyarakh.webp",
-      "alt": "Підлітки в світних навушниках і окулярах танцюють на шкільній вечірці",
-      "also": [
-        "ideas"
-      ]
-    },
-    {
-      "slug": "afterparty-festyvalyu",
-      "status": "published",
-      "category": "organization",
-      "title": "Афтерпаті фестивалю: як продовжити вечір після головної сцени",
-      "excerpt": "Що організувати після головних виступів фестивалю? Ідеї для афтерпаті, вечірньої програми та танців у форматі Silent Disco.",
-      "image": "/images/festivals/festyval-natovp-v-neonovomu-sviatli.webp",
-      "alt": "Нічний фестиваль: натовп гостей у світних навушниках танцює в неоновому світлі",
-      "also": [
-        "ideas"
-      ]
-    },
-    {
-      "slug": "synkhronnyi-pereklad-bohosluzhinnia",
-      "status": "published",
-      "category": "organization",
-      "title": "Синхронний переклад богослужіння: як допомогти кожному почути проповідь своєю мовою",
-      "excerpt": "Як організувати переклад богослужіння для гостей різними мовами? Розповідаємо про бездротові навушники, аудіоканали та підготовку системи.",
-      "image": "/images/church/cerkva-pereklad-v-navushnykakh.webp",
-      "alt": "Дівчина слухає переклад у бездротових навушниках Silent Disco на конференції",
-      "also": [
-        "ideas"
-      ]
-    },
-    {
-      "slug": "silent-disco-dlya-tserkovnykh-zakhodiv",
-      "status": "published",
-      "category": "ideas",
-      "title": "Silent Disco для церкви: як організувати незвичний захід для громади",
-      "excerpt": "Як використовувати Silent Disco на церковних заходах? Розповідаємо про музичні зустрічі, свята громади та організацію подій із бездротовими навушниками.",
-      "image": "/images/church/cerkva-vechir-pid-girlyandamy.webp",
-      "alt": "Вечір просто неба під гірляндами: гості слухають музику в навушниках Silent Disco",
-      "also": [
-        "holidays"
-      ]
-    },
-    {
-      "slug": "rozvahy-na-vesillia-riznoho-viku",
-      "status": "published",
-      "category": "holidays",
-      "title": "Розваги на весілля: як об’єднати гостей різного віку",
-      "excerpt": "Як обрати розваги на весілля, щоб було цікаво друзям, батькам і старшим родичам? Ідеї для спільного святкування та музичної вечірки.",
-      "image": "/images/wedding/vesillya-pochatok-tantsiv-pid-girlyandamy.webp",
-      "alt": "Гості весілля танцюють у світних навушниках просто неба під гірляндами",
-      "also": [
-        "ideas"
-      ]
-    },
-    {
-      "slug": "nestandartnyi-den-narodzhennia-doroslykh",
-      "status": "published",
-      "category": "holidays",
-      "title": "Нестандартний день народження для дорослих: як перетворити вечірку на подію",
-      "excerpt": "Шукаєте розваги на день народження дорослого? Ідеї для музичної вечірки, тематичного святкування та Silent Disco, яке об’єднує гостей із різними смаками.",
-      "image": "/images/birthday/den-narodzhennya-sviato-na-dvori-v-navushnykakh.webp",
-      "alt": "Дорослі гості на музичній вечірці з бездротовими навушниками сміються й танцюють на вулиці",
-      "also": [
-        "ideas"
-      ]
-    },
-    {
-      "slug": "vechir-u-khrystyianskomu-tabori",
-      "status": "published",
-      "category": "ideas",
-      "title": "Вечір у християнському таборі: як організувати програму, що об’єднує",
-      "excerpt": "Як організувати вечір у християнському таборі, щоб підліткам було цікаво разом? Ідеї для музики, командної взаємодії та Silent Disco.",
-      "image": "/images/camps/tabir-girlyandy-tantspol-na-travi.webp",
-      "alt": "Молодіжний табір проводить вечірню музичну активність",
-      "also": [
-        "holidays"
-      ]
-    },
-    {
-      "slug": "silent-disco-komandni-igry-khrystyianskyi-tabir",
-      "status": "published",
-      "category": "ideas",
-      "title": "Silent Disco у християнському таборі: вечірка та 4 командні гри",
-      "excerpt": "Як провести Silent Disco у християнському таборі та урізноманітнити вечір чотирма командними іграми: музичний батл, таємне завдання, імпостер і місія без слів.",
-      "image": "/images/camps/tabir-zakhid-sontsya-namioty-ta-stsena.webp",
-      "alt": "Молодіжний табір під час вечірки на заході сонця: учасники танцюють перед сценою серед наметів",
-      "also": [
-        "holidays"
-      ]
-    },
-    {
-      "slug": "navushnyky-dlia-konferentsii",
-      "status": "published",
-      "category": "business",
-      "title": "Навушники для конференції: як організувати звук для учасників",
-      "excerpt": "Коли конференції потрібні бездротові навушники, як розвести кілька виступів в одному просторі та що перевірити до початку.",
-      "image": "/images/conferences/konferentsiya-zala-z-ekranom-i-spikerom.webp",
-      "alt": "Учасниця конференції в синіх навушниках Silent Disco дивиться на сцену й екран у великій залі",
-      "also": [
-        "organization"
-      ]
-    },
-    {
-      "slug": "navushnyky-na-konferentsii-stsenarii",
-      "status": "published",
-      "category": "business",
-      "title": "Сценарії використання навушників на конференції: від доповідей до афтерпаті",
-      "excerpt": "Доповіді, воркшопи, паралельні сесії, виставки, переклад та афтерпаті: що варто врахувати в кожному сценарії.",
-      "image": "/images/conferences/konferentsiya-audytoriya-v-synikh-navushnykakh.webp",
-      "alt": "Повна зала учасників конференції слухає виступ у світних синіх навушниках Silent Disco",
-      "also": [
-        "ideas"
-      ]
-    },
-    {
-      "slug": "yoga-v-navushnykakh",
-      "status": "published",
-      "category": "basics",
-      "title": "Йога в навушниках: що таке Silent Yoga і як проходить практика",
-      "excerpt": "Що таке Silent Yoga, як у навушниках звучать голос інструктора й музика та чого очікувати від першого заняття.",
-      "image": "/images/yoga/yoha-v-hotychnii-zali-v-navushnykakh.webp",
-      "alt": "Учасниця в позі випаду на килимку, позаду велика зала людей у світних синіх навушниках",
-      "also": [
-        "ideas"
-      ]
-    },
-    {
-      "slug": "yoga-na-pryrodi",
-      "status": "published",
-      "category": "organization",
-      "title": "Йога на природі: як організувати заняття просто неба",
-      "excerpt": "Вибір локації, погода, підготовка, сценарій і звук: що продумати, щоб заняття йогою просто неба було комфортним.",
-      "image": "/images/yoga/yoha-na-travi-v-parku-v-navushnykakh.webp",
-      "alt": "Четверо людей виконують позу воїна на яскравих килимках на траві в парку під вечірнім сонцем, у навушниках",
-      "also": [
-        "ideas"
-      ]
-    },
-    {
-      "slug": "yak-organizuvaty-zakhid-u-parku",
-      "status": "published",
-      "category": "organization",
-      "title": "Як організувати захід у парку або сквері: практичний чекліст",
-      "excerpt": "Вибір локації, правила, сценарій, звук, безпека й чекліст: що продумати, щоб захід просто неба пройшов спокійно.",
-      "image": "/images/public-spaces/rozmova-v-parku.webp",
-      "alt": "Дві дівчини розмовляють на траві в парку, у світних навушниках Silent Disco",
-      "also": [
-        "ideas"
-      ]
-    },
-    {
-      "slug": "yak-organizuvaty-zvuk-na-zakhodi-prosto-neba",
-      "status": "published",
-      "category": "organization",
-      "title": "Як організувати звук на заході просто неба",
-      "excerpt": "Фоновий шум, мовлення, музика, вибір аудіоформату й тестування: як зробити, щоб учасники чули головне.",
-      "image": "/images/public-spaces/slukhaie-muzyku-pid-namotamy.webp",
-      "alt": "Хлопець у світних навушниках слухає музику на вечірньому заході просто неба",
-      "also": [
-        "basics"
-      ]
-    },
-    {
-      "slug": "ihry-dlya-vechirky-vdoma",
-      "status": "published",
-      "category": "ideas",
-      "title": "Ігри для вечірки вдома: 10 ідей для компанії друзів",
-      "excerpt": "Від знайомства до музичних батлів: ігри, які легко підхопити й так само легко залишити заради розмов.",
-      "image": "/images/home-parties/druzi-smiyutsya-obkladynka.webp",
-      "alt": "Дві подруги з піднятими руками сміються й показують язики на вечірці в навушниках Silent Disco",
-      "also": [
-        "holidays"
-      ]
-    },
-    {
-      "slug": "yak-sklasty-pleylist-dlya-vechirky",
-      "status": "published",
-      "category": "organization",
-      "title": "Як скласти плейлист для вечірки: музика, настрій і темп вечора",
-      "excerpt": "Атмосфера, етапи вечора, гості з різними смаками й чекліст: як підібрати музику на весь вечір.",
-      "image": "/images/home-parties/dvi-podruhy-pidskazhut-obkladynka.webp",
-      "alt": "Дві подруги сидять поруч і усміхаються одна одній у навушниках Silent Disco на нічній вечірці",
-      "also": [
-        "ideas"
-      ]
-    },
-    {
-      "slug": "divych-vechir-u-navushnykakh",
-      "status": "published",
-      "category": "ideas",
-      "title": "Дівич-вечір у навушниках Silent Disco: сценарій, ігри та ідеї для подруг",
-      "excerpt": "Готовий сценарій на 3–4 години: музичні канали, ігри без реквізиту, вибір локації й чекліст підготовки.",
-      "image": "/images/hen-party/nevesta-smiietsia-z-podruhamy.webp",
-      "alt": "Наречена у фаті сміється з подругами за столиком у світних навушниках Silent Disco",
-      "also": [
-        "holidays"
-      ]
-    },
-    {
-      "slug": "yak-organizuvaty-divych-vechir",
-      "status": "published",
-      "category": "organization",
-      "title": "Як організувати дівич-вечір: план, бюджет і чекліст для подруг",
-      "excerpt": "Послідовний план від бажань нареченої до чекліста: шаблон бюджету, розподіл ролей, вибір формату й локації.",
-      "image": "/images/hen-party/nevesta-spalnia-divych-vechir.webp",
-      "alt": "Наречена в пір’яному халаті й фаті танцює з подругами в спальні у світних навушниках Silent Disco",
-      "also": [
-        "holidays"
-      ]
-    },
-    {
-      "slug": "yak-orhanizuvaty-kinopokaz-prosto-neba",
-      "status": "published",
-      "category": "organization",
-      "title": "Як організувати кінопоказ просто неба: обладнання, звук і покроковий план",
-      "excerpt": "Формат, локація, екран, звук, права на фільм і чекліст: що потрібно для кіновечора на відкритому повітрі.",
-      "image": "/images/outdoor-cinema/kino-na-travi-zakhid-sontsia-shyroke.webp",
-      "alt": "Глядачі в шезлонгах дивляться кіно просто неба на надувному екрані на заході сонця в парку",
-      "also": [
-        "ideas"
-      ]
-    },
-    {
-      "slug": "kino-prosto-neba-u-dvori-terasi",
-      "status": "published",
-      "category": "organization",
-      "title": "Кіно просто неба у дворі, на терасі чи даху: як організувати кіновечір",
-      "excerpt": "Простір, звук, світло, живлення й погода: як підготувати кіновечір і коли доречні бездротові навушники.",
-      "image": "/images/outdoor-cinema/hlyadachi-v-kriselkakh-na-terasi.webp",
-      "alt": "Глядачі в червоних кріслах дивляться кіно на терасі у світних навушниках Silent Disco",
-      "also": [
-        "ideas"
-      ]
-    }
-  ]
+ "_note": "Список матеріалів блогу. status: soon = заглушка (картка без посилання, мітка «Скоро»), published = стаття готова (потрібен blog_src/<slug>.json). Порядок у списку, «Свіже», «Добірці» й mega-меню збирає tools/build_blog.py сам: готові статті від найновішої (за date_iso), далі заглушки. Нова стаття = запис тут (status published) + blog_src/<slug>.json; заглушку, яку стаття закриває, ВИДАЛИТИ (не лишати дублів теми). featured: true лише в одного матеріалу (Вибір редакції). Теми блогу (14.10.2026): шість широких тем за питанням читача (Про формат, Ідеї, Бізнес, Свята, Організація, Ціна й умови), а не окремі види подій. category: головна тема (підпис на картці), also: додаткові теми, за якими стаття теж потрапляє у фільтр.",
+ "categories": [
+  {
+   "id": "basics",
+   "name": "Про формат"
+  },
+  {
+   "id": "ideas",
+   "name": "Ідеї"
+  },
+  {
+   "id": "business",
+   "name": "Бізнес"
+  },
+  {
+   "id": "holidays",
+   "name": "Свята"
+  },
+  {
+   "id": "organization",
+   "name": "Організація"
+  },
+  {
+   "id": "price",
+   "name": "Ціна й умови"
+  }
+ ],
+ "posts": [
+  {
+   "slug": "vechirka-bez-shumu-sysidy",
+   "status": "published",
+   "category": "organization",
+   "title": "Як провести вечірку, щоб не заважати сусідам",
+   "menu_sub": "Після 22:00 діє режим тиші, тож розповідаємо, як провести вечірку без скарг.",
+   "excerpt": "Музика лише в навушниках: що це дає в квартирі, у дворі та на майданчику з обмеженням по гучності.",
+   "image": "/images/uc/houseparty.webp",
+   "alt": "Домашня вечірка в навушниках Silent Disco: гості танцюють, сусіди не чують музики",
+   "also": [
+    "holidays"
+   ]
+  },
+  {
+   "slug": "idei-dlya-korporativu",
+   "status": "published",
+   "category": "business",
+   "title": "Ідеї для корпоративу: розваги без конкурсів і сцени",
+   "excerpt": "Що поставити замість конкурсів, щоб нікого не вмовляти, і як провести корпоративну тиху дискотеку.",
+   "image": "/images/corp/nichna-vechirka-pid-syayvom-navushnykiv.webp",
+   "alt": "Колеги в навушниках Silent Disco усміхаються на корпоративі під шатром із гірляндами",
+   "also": [
+    "ideas"
+   ]
+  },
+  {
+   "slug": "vesillya-voyennyi-stan",
+   "status": "published",
+   "category": "holidays",
+   "title": "Весілля під час війни: розваги й комендантська година",
+   "excerpt": "Що врахувати в програмі, щоб свято було безпечним і закінчилось до початку комендантської години.",
+   "image": "/images/uc/wedding.webp",
+   "alt": "Весілля в навушниках Silent Disco: тиха дискотека для гостей",
+   "also": [
+    "organization"
+   ]
+  },
+  {
+   "slug": "skilky-koshtuye-tyha-dyskoteka",
+   "status": "soon",
+   "category": "price",
+   "title": "Скільки коштує тиха дискотека в Україні",
+   "excerpt": "З чого складається ціна й що входить у комплект.",
+   "image": "/images/uc/silentdisco.webp",
+   "alt": "Навушники Silent Disco на танцполі: з чого складається ціна тихої дискотеки"
+  },
+  {
+   "slug": "yak-vidsvyatkuvaty-den-narodzhennya",
+   "status": "published",
+   "category": "holidays",
+   "title": "Як відсвяткувати день народження, щоб гості згадували його з посмішкою",
+   "excerpt": "Ідеї для каналів, простору й гостей, щоб вечірка вдалась без суперечок про плейліст.",
+   "image": "/images/birthday/den-narodzhennya-selfi-v-navushnykakh.webp",
+   "alt": "Дівчина знімає селфі в навушниках Silent Disco на дні народження",
+   "also": [
+    "ideas"
+   ]
+  },
+  {
+   "slug": "tykha-dyskoteka-silent-disco",
+   "status": "published",
+   "category": "basics",
+   "title": "Silent Disco, або тиха дискотека: гід для тих, хто чує про формат уперше",
+   "excerpt": "Що таке Silent Disco, як вона працює, звідки взялась і чому формат стає таким популярним.",
+   "image": "/images/silent-disco/silent-disco-podrugy-tantsyuyut-pid-svitlom.webp",
+   "alt": "Подруги танцюють у світних навушниках Silent Disco: тиха дискотека",
+   "menu_sub": "Що таке тиха дискотека, як вона працює й чому формат стає популярним."
+  },
+  {
+   "slug": "dlya-yakykh-podiy-zamovlyayut-silent-disco",
+   "status": "published",
+   "category": "basics",
+   "title": "Для яких подій замовляють Silent Disco: що показали 3000 бронювань",
+   "excerpt": "Дні народження, вечірки, школа, корпоративи й весілля: хто і для чого обирає тиху дискотеку та що це означає для вашої події.",
+   "image": "/images/silent-disco/silent-disco-tanspol-na-festyvali.webp",
+   "alt": "Натовп танцює на фестивалі в бездротових навушниках Silent Disco із кольоровою підсвіткою",
+   "featured": true,
+   "menu_sub": "Дні народження, вечірки, школа, корпоративи й весілля: що показав аналіз 3000 бронювань вечірок у навушниках.",
+   "also": [
+    "ideas"
+   ]
+  },
+  {
+   "slug": "silent-disco-dlya-riznykh-podiy",
+   "status": "published",
+   "category": "ideas",
+   "title": "Silent Disco для різних подій: 10 ідей, які варто спробувати",
+   "excerpt": "Від дня народження до йоги: для яких подій підходить вечірка в навушниках і чому формат набагато ширший за звичайну дискотеку.",
+   "image": "/images/silent-disco/silent-disco-kompaniya-pid-salyutom-na-festyvali.webp",
+   "alt": "Компанія танцює на святі просто неба під салютом у бездротових навушниках Silent Disco",
+   "also": [
+    "basics"
+   ]
+  },
+  {
+   "slug": "novorichnyi-korporatyv-idei",
+   "status": "published",
+   "category": "business",
+   "title": "Новорічний корпоратив: 7 ідей для вечірки, яку команда запам'ятає",
+   "excerpt": "Silent Disco, музичний батл, квіз, Таємний Санта та інші формати: як вибрати ідею для новорічного корпоративу під вашу команду.",
+   "image": "/images/corp/yaskrave-selfi-na-vechirtsi-v-navushnykakh.webp",
+   "alt": "Компанія колег усміхається разом на вечірці в бездротових навушниках Silent Disco",
+   "also": [
+    "ideas"
+   ]
+  },
+  {
+   "slug": "yak-orhanizuvaty-studentsku-vechirku",
+   "status": "published",
+   "category": "organization",
+   "title": "Як організувати студентську вечірку: формати, музика та розваги",
+   "excerpt": "Як організувати студентську вечірку, обрати музику, придумати розваги й підібрати формат для університетської події? Розбираємо практичні ідеї та можливості Silent Disco.",
+   "image": "/images/students/studentska-vechirka-druzi-raduyutsya-na-vecherytsi.webp",
+   "alt": "Студентська вечірка у форматі Silent Disco: друзі танцюють у світних навушниках",
+   "also": [
+    "ideas"
+   ]
+  },
+  {
+   "slug": "idei-dlya-studentskoho-zakhodu",
+   "status": "published",
+   "category": "ideas",
+   "title": "Ідеї для студентського заходу в університеті: чим здивувати молодь",
+   "excerpt": "Шукаєте, чим здивувати студентів? Зібрали 6 ідей для університетських заходів: від тематичних вечірок і музичних батлів до квестів та Silent Disco.",
+   "image": "/images/students/studentska-vechirka-divchyna-v-zelenykh-okuliarakh.webp",
+   "alt": "Студентська вечірка: дівчина в зелених окулярах і світних навушниках серед друзів",
+   "also": [
+    "organization"
+   ]
+  },
+  {
+   "slug": "yak-orhanizuvaty-dytyachyi-den-narodzhennya",
+   "status": "published",
+   "category": "holidays",
+   "title": "Як організувати незабутній дитячий день народження: ідеї для активного свята",
+   "excerpt": "Плануєте дитячий день народження й хочете відійти від звичних конкурсів? Дізнайтеся про 6 ідей для активного свята, які можна адаптувати до віку дітей, кількості гостей і формату події.",
+   "image": "/images/kids/dityache-sviato-diti-tantsyuyut-v-neonovomu-svitli.webp",
+   "alt": "Діти танцюють у світних навушниках на дитячому святі в неоновому світлі",
+   "also": [
+    "ideas"
+   ]
+  },
+  {
+   "slug": "rozvahy-dlya-ditey-na-svyati",
+   "status": "published",
+   "category": "ideas",
+   "title": "Розваги для дітей на святі: що обрати для великої компанії",
+   "excerpt": "Як зацікавити велику компанію дітей на святі? Розглядаємо 6 форматів розваг, які допомагають поєднати спільні ігри, музику, рух і свободу вибору.",
+   "image": "/images/kids/dityache-sviato-tantsyuyut-pid-lazerami.webp",
+   "alt": "Діти танцюють у світних навушниках під лазерним світлом на дитячій вечірці",
+   "also": [
+    "holidays"
+   ]
+  },
+  {
+   "slug": "silent-disco-na-festyvali",
+   "status": "published",
+   "category": "organization",
+   "title": "Silent Disco на фестивалі: як організувати окрему музичну зону",
+   "excerpt": "Як організувати Silent Disco на фестивалі: розташування зони, музична програма, навушники, координація гостей і підготовка до події.",
+   "image": "/images/festivals/festyval-nichnyi-festyval-z-neonovymy-navushnykamy.webp",
+   "alt": "Нічний фестиваль: гості танцюють у світних навушниках Silent Disco під гірляндами",
+   "also": [
+    "ideas"
+   ]
+  },
+  {
+   "slug": "ostanniy-dzvonyk-idei-dlya-svyata",
+   "status": "published",
+   "category": "holidays",
+   "title": "Останній дзвоник: як організувати незабутнє шкільне свято",
+   "excerpt": "Як організувати останній дзвоник, щоб свято запам’яталося учням? Ідеї для програми, музики, спільних активностей і Silent Disco.",
+   "image": "/images/school/shkilna-vechirka-konga-liniya.webp",
+   "alt": "Школярі танцюють у світних навушниках на шкільному святі, взявшись за плечі",
+   "also": [
+    "ideas"
+   ]
+  },
+  {
+   "slug": "yak-orhanizuvaty-shkilnyi-vypusknyi",
+   "status": "published",
+   "category": "holidays",
+   "title": "Як організувати шкільний випускний: формат вечора для 9-х і 11-х класів",
+   "excerpt": "Як організувати випускний для 9-го чи 11-го класу? Як обрати формат вечора, продумати музику, локацію та розваги для учнів.",
+   "image": "/images/school/shkilna-vechirka-pidlitky-v-okulyarakh.webp",
+   "alt": "Підлітки в світних навушниках і окулярах танцюють на шкільній вечірці",
+   "also": [
+    "ideas"
+   ]
+  },
+  {
+   "slug": "afterparty-festyvalyu",
+   "status": "published",
+   "category": "organization",
+   "title": "Афтерпаті фестивалю: як продовжити вечір після головної сцени",
+   "excerpt": "Що організувати після головних виступів фестивалю? Ідеї для афтерпаті, вечірньої програми та танців у форматі Silent Disco.",
+   "image": "/images/festivals/festyval-natovp-v-neonovomu-sviatli.webp",
+   "alt": "Нічний фестиваль: натовп гостей у світних навушниках танцює в неоновому світлі",
+   "also": [
+    "ideas"
+   ]
+  },
+  {
+   "slug": "synkhronnyi-pereklad-bohosluzhinnia",
+   "status": "published",
+   "category": "organization",
+   "title": "Синхронний переклад богослужіння: як допомогти кожному почути проповідь своєю мовою",
+   "excerpt": "Як організувати переклад богослужіння для гостей різними мовами? Розповідаємо про бездротові навушники, аудіоканали та підготовку системи.",
+   "image": "/images/church/cerkva-pereklad-v-navushnykakh.webp",
+   "alt": "Дівчина слухає переклад у бездротових навушниках Silent Disco на конференції",
+   "also": [
+    "ideas"
+   ]
+  },
+  {
+   "slug": "silent-disco-dlya-tserkovnykh-zakhodiv",
+   "status": "published",
+   "category": "ideas",
+   "title": "Silent Disco для церкви: як організувати незвичний захід для громади",
+   "excerpt": "Як використовувати Silent Disco на церковних заходах? Розповідаємо про музичні зустрічі, свята громади та організацію подій із бездротовими навушниками.",
+   "image": "/images/church/cerkva-vechir-pid-girlyandamy.webp",
+   "alt": "Вечір просто неба під гірляндами: гості слухають музику в навушниках Silent Disco",
+   "also": [
+    "holidays"
+   ]
+  },
+  {
+   "slug": "rozvahy-na-vesillia-riznoho-viku",
+   "status": "published",
+   "category": "holidays",
+   "title": "Розваги на весілля: як об’єднати гостей різного віку",
+   "excerpt": "Як обрати розваги на весілля, щоб було цікаво друзям, батькам і старшим родичам? Ідеї для спільного святкування та музичної вечірки.",
+   "image": "/images/wedding/vesillya-pochatok-tantsiv-pid-girlyandamy.webp",
+   "alt": "Гості весілля танцюють у світних навушниках просто неба під гірляндами",
+   "also": [
+    "ideas"
+   ]
+  },
+  {
+   "slug": "nestandartnyi-den-narodzhennia-doroslykh",
+   "status": "published",
+   "category": "holidays",
+   "title": "Нестандартний день народження для дорослих: як перетворити вечірку на подію",
+   "excerpt": "Шукаєте розваги на день народження дорослого? Ідеї для музичної вечірки, тематичного святкування та Silent Disco, яке об’єднує гостей із різними смаками.",
+   "image": "/images/birthday/den-narodzhennya-sviato-na-dvori-v-navushnykakh.webp",
+   "alt": "Дорослі гості на музичній вечірці з бездротовими навушниками сміються й танцюють на вулиці",
+   "also": [
+    "ideas"
+   ]
+  },
+  {
+   "slug": "vechir-u-khrystyianskomu-tabori",
+   "status": "published",
+   "category": "ideas",
+   "title": "Вечір у християнському таборі: як організувати програму, що об’єднує",
+   "excerpt": "Як організувати вечір у християнському таборі, щоб підліткам було цікаво разом? Ідеї для музики, командної взаємодії та Silent Disco.",
+   "image": "/images/camps/tabir-girlyandy-tantspol-na-travi.webp",
+   "alt": "Молодіжний табір проводить вечірню музичну активність",
+   "also": [
+    "holidays"
+   ]
+  },
+  {
+   "slug": "silent-disco-komandni-igry-khrystyianskyi-tabir",
+   "status": "published",
+   "category": "ideas",
+   "title": "Silent Disco у християнському таборі: вечірка та 4 командні гри",
+   "excerpt": "Як провести Silent Disco у християнському таборі та урізноманітнити вечір чотирма командними іграми: музичний батл, таємне завдання, імпостер і місія без слів.",
+   "image": "/images/camps/tabir-zakhid-sontsya-namioty-ta-stsena.webp",
+   "alt": "Молодіжний табір під час вечірки на заході сонця: учасники танцюють перед сценою серед наметів",
+   "also": [
+    "holidays"
+   ]
+  },
+  {
+   "slug": "navushnyky-dlia-konferentsii",
+   "status": "published",
+   "category": "business",
+   "title": "Навушники для конференції: як організувати звук для учасників",
+   "excerpt": "Коли конференції потрібні бездротові навушники, як розвести кілька виступів в одному просторі та що перевірити до початку.",
+   "image": "/images/conferences/konferentsiya-zala-z-ekranom-i-spikerom.webp",
+   "alt": "Учасниця конференції в синіх навушниках Silent Disco дивиться на сцену й екран у великій залі",
+   "also": [
+    "organization"
+   ]
+  },
+  {
+   "slug": "navushnyky-na-konferentsii-stsenarii",
+   "status": "published",
+   "category": "business",
+   "title": "Сценарії використання навушників на конференції: від доповідей до афтерпаті",
+   "excerpt": "Доповіді, воркшопи, паралельні сесії, виставки, переклад та афтерпаті: що варто врахувати в кожному сценарії.",
+   "image": "/images/conferences/konferentsiya-audytoriya-v-synikh-navushnykakh.webp",
+   "alt": "Повна зала учасників конференції слухає виступ у світних синіх навушниках Silent Disco",
+   "also": [
+    "ideas"
+   ]
+  },
+  {
+   "slug": "yoga-v-navushnykakh",
+   "status": "published",
+   "category": "basics",
+   "title": "Йога в навушниках: що таке Silent Yoga і як проходить практика",
+   "excerpt": "Що таке Silent Yoga, як у навушниках звучать голос інструктора й музика та чого очікувати від першого заняття.",
+   "image": "/images/yoga/yoha-v-hotychnii-zali-v-navushnykakh.webp",
+   "alt": "Учасниця в позі випаду на килимку, позаду велика зала людей у світних синіх навушниках",
+   "also": [
+    "ideas"
+   ]
+  },
+  {
+   "slug": "yoga-na-pryrodi",
+   "status": "published",
+   "category": "organization",
+   "title": "Йога на природі: як організувати заняття просто неба",
+   "excerpt": "Вибір локації, погода, підготовка, сценарій і звук: що продумати, щоб заняття йогою просто неба було комфортним.",
+   "image": "/images/yoga/yoha-na-travi-v-parku-v-navushnykakh.webp",
+   "alt": "Четверо людей виконують позу воїна на яскравих килимках на траві в парку під вечірнім сонцем, у навушниках",
+   "also": [
+    "ideas"
+   ]
+  },
+  {
+   "slug": "yak-organizuvaty-zakhid-u-parku",
+   "status": "published",
+   "category": "organization",
+   "title": "Як організувати захід у парку або сквері: практичний чекліст",
+   "excerpt": "Вибір локації, правила, сценарій, звук, безпека й чекліст: що продумати, щоб захід просто неба пройшов спокійно.",
+   "image": "/images/public-spaces/rozmova-v-parku.webp",
+   "alt": "Дві дівчини розмовляють на траві в парку, у світних навушниках Silent Disco",
+   "also": [
+    "ideas"
+   ]
+  },
+  {
+   "slug": "yak-organizuvaty-zvuk-na-zakhodi-prosto-neba",
+   "status": "published",
+   "category": "organization",
+   "title": "Як організувати звук на заході просто неба",
+   "excerpt": "Фоновий шум, мовлення, музика, вибір аудіоформату й тестування: як зробити, щоб учасники чули головне.",
+   "image": "/images/public-spaces/slukhaie-muzyku-pid-namotamy.webp",
+   "alt": "Хлопець у світних навушниках слухає музику на вечірньому заході просто неба",
+   "also": [
+    "basics"
+   ]
+  },
+  {
+   "slug": "ihry-dlya-vechirky-vdoma",
+   "status": "published",
+   "category": "ideas",
+   "title": "Ігри для вечірки вдома: 10 ідей для компанії друзів",
+   "excerpt": "Від знайомства до музичних батлів: ігри, які легко підхопити й так само легко залишити заради розмов.",
+   "image": "/images/home-parties/druzi-smiyutsya-obkladynka.webp",
+   "alt": "Дві подруги з піднятими руками сміються й показують язики на вечірці в навушниках Silent Disco",
+   "also": [
+    "holidays"
+   ]
+  },
+  {
+   "slug": "yak-sklasty-pleylist-dlya-vechirky",
+   "status": "published",
+   "category": "organization",
+   "title": "Як скласти плейлист для вечірки: музика, настрій і темп вечора",
+   "excerpt": "Атмосфера, етапи вечора, гості з різними смаками й чекліст: як підібрати музику на весь вечір.",
+   "image": "/images/home-parties/dvi-podruhy-pidskazhut-obkladynka.webp",
+   "alt": "Дві подруги сидять поруч і усміхаються одна одній у навушниках Silent Disco на нічній вечірці",
+   "also": [
+    "ideas"
+   ]
+  },
+  {
+   "slug": "divych-vechir-u-navushnykakh",
+   "status": "published",
+   "category": "ideas",
+   "title": "Дівич-вечір у навушниках Silent Disco: сценарій, ігри та ідеї для подруг",
+   "excerpt": "Готовий сценарій на 3–4 години: музичні канали, ігри без реквізиту, вибір локації й чекліст підготовки.",
+   "image": "/images/hen-party/nevesta-smiietsia-z-podruhamy.webp",
+   "alt": "Наречена у фаті сміється з подругами за столиком у світних навушниках Silent Disco",
+   "also": [
+    "holidays"
+   ]
+  },
+  {
+   "slug": "yak-organizuvaty-divych-vechir",
+   "status": "published",
+   "category": "organization",
+   "title": "Як організувати дівич-вечір: план, бюджет і чекліст для подруг",
+   "excerpt": "Послідовний план від бажань нареченої до чекліста: шаблон бюджету, розподіл ролей, вибір формату й локації.",
+   "image": "/images/hen-party/nevesta-spalnia-divych-vechir.webp",
+   "alt": "Наречена в пір’яному халаті й фаті танцює з подругами в спальні у світних навушниках Silent Disco",
+   "also": [
+    "holidays"
+   ]
+  },
+  {
+   "slug": "yak-orhanizuvaty-kinopokaz-prosto-neba",
+   "status": "published",
+   "category": "organization",
+   "title": "Як організувати кінопоказ просто неба: обладнання, звук і покроковий план",
+   "excerpt": "Формат, локація, екран, звук, права на фільм і чекліст: що потрібно для кіновечора на відкритому повітрі.",
+   "image": "/images/outdoor-cinema/kino-na-travi-zakhid-sontsia-shyroke.webp",
+   "alt": "Глядачі в шезлонгах дивляться кіно просто неба на надувному екрані на заході сонця в парку",
+   "also": [
+    "ideas"
+   ]
+  },
+  {
+   "slug": "kino-prosto-neba-u-dvori-terasi",
+   "status": "published",
+   "category": "organization",
+   "title": "Кіно просто неба у дворі, на терасі чи даху: як організувати кіновечір",
+   "excerpt": "Простір, звук, світло, живлення й погода: як підготувати кіновечір і коли доречні бездротові навушники.",
+   "image": "/images/outdoor-cinema/hlyadachi-v-kriselkakh-na-terasi.webp",
+   "alt": "Глядачі в червоних кріслах дивляться кіно на терасі у світних навушниках Silent Disco",
+   "also": [
+    "ideas"
+   ]
+  },
+  {
+   "slug": "radiohid-dlia-ekskursii",
+   "status": "published",
+   "category": "organization",
+   "title": "Радіогід для екскурсії: як зробити, щоб гіда чула вся група",
+   "excerpt": "Коли групі потрібен радіогід, як він працює і що підготувати до маршруту, щоб розповідь не губилася в шумі.",
+   "image": "/images/tours/ekskursiya-hid-vede-hrupu-starym-mistom.webp",
+   "alt": "Гід веде групу в навушниках SILENT бруківкою старого міста",
+   "also": [
+    "ideas"
+   ]
+  },
+  {
+   "slug": "synkhronnyi-pereklad-na-zakhodi",
+   "status": "published",
+   "category": "business",
+   "title": "Синхронний переклад на заході: як організувати, коли гості говорять різними мовами",
+   "excerpt": "Послідовний чи синхронний переклад, перекладачі, канали й навушники: що підготувати до конференції, тренінгу чи ділової зустрічі.",
+   "image": "/images/translation/pereklad-perekladachka-z-mikrofonom.webp",
+   "alt": "Синхронна перекладачка говорить у мікрофон у залі, слухачі попереду в навушниках SILENT",
+   "also": [
+    "organization"
+   ]
+  },
+  {
+   "slug": "yak-orhanizuvaty-blahodiinyi-vechir",
+   "status": "published",
+   "category": "organization",
+   "title": "Як організувати благодійний вечір: програма, атмосфера й танці без шуму",
+   "excerpt": "Як побудувати програму благодійного вечора, щоб промови й аукціон звучали доречно, а гості лишалися до кінця.",
+   "image": "/images/charity/halavechir-zal-zi-stsenoiu.webp",
+   "alt": "Зала благодійного гала-вечора зі сценою й накритими столами",
+   "also": [
+    "ideas"
+   ]
+  },
+  {
+   "slug": "vechirnia-prohrama-v-molodizhnomu-tabori",
+   "status": "published",
+   "category": "ideas",
+   "title": "Вечірня програма в молодіжному таборі: ідеї, які працюють без гучних колонок",
+   "excerpt": "Дискотека, командні батли й вечір знайомств: як скласти вечірню програму табору, яка об’єднує всю зміну.",
+   "image": "/images/youth-camps/mt-tabir-namioty-i-stsena-na-zakhodi.webp",
+   "alt": "Табір із наметами й сценою на заході сонця, учасники в навушниках",
+   "also": [
+    "organization"
+   ]
+  },
+  {
+   "slug": "idei-dlya-litnoho-korporatyvu",
+   "status": "published",
+   "category": "business",
+   "title": "Ідеї для літнього корпоративу: 8 форматів, які команда захоче повторити",
+   "excerpt": "Тераса, природа, вода чи офіс після роботи: ідеї для літнього корпоративу і що врахувати влітку.",
+   "image": "/images/blog/litnii-korporatyv-terasa-na-dakhu.webp",
+   "alt": "Літній корпоратив на терасі на даху: колеги танцюють у навушниках Silent Disco на заході сонця",
+   "also": [
+    "ideas"
+   ]
+  },
+  {
+   "slug": "idei-dlia-timbildynhu",
+   "status": "published",
+   "category": "business",
+   "title": "Ідеї для тімбілдингу: 8 активностей, де ніхто не мусить виступати на сцені",
+   "excerpt": "Командні активності для офісу й виїзду, які об’єднують, а не змушують. Плюс як зрозуміти, що тімбілдинг вдався.",
+   "image": "/images/blog/timbildynh-batl-kanaliv.webp",
+   "alt": "Команди за кольорами навушників змагаються на тімбілдингу",
+   "also": [
+    "ideas"
+   ]
+  },
+  {
+   "slug": "vesillia-bez-veduchoho",
+   "status": "published",
+   "category": "holidays",
+   "title": "Весілля без ведучого: як провести вечір, щоб він не розсипався",
+   "excerpt": "Хто веде програму, хто відповідає за музику й оголошення і як скласти таймінг весілля без ведучого.",
+   "image": "/images/wedding/vesillya-pochatok-tantsiv-pid-girlyandamy.webp",
+   "alt": "Гості весілля починають танцювати в навушниках під гірляндами",
+   "also": [
+    "organization"
+   ]
+  }
+ ]
 }

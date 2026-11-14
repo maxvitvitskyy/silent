@@ -1,0 +1,23 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-idei-dlya-litnoho-korporatyvu.jpg",
+  "bg": {
+    "src": "images/blog/litnii-korporatyv-sad-zolota-hodyna.webp",
+    "pos": "50% 30%"
+  },
+  "heading": [
+    "Літній корпоратив:",
+    "8 ідей для команди"
+  ],
+  "subtitle": [
+    [
+      "Тераса, природа, вода й вечір без скарг."
+    ]
+  ],
+  "pills": [
+    "<b>Тераса</b> й дах",
+    "<b>Пікнік</b> за містом",
+    "<b>Танці</b> без колонок"
+  ],
+  "css": ".p>img{inset:auto;left:0;top:-130px;width:1200px;height:800px}"
+}

@@ -5711,8 +5711,12 @@ function orderExperience(name, opts){
   (function(){
     const params = new URLSearchParams(location.search);
     const wanted = params.get('uc');
-    if (!wanted || !document.getElementById('book')) return;
-    orderExperience(wanted, { noScroll: true });
+    // Те саме точне доведення потрібне й для звичайного переходу на /сторінку/#book
+    // (кнопки-заклики в статтях блогу, підвал «/#book»): рідний стрибок браузера
+    // на якір спрацьовує до того, як сторінка набрала висоту, і відвідувач лишався
+    // вгорі на героблоці замість форми (перевірено 14.11.2026).
+    if (!document.getElementById('book') || (!wanted && location.hash !== '#book')) return;
+    if (wanted) orderExperience(wanted, { noScroll: true });
     // Дійти до форми ТОЧНО. Раніше тут була одна smooth-прокрутка через усю
     // головну (≈10 000px), і вона зупинялась десь на півдорозі: поки браузер
     // котив сторінку, під нею ще дозавантажувались шрифти й зображення,
@@ -5740,6 +5744,7 @@ function orderExperience(name, opts){
         new ResizeObserver(function(){ if (performance.now() < deadline) go(); }).observe(document.body);
       }
     })();
+    if (!wanted) return;
     params.delete('uc');
     const rest = params.toString();
     const clean = location.pathname + (rest ? '?' + rest : '') + location.hash;
