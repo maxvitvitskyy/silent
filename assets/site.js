@@ -1011,7 +1011,7 @@ function orderExperience(name, opts){
   const hourMinus = document.getElementById('hourMinus');
   const hourPlus = document.getElementById('hourPlus');
   let hours = 4;
-  const MIN_HOURS = 4, MAX_HOURS = 8;
+  const MIN_HOURS = 4, MAX_HOURS = 10;   // максимум 10 год (власник, 14.11.2026; було 8)
 
   // База: 40 навушників / 4 год = 12 000 грн, тобто 300 грн на гостя. Кожен навушник
   // понад 40 — теж 300 грн, тож ціна за гостя лишається рівною 300 на будь-якій
