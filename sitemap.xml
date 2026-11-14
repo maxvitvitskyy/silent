@@ -451,4 +451,18 @@
     <loc>https://silent.org.ua/blog/kino-prosto-neba-u-dvori-terasi/</loc>
     <lastmod>2026-11-03</lastmod>
   </url>
+  <url>
+    <loc>https://silent.org.ua/experiences/tours/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/tours/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/tours/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/tours/"/>
+    <lastmod>2026-11-14</lastmod>
+  </url>
+  <url>
+    <loc>https://silent.org.ua/en/experiences/tours/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/tours/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/tours/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/tours/"/>
+    <lastmod>2026-11-14</lastmod>
+  </url>
 </urlset>

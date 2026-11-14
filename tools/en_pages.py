@@ -5835,3 +5835,141 @@ for _k, _v in [
 
 
 T_PAGE_ALL.setdefault(">Ви на події. Ми на звуці.<", ">You run the event. We run the sound.<")
+
+
+# --- Сторінка «Радіогід для екскурсій» (en/experiences/tours/, 14.11.2026): рядки лише цієї сторінки.
+# Генератор UA-сторінки — tools/gen_tours_page.py. Ключі — повні рядки (довший ключ перемагає короткий).
+_TOURS = {
+'Радіогід для екскурсій у навушниках — під ключ | SILENT': 'Tour guide system in headphones, turnkey | SILENT',
+'Радіогід для екскурсій у навушниках | SILENT': 'Tour guide system in headphones | SILENT',
+'Радіогід для екскурсій і турів: голос гіда звучить у бездротових навушниках кожного учасника. Від 40 навушників, супровід команди, Київ і виїзд по Україні.':
+  'A tour guide system for excursions and tours: the guide’s voice plays in every participant’s wireless headphones. From 40 headphones, with our team on site, in Kyiv and across Ukraine.',
+'Голос гіда в бездротових навушниках кожного учасника: гіду не треба кричати, групі не треба тіснитися. Київ і виїзд по Україні.':
+  'The guide’s voice in every participant’s wireless headphones: no shouting for the guide, no crowding for the group. Kyiv and across Ukraine.',
+'Гід розповідає групі в галереї, усі слухають у бездротових навушниках SILENT': 'A guide talks to a group in a gallery, everyone listening in wireless SILENT headphones',
+'Радіогід для екскурсій від SILENT': 'Tour guide system by SILENT',
+'Радіогід для екскурсій': 'Tour guide system',
+'Гіди, турагенції, музеї, школи й організатори екскурсій': 'Guides, tour operators, museums, schools and excursion organisers',
+'<span class="t-lead">Радіогід для екскурсій</span> <span class="t-sub">у бездротових навушниках SILENT</span>':
+  '<span class="t-lead">Tour guide system</span> <span class="t-sub">in wireless SILENT headphones</span>',
+'Гід говорить у мікрофон, а кожен учасник чує його в бездротових навушниках: і в кінці групи, і на гамірній вулиці. SILENT привозить систему, видає навушники на старті та забезпечує технічний супровід екскурсії.':
+  'The guide speaks into a microphone and every participant hears them in wireless headphones, even at the back of the group or on a noisy street. SILENT brings the system, hands out the headphones at the start and provides technical support throughout the tour.',
+'Обговорити екскурсію': 'Discuss your tour',
+'<b>Голос гіда</b> <span>У навушниках кожного.</span>': '<b>The guide’s voice</b> <span>In everyone’s headphones.</span>',
+'Група в бездротових навушниках SILENT на вечірній бруківці старого міста': 'A group in wireless SILENT headphones on the cobbles of an old town at night',
+'Гід розповідає групі відвідувачів галереї, усі слухають у бездротових навушниках SILENT': 'A guide talks to a group of gallery visitors, everyone listening in wireless SILENT headphones',
+'Група відвідувачів музею в навушниках SILENT на балконі над залою з картинами': 'A group of museum visitors in SILENT headphones on a balcony above a gallery of paintings',
+'Гід пояснює групі на виставці, учасники слухають у навушниках SILENT': 'A guide explains something to a group at an exhibition, participants listening in SILENT headphones',
+'Гід розповідає групі біля стенду на виставці, усі в навушниках SILENT': 'A guide talks to a group by an exhibition stand, everyone in SILENT headphones',
+'Відвідувачка галереї надягає бездротові навушники перед картиною': 'A gallery visitor puts on wireless headphones in front of a painting',
+'Туристична група в горах у бездротових навушниках SILENT': 'A tour group in the mountains in wireless SILENT headphones',
+'Група слухає гіда в навушниках SILENT на старій площі ввечері': 'A group listens to the guide in SILENT headphones on an old square in the evening',
+'Туристи в горах у бездротових навушниках SILENT': 'Hikers in the mountains in wireless SILENT headphones',
+'Вечірнє старе місто, натовп людей у навушниках SILENT біля ярмаркових наметів': 'An old town in the evening, a crowd in SILENT headphones by market stalls',
+'Група в навушниках SILENT на пагорбі під час заходу сонця': 'A group in SILENT headphones on a hill at sunset',
+'Коли гіда не чути вже з третього ряду': 'When the guide can’t be heard from the third row',
+'На вулиці шумить транспорт, у музеї прийнято говорити тихо, а група з кількох десятків людей розтягується на метри. Гід підвищує голос, задні ряди перепитують, і частина історії губиться.':
+  'Traffic roars in the street, museums expect you to speak quietly, and a group of a few dozen people stretches out over metres. The guide raises their voice, the back rows ask what was said, and part of the story gets lost.',
+'З радіогідом гід говорить звичайним голосом у мікрофон, а учасники чують його в бездротових навушниках. Не треба тіснитися довкола гіда, щоб розібрати слова: можна роздивлятися фасад чи експонат і слухати водночас.':
+  'With a tour guide system, the guide speaks in a normal voice into a microphone and participants hear them in wireless headphones. Nobody has to crowd around the guide to catch the words: you can look at a façade or an exhibit and listen at the same time.',
+'Навушники не відрізають від світу: звуки довкола лишаються чутними, а щоб поставити запитання, досить зняти їх на шию.':
+  'The headphones don’t cut you off from the world: you can still hear what’s around you, and to ask a question you just slip them down round your neck.',
+'Один гід. Уся група чує. Ніхто не кричить.': 'One guide. The whole group hears. Nobody shouts.',
+'Де радіогід особливо потрібен': 'Where a tour guide system really helps',
+'Пішохідні екскурсії містом': 'City walking tours',
+'Гід веде групу вулицями, а розповідь звучить у навушниках кожного. Шум транспорту й натовпу не заглушує історію, а групі не треба збиватися в щільне коло на кожній зупинці.':
+  'The guide leads the group through the streets and the commentary plays in everyone’s headphones. Traffic and crowd noise don’t drown out the story, and the group doesn’t have to huddle into a tight circle at every stop.',
+'Музеї та галереї': 'Museums and galleries',
+'У залах, де прийнято говорити тихо, гід розповідає впівголоса й не заважає іншим відвідувачам. Учасники стоять біля експоната, а не тісняться біля гіда.':
+  'In halls where people are expected to keep their voices down, the guide speaks softly without disturbing other visitors. Participants stand by the exhibit instead of crowding round the guide.',
+'Тури за містом і на природі': 'Out-of-town and nature tours',
+'Стежка, оглядовий майданчик чи парк: гід розповідає на ходу, без мегафона й крику, навіть коли довкола вітер або гамір інших туристів.':
+  'A trail, a viewpoint or a park: the guide talks on the move, with no megaphone and no shouting, even in the wind or the noise of other tourists.',
+'Виставки та екскурсії підприємствами': 'Exhibitions and factory tours',
+'Шоурум, виставка чи цех, де працює обладнання й гомонять відвідувачі: голос гіда звучить у навушниках, а не губиться в залі.':
+  'A showroom, an exhibition or a workshop full of running machines and chatting visitors: the guide’s voice plays in the headphones instead of getting lost in the hall.',
+'Шкільні та студентські екскурсії': 'School and student trips',
+'Великий клас чи курс слухає одного гіда, а вчителеві чи куратору не треба збирати всіх у тісне коло й перекрикувати групу.':
+  'A big class or year group listens to one guide, and the teacher or supervisor doesn’t have to gather everyone into a tight circle and shout over them.',
+'Вечірні прогулянки й тури': 'Evening walks and tours',
+'Вечірня прогулянка містом чи тур до заходу сонця: гід розповідає тихо, у тон атмосфері, а група чує кожне слово.':
+  'An evening walk through the city or a sunset tour: the guide speaks quietly, in keeping with the mood, and the group hears every word.',
+'Як працює радіогід SILENT': 'How the SILENT tour guide system works',
+'<b>Гід говорить у мікрофон</b> <span>Голос іде з портативного передавача прямо в бездротові навушники учасників. Гід веде групу маршрутом, як завжди, тільки без крику.</span>':
+  '<b>The guide speaks into a microphone</b> <span>The voice goes from a portable transmitter straight into participants’ wireless headphones. The guide leads the group along the route as usual, just without shouting.</span>',
+'<b>Кожен регулює гучність</b> <span>У навушниках є регулятор гучності: учасник налаштовує звук під себе.</span>':
+  '<b>Everyone sets their own volume</b> <span>The headphones have a volume control, so each participant adjusts the sound to suit them.</span>',
+'<b>Без розеток на маршруті</b> <span>Навушники бездротові й приїжджають зарядженими, заряду вистачає на 10+ годин.</span>':
+  '<b>No sockets needed on the route</b> <span>The headphones are wireless and arrive fully charged, with enough battery for 10+ hours.</span>',
+'<b>Технічна організація під ключ</b> <span>SILENT привозить і налаштовує обладнання, видає навушники на старті, супроводжує екскурсію й збирає комплект після завершення відповідно до погоджених умов.</span>':
+  '<b>Turnkey technical organisation</b> <span>SILENT brings and sets up the equipment, hands out the headphones at the start, supports the tour and collects the kit afterwards, as agreed.</span>',
+'Технічну частину екскурсії беремо на себе': 'We take care of the technical side of the tour',
+'<a href="/">SILENT</a> — це не просто навушники. Ми привозимо систему, налаштовуємо її й супроводжуємо екскурсію, щоб гід займався групою, а не технікою.':
+  '<a href="/">SILENT</a> is more than headphones. We bring the system, set it up and support the tour, so the guide can focus on the group, not the equipment.',
+'бездротові навушники для всієї групи;': 'wireless headphones for the whole group;',
+'мікрофон і портативний передавач для гіда;': 'a microphone and portable transmitter for the guide;',
+'налаштування й перевірка звуку перед стартом;': 'setup and a sound check before the start;',
+'видача навушників на початку й збір наприкінці;': 'handing out headphones at the start and collecting them at the end;',
+'технічний супровід протягом екскурсії.': 'technical support throughout the tour.',
+'Від маршруту до першої зупинки': 'From route to first stop',
+'Починаємо з вашого маршруту, кількості учасників і тривалості. На цій основі визначаємо комплект і логістику.':
+  'We start with your route, group size and duration. From that we work out the kit and the logistics.',
+'Дізнаємося дату, маршрут чи локацію, кількість учасників і тривалість екскурсії.': 'We find out the date, route or location, number of participants and length of the tour.',
+'<h3>Узгоджуємо комплект</h3>': '<h3>We agree the kit</h3>',
+'Визначаємо кількість навушників, мікрофон для гіда та технічні умови маршруту.': 'We settle the number of headphones, the guide’s microphone and the technical conditions of the route.',
+'Погоджуємо точку зустрічі, час налаштування та видачу навушників.': 'We agree the meeting point, setup time and how the headphones are handed out.',
+'Супроводжуємо екскурсію': 'We support the tour',
+'Налаштовуємо систему, перевіряємо звук, видаємо навушники на старті й збираємо їх після завершення відповідно до узгодженого пакета.':
+  'We set up the system, check the sound, hand out the headphones at the start and collect them at the end, as agreed in the package.',
+'Ті самі навушники працюють не лише на екскурсіях. У розділі «<a href="/experiences/">Тихі враження</a>» зібрано інші формати: <a href="/experiences/conferences/">конференції й виставки</a>, <a href="/experiences/school/">шкільні свята</a>, фестивалі й приватні вечірки. Як працює Silent Disco загалом, розповідаємо <a href="/experiences/silent-disco/">на окремій сторінці</a>, а поради для подій просто неба шукайте в <a href="/blog/">блозі</a>: <a href="/blog/yak-organizuvaty-zakhid-u-parku/">як організувати захід у парку</a> і <a href="/blog/yak-organizuvaty-zvuk-na-zakhodi-prosto-neba/">як організувати звук на заході просто неба</a>.':
+  'The same headphones work far beyond tours. Our “<a href="/experiences/">Silent experiences</a>” section collects other formats: <a href="/experiences/conferences/">conferences and exhibitions</a>, <a href="/experiences/school/">school events</a>, festivals and private parties. We explain how Silent Disco works in general <a href="/experiences/silent-disco/">on a separate page</a>.',
+'Поширені запитання про радіогід для екскурсій': 'Frequently asked questions about the tour guide system',
+'Чи може гід ходити разом із групою?': 'Can the guide walk with the group?',
+'Так. Гід говорить у мікрофон із портативним передавачем і веде групу маршрутом, а учасники чують його в навушниках на ходу.':
+  'Yes. The guide speaks into a microphone with a portable transmitter and leads the group along the route, while participants hear them in their headphones on the move.',
+'Чим радіогід кращий за мегафон чи колонку?': 'Why is a tour guide system better than a megaphone or a speaker?',
+'Звук іде не в простір, а в навушники учасників. Гід говорить звичайним голосом, не заважає перехожим чи іншим відвідувачам музею, а розповідь чути навіть у кінці групи.':
+  'The sound goes into participants’ headphones, not out into the space. The guide speaks in a normal voice without disturbing passers-by or other museum visitors, and the commentary can be heard even at the back of the group.',
+'Скільки коштує радіогід для екскурсії?': 'How much does a tour guide system cost?',
+'Базовий орієнтир — від 12 000 грн за 40 навушників на 4 години. Фінальна вартість залежить від дати, локації, тривалості та кількості навушників.':
+  'As a guide, prices start at UAH 12,000 for 40 headphones for 4 hours. The final cost depends on the date, location, duration and number of headphones.',
+'Базова пропозиція SILENT починається від 40 навушників на 4 години. Якщо група менша, вартість рахується за базовим комплектом.':
+  'The SILENT base package starts at 40 headphones for 4 hours. If your group is smaller, the price is based on the base kit.',
+'Хто видає навушники й стежить за технікою?': 'Who hands out the headphones and looks after the equipment?',
+'Команда SILENT налаштовує систему, перевіряє звук, видає навушники на старті, забезпечує технічний супровід і збирає комплект після екскурсії.':
+  'The SILENT team sets up the system, checks the sound, hands out the headphones at the start, provides technical support and collects the kit after the tour.',
+'Чи можна користуватися радіогідом на вулиці?': 'Can the tour guide system be used outdoors?',
+'Так. Навушники бездротові й приїжджають зарядженими, заряду вистачає на 10+ годин, тож розетка на маршруті не потрібна. На випадок дощу варто мати запасний план, обговоримо його під ваш маршрут.':
+  'Yes. The headphones are wireless and arrive fully charged with 10+ hours of battery, so you don’t need a socket on the route. It’s worth having a back-up plan in case of rain; we’ll discuss one for your route.',
+'Скільки коштує радіогід для екскурсії': 'How much does a tour guide system cost',
+'Для стандартного формату скористайтеся калькулятором: база розрахована на 40 навушників і 4 години. Якщо маршрут має особливі умови, вартість узгоджуємо індивідуально.':
+  'For the standard format, use the calculator: the base covers 40 headphones and 4 hours. If your route has special conditions, we agree the price individually.',
+'Плануєте екскурсію? Обговорімо маршрут': 'Planning a tour? Let’s talk about the route',
+'Розкажіть про маршрут, групу й дату. Ми підкажемо, як організувати звук, щоб гіда чули всі, і запропонуємо наступний крок.':
+  'Tell us about the route, the group and the date. We’ll suggest how to organise the sound so everyone hears the guide, and propose the next step.',
+'Дата, місце старту та приблизна кількість учасників — цього достатньо, щоб почати розмову.': 'The date, the starting point and a rough number of participants are enough to start the conversation.',
+'Обговорити <span class="em">радіогід</span> для екскурсії': 'Discuss a <span class="em">tour guide system</span> for your tour',
+'Залиште заявку — перевіримо доступність обладнання та зв’яжемося з вами, щоб узгодити маршрут і технічні деталі.':
+  'Leave a request and we’ll check equipment availability and get in touch to agree the route and technical details.',
+'<option selected>Екскурсія</option>': '<option selected>Tour</option>',
+}
+for _k, _v in list(_TOURS.items()):
+    T_PAGE_ALL[_k] = _v
+    if '<a href="/' in _k:
+        T_PAGE_ALL[_en_href(_k)] = _en_href(_v)
+
+# Нові фото сторінки екскурсій (14.11.2026): alt-тексти.
+_TOURS2 = {
+'Гід розповідає групі біля мармурової статуї в музейній залі, усі в навушниках SILENT': 'A guide talks to a group beside a marble statue in a museum hall, everyone in SILENT headphones',
+'Жінка в навушниках SILENT торкається чаші й роздивляється стару фреску в храмі': 'A woman in SILENT headphones touches the ear cup while studying an old fresco in a church',
+'Гід веде групу в навушниках SILENT бруківкою старого міста': 'A guide leads a group in SILENT headphones along the cobbles of an old town',
+'Група в навушниках SILENT на оглядовому майданчику над містом на заході сонця': 'A group in SILENT headphones at a viewpoint above the city at sunset',
+'Екскурсія пивоварнею: група в захисних жилетах слухає гіда в навушниках SILENT': 'A brewery tour: a group in safety vests listens to the guide in SILENT headphones',
+'Школярі в навушниках SILENT роздивляються вітрину в історичному музеї': 'Schoolchildren in SILENT headphones look into a display case at a history museum',
+'Вечірня екскурсія набережною: гід із мікрофоном і група в навушниках SILENT': 'An evening tour along the embankment: a guide with a microphone and a group in SILENT headphones',
+'Перед екскурсією туристам видають навушники SILENT з кейса': 'Before the tour, visitors are handed SILENT headphones from a case',
+'Гід із мікрофоном-гарнітурою розповідає групі на старій площі': 'A guide with a headset microphone talks to a group on an old square',
+'Сім’ї з дітьми проходять крізь браму фортеці за гідом, усі в навушниках SILENT': 'Families with children follow a guide through a fortress gate, everyone in SILENT headphones',
+}
+for _k, _v in _TOURS2.items():
+    T_PAGE_ALL[_k] = _v

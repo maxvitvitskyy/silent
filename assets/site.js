@@ -6211,7 +6211,7 @@ function orderExperience(name, opts){
    курсор над заголовком: біля курсора лишається жирно, далі тоншає до BASE; після виходу все плавно вертається.
    Пік = звичайна вага, тож заголовок ніколи не стає ширшим, ніж у спокої, і рядки не переносяться.
    Позиції літер кешуються (вимірювати щокадру після запису ваг = форсований layout); оновлюються при вході курсора й resize.
-   Лише пристрої з мишею. Доступність: для скрінрідера — прихована копія тексту (.vf-sr), літери aria-hidden.
+   Лише пристрої з мишею. Текст лишається суцільним (літери — inline-span), без прихованих копій: див. нижче.
    Який заголовок отримує ефект — список VF_TITLES; розбиття на літери зберігає вкладені span/em/br і їхні кольори. */
 (function () {
   const VF_TITLES = '.ab-h1, .ab-plate h2, .exp-head-title, .exp-title .t-lead, .blog-title';
@@ -6219,9 +6219,6 @@ function orderExperience(name, opts){
   const BASE = 260, RATE = 9;          // RATE — швидкість доганяння, 1/с
   document.querySelectorAll(VF_TITLES).forEach(h => {
     const PEAK = parseInt(getComputedStyle(h).fontWeight, 10) || 800;
-    // <br> у textContent зникає без пробілу («подіязапам'ятається»), тож рахуємо текст із копії, де br → пробіл.
-    const cl = h.cloneNode(true); cl.querySelectorAll('br').forEach(br => br.replaceWith(' ')); cl.querySelectorAll('.ab-sr').forEach(e => e.remove());
-    const text = cl.textContent.replace(/\s+/g, ' ').trim();
     const chars = [];
     (function split(node) {
       [...node.childNodes].forEach(c => {
@@ -6230,7 +6227,7 @@ function orderExperience(name, opts){
           for (const ch of c.textContent) {
             if (/\s/.test(ch)) { frag.appendChild(document.createTextNode(ch)); continue; }
             const s = document.createElement('span');
-            s.className = 'vf-ch'; s.textContent = ch; s.setAttribute('aria-hidden', 'true');
+            s.className = 'vf-ch'; s.textContent = ch;
             frag.appendChild(s); chars.push({ el: s, x: 0, y: 0, w: PEAK, t: PEAK });
           }
           c.replaceWith(frag);
@@ -6238,9 +6235,10 @@ function orderExperience(name, opts){
       });
     })(h);
     if (!chars.length) return;
-    // .ab-h1 уже має поруч прихований <h1>; іншим заголовкам — власна прихована копія тексту.
+    // .ab-h1 уже має поруч прихований <h1>, тож сам рядок для скрінрідера ховаємо. Іншим заголовкам копії тексту НЕ
+    // додаємо (14.11.2026): Google рендерить JS і бачив H1 подвоєним («Silent DiscoSilent Disco…»). Літери — звичайні
+    // inline-span без пробілів між собою, тож і скрінрідер, і пошук читають слово суцільно.
     if (h.classList.contains('ab-h1')) h.setAttribute('aria-hidden', 'true');
-    else { const sr = document.createElement('span'); sr.className = 'vf-sr'; sr.textContent = text; h.appendChild(sr); }
     h.classList.add('vf-on');
     // Кернінг (виправлення стрибків, 13.11.2026). Браузер кернить пару лише всередині одного «шматка» тексту з однаковими
     // властивостями: поки сусідні літери мають різну вагу, кернінгу між ними нема, а коли вага випадково збігається (обидві

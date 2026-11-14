@@ -1146,6 +1146,7 @@ EXPERIENCE_URLS = {
     'Дівич-вечір': '/experiences/hen-party/',
     'Кіно просто неба': '/experiences/outdoor-cinema/',
     'Благодійні гала': '/experiences/charity/',
+    'Екскурсії': '/experiences/tours/',
     'Церковні служби та зібрання': '/experiences/church/',
     'Церковні та молодіжні табори': '/experiences/camps/',
     'Табори та молодіжні збори': '/experiences/youth-camps/',
@@ -1305,6 +1306,7 @@ EXPERIENCE_PAGES = [
     os.path.join('experiences', 'hen-party', 'index.html'),
     os.path.join('experiences', 'outdoor-cinema', 'index.html'),
     os.path.join('experiences', 'charity', 'index.html'),
+    os.path.join('experiences', 'tours', 'index.html'),
 ]
 
 
@@ -1331,6 +1333,7 @@ EXP_FAQ_PAGES = {
     os.path.join('experiences', 'hen-party', 'index.html'): '/experiences/hen-party/',
     os.path.join('experiences', 'outdoor-cinema', 'index.html'): '/experiences/outdoor-cinema/',
     os.path.join('experiences', 'charity', 'index.html'): '/experiences/charity/',
+    os.path.join('experiences', 'tours', 'index.html'): '/experiences/tours/',
 }
 
 
@@ -2381,6 +2384,7 @@ EXP_EN_PAGES = {
     'hen-party': 'images/hen-party/og-hen-party-en.jpg',
     'outdoor-cinema': 'images/outdoor-cinema/og-outdoor-cinema-en.jpg',
     'charity': 'images/charity/og-charity-en.jpg',
+    'tours': 'images/tours/og-tours-en.jpg',
 }
 from en_pages import T_PAGE_ALL, T_ABOUT   # рядки сторінок досвідів і «Про нас» (tools/en_pages.py)
 T_PAGE = {}   # slug -> {укр: англ} (додаткові, лише для однієї сторінки)
