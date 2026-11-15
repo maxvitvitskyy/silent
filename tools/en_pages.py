@@ -6216,3 +6216,112 @@ for _k, _v in list(_DJ.items()):
     if '<a href="/' in _k:
         T_PAGE_ALL[_en_href(_k)] = _en_href(_v)
 T_PAGE_ALL['Діджей грає на даху на заході сонця, гості танцюють у навушниках SILENT'] = 'A DJ plays on a rooftop at sunset, guests dance in SILENT headphones'
+
+# ---- Ярмарки та маркети (/experiences/markets/, 15.11.2026; генератор tools/gen_markets_page.py) ----
+_MARKETS = {
+'Музика звучить не з колонок, а в бездротових навушниках гостей: на танцполі серед ярмарку, на вечірній дискотеці чи на майстеркласі. А біля рядів продавці говорять із покупцями звичайним голосом. У навушниках три канали з різною музикою, гість перемикає їх одним дотиком. SILENT привозить систему, видає навушники й супроводжує ярмарок.': "The music plays not from speakers but in the guests' wireless headphones: on a dance floor in the middle of the fair, at an evening disco or at a workshop. Meanwhile, by the stalls, vendors talk to customers in a normal voice. The headphones have three channels with different music, switched with a single touch. SILENT brings the system, hands out the headphones and supports the fair throughout.",
+'Майстриня веде майстерклас на ярмарку, учасники чують її в навушниках SILENT': 'A craftswoman leads a workshop at the fair, participants hear her in SILENT headphones',
+'Майстер говорить у мікрофон, а учасники чують кожне слово в навушниках, навіть посеред гамору ярмарку.': 'The craftsperson speaks into a microphone and participants hear every word in their headphones, even amid the noise of the fair.',
+'Авторка презентує книжку на сцені ярмарку, слухачі чують її в навушниках SILENT': 'An author presents her book on the fair stage, listeners hear her in SILENT headphones',
+'Виступи й презентації': 'Talks and presentations',
+'Лекція, презентація книжки чи розмова на маленькій сцені: слухачі сидять у навушниках і чують спікера, а ярмарок довкола працює як завжди.': 'A lecture, book presentation or conversation on a small stage: listeners sit in headphones and hear the speaker, while the fair around them carries on as usual.',
+'<b>Видача за домовленістю з організатором</b> <span>Навушники видаємо під відповідальність організатора: порядок видачі й повернення погоджуємо з ним заздалегідь. На місці видачу веде команда SILENT.</span>': "<b>Handout agreed with the organiser</b> <span>We hand out the headphones under the organiser's responsibility and agree how they are given out and returned in advance. On site, the SILENT team runs the handout.</span>",
+'пункт видачі навушників, погоджений з організатором;': 'a headphone pickup point agreed with the organiser;',
+'Погоджуємо логістику, час монтажу й порядок видачі та повернення навушників.': 'We agree the logistics, setup time and how headphones are handed out and returned.',
+'Як гості отримують навушники?': 'How do guests get headphones?',
+'Навушники видаємо під відповідальність організатора ярмарку: порядок видачі й повернення погоджуємо з ним заздалегідь. На місці видачу веде команда SILENT.': "We hand out the headphones under the fair organiser's responsibility and agree how they are given out and returned in advance. On site, the SILENT team runs the handout.",
+'У лофті, галереї чи критому павільйоні колонки швидко перетворюють маркет на гул. З музикою в навушниках у залі можна спокійно говорити, а охочі танцюють поруч.': 'In a loft, gallery or covered pavilion, speakers quickly turn a market into a din. With music in headphones, people can talk calmly in the hall while those who want to dance do so nearby.',
+'Коли ряди закриваються, площа стає танцполом, а в сусідніх будинках не чути жодного басу.': "When the stalls close, the square becomes a dance floor, and the neighbouring houses don't hear a single beat of bass.",
+'Щоб почати розмову, досить дати, локації, тривалості й приблизної кількості гостей.': 'To start the conversation, the date, venue, duration and a rough number of guests are enough.',
+'Базовий орієнтир: від 12 000 грн за 40 навушників на 4 години. Фінальна вартість залежить від дати, локації, тривалості та кількості навушників.': 'As a guide, prices start at UAH 12,000 for 40 headphones for 4 hours. The final cost depends on the date, location, duration and number of headphones.',
+'Ви збираєте продавців і гостей, а <a href="/">SILENT</a> відповідає за музику: вона звучить там, де на неї чекають, і не заважає там, де торгують.': 'You bring together vendors and guests, and <a href="/">SILENT</a> takes care of the music: it plays where people want it and stays out of the way where they trade.',
+'Ярмарки та маркети з музикою в навушниках | SILENT': 'Fairs and markets with music in headphones | SILENT',
+'Silent Disco для ярмарку чи маркету: гості танцюють і слухають музику в бездротових навушниках, а продавці спокійно говорять із покупцями. Вечірня дискотека, майстеркласи. Київ і виїзд по Україні.':
+  'Silent Disco for a fair or market: guests dance and listen to music in wireless headphones while vendors talk to customers in peace. Evening disco, workshops. Kyiv and across Ukraine.',
+'Ярмарок із музикою в бездротових навушниках | SILENT': 'A fair with music in wireless headphones | SILENT',
+'Гості танцюють у бездротових навушниках, а продавці спокійно говорять із покупцями. Танці, вечірня дискотека й майстеркласи.':
+  'Guests dance in wireless headphones while vendors talk to customers in peace. Dancing, an evening disco and workshops.',
+'Гості танцюють у бездротових навушниках SILENT на ярмарку серед наметів із товарами': 'Guests dance in wireless SILENT headphones at a fair among stalls with goods',
+'Silent Disco для ярмарків і маркетів': 'Silent Disco for fairs and markets',
+'Організатори ярмарків, маркетів, фуд-фестивалів і міських подій': 'Organisers of fairs, markets, food festivals and city events',
+'<span class="t-sub">з музикою в бездротових навушниках</span>': '<span class="t-sub">with music in wireless headphones</span>',
+'Обговорити ярмарок': 'Discuss your fair',
+'<b>3 музичні канали</b> <span>Гість обирає сам.</span>': '<b>3 music channels</b> <span>Each guest chooses.</span>',
+'Продавчиня за прилавком говорить із покупцем, а позаду гості танцюють у навушниках SILENT': 'A vendor at her stall talks to a customer while guests dance in SILENT headphones behind',
+'Гостя ярмарку торкається чаші навушників SILENT, щоб перемкнути канал': 'A fair guest touches the ear cup of her SILENT headphones to switch the channel',
+'Навушники SILENT лежать на дерев’яному прилавку серед товарів ярмарку': 'SILENT headphones lie on a wooden stall counter among the fair\'s goods',
+'Музика, яка не заважає торгувати': 'Music that doesn\'t get in the way of trading',
+'Ярмарку потрібна музика: без неї площа здається порожньою. Але колонки біля рядів заважають тим, заради кого ярмарок і зібрали. Продавець перекрикує бас, покупець не чує ціни, а сусідні намети сперечаються, чия музика голосніша.':
+  'A fair needs music: without it the square feels empty. But speakers next to the stalls get in the way of the very people the fair is for. Vendors shout over the bass, customers can\'t hear the price, and neighbouring stalls argue over whose music is louder.',
+'У форматі SILENT музика звучить у бездротових навушниках. Хто хоче танцювати, бере навушники в пункті видачі й танцює на своєму майданчику, а за кілька метрів біля прилавків тихо, і розмова про товар іде спокійно.':
+  'With SILENT the music plays in wireless headphones. Anyone who wants to dance picks up headphones at the pickup point and dances in their own area, while a few metres away by the stalls it stays quiet and conversations about the goods go on calmly.',
+'У навушниках три канали з різною музикою: гість перемикає їх одним дотиком, а колір підсвітки показує, хто що слухає. Один канал можна віддати під майстерклас чи виступ, і голос ведучого почують навіть посеред гомону ярмарку.':
+  'The headphones have three channels with different music: guests switch with a single touch, and the light colour shows who is listening to what. One channel can be given over to a workshop or a performance, so the host\'s voice is heard even amid the bustle of the fair.',
+'Танці поруч. Торгівля в тиші. Три канали музики.': 'Dancing nearby. Trading in quiet. Three music channels.',
+'Що SILENT робить на ярмарку': 'What SILENT does at a fair',
+'Гості танцюють у навушниках SILENT на майданчику між наметами ярмарку': 'Guests dance in SILENT headphones in an open space between the fair\'s stalls',
+'Танцпол серед ярмарку': 'A dance floor in the middle of the fair',
+'Окремий майданчик із музикою в навушниках: гості танцюють, а продавці поруч розмовляють із покупцями без гуркоту колонок.':
+  'A separate area with music in headphones: guests dance while vendors nearby talk to customers without booming speakers.',
+'Увечері площа ярмарку стає танцполом, гості танцюють у світних навушниках під гірляндами': 'In the evening the fair square becomes a dance floor, guests dance in glowing headphones under string lights',
+'Вечірня дискотека': 'Evening disco',
+'Зимовий ярмарок увечері: гості танцюють у навушниках SILENT біля святкових будиночків': 'A winter fair in the evening: guests dance in SILENT headphones by the festive market huts',
+'Сезонні ярмарки': 'Seasonal fairs',
+'Новорічні, великодні чи осінні ярмарки: святкова музика в навушниках і танці під гірляндами, а на площі лишається місце для розмов.':
+  'New Year, Easter or autumn fairs: festive music in headphones and dancing under string lights, while the square still has room for conversation.',
+'Фуд-маркет у лофті: гості з їжею слухають музику в навушниках SILENT': 'A food market in a loft: guests with food listen to music in SILENT headphones',
+'Фуд-маркети й дизайн-маркети': 'Food and design markets',
+'Як працює музика в навушниках на ярмарку': 'How music in headphones works at a fair',
+'<b>Три канали з різною музикою</b> <span>Плейлисти готуємо наперед під формат ярмарку. Гість перемикає канал одним дотиком, а колір підсвітки показує, хто що слухає.</span>':
+  '<b>Three channels with different music</b> <span>We prepare the playlists in advance for the fair\'s format. Guests switch channels with a single touch, and the light colour shows who is listening to what.</span>',
+'<b>Голос майстра чи ведучого</b> <span>Майстерклас, виступ чи оголошення можна вивести в навушники на окремому каналі: попередьте команду, ми налаштуємо.</span>':
+  '<b>The voice of the craftsperson or host</b> <span>A workshop, talk or announcement can go into the headphones on a separate channel: let the team know and we\'ll set it up.</span>',
+'<b>Технічна організація під ключ</b> <span>SILENT привозить і налаштовує обладнання, видає навушники, супроводжує ярмарок і збирає комплект після завершення відповідно до погоджених умов.</span>':
+  '<b>Turnkey technical setup</b> <span>SILENT brings and sets up the equipment, hands out the headphones, supports the fair throughout and packs up the kit afterwards as agreed.</span>',
+'Музику на ярмарку беремо на себе': 'We take care of the music at your fair',
+'бездротові навушники для гостей;': 'wireless headphones for guests;',
+'передавач і три канали з плейлистами SILENT;': 'a transmitter and three channels with SILENT playlists;',
+'голос майстра чи ведучого на окремому каналі, якщо потрібно;': 'the craftsperson\'s or host\'s voice on a separate channel, if needed;',
+'технічний супровід протягом ярмарку.': 'technical support throughout the fair.',
+'У наметі пункту видачі гостям ярмарку видають навушники SILENT': 'At the pickup tent, fair guests are handed SILENT headphones',
+'Майстерклас із кераміки на ярмарку: учасники в навушниках SILENT ліплять за своїми кругами й слухають гончаря': 'A pottery workshop at a fair: participants in SILENT headphones shape clay at their own wheels while listening to the potter',
+'Технік SILENT перевіряє навушники біля кейса з комплектом на ярмарку': 'A SILENT technician checks headphones next to the kit case at the fair',
+'Від ідеї до першого танцю на площі': 'From idea to the first dance on the square',
+'Починаємо з локації, тривалості ярмарку й того, що ви хочете: танці, вечірню дискотеку, майстеркласи чи все разом. На цій основі визначаємо комплект і логістику.':
+  'We start with the venue, how long the fair runs and what you want: dancing, an evening disco, workshops or all of it. From there we define the kit and logistics.',
+'Увечері на площі ярмарку гості танцюють у світних навушниках SILENT під гірляндами': 'In the evening on the fair square, guests dance in glowing SILENT headphones under string lights',
+'Дізнаємося дату, локацію, тривалість ярмарку й орієнтовну кількість гостей.': 'We find out the date, venue, length of the fair and the approximate number of guests.',
+'Визначаємо кількість навушників, канали, місце для танців і пункту видачі, живлення й план на випадок дощу.':
+  'We define the number of headphones, the channels, where the dancing and pickup point go, power, and a plan in case of rain.',
+'Супроводжуємо ярмарок': 'We support the fair',
+'Встановлюємо систему, перевіряємо сигнал, видаємо навушники, а після завершення збираємо комплект відповідно до узгодженого пакета.':
+  'We set up the system, check the signal, hand out the headphones and pack up the kit afterwards in line with the agreed package.',
+'Ярмарок лише один із форматів. У розділі «<a href="/experiences/">Тихі враження</a>» зібрано інші: <a href="/experiences/festivals/">фестивалі</a>, <a href="/experiences/public-spaces/">заходи в громадських просторах</a>, <a href="/experiences/outdoor-cinema/">кіно просто неба</a> і <a href="/experiences/silent-disco/">Silent Disco</a>. Поради шукайте в <a href="/blog/">блозі</a>: <a href="/blog/yak-organizuvaty-zakhid-u-parku/">як організувати захід у парку або сквері</a> і <a href="/blog/yak-organizuvaty-zvuk-na-zakhodi-prosto-neba/">як організувати звук на заході просто неба</a>.':
+  'A fair is just one of the formats. Our <a href="/experiences/">Quiet Experiences</a> section brings together others: <a href="/experiences/festivals/">festivals</a>, <a href="/experiences/public-spaces/">events in public spaces</a>, <a href="/experiences/outdoor-cinema/">open-air cinema</a> and <a href="/experiences/silent-disco/">Silent Disco</a>.',
+'Поширені запитання про музику в навушниках на ярмарку': 'Frequently asked questions about music in headphones at a fair',
+'Чи заважатиме музика продавцям?': 'Will the music bother the vendors?',
+'Ні. Музика звучить у навушниках гостей, а не з колонок, тож біля прилавків можна говорити звичайним голосом.':
+  'No. The music plays in the guests\' headphones, not from speakers, so people can talk in a normal voice by the stalls.',
+'Що звучить у навушниках?': 'What plays in the headphones?',
+'Три канали з різною музикою. Плейлисти SILENT готуємо наперед під формат і гостей ярмарку, а кожен гість сам обирає канал.':
+  'Three channels with different music. We prepare SILENT playlists in advance for the fair\'s format and guests, and each guest picks a channel.',
+'Чи можна провести майстерклас через навушники?': 'Can a workshop be run through the headphones?',
+'Так. Голос майстра чи ведучого можна вивести в навушники на окремому каналі: попередьте команду, ми налаштуємо.':
+  'Yes. The craftsperson\'s or host\'s voice can go into the headphones on a separate channel: let the team know and we\'ll set it up.',
+'Скільки коштує Silent Disco на ярмарку?': 'How much does Silent Disco at a fair cost?',
+'Чи можна провести ярмарок просто неба?': 'Can the fair be held outdoors?',
+'Так, якщо поруч є живлення для передавача і є запасний план на дощ: намет, навіс чи приміщення. Умови локації обговорюємо заздалегідь.':
+  'Yes, if there is power nearby for the transmitter and a backup plan for rain: a tent, canopy or indoor space. We discuss the venue conditions in advance.',
+'Скільки коштує Silent Disco для ярмарку': 'How much Silent Disco for a fair costs',
+'Для стандартного формату скористайтеся калькулятором: база розрахована на 40 навушників і 4 години. Якщо ярмарок триває кілька днів чи локація має особливі умови, вартість узгоджуємо індивідуально.':
+  'For the standard format, use the calculator: the base covers 40 headphones and 4 hours. If the fair runs for several days or the venue has special requirements, we agree the price individually.',
+'Плануєте ярмарок? Обговорімо музику в навушниках': 'Planning a fair? Let\'s talk about music in headphones',
+'Розкажіть про локацію, тривалість і формат ярмарку. Ми підкажемо, як вписати музику в навушниках, і запропонуємо наступний крок.':
+  'Tell us about the venue, duration and format of the fair. We\'ll suggest how to fit in music in headphones and propose the next step.',
+'Обговорити <span class="em">Silent Disco</span> для ярмарку': 'Discuss <span class="em">Silent Disco</span> for your fair',
+'<option selected>Ярмарок чи маркет</option>': '<option selected>Fair or market</option>',
+}
+for _k, _v in list(_MARKETS.items()):
+    T_PAGE_ALL[_k] = _v
+    if '<a href="/' in _k:
+        T_PAGE_ALL[_en_href(_k)] = _en_href(_v)

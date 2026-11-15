@@ -1149,6 +1149,7 @@ EXPERIENCE_URLS = {
     'Екскурсії': '/experiences/tours/',
     'Синхронний переклад': '/experiences/translation/',
     'Діджей-сет наживо': '/experiences/dj-set/',
+    'Ярмарки та маркети': '/experiences/markets/',
     'Церковні служби та зібрання': '/experiences/church/',
     'Церковні та молодіжні табори': '/experiences/camps/',
     'Табори та молодіжні збори': '/experiences/youth-camps/',
@@ -1311,6 +1312,7 @@ EXPERIENCE_PAGES = [
     os.path.join('experiences', 'tours', 'index.html'),
     os.path.join('experiences', 'translation', 'index.html'),
     os.path.join('experiences', 'dj-set', 'index.html'),
+    os.path.join('experiences', 'markets', 'index.html'),
 ]
 
 
@@ -1340,6 +1342,7 @@ EXP_FAQ_PAGES = {
     os.path.join('experiences', 'tours', 'index.html'): '/experiences/tours/',
     os.path.join('experiences', 'translation', 'index.html'): '/experiences/translation/',
     os.path.join('experiences', 'dj-set', 'index.html'): '/experiences/dj-set/',
+    os.path.join('experiences', 'markets', 'index.html'): '/experiences/markets/',
 }
 
 
@@ -2393,6 +2396,7 @@ EXP_EN_PAGES = {
     'tours': 'images/tours/og-tours-en.jpg',
     'translation': 'images/translation/og-translation-en.jpg',
     'dj-set': 'images/dj-set/og-dj-set-en.jpg',
+    'markets': 'images/markets/og-markets-en.jpg',
 }
 from en_pages import T_PAGE_ALL, T_ABOUT   # рядки сторінок досвідів і «Про нас» (tools/en_pages.py)
 T_PAGE = {}   # slug -> {укр: англ} (додаткові, лише для однієї сторінки)
