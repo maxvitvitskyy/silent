@@ -8765,6 +8765,13 @@ body:has(.legal-toc){overflow-x:clip}
 .exp-cover-gallery .exp-title--long{font-size:min(10.6cqw,78px)}
 .exp-cover-gallery .exp-title--long .t-lead{white-space:normal}
 .exp-cover-gallery .exp-title--long .t-sub{white-space:normal;font-size:.4em;line-height:1.22;letter-spacing:-.01em;max-width:24em;margin-top:.5em}
+/* «Спортивні події»: на десктопі обидва слова ледь не вміщуються в рядок, і ефект товщини літер (.vf-ch) при
+   наведенні звужує їх так, що заголовок «стрибає» з двох рядків в один і назад. Ширина 6.6em менша за обидва
+   слова разом за будь-якої товщини, але більша за найдовше слово, тож заголовок завжди у два рядки.
+   Лише українська й лише десктоп (власник, 15.11.2026); на телефоні перенос природний. */
+@media (min-width:721px){
+  html:not([lang="en"]) .exp-cover-gallery .exp-title--split .t-lead{max-width:6.6em}
+}
 
 /* Сторінка «Конференції», блок «Сценарії»: колаж «широкий знімок угорі, два під ним» замість стандартного
    «високий ліворуч, два стовпчиком праворуч». Лише з модифікатором, решта сторінок не змінюється. */

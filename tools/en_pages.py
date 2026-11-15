@@ -6325,3 +6325,117 @@ for _k, _v in list(_MARKETS.items()):
     T_PAGE_ALL[_k] = _v
     if '<a href="/' in _k:
         T_PAGE_ALL[_en_href(_k)] = _en_href(_v)
+
+# ---- Спортивні події (/experiences/sport/, 15.11.2026; генератор tools/gen_sport_page.py) ----
+_SPORT = {
+'<b>Технічна організація під ключ</b> <span>SILENT привозить і налаштовує обладнання, видає навушники, супроводжує подію і збирає комплект після завершення відповідно до погоджених умов.</span>': '<b>Turnkey technical setup</b> <span>SILENT brings and sets up the equipment, hands out the headphones, supports the event throughout and packs up the kit afterwards as agreed.</span>',
+'Спортивні події в навушниках: голос тренера й музика | SILENT': "Sports events in headphones: the coach's voice and music | SILENT",
+'Бездротові навушники для спортивних подій: голос тренера й музика чути кожному учаснику навіть на вулиці, розминка перед стартом і Silent Disco після змагань. Київ і виїзд по Україні.':
+  "Wireless headphones for sports events: every participant hears the coach's voice and music even outdoors, plus a pre-start warm-up and Silent Disco after the competition. Kyiv and across Ukraine.",
+'Спортивні події з бездротовими навушниками | SILENT': 'Sports events with wireless headphones | SILENT',
+'Голос тренера й музика в навушниках кожного учасника: тренування, розминка перед стартом і Silent Disco після змагань.':
+  "The coach's voice and music in every participant's headphones: training, a pre-start warm-up and Silent Disco after the competition.",
+'Учасники групового тренування в парку слухають тренера в бездротових навушниках SILENT': 'Participants of a group workout in a park listen to the coach in wireless SILENT headphones',
+'Бездротові навушники SILENT для спортивних подій': 'Wireless SILENT headphones for sports events',
+'Організатори забігів, турнірів, спортивних днів і групових тренувань': 'Organisers of runs, tournaments, sports days and group workouts',
+'<span class="t-sub">з бездротовими навушниками</span>': '<span class="t-sub">with wireless headphones</span>',
+"Голос тренера й музика звучать у бездротових навушниках кожного учасника, тож команди чути навіть у парку, на набережній чи серед шуму старту. Розминка перед забігом, групове тренування чи Silent Disco після змагань: SILENT привозить систему, дає мікрофон для тренера й видає навушники.":
+  "The coach's voice and music play in every participant's wireless headphones, so instructions are heard even in a park, on an embankment or amid the noise of a start line. A warm-up before a run, a group workout or Silent Disco after the competition: SILENT brings the system, provides a microphone for the coach and hands out the headphones.",
+'Обговорити подію': 'Discuss your event',
+'<b>Голос тренера</b> <span>Чути кожному учаснику.</span>': "<b>The coach's voice</b> <span>Heard by every participant.</span>",
+'Тренер із мікрофоном веде групове тренування, учасники слухають його в навушниках SILENT': 'A coach with a microphone leads a group workout, participants listen in SILENT headphones',
+'Учасниця тренування налаштовує гучність на чаші навушників SILENT': 'A participant adjusts the volume on the ear cup of her SILENT headphones',
+'Навушники SILENT і мікрофон тренера лежать на лаві біля спортивного майданчика': "SILENT headphones and the coach's microphone lie on a bench next to a sports ground",
+'Тренера чути, навіть коли довкола шумно': 'The coach is heard even when it is noisy around',
+'На відкритому майданчику голос тренера розлітається: задні ряди не чують команд, а колонку поруч глушать вітер і шум міста. Тренерові доводиться кричати, а учасникам перепитувати.':
+  "On an open-air ground the coach's voice scatters: the back rows can't hear the instructions, and a speaker nearby is drowned out by wind and city noise. The coach has to shout and participants have to ask again.",
+'У форматі SILENT тренер говорить у мікрофон, а кожен учасник чує його в бездротових навушниках так, ніби той стоїть поруч. Під голос можна пустити музику для темпу, і вона не заважає людям довкола.':
+  "With SILENT the coach speaks into a microphone and every participant hears them in wireless headphones as if they were standing next to them. Music for the pace can play under the voice without bothering anyone around.",
+'Після змагань ті самі навушники стають вечіркою: на трьох каналах звучить різна музика, кожен перемикає її одним дотиком, а колір підсвітки показує, хто що слухає.':
+  'After the competition the same headphones become a party: three channels play different music, everyone switches with a single touch, and the light colour shows who is listening to what.',
+'Голос тренера. Музика для темпу. Вечірка після фінішу.': "The coach's voice. Music for the pace. A party after the finish.",
+'Де навушники допомагають на спортивній події': 'Where headphones help at a sports event',
+'Групове тренування в парку: усі учасники слухають тренера в навушниках SILENT': 'A group workout in a park: all participants listen to the coach in SILENT headphones',
+'Групове тренування в парку': 'Group workout in a park',
+'Функціональне тренування чи кардіо просто неба: тренер говорить у мікрофон, і його чує кожен у групі, навіть у задньому ряду.':
+  'Functional training or cardio outdoors: the coach speaks into a microphone and everyone in the group hears them, even in the back row.',
+'Учасники забігу розминаються перед стартом у навушниках SILENT': 'Runners warm up before the start in SILENT headphones',
+'Розминка перед стартом': 'Pre-start warm-up',
+'Спільна розминка учасників забігу чи турніру під музику й голос ведучого в навушниках, без колонок, які перекрикують одна одну на старті.':
+  "A joint warm-up for runners or tournament players to music and the host's voice in headphones, without speakers shouting over each other at the start.",
+'Танцювальний фітнес просто неба: група повторює рухи тренерки в навушниках SILENT': "Outdoor dance fitness: the group follows the trainer's moves in SILENT headphones",
+'Танцювальний фітнес': 'Dance fitness',
+'Музика й рахунок тренера звучать прямо у вухах, тож група тримає ритм навіть на вулиці, а перехожим не заважає гучний бас.':
+  "The music and the trainer's count play right in their ears, so the group keeps the rhythm even outdoors and passers-by aren't bothered by loud bass.",
+'Колеги на корпоративному спортивному дні тренуються в навушниках SILENT': 'Colleagues work out in SILENT headphones at a corporate sports day',
+'Корпоративний спортивний день': 'Corporate sports day',
+'Спільне тренування для команди в межах спортивного дня: тренер веде групу через мікрофон, а ввечері ті самі навушники стають вечіркою.':
+  'A team workout as part of a sports day: the coach leads the group through a microphone, and in the evening the same headphones become a party.',
+'Учасники турніру з медалями танцюють у різнокольорових навушниках SILENT': 'Tournament players with medals dance in multicoloured SILENT headphones',
+'Silent Disco після змагань': 'Silent Disco after the competition',
+'Після фінішу чи нагородження учасники й гості танцюють у навушниках на трьох каналах з різною музикою, а сусідні будинки не чують басу.':
+  "After the finish or the award ceremony, participants and guests dance in headphones on three channels with different music, and the neighbouring houses don't hear the bass.",
+'Ранкове тренування на набережній: група слухає тренера в навушниках SILENT': 'A morning workout on an embankment: the group listens to the coach in SILENT headphones',
+'Тренування в місті': 'Workouts in the city',
+'Набережна, площа чи двір, де колонки недоречні: тренування звучить лише в навушниках учасників, а місто довкола живе своїм життям.':
+  "An embankment, square or courtyard where speakers are out of place: the workout is heard only in the participants' headphones, and the city around carries on as usual.",
+'Як працюють навушники на спортивній події': 'How headphones work at a sports event',
+'<b>Мікрофон для тренера</b> <span>Тренера чи ведучого запрошуєте ви, а SILENT дає мікрофон-передавач і налаштовує звук до старту.</span>':
+  '<b>A microphone for the coach</b> <span>You invite the coach or host, and SILENT provides a transmitter microphone and sets up the sound before the start.</span>',
+'<b>Голос тренера й музика для темпу</b> <span>Учасники чують команди тренера разом із музикою. У кожного в навушниках свій регулятор гучності.</span>':
+  "<b>The coach's voice and music for the pace</b> <span>Participants hear the coach's instructions together with the music. Everyone has their own volume control on the headphones.</span>",
+'<b>Три канали для вечірки</b> <span>Після змагань навушники перемикаються на вечірку: три канали з різною музикою, а колір підсвітки показує, хто що слухає.</span>':
+  '<b>Three channels for the party</b> <span>After the competition the headphones switch to party mode: three channels with different music, and the light colour shows who is listening to what.</span>',
+'Звук на спортивній події беремо на себе': 'We take care of the sound at your sports event',
+'Ви збираєте учасників і запрошуєте тренера, а <a href="/">SILENT</a> відповідає за звук: команди чує кожен, а музика не заважає нікому довкола.':
+  'You bring the participants and invite the coach, and <a href="/">SILENT</a> takes care of the sound: everyone hears the instructions and the music bothers no one around.',
+'бездротові навушники для учасників;': 'wireless headphones for participants;',
+'мікрофон-передавач для тренера чи ведучого;': 'a transmitter microphone for the coach or host;',
+'плейлисти SILENT для тренування й вечірки;': 'SILENT playlists for the workout and the party;',
+'видача навушників на старті й збір наприкінці;': 'headphones handed out at the start and collected at the end;',
+'технічний супровід протягом події.': 'technical support throughout the event.',
+'На старті учасникам видають навушники SILENT': 'Participants are handed SILENT headphones at the start',
+'Розтяжка після тренування: група слухає тренерку в навушниках SILENT': 'Stretching after a workout: the group listens to the trainer in SILENT headphones',
+'Технік SILENT допомагає тренеру закріпити мікрофон перед тренуванням': 'A SILENT technician helps the coach fit the microphone before the workout',
+'Від ідеї до першої команди тренера': "From idea to the coach's first instruction",
+'Починаємо з формату, локації й кількості учасників: тренування, розминка, вечірка після змагань чи все разом. На цій основі визначаємо комплект і логістику.':
+  'We start with the format, venue and number of participants: a workout, a warm-up, a party after the competition or all of it. From there we define the kit and logistics.',
+'Вечірка після турніру: учасники танцюють у світних навушниках SILENT': 'A party after the tournament: participants dance in glowing SILENT headphones',
+'Дізнаємося дату, локацію, формат події й орієнтовну кількість учасників.': 'We find out the date, venue, event format and the approximate number of participants.',
+'Визначаємо кількість навушників, мікрофони для тренерів, плейлисти, живлення й план на випадок дощу.': 'We define the number of headphones, microphones for coaches, playlists, power and a plan in case of rain.',
+'Погоджуємо логістику, час монтажу й видачу навушників учасникам.': 'We agree the logistics, setup time and how headphones are handed out to participants.',
+'Встановлюємо систему, перевіряємо мікрофон і сигнал, видаємо навушники, а після завершення збираємо комплект відповідно до узгодженого пакета.':
+  'We set up the system, check the microphone and signal, hand out the headphones and pack up the kit afterwards in line with the agreed package.',
+'Спортивна подія лише один із форматів. У розділі «<a href="/experiences/">Тихі враження</a>» зібрано інші: <a href="/experiences/yoga/">йога та ecstatic dance</a>, <a href="/experiences/festivals/">фестивалі</a>, <a href="/experiences/corporate/">корпоративи</a> і <a href="/experiences/public-spaces/">заходи в громадських просторах</a>. Поради шукайте в <a href="/blog/">блозі</a>: <a href="/blog/yoga-na-pryrodi/">йога на природі</a> і <a href="/blog/yak-organizuvaty-zvuk-na-zakhodi-prosto-neba/">як організувати звук на заході просто неба</a>.':
+  'A sports event is just one of the formats. Our <a href="/experiences/">Quiet Experiences</a> section brings together others: <a href="/experiences/yoga/">yoga and ecstatic dance</a>, <a href="/experiences/festivals/">festivals</a>, <a href="/experiences/corporate/">corporate parties</a> and <a href="/experiences/public-spaces/">events in public spaces</a>.',
+'Поширені запитання про навушники на спортивних подіях': 'Frequently asked questions about headphones at sports events',
+'Чи надаєте ви тренера?': 'Do you provide a coach?',
+'Ні, тренера чи ведучого запрошуєте ви. SILENT дає мікрофон-передавач, налаштовує звук і видає учасникам навушники.':
+  'No, you invite the coach or host. SILENT provides a transmitter microphone, sets up the sound and hands out the headphones to participants.',
+'Чи чутимуть учасники тренера на вулиці?': 'Will participants hear the coach outdoors?',
+'Так. Тренер говорить у мікрофон, і його голос звучить у навушниках кожного учасника, тож команди чути навіть серед шуму міста чи старту.':
+  "Yes. The coach speaks into a microphone and their voice plays in every participant's headphones, so instructions are heard even amid city or start-line noise.",
+'Чи можна поєднати голос тренера з музикою?': "Can the coach's voice be combined with music?",
+'Так, музика для темпу може звучати разом із голосом тренера: попередьте команду, ми налаштуємо.': "Yes, music for the pace can play together with the coach's voice: let the team know and we'll set it up.",
+'Чи можна після змагань влаштувати вечірку?': 'Can we have a party after the competition?',
+"Так. Ті самі навушники перемикаються на Silent Disco: три канали з різною музикою, а сусіди не чують басу.": "Yes. The same headphones switch to Silent Disco: three channels with different music, and the neighbours don't hear the bass.",
+'Скільки коштують навушники на спортивну подію?': 'How much do headphones for a sports event cost?',
+'Чи можна провести подію просто неба?': 'Can the event be held outdoors?',
+'Скільки коштують навушники для спортивної події': 'How much headphones for a sports event cost',
+'Для стандартного формату скористайтеся калькулятором: база розрахована на 40 навушників і 4 години. Якщо подія триває кілька днів чи потрібно кілька мікрофонів для тренерів, вартість узгоджуємо індивідуально.':
+  'For the standard format, use the calculator: the base covers 40 headphones and 4 hours. If the event runs for several days or several microphones are needed for coaches, we agree the price individually.',
+'Плануєте спортивну подію? Обговорімо звук': "Planning a sports event? Let's talk about the sound",
+"Розкажіть про формат, локацію й кількість учасників. Ми підкажемо, як організувати голос тренера й музику в навушниках, і запропонуємо наступний крок.":
+  "Tell us about the format, venue and number of participants. We'll suggest how to set up the coach's voice and music in headphones and propose the next step.",
+'Щоб почати розмову, досить дати, локації, формату й приблизної кількості учасників.': 'To start the conversation, the date, venue, format and a rough number of participants are enough.',
+'Обговорити <span class="em">навушники</span> для спортивної події': 'Discuss <span class="em">headphones</span> for your sports event',
+'<option selected>Спортивна подія</option>': '<option selected>Sports event</option>',
+}
+for _k, _v in list(_SPORT.items()):
+    if _k in T_PAGE_ALL: continue   # не перезаписувати наявні переклади (інакше зміняться інші сторінки)
+    T_PAGE_ALL[_k] = _v
+    if '<a href="/' in _k:
+        T_PAGE_ALL[_en_href(_k)] = _en_href(_v)
+
+# «Інші формати подій від SILENT» — на сторінках, де H1 не про Silent Disco (власник, 15.11.2026)
+T_PAGE_ALL['Інші формати подій від SILENT'] = 'Other event formats from SILENT'
