@@ -73,7 +73,7 @@ old_desc = 'Аудіосупровід конференцій, воркшопі�
 rep(old_desc, DESC, count=3)
 rep('Конференції в навушниках — Silent Disco | SILENT', OG_T, count=2)
 rep('Аудіосупровід доповідей, воркшопів і бізнес-заходів у бездротових навушниках SILENT. Київ і виїзд по Україні.', OG_D, count=2)
-rep('images/conferences/og-conferences.jpg', 'images/markets/og-markets-v2.jpg', count=2)
+rep('images/conferences/og-conferences.jpg', 'images/markets/og-markets-v3.jpg', count=2)
 rep('Учасники конференції за столами в бездротових навушниках Silent Disco', OG_ALT, count=2)
 rep('"name": "Конференції",', '"name": "Ярмарки та маркети",')
 rep('"name": "Silent Disco для конференцій"', '"name": "Silent Disco для ярмарків і маркетів"')

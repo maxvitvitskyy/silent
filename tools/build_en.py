@@ -2396,7 +2396,7 @@ EXP_EN_PAGES = {
     'tours': 'images/tours/og-tours-en.jpg',
     'translation': 'images/translation/og-translation-en.jpg',
     'dj-set': 'images/dj-set/og-dj-set-en.jpg',
-    'markets': 'images/markets/og-markets-v2-en.jpg',
+    'markets': 'images/markets/og-markets-v3-en.jpg',
 }
 from en_pages import T_PAGE_ALL, T_ABOUT   # рядки сторінок досвідів і «Про нас» (tools/en_pages.py)
 T_PAGE = {}   # slug -> {укр: англ} (додаткові, лише для однієї сторінки)
