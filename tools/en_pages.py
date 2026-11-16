@@ -6546,3 +6546,115 @@ for _k, _v in list(_TRAIN.items()):
     T_PAGE_ALL[_k] = _v
     if '<a href="/' in _k:
         T_PAGE_ALL[_en_href(_k)] = _en_href(_v)
+
+# ---------- Сторінка «Забіги та прогулянки» (/experiences/runs-walks/, 16.11.2026) ----------
+_RUNS = {
+'Забіги та прогулянки в навушниках: голос ведучого на ходу | SILENT': "Runs and walks in headphones: the leader's voice on the move | SILENT",
+'Бездротові навушники для забігів і прогулянок: голос тренера чи гіда й музика звучать у навушниках усієї групи на ходу. Групові пробіжки, музичні забіги, прогулянки з гідом. Київ і виїзд по Україні.':
+  "Wireless headphones for runs and walks: the coach's or guide's voice and music play in the whole group's headphones on the move. Group runs, music runs, guided walks. Kyiv and across Ukraine.",
+'Забіги та прогулянки з бездротовими навушниками | SILENT': 'Runs and walks with wireless headphones | SILENT',
+'Голос тренера чи гіда й музика в навушниках усієї групи на ходу: пробіжки, музичні забіги, прогулянки й танцювальна хода містом.':
+  "The coach's or guide's voice and music in the whole group's headphones on the move: group runs, music runs, walks and a dancing walk through the city.",
+'Група бігунів слухає тренера в бездротових навушниках SILENT під час пробіжки': 'A group of runners listens to the coach in wireless SILENT headphones during a run',
+'Бездротові навушники SILENT для забігів і прогулянок': 'Wireless SILENT headphones for runs and walks',
+'Бігові клуби, тренери, гіди, організатори забігів і міських прогулянок': 'Running clubs, coaches, guides, organisers of runs and city walks',
+'Тренер чи гід веде групу з портативним передавачем, а його голос і музика звучать у бездротових навушниках кожного учасника просто на ходу. Пробіжка, музичний забіг, прогулянка містом чи танцювальна хода: SILENT дає передавач із мікрофоном і видає навушники на старті.':
+  "A coach or guide leads the group with a portable transmitter, and their voice and music play in every participant's wireless headphones right on the move. A group run, a music run, a city walk or a dancing walk: SILENT provides the transmitter with a microphone and hands out the headphones at the start.",
+'Обговорити маршрут': 'Discuss your route',
+'<b>Звук на ходу</b> <span>Передавач рухається з групою.</span>': '<b>Sound on the move</b> <span>The transmitter travels with the group.</span>',
+'Тренерка з мікрофоном біжить попереду групи, бігуни слухають її в навушниках SILENT': 'A coach with a microphone runs ahead of the group, runners listen to her in SILENT headphones',
+'Бігунка на ходу налаштовує гучність на чаші навушників SILENT': 'A runner adjusts the volume on the cup of her SILENT headphones on the move',
+'Навушники SILENT і портативний передавач лежать на лаві перед стартом': 'SILENT headphones and a portable transmitter on a bench before the start',
+'Ведучого чути навіть на ходу': 'The leader is heard even on the move',
+'Коли група рухається, голос тренера чи гіда не доходить до тих, хто позаду: заважають вітер, машини й кроки. Колонку на маршруті з собою не понесеш, а кричати всю дорогу неможливо.':
+  "When a group is moving, the coach's or guide's voice doesn't reach those at the back: wind, traffic and footsteps get in the way. You can't carry a speaker along the route, and shouting all the way is impossible.",
+'У форматі SILENT ведучий несе портативний передавач і говорить у мікрофон, а кожен учасник чує його в бездротових навушниках так, ніби той іде поруч. Під голос можна пустити музику для темпу чи настрою, і вона не заважає людям довкола.':
+  "With SILENT the leader carries a portable transmitter and speaks into a microphone, and every participant hears them in wireless headphones as if walking side by side. Music for pace or mood can play under the voice without disturbing anyone around.",
+'На фініші ті самі навушники стають вечіркою: на трьох каналах звучить різна музика, кожен перемикає її одним дотиком, а колір підсвітки показує, хто що слухає.':
+  'At the finish the same headphones become a party: three channels play different music, everyone switches with one touch, and the light colour shows who is listening to what.',
+'Голос ведучого. Музика для темпу. Танці на фініші.': "The leader's voice. Music for pace. Dancing at the finish.",
+'Де навушники допомагають на маршруті': 'Where headphones help on the route',
+'Групова пробіжка: бігуни слухають тренера в навушниках SILENT': 'A group run: runners listen to the coach in SILENT headphones',
+'Групова пробіжка з тренером': 'A group run with a coach',
+'Тренер біжить разом із групою й підказує темп і техніку в мікрофон, а його чує кожен бігун, навіть у хвості групи.': 'The coach runs with the group and gives pace and technique tips into the microphone, and every runner hears them, even at the back.',
+'Учасники музичного забігу біжать під спільний плейлист у навушниках SILENT': 'Music run participants run to a shared playlist in SILENT headphones',
+'Музичний забіг': 'A music run',
+'Розважальний забіг під спільний плейлист у навушниках: музика задає темп усій групі, а на маршруті не потрібні колонки.': 'A fun run to a shared playlist in headphones: the music sets the pace for the whole group, and no speakers are needed along the route.',
+'Гід веде групу вулицями міста, учасники слухають його в навушниках SILENT': 'A guide leads the group through city streets, participants listen in SILENT headphones',
+'Прогулянка з гідом': 'A guided walk',
+'Міська прогулянка чи екскурсія пішки: гід говорить у мікрофон, і кожен у групі чує розповідь навіть на гамірній вулиці.': 'A city walk or walking tour: the guide speaks into a microphone and everyone in the group hears the story even on a noisy street.',
+'Група танцює на ходу вулицею міста в навушниках SILENT': 'A group dances on the move along a city street in SILENT headphones',
+'Танцювальна хода містом': 'A dancing walk through the city',
+'Група йде маршрутом під музику в навушниках і зупиняється потанцювати, а місто довкола чує лише сміх і кроки.': 'The group follows the route to music in headphones and stops to dance, while the city around hears only laughter and footsteps.',
+'Прогулянка парком: група слухає ведучу в навушниках SILENT': 'A park walk: the group listens to the leader in SILENT headphones',
+'Прогулянка парком': 'A park walk',
+'Прогулянка парком чи стежкою: ведучий розповідає про місце, а тиша довкола лишається для птахів і перехожих.': 'A walk through a park or along a trail: the leader tells the story of the place, and the quiet around stays for the birds and passers-by.',
+'Колеги на корпоративному забігу біжать у навушниках SILENT': 'Colleagues on a corporate run in SILENT headphones',
+'Корпоративний забіг': 'A corporate run',
+'Спільна пробіжка для команди: тренер веде групу через мікрофон, а на фініші ті самі навушники стають вечіркою.': 'A team run: the coach leads the group through the microphone, and at the finish the same headphones become a party.',
+'Як працюють навушники на маршруті': 'How the headphones work on the route',
+'<b>Передавач у ведучого</b> <span>Тренера чи гіда запрошуєте ви, а SILENT дає портативний передавач із мікрофоном, який ведучий несе з собою.</span>':
+  '<b>The transmitter goes with the leader</b> <span>You invite the coach or guide; SILENT provides a portable transmitter with a microphone that the leader carries along.</span>',
+'<b>Група тримається разом</b> <span>Учасники рухаються поруч із ведучим і чують його голос разом із музикою. У кожного в навушниках свій регулятор гучності.</span>':
+  "<b>The group stays together</b> <span>Participants move close to the leader and hear their voice together with music. Everyone's headphones have their own volume control.</span>",
+'<b>Три канали для фінішу</b> <span>На фініші навушники перемикаються на вечірку: три канали з різною музикою, а колір підсвітки показує, хто що слухає.</span>':
+  '<b>Three channels for the finish</b> <span>At the finish the headphones switch to a party: three channels with different music, and the light colour shows who is listening to what.</span>',
+'<b>Технічна організація під ключ</b> <span>SILENT налаштовує обладнання, видає навушники на старті, супроводжує подію і збирає комплект на фініші відповідно до погоджених умов.</span>':
+  '<b>Turnkey technical setup</b> <span>SILENT sets up the equipment, hands out the headphones at the start, supports the event and collects the kit at the finish as agreed.</span>',
+'Звук на маршруті беремо на себе': 'We take care of the sound on the route',
+'Ви прокладаєте маршрут і запрошуєте тренера чи гіда, а <a href="/">SILENT</a> відповідає за звук: ведучого чує кожен, а музика не заважає нікому довкола.':
+  'You plan the route and invite the coach or guide, and <a href="/">SILENT</a> takes care of the sound: everyone hears the leader, and the music disturbs no one around.',
+'<span>портативний передавач із мікрофоном для ведучого;</span>': '<span>a portable transmitter with a microphone for the leader;</span>',
+'<span>плейлисти SILENT для темпу й танців на фініші;</span>': '<span>SILENT playlists for pace and dancing at the finish;</span>',
+'<span>видача навушників на старті й збір на фініші;</span>': '<span>headphones handed out at the start and collected at the finish;</span>',
+'<span>технічний супровід протягом події.</span>': '<span>technical support throughout the event.</span>',
+'На старті учасникам видають навушники SILENT': 'At the start participants receive SILENT headphones',
+'Розтяжка на фініші: група слухає тренерку в навушниках SILENT': 'Stretching at the finish: the group listens to the coach in SILENT headphones',
+'Технік SILENT передає тренеру портативний передавач із мікрофоном перед стартом': 'A SILENT technician hands the coach a portable transmitter with a microphone before the start',
+'Від маршруту до першого кроку': 'From the route to the first step',
+'Починаємо з формату, маршруту й кількості учасників: пробіжка, забіг, прогулянка чи хода, танці на фініші чи ні. На цій основі визначаємо комплект і логістику.':
+  'We start with the format, the route and the number of participants: a group run, a race, a walk or a dancing walk, dancing at the finish or not. Based on that we define the kit and logistics.',
+'Танці після фінішу: учасники забігу танцюють у світних навушниках SILENT': 'Dancing after the finish: run participants dance in glowing SILENT headphones',
+'Дізнаємося дату, місце старту й фінішу, формат і орієнтовну кількість учасників.': 'We find out the date, start and finish points, format and a rough number of participants.',
+'Визначаємо кількість навушників, передавачі для ведучих, плейлисти й точки видачі та збору.': 'We define the number of headphones, transmitters for the leaders, playlists and the hand-out and collection points.',
+'Погоджуємо логістику, час на старті й порядок видачі навушників учасникам.': 'We agree the logistics, the time at the start and how headphones are handed out to participants.',
+'Налаштовуємо передавач і мікрофон, видаємо навушники на старті, а на фініші збираємо комплект відповідно до узгодженого пакета.':
+  'We set up the transmitter and microphone, hand out the headphones at the start and collect the kit at the finish according to the agreed package.',
+'Забіги й прогулянки лише один із форматів. У розділі «<a href="/experiences/">Тихі враження</a>» зібрано інші: <a href="/experiences/sport/">спортивні події</a>, <a href="/experiences/tours/">екскурсії з радіогідом</a>, <a href="/experiences/yoga/">йога та ecstatic dance</a> і <a href="/experiences/public-spaces/">заходи в громадських просторах</a>. Поради шукайте в <a href="/blog/">блозі</a>: <a href="/blog/radiohid-dlia-ekskursii/">радіогід для екскурсії</a> і <a href="/blog/yak-organizuvaty-zakhid-u-parku/">як організувати захід у парку</a>.':
+  'Runs and walks are just one of the formats. The «<a href="/experiences/">Quiet Experiences</a>» section has others: <a href="/experiences/sport/">sports events</a>, <a href="/experiences/tours/">tours with a radio guide</a>, <a href="/experiences/yoga/">yoga and ecstatic dance</a> and <a href="/experiences/public-spaces/">events in public spaces</a>. For tips, see the <a href="/blog/">blog</a> (in Ukrainian): <a href="/blog/radiohid-dlia-ekskursii/">a radio guide for tours</a> and <a href="/blog/yak-organizuvaty-zakhid-u-parku/">how to organise an event in a park</a>.',
+'Поширені запитання про навушники на забігах і прогулянках': 'Frequently asked questions about headphones on runs and walks',
+'Чи надаєте ви тренера чи гіда?': 'Do you provide a coach or guide?',
+'Ні, тренера чи гіда запрошуєте ви. SILENT дає портативний передавач із мікрофоном, налаштовує звук і видає учасникам навушники.': 'No, you invite the coach or guide. SILENT provides a portable transmitter with a microphone, sets up the sound and hands out headphones to participants.',
+'Як учасники чують ведучого на ходу?': 'How do participants hear the leader on the move?',
+'Ведучий несе портативний передавач і говорить у мікрофон, а група рухається разом із ним і чує його голос у навушниках.': "The leader carries a portable transmitter and speaks into the microphone, and the group moves along with them and hears their voice in the headphones.",
+'Чи можна поєднати голос ведучого з музикою?': "Can the leader's voice be combined with music?",
+'Так, музика для темпу чи настрою може звучати разом із голосом: попередьте команду, ми налаштуємо.': "Yes, music for pace or mood can play together with the voice: let the team know and we'll set it up.",
+'Чи можна на фініші влаштувати танці?': 'Can there be dancing at the finish?',
+'Скільки коштують навушники на забіг чи прогулянку?': 'How much do headphones for a run or walk cost?',
+'Хто видає й збирає навушники?': 'Who hands out and collects the headphones?',
+'Команда SILENT: видаємо навушники на старті й збираємо на фініші. Порядок видачі погоджуємо з організатором заздалегідь.': 'The SILENT team: we hand out headphones at the start and collect them at the finish. We agree the hand-out procedure with the organiser in advance.',
+'Скільки коштують навушники для забігу чи прогулянки': 'How much headphones for a run or walk cost',
+'Для стандартного формату скористайтеся калькулятором: база розрахована на 40 навушників і 4 години. Якщо подія триває кілька днів чи потрібно кілька передавачів для груп, вартість узгоджуємо індивідуально.':
+  'For the standard format, use the calculator: the base covers 40 headphones and 4 hours. If the event runs for several days or several transmitters are needed for groups, we agree the price individually.',
+'Плануєте забіг чи прогулянку? Обговорімо звук': "Planning a run or walk? Let's talk about the sound",
+'Розкажіть про формат, маршрут і кількість учасників. Ми підкажемо, як організувати голос ведучого й музику в навушниках, і запропонуємо наступний крок.':
+  "Tell us about the format, route and number of participants. We'll suggest how to set up the leader's voice and music in headphones and propose the next step.",
+'Щоб почати розмову, досить дати, маршруту, формату й приблизної кількості учасників.': 'To start the conversation, the date, route, format and a rough number of participants are enough.',
+'Обговорити <span class="em">навушники</span> для забігу чи прогулянки': 'Discuss <span class="em">headphones</span> for your run or walk',
+'<option selected>Забіг чи прогулянка</option>': '<option selected>Run or walk</option>',
+}
+for _k, _v in list(_RUNS.items()):
+    if _k in T_PAGE_ALL: continue   # не перезаписувати наявні переклади (інакше зміняться інші сторінки)
+    T_PAGE_ALL[_k] = _v
+    if '<a href="/' in _k:
+        T_PAGE_ALL[_en_href(_k)] = _en_href(_v)
+
+# 16.11.2026 Кіно просто неба: переваги занурення (блок «Чому цей формат»)
+_CINEMA_IMM = {
+  '<li><b>Повне занурення у фільм</b> <span>Діалоги, музика й звукові ефекти звучать просто в навушниках. Не чути набридливих коментарів, розмов і сміху поруч, шуму вулиці й інших звуків довкола: ніщо не відволікає від екрана.</span></li>':
+  '<li><b>Full immersion in the film</b> <span>Dialogue, music and sound effects play right in your headphones. No annoying comments, chatter or laughter nearby, no street noise or other sounds around you: nothing pulls you away from the screen.</span></li>',
+  '<p class="story-sub">Глядач повністю занурюється в атмосферу фільму: чує лише кіно, а не сусідів, машини чи вітер. І все це просто неба, у дворі, парку, на даху, терасі чи міській площі.</p>':
+  '<p class="story-sub">Viewers sink fully into the film: they hear the movie, not the neighbours, the traffic or the wind. All of it under the open sky, in a yard, a park, on a rooftop, a terrace or a city square.</p>',
+}
+for _k, _v in _CINEMA_IMM.items():
+    if _k not in T_PAGE_ALL: T_PAGE_ALL[_k] = _v

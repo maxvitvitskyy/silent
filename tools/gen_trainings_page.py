@@ -33,7 +33,7 @@ OFFSITE = 'vyiznyi-trening-na-bazi.webp'           # 06 картка 3:2 (оди
 AFTER = 'silent-disco-pislia-navchannia.webp'      # 07 картка 3:2 (різні кольори)
 NOTES = 'uchasnyk-robyt-notatky.webp'              # 08 квадрат («Що входить» s-a, один колір)
 EAR = 'uchasnytsia-reguliuie-huchnist.webp'        # 09 квадрат («Чому» s-a)
-GEAR = 'navushnyky-i-mikrofon-na-stoli.webp'       # 10 квадрат («Чому» s-b)
+GEAR = 'navushnyky-i-mikrofon-na-stoli-v2.webp'    # 10 квадрат («Чому» s-b); v2 16.11.2026: довгий шнур мікрофона
 G1 = 'uchasnytsia-slukhaie-trenera.webp'           # 11–16 колаж 4:5
 G2 = 'robota-v-parakh.webp'
 G3 = 'trener-pokazuie-na-fliptchart.webp'
@@ -228,6 +228,10 @@ rep('<p>Дата, локація та приблизна кількість уч
     '<p>Щоб почати розмову, досить дати, локації, кількості груп і приблизної кількості учасників.</p>')
 rep('<h2>Обговорити <span class="em">Silent Disco</span> для конференції</h2>', '<h2>Обговорити <span class="em">навушники</span> для навчання</h2>')
 rep('<option selected>Конференція</option>', '<option>Конференція</option>\n                <option selected>Тренінг чи навчання</option>')
+
+# Фото техніка в «Що входить»: обличчя вгорі кадру, тож опускаємо видиму частину (власник, 16.11.2026).
+rep_re(r'<img style="object-position:50% 50%"( width="\d+" height="\d+" class="s-b" src="\.\./\.\./images/trainings/tekhnik-nalashtovuie)',
+       r'<img style="object-position:50% 15%"\g<1>')
 
 # ---------- контроль ----------
 a = s.index('<!-- HERO:'); b = s.index('<!-- Список роликів')
