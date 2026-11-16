@@ -549,4 +549,18 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/sport/"/>
     <lastmod>2026-11-15</lastmod>
   </url>
+  <url>
+    <loc>https://silent.org.ua/experiences/trainings/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/trainings/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/trainings/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/trainings/"/>
+    <lastmod>2026-11-16</lastmod>
+  </url>
+  <url>
+    <loc>https://silent.org.ua/en/experiences/trainings/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/trainings/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/trainings/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/trainings/"/>
+    <lastmod>2026-11-16</lastmod>
+  </url>
 </urlset>

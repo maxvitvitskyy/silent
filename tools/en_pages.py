@@ -6439,3 +6439,110 @@ for _k, _v in list(_SPORT.items()):
 
 # «Інші формати подій від SILENT» — на сторінках, де H1 не про Silent Disco (власник, 15.11.2026)
 T_PAGE_ALL['Інші формати подій від SILENT'] = 'Other event formats from SILENT'
+
+# ---------- Сторінка «Тренінги й навчання» (/experiences/trainings/, 16.11.2026) ----------
+_TRAIN = {
+'Тренінги й навчання в навушниках: голос тренера кожному | SILENT': "Training sessions in headphones: every participant hears the trainer | SILENT",
+'Бездротові навушники для тренінгів і навчання: голос тренера чути кожному учаснику, до трьох груп в одному залі, навчання на виїзді й просто неба, Silent Disco після програми. Київ і виїзд по Україні.':
+  "Wireless headphones for trainings and corporate learning: every participant hears the trainer, up to three groups in one hall, off-site and outdoor sessions, Silent Disco after the programme. Kyiv and across Ukraine.",
+'Тренінги й навчання з бездротовими навушниками | SILENT': 'Training sessions with wireless headphones | SILENT',
+'Голос тренера в навушниках кожного учасника: до трьох груп в одному залі, навчання на виїзді й Silent Disco після програми.':
+  "The trainer's voice in every participant's headphones: up to three groups in one hall, off-site learning and Silent Disco after the programme.",
+'Учасники тренінгу у великій залі слухають тренера в бездротових навушниках SILENT': 'Participants of a training in a large hall listen to the trainer in wireless SILENT headphones',
+'Бездротові навушники SILENT для тренінгів і навчання': 'Wireless SILENT headphones for trainings and learning',
+'Тренери, HR і L&D-команди, організатори навчальних програм': 'Trainers, HR and L&D teams, organisers of learning programmes',
+'Тренер говорить у мікрофон, а кожен учасник чує його в бездротових навушниках, навіть у великій залі, у цеху чи просто неба. В одному просторі можуть працювати до трьох груп, кожна на своєму каналі. SILENT привозить систему, дає мікрофони для тренерів і видає навушники.':
+  "The trainer speaks into a microphone and every participant hears them in wireless headphones, even in a large hall, on a shop floor or outdoors. Up to three groups can work in one space, each on its own channel. SILENT brings the system, provides microphones for the trainers and hands out the headphones.",
+'Обговорити навчання': 'Discuss your training',
+'<b>До трьох груп</b> <span>В одному залі одночасно.</span>': '<b>Up to three groups</b> <span>In one hall at the same time.</span>',
+'Тренерка з мікрофоном веде тренінг, учасники слухають її в навушниках SILENT': 'A trainer with a microphone leads a session, participants listen to her in SILENT headphones',
+'Учасниця тренінгу налаштовує гучність на чаші навушників SILENT': 'A training participant adjusts the volume on the cup of her SILENT headphones',
+'Навушники SILENT і мікрофон тренера лежать на столі перед тренінгом': "SILENT headphones and the trainer's microphone on a table before a training",
+'Кожен учасник чує тренера так, ніби сидить у першому ряду': 'Every participant hears the trainer as if sitting in the front row',
+'У великій залі голос тренера губиться: задні ряди перепитують, колонки дають луну, а в цеху чи на вулиці говорити доводиться крізь шум. Тренер втомлюється, учасники відволікаються.':
+  "In a large hall the trainer's voice gets lost: the back rows ask again, speakers echo, and on a shop floor or outdoors you have to talk over the noise. The trainer gets tired and participants get distracted.",
+'У форматі SILENT тренер говорить у мікрофон, а кожен учасник чує його в бездротових навушниках чисто й поруч. Гучність кожен налаштовує для себе. Якщо в одному просторі працюють кілька груп, у кожної свій канал і свій тренер, і групи не заважають одна одній.':
+  "With SILENT the trainer speaks into a microphone and every participant hears them clearly and close in wireless headphones. Everyone sets their own volume. If several groups work in one space, each has its own channel and its own trainer, and the groups don't disturb each other.",
+'Коли програма закінчується, ті самі навушники стають вечіркою: на трьох каналах звучить різна музика, кожен перемикає її одним дотиком, а колір підсвітки показує, хто що слухає.':
+  "When the programme ends, the same headphones become a party: three channels play different music, everyone switches with one touch, and the light colour shows who is listening to what.",
+'Голос тренера. Кілька груп в одному залі. Вечірка після програми.': "The trainer's voice. Several groups in one hall. A party after the programme.",
+'Де навушники допомагають на навчанні': 'Where headphones help at a training',
+'Учасники тренінгу у великій залі слухають тренера в навушниках SILENT': 'Participants in a large hall listen to the trainer in SILENT headphones',
+'Тренінг у великій залі': 'A training in a large hall',
+'Тренер говорить у мікрофон, і його однаково чують і в першому, і в останньому ряду, без колонок і луни.': 'The trainer speaks into a microphone and is heard equally in the first and the last row, with no speakers and no echo.',
+'Три групи навчаються в одному залі, у кожної навушники свого кольору': 'Three groups learn in one hall, each with headphones of its own colour',
+'Кілька груп в одному залі': 'Several groups in one hall',
+'До трьох груп працюють одночасно: у кожної свій тренер, свій мікрофон і свій канал, тож групи не перекрикують одна одну.': 'Up to three groups work at the same time: each has its own trainer, microphone and channel, so the groups never talk over each other.',
+'Тренінг просто неба: група на траві слухає тренера в навушниках SILENT': 'An outdoor training: a group on the lawn listens to the trainer in SILENT headphones',
+'Тренінг просто неба': 'An outdoor training',
+'Сесія в парку чи на терасі: вітер і шум міста не заважають, бо голос тренера звучить у навушниках кожного учасника.': "A session in a park or on a terrace: wind and city noise don't get in the way, because the trainer's voice plays in every participant's headphones.",
+'Навчання на виробництві: працівники слухають інструктора в навушниках SILENT': 'On-the-job training: workers listen to the instructor in SILENT headphones',
+'Навчання на виробництві': 'On-the-job training',
+'Інструктаж чи екскурсія цехом або складом: інструктор веде групу, і його чути навіть поруч із працюючим обладнанням.': 'A briefing or a walk through a workshop or warehouse: the instructor leads the group and is heard even next to running equipment.',
+'Виїзний тренінг на базі відпочинку: команда в навушниках SILENT': 'An off-site training at a country retreat: the team in SILENT headphones',
+'Виїзний тренінг': 'An off-site training',
+'Стратегічна сесія чи навчання команди на базі відпочинку, де немає зали зі звуком: усе потрібне ми привозимо із собою.': 'A strategy session or team training at a country retreat with no hall or sound system: we bring everything we need.',
+'Учасники навчання танцюють увечері в різнокольорових навушниках SILENT': 'Training participants dance in the evening in multicoloured SILENT headphones',
+'Silent Disco після навчання': 'Silent Disco after the training',
+'Після програми дня учасники танцюють у навушниках на трьох каналах з різною музикою. Ті самі навушники, нічого не треба перевозити.': "After the day's programme participants dance in headphones on three channels with different music. The same headphones, nothing extra to bring.",
+'Як працюють навушники на тренінгу': 'How the headphones work at a training',
+'<b>Мікрофон для тренера</b> <span>Тренера запрошуєте ви, а SILENT дає мікрофон-передавач і налаштовує звук до початку програми.</span>':
+  '<b>A microphone for the trainer</b> <span>You invite the trainer; SILENT provides a transmitter microphone and sets up the sound before the programme starts.</span>',
+'<b>До трьох груп одночасно</b> <span>Кожна група слухає свого тренера на своєму каналі, а колір підсвітки навушників показує, хто в якій групі.</span>':
+  "<b>Up to three groups at once</b> <span>Each group listens to its own trainer on its own channel, and the headphones' light colour shows who is in which group.</span>",
+'<b>Своя гучність у кожного</b> <span>У навушниках є регулятор і обмежувач гучності, тож кожен учасник налаштовує звук для себе.</span>':
+  '<b>Everyone sets their own volume</b> <span>The headphones have a volume control and a limiter, so each participant adjusts the sound for themselves.</span>',
+'<b>Технічна організація під ключ</b> <span>SILENT привозить і налаштовує обладнання, видає навушники, супроводжує навчання і збирає комплект після завершення відповідно до погоджених умов.</span>':
+  '<b>Turnkey technical setup</b> <span>SILENT brings and sets up the equipment, hands out the headphones, supports the training throughout and packs up the kit afterwards as agreed.</span>',
+'Звук на навчанні беремо на себе': 'We take care of the sound at your training',
+'Ви готуєте програму й запрошуєте тренерів, а <a href="/">SILENT</a> відповідає за звук: кожен учасник чує свого тренера, хай де проходить навчання.':
+  'You prepare the programme and invite the trainers, and <a href="/">SILENT</a> takes care of the sound: every participant hears their trainer wherever the training takes place.',
+'<span>бездротові навушники для учасників;</span>': '<span>wireless headphones for participants;</span>',
+'<span>мікрофони-передавачі для тренерів, до трьох груп одночасно;</span>': '<span>transmitter microphones for trainers, up to three groups at once;</span>',
+'<span>плейлисти SILENT для перерв і вечірки;</span>': '<span>SILENT playlists for breaks and the party;</span>',
+'<span>видача навушників на реєстрації й збір наприкінці;</span>': '<span>headphones handed out at registration and collected at the end;</span>',
+'<span>технічний супровід протягом програми.</span>': '<span>technical support throughout the programme.</span>',
+'На реєстрації учасникам тренінгу видають навушники SILENT': 'At registration, training participants receive SILENT headphones',
+'Учасник тренінгу робить нотатки, слухаючи тренера в навушниках SILENT': 'A training participant takes notes while listening to the trainer in SILENT headphones',
+'Технік SILENT допомагає тренерці закріпити мікрофон перед тренінгом': 'A SILENT technician helps a trainer attach her microphone before the session',
+'Від програми до першого слова тренера': "From the programme to the trainer's first word",
+'Починаємо з програми, простору й кількості учасників: одна група чи кілька, зала, цех чи просто неба, вечірка після навчання чи ні. На цій основі визначаємо комплект і логістику.':
+  'We start with the programme, the space and the number of participants: one group or several, a hall, a shop floor or outdoors, a party after the training or not. Based on that we define the kit and logistics.',
+'Вечірка після тренінгу: учасники танцюють у світних навушниках SILENT': 'A party after the training: participants dance in glowing SILENT headphones',
+'Дізнаємося дату, локацію, програму, кількість груп і учасників.': 'We find out the date, venue, programme, number of groups and participants.',
+'Визначаємо кількість навушників, мікрофони для тренерів, канали для груп і живлення на локації.': 'We define the number of headphones, microphones for trainers, channels for groups and power at the venue.',
+'Супроводжуємо навчання': 'We support the training',
+'Встановлюємо систему, перевіряємо мікрофони й канали, видаємо навушники, а після завершення збираємо комплект відповідно до узгодженого пакета.':
+  'We set up the system, check the microphones and channels, hand out the headphones and pack up the kit afterwards according to the agreed package.',
+'Навчання лише один із форматів. У розділі «<a href="/experiences/">Тихі враження</a>» зібрано інші: <a href="/experiences/conferences/">конференції</a>, <a href="/experiences/translation/">синхронний переклад</a>, <a href="/experiences/corporate/">корпоративи</a> і <a href="/experiences/tours/">екскурсії з радіогідом</a>. Поради шукайте в <a href="/blog/">блозі</a>: <a href="/blog/idei-dlia-timbildynhu/">ідеї для тімбілдингу</a> і <a href="/blog/navushnyky-na-konferentsii-stsenarii/">навушники на конференції: сценарії</a>.':
+  'Training is just one of the formats. The «<a href="/experiences/">Quiet Experiences</a>» section has others: <a href="/experiences/conferences/">conferences</a>, <a href="/experiences/translation/">simultaneous interpretation</a>, <a href="/experiences/corporate/">corporate parties</a> and <a href="/experiences/tours/">tours with a radio guide</a>. For tips, see the <a href="/blog/">blog</a> (in Ukrainian): <a href="/blog/idei-dlia-timbildynhu/">team-building ideas</a> and <a href="/blog/navushnyky-na-konferentsii-stsenarii/">headphones at a conference: scenarios</a>.',
+'Поширені запитання про навушники на тренінгах і навчанні': 'Frequently asked questions about headphones at trainings',
+'Чи надаєте ви тренера?': 'Do you provide a trainer?',
+'Ні, тренера запрошуєте ви. SILENT дає мікрофон-передавач, налаштовує звук і видає учасникам навушники.': 'No, you invite the trainer. SILENT provides a transmitter microphone, sets up the sound and hands out headphones to participants.',
+'Скільки груп може навчатися в одному залі?': 'How many groups can learn in one hall?',
+'До трьох груп одночасно. Кожна слухає свого тренера на своєму каналі, у кожного тренера свій мікрофон.': 'Up to three groups at once. Each listens to its own trainer on its own channel, and every trainer has their own microphone.',
+'Чи можна провести навчання просто неба чи на виробництві?': 'Can the training take place outdoors or on a shop floor?',
+'Так. Голос тренера звучить у навушниках, тож його чути на вулиці й поруч із працюючим обладнанням. Потрібне живлення для передавача; для вулиці варто мати запасний план на дощ.':
+  "Yes. The trainer's voice plays in the headphones, so it is heard outdoors and next to running equipment. Power is needed for the transmitter; outdoors it is worth having a backup plan for rain.",
+'Чи можна після навчання влаштувати вечірку?': 'Can we have a party after the training?',
+'Так. Ті самі навушники перемикаються на Silent Disco: три канали з різною музикою, кожен обирає свій одним дотиком.': 'Yes. The same headphones switch to Silent Disco: three channels with different music, everyone picks theirs with one touch.',
+'Скільки коштують навушники на тренінг?': 'How much do headphones for a training cost?',
+'Чи можна пустити в навушники презентацію чи відео?': 'Can a presentation or video sound be played in the headphones?',
+"Так, звук із ноутбука тренера можна подати в навушники разом із голосом: попередьте команду, ми налаштуємо.": "Yes, sound from the trainer's laptop can go to the headphones together with the voice: let the team know and we'll set it up.",
+'Так. У навушниках є регулятор та обмежувач гучності, а кожен учасник налаштовує рівень звуку для себе. Обмежувач допомагає контролювати рівень звуку, але не є гарантією абсолютної безпеки для слуху.':
+  'Yes. The headphones have a volume control and a limiter, and each participant sets the level for themselves. The limiter helps control the sound level but is not a guarantee of absolute hearing safety.',
+'Скільки коштують навушники для тренінгу': 'How much headphones for a training cost',
+'Для стандартного формату скористайтеся калькулятором: база розрахована на 40 навушників і 4 години. Якщо навчання триває кілька днів чи потрібні мікрофони для кількох груп, вартість узгоджуємо індивідуально.':
+  'For the standard format, use the calculator: the base covers 40 headphones and 4 hours. If the training lasts several days or microphones for several groups are needed, we agree the price individually.',
+'Плануєте тренінг? Обговорімо звук': "Planning a training? Let's talk about the sound",
+'Розкажіть про програму, локацію й кількість груп. Ми підкажемо, як організувати голос тренера в навушниках, і запропонуємо наступний крок.':
+  "Tell us about the programme, venue and number of groups. We'll suggest how to set up the trainer's voice in headphones and propose the next step.",
+'Щоб почати розмову, досить дати, локації, кількості груп і приблизної кількості учасників.': 'To start the conversation, the date, venue, number of groups and a rough number of participants are enough.',
+'Обговорити <span class="em">навушники</span> для навчання': 'Discuss <span class="em">headphones</span> for your training',
+'<option selected>Тренінг чи навчання</option>': '<option selected>Training or learning</option>',
+}
+for _k, _v in list(_TRAIN.items()):
+    if _k in T_PAGE_ALL: continue   # не перезаписувати наявні переклади (інакше зміняться інші сторінки)
+    T_PAGE_ALL[_k] = _v
+    if '<a href="/' in _k:
+        T_PAGE_ALL[_en_href(_k)] = _en_href(_v)
