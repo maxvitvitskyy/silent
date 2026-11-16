@@ -2704,7 +2704,7 @@
   }
   @media (max-width: 560px){
     .band-cta { margin-top: 24px; }
-    .band-cta-btn { width: 100%; max-width: 320px; justify-content: center; }
+    .band-cta-btn { width: 100%; max-width: 210px; justify-content: center; } /* 16.11.2026: вужча, щоб наліпка пари збоку мала місце */
   }
 
   /* ---------- GALLERY ---------- */
@@ -9023,13 +9023,15 @@ body:has(.legal-toc){overflow-x:clip}
   position: absolute; z-index: 2; height: auto; max-width: none; pointer-events: none; user-select: none;
   transform: rotate(var(--r, 0deg)); transform-origin: 50% 60%;
 }
-.band--stickers { padding-bottom: 94px; }
-.band > img.sticker-disco  { --r: -12deg; width: 108px; left: 4px;  top: -36px; right: auto; bottom: auto; }
-.band > img.sticker-couple { --r: 6deg;   width: 132px; right: 6px; bottom: -48px; left: auto; top: auto; }
+.band--stickers { padding-bottom: 54px; } /* 16.11.2026: знизу як зверху (кнопка ↔ рамка = рамка ↔ надзаголовок) */
+/* Телефон (16.11.2026, власник): дискокуля на 10% менша й праворуч угорі; пара більша, ліворуч унизу й піднята так, що голова
+   хлопця трохи заходить на кнопку (раніше просили не налазити, тепер власник сам хоче легке перекриття). */
+.band > img.sticker-disco  { --r: 12deg; width: 97px; right: 4px; top: -34px; left: auto; bottom: auto; }
+.band > img.sticker-couple { --r: -6deg;  width: 150px; left: 2px; bottom: -62px; right: auto; top: auto; }
 @media (min-width: 760px) {
   .band--stickers { padding-bottom: 54px; }
-  .band > img.sticker-disco  { width: 140px; left: 24px;  top: -46px; }
-  .band > img.sticker-couple { width: 200px; right: 30px; bottom: -40px; }
+  .band > img.sticker-disco  { --r: -12deg; width: 140px; left: 24px; right: auto; top: -46px; }
+  .band > img.sticker-couple { --r: 6deg; width: 200px; right: 30px; left: auto; bottom: -40px; }
 }
 @media (min-width: 1180px) {
   .band--stickers h2 { max-width: 760px; }
