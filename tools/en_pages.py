@@ -3802,8 +3802,8 @@ T_ABOUT = {
     'About SILENT: be different, be together',
   'Ми створюємо нові можливості для подій за допомогою бездротової аудіотехнології. Щоб кожен міг обирати своє, відкривати нові враження та залишатися частиною спільного моменту.':
     'We create new possibilities for events with wireless audio technology, so that everyone can choose their own, discover new experiences and stay part of a shared moment.',
-  'Спільність починається з вільного вибору.':
-    'Togetherness begins with free choice.',
+  'Спільність починається з <span class="em">вільного вибору</span>.':
+    'Togetherness begins with <span class="em">free choice</span>.',
   'У кожного свій ритм, свої вподобання, своє бачення ідеального моменту. Ми віримо, що спільні враження не вимагають однаковості.':
     "Everyone has their own rhythm, their own tastes, their own idea of the perfect moment. We believe shared experiences don't require sameness.",
   'SILENT дає можливість обирати власний аудіоканал, музику та спосіб взаємодії, залишаючись у спільному просторі події.':

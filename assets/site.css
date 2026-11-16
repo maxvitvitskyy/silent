@@ -8122,6 +8122,8 @@ html { overflow-x: clip; }
 .ab-intro{padding:clamp(40px,6vw,90px) 0 0}
 .ab-intro-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(30px,5vw,80px);align-items:center}
 .ab-quote{margin:0 0 22px;font:italic 500 clamp(24px,2.7vw,38px)/1.25 'Lora',serif;color:#fff}
+/* Виділені слова цитати — той самий жирний курсив, що в заголовку форми заявки (.em), лаймом (власник, 15.11.2026). */
+.ab-quote .em{color:var(--lime);font-size:1em;line-height:inherit}
 .ab-intro-text p:not(.ab-quote){margin:0;font-size:clamp(16px,1.3vw,19px);line-height:1.7;color:rgba(255,255,255,.76);max-width:560px}
 .ab-intro-photos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .ab-intro-photos img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:var(--r-lg)}
