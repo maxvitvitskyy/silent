@@ -482,7 +482,7 @@ OG-картка сторінки Silent Disco (09.10.2026) зібрана за `
 
 ## Швидкість (оптимізація 07.11.2026)
 
-- **Шрифти свої:** `assets/fonts/*.woff2` (змінні Unbounded/Manrope/Lora, лише cyrillic/latin і їхні `-ext`), `@font-face` на початку
+- **Шрифти свої:** `assets/fonts/*.woff2` (змінні Unbounded/Manrope/Playfair Display Italic 400–900, лише cyrillic/latin і їхні `-ext`; Lora прибрано 16.11.2026: акцентний курсив лише Playfair, 900 для `.em`, 400 для цитат і відгуків), `@font-face` на початку
   `assets/site.css`. У `<head>` кожної сторінки — лише `preload` 4 файлів (UA) і жодних запитів до Google; `stamp_files()` у
   `build_en.py` прибирає кириличні preload з `en/`. На головній `hold` знімає `__fontsIn()`, який викликає скрипт одразу ПІСЛЯ
   `<link>` на site.css (не на DOMContentLoaded: він настає після всіх defer-скриптів).
