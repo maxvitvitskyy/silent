@@ -1,0 +1,22 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-dj-batl-try-didzhei.jpg",
+  "bg": {
+    "src": "images/dj-set/dj-batl-dva-pulty.webp",
+    "pos": "50% 35%"
+  },
+  "heading": [
+    "Діджей-батл:",
+    "три сети одночасно"
+  ],
+  "subtitle": [
+    [
+      "Гості обирають сет одним дотиком."
+    ]
+  ],
+  "pills": [
+    "<b>До трьох</b> діджеїв",
+    "<b>Раунди</b> й фінал",
+    "<b>Танцпол</b> вирішує"
+  ]
+}

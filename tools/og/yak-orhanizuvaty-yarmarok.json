@@ -1,0 +1,22 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-yak-orhanizuvaty-yarmarok.jpg",
+  "bg": {
+    "src": "images/markets/tantspol-sered-yarmarku.webp",
+    "pos": "50% 56%"
+  },
+  "heading": [
+    "Як організувати",
+    "ярмарок"
+  ],
+  "subtitle": [
+    [
+      "Зонування, продавці, розклад і танці без колонок."
+    ]
+  ],
+  "pills": [
+    "<b>Зонування</b> маркету",
+    "<b>Видача</b> навушників",
+    "<b>Чекліст</b> організатора"
+  ]
+}

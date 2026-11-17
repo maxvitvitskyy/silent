@@ -1,0 +1,22 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-yak-orhanizuvaty-sportyvne-sviato.jpg",
+  "bg": {
+    "src": "images/sport/korporatyvnyi-sportyvnyi-den.webp",
+    "pos": "50% 35%"
+  },
+  "heading": [
+    "Спортивне свято",
+    "для команди"
+  ],
+  "subtitle": [
+    [
+      "Від розминки до вечірки на тому самому полі."
+    ]
+  ],
+  "pills": [
+    "<b>Голос</b> тренера",
+    "<b>Командні</b> ігри",
+    "<b>Вечірка</b> після"
+  ]
+}

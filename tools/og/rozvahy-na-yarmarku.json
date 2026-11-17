@@ -1,0 +1,22 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-rozvahy-na-yarmarku.jpg",
+  "bg": {
+    "src": "images/markets/zymovyi-yarmarok-tantsi.webp",
+    "pos": "50% 40%"
+  },
+  "heading": [
+    "8 ідей розваг",
+    "для ярмарку"
+  ],
+  "subtitle": [
+    [
+      "Що додати до рядів, щоб гості лишалися довше."
+    ]
+  ],
+  "pills": [
+    "<b>Майстеркласи</b>",
+    "<b>Сімейний</b> танцпол",
+    "<b>Вечірня</b> дискотека"
+  ]
+}

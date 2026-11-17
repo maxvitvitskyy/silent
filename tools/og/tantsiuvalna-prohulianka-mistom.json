@@ -1,0 +1,22 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-tantsiuvalna-prohulianka-mistom.jpg",
+  "bg": {
+    "src": "images/runs-walks/tantsiuvalna-khoda-mistom.webp",
+    "pos": "50% 40%"
+  },
+  "heading": [
+    "Танцювальна",
+    "прогулянка містом"
+  ],
+  "subtitle": [
+    [
+      "Silent Disco в русі вулицями міста."
+    ]
+  ],
+  "pills": [
+    "<b>Ведучий</b> із мікрофоном",
+    "<b>Маршрут</b> містом",
+    "<b>Танці</b> на фініші"
+  ]
+}

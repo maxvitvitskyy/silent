@@ -1,0 +1,22 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-yak-orhanizuvaty-zabih.jpg",
+  "bg": {
+    "src": "images/runs-walks/korporatyvnyi-zabih.webp",
+    "pos": "50% 40%"
+  },
+  "heading": [
+    "Як організувати",
+    "груповий забіг"
+  ],
+  "subtitle": [
+    [
+      "Маршрут, темп і голос тренера на ходу."
+    ]
+  ],
+  "pills": [
+    "<b>Голос</b> на ходу",
+    "<b>Музика</b> для темпу",
+    "<b>Танці</b> на фініші"
+  ]
+}

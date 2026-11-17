@@ -528,6 +528,126 @@
    "also": [
     "organization"
    ]
+  },
+  {
+   "slug": "dj-set-u-navushnykakh",
+   "status": "published",
+   "category": "organization",
+   "title": "Діджей-сет у навушниках: як провести вечірку з живим діджеєм без гучних колонок",
+   "excerpt": "Як працює живий діджей-сет у бездротових навушниках, де він доречний і що підготувати діджеєві та майданчику.",
+   "image": "/images/dj-set/dj-set-na-dakhu-na-zakhodi.webp",
+   "alt": "Діджей грає сет на даху на заході сонця, гості танцюють у світних навушниках SILENT",
+   "also": [
+    "ideas"
+   ]
+  },
+  {
+   "slug": "dj-batl-try-didzhei",
+   "status": "published",
+   "category": "ideas",
+   "title": "Діджей-батл: як влаштувати вечір, де одночасно грають три діджеї",
+   "excerpt": "Формат, у якому діджеї грають паралельно, а гості голосують ногами: як його підготувати, провести і що врахувати.",
+   "image": "/images/dj-set/dj-batl-dva-pulty.webp",
+   "alt": "Два діджеї за сусідніми пультами грають батл, гості в навушниках SILENT",
+   "also": [
+    "organization"
+   ]
+  },
+  {
+   "slug": "yak-orhanizuvaty-yarmarok",
+   "status": "published",
+   "category": "organization",
+   "title": "Як організувати ярмарок чи маркет: програма, яка тримає відвідувачів довше",
+   "excerpt": "Зонування, програма на день і вечір, музика без колонок і видача навушників: практичний план для організаторів маркетів.",
+   "image": "/images/markets/tantspol-sered-yarmarku.webp",
+   "alt": "Танцпол посеред ярмарку: відвідувачі танцюють у світних навушниках SILENT між наметами",
+   "also": [
+    "ideas"
+   ]
+  },
+  {
+   "slug": "rozvahy-na-yarmarku",
+   "status": "published",
+   "category": "ideas",
+   "title": "Розваги на ярмарку: 8 ідей, які збирають відвідувачів",
+   "excerpt": "Від майстеркласів і дегустацій до танцполу серед рядів і вечірньої дискотеки: ідеї, які працюють на маркетах будь-якого розміру.",
+   "image": "/images/markets/zymovyi-yarmarok-tantsi.webp",
+   "alt": "Зимовий ярмарок: відвідувачі танцюють у світних навушниках SILENT серед гірлянд",
+   "also": [
+    "holidays"
+   ]
+  },
+  {
+   "slug": "yak-orhanizuvaty-sportyvne-sviato",
+   "status": "published",
+   "category": "business",
+   "title": "Як організувати спортивне свято чи корпоративний спортивний день",
+   "excerpt": "Програма від розминки до вечірки, голос тренера в навушниках і танці після змагань: план для організаторів і HR.",
+   "image": "/images/sport/korporatyvnyi-sportyvnyi-den.webp",
+   "alt": "Корпоративний спортивний день: колеги на полі в навушниках SILENT",
+   "also": [
+    "organization"
+   ]
+  },
+  {
+   "slug": "hrupove-trenuvannia-prosto-neba",
+   "status": "published",
+   "category": "organization",
+   "title": "Групове тренування просто неба: як зробити, щоб тренера чули всі",
+   "excerpt": "Чому на вулиці губиться голос тренера, як допомагають навушники з мікрофоном і що підготувати до тренування в парку чи на набережній.",
+   "image": "/images/sport/trenuvannia-v-parku.webp",
+   "alt": "Групове тренування в парку: учасники в навушниках SILENT повторюють вправи за тренеркою",
+   "also": [
+    "ideas"
+   ]
+  },
+  {
+   "slug": "yak-provesty-treninh-dlia-velykoi-hrupy",
+   "status": "published",
+   "category": "business",
+   "title": "Як провести тренінг для великої групи: звук, формат і увага учасників",
+   "excerpt": "Чому на великих тренінгах губиться увага, як голос тренера в навушниках допомагає залу і як навчати до трьох груп в одному приміщенні.",
+   "image": "/images/trainings/trening-u-velykii-zali.webp",
+   "alt": "Тренінг у великій залі: учасники слухають тренера в навушниках SILENT",
+   "also": [
+    "organization"
+   ]
+  },
+  {
+   "slug": "vyiznyi-treninh-yak-orhanizuvaty",
+   "status": "published",
+   "category": "business",
+   "title": "Виїзний тренінг: як організувати навчання на природі, базі чи виробництві",
+   "excerpt": "Коли варто вивозити команду на навчання, як вибрати місце, як зробити, щоб тренера чули на вулиці й поруч із обладнанням, і чим завершити день.",
+   "image": "/images/trainings/vyiznyi-trening-na-bazi.webp",
+   "alt": "Виїзний тренінг на базі відпочинку: команда слухає тренера в навушниках SILENT",
+   "also": [
+    "organization"
+   ]
+  },
+  {
+   "slug": "yak-orhanizuvaty-zabih",
+   "status": "published",
+   "category": "organization",
+   "title": "Як організувати забіг для команди чи спільноти: від маршруту до фінішу",
+   "excerpt": "Маршрут, темп, голос тренера на ходу, видача навушників на старті й танці на фініші: практичний план для організаторів забігів і пробіжок.",
+   "image": "/images/runs-walks/korporatyvnyi-zabih.webp",
+   "alt": "Корпоративний забіг набережною: колеги біжать за тренером у навушниках SILENT",
+   "also": [
+    "business"
+   ]
+  },
+  {
+   "slug": "tantsiuvalna-prohulianka-mistom",
+   "status": "published",
+   "category": "ideas",
+   "title": "Танцювальна прогулянка містом: як організувати Silent Disco в русі",
+   "excerpt": "Що таке танцювальна хода в навушниках, кому вона підходить, як вибрати маршрут і провести групу містом, щоб було весело й безпечно.",
+   "image": "/images/runs-walks/tantsiuvalna-khoda-mistom.webp",
+   "alt": "Танцювальна хода містом: молодь танцює на ходу в навушниках SILENT",
+   "also": [
+    "organization"
+   ]
   }
  ]
 }

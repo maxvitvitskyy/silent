@@ -1,0 +1,22 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-vyiznyi-treninh-yak-orhanizuvaty.jpg",
+  "bg": {
+    "src": "images/trainings/vyiznyi-trening-na-bazi.webp",
+    "pos": "50% 40%"
+  },
+  "heading": [
+    "Виїзний тренінг",
+    "поза офісом"
+  ],
+  "subtitle": [
+    [
+      "На природі, базі чи виробництві."
+    ]
+  ],
+  "pills": [
+    "<b>Звук</b> на вулиці",
+    "<b>Програма</b> дня",
+    "<b>Вечірка</b> після"
+  ]
+}

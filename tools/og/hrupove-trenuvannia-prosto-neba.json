@@ -1,0 +1,22 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-hrupove-trenuvannia-prosto-neba.jpg",
+  "bg": {
+    "src": "images/sport/trenuvannia-na-naberezhnii.webp",
+    "pos": "50% 40%"
+  },
+  "heading": [
+    "Тренування",
+    "просто неба"
+  ],
+  "subtitle": [
+    [
+      "Тренера чують усі, а парк лишається тихим."
+    ]
+  ],
+  "pills": [
+    "<b>Голос</b> без крику",
+    "<b>Музика</b> для темпу",
+    "<b>Своя</b> гучність"
+  ]
+}

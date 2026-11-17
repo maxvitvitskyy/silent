@@ -1,0 +1,22 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-dj-set-u-navushnykakh.jpg",
+  "bg": {
+    "src": "images/dj-set/dj-set-na-dakhu-na-zakhodi.webp",
+    "pos": "50% 40%"
+  },
+  "heading": [
+    "Діджей-сет",
+    "у навушниках"
+  ],
+  "subtitle": [
+    [
+      "Живий діджей без гучних колонок."
+    ]
+  ],
+  "pills": [
+    "<b>Живий</b> діджей",
+    "<b>Три</b> канали музики",
+    "<b>Без</b> колонок"
+  ]
+}

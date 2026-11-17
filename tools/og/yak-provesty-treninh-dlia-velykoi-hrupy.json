@@ -1,0 +1,22 @@
+{
+  "template": "template-blog.html",
+  "out": "images/blog/og-yak-provesty-treninh-dlia-velykoi-hrupy.jpg",
+  "bg": {
+    "src": "images/trainings/trening-u-velykii-zali.webp",
+    "pos": "50% 40%"
+  },
+  "heading": [
+    "Тренінг",
+    "для великої групи"
+  ],
+  "subtitle": [
+    [
+      "Кожен чує тренера, навіть в останньому ряду."
+    ]
+  ],
+  "pills": [
+    "<b>До трьох</b> груп",
+    "<b>Голос</b> тренера",
+    "<b>Звук</b> презентацій"
+  ]
+}

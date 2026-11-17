@@ -8356,7 +8356,7 @@ html.is-scrolling .hx-overlay { pointer-events: none !important; }
    (раніше заголовок «03» лишався внизу лівої колонки, а його текст переїжджав у праву), а після списку є
    повноцінний відступ, інакше абзац одразу під останнім кроком «прилипав» до нього. */
 .art-flow .art-steps { margin: 6px 0 calc(var(--fs) * 2.4); }
-.art-flow .art-steps li { break-inside: avoid; }
+.art-flow .art-steps li { break-inside: auto; orphans: 2; widows: 2; }   /* 17.11.2026: довгий крок може перейти в іншу колонку, інакше колонки не вирівнюються */
 .art-flow .art-steps li:last-child { padding-bottom: 0; }
 
 /* Підзаголовок H3 усередині текстового потоку (елемент {"h3": …} у блоці text): менший за H2, лаймовий (рішення власника 17.10.2026), без риски над ним; не лишається самотнім
