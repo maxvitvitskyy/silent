@@ -24,6 +24,7 @@
   src: url(/assets/fonts/unbounded-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: 'Unbounded'; font-style: normal; font-weight: 200 900; font-display: swap;
   src: url(/assets/fonts/unbounded-symbols.woff2) format('woff2'); unicode-range: U+2100-21FF, U+2460-2473, U+24EA, U+24FF, U+25A0-25FF, U+2713-2718, U+2776-277E, U+27F5-27F6; }
+@property --gc{syntax:'<color>';inherits:false;initial-value:transparent}
 :root{
   --surface-base:#0a0a0b; --surface-raised:#141416;
   --ink:#fff; --ink-muted:rgba(255,255,255,.72); --ink-subtle:rgba(255,255,255,.5); --ink-on-accent:#0a0a0b;
@@ -212,7 +213,9 @@ body::before{content:"";position:fixed;right:-240px;top:-260px;width:720px;heigh
 .enw{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-muted);white-space:nowrap}
 .side{gap:10px}
 /* drag and drop */
-.row{cursor:grab;touch-action:pan-y;-webkit-user-select:none;user-select:none}
+.row{cursor:grab;touch-action:pan-y;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
+.row *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+body.dragging{-webkit-user-select:none;user-select:none}
 .row .num{position:relative}
 .row .grip{position:absolute;right:-2px;top:50%;width:16px;height:16px;transform:translateY(-50%);opacity:0;color:var(--ink-muted);fill:currentColor;stroke:none}
 @media (hover:hover){.row:hover .nn{opacity:0}.row:hover .grip{opacity:1}}
@@ -377,12 +380,35 @@ body.dragging{cursor:grabbing!important}body.dragging *{cursor:grabbing!importan
   .head .ptile{display:none}
 }
 @media (max-width:900px){
-  .chtabs{display:flex}.chtabs .seg{width:100%}.chtabs .seg button{flex:1;justify-content:center}
+  /* Перемикач каналів — головний елемент на вузькому екрані: великі кнопки з кольором каналу,
+     обраний канал лаймовий із чорними іконкою й текстом; липне до верху під час прокрутки списку. */
+  .chtabs{display:block;position:sticky;top:8px;z-index:20;margin:0 0 14px}
+  .chtabs .seg{display:flex;width:100%;padding:5px;gap:4px;background:rgba(20,20,22,.88);border:1px solid var(--divider);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 10px 24px rgba(0,0,0,.35)}
+  .chtabs .seg button{flex:1;min-width:0;justify-content:center;min-height:56px;padding:6px 8px;color:var(--ink)}
+  .chtabs .seg button:not([aria-selected=true]):hover{background:rgba(255,255,255,.05)}
+  .chtabs .chl{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0}
+  .chtabs .chn{display:inline-flex;align-items:center;gap:6px}
+  .chtabs .chi{display:inline-flex;color:var(--c)}.chtabs .chi svg.i{width:17px;height:17px}
+  .chtabs .chl b{font:700 13.5px/1 var(--display);letter-spacing:.04em}
+  .chtabs .chl small{font:300 11.5px/1 var(--display);letter-spacing:.01em;color:var(--ink-muted);white-space:nowrap}
+  /* обраний канал: скляна «капсула» (.chind), як сама плашка, з підсвіткою кольору каналу знизу.
+     Вона одна на всі три кнопки й перепливає між ними; колір підсвітки плавно перетікає (@property --gc). */
+  .chtabs .seg{position:relative}
+  .chtabs .seg button{position:relative;z-index:1;transition:color .2s}
+  .chtabs .seg button[aria-selected=true]{color:var(--ink);background:none;box-shadow:none}
+  .chind{position:absolute;z-index:0;top:5px;bottom:5px;left:5px;width:calc((100% - 18px)/3);border-radius:var(--r-pill);pointer-events:none;
+    --gc:var(--c);transform:translateX(calc(var(--i,0)*(100% + 4px)));
+    background:radial-gradient(75% 52% at 50% 100%,color-mix(in srgb,var(--gc) 50%,transparent),color-mix(in srgb,var(--gc) 14%,transparent) 60%,transparent 100%),linear-gradient(180deg,rgba(255,255,255,.11),rgba(255,255,255,.04));
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 0 0 1px rgba(255,255,255,.1),0 8px 20px -6px color-mix(in srgb,var(--gc) 55%,transparent);
+    transition:transform .5s cubic-bezier(.22,1,.36,1),--gc .5s ease}
+  .chtabs .seg button[aria-selected=true] .chi{color:var(--c);filter:drop-shadow(0 0 6px var(--c))}
+  .chtabs .seg button[aria-selected=true] .chl small{color:var(--ink-muted)}
   .board{grid-template-columns:1fr!important}
   .col:not(.active){display:none}
   .list,.v-builder .list{max-height:none}
 }
 @media (max-width:370px){.stats li:nth-child(2) .lw{display:none}.stats li:nth-child(2) .sw{display:inline}}
+@media (max-width:420px){.chtabs .seg button{padding:6px 4px}.chtabs .chn{gap:5px}.chtabs .chi svg.i{width:15px;height:15px}.chtabs .chl b{font-size:12.5px}.chtabs .chl small{font-size:10.5px}}
 @media (max-width:560px){
   .bar{gap:8px}
   .bar>.btn{flex:1 1 0;justify-content:center;padding:10px 12px;font-size:13px;min-height:44px}
@@ -410,8 +436,20 @@ body.dragging{cursor:grabbing!important}body.dragging *{cursor:grabbing!importan
 .wline polyline{opacity:.45}
 .wcut{border-left-width:1px;opacity:.6}
 .wx{margin-left:0;order:2;height:16px}
-.cn h3{white-space:normal;text-overflow:clip;line-height:1.2}
-.cn{gap:8px}.cn .sep{display:none}.cn .lbl{font-size:12px;padding-right:2px}
+.cn h3{white-space:nowrap;text-overflow:clip;line-height:1.2;overflow:hidden}
+/* назва, що не вміщається, плавно їздить ліворуч-праворуч (клас .marq ставить marquee() у скрипті) */
+.cn h3 .mq{display:inline-block;will-change:transform}
+.cn h3.marq{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 8px,#000 calc(100% - 12px),transparent);mask-image:linear-gradient(90deg,transparent 0,#000 8px,#000 calc(100% - 12px),transparent);padding-left:4px;margin-left:-4px}
+.cn h3.marq .mq{animation:mq var(--mqt,6s) ease-in-out infinite alternate}
+@keyframes mq{0%,18%{transform:translateX(0)}82%,100%{transform:translateX(var(--mqx,0px))}}
+@media (prefers-reduced-motion:reduce){.cn h3.marq .mq{animation:none}}
+/* назва каналу (RED/GREEN/BLUE) і назва списку одним шрифтом і кеглем, розділені тонкою рискою */
+.cn{gap:10px}
+.cn .lbl,.cn h3{font:700 16px/1.2 var(--display);letter-spacing:.01em}
+.cn .sep{display:block;flex:none;width:1px;height:18px;margin:0;background:rgba(255,255,255,.22)}
+/* вузька колонка (три канали поруч на ~1200–1400px): кружечок-іконку прибираємо, щоб назва вмістилась цілим словом */
+.col{container-type:inline-size}
+@container (max-width:340px){.cn .hp{display:none}.cn .lbl,.cn h3{font-size:15px}}
 </style>
 </head>
 <body>
@@ -706,7 +744,7 @@ function boardHTML(c){
   const target=S.hours*60,q=S.bq.trim().toLowerCase(),isB=S.view==='builder';
   const cols=[0,1,2].map(i=>{
     const ch=CH[i],ids=c.ids[i],m=Math.round(ids.length*MIN);
-    const head=`<div class="cn"><span class="hp" style="--c:${ch.c}">${ic('hp')}</span><span class="lbl" style="--c:${ch.c}">${ch.lbl}</span><span class="sep" aria-hidden="true"></span><h3>${esc(c.meta[i].n)}</h3>
+    const head=`<div class="cn"><span class="hp" style="--c:${ch.c}">${ic('hp')}</span><span class="lbl" style="--c:${ch.c}">${ch.lbl}</span><span class="sep" aria-hidden="true"></span><h3 title="${esc(c.meta[i].n)}"><span class="mq">${esc(c.meta[i].n)}</span></h3>
       ${c.enabled[i]?`<button class="ibtn" data-copy="${i}" aria-label="Копіювати список ${ch.lbl}" title="Копіювати список">${ic('copy')}</button>`:''}</div>`;
     const rules=isB?rulesHTML(i):'';
     if(!c.enabled[i]) return `<section class="col ${S.mch===i?'active':''}" aria-label="${ch.lbl}"><div class="ch">${head}${rules}</div><div class="off">Канал вимкнено. Увімкніть його в правилах вище.</div></section>`;
@@ -721,7 +759,7 @@ function boardHTML(c){
         :`<li class="empty"><b>Канал порожній</b>${isB?'Жоден трек не підходить під ці правила. Зніміть частину умов.':'Жоден трек бібліотеки не підходить під цей канал.'}</li>`}</ul></section>`;
   }).join('');
   const resShown=(q?c.res.filter(id=>(BY[id].a+' '+BY[id].t).toLowerCase().includes(q)):c.res).map(id=>BY[id]).sort((a,b)=>a.a.localeCompare(b.a,'uk'));
-  return `${legend()}<div class="chtabs"><div class="seg" role="tablist" aria-label="Канал">${CH.map((ch,i)=>`<button role="tab" data-mch="${i}" aria-selected="${S.mch===i}"><span style="color:${ch.c};display:inline-flex">${ic('hp')}</span>${ch.lbl} <span class="tn">${c.enabled[i]?c.ids[i].length:'—'}</span></button>`).join('')}</div></div>
+  return `${legend()}<div class="chtabs"><div class="seg" role="tablist" aria-label="Канал"><span class="chind" aria-hidden="true" style="--i:${chPrev};--c:${CH[chPrev].c}"></span>${CH.map((ch,i)=>`<button role="tab" data-mch="${i}" aria-selected="${S.mch===i}" style="--c:${ch.c}"><span class="chl"><span class="chn"><span class="chi">${ic('hp')}</span><b>${ch.lbl}</b></span> <small class="tn">${c.enabled[i]?c.ids[i].length+' '+pl(c.ids[i].length,'трек','треки','треків'):'вимкнено'}</small></span></button>`).join('')}</div></div>
     <div class="board">${cols}</div>
     <details class="reserve" id="reserve" ${S.resOpen?'open':''}><summary>${ic('chev')}<h3>Поза каналами</h3><span class="n tn">${c.res.length}</span>
       <p>${c.res.length?'Не підійшли під правила або прибрані вручну. Можна повернути в будь-який канал.':'Усі треки бібліотеки розподілені.'}</p></summary>
@@ -813,7 +851,23 @@ function render(){
   const R_={presets:renderPresets,builder:renderBuilder,library:renderLibrary};if(!R_[S.view])S.view='presets';R_[S.view]();
   document.getElementById('rail').scrollTop=keep.rail;
   [...document.querySelectorAll('#main .list,#main .lib')].forEach((l,i)=>{if(keep.lists[i]!=null)l.scrollTop=keep.lists[i]});
+  animInd();marquee();
   save();
+}
+/* Скляна капсула перемикача каналів: розмітка перебудовується при кожному render(), тож капсула
+   малюється на попередньому каналі й одразу перепливає на новий. */
+let chPrev=S.mch||0;
+function marquee(){
+  document.querySelectorAll('.cn h3').forEach(h=>{const m=h.querySelector('.mq');if(!m)return;
+    h.classList.remove('marq');const over=m.scrollWidth-h.clientWidth;
+    if(over>2){h.style.setProperty('--mqx',-(over+12)+'px');h.style.setProperty('--mqt',Math.max(4,(over+12)/18+2.4).toFixed(1)+'s');h.classList.add('marq')}});
+}
+let mqT;window.addEventListener('resize',()=>{clearTimeout(mqT);mqT=setTimeout(marquee,150)});
+document.fonts&&document.fonts.ready.then(()=>marquee());
+function animInd(){
+  const ind=document.querySelector('.chtabs .chind');if(!ind){chPrev=S.mch;return}
+  if(chPrev!==S.mch){ind.offsetWidth;ind.style.setProperty('--i',S.mch);ind.style.setProperty('--c',CH[S.mch].c)}
+  chPrev=S.mch;
 }
 const fresh=()=>{document.getElementById('main').innerHTML=''};
 function go(v){S.view=v;undoStack=[];try{if(location.hash.slice(1)!==v)history.replaceState(null,'','#'+v)}catch(_){}fresh();render();window.scrollTo(0,0)}
@@ -837,7 +891,9 @@ document.addEventListener('click',e=>{
     undoStack.push({kind:'mv',key:c.key,id,had:id in ov,prev:ov[id]});ov[id]=to;render();
     toast(to<0?`«${BY[id].t}» прибрано з каналу`:`«${BY[id].t}» перенесено в ${CH[to].lbl}`,true);return}
   if(d.copy!=null){copy(chText(+d.copy),'Список скопійовано');return}
-  if(d.mch){S.mch=+d.mch;render();return}
+  if(d.mch){S.mch=+d.mch;render();
+    /* перемкнули канал глибоко в списку — показати новий канал з початку, під липким перемикачем */
+    const b=document.querySelector('.board'),bt=b&&b.getBoundingClientRect().top;if(bt<0)window.scrollTo({top:bt+scrollY-84,left:0,behavior:'instant'});return}
   if(d.tog){const ch=S.b.ch[+d.tog];ch.on=!ch.on;delete S.ov.builder;render();return}
   if(d.rk){const r=S.b.ch[+d.ri].r,k=d.rk;let v=d.v;if(k==='e')v=+v;
     if(k==='lang')r.lang=v;else{const a=r[k],j=a.indexOf(v);j<0?a.push(v):a.splice(j,1)}delete S.ov.builder;render();return}
@@ -918,6 +974,9 @@ document.addEventListener('pointermove',e=>{
   e.preventDefault();moveDrag(e.clientX,e.clientY);
 },{passive:false});
 document.addEventListener('touchmove',e=>{if(D.active)e.preventDefault()},{passive:false});
+/* довге натискання на треку — це початок перетягування, а не виділення тексту чи системне меню */
+document.addEventListener('selectstart',e=>{const t=e.target.nodeType===3?e.target.parentElement:e.target;if(D.cand||D.active||(t&&t.closest&&t.closest('.row[data-id]')))e.preventDefault()});
+document.addEventListener('contextmenu',e=>{if(e.target.closest&&e.target.closest('.row[data-id]')&&(D.cand||D.active||D.touch))e.preventDefault()});
 document.addEventListener('pointerup',e=>{if(D.active)endDrag(true);else cancelCand()});
 document.addEventListener('pointercancel',()=>{if(D.active)endDrag(false);else cancelCand()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&D.active)endDrag(false)});
@@ -951,10 +1010,24 @@ function moveDrag(x,y){
   D.ghost.style.setProperty('--gc',cc);
   list.querySelector('.empty')?.remove();
   const rows=[...list.querySelectorAll('.row[data-id]')].filter(n=>n!==D.row);
-  let before=null;for(const n of rows){const b=n.getBoundingClientRect();if(y<b.top+b.height/2){before=n;break}}
-  if(before){if(D.row.nextSibling!==before||D.row.parentNode!==list)list.insertBefore(D.row,before)}
-  else if(D.row.parentNode!==list||list.lastElementChild!==D.row)list.appendChild(D.row);
+  /* межу рахуємо за місцем рядка в розкладці, без поточного зсуву анімації — інакше рядки, що ще їдуть, тремтять */
+  let before=null;for(const n of rows){const b=n.getBoundingClientRect(),top=b.top-slideY(n);if(y<top+b.height/2){before=n;break}}
+  const need=before?(D.row.nextSibling!==before||D.row.parentNode!==list):(D.row.parentNode!==list||list.lastElementChild!==D.row);
+  if(need)slide(()=>{if(before)list.insertBefore(D.row,before);else list.appendChild(D.row)});
   renumber(list);if(D.lastList&&D.lastList!==list)renumber(D.lastList);D.lastList=list;
+}
+/* Плавне ковзання рядків (FLIP): запам'ятати, де рядки були, змінити DOM, і з'їхати з того місця на нове */
+const REDUCED=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function slideY(n){const t=n.style.transform;if(!t)return 0;const m=getComputedStyle(n).transform;return m&&m!=='none'?new DOMMatrixReadOnly(m).m42:0}
+function slide(mutate){
+  if(REDUCED){mutate();return}
+  const vis=[...document.querySelectorAll('.list .row[data-id]')].filter(r=>{if(r===D.row)return false;const b=r.getBoundingClientRect();return b.height&&b.bottom>-120&&b.top<innerHeight+120});
+  const first=new Map(vis.map(r=>[r,r.getBoundingClientRect().top]));
+  mutate();
+  first.forEach((top,r)=>{const dy=top-r.getBoundingClientRect().top;if(Math.abs(dy)<1)return;
+    r.style.transition='none';r.style.transform=`translateY(${dy}px)`;r.offsetHeight;
+    r.style.transition='transform .26s cubic-bezier(.22,1,.36,1)';r.style.transform='';
+    clearTimeout(r._st);r._st=setTimeout(()=>{r.style.transition=''},300)});
 }
 function renumber(list){if(+list.dataset.ch<0)return;let n=0;list.querySelectorAll('.row[data-id] .nn').forEach(s=>{s.textContent=++n})}
 function autoScroll(){
