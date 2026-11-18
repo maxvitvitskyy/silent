@@ -235,6 +235,11 @@ body.dragging{cursor:grabbing!important}body.dragging *{cursor:grabbing!importan
 .menu hr{border:0;border-top:1px solid var(--hair);margin:4px 6px}
 @media (pointer:coarse){.mvbtn{width:40px;height:40px}.menu button{padding:12px 10px}.ibtn{width:40px;height:40px}.c{padding:9px 12px}.row{padding-top:10px;padding-bottom:10px}}
 .empty{padding:24px 16px;color:var(--ink-subtle);font-size:13px}
+/* джерело даних: запасна копія і рядок «оновлено» */
+.fbk{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px;padding:10px 14px;border-radius:14px;border:1px solid rgba(255,190,80,.5);background:rgba(255,170,40,.12);color:var(--ink);font-size:13.5px;font-weight:600}
+.fbk svg.i{width:18px;height:18px;color:#ffb347;flex:none}.fbk span{flex:1;min-width:200px}
+.dsrc{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px;font-size:12.5px;color:var(--ink-subtle)}
+.btn:disabled{opacity:.6;pointer-events:none}
 .empty b{display:block;color:var(--ink);font-weight:600;margin-bottom:4px}
 .off{padding:22px 16px;display:grid;gap:12px;justify-items:start;color:var(--ink-subtle);font-size:13px}
 
@@ -340,6 +345,7 @@ body.dragging{cursor:grabbing!important}body.dragging *{cursor:grabbing!importan
     <button role="tab" data-view="builder"><svg class="i"><use href="#i-sliders"/></svg>Конструктор</button>
   </div>
   <div class="grow"></div>
+  <button class="toggle" role="switch" id="onlyDl" aria-checked="false" title="Пресети й конструктор беруть лише треки з галочкою «Файл скачано»"><i></i>Лише скачані треки</button>
   <label class="field">Тривалість події
     <select class="select" id="hours"><option value="2">2 год</option><option value="3">3 год</option><option value="4">4 год</option><option value="5">5 год</option><option value="6">6 год</option></select></label>
 </header>
@@ -379,11 +385,13 @@ body.dragging{cursor:grabbing!important}body.dragging *{cursor:grabbing!importan
 </defs></svg>
 
 <script>
-/* Дані треків: єдине місце, де вказано джерело. Пізніше сюди підставляють адресу опублікованої Google-таблиці (CSV). */
-const DATA_URL='/tools/playlists/tracks.csv';
+/* Дані треків: єдине місце, де вказано джерело. Опублікований CSV вкладки «Треки» (Google оновлює його із затримкою до 5 хв). */
+const DATA_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vTiZhTnpxv_jJRyqFJ5SSC18KC26fa88WIpvV5E8S2W99JGzuYdFii8HtkFj6NYcfUdOGq6gwyti49G/pub?gid=1686736659&single=true&output=csv';
+/* Запасна локальна копія: береться, лише якщо таблиця недоступна. */
+const FALLBACK_URL='/tools/playlists/tracks.csv';
 const MIN=3.9;
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-let RAW_LINES=0,T=[],BY={};
+let RAW_LINES=0,T=[],BY={},USING_FALLBACK=false,LOADED_AT=null;
 const GEN_KEY={'Pop':'pop','Disco / Funk':'disco','Rock':'rock','Dance':'dance','Soul / R&B':'soul','Jazz / Swing':'jazz','Саундтрек':'ost','Latin / World':'latin','Балада':'ballad','Українське':'ua'};
 function parseCSV(s){
   const rows=[];let row=[],f='',q=false;
@@ -401,7 +409,7 @@ function parseCSV(s){
 const normKey=s=>s.toLowerCase().replace(/\s+/g,' ').trim();
 function buildTracks(text){
   const rows=parseCSV(text),head=rows.shift().map(h=>h.trim()),ix=n=>head.indexOf(n);
-  const col={a:ix('Виконавець'),t:ix('Назва'),y:ix('Рік'),e:ix('Енергія'),l:ix('Мова'),g:ix('Жанр'),sing:ix('Співають усі'),kids:ix('Сімейне'),xmas:ix('Різдвяне'),src:ix('Вихідний список'),chk:ix('Звірити рік'),rmx:ix('Уточнити версію')};
+  const col={a:ix('Виконавець'),t:ix('Назва'),y:ix('Рік'),e:ix('Енергія'),l:ix('Мова'),g:ix('Жанр'),sing:ix('Співають усі'),kids:ix('Сімейне'),xmas:ix('Різдвяне'),src:ix('Вихідний список'),chk:ix('Звірити рік'),rmx:ix('Уточнити версію'),dl:ix('Файл скачано')};
   if(col.a<0||col.t<0)throw new Error('У файлі немає колонок «Виконавець» і «Назва»');
   const get=(r,k)=>(col[k]>=0&&r[col[k]]||'').trim(),yes=v=>v.toUpperCase()==='TRUE';
   const out=[],seen={};let lines=0;
@@ -412,7 +420,7 @@ function buildTracks(text){
     lines+=Math.max(1,srcs.length);
     let id=normKey(a)+'|'+normKey(t);if(seen[id]){seen[id]++;id+='#'+seen[id]}else seen[id]=1;
     out.push({id,n:out.length,a,t,y,g:GEN_KEY[get(r,'g')]||'pop',e:em?+em[0]:3,ua:lang==='UA',src:srcs.join(''),
-      approx:yes(get(r,'chk'))||!y||!em||!lang,remix:yes(get(r,'rmx')),sing:yes(get(r,'sing')),kids:yes(get(r,'kids')),xmas:yes(get(r,'xmas'))});
+      approx:yes(get(r,'chk'))||!y||!em||!lang,remix:yes(get(r,'rmx')),sing:yes(get(r,'sing')),kids:yes(get(r,'kids')),xmas:yes(get(r,'xmas')),dl:yes(get(r,'dl'))});
   }
   RAW_LINES=lines;return out;
 }
@@ -420,14 +428,29 @@ function showLoadError(msg){
   document.getElementById('main').innerHTML='<div class="empty" style="margin:40px auto;max-width:520px"><b>Не вдалося завантажити треки</b>'+esc(msg)+'<br>Адреса даних: '+esc(DATA_URL)+'. Оновіть сторінку або перевірте, що файл доступний.</div>';
   const st=document.getElementById('stat');if(st)st.textContent='дані не завантажено';
 }
+/* Завантаження: спершу таблиця (з параметром часу проти кешу), інакше локальна копія. Повертає false, якщо не вийшло ніде. */
+async function fetchTracks(url,bust){
+  const u=bust?url+(url.includes('?')?'&':'?')+'t='+Date.now():url;
+  const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),12000);
+  try{
+    const resp=await fetch(u,{cache:'no-store',signal:ctl.signal});
+    if(!resp.ok)throw new Error('сервер відповів '+resp.status);
+    const list=buildTracks(await resp.text());
+    if(!list.length)throw new Error('у таблиці немає жодного треку');
+    return list;
+  }finally{clearTimeout(to)}
+}
+async function loadData(){
+  let list;
+  try{list=await fetchTracks(DATA_URL,true);USING_FALLBACK=false}
+  catch(e1){
+    try{list=await fetchTracks(FALLBACK_URL,false);USING_FALLBACK=true}
+    catch(e2){return String((e1&&e1.message)||e1)}
+  }
+  T=list;BY={};T.forEach(t=>BY[t.id]=t);LOADED_AT=new Date();return null;
+}
 (async()=>{
-try{
-  const resp=await fetch(DATA_URL,{cache:'no-cache'});
-  if(!resp.ok)throw new Error('сервер відповів '+resp.status);
-  T=buildTracks(await resp.text());
-  if(!T.length)throw new Error('у таблиці немає жодного треку');
-}catch(err){showLoadError(String(err&&err.message||err));return}
-T.forEach(t=>BY[t.id]=t);
+{const err=await loadData();if(err){showLoadError(err);return}}
 const GEN={pop:'Pop',disco:'Disco / Funk',rock:'Rock',dance:'Dance',soul:'Soul / R&B',jazz:'Jazz / Swing',ost:'Саундтрек',latin:'Latin / World',ballad:'Балада',ua:'Українське'};
 const DEC=[['60','до 70-х'],['70','70-ті'],['80','80-ті'],['90','90-ті'],['00','2000-ні'],['10','2010-ті'],['20','2020-ті']];
 const FLG=[['sing','Співають усі'],['kids','Сімейне']];
@@ -471,15 +494,17 @@ const DEF_B=()=>({from:'energy',ch:PRESETS[1].ch.map(c=>({on:true,n:c.n,r:JSON.p
 /* state */
 const S=Object.assign({view:'presets',preset:'lists',seed:7,ov:{},hours:4,mch:0,bq:'',b:DEF_B(),mine:[],
   lib:{q:'',lang:[],dec:[],gen:[],e:[],flag:[]},sort:{k:'a',d:1}},store.get('state',{}));
-const save=()=>store.set('state',{ord:S.ord,ordN:S.ordN,howDone:S.howDone,view:S.view,preset:S.preset,seed:S.seed,ov:S.ov,hours:S.hours,b:S.b,mine:S.mine});
+const save=()=>store.set('state',{onlyDl:S.onlyDl,ord:S.ord,ordN:S.ordN,howDone:S.howDone,view:S.view,preset:S.preset,seed:S.seed,ov:S.ov,hours:S.hours,b:S.b,mine:S.mine});
 let undoStack=[];
+const pool=()=>S.onlyDl?T.filter(t=>t.dl):T;
+const realEdits=ov=>Object.keys(ov||{}).filter(k=>BY[k]).length;
 const allPresets=()=>[...PRESETS,...S.mine];
 const getPreset=id=>allPresets().find(p=>p.id===id)||PRESETS[0];
 
 /* allocation: tracks matching one channel go there; overlaps go to the shorter channel */
 function allocate(fs){
   const b=[[],[],[]],res=[];
-  const items=T.map(t=>({t,el:[0,1,2].filter(i=>fs[i]&&fs[i](t))})).sort((x,y)=>x.el.length-y.el.length||x.t.n-y.t.n);
+  const items=pool().map(t=>({t,el:[0,1,2].filter(i=>fs[i]&&fs[i](t))})).sort((x,y)=>x.el.length-y.el.length||x.t.n-y.t.n);
   for(const it of items){if(!it.el.length){res.push(it.t.id);continue}
     const i=it.el.reduce((m,j)=>b[j].length<b[m].length?j:m,it.el[0]);b[i].push(it.t.id)}
   return {b,res};
@@ -506,13 +531,13 @@ function compute(){
   const c=ctx(),base=allocate(c.fs),ov=S.ov[c.key]||{};
   const home={};base.b.forEach((l,i)=>l.forEach(id=>home[id]=i));
   const b=[[],[],[]],res=[];
-  for(const t of T){const to=t.id in ov?ov[t.id]:(t.id in home?home[t.id]:-1);(to<0?res:b[to]).push(t.id)}
+  for(const t of pool()){const to=t.id in ov?ov[t.id]:(t.id in home?home[t.id]:-1);(to<0?res:b[to]).push(t.id)}
   const ids=b.map((l,i)=>{const set=new Set(l),bo=order(base.b[i],S.seed+i*101).filter(id=>set.has(id)),bs=new Set(bo);
     return [...bo,...Object.keys(ov).filter(id=>ov[id]===i&&set.has(id)&&!bs.has(id))]});
   const ord=(S.ord||{})[c.key];
   if(ord)[0,1,2].forEach(i=>{const set=new Set(ids[i]),kept=ord[i].filter(id=>set.has(id)),ks=new Set(kept);ids[i]=[...kept,...ids[i].filter(id=>!ks.has(id))]});
   [0,1,2].forEach(i=>{if(!c.enabled[i]){res.push(...ids[i]);}});
-  return Object.assign(c,{ids,res,edits:Object.keys(ov).length+((S.ordN||{})[c.key]||0)});
+  return Object.assign(c,{ids,res,edits:realEdits(ov)+((S.ordN||{})[c.key]||0)});
 }
 
 /* rows */
@@ -560,9 +585,9 @@ function closeMenu(focusBack){const m=document.getElementById('menu');if(m.hidde
 /* rail */
 function presetCounts(p){const base=allocate(p.ch.map(c=>test(c.r))),ov=S.ov[p.id]||{},n=base.b.map(l=>l.length);
   const home={};base.b.forEach((l,i)=>l.forEach(id=>home[id]=i));
-  for(const k in ov){const id=k,from=home[id]??-1,to=ov[k];if(from>=0)n[from]--;if(to>=0)n[to]++}return n}
+  for(const k in ov){const id=k;if(!BY[id]||(S.onlyDl&&!BY[id].dl))continue;const from=home[id]??-1,to=ov[k];if(from>=0)n[from]--;if(to>=0)n[to]++}return n}
 function presetItem(p,current,del){
-  const ed=Object.keys(S.ov[p.id]||{}).length,cnt=presetCounts(p);
+  const ed=realEdits(S.ov[p.id]),cnt=presetCounts(p);
   return `<li class="pitem"><button class="pbtn" data-preset="${p.id}" aria-current="${current}">
     <span class="ptile">${ic(p.icon||'star')}</span>
     <span class="ptxt"><span class="pname"><span class="nm">${esc(p.name)}</span>${ed?`<span class="ptag ed">${ed} ${pl(ed,'зміна','зміни','змін')}</span>`:''}</span>
@@ -619,6 +644,9 @@ function boardHTML(c){
       <p>${c.res.length?'Не підійшли під правила або прибрані вручну. Можна повернути в будь-який канал.':'Усі треки бібліотеки розподілені.'}</p></summary>
       <ul class="list" data-ch="-1">${resShown.length?resShown.map((t,n)=>row(t,n+1,-1,c.enabled)).join(''):'<li class="empty">Тут порожньо.</li>'}</ul></details>`;
 }
+const fmtTime=d=>d?String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'):'';
+const fallbackBanner=()=>USING_FALLBACK?`<div class="fbk" role="status">${ic('warn')}<span>Показано збережену копію бібліотеки, таблиця зараз недоступна.</span><button class="btn" id="reloadData">${ic('undo')}<span class="t">Спробувати знову</span></button></div>`:'';
+const dataBar=()=>`<div class="dsrc" role="status"><span class="dtxt">${USING_FALLBACK?'Збережена копія':'Дані з таблиці'} · оновлено ${fmtTime(LOADED_AT)}</span><button class="btn" id="reloadData">${ic('undo')}<span class="t">Оновити</span></button></div>`;
 function toolbar(c,extra=''){
   return `<div class="bar"><label class="search">${ic('search')}<span class="sr">Знайти трек у каналах</span><input type="search" id="bq" placeholder="Знайти трек у каналах" value="${esc(S.bq)}"></label>
     <span class="grow"></span>${extra}
@@ -633,14 +661,14 @@ function renderPresets(){
     <div class="head"><span class="ptile">${ic(p.icon||'star')}</span><div class="htxt"><h2>${esc(p.name)}</h2><p>${esc(p.sub||'Мій пресет.')}</p></div>
       <button class="btn" id="toBuilder" title="Скопіювати правила цього пресету в конструктор">${ic('edit')}<span class="t">Змінити в конструкторі</span></button></div>
     ${S.howDone?'':`<ol class="how"><li><b>1</b>Оберіть пресет під формат події.</li><li><b>2</b>Перевірте канали: смуга показує енергію по ходу сету, позначка — чи вистачить музики на ${S.hours} год.</li><li><b>3</b>Перетягніть трек, щоб змінити порядок або канал (на телефоні — довге натискання). Потім скопіюйте списки для плеєрів.</li><li><button class="ibtn" id="howX" aria-label="Сховати підказку" title="Сховати підказку">${ic('x')}</button></li></ol>`}
-    ${toolbar(c)}${boardHTML(c)}`;
+    ${fallbackBanner()}${toolbar(c)}${boardHTML(c)}`;
   renderRail(c);
 }
 function renderBuilder(){
   const c=compute();
   document.getElementById('main').innerHTML=`${mpick(allPresets(),S.b.from,'mfrom')}
     <div class="head"><span class="ptile">${ic('sliders')}</span><div class="htxt"><h2>Конструктор</h2><p>Задайте правила для кожного каналу. Трек, що підходить двом каналам, іде туди, де менше треків. Вимкніть два канали, щоб зібрати один окремий плейлист.</p></div></div>
-    ${toolbar(c,`<form class="saveas" id="saveas"><label class="sr" for="pname">Назва пресету</label><input id="pname" placeholder="Назва нового пресету" maxlength="40"><button class="btn" type="submit">${ic('save')}<span class="t">Зберегти як пресет</span></button></form>`)}
+    ${fallbackBanner()}${toolbar(c,`<form class="saveas" id="saveas"><label class="sr" for="pname">Назва пресету</label><input id="pname" placeholder="Назва нового пресету" maxlength="40"><button class="btn" type="submit">${ic('save')}<span class="t">Зберегти як пресет</span></button></form>`)}
     ${boardHTML(c)}`;
   renderRail(c);
 }
@@ -677,6 +705,7 @@ function renderLibrary(){
   const sb=(k,l)=>`<button data-sort="${k}" aria-sort="${S.sort.k===k?(S.sort.d>0?'ascending':'descending'):'none'}">${l}${S.sort.k===k?(S.sort.d>0?' ↑':' ↓'):''}</button>`;
   document.getElementById('main').innerHTML=`
     <div class="head"><span class="ptile">${ic('lib')}</span><div class="htxt"><h2>Бібліотека</h2><p>Усі ${T.length} треків з тегами. Остання колонка показує, на якому каналі трек грає в пресеті «${esc(c.name)}».</p></div></div>
+    ${USING_FALLBACK?fallbackBanner():''}${dataBar()}
     <div class="bar"><label class="search">${ic('search')}<span class="sr">Пошук у бібліотеці</span><input type="search" id="lq" placeholder="Виконавець або назва" value="${esc(S.lib.q)}"></label>
       <span class="hint tn">${list.length} з ${T.length}</span><span class="grow"></span>
       ${active?`<button class="btn" id="clearLib">${ic('x')}<span class="t">Скинути фільтри</span></button>`:''}
@@ -695,7 +724,7 @@ function renderLibrary(){
 function render(){
   const keep={rail:document.getElementById('rail').scrollTop,lists:[...document.querySelectorAll('#main .list,#main .lib')].map(l=>l.scrollTop)};
   document.querySelectorAll('.top [data-view]').forEach(b=>b.setAttribute('aria-selected',b.dataset.view===S.view));
-  document.getElementById('hours').value=S.hours;
+  document.getElementById('hours').value=S.hours;document.getElementById('onlyDl').setAttribute('aria-checked',!!S.onlyDl);
   document.getElementById('main').className='main v-'+S.view;
   const R_={presets:renderPresets,builder:renderBuilder,library:renderLibrary};if(!R_[S.view])S.view='presets';R_[S.view]();
   document.getElementById('rail').scrollTop=keep.rail;
@@ -706,7 +735,7 @@ const fresh=()=>{document.getElementById('main').innerHTML=''};
 function go(v){S.view=v;undoStack=[];try{if(location.hash.slice(1)!==v)history.replaceState(null,'','#'+v)}catch(_){}fresh();render();window.scrollTo(0,0)}
 function loadFrom(id){const p=getPreset(id);S.b={from:p.id,ch:p.ch.map(c=>({on:true,n:c.n,r:JSON.parse(JSON.stringify(c.r))}))};delete S.ov.builder}
 
-document.getElementById('stat').textContent=`${T.length} треків · ${T.filter(t=>t.ua).length} українських · ≈ ${fmtH(T.length)}`;
+const setStat=()=>{document.getElementById('stat').textContent=`${T.length} треків · ${T.filter(t=>t.ua).length} українських · ≈ ${fmtH(T.length)}`;};setStat();
 document.getElementById('hours').onchange=e=>{S.hours=+e.target.value;render()};
 window.addEventListener('hashchange',()=>{const v=location.hash.slice(1);if(['presets','library','builder'].includes(v)&&v!==S.view)go(v)});
 
@@ -733,15 +762,26 @@ document.addEventListener('click',e=>{
   if(d.sort){const k=d.sort;S.sort=S.sort.k===k?{k,d:-S.sort.d}:{k,d:k==='a'?1:-1};render();return}
   switch(t.id){
     case 'shuffle':S.seed=Math.floor(Math.random()*1e6);S.ord={};S.ordN={};render();toast('Порядок оновлено, хвилі енергії збережено');break;
-    case 'reset':{const c=ctx(),n=Object.keys(S.ov[c.key]||{}).length+((S.ordN||{})[c.key]||0);delete S.ov[c.key];if(S.ord)delete S.ord[c.key];if(S.ordN)delete S.ordN[c.key];undoStack=undoStack.filter(h=>h.key!==c.key);render();toast(`Скинуто ${n} ${pl(n,'ручну зміну','ручні зміни','ручних змін')}`);break}
+    case 'reset':{const c=ctx(),n=realEdits(S.ov[c.key])+((S.ordN||{})[c.key]||0);delete S.ov[c.key];if(S.ord)delete S.ord[c.key];if(S.ordN)delete S.ordN[c.key];undoStack=undoStack.filter(h=>h.key!==c.key);render();toast(`Скинуто ${n} ${pl(n,'ручну зміну','ручні зміни','ручних змін')}`);break}
     case 'copyAll':{const c=compute();copy([0,1,2].filter(i=>c.enabled[i]).map(i=>chText(i)).join('\n\n'),'Канали скопійовано');break}
     case 'copyLib':copy(libList().map((t,n)=>`${n+1}. ${t.a} — ${t.t}`).join('\n'),'Список скопійовано');break;
     case 'clearLib':S.lib={q:'',lang:[],dec:[],gen:[],e:[],flag:[]};render();break;
     case 'toBuilder':{const p=getPreset(S.preset);loadFrom(p.id);if(S.ov[p.id])S.ov.builder=JSON.parse(JSON.stringify(S.ov[p.id]));go('builder');toast(`Правила «${p.name}» відкрито в конструкторі`);break}
     case 'undo':undo();break;
+    case 'onlyDl':S.onlyDl=!S.onlyDl;undoStack=[];fresh();render();toast(S.onlyDl?`Лише скачані: ${T.filter(t=>t.dl).length} з ${T.length} треків`:'Усі треки бібліотеки');break;
+    case 'reloadData':reloadData(t);break;
     case 'howX':S.howDone=true;render();break;
   }
 });
+let reloading=false;
+async function reloadData(btn){
+  if(reloading)return;reloading=true;
+  const lab=btn&&btn.querySelector('.t'),old=lab&&lab.textContent;if(btn){btn.disabled=true;if(lab)lab.textContent='Оновлюю…'}
+  const had=T.length,err=await loadData();reloading=false;
+  if(err){USING_FALLBACK=true;toast('Не вдалося оновити: '+err)}
+  else{undoStack=undoStack.filter(h=>h.kind!=='mv');setStat();toast(USING_FALLBACK?'Таблиця недоступна, показано збережену копію':`Таблицю оновлено: ${T.length} ${pl(T.length,'трек','треки','треків')}`+(T.length!==had?` (було ${had})`:''))}
+  render();
+}
 function undo(){const h=undoStack.pop();if(!h)return;
   if(h.kind==='mv'){const ov=S.ov[h.key]||(S.ov[h.key]={});if(h.had)ov[h.id]=h.prev;else delete ov[h.id]}
   else if(h.kind==='b'){S.b=h.prev}
