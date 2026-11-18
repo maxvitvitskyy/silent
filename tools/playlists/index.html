@@ -35,7 +35,7 @@
   --r-xs:12px; --r-sm:16px; --r-md:22px; --r-pill:999px;
   --shadow-2:0 30px 70px -30px rgba(0,0,0,.8); --shadow-cta:0 8px 28px -6px rgba(198,255,0,.35);
   --ease:cubic-bezier(.22,1,.36,1);
-  --top:64px;
+  --top:88px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{background:var(--surface-base);color-scheme:dark}
@@ -54,11 +54,16 @@ svg.i{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-widt
 body::before{content:"";position:fixed;right:-240px;top:-260px;width:720px;height:720px;border-radius:50%;background:radial-gradient(circle,rgba(198,255,0,.14),transparent 65%);filter:blur(40px);pointer-events:none;z-index:0}
 
 /* top bar */
-.top{position:sticky;top:0;z-index:30;height:var(--top);display:flex;align-items:center;gap:24px;padding:0 24px;background:rgba(10,10,11,.84);backdrop-filter:blur(18px) saturate(1.15);-webkit-backdrop-filter:blur(18px) saturate(1.15);border-bottom:1px solid var(--hair)}
-.brand{display:flex;align-items:baseline;gap:12px;white-space:nowrap;min-width:0}
-.brand h1{font:700 18px/1 var(--display);letter-spacing:-.02em;color:var(--ink)}
-.brand h1 b{color:var(--accent);font-weight:700}
-.brand span{font-size:12.5px;color:var(--ink-subtle)}
+.top{position:sticky;top:0;z-index:30;height:var(--top);display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:24px;padding:0 28px;background:rgba(10,10,11,.84);backdrop-filter:blur(18px) saturate(1.15);-webkit-backdrop-filter:blur(18px) saturate(1.15);border-bottom:1px solid var(--hair)}
+.brand{display:flex;flex-direction:column;align-items:flex-start;gap:9px;white-space:nowrap;min-width:0}
+.brand h1{font:800 26px/1 var(--display);letter-spacing:-.035em;color:var(--ink)}
+.brand h1 b{color:var(--accent);font-weight:800}
+.brand h1 em{font-style:normal;font-weight:200;letter-spacing:-.02em;margin-left:.14em;color:var(--ink-muted)}
+.stats{display:flex;gap:5px;list-style:none}
+.stats li{display:inline-flex;align-items:baseline;gap:5px;padding:5px 9px;border-radius:var(--r-pill);background:rgba(255,255,255,.04);border:1px solid var(--hair);font-size:12px;line-height:1;color:var(--ink-muted)}
+.stats .sw{display:none}
+.stats b{font:700 12.5px/1 var(--display);letter-spacing:-.02em;color:var(--accent)}
+.tools{display:flex;align-items:center;justify-content:flex-end;gap:22px}
 .seg{display:inline-flex;padding:4px;border-radius:var(--r-pill);background:rgba(255,255,255,.05);border:1px solid var(--hair)}
 .seg button{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border-radius:var(--r-pill);font:600 13.5px/1 var(--body);color:var(--ink-muted);transition:background .2s var(--ease),color .2s}
 .seg button:hover{color:var(--ink)}
@@ -102,9 +107,10 @@ body::before{content:"";position:fixed;right:-240px;top:-260px;width:720px;heigh
 .pbtn{align-items:start}
 .pbtn[aria-current=true] .pd{color:var(--ink)}
 .dot{flex:none;width:6px;height:6px;border-radius:50%;background:var(--c)}
-.pdel{position:absolute;right:8px;top:12px;width:26px;height:26px;border-radius:50%;display:none;place-items:center;color:var(--ink-subtle);background:var(--surface-base);border:1px solid var(--divider)}
-.pitem:hover .pdel,.pdel:focus-visible{display:grid}
-.pdel:hover{color:var(--ink)}
+/* Видалення власного пресету: кнопка завжди видима у верхньому правому куті картки */
+.pdel{position:absolute;right:8px;top:8px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:var(--ink-subtle);background:rgba(255,255,255,.04);border:1px solid var(--divider);transition:color .15s,border-color .15s,background .15s}
+.pdel:hover,.pdel:focus-visible{color:#ff6b8a;border-color:rgba(255,107,138,.5);background:rgba(255,26,79,.1)}
+.pitem:has(.pdel) .pname{padding-right:28px}
 .pdel svg.i{width:12px;height:12px}
 
 .notes{margin-top:24px;padding:0 10px}
@@ -238,6 +244,15 @@ body.dragging{cursor:grabbing!important}body.dragging *{cursor:grabbing!importan
 /* джерело даних: запасна копія і рядок «оновлено» */
 .fbk{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px;padding:10px 14px;border-radius:14px;border:1px solid rgba(255,190,80,.5);background:rgba(255,170,40,.12);color:var(--ink);font-size:13.5px;font-weight:600}
 .fbk svg.i{width:18px;height:18px;color:#ffb347;flex:none}.fbk span{flex:1;min-width:200px}
+.mfilters{display:none;margin-bottom:14px;border:1px solid var(--hair);border-radius:var(--r-md);background:rgba(255,255,255,.02)}
+.mfilters summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:12px 14px;min-height:44px;font:600 13.5px/1 var(--body);color:var(--ink)}
+.mfilters summary::-webkit-details-marker{display:none}
+.mfilters summary svg.i{width:14px;height:14px;color:var(--ink-subtle);transition:transform .2s var(--ease)}
+.mfilters[open] summary svg.i{transform:rotate(90deg)}
+.mfilters .cnt{margin-left:auto;min-width:22px;height:22px;padding:0 7px;border-radius:var(--r-pill);display:grid;place-items:center;background:var(--accent);color:var(--ink-on-accent);font:700 11px/1 var(--display)}
+.mfilters .in{padding:4px 14px 14px;border-top:1px solid var(--hair)}
+.mfilters .rh{padding:14px 0 0;margin:0 0 10px}.mfilters .fg{padding:0;margin-bottom:14px}.mfilters .fg:last-child{margin-bottom:0}.mfilters .rgap{height:4px}
+@media (max-width:980px){.mfilters{display:block}}
 .dsrc{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px;font-size:12.5px;color:var(--ink-subtle)}
 .btn:disabled{opacity:.6;pointer-events:none}
 .empty b{display:block;color:var(--ink);font-weight:600;margin-bottom:4px}
@@ -257,7 +272,8 @@ body.dragging{cursor:grabbing!important}body.dragging *{cursor:grabbing!importan
 .more[open] summary svg.i{transform:rotate(90deg)}
 .more .in{display:grid;gap:12px;margin-top:12px}
 .more .cnt{color:var(--accent)}
-.toggle{display:inline-flex;align-items:center;gap:8px;font:600 12px/1 var(--body);color:var(--ink-muted)}
+.toggle{display:inline-flex;align-items:center;gap:0;font:600 12px/1 var(--body);color:var(--ink-muted)}
+.toggle>i{margin-right:8px}
 .toggle i{width:34px;height:20px;border-radius:var(--r-pill);background:rgba(255,255,255,.14);position:relative;transition:background .2s}
 .toggle i::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#fff;transition:transform .2s var(--ease)}
 .toggle[aria-checked=true] i{background:var(--accent)}
@@ -305,19 +321,54 @@ body.dragging{cursor:grabbing!important}body.dragging *{cursor:grabbing!importan
 .mchip .ptile svg.i{width:16px;height:16px}
 .mchip[aria-current=true]{background:var(--accent-soft);border-color:rgba(198,255,0,.5);color:var(--accent)}
 .mchip[aria-current=true] .ptile{background:var(--accent);color:var(--ink-on-accent)}
-@media (max-width:1180px){.shell{grid-template-columns:248px minmax(0,1fr)}.search input{width:200px}}
+/* Планшет (≤1180): бічна панель лише в бібліотеці (там фільтри); пресети й конструктор
+   беруть стрічку-чипи над заголовком, а канали отримують усю ширину. */
+@media (max-width:1180px){
+  .shell{grid-template-columns:248px minmax(0,1fr)}
+  .shell:not(:has(.v-library)){grid-template-columns:1fr}
+  .shell:not(:has(.v-library)) .rail{display:none}
+  .main:not(.v-library) .mpick{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-left:28px;margin:0 -28px 20px;padding:0 28px 4px;scrollbar-width:none}
+  .search{flex:1 1 220px}.search input{width:100%}
+  .bar .grow{display:none}
+}
+/* Шапка в три колонки (назва · вкладки по центру · керування) потребує ~1180px.
+   Вужче вона спрощується: назва, одна смуга вкладок, лічильники звичайним рядком, керування в кутках. */
+@media (max-width:1180px){
+  :root{--top:0px}
+  .top{display:grid;position:static;height:auto;padding:14px 20px 12px;gap:12px 14px;align-items:center;
+    grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"title hrs" "tabs tabs" "stats dl"}
+  .brand,.tools{display:contents}
+  .brand h1{grid-area:title;font-size:20px}
+  .stats{grid-area:stats;gap:0;flex-wrap:nowrap;white-space:nowrap;justify-self:start}
+  .stats li{background:none;border:0;padding:0;font-size:12.5px}
+  .stats .lg{margin-left:0}
+  .stats li+li::before{content:"·";margin:0 8px;color:var(--ink-subtle)}
+  .stats li:last-child b::after{content:""}
+  .top .toggle{grid-area:dl;white-space:nowrap;justify-self:end}
+  .top .field{grid-area:hrs}
+  .top .seg{grid-area:tabs;width:100%}.top .seg button{flex:1;justify-content:center}
+}
+@media (max-width:700px){
+  .top{padding:12px 16px 10px;gap:10px 12px;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"title hrs" "tabs tabs" "stats dl"}
+  .stats{flex-wrap:wrap;row-gap:4px}.stats li{white-space:nowrap}
+  .brand h1{font-size:17px}
+  .top .field .fl,.top .toggle .lg,.stats .lg{display:none}
+  .stats li:last-child .lw{display:none}.stats li:last-child .sw{display:inline}
+  .stats{flex-wrap:nowrap}
+  .top .toggle .w{display:inline-block}.top .toggle .w::first-letter{text-transform:uppercase}
+  .stats{padding-left:0}.stats li{font-size:11px;gap:4px}.stats li+li::before{margin:0 4px}.stats b{font-size:11.5px}
+  .stats li:nth-child(3) b{font-size:12.5px}
+  .top .toggle{justify-self:end}
+}
 @media (max-width:980px){
-  .top{flex-wrap:wrap;height:auto;padding:12px 16px;gap:10px}
-  .top .seg{order:3;width:100%}.top .seg button{flex:1;justify-content:center}
-  .brand span{display:none}
   .shell{grid-template-columns:1fr}
   .rail{display:none}
   .main{padding:16px 16px 40px}
-  .mpick{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-left:16px;margin:0 -16px 16px;padding:0 16px 4px;scrollbar-width:none}
+  .main:not(.v-library) .mpick{scroll-padding-left:16px;margin:0 -16px 16px;padding:0 16px 4px}
   .search input,.saveas input,.rules input[type=text]{font-size:16px}
   .board{gap:10px}
   .list,.v-builder .list{max-height:70vh}
-  .head{flex-wrap:wrap}.head .htxt{flex-basis:calc(100% - 64px)}
+  .head{flex-wrap:wrap;align-items:center}.head .htxt{flex:1 1 320px}
   .how{grid-template-columns:1fr;position:relative;padding-right:56px}.how li:last-child{position:absolute;right:12px;top:12px}
   .search{flex:1}.search input{width:100%}
   .reserve .list{columns:1}
@@ -325,29 +376,57 @@ body.dragging{cursor:grabbing!important}body.dragging *{cursor:grabbing!importan
   .lib{max-height:none}
   .head .ptile{display:none}
 }
-@media (max-width:760px){
+@media (max-width:900px){
   .chtabs{display:flex}.chtabs .seg{width:100%}.chtabs .seg button{flex:1;justify-content:center}
   .board{grid-template-columns:1fr!important}
   .col:not(.active){display:none}
   .list,.v-builder .list{max-height:none}
-  .head .htxt{flex-basis:100%}
 }
-@media (max-width:560px){.bar .btn .t{display:none}.top .seg button{padding:8px 10px;font-size:13px}.top .seg svg.i{display:none}.bar .search{flex-basis:100%}.saveas{flex:1}.saveas input{flex:1;width:auto}.field{font-size:12px}}
+@media (max-width:370px){.stats li:nth-child(2) .lw{display:none}.stats li:nth-child(2) .sw{display:inline}}
+@media (max-width:560px){
+  .bar{gap:8px}
+  .bar>.btn{flex:1 1 0;justify-content:center;padding:10px 12px;font-size:13px;min-height:44px}
+  .saveas .btn .t{display:none}
+  .legend{display:grid;grid-template-columns:repeat(3,max-content);gap:8px 16px;margin-top:0}
+  .legend b{grid-column:1/-1}
+}
+@media (max-width:560px){.top .seg button{padding:8px 10px;font-size:13px}.top .seg svg.i{display:none}.bar .search{flex-basis:100%}.saveas{flex:1}.saveas input{flex:1;width:auto}.field{font-size:12px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+/* ===== Шапка каналу ===== */
+.board>.col:nth-child(1){--chc:var(--ch-red)}.board>.col:nth-child(2){--chc:var(--ch-green)}.board>.col:nth-child(3){--chc:var(--ch-blue)}
+/* Шапка каналу: менше деталей, число і хвиля на повітрі, без осей і плашок (варіант A, обрано власником) */
+.col{background:linear-gradient(180deg,color-mix(in srgb,var(--chc) 8%,transparent),transparent 190px),rgba(255,255,255,.015)}
+.ch{padding:18px 18px 14px;border-bottom:0}
+.cd{margin-top:8px;font-size:13px}
+.cs{margin-top:16px;align-items:center}
+.cs .n{font-size:30px}
+.fit{background:none;padding:0;font-size:12.5px}
+.wave{display:flex;flex-direction:column;margin-top:14px}
+.wh span,.wy{display:none}
+.wh{order:3;margin:10px 0 0;justify-content:flex-start;color:var(--ink-muted)}
+.wb{grid-template-columns:minmax(0,1fr)}
+.wp{height:60px;background:none;border-bottom:0}
+.wbars{gap:2px}.wbars i{border-radius:2px}
+.wline polyline{opacity:.45}
+.wcut{border-left-width:1px;opacity:.6}
+.wx{margin-left:0;order:2;height:16px}
+.cn h3{white-space:normal;text-overflow:clip;line-height:1.2}
+.cn{gap:8px}.cn .sep{display:none}.cn .lbl{font-size:12px;padding-right:2px}
 </style>
 </head>
 <body>
 <header class="top">
-  <div class="brand"><h1>Плейлисти<b>.</b></h1><span id="stat"></span></div>
+  <div class="brand"><h1>SILENT<b>.</b><em>playlists</em></h1><ul class="stats" id="stat" aria-label="Бібліотека"></ul></div>
   <div class="seg" role="tablist" aria-label="Розділ">
     <button role="tab" data-view="presets"><svg class="i"><use href="#i-grid"/></svg>Пресети</button>
     <button role="tab" data-view="library"><svg class="i"><use href="#i-lib"/></svg>Бібліотека</button>
     <button role="tab" data-view="builder"><svg class="i"><use href="#i-sliders"/></svg>Конструктор</button>
   </div>
-  <div class="grow"></div>
-  <button class="toggle" role="switch" id="onlyDl" aria-checked="false" title="Пресети й конструктор беруть лише треки з галочкою «Файл скачано»"><i></i>Лише скачані треки</button>
-  <label class="field">Тривалість події
-    <select class="select" id="hours"><option value="2">2 год</option><option value="3">3 год</option><option value="4">4 год</option><option value="5">5 год</option><option value="6">6 год</option></select></label>
+  <div class="tools">
+  <button class="toggle" role="switch" id="onlyDl" aria-checked="false" title="Пресети й конструктор беруть лише треки з галочкою «Файл скачано»"><i></i><span class="tl"><span class="lg">Лише </span><span class="w">скачані</span><span class="lg"> треки</span></span></button>
+  <label class="field"><span class="fl">Тривалість події</span>
+    <select class="select" id="hours" aria-label="Тривалість події"><option value="2">2 год</option><option value="3">3 год</option><option value="4">4 год</option><option value="5">5 год</option><option value="6">6 год</option></select></label>
+  </div>
 </header>
 <div class="shell">
   <aside class="rail" id="rail"></aside>
@@ -426,7 +505,7 @@ function buildTracks(text){
 }
 function showLoadError(msg){
   document.getElementById('main').innerHTML='<div class="empty" style="margin:40px auto;max-width:520px"><b>Не вдалося завантажити треки</b>'+esc(msg)+'<br>Адреса даних: '+esc(DATA_URL)+'. Оновіть сторінку або перевірте, що файл доступний.</div>';
-  const st=document.getElementById('stat');if(st)st.textContent='дані не завантажено';
+  const st=document.getElementById('stat');if(st)st.innerHTML='<li>дані не завантажено</li>';
 }
 /* Завантаження: спершу таблиця (з параметром часу проти кешу), інакше локальна копія. Повертає false, якщо не вийшло ніде. */
 async function fetchTracks(url,bust){
@@ -595,6 +674,12 @@ function presetItem(p,current,del){
     <span class="pdist">${p.ch.map((c,i)=>{const n=cnt?cnt[i]:null,short=n!=null&&n*MIN<S.hours*60;return `<span class="pd" style="--c:${CH[i].c}">${ic('hp')}<span class="pdn">${esc(c.n)}</span>${n!=null?`<b class="tn ${short?'short':''}" title="${short?'Не вистачить на '+S.hours+' год':'Вистачить на '+S.hours+' год'}">${n}</b>`:''}</span>`}).join('')}</span></span></button>
     ${del?`<button class="pdel" data-del="${p.id}" aria-label="Видалити пресет «${esc(p.name)}»" title="Видалити">${ic('x')}</button>`:''}</li>`;
 }
+/* Фільтри бібліотеки: у бічній панелі на широкому екрані й розгорткою над таблицею на вузькому */
+function libFiltersHTML(){
+  const grp=(k,label,opts)=>`<div class="fg"><span class="gl">${label}</span><div class="chips">${opts.map(([v,l])=>`<button class="c" data-lk="${k}" data-v="${v}" aria-pressed="${S.lib[k].includes(k==='e'?+v:v)}">${l}</button>`).join('')}</div></div>`;
+  return `<div class="rh">Готові добірки</div><div class="chips fg">${POOLS.map(([l],i)=>`<button class="c" data-pool="${i}">${l}</button>`).join('')}</div>
+      <div class="rgap"></div><div class="rh">Фільтри</div>${grp('lang','Мова',[['ua','Українське'],['int','Міжнародне']])+grp('e','Енергія',[1,2,3,4,5].map(e=>[e,`${e} · ${EN[e]}`]))+grp('dec','Десятиліття',DEC)+grp('gen','Жанр',Object.entries(GEN))+grp('flag','Позначки',LFLAGS)}`;
+}
 function renderRail(c){
   const rail=document.getElementById('rail');
   if(S.view==='presets'){
@@ -605,9 +690,7 @@ function renderRail(c){
     rail.innerHTML=`<div class="rh">Почати з пресету</div><p class="hint" style="padding:0 10px 10px">Правила пресету скопіюються в конструктор, далі їх можна змінювати.</p>
       <ul class="plist">${allPresets().map(p=>presetItem(p,p.id===S.b.from).replace('data-preset=','data-from=')).join('')}</ul>`;
   } else {
-    const grp=(k,label,opts)=>`<div class="fg"><span class="gl">${label}</span><div class="chips">${opts.map(([v,l])=>`<button class="c" data-lk="${k}" data-v="${v}" aria-pressed="${S.lib[k].includes(k==='e'?+v:v)}">${l}</button>`).join('')}</div></div>`;
-    rail.innerHTML=`<div class="rh">Готові добірки</div><div class="chips fg">${POOLS.map(([l],i)=>`<button class="c" data-pool="${i}">${l}</button>`).join('')}</div>
-      <div class="rgap"></div><div class="rh">Фільтри</div>${grp('lang','Мова',[['ua','Українське'],['int','Міжнародне']])+grp('e','Енергія',[1,2,3,4,5].map(e=>[e,`${e} · ${EN[e]}`]))+grp('dec','Десятиліття',DEC)+grp('gen','Жанр',Object.entries(GEN))+grp('flag','Позначки',LFLAGS)}`;
+    rail.innerHTML=libFiltersHTML();
   }
 }
 function notes(){
@@ -706,6 +789,7 @@ function renderLibrary(){
   document.getElementById('main').innerHTML=`
     <div class="head"><span class="ptile">${ic('lib')}</span><div class="htxt"><h2>Бібліотека</h2><p>Усі ${T.length} треків з тегами. Остання колонка показує, на якому каналі трек грає в пресеті «${esc(c.name)}».</p></div></div>
     ${USING_FALLBACK?fallbackBanner():''}${dataBar()}
+    <details class="mfilters" id="mfilters" ${S.mfOpen?'open':''}><summary>${ic('chev')}<span>Фільтри й добірки</span>${(()=>{const n=['lang','dec','gen','e','flag'].reduce((a,k)=>a+S.lib[k].length,0);return n?`<b class="cnt">${n}</b>`:''})()}</summary><div class="in">${libFiltersHTML()}</div></details>
     <div class="bar"><label class="search">${ic('search')}<span class="sr">Пошук у бібліотеці</span><input type="search" id="lq" placeholder="Виконавець або назва" value="${esc(S.lib.q)}"></label>
       <span class="hint tn">${list.length} з ${T.length}</span><span class="grow"></span>
       ${active?`<button class="btn" id="clearLib">${ic('x')}<span class="t">Скинути фільтри</span></button>`:''}
@@ -735,7 +819,7 @@ const fresh=()=>{document.getElementById('main').innerHTML=''};
 function go(v){S.view=v;undoStack=[];try{if(location.hash.slice(1)!==v)history.replaceState(null,'','#'+v)}catch(_){}fresh();render();window.scrollTo(0,0)}
 function loadFrom(id){const p=getPreset(id);S.b={from:p.id,ch:p.ch.map(c=>({on:true,n:c.n,r:JSON.parse(JSON.stringify(c.r))}))};delete S.ov.builder}
 
-const setStat=()=>{document.getElementById('stat').textContent=`${T.length} треків · ${T.filter(t=>t.ua).length} українських · ≈ ${fmtH(T.length)}`;};setStat();
+const setStat=()=>{const ua=T.filter(t=>t.ua).length;document.getElementById('stat').innerHTML=`<li><b>${T.length}</b> ${pl(T.length,'трек','треки','треків')}</li><li><b>${ua}</b> <span class="lw">${pl(ua,'українське','українські','українських')}</span><span class="sw">укр.</span></li><li><b><span class="lg">≈ </span><span class="lw">${fmtH(T.length)}</span><span class="sw">${(m=>Math.floor(m/60)+':'+String(m%60).padStart(2,'0'))(Math.round(T.length*MIN))} год</span></b> <span class="lg">музики</span></li>`;};setStat();
 document.getElementById('hours').onchange=e=>{S.hours=+e.target.value;render()};
 window.addEventListener('hashchange',()=>{const v=location.hash.slice(1);if(['presets','library','builder'].includes(v)&&v!==S.view)go(v)});
 
@@ -802,7 +886,7 @@ document.addEventListener('input',e=>{const el=e.target;
 document.addEventListener('change',e=>{const el=e.target;
   if(el.id==='mpreset'){S.preset=el.value;fresh();render()}
   if(el.id==='mfrom'){loadFrom(el.value);fresh();render()}});
-document.addEventListener('toggle',e=>{const d=e.target;if(d.id==='reserve')S.resOpen=d.open;else if(d.id==='notes')S.notesOpen=d.open;else if(d.dataset&&d.dataset.more!=null){S.moreOpen=S.moreOpen||{};S.moreOpen[d.dataset.more]=d.open}},true);
+document.addEventListener('toggle',e=>{const d=e.target;if(d.id==='reserve')S.resOpen=d.open;else if(d.id==='notes')S.notesOpen=d.open;else if(d.id==='mfilters')S.mfOpen=d.open;else if(d.dataset&&d.dataset.more!=null){S.moreOpen=S.moreOpen||{};S.moreOpen[d.dataset.more]=d.open}},true);
 function chText(i){const c=compute();return `${CH[i].lbl} · ${c.meta[i].n} (${c.ids[i].length})\n`+c.ids[i].map((id,n)=>`${n+1}. ${BY[id].a} — ${BY[id].t}`).join('\n')}
 async function copy(txt,msg){
   try{await navigator.clipboard.writeText(txt);toast(msg)}
