@@ -1153,6 +1153,7 @@ EXPERIENCE_URLS = {
     'Спортивні події': '/experiences/sport/',
     'Тренінги й навчання': '/experiences/trainings/',
     'Забіги та прогулянки': '/experiences/runs-walks/',
+    'Музеї та галереї': '/experiences/museums/',
     'Церковні служби та зібрання': '/experiences/church/',
     'Церковні та молодіжні табори': '/experiences/camps/',
     'Табори та молодіжні збори': '/experiences/youth-camps/',
@@ -1319,6 +1320,7 @@ EXPERIENCE_PAGES = [
     os.path.join('experiences', 'sport', 'index.html'),
     os.path.join('experiences', 'trainings', 'index.html'),
     os.path.join('experiences', 'runs-walks', 'index.html'),
+    os.path.join('experiences', 'museums', 'index.html'),
 ]
 
 
@@ -1352,6 +1354,7 @@ EXP_FAQ_PAGES = {
     os.path.join('experiences', 'sport', 'index.html'): '/experiences/sport/',
     os.path.join('experiences', 'trainings', 'index.html'): '/experiences/trainings/',
     os.path.join('experiences', 'runs-walks', 'index.html'): '/experiences/runs-walks/',
+    os.path.join('experiences', 'museums', 'index.html'): '/experiences/museums/',
 }
 
 
@@ -2409,6 +2412,7 @@ EXP_EN_PAGES = {
     'sport': 'images/sport/og-sport-en.jpg',
     'trainings': 'images/trainings/og-trainings-v2-en.jpg',
     'runs-walks': 'images/runs-walks/og-runs-walks-en.jpg',
+    'museums': 'images/museums/og-museums-en.jpg',
 }
 from en_pages import T_PAGE_ALL, T_ABOUT   # рядки сторінок досвідів і «Про нас» (tools/en_pages.py)
 T_PAGE = {}   # slug -> {укр: англ} (додаткові, лише для однієї сторінки)
