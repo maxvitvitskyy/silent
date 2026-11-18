@@ -90,7 +90,7 @@ rep('<a href="/en/experiences/conferences/" hreflang="en" lang="en">EN</a>', '<a
 # ---------- HERO ----------
 rep('<span class="crumb-now">Конференції</span>', '<span class="crumb-now">Музеї та галереї</span>')
 rep('<h1 class="exp-title exp-title--long"><span class="t-lead">Бездротові навушники</span> <span class="t-sub">для конференцій та бізнес-заходів</span></h1>',
-    '<h1 class="exp-title exp-title--long exp-title--split"><span class="t-lead">Музеї та галереї</span> <span class="t-sub">у бездротових навушниках</span></h1>')
+    '<h1 class="exp-title exp-title--long"><span class="t-lead">Радіогід для музеїв та галерей</span> <span class="t-sub">у бездротових навушниках</span></h1>')
 rep_re(r'<p class="exp-lead">Доповіді, воркшопи.*?</p>',
     '<p class="exp-lead">Гід розповідає, а кожен відвідувач чує його в навушниках і не заважає іншим у залі. Увечері ті самі навушники дають музику, лекцію чи перформанс, а між творами лишається тиша. SILENT привозить обладнання й видає навушники на вході.</p>')
 rep('data-cta="conferences_hero_order">Обговорити конференцію</a>', 'data-cta="museums_hero_order">Обговорити захід</a>')

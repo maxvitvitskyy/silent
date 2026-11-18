@@ -6669,6 +6669,7 @@ _MUS = {
 'Бездротові навушники SILENT для музеїв і галерей': 'Wireless SILENT headphones for museums and galleries',
 'Навушники для екскурсій і подій у музеях та галереях': 'Headphones for tours and events in museums and galleries',
 'Музеї, галереї, гіди, куратори й організатори заходів у мистецьких просторах': 'Museums, galleries, guides, curators and organisers of events in art spaces',
+'>Радіогід для музеїв та галерей<': '>Radio guide for museums and galleries<',
 '>у бездротових навушниках<': '>in wireless headphones<',
 'Гід розповідає, а кожен відвідувач чує його в навушниках і не заважає іншим у залі. Увечері ті самі навушники дають музику, лекцію чи перформанс, а між творами лишається тиша. SILENT привозить обладнання й видає навушники на вході.': 'The guide speaks and every visitor hears them in headphones without disturbing others in the hall. In the evening the same headphones bring music, a talk or a performance while the space between the works stays quiet. SILENT brings the equipment and hands out the headphones at the entrance.',
 'Обговорити захід': 'Discuss your event',
