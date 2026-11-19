@@ -221,8 +221,9 @@ body.dragging{-webkit-user-select:none;user-select:none}
 @media (hover:hover){.row:hover .nn{opacity:0}.row:hover .grip{opacity:1}}
 .row.ph{background:rgba(198,255,0,.06)!important;outline:1.5px dashed rgba(198,255,0,.55);outline-offset:-4px;border-radius:12px}
 .row.ph>*{opacity:.15}
-.list.over{box-shadow:inset 0 0 0 2px var(--cc,var(--accent));border-radius:0 0 var(--r-md) var(--r-md)}
-.col.over{border-color:var(--cc,var(--accent))}
+/* під час перетягування світиться лише обводка всієї колонки, без лінії під шапкою */
+.col.over{border-color:var(--cc,var(--accent));box-shadow:0 0 0 1px var(--cc,var(--accent))}
+.reserve .list.over{box-shadow:inset 0 0 0 2px var(--cc,var(--accent))}
 .ghost{position:fixed;z-index:80;left:0;top:0;pointer-events:none;width:260px;display:grid;grid-template-columns:4px minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 12px 9px 0;border-radius:14px;background:rgba(28,28,30,.96);border:1px solid var(--glass-highlight);box-shadow:0 18px 40px -12px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.04);transform-origin:20% 50%;transition:transform .12s var(--ease)}
 .ghost .gb{height:100%;min-height:30px;border-radius:0 4px 4px 0;background:var(--gc,var(--accent));box-shadow:0 0 10px var(--gc,var(--accent))}
 .ghost .t{color:var(--ink);font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -419,7 +420,7 @@ body.dragging{cursor:grabbing!important}body.dragging *{cursor:grabbing!importan
 @media (max-width:560px){.top .seg button{padding:8px 10px;font-size:13px}.top .seg svg.i{display:none}.bar .search{flex-basis:100%}.saveas{flex:1}.saveas input{flex:1;width:auto}.field{font-size:12px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 /* ===== Шапка каналу ===== */
-.board>.col:nth-child(1){--chc:var(--ch-red)}.board>.col:nth-child(2){--chc:var(--ch-green)}.board>.col:nth-child(3){--chc:var(--ch-blue)}
+/* --chc (колір каналу) ставиться інлайном у boardHTML: колонка шкали часу стоїть у DOM першою, тож :nth-child зсувався */
 /* Шапка каналу: менше деталей, число і хвиля на повітрі, без осей і плашок (варіант A, обрано власником) */
 .col{background:linear-gradient(180deg,color-mix(in srgb,var(--chc) 8%,transparent),transparent 190px),rgba(255,255,255,.015)}
 .ch{padding:18px 18px 14px;border-bottom:0}
@@ -476,10 +477,17 @@ body.knobbing,body.knobbing *{cursor:ns-resize!important;user-select:none}
 .lnk:hover{color:var(--ink);border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.04)}
 .lnk svg.i{width:14px;height:14px}
 /* розгорнутий канал (лише десктоп): ширший, з драматургією й точками; інші два — компактні */
-.board.focused{transition:grid-template-columns .35s var(--ease)}
 .board.f0{grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr)}
 .board.f1{grid-template-columns:minmax(0,1fr) minmax(0,2fr) minmax(0,1fr)}
 .board.f2{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,2fr)}
+/* на десктопі розгорнута дошка теж має четверту доріжку (нульову, на місці шкали часу) і той самий проміжок 12px:
+   тоді анімація розширення/звуження йде між однаковою кількістю доріжок і закінчується рівно там, де стоїть розкладка */
+@media (min-width:901px){
+  .board.focused{column-gap:12px;margin-right:-12px}
+  .board.f0{grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr) 0px}
+  .board.f1{grid-template-columns:minmax(0,1fr) minmax(0,2fr) minmax(0,1fr) 0px}
+  .board.f2{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,2fr) 0px}
+}
 .col.focus .dram{display:block}.col.focus .kp{display:grid}.col.focus .dopen{display:none}
 .col.focus .wp{height:110px}
 .col.compact .cd,.col.compact .wave,.col.compact .dram,.col.compact .cact{display:none}
@@ -559,6 +567,44 @@ body.has-sel .toast{bottom:84px}
 .list.has-rail .empty{margin-right:56px}
 .tlrail{position:absolute;right:0;top:0;width:56px;list-style:none;pointer-events:none;border-left:1px solid var(--divider);background:linear-gradient(270deg,rgba(255,255,255,.015),transparent)}
 @media (max-width:560px){.list.has-rail .row{margin-right:42px;grid-template-columns:16px 36px minmax(0,1fr) auto;gap:8px;padding-right:6px}.list.has-rail .row .cov{width:36px;height:36px}.tlrail{width:42px}.tk.end b{left:4px;right:3px;padding:4px 2px;font-size:9.5px}.tk.end small{font-size:7.5px}.tk b{font-size:10px;left:10px}.tk i{font-size:9.5px;left:9px}}
+
+/* ===== Стовпчики хвилі в розгорнутому каналі: вибір кліком і перетягування вздовж шкали ===== */
+.wp.bars-on{cursor:grab;touch-action:pan-y}
+.wp.bars-on .wbars i{transition:filter .15s}
+.wbars i.on{opacity:1!important;background:linear-gradient(to top,var(--c) 0 calc(100% - 5px),var(--accent) calc(100% - 5px));box-shadow:inset 0 0 0 1px rgba(198,255,0,.55)}
+.wbars i.res.on{opacity:.75!important}
+/* під час перетягування: сусіди з'їжджають, схоплені стовпчики трохи піднімаються й ідуть за курсором */
+.wp.bdrag .wbars{overflow:visible}
+.wp.bdrag .wbars i{transition:transform .24s var(--ease)}
+.wp.bdrag .wbars i.lift{transition:none;position:relative;z-index:2;opacity:1!important;filter:brightness(1.15) drop-shadow(0 6px 8px rgba(0,0,0,.6))}
+body.barring,body.barring *{cursor:grabbing!important;user-select:none}
+/* Картка треку над хвилею: наведення показує, клік закріплює; кілька вибраних — лише обкладинки рядком по центру над ними */
+.wcard{position:absolute;z-index:5;left:0;bottom:calc(100% + 10px);display:flex;align-items:center;gap:9px;max-width:250px;padding:6px 10px 6px 6px;border-radius:12px;
+  background:rgba(22,22,24,.95);border:1px solid var(--divider);border-top-color:var(--glass-highlight);box-shadow:0 12px 28px -8px rgba(0,0,0,.7);
+  pointer-events:none;opacity:0;transform:translate(-50%,8px) scale(.94);transform-origin:var(--ax,50%) 100%;
+  transition:opacity .16s ease-out,transform .26s var(--ease),left .16s var(--ease)}
+.wcard.show{opacity:1;transform:translate(-50%,0)}
+.wcard.drag{transition:opacity .16s ease-out,transform .26s var(--ease)}
+.wcard .wc-in{display:flex;align-items:center;gap:9px;min-width:0}
+.wcard .wc-ar{position:absolute;left:var(--ax,50%);bottom:-5px;width:9px;height:9px;margin-left:-4.5px;transform:rotate(45deg);background:rgba(22,22,24,.95);border-right:1px solid var(--divider);border-bottom:1px solid var(--divider)}
+.wc-cov{flex:none;width:34px;height:34px;border-radius:7px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);
+  background:radial-gradient(120% 90% at 20% 15%,hsl(var(--h1) 80% 62% / .9),transparent 60%),linear-gradient(140deg,hsl(var(--h1) 70% 42%),hsl(var(--h2) 75% 24%))}
+.wc-tx{min-width:0;display:flex;flex-direction:column;gap:2px}
+.wc-tx b{font:600 12.5px/1.2 var(--body);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wc-tx small{font-size:11px;line-height:1.2;color:var(--ink-subtle);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wcard em{flex:none;font:700 11px/1 var(--display);font-style:normal;color:var(--accent);padding-left:2px;white-space:nowrap}
+.wcard.many{padding:6px 10px 6px 8px}
+.wc-stack{display:flex;align-items:center}
+.wc-stack .wc-cov{width:32px;height:32px;border:2px solid rgba(22,22,24,.95);box-shadow:0 2px 6px rgba(0,0,0,.4);margin-left:-11px}
+.wc-stack .wc-cov:first-child{margin-left:0}
+.wc-more{flex:none;margin-left:4px;font:700 11px/1 var(--display);color:var(--ink-muted)}
+/* неактивна (звичайна) колонка: при наведенні хвиля трохи опускається, звільняючи місце під картку */
+.wp .wbars,.wp .wline{transition:transform .28s var(--ease);transform-origin:50% 100%}
+.col:not(.focus) .wp.peek .wbars,.col:not(.focus) .wp.peek .wline{transform:scaleY(.8)}
+.col:not(.focus) .wp.peek .wcard{bottom:calc(80% + 10px)}
+.wp .wbars i.hv{filter:brightness(1.4)}
+@media (prefers-reduced-motion:reduce){.wcard{transform:translate(-50%,0)}.col:not(.focus) .wp.peek .wbars,.col:not(.focus) .wp.peek .wline{transform:none}}
+@media (prefers-reduced-motion:reduce){.wp.bdrag .wbars i{transition:none}}
 </style>
 </head>
 <body>
@@ -802,7 +848,7 @@ function wave(ids,c,ci,key){
   return `<div class="wave"><div class="wh"><span>Хвиля енергії</span>${cut<N?`<em class="wk"><i></i>кінець події · ${S.hours} год, далі запас</em>`:`<em>увесь канал грає до кінця події</em>`}</div>
     <div class="wb"><div class="wy" aria-hidden="true"><span>Пік</span><span>Груві</span><span>Повільно</span></div>
     <div class="wp" role="img" data-ci="${ci}" data-lo="${lo}" data-hi="${hi}" data-n="${N}" data-l="${L}" data-p='${cp?JSON.stringify(cp):''}' aria-label="Енергія ${N} треків у порядку відтворення. Подія ${S.hours} год${cut<N?', далі запас':''}.">
-      <div class="wbars" style="--c:${c}">${ids.map((id,i)=>{const e=BY[id].e;return `<i class="${i>=cut?'res':''}" style="height:${e*20}%;opacity:${(.35+e*.13).toFixed(2)}" title="${i+1}. ${esc(BY[id].t)} · ${EN[e]}"></i>`}).join('')}</div>
+      <div class="wbars" style="--c:${c}">${ids.map((id,i)=>{const e=BY[id].e;return `<i class="${i>=cut?'res':''}${S.sel.has(id)?' on':''}" data-id="${esc(id)}" style="height:${e*20}%;opacity:${(.35+e*.13).toFixed(2)}" title="${i+1}. ${esc(BY[id].t)} · ${EN[e]}"></i>`}).join('')}</div>
       <svg class="wline" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline class="wt" points="${tpts}"/><polyline points="${pts}"/></svg>
       ${cut<N?`<div class="wcut" style="left:${cutPct.toFixed(2)}%"></div>`:''}${knobs}
     </div></div>
@@ -812,7 +858,7 @@ function wave(ids,c,ci,key){
 const miniShape=k=>{const p=SHAPES[k].p||WAVE.concat(WAVE.slice(0,4)),n=p.length;return `<svg class="ms" viewBox="0 0 28 14" aria-hidden="true"><polyline points="${p.map((v,j)=>`${(j/(n-1)*26+1).toFixed(1)},${(13-v*12).toFixed(1)}`).join(' ')}"/></svg>`};
 function dramHTML(ci,key){
   const cv=curveOf(key,ci),own=typeof cv==='object';
-  return `<div class="dram"><div class="dh"><span class="dl">${ic('wave')}Драматургія</span><span class="dhint">${curvePts(cv)?'Тягніть точки на графіку вгору чи вниз':'Оберіть форму, щоб керувати енергією за подію'}</span></div>
+  return `<div class="dram"><div class="dh"><span class="dl">${ic('wave')}Драматургія</span><span class="dhint">${curvePts(cv)?'Точки тягніть угору чи вниз, стовпчики треків — убік':'Оберіть форму енергії. Стовпчики треків можна тягнути вбік'}</span></div>
     <div class="shapes">${Object.entries(SHAPES).map(([k,sh])=>`<button class="shp" data-shape="${k}" data-ci="${ci}" aria-pressed="${cv===k}">${miniShape(k)}<span>${sh.n}</span></button>`).join('')}${own?`<button class="shp" aria-pressed="true" disabled><svg class="ms" viewBox="0 0 28 14" aria-hidden="true"><polyline points="${cv.p.map((v,j)=>`${(j/(cv.p.length-1)*26+1).toFixed(1)},${(13-v*12).toFixed(1)}`).join(' ')}"/></svg><span>Своя</span></button>`:''}</div></div>`;
 }
 const cactHTML=ci=>`<div class="cact"><button class="lnk" data-chshuf="${ci}" title="Новий порядок лише в цьому каналі, з тією ж драматургією">${ic('shuffle')}Перемішати<span class="lw2">канал</span></button><button class="lnk dopen" data-focus="${ci}">${ic('wave')}Драматургія</button></div>`;
@@ -889,9 +935,9 @@ function boardHTML(c){
     const head=`<div class="cn"><span class="hp" style="--c:${ch.c}">${ic('hp')}</span><span class="lbl" style="--c:${ch.c}">${ch.lbl}</span><span class="sep" aria-hidden="true"></span><h3 title="${esc(c.meta[i].n)}"><span class="mq">${esc(c.meta[i].n)}</span></h3>
       ${c.enabled[i]?`<button class="ibtn xp" data-focus="${i}" aria-pressed="${S.focus===i}" aria-label="${S.focus===i?'Згорнути':'Розгорнути'} канал ${ch.lbl}" title="${S.focus===i?'Повернути три рівні колонки':'Розгорнути канал ширше'}">${ic(S.focus===i?'shrink':'expand')}</button><button class="ibtn" data-copy="${i}" aria-label="Копіювати список ${ch.lbl}" title="Копіювати список">${ic('copy')}</button>`:''}</div>`;
     const rules=isB?rulesHTML(i):'',fc=S.focus==null?'':S.focus===i?'focus':'compact';
-    if(!c.enabled[i]) return `<section class="col ${S.mch===i?'active':''} ${fc}" aria-label="${ch.lbl}"><div class="ch">${head}${rules}</div><div class="off">Канал вимкнено. Увімкніть його в правилах вище.</div></section>`;
+    if(!c.enabled[i]) return `<section class="col ${S.mch===i?'active':''} ${fc}" style="--chc:${ch.c}" aria-label="${ch.lbl}"><div class="ch">${head}${rules}</div><div class="off">Канал вимкнено. Увімкніть його в правилах вище.</div></section>`;
     const shown=q?ids.filter(id=>(BY[id].a+' '+BY[id].t).toLowerCase().includes(q)):ids;
-    return `<section class="col ${S.mch===i?'active':''} ${fc}" aria-label="${ch.lbl} · ${esc(c.meta[i].n)}"><div class="ch">${head}
+    return `<section class="col ${S.mch===i?'active':''} ${fc}" style="--chc:${ch.c}" aria-label="${ch.lbl} · ${esc(c.meta[i].n)}"><div class="ch">${head}
       ${isB?'':`<p class="cd">${esc(c.meta[i].d)}</p>`}
       <div class="cs"><span class="n tn">${ids.length}</span><span class="h">${pl(ids.length,'трек','треки','треків')} · ≈ ${fmtH(ids.length)}</span>
         ${ids.length?(m>=target?`<span class="fit ok">${ic('ok')}Вистачить на ${S.hours} год</span>`:`<span class="fit short">${ic('warn')}Бракує ${fmtH((target-m)/MIN)}</span>`):''}</div>
@@ -985,7 +1031,98 @@ function renderLibrary(){
 }
 
 /* render */
+/* ===== Рух сторінки =====
+   render() щоразу перебудовує розмітку, тож CSS-переходи між станами не спрацьовують. Тому перед render()
+   знімаємо «як було» (snapM), а після — програємо різницю через Web Animations (playM):
+   - зміна пресета/вкладки: колонки піднімаються по черзі, стовпчики хвилі виростають знизу (один раз, ~0,6 с);
+   - розгортання/згортання каналу: ширини колонок перетікають (анімується сітка дошки в px), нові деталі проявляються;
+   - зміна порядку, драматургії, перенесення: стовпчики хвилі перетікають зі старої висоти в нову, число треків дораховується;
+   - перенесені треки на новому місці коротко світяться кольором каналу; перемішаний канал «перебирає» верхні рядки;
+   - на телефоні перемикання каналу зсуває колонку в бік руху.
+   Стан за замовчуванням завжди видимий: якщо анімація не запуститься, сторінка просто стоїть у фінальному вигляді. */
+const M={drop:null,cascade:null,still:null};
+const ctxKey=()=>S.view+'|'+(S.view==='builder'?'':S.preset);
+let LR={ctx:null,view:null,focus:null,mch:null};
+const RM=matchMedia('(prefers-reduced-motion: reduce)');
+const EASE='cubic-bezier(.22,1,.36,1)';
+function snapM(){
+  /* стан на момент ПОПЕРЕДНЬОГО render(): обробники міняють S до виклику render(), тож брати його з S не можна */
+  const b=document.querySelector('#main .board'),P=Object.assign({board:!!b},LR);
+  if(b){const cols=[...b.querySelectorAll(':scope>.col')],tl=b.querySelector(':scope>.tlcol');
+    P.cols=cols.map(c=>c.getBoundingClientRect().width);P.tl=tl&&tl.offsetWidth?tl.getBoundingClientRect().width:0;
+    P.bars=cols.map(c=>[...c.querySelectorAll('.wbars i')].map(i=>parseFloat(i.style.height)||0));
+    P.n=cols.map(c=>{const n=c.querySelector('.cs .n');return n?+n.textContent:-1});
+    P.wp=cols.map(c=>{const w=c.querySelector('.wp');return w?w.offsetHeight:0});}
+  return P;
+}
+function countTo(el,from,to){
+  const t0=performance.now(),d=360;
+  const step=t=>{const k=Math.min(1,(t-t0)/d),e=1-Math.pow(1-k,3);el.textContent=Math.round(from+(to-from)*e);if(k<1)requestAnimationFrame(step)};
+  requestAnimationFrame(step);
+}
+function playM(P){
+  const drop=M.drop,cascade=M.cascade,still=M.still;M.drop=M.cascade=M.still=null;
+  LR={ctx:ctxKey(),view:S.view,focus:S.focus,mch:S.mch};
+  if(!Element.prototype.animate)return;
+  const rm=RM.matches,b=document.querySelector('#main .board'),desk=innerWidth>900;
+  const viewChanged=P.view!==S.view;
+  if(viewChanged){
+    const rail=document.getElementById('rail');rail&&rail.animate([{opacity:0},{opacity:1}],{duration:220,easing:'ease-out'});
+    if(!b){const m=document.getElementById('main');m.animate(rm?[{opacity:0},{opacity:1}]:[{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'none'}],{duration:280,easing:EASE});return}
+  }
+  if(!b)return;
+  const cols=[...b.querySelectorAll(':scope>.col')];
+  /* 1. Прихід дошки: новий пресет, інша вкладка або перше завантаження */
+  if(!P.board||P.ctx!==ctxKey()){
+    const vis=cols.filter(c=>c.offsetWidth);
+    vis.forEach((c,k)=>c.animate(rm?[{opacity:0},{opacity:1}]:[{opacity:0,transform:'translateY(14px)'},{opacity:1,transform:'none'}],{duration:rm?200:460,delay:rm?0:k*60,easing:EASE,fill:'backwards'}));
+    if(!rm)vis.forEach((c,k)=>{const bars=[...c.querySelectorAll('.wbars i')],n=bars.length||1;
+      bars.forEach((i,j)=>i.animate([{transform:'scaleY(0)'},{transform:'none'}],{duration:520,delay:120+k*60+Math.round(j/n*260),easing:EASE,fill:'backwards'}))});
+    const tl=b.querySelector(':scope>.tlcol');tl&&tl.animate([{opacity:0},{opacity:1}],{duration:400,delay:rm?0:220,easing:'ease-out',fill:'backwards'});
+    return;
+  }
+  /* 2. Розгорнути / згорнути канал: ширини колонок перетікають */
+  if(P.focus!==S.focus&&desk&&!rm&&P.cols&&P.cols.length===3&&cols.length===3){
+    const tl=b.querySelector(':scope>.tlcol'),nw=cols.map(c=>c.getBoundingClientRect().width),ntl=tl&&tl.offsetWidth?tl.getBoundingClientRect().width:0;
+    const fmt=(w,t)=>[...w,t].map(x=>x.toFixed(2)+'px').join(' ');
+    const a=b.animate([{gridTemplateColumns:fmt(P.cols,P.tl)},{gridTemplateColumns:fmt(nw,ntl)}],{duration:440,easing:EASE});
+    a.onfinish=a.oncancel=()=>timeline();
+    tl&&tl.animate([{opacity:0},{opacity:1}],{duration:260,delay:300,easing:'ease-out',fill:'backwards'});
+    cols.forEach((c,i)=>{
+      const was=P.focus==null?'':P.focus===i?'focus':'compact',now=S.focus==null?'':S.focus===i?'focus':'compact';if(was===now)return;
+      c.querySelectorAll('.cd,.wave,.dram,.cact').forEach(el=>{if(el.offsetParent)el.animate([{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'none'}],{duration:300,delay:180,easing:EASE,fill:'backwards'})});
+      const wp=c.querySelector('.wp');if(wp&&P.wp[i]&&wp.offsetHeight&&P.wp[i]!==wp.offsetHeight)wp.animate([{height:P.wp[i]+'px'},{height:wp.offsetHeight+'px'}],{duration:440,easing:EASE});
+      c.querySelector('.cn h3')?.animate([{opacity:.2},{opacity:1}],{duration:260,delay:120,easing:'ease-out',fill:'backwards'});
+    });
+  }
+  /* 3. Телефон / планшет: перемикання каналу — колонка заїжджає з боку руху */
+  if(!desk&&P.mch!==S.mch){const c=cols[S.mch];if(c){const dx=(S.mch>P.mch?1:-1)*22;
+    c.animate(rm?[{opacity:0},{opacity:1}]:[{opacity:0,transform:`translateX(${dx}px)`},{opacity:1,transform:'none'}],{duration:rm?160:300,easing:EASE})}}
+  /* 4. Хвиля енергії перетікає зі старих висот у нові; число треків дораховується */
+  cols.forEach((c,i)=>{
+    const old=P.bars&&P.bars[i];
+    if(old&&!rm&&still!==i){const bars=[...c.querySelectorAll('.wbars i')];let changed=0;
+      bars.forEach((el,j)=>{const h=parseFloat(el.style.height)||0,o=old[j];
+        if(o==null){el.animate([{transform:'scaleY(0)'},{transform:'none'}],{duration:360,easing:EASE,fill:'backwards'});return}
+        if(Math.abs(o-h)>.5&&h>0){changed++;el.animate([{transform:`scaleY(${(o/h).toFixed(3)})`},{transform:'none'}],{duration:420,delay:Math.min(j*3,180),easing:EASE,fill:'backwards'})}});
+      if(changed)c.querySelectorAll('.wline polyline').forEach(pl=>pl.animate([{opacity:0},{}],{duration:420,delay:120,easing:'ease-out',fill:'backwards'}));}
+    const n=c.querySelector('.cs .n'),o=P.n&&P.n[i];
+    if(n&&o!=null&&o>=0&&+n.textContent!==o&&!rm)countTo(n,o,+n.textContent);
+  });
+  /* 5. Перемішали / змінили драматургію: верхні рядки «перебираються» по черзі */
+  if(cascade!=null&&!rm){const lists=cascade==='all'?[...b.querySelectorAll('.col .list[data-ch]')]:[b.querySelector(`.list[data-ch="${cascade}"]`)];
+    lists.forEach(l=>{if(!l)return;const top=l.scrollTop,bot=top+l.clientHeight;let k=0;
+      l.querySelectorAll('.row').forEach(r=>{if(k>=14||r.offsetTop+r.offsetHeight<top||r.offsetTop>bot)return;
+        r.animate([{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'none'}],{duration:260,delay:k++*22,easing:EASE,fill:'backwards'})})})}
+  /* 6. Перенесені треки на новому місці коротко світяться кольором каналу */
+  if(drop&&drop.length){const ids=new Set(drop);
+    document.querySelectorAll('#main .row[data-id]').forEach(r=>{if(!ids.has(r.dataset.id))return;
+      const col=r.closest('.col'),cc=col?getComputedStyle(col).getPropertyValue('--chc').trim()||'rgb(198,255,0)':'rgb(198,255,0)';
+      r.animate([{boxShadow:`inset 3px 0 0 ${cc}`,backgroundColor:`color-mix(in srgb,${cc} 20%,transparent)`},{boxShadow:'inset 3px 0 0 transparent',backgroundColor:'transparent'}],{duration:1100,easing:'ease-out'});
+      if(!rm)r.querySelector('.cov')?.animate([{transform:'scale(.82)'},{transform:'none'}],{duration:420,easing:'cubic-bezier(.34,1.56,.64,1)'})})}
+}
 function render(){
+  const MP=snapM();
   const keep={rail:document.getElementById('rail').scrollTop,lists:[...document.querySelectorAll('#main .list,#main .lib')].map(l=>l.scrollTop)};
   document.querySelectorAll('.top [data-view]').forEach(b=>b.setAttribute('aria-selected',b.dataset.view===S.view));
   document.getElementById('hours').value=S.hours;document.getElementById('onlyDl').setAttribute('aria-checked',!!S.onlyDl);
@@ -994,6 +1131,7 @@ function render(){
   document.getElementById('rail').scrollTop=keep.rail;
   [...document.querySelectorAll('#main .list,#main .lib')].forEach((l,i)=>{if(keep.lists[i]!=null)l.scrollTop=keep.lists[i]});
   animInd();marquee();syncSel();timeline();
+  playM(MP);markBars();
   save();
 }
 /* Скляна капсула перемикача каналів: розмітка перебудовується при кожному render(), тож капсула
@@ -1068,14 +1206,14 @@ document.addEventListener('click',e=>{
   if(d.from){const prev=JSON.parse(JSON.stringify(S.b));loadFrom(d.from);fresh();render();undoStack.push({kind:'b',prev});toast(`Правила «${getPreset(d.from).name}» завантажено`,true);return}
   if(d.del){const i=S.mine.findIndex(p=>p.id===d.del),p=S.mine[i];S.mine.splice(i,1);if(S.preset===p.id)S.preset='lists';undoStack.push({kind:'del',p,i});render();toast(`Пресет «${p.name}» видалено`,true);return}
   if(d.mv){closeMenu();const c=ctx(),id=d.mv,to=+d.to,ov=S.ov[c.key]=S.ov[c.key]||{};
-    undoStack.push({kind:'mv',key:c.key,id,had:id in ov,prev:ov[id]});ov[id]=to;render();
+    undoStack.push({kind:'mv',key:c.key,id,had:id in ov,prev:ov[id]});ov[id]=to;M.drop=[id];render();
     toast(to<0?`«${BY[id].t}» прибрано з каналу`:`«${BY[id].t}» перенесено в ${CH[to].lbl}`,true);return}
   if(d.copy!=null){copy(chText(+d.copy),'Список скопійовано');return}
   if(d.focus!=null){const i=+d.focus;S.focus=S.focus===i?null:i;if(t.classList.contains('dopen'))S.focus=i;render();
     if(S.focus!=null&&innerWidth>900){const col=document.querySelectorAll('.board .col')[i];col&&col.getBoundingClientRect().top<90&&window.scrollTo({top:col.getBoundingClientRect().top+scrollY-100,behavior:'instant'})}return}
   if(d.shape){const c=ctx(),i=+d.ci;setCurve(c.key,i,d.shape);toast(`${CH[i].lbl}: драматургія «${SHAPES[d.shape].n}»`,true);return}
   if(d.chshuf!=null){const c=ctx(),i=+d.chshuf;undoStack.push(chanSnap('chs',c.key,i));
-    S.chSeed=S.chSeed||{};const a=S.chSeed[c.key]=S.chSeed[c.key]||[0,0,0];a[i]=Math.floor(Math.random()*1e6);clearOrd(c.key,i);render();toast(`${CH[i].lbl}: новий порядок, драматургію збережено`,true);return}
+    S.chSeed=S.chSeed||{};const a=S.chSeed[c.key]=S.chSeed[c.key]||[0,0,0];a[i]=Math.floor(Math.random()*1e6);clearOrd(c.key,i);M.cascade=i;render();toast(`${CH[i].lbl}: новий порядок, драматургію збережено`,true);return}
   if(d.selmv!=null){selMove(+d.selmv);return}
   if(t.id==='selClear'){S.sel.clear();syncSel();return}
   if(d.mch){S.mch=+d.mch;render();
@@ -1088,7 +1226,7 @@ document.addEventListener('click',e=>{
   if(d.pool!=null){const q=S.lib.q;S.lib=Object.assign({q,lang:[],dec:[],gen:[],e:[],flag:[]},JSON.parse(JSON.stringify(POOLS[+d.pool][1])));render();return}
   if(d.sort){const k=d.sort;S.sort=S.sort.k===k?{k,d:-S.sort.d}:{k,d:k==='a'?1:-1};render();return}
   switch(t.id){
-    case 'shuffle':S.seed=Math.floor(Math.random()*1e6);S.ord={};S.ordN={};render();toast('Порядок оновлено, хвилі енергії збережено');break;
+    case 'shuffle':S.seed=Math.floor(Math.random()*1e6);S.ord={};S.ordN={};M.cascade='all';render();toast('Порядок оновлено, хвилі енергії збережено');break;
     case 'reset':{const c=ctx(),n=realEdits(S.ov[c.key])+((S.ordN||{})[c.key]||0);delete S.ov[c.key];if(S.ord)delete S.ord[c.key];if(S.ordN)delete S.ordN[c.key];undoStack=undoStack.filter(h=>h.key!==c.key);render();toast(`Скинуто ${n} ${pl(n,'ручну зміну','ручні зміни','ручних змін')}`);break}
     case 'copyAll':{const c=compute();copy([0,1,2].filter(i=>c.enabled[i]).map(i=>chText(i)).join('\n\n'),'Канали скопійовано');break}
     case 'copyLib':copy(libList().map((t,n)=>`${n+1}. ${t.a} — ${t.t}`).join('\n'),'Список скопійовано');break;
@@ -1112,7 +1250,7 @@ async function reloadData(btn){
 /* знімок каналу для «Скасувати»: форма, зерно перемішування, ручний порядок */
 function chanSnap(kind,key,i){return {kind,key,i,curve:JSON.parse(JSON.stringify(((S.curve||{})[key]||[])[i]||null)),seed:((S.chSeed||{})[key]||[])[i]||0,ord:S.ord&&S.ord[key]?JSON.parse(JSON.stringify(S.ord[key][i]||[])):null}}
 function clearOrd(key,i){if(S.ord&&S.ord[key])S.ord[key][i]=[]}
-function setCurve(key,i,cv){undoStack.push(chanSnap('curve',key,i));S.curve=S.curve||{};const a=S.curve[key]=S.curve[key]||[null,null,null];a[i]=cv;clearOrd(key,i);render()}
+function setCurve(key,i,cv){undoStack.push(chanSnap('curve',key,i));S.curve=S.curve||{};const a=S.curve[key]=S.curve[key]||[null,null,null];a[i]=cv;clearOrd(key,i);M.cascade=i;render()}
 function undo(){const h=undoStack.pop();if(!h)return;
   if(h.kind==='curve'||h.kind==='chs'){S.curve=S.curve||{};(S.curve[h.key]=S.curve[h.key]||[null,null,null])[h.i]=h.curve;S.chSeed=S.chSeed||{};(S.chSeed[h.key]=S.chSeed[h.key]||[0,0,0])[h.i]=h.seed;if(h.ord&&S.ord&&S.ord[h.key])S.ord[h.key][h.i]=h.ord}
   if(h.kind==='mv'){const ov=S.ov[h.key]||(S.ov[h.key]={});if(h.had)ov[h.id]=h.prev;else delete ov[h.id]}
@@ -1173,14 +1311,16 @@ document.addEventListener('pointerup',e=>{if(D.active){endDrag(true);return}
   /* короткий клік / дотик без руху — вибрати трек (кілька вибраних тягнуться разом) */
   const r=D.cand;if(r&&Math.hypot(e.clientX-D.x,e.clientY-D.y)<(D.touch?8:5)){cancelCand();toggleSel(r);return}
   cancelCand()});
-function toggleSel(r){const id=r.dataset.id;if(S.sel.has(id))S.sel.delete(id);else S.sel.add(id);
+function toggleSel(r){const id=r.dataset.id;if(S.sel.has(id))S.sel.delete(id);else{S.sel.add(id);selLast=id}
   r.classList.toggle('sel',S.sel.has(id));r.setAttribute('aria-selected',S.sel.has(id));syncSel();
   if(navigator.vibrate&&D.touch)try{navigator.vibrate(6)}catch(_){}}
 function syncSel(){
+  document.querySelectorAll('.wbars i[data-id]').forEach(b=>b.classList.toggle('on',S.sel.has(b.dataset.id)));
   document.querySelectorAll('.row.sel').forEach(r=>{if(!S.sel.has(r.dataset.id)){r.classList.remove('sel');r.setAttribute('aria-selected','false')}});
   let bar=document.getElementById('selbar');
   if(!bar){bar=document.createElement('div');bar.id='selbar';bar.className='selbar';bar.setAttribute('role','region');bar.setAttribute('aria-label','Вибрані треки');document.body.appendChild(bar)}
   const n=S.sel.size,c=n?compute():null;document.body.classList.toggle('has-sel',!!n);
+  pinAll();
   if(!n){bar.classList.remove('show');return}
   bar.innerHTML=`<span class="sn"><b class="tn">${n}</b> ${pl(n,'трек','треки','треків')}</span><span class="sm">${CH.map((ch,i)=>c.enabled[i]?`<button class="sbtn" data-selmv="${i}" style="--c:${ch.c}" title="Перенести вибрані в ${ch.lbl}">${ic('hp')}${ch.lbl}</button>`:'').join('')}<button class="sbtn ghost2" data-selmv="-1" title="Прибрати вибрані з каналів">Прибрати</button></span><button class="ibtn" id="selClear" aria-label="Зняти вибір" title="Зняти вибір">${ic('x')}</button>`;
   bar.classList.add('show');
@@ -1191,7 +1331,7 @@ function selMove(to){
   const prev={kind:'dnd',key,ov:JSON.parse(JSON.stringify(S.ov[key]||{})),ord:S.ord&&S.ord[key]?JSON.parse(JSON.stringify(S.ord[key])):null,n:(S.ordN||{})[key]||0};
   const arrs=c.ids.map(a=>a.filter(id=>!S.sel.has(id)));if(to>=0)arrs[to].push(...ids);
   const ov=S.ov[key]=S.ov[key]||{};ids.forEach(id=>{const fr=where[id]??-1;if(fr!==to)ov[id]=to});
-  S.ord=S.ord||{};S.ord[key]=arrs;undoStack.push(prev);S.sel.clear();render();syncSel();
+  S.ord=S.ord||{};S.ord[key]=arrs;undoStack.push(prev);S.sel.clear();M.drop=ids;render();syncSel();
   toast(to<0?`${ids.length} ${pl(ids.length,'трек','треки','треків')} прибрано з каналів`:`${ids.length} ${pl(ids.length,'трек','треки','треків')} перенесено в ${CH[to].lbl}`,true);
 }
 document.addEventListener('pointercancel',()=>{if(D.active)endDrag(false);else cancelCand()});
@@ -1253,6 +1393,132 @@ const knobEnd=()=>{if(!K.kp)return;const {moved,p,ci}=K;K.kp.classList.remove('o
   if(moved){setCurve(ctx().key,ci,{p});toast(`${CH[ci].lbl}: своя драматургія`,true)}};
 document.addEventListener('pointerup',knobEnd);document.addEventListener('pointercancel',knobEnd);
 
+
+/* ---------- Стовпчики хвилі: клік вибирає трек (той самий вибір, що й у списку), тягнення змінює порядок у каналі ----------
+   Працює в розгорнутому каналі (на десктопі) і в єдиній колонці на телефоні/планшеті, де хвиля теж широка.
+   Під час руху DOM не перебудовується: стовпчики зсуваються transform-ом на ціле число «слотів», а на відпусканні
+   новий порядок записується в S.ord (як після перетягування рядка) і йде звичайний render(). */
+const B={};
+const barsOn=wp=>!!wp&&(!!wp.closest('.col.focus')||innerWidth<=900)&&S.view!=='library';
+function barGeom(wp){const bars=[...wp.querySelectorAll('.wbars i[data-id]')],r0=bars[0].getBoundingClientRect(),r1=bars[bars.length-1].getBoundingClientRect();
+  const slot=bars.length>1?(r1.left-r0.left)/(bars.length-1):r0.width;return {bars,left:r0.left,slot}}
+const barAt=(g,x)=>Math.max(0,Math.min(g.bars.length-1,Math.floor((x-g.left)/g.slot+(g.slot?0:0))));
+function markBars(){document.querySelectorAll('.wp').forEach(wp=>wp.classList.toggle('bars-on',barsOn(wp)));hoverWp=null;pinAll()}
+let selLast=null,hoverWp=null;
+/* одна картка на хвилю; items — масив треків, x — точка (px від лівого краю .wp), куди дивиться стрілка */
+function wcard(wp,items,x,badge,mode){
+  let c=wp.querySelector(':scope>.wcard');const fresh=!c;
+  if(!c){c=document.createElement('div');c.className='wcard';c.setAttribute('aria-hidden','true');c.innerHTML='<div class="wc-in"></div><i class="wc-ar"></i>';wp.appendChild(c)}
+  const many=items.length>1,key=items.map(t=>t.id).join(',')+'|'+(badge||'');
+  if(c.dataset.k!==key){const was=c.dataset.k||'',inn=c.firstChild;c.dataset.k=key;c.classList.toggle('many',many);
+    inn.innerHTML=many
+      ?`<span class="wc-stack">${items.slice(0,5).map(t=>`<span class="wc-cov" style="${covStyle(t)}"></span>`).join('')}</span>${items.length>5?`<span class="wc-more">+${items.length-5}</span>`:''}${badge?`<em>${badge}</em>`:''}`
+      :`<span class="wc-cov" style="${covStyle(items[0])}"></span><span class="wc-tx"><b>${esc(items[0].t)}</b><small>${esc(items[0].a)}${items[0].y?' · '+items[0].y:''}</small></span>${badge?`<em>${badge}</em>`:''}`;
+    if(!REDUCED&&mode!=='drag'){
+      if(many){const prevIds=new Set((was.split('|')[0]||'').split(','));
+        [...inn.querySelectorAll('.wc-stack .wc-cov')].forEach((el,k)=>{if(!prevIds.has(items[k].id))el.animate([{opacity:0,transform:'translateY(6px) scale(.6)'},{opacity:1,transform:'none'}],{duration:320,delay:fresh?k*45:0,easing:'cubic-bezier(.34,1.56,.64,1)',fill:'backwards'})})}
+      else if(!fresh&&c.classList.contains('show'))inn.animate([{opacity:.35},{opacity:1}],{duration:150,easing:'ease-out'})}}
+  c.classList.toggle('drag',mode==='drag');
+  /* у межах колонки: картка зсувається, стрілка лишається над стовпчиком */
+  const wr=wp.getBoundingClientRect(),col=wp.closest('.col')||wp,cr=col.getBoundingClientRect(),cw=c.offsetWidth;
+  const lo=cr.left-wr.left+8+cw/2,hi=cr.right-wr.left-8-cw/2,cx=Math.max(lo,Math.min(hi,x));
+  c.style.left=cx.toFixed(1)+'px';c.style.setProperty('--ax',Math.max(12,Math.min(cw-12,x-cx+cw/2)).toFixed(1)+'px');
+  if(!c.classList.contains('show')){void c.offsetWidth;c.classList.add('show')}
+}
+function hideCard(wp){const c=wp&&wp.querySelector(':scope>.wcard');if(c){c.classList.remove('show');c.dataset.k=''}}
+const barX=(wp,el)=>{const r=el.getBoundingClientRect();return r.left+r.width/2-wp.getBoundingClientRect().left};
+/* закріплена картка: вибрані стовпчики цієї хвилі (лише в розгорнутому каналі / на телефоні) */
+function pinCard(wp){
+  if(hoverWp===wp||(B.active&&B.wp===wp))return;
+  if(!wp.classList.contains('bars-on')){hideCard(wp);return}
+  const all=[...wp.querySelectorAll('.wbars i[data-id]')],on=all.filter(b=>S.sel.has(b.dataset.id));
+  if(!on.length){hideCard(wp);return}
+  if(on.length===1){const n=all.indexOf(on[0]);wcard(wp,[BY[on[0].dataset.id]],barX(wp,on[0]),'№'+(n+1),'pin');return}
+  const xs=on.map(b=>barX(wp,b)),mid=(Math.min(...xs)+Math.max(...xs))/2;
+  wcard(wp,on.map(b=>BY[b.dataset.id]),mid,`${on.length} ${pl(on.length,'трек','треки','треків')}`,'pin');
+}
+const pinAll=()=>document.querySelectorAll('#main .wp').forEach(pinCard);
+function hoverBar(wp,x){
+  const g=barGeom(wp);if(!g.bars.length)return;const k=barAt(g,x),el=g.bars[k];
+  wp.querySelectorAll('.wbars i.hv').forEach(i=>i!==el&&i.classList.remove('hv'));el.classList.add('hv');
+  if(!wp.classList.contains('peek')){wp.classList.add('peek')}
+  wcard(wp,[BY[el.dataset.id]],barX(wp,el),'№'+(k+1),'hover');
+}
+function leaveWp(wp){wp.classList.remove('peek');wp.querySelectorAll('.wbars i.hv').forEach(i=>i.classList.remove('hv'));if(hoverWp===wp)hoverWp=null;
+  const c=wp.querySelector(':scope>.wcard');if(c)c.dataset.k='';hideCard(wp);pinCard(wp)}
+document.addEventListener('pointerout',e=>{if(!e.relatedTarget&&hoverWp&&!B.wp)leaveWp(hoverWp)});
+
+document.addEventListener('pointerdown',e=>{
+  if(e.button!==0&&e.pointerType==='mouse')return;
+  const wp=e.target.closest('.wp');if(!wp||e.target.closest('.kp')||!barsOn(wp))return;
+  const g=barGeom(wp);if(!g.bars.length)return;
+  const a=barAt(g,e.clientX),id=g.bars[a].dataset.id,ci=+wp.dataset.ci;
+  Object.assign(B,{wp,g,a,id,ci,x:e.clientX,y:e.clientY,pid:e.pointerId,touch:e.pointerType!=='mouse',active:false});
+  if(!B.touch)e.preventDefault();
+});
+document.addEventListener('pointermove',e=>{
+  if(!B.wp){ /* наведення мишею: підсвічений стовпчик і картка треку над ним */
+    if(e.pointerType!=='mouse'||document.body.classList.contains('dragging')||document.body.classList.contains('knobbing'))return;
+    const wp=e.target.closest&&e.target.closest('.wp'),ok=wp&&!e.target.closest('.kp')&&wp.closest('.col')&&wp.offsetWidth;
+    if(hoverWp&&hoverWp!==wp)leaveWp(hoverWp);
+    if(!ok){if(wp&&hoverWp===wp)leaveWp(wp);return}
+    hoverWp=wp;hoverBar(wp,e.clientX);return}
+  const dx=e.clientX-B.x;
+  if(!B.active){if(Math.abs(dx)<(B.touch?8:4))return;
+    if(B.touch&&Math.abs(e.clientY-B.y)>Math.abs(dx))return endBars(false);
+    startBars()}
+  e.preventDefault();moveBars(e.clientX);
+},{passive:false});
+function startBars(){
+  const {g,a,id}=B,ids=g.bars.map(b=>b.dataset.id);
+  /* схоплений стовпчик вибраний — тягнемо всі вибрані цього каналу; інакше лише його */
+  const grp=S.sel.has(id)?ids.filter(x=>S.sel.has(x)):[id];
+  B.grp=grp;B.ids=ids;B.rank=grp.indexOf(id);B.idx=Object.fromEntries(ids.map((x,i)=>[x,i]));B.t=null;B.active=true;
+  try{B.wp.setPointerCapture(B.pid)}catch(_){}
+  B.wp.classList.add('bdrag');document.body.classList.add('barring');
+  const gs=new Set(grp);g.bars.forEach(b=>b.classList.toggle('lift',gs.has(b.dataset.id)));
+  document.querySelectorAll('.wbars i.hv').forEach(i=>i.classList.remove('hv'));B.wp.classList.remove('peek');hoverWp=null;
+}
+function moveBars(x){
+  const {g,grp,ids,rank,idx}=B,N=ids.length,k=grp.length,dx=x-B.x;
+  const start=B.a-rank+dx/g.slot,t=Math.max(0,Math.min(N-k,Math.round(start)));
+  /* схоплені їдуть за курсором (підряд, навіть якщо були розкидані) */
+  grp.forEach((id,j)=>{const el=g.bars[idx[id]],v=Math.max(-idx[id],Math.min(N-1-idx[id],start+j-idx[id]));el.style.transform=`translate(${(v*g.slot).toFixed(1)}px,-4px)`});
+  if(t!==B.t){B.t=t;const gs=new Set(grp),rest=ids.filter(x=>!gs.has(x));rest.splice(t,0,...grp);B.order=rest;
+    rest.forEach((id,n)=>{if(gs.has(id))return;const el=g.bars[idx[id]],d=n-idx[id];el.style.transform=d?`translateX(${(d*g.slot).toFixed(1)}px)`:''});
+  }
+  /* картка їде разом зі схопленими стовпчиками й показує, на яке місце вони стануть */
+  const els=grp.map(id=>g.bars[idx[id]]),xs=els.map(el=>barX(B.wp,el)),mid=(Math.min(...xs)+Math.max(...xs))/2;
+  wcard(B.wp,grp.map(id=>BY[id]),mid,k>1?`№${t+1}–${t+k}`:`№${t+1}`,'drag');
+}
+function endBars(commit){
+  const {wp,active,ci,id,order,grp}=B;for(const k in B)delete B[k];
+  document.body.classList.remove('barring');
+  if(!wp)return;
+  if(!active)hoverWp=null;
+  if(!active){ /* короткий клік — вибрати / зняти трек і показати його в списку */
+    if(!commit)return;
+    if(S.sel.has(id)){S.sel.delete(id)}else{S.sel.add(id);selLast=id}
+    document.querySelectorAll('.row[data-id]').forEach(r=>{if(r.dataset.id===id){r.classList.toggle('sel',S.sel.has(id));r.setAttribute('aria-selected',S.sel.has(id))}});
+    syncSel();
+    if(S.sel.has(id)){const list=wp.closest('.col')?.querySelector('.list[data-ch]'),row=list&&[...list.querySelectorAll('.row[data-id]')].find(r=>r.dataset.id===id);
+      if(row){const lt=list.scrollTop,top=row.offsetTop,h=row.offsetHeight;if(top<lt||top+h>lt+list.clientHeight)list.scrollTo({top:top-list.clientHeight/2+h/2,behavior:REDUCED?'instant':'smooth'});
+        row.animate([{backgroundColor:'rgba(198,255,0,.18)'},{backgroundColor:'transparent'}],{duration:900,easing:'ease-out'})}}
+    return}
+  const c=compute(),key=c.key,cur=c.ids[ci];
+  if(!commit||!order||order.join('|')===cur.join('|')){wp.classList.remove('bdrag');wp.querySelectorAll('.wbars i').forEach(b=>{b.style.transform='';b.classList.remove('lift')});hideCard(wp);pinCard(wp);return}
+  const prev={kind:'dnd',key,ov:JSON.parse(JSON.stringify(S.ov[key]||{})),ord:S.ord&&S.ord[key]?JSON.parse(JSON.stringify(S.ord[key])):null,n:(S.ordN||{})[key]||0};
+  const arrs=c.ids.map(a=>a.slice());arrs[ci]=order;
+  S.ord=S.ord||{};S.ordN=S.ordN||{};S.ord[key]=arrs;S.ordN[key]=(S.ordN[key]||0)+1;
+  const moved=grp.length;
+  undoStack.push(prev);if(grp.length>1)S.sel.clear();M.still=ci;M.drop=grp;render();
+  toast(moved>1?`${moved} ${pl(moved,'трек','треки','треків')} переставлено в ${CH[ci].lbl}`:`«${BY[id].t}» тепер №${order.indexOf(id)+1} у ${CH[ci].lbl}`,true);
+}
+document.addEventListener('pointerup',()=>{if(B.wp)endBars(true)});
+document.addEventListener('pointercancel',()=>{if(B.wp)endBars(false)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&B.active)endBars(false)});
+window.addEventListener('resize',markBars);
+
 /* Плавне ковзання рядків (FLIP): запам'ятати, де рядки були, змінити DOM, і з'їхати з того місця на нове */
 const REDUCED=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function slideY(n){const t=n.style.transform;if(!t)return 0;const m=getComputedStyle(n).transform;return m&&m!=='none'?new DOMMatrixReadOnly(m).m42:0}
@@ -1290,7 +1556,7 @@ function endDrag(commit){
     if(to>=0){if(index==null||index>arrs[to].length)index=arrs[to].length;arrs[to].splice(index,0,...multi)}
     const ov=S.ov[key]=S.ov[key]||{};multi.forEach(x=>{if((where[x]??-1)!==to)ov[x]=to});
     S.ord=S.ord||{};S.ordN=S.ordN||{};S.ord[key]=arrs;S.ordN[key]=(S.ordN[key]||0)+1;
-    undoStack.push(prev);S.sel.clear();render();syncSel();
+    undoStack.push(prev);S.sel.clear();M.drop=multi;render();syncSel();
     toast(to<0?`${multi.length} ${pl(multi.length,'трек','треки','треків')} прибрано з каналів`:`${multi.length} ${pl(multi.length,'трек','треки','треків')} → ${CH[to].lbl}${tab!=null?' (в кінець)':', з №'+(index+1)}`,true);return}
   const arrs=c.ids.map(a=>a.slice());
   const prev={kind:'dnd',key,ov:JSON.parse(JSON.stringify(S.ov[key]||{})),ord:S.ord&&S.ord[key]?JSON.parse(JSON.stringify(S.ord[key])):null,n:(S.ordN||{})[key]||0};
@@ -1300,7 +1566,7 @@ function endDrag(commit){
   if(to===from&&to>=0&&index===before){render();return}
   const ov=S.ov[key]=S.ov[key]||{};if(to!==from)ov[id]=to;
   S.ord=S.ord||{};S.ordN=S.ordN||{};S.ord[key]=arrs;S.ordN[key]=(S.ordN[key]||0)+(to===from?1:0);
-  undoStack.push(prev);render();
+  undoStack.push(prev);M.drop=[id];render();
   const t=BY[id];
   toast(to===from?`«${t.t}» тепер №${index+1} у ${CH[to].lbl}`:to<0?`«${t.t}» прибрано з каналу`:`«${t.t}» перенесено в ${CH[to].lbl}${tab!=null?' (в кінець списку)':' на №'+(index+1)}`,true);
 }
