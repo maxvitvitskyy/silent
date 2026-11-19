@@ -1155,6 +1155,7 @@ EXPERIENCE_URLS = {
     'Забіги та прогулянки': '/experiences/runs-walks/',
     'Музеї та галереї': '/experiences/museums/',
     'Камерні концерти': '/experiences/chamber-concerts/',
+    'Медитація': '/experiences/meditation/',
     'Церковні служби та зібрання': '/experiences/church/',
     'Церковні та молодіжні табори': '/experiences/camps/',
     'Табори та молодіжні збори': '/experiences/youth-camps/',
@@ -1323,6 +1324,7 @@ EXPERIENCE_PAGES = [
     os.path.join('experiences', 'runs-walks', 'index.html'),
     os.path.join('experiences', 'museums', 'index.html'),
     os.path.join('experiences', 'chamber-concerts', 'index.html'),
+    os.path.join('experiences', 'meditation', 'index.html'),
 ]
 
 
@@ -1358,6 +1360,7 @@ EXP_FAQ_PAGES = {
     os.path.join('experiences', 'runs-walks', 'index.html'): '/experiences/runs-walks/',
     os.path.join('experiences', 'museums', 'index.html'): '/experiences/museums/',
     os.path.join('experiences', 'chamber-concerts', 'index.html'): '/experiences/chamber-concerts/',
+    os.path.join('experiences', 'meditation', 'index.html'): '/experiences/meditation/',
 }
 
 
@@ -2417,6 +2420,7 @@ EXP_EN_PAGES = {
     'runs-walks': 'images/runs-walks/og-runs-walks-en.jpg',
     'museums': 'images/museums/og-museums-en.jpg',
     'chamber-concerts': 'images/chamber-concerts/og-chamber-concerts-en.jpg',
+    'meditation': 'images/meditation/og-meditation-en.jpg',
 }
 from en_pages import T_PAGE_ALL, T_ABOUT   # рядки сторінок досвідів і «Про нас» (tools/en_pages.py)
 T_PAGE = {}   # slug -> {укр: англ} (додаткові, лише для однієї сторінки)

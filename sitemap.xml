@@ -645,4 +645,18 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/chamber-concerts/"/>
     <lastmod>2026-11-18</lastmod>
   </url>
+  <url>
+    <loc>https://silent.org.ua/experiences/meditation/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/meditation/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/meditation/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/meditation/"/>
+    <lastmod>2026-11-19</lastmod>
+  </url>
+  <url>
+    <loc>https://silent.org.ua/en/experiences/meditation/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/meditation/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/meditation/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/meditation/"/>
+    <lastmod>2026-11-19</lastmod>
+  </url>
 </urlset>
