@@ -687,4 +687,18 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/workshops/"/>
     <lastmod>2026-11-20</lastmod>
   </url>
+  <url>
+    <loc>https://silent.org.ua/experiences/inclusive/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/inclusive/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/inclusive/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/inclusive/"/>
+    <lastmod>2026-11-21</lastmod>
+  </url>
+  <url>
+    <loc>https://silent.org.ua/en/experiences/inclusive/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/inclusive/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/inclusive/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/inclusive/"/>
+    <lastmod>2026-11-21</lastmod>
+  </url>
 </urlset>
