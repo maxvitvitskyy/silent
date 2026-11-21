@@ -87,7 +87,7 @@ rep('<a href="/en/experiences/conferences/" hreflang="en" lang="en">EN</a>', '<a
 # ---------- HERO ----------
 rep('<span class="crumb-now">Конференції</span>', '<span class="crumb-now">Інклюзивні події</span>')
 rep('<h1 class="exp-title exp-title--long"><span class="t-lead">Бездротові навушники</span> <span class="t-sub">для конференцій та бізнес-заходів</span></h1>',
-    '<h1 class="exp-title exp-title--long"><span class="t-lead">Інклюзивні події в навушниках</span> <span class="t-sub">кожен гість сам обирає, наскільки гучно слухати</span></h1>')
+    '<h1 class="exp-title exp-title--long"><span class="t-lead">Інклюзивні<br>події в<br>навушниках</span> <span class="t-sub">кожен гість сам обирає, наскільки гучно слухати</span></h1>')
 rep_re(r'<p class="exp-lead">Доповіді, воркшопи.*?</p>',
     '<p class="exp-lead">На спільному святі люди по-різному сприймають звук: одним комфортно гучно, іншим потрібно тихіше. У бездротових навушниках SILENT кожен гість налаштовує гучність собі сам, а гучних колонок немає. Так за одним столом чи на одному танцполі збираються й діти, і дорослі, і ті, кого втомлює шум.</p>')
 rep('data-cta="conferences_hero_order">Обговорити конференцію</a>', 'data-cta="inclusive_hero_order">Обговорити подію</a>')
