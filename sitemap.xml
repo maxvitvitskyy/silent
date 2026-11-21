@@ -673,4 +673,18 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/brand-activation/"/>
     <lastmod>2026-11-19</lastmod>
   </url>
+  <url>
+    <loc>https://silent.org.ua/experiences/workshops/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/workshops/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/workshops/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/workshops/"/>
+    <lastmod>2026-11-20</lastmod>
+  </url>
+  <url>
+    <loc>https://silent.org.ua/en/experiences/workshops/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/workshops/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/workshops/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/workshops/"/>
+    <lastmod>2026-11-20</lastmod>
+  </url>
 </urlset>
