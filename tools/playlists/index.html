@@ -143,7 +143,7 @@ body::before{content:"";position:fixed;right:-240px;top:-260px;width:720px;heigh
 .how li>span strong{display:block;color:var(--ink);font-weight:650;font-size:13.5px;margin-bottom:2px}
 .how li.how-en .legend{margin:0}
 .how b{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:var(--ink-on-accent);font:700 11px/1 var(--display)}
-.tlv{border:1px solid var(--hair);border-radius:var(--r-md);background:rgba(255,255,255,.015);overflow:hidden;margin-bottom:16px}
+.tlv{-webkit-user-select:none;user-select:none;border:1px solid var(--hair);border-radius:var(--r-md);background:rgba(255,255,255,.015);overflow:hidden;margin-bottom:16px}
 .tlv-top{display:flex;align-items:center;gap:16px;padding:12px 16px;border-bottom:1px solid var(--hair);flex-wrap:wrap}
 .tlv-hint{font-size:12.5px;color:var(--ink-muted)}
 .tlv-zoom{display:flex;align-items:center;gap:10px;margin-left:auto;font-size:12px;color:var(--ink-subtle);white-space:nowrap}
@@ -153,10 +153,13 @@ body::before{content:"";position:fixed;right:-240px;top:-260px;width:720px;heigh
 .tlv-grid{position:absolute;top:30px;bottom:0;width:1px;background:rgba(255,255,255,.045);pointer-events:none}
 .tlv-row{display:flex;border-top:1px solid var(--hair);position:relative}
 .tlv-axr{border-top:0}
-.tlv-lab{position:sticky;left:0;z-index:4;flex:none;width:118px;display:flex;flex-direction:column;justify-content:center;gap:3px;padding:0 14px;background:#111113;border-right:1px solid var(--hair);box-shadow:inset 3px 0 0 var(--c)}
+.tlv-lab{position:sticky;left:0;z-index:4;flex:none;box-sizing:border-box;width:124px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:4px;padding:0 10px 0 14px;background:#111113;border-right:1px solid var(--hair);box-shadow:inset 3px 0 0 var(--c)}
+.tlv-hd{display:flex;align-items:center;gap:8px;min-width:0}
+.tlv-hpi{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent)}
+.tlv-hpi .i{width:15px;height:15px}
 .tlv-lab b{font:700 13px/1.1 var(--display);letter-spacing:.06em;color:var(--c)}
 .tlv-lab small{font:500 11.5px/1.3 var(--body);color:var(--ink-subtle);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tlv-shuf{align-self:flex-start;display:inline-flex;align-items:center;gap:5px;margin-top:4px;min-height:26px;padding:4px 9px;border-radius:var(--r-pill);border:1px solid var(--divider);background:rgba(255,255,255,.03);font:600 11px/1 var(--body);letter-spacing:0;color:var(--ink-muted);transition:color .2s,border-color .2s,background .2s}
+.tlv-shuf{align-self:flex-start;box-sizing:border-box;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;margin-top:6px;min-height:28px;padding:5px 9px;border-radius:var(--r-pill);border:1px solid var(--divider);background:rgba(255,255,255,.03);font:600 11px/1 var(--body);letter-spacing:0;color:var(--ink-muted);transition:color .2s,border-color .2s,background .2s}
 .tlv-shuf:hover{color:var(--ink);border-color:color-mix(in srgb,var(--c) 60%,transparent);background:color-mix(in srgb,var(--c) 10%,transparent)}
 .tlv-shuf .i{width:12px;height:12px}
 .tlv-axl{box-shadow:none;color:var(--ink-subtle);font:500 11px/1 var(--body)}
@@ -213,14 +216,12 @@ body::before{content:"";position:fixed;right:-240px;top:-260px;width:720px;heigh
 .tlv-end{position:absolute;top:0;bottom:0;width:0;border-left:1.5px dashed rgba(255,255,255,.3);pointer-events:none;z-index:3}
 .tlv-end span{position:absolute;top:9px;left:6px;font-size:11px;color:var(--ink-muted);white-space:nowrap}
 .tlv-end.r span{left:auto;right:6px}
-.tlv-bare{min-height:34px;padding:7px 14px;font-size:12.5px}
-.tlv-bare[aria-pressed=true]{border-color:rgba(198,255,0,.55);background:rgba(198,255,0,.08)}
 .tlv-card{cursor:grab;touch-action:pan-y}
 .tl-dragging,.tl-dragging *{cursor:grabbing!important;user-select:none}
 .tlv-card.tl-src{opacity:.25}
 .tlv-ghost{box-shadow:0 24px 48px -16px rgba(0,0,0,.9),0 0 0 1px var(--c,#c6ff00);background:rgba(24,24,28,.96)!important;transition:none!important}
 .tlv-drop{position:fixed;z-index:199;width:4px;border-radius:4px;pointer-events:none;box-shadow:0 0 14px currentColor}
-@media (max-width:720px){.tlv-zoom{margin-left:0;width:100%}.tlv-zoom input{flex:1;width:auto}}
+@media (max-width:720px){.tlv-top{padding:10px 12px;gap:10px}.tlv-hint{display:none}.tlv-zoom{margin-left:0;width:100%;font-size:11px}.tlv-zoom input{flex:1;width:auto}.tlv-lab{width:96px;padding:0 6px 0 10px;gap:3px}.tlv-lab b{font-size:12px}.tlv-lab small{font-size:10.5px}.tlv-hpi{width:22px;height:22px}.tlv-hpi .i{width:13px;height:13px}.tlv-hd{gap:6px}.tlv-shuf{padding:4px 7px;font-size:10.5px}.tlv-shuf span{display:none}.tlv-meta>b{font-size:12px}.tlv-meta>i{font-size:11px}.tlv-meta>em{font-size:10.5px}}
 .bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:16px}
 .search{position:relative}
 .search input{width:260px;background:rgba(255,255,255,.05);border:1px solid var(--divider);border-radius:var(--r-pill);padding:9px 14px 9px 38px;color:var(--ink);font:500 13.5px/1.2 var(--body)}
@@ -782,6 +783,7 @@ body.barring,body.barring *{cursor:grabbing!important;user-select:none}
   <symbol id="i-expand" viewBox="0 0 24 24"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></symbol>
   <symbol id="i-shrink" viewBox="0 0 24 24"><path d="M4 14h6v6M20 10h-6V4M10 14l-6 6M14 10l6-6"/></symbol>
   <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6.5h11M9 12h11M9 17.5h11"/><circle cx="4.5" cy="6.5" r=".9"/><circle cx="4.5" cy="12" r=".9"/><circle cx="4.5" cy="17.5" r=".9"/></symbol>
   <symbol id="i-wave" viewBox="0 0 24 24"><path d="M3 15c2 0 2-6 4.5-6s2.5 9 5 9 2.5-12 5-12S20 13 21 13"/></symbol>
   <symbol id="i-save" viewBox="0 0 24 24"><path d="M5 4h11l3 3v13H5V4Z"/><path d="M8 4v5h7V4M8 20v-6h8v6"/></symbol>
 </defs></svg>
@@ -911,7 +913,7 @@ const RULE_DEF=()=>({lang:'all',e:[],dec:[],gen:[],flag:[],src:[],ids:[]});
 const fixRule=r=>Object.assign(RULE_DEF(),r||{});
 (S.b&&S.b.ch||[]).forEach(c=>{c.r=fixRule(c.r)});
 (S.mine||[]).forEach(pr=>(pr.ch||[]).forEach(c=>{c.r=fixRule(c.r)}));
-const save=()=>store.set('state',{tlv:S.tlv,tlzv:S.tlzv,tlbare:S.tlbare,curve:S.curve,chSeed:S.chSeed,onlyDl:S.onlyDl,ord:S.ord,ordN:S.ordN,howDone:S.howDone,view:S.view,preset:S.preset,seed:S.seed,ov:S.ov,hours:S.hours,b:S.b,mine:S.mine});
+const save=()=>store.set('state',{tlv:S.tlv,tlzv:S.tlzv,curve:S.curve,chSeed:S.chSeed,onlyDl:S.onlyDl,ord:S.ord,ordN:S.ordN,howDone:S.howDone,view:S.view,preset:S.preset,seed:S.seed,ov:S.ov,hours:S.hours,b:S.b,mine:S.mine});
 let undoStack=[];
 S.sel=new Set();S.focus=null;
 const pool=()=>S.onlyDl?T.filter(t=>t.dl):T;
@@ -1116,10 +1118,26 @@ function tlFit(){
 }
 document.addEventListener('tlv:render',()=>requestAnimationFrame(()=>{tlFit();tlSize()}));
 /* Висота таймлайну: доходить до нижнього краю екрана, але не нижче 300 px; сам масштаб її не змінює */
+/* Геометрія рядків: висота картки-рядка = (вільна висота екрана − шкала часу) ÷ кількість каналів,
+   з межами 84…212 px. Так на ноутбуці всі три канали видно без прокрутки, на великому екрані — повний розмір. */
+const TL_EH=66;let tlLastN=0,tlLastCht=0;
+function tlGeom(n){
+  const sc=document.querySelector('.tlv-sc');
+  const top=sc?sc.getBoundingClientRect().top:330;
+  const h=Math.max(300,innerHeight-top-16);
+  return Math.max(84,Math.min(212,Math.floor((h-30)/n)-TL_EH-1));
+}
 function tlSize(){
   const sc=document.querySelector('.tlv-sc'); if(!sc) return;
+  /* висота екрана змінилась — перерисовуємо рядки під нову висоту (масштаб і позиція зберігаються) */
+  if(tlC&&tlLastN&&tlGeom(tlLastN)!==tlLastCht){
+    const x=sc.scrollLeft; sc.innerHTML=tlBody(tlC); sc.scrollLeft=x;
+    document.dispatchEvent(new CustomEvent('tlv:render')); return;
+  }
   const top=sc.getBoundingClientRect().top;
-  sc.style.height=Math.max(300,Math.round(innerHeight-top-16))+'px';
+  const content=sc.firstElementChild?sc.firstElementChild.offsetHeight:0;
+  /* не більше вмісту (без порожнього місця під останнім рядком) і не більше, ніж лишилось екрана */
+  sc.style.height=Math.round(Math.min(content||300,Math.max(300,innerHeight-top-16)))+'px';
 }
 addEventListener('resize',()=>requestAnimationFrame(tlSize));
 
@@ -1164,16 +1182,19 @@ function timelineHTML(c){
   tlC=c;const v=S.tlzv??45;
   return `<section class="tlv" aria-label="Таймлайн каналів">
     <div class="tlv-top"><span class="tlv-hint">Усі канали на одній шкалі часу. Крива над треками — енергія каналу.</span>
-      <button class="btn tlv-bare" id="tlBare" aria-pressed="${!!S.tlbare}" title="Показати лише обкладинки, без назв">${S.tlbare?'Показати назви':'Лише обкладинки'}</button>
       <label class="tlv-zoom"><span>Весь вечір</span><input type="range" id="tlZoom" min="0" max="100" step="1" value="${v}" aria-label="Масштаб часу"><span>Деталі</span></label></div>
     <div class="tlv-sc">${tlBody(c)}</div></section>`;
 }
 function tlBody(c){
   const lanes=[0,1,2].filter(i=>c.enabled[i]).map(i=>{let acc=0;const items=c.ids[i].map(id=>{const t=BY[id],d=tlDur(t),it={t,x:acc,d};acc+=d;return it});return{i,items,total:acc}});
-  const cut=S.hours*3600,TOTAL=Math.max(cut,...lanes.map(l=>l.total),1),LW=124;
+  const cut=S.hours*3600,TOTAL=Math.max(cut,...lanes.map(l=>l.total),1),LW=innerWidth<=720?96:124;
   const sc=document.querySelector('.tlv-sc'),avail=Math.max(320,(sc?sc.clientWidth-2:((document.getElementById('main')||{}).clientWidth||1200)-60)-LW);
   const v=S.tlzv??45,fit=avail/TOTAL,maxPx=1.1,px=fit>=maxPx?fit:fit*Math.pow(maxPx/fit,v/100),W=Math.ceil(TOTAL*px);
-  const typW=MIN*60*px-6,CS=Math.round(Math.max(72,Math.min(112,typW-14))),TXT=!S.tlbare&&typW>=86,EH=66,CHT=112+92+8;
+  /* Висота картки-рядка залежить від висоти екрана: усі канали мають вміститися без прокрутки вниз */
+  const nL=Math.max(1,lanes.length),EH=TL_EH,CHT=tlGeom(nL);tlLastN=nL;tlLastCht=CHT;
+  const big=CHT>=150,typW=MIN*60*px-6;
+  /* картка з назвою (~96 px під обкладинку) або лише обкладинка, коли місця мало */
+  const CS=Math.round(Math.max(40,Math.min(112,typW-14,big?CHT-98:CHT-34))),TXT=big&&typW>=86;
   const steps=[300,600,900,1800,3600];const step=steps.find(st=>st*px>=96)||3600;
   let ax='',grid='';for(let s2=step;s2<TOTAL;s2+=step){const x=(s2*px).toFixed(1);if(s2*px<W-28)ax+=`<span style="left:${x}px">${tlFmt(s2)}</span>`;grid+=`<i class="tlv-grid" style="left:${(LW+s2*px).toFixed(1)}px"></i>`}
   const rows=lanes.map(({i,items,total})=>{
@@ -1187,7 +1208,7 @@ function tlBody(c){
       cards+=`<div class="tlv-card${late?' late':''}${w0<30?' thin':''}" data-id="${esc(t.id)}" style="left:${(x0+3).toFixed(1)}px;width:${w.toFixed(1)}px;--cw:${w.toFixed(1)}px;--cs:${cs}px;--i:${k}" title="${k+1}. ${esc(t.a)} — ${esc(t.t)}${sub?' · '+esc(sub):''} · ${Math.floor(it.d/60)}:${String(Math.round(it.d%60)).padStart(2,'0')}"><span class="cov tlv-cov" style="${covStyle(t)};width:${cs}px;height:${cs}px" aria-hidden="true"></span>${meta}</div>`});
     if(!P.length)return'';
     const xe=total*px;P.push([xe,P[P.length-1][1]]);const line=tlPath(P);
-    return `<div class="tlv-row" data-ch="${i}" style="--c:${col}"><div class="tlv-lab"><b>${CH[i].lbl}</b><small>${esc(c.meta[i].n)}</small><small>${items.length} ${pl(items.length,'трек','треки','треків')} · ${tlFmt(total)}</small><button class="tlv-shuf" data-chshuf="${i}" aria-label="Змінити порядок у каналі ${CH[i].lbl}" title="Змінити порядок лише в цьому каналі">${ic('shuffle')}<span>Перемішати</span></button></div>
+    return `<div class="tlv-row" data-ch="${i}" style="--c:${col}"><div class="tlv-lab"><span class="tlv-hd"><span class="tlv-hpi">${ic('hp')}</span><b>${CH[i].lbl}</b></span><small>${esc(c.meta[i].n)}</small><small>${items.length} ${pl(items.length,'трек','треки','треків')} · ${tlFmt(total)}</small><button class="tlv-shuf" data-chshuf="${i}" aria-label="Змінити порядок у каналі ${CH[i].lbl}" title="Змінити порядок лише в цьому каналі">${ic('shuffle')}<span>Перемішати</span></button></div>
       <div class="tlv-lane" style="width:${W}px"><svg class="tlv-en" width="${W}" height="${EH}" role="img" aria-label="Енергія каналу ${CH[i].lbl} по ходу події"><path d="${line} L${xe.toFixed(1)},${EH} L0,${EH} Z" style="fill:${col};fill-opacity:.13"/><path d="${line}" style="fill:none;stroke:${col};stroke-width:2.2;stroke-linecap:round"/></svg>
       <div class="tlv-cards" style="height:${CHT}px">${cards}</div></div></div>`}).join('');
   const enter=!tlEntered;tlEntered=true;
@@ -1303,7 +1324,7 @@ const dataBar=()=>`<div class="dsrc" role="status"><span class="dtxt">${USING_FA
 function toolbar(c,extra=''){
   return `<div class="bar"><label class="search">${ic('search')}<span class="sr">Знайти трек у каналах</span><input type="search" id="bq" placeholder="Знайти трек у каналах" value="${esc(S.bq)}"></label>
     <span class="grow"></span>${extra}
-    <button class="btn" id="tlView" aria-pressed="${!!S.tlv}" title="${S.tlv?'Повернутися до списків каналів':'Показати всі канали на шкалі часу'}">${ic('clock')}<span class="t">${S.tlv?'Списки':'Таймлайн'}</span></button>
+    <button class="btn" id="tlView" aria-pressed="${!!S.tlv}" title="${S.tlv?'Повернутися до списків каналів':'Показати всі канали на шкалі часу'}">${ic(S.tlv?'list':'clock')}<span class="t">${S.tlv?'Списки':'Таймлайн'}</span></button>
     <button class="btn" id="shuffle" title="Перемішати порядок, зберігаючи хвилі енергії">${ic('shuffle')}<span class="t">Інший порядок</span></button>
     ${c.edits?`<button class="btn" id="reset">${ic('undo')}<span class="t">Скинути ${c.edits} ${pl(c.edits,'зміну','зміни','змін')}</span></button>`:''}
     <button class="btn round" id="dlAll" aria-label="Скачати всі канали текстовим файлом" title="Скачати всі канали текстовим файлом">${ic('download')}</button>
@@ -1593,7 +1614,6 @@ document.addEventListener('click',e=>{
   if(d.tlz){S.tlz=+d.tlz;save();render();return}
   switch(t.id){
     case 'tlView':S.tlv=!S.tlv;S.focus=null;save();render();break;
-    case 'tlBare':{S.tlbare=!S.tlbare;save();const sc=document.querySelector('.tlv-sc');if(sc&&tlC){const l=sc.scrollLeft;sc.innerHTML=tlBody(tlC);sc.scrollLeft=l}t.setAttribute('aria-pressed',String(!!S.tlbare));t.textContent=S.tlbare?'Показати назви':'Лише обкладинки';document.dispatchEvent(new CustomEvent('tlv:render'));break}
     case 'shuffle':S.seed=Math.floor(Math.random()*1e6);S.ord={};S.ordN={};M.cascade='all';flipRender(render);toast('Порядок оновлено, хвилі енергії збережено');break;
     case 'reset':{const c=ctx(),n=realEdits(S.ov[c.key])+((S.ordN||{})[c.key]||0);delete S.ov[c.key];if(S.ord)delete S.ord[c.key];if(S.ordN)delete S.ordN[c.key];undoStack=undoStack.filter(h=>h.key!==c.key);render();toast(`Скинуто ${n} ${pl(n,'ручну зміну','ручні зміни','ручних змін')}`);break}
     case 'dlAll':{const c=compute();const txt='\uFEFF'+[0,1,2].filter(i=>c.enabled[i]).map(i=>chText(i)).join('\n\n');const a=document.createElement('a');const url=URL.createObjectURL(new Blob([txt],{type:'text/plain;charset=utf-8'}));a.href=url;a.download='silent-playlists-'+new Date().toISOString().slice(0,10)+'.txt';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(url);a.remove()},1000);toast('Файл з плейлистами завантажено');break}
