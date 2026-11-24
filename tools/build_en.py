@@ -1160,6 +1160,7 @@ EXPERIENCE_URLS = {
     'Майстеркласи': '/experiences/workshops/',
     'Інклюзивні події': '/experiences/inclusive/',
     'Стендап і комедія': '/experiences/standup/',
+    'Події для літніх': '/experiences/seniors/',
     'Церковні служби та зібрання': '/experiences/church/',
     'Церковні та молодіжні табори': '/experiences/camps/',
     'Табори та молодіжні збори': '/experiences/youth-camps/',
@@ -1333,6 +1334,7 @@ EXPERIENCE_PAGES = [
     os.path.join('experiences', 'workshops', 'index.html'),
     os.path.join('experiences', 'inclusive', 'index.html'),
     os.path.join('experiences', 'standup', 'index.html'),
+    os.path.join('experiences', 'seniors', 'index.html'),
 ]
 
 
@@ -1373,6 +1375,7 @@ EXP_FAQ_PAGES = {
     os.path.join('experiences', 'workshops', 'index.html'): '/experiences/workshops/',
     os.path.join('experiences', 'inclusive', 'index.html'): '/experiences/inclusive/',
     os.path.join('experiences', 'standup', 'index.html'): '/experiences/standup/',
+    os.path.join('experiences', 'seniors', 'index.html'): '/experiences/seniors/',
 }
 
 
@@ -1977,6 +1980,30 @@ T_CARDS = {
 "Кілька музичних каналів на одному майданчику: гості перемикаються між ними, не залишаючи танцпол.":
   "Several music channels on one site: guests switch between them without leaving the dance floor.",
 }
+# Головна (правки 24.11.2026): нові тексти з формою «ви» і «звук майже не виходить назовні».
+# Старі ключі лишаються: ті самі рядки є й на інших сторінках.
+T_HOME_FIX = {
+ "Ви підлаштовуєтесь під вечір": "You adapt to the evening",
+ "Музику обирають за всіх. Якщо вона «не ваша» — залишається або терпіти, або йти. Комусь голосно, комусь нудно, комусь просто не хочеться танцювати.": "The music is picked for everyone. If it isn’t yours, you either put up with it or leave. Some find it too loud, some find it dull, some just don’t feel like dancing.",
+ "Вечір підлаштовується під вас": "The evening adapts to you",
+ "Ніхто не мусить підлаштовуватись. Три канали — і кожен обирає свій настрій. Танцюйте, говоріть, відпочивайте, перемикайтеся — і залишайтеся частиною спільної події. Разом, але по-своєму.": "Nobody has to adapt. Three channels — and everyone picks their own mood. Dance, talk, rest, switch — and stay part of the same night. Together, but in your own way.",
+ "Музика йде не з колонок, а одразу в навушники кожного гостя. Один передавач роздає три канали, і людина сама обирає, який слухати і на якій гучності. Колонок немає, тож звук майже не виходить назовні. Ми привозимо навушники із запасними комплектами, збираємо систему на місці й лишаємось на вечір. Від вас потрібні тільки дата й приблизна кількість гостей. Працюємо в Києві й виїжджаємо по всій Україні.": "Music doesn’t come from speakers but straight into each guest’s headphones. One transmitter feeds three channels, and each person chooses what to listen to and at what volume. There are no speakers, so almost no sound gets out. We bring the headphones with spare sets, set up the system on site and stay for the evening. From you we only need the date and roughly how many guests. We work in Kyiv and travel across Ukraine.",
+ "Три готові плейлисти під настрій вечора. Діджея можна не наймати — музика вже підібрана.": "Three playlists ready for the evening’s mood. No need to hire a DJ — the music is already sorted.",
+ "Silent disco — це лише один зі сценаріїв. Звук у навушниках працює всюди, де важливо чути.": "Silent disco is just one of the scenarios. Sound in headphones works wherever it matters to be heard.",
+ "Колеги з різних відділів зі своїми смаками танцюють разом. Особиста гучність, і поговорити можна звичайним голосом.": "Colleagues from different departments with different tastes dance together. Each sets their own volume, and you can still talk in an ordinary voice.",
+ "Служіння в залі чи просто неба без колонок. Голос і музика звучать у навушниках, а звук майже не виходить назовні.": "Services in a hall or outdoors, with no speakers. Voice and music play in the headphones, and almost no sound gets out.",
+ "Голос інструктора й музика звучать у навушниках, а звук майже не виходить назовні. Практикувати можна й просто неба.": "The instructor’s voice and music play in the headphones, and almost no sound gets out. You can practise outdoors too.",
+ "Розповідь про експонат звучить у навушниках, а для інших відвідувачів звук майже не виходить.": "The exhibit story plays in the headphones, and almost no sound reaches other visitors.",
+ "Голос ведучого й спокійна музика звучать у навушниках, а звук майже не виходить назовні. Практика можлива й поза студією.": "The host’s voice and calm music play in the headphones, and almost no sound gets out. The practice also works outside the studio.",
+ "До трьох команд: кожна слухає свій канал на одному танцполі.": "Up to three teams: each listens to its own channel on the same dance floor.",
+ "Відвідувачі слухають розповідь у навушниках, а звук майже не виходить назовні, тож на стендах можна спокійно розмовляти.": "Visitors listen to the commentary in their headphones, and almost no sound gets out, so people can talk calmly at the stands.",
+ "Благодійний вечір із танцями: музика звучить у навушниках, а звук майже не виходить назовні, тож розмови, аукціон і промови проходять спокійно.": "A charity evening with dancing: the music plays in the headphones, and almost no sound gets out, so conversations, the auction and speeches go on calmly.",
+ "Музику чути в навушниках зблизька, а звук майже не виходить назовні.": "The music is heard up close in the headphones, and almost no sound gets out.",
+ "Усі слухають один канал, і лише один гравець чує інший. Спостерігайте, хто реагує не так, і вирахуйте самозванця.": "Everyone listens to one channel, and only one player hears something different. Watch who reacts oddly and work out the impostor.",
+ "Мінімальне замовлення — 40 навушників на 4 години. Пересуньте повзунок і додайте опції, щоб побачити орієнтовний бюджет для вашої події.": "Minimum order is 40 headphones for 4 hours. Move the slider and add options to see an approximate budget for your event.",
+ "Не обов’язково. Живий діджей — це окремі витрати, зазвичай суттєва сума за вечір. Ми наперед готуємо три плейлисти під ваш настрій, тож діджей потрібен, лише якщо хочете живий мікс саме на місці.": "Not necessarily. A live DJ is a separate cost, usually a sizeable one for the evening. We prepare three playlists in advance to match your mood, so a DJ is only needed if you want a live mix on the spot."
+}
+T.update(T_HOME_FIX)
 T.update(T_CARDS)
 
 T_FAQ = {
@@ -2437,6 +2464,7 @@ EXP_EN_PAGES = {
     'workshops': 'images/workshops/og-workshops-en.jpg',
     'inclusive': 'images/inclusive/og-inclusive-en.jpg',
     'standup': 'images/standup/og-standup-en.jpg',
+    'seniors': 'images/seniors/og-seniors-en.jpg',
 }
 from en_pages import T_PAGE_ALL, T_ABOUT   # рядки сторінок досвідів і «Про нас» (tools/en_pages.py)
 T_PAGE = {}   # slug -> {укр: англ} (додаткові, лише для однієї сторінки)

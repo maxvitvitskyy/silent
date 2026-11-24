@@ -715,4 +715,18 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/standup/"/>
     <lastmod>2026-11-21</lastmod>
   </url>
+  <url>
+    <loc>https://silent.org.ua/experiences/seniors/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/seniors/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/seniors/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/seniors/"/>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://silent.org.ua/en/experiences/seniors/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/seniors/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/seniors/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/seniors/"/>
+    <lastmod>2026-11-24</lastmod>
+  </url>
 </urlset>
