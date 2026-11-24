@@ -1162,6 +1162,7 @@ EXPERIENCE_URLS = {
     'Стендап і комедія': '/experiences/standup/',
     'Події для літніх': '/experiences/seniors/',
     'Бар-тури': '/experiences/bartours/',
+    'Квести': '/experiences/quests/',
     'Церковні служби та зібрання': '/experiences/church/',
     'Церковні та молодіжні табори': '/experiences/camps/',
     'Табори та молодіжні збори': '/experiences/youth-camps/',
@@ -1337,6 +1338,7 @@ EXPERIENCE_PAGES = [
     os.path.join('experiences', 'standup', 'index.html'),
     os.path.join('experiences', 'seniors', 'index.html'),
     os.path.join('experiences', 'bartours', 'index.html'),
+    os.path.join('experiences', 'quests', 'index.html'),
 ]
 
 
@@ -1379,6 +1381,7 @@ EXP_FAQ_PAGES = {
     os.path.join('experiences', 'standup', 'index.html'): '/experiences/standup/',
     os.path.join('experiences', 'seniors', 'index.html'): '/experiences/seniors/',
     os.path.join('experiences', 'bartours', 'index.html'): '/experiences/bartours/',
+    os.path.join('experiences', 'quests', 'index.html'): '/experiences/quests/',
 }
 
 
@@ -2469,6 +2472,7 @@ EXP_EN_PAGES = {
     'standup': 'images/standup/og-standup-en.jpg',
     'seniors': 'images/seniors/og-seniors-en.jpg',
     'bartours': 'images/bartours/og-bartours-en.jpg',
+    'quests': 'images/quests/og-quests-en.jpg',
 }
 from en_pages import T_PAGE_ALL, T_ABOUT   # рядки сторінок досвідів і «Про нас» (tools/en_pages.py)
 T_PAGE = {}   # slug -> {укр: англ} (додаткові, лише для однієї сторінки)
