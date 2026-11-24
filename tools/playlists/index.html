@@ -130,16 +130,97 @@ body::before{content:"";position:fixed;right:-240px;top:-260px;width:720px;heigh
 .head h2{font:700 22px/1.2 var(--display);letter-spacing:-.02em;color:var(--ink)}
 .head p{font-size:13.5px;color:var(--ink-muted);margin-top:4px;max-width:680px}
 .head .htxt{flex:1;min-width:0}
-.how{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;align-items:start;margin:0 0 18px;padding:14px 16px;border:1px solid var(--hair);border-radius:var(--r-md);background:rgba(198,255,0,.04)}
-.how li{display:flex;gap:10px;font-size:12.5px;line-height:1.45;color:var(--ink-muted)}
+.how{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px 26px;align-items:start;margin:0 0 18px;padding:18px 22px;border:1px solid var(--hair);border-radius:var(--r-md);background:rgba(198,255,0,.04)}
+.how li{display:flex;gap:12px;font-size:13px;line-height:1.5;color:var(--ink-muted)}
 .how li.how-en{grid-column:1/-1;display:block;padding-top:12px;margin-top:2px;border-top:1px solid var(--hair)}
-.how{position:relative;padding-right:52px}
+.how{position:relative;padding-right:60px}
 .how li.how-x{position:absolute;right:12px;top:12px}
+.how li.how-x .ibtn{width:36px;height:36px}
+.how li.how-en{padding-top:16px}
 .btn.round{width:40px;height:40px;padding:0;justify-content:center;border-radius:50%;flex:none}
+.bar .btn.round,.btn.round{flex:0 0 40px;width:40px;min-width:40px;height:40px}
 .how li>span{display:block;color:var(--ink-muted);min-width:0}
-.how li>span strong{color:var(--ink);font-weight:650}
+.how li>span strong{display:block;color:var(--ink);font-weight:650;font-size:13.5px;margin-bottom:2px}
 .how li.how-en .legend{margin:0}
 .how b{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:var(--ink-on-accent);font:700 11px/1 var(--display)}
+.tlv{border:1px solid var(--hair);border-radius:var(--r-md);background:rgba(255,255,255,.015);overflow:hidden;margin-bottom:16px}
+.tlv-top{display:flex;align-items:center;gap:16px;padding:12px 16px;border-bottom:1px solid var(--hair);flex-wrap:wrap}
+.tlv-hint{font-size:12.5px;color:var(--ink-muted)}
+.tlv-zoom{display:flex;align-items:center;gap:10px;margin-left:auto;font-size:12px;color:var(--ink-subtle);white-space:nowrap}
+.tlv-zoom input{width:220px;accent-color:var(--accent)}
+.tlv-sc{overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) transparent}
+.tlv-in{position:relative}
+.tlv-grid{position:absolute;top:30px;bottom:0;width:1px;background:rgba(255,255,255,.045);pointer-events:none}
+.tlv-row{display:flex;border-top:1px solid var(--hair);position:relative}
+.tlv-axr{border-top:0}
+.tlv-lab{position:sticky;left:0;z-index:4;flex:none;width:118px;display:flex;flex-direction:column;justify-content:center;gap:3px;padding:0 14px;background:#111113;border-right:1px solid var(--hair);box-shadow:inset 3px 0 0 var(--c)}
+.tlv-lab b{font:700 13px/1.1 var(--display);letter-spacing:.06em;color:var(--c)}
+.tlv-lab small{font:500 11.5px/1.3 var(--body);color:var(--ink-subtle);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tlv-shuf{align-self:flex-start;display:inline-flex;align-items:center;gap:5px;margin-top:4px;min-height:26px;padding:4px 9px;border-radius:var(--r-pill);border:1px solid var(--divider);background:rgba(255,255,255,.03);font:600 11px/1 var(--body);letter-spacing:0;color:var(--ink-muted);transition:color .2s,border-color .2s,background .2s}
+.tlv-shuf:hover{color:var(--ink);border-color:color-mix(in srgb,var(--c) 60%,transparent);background:color-mix(in srgb,var(--c) 10%,transparent)}
+.tlv-shuf .i{width:12px;height:12px}
+.tlv-axl{box-shadow:none;color:var(--ink-subtle);font:500 11px/1 var(--body)}
+.tlv-ax{position:relative;height:30px;cursor:pointer}
+.tlv-ax span{position:absolute;top:10px;font-size:11px;color:var(--ink-subtle);transform:translateX(-50%);white-space:nowrap;font-variant-numeric:tabular-nums}
+.tlv-lane{background:color-mix(in srgb,var(--c) 3%,transparent)}
+.tlv-en{display:block}
+.tlv-cards{position:relative}
+.tlv-card{position:absolute;top:6px;bottom:8px;display:flex;flex-direction:column;align-items:center;gap:9px;padding:6px 6px 8px;border-radius:14px;overflow:hidden;border:1px solid var(--divider);background:rgba(20,20,23,.85);transition:border-color .2s,background .2s}
+.tlv-card:hover{border-color:color-mix(in srgb,var(--c) 55%,transparent)}
+.tlv-card.thin{padding:3px 2px;gap:0}
+.tlv-card.late{opacity:.38}
+.tlv-card.lp-ch{border-color:var(--c)!important}
+.tlv-card.lp-ch-act{background:color-mix(in srgb,var(--c) 16%,rgba(20,20,23,.9))!important;box-shadow:0 0 0 1px var(--c),0 8px 22px -12px var(--c)!important}
+.tlv-cov{flex:none;border-radius:10px;cursor:pointer;box-shadow:0 6px 16px -10px rgba(0,0,0,.9)}
+.tlv-meta{align-self:stretch;min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;padding:0 3px;line-height:1.3}
+.tlv-meta b{font-size:13px;font-weight:650;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tlv-meta{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 10px,#000 calc(100% - 10px),transparent);mask-image:linear-gradient(90deg,transparent,#000 10px,#000 calc(100% - 10px),transparent)}
+.tlv-meta>b,.tlv-meta>i,.tlv-meta>em{display:block;max-width:none;white-space:nowrap;overflow:visible;text-overflow:clip}
+.tlv-meta>b.mq,.tlv-meta>i.mq,.tlv-meta>em.mq{animation:tlMq 9s ease-in-out infinite alternate;animation-delay:1.2s}
+@keyframes tlMq{0%,18%{transform:translateX(0)}82%,100%{transform:translateX(var(--mq))}}
+
+.tlv-in .tlv-meta{display:none}
+.tlv-in.txt .tlv-meta{display:flex}
+.tlv-card{transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s,background .2s,border-color .2s,width .28s cubic-bezier(.2,.8,.2,1),height .28s}
+.tlv-card:hover,.tlv-card:focus-visible{z-index:30;width:auto!important;min-width:calc(var(--cs) + 14px)!important;max-width:300px!important;bottom:auto!important;height:auto;transform:translateY(-10px);background:rgba(30,30,34,.98);border-color:color-mix(in srgb,var(--c) 70%,transparent);box-shadow:0 0 0 1px color-mix(in srgb,var(--c) 40%,transparent),0 22px 40px -18px rgba(0,0,0,.95)}
+.tlv-card:hover .tlv-meta{display:flex;margin-top:2px}
+.tlv-card:hover .tlv-cov{width:var(--hcs,var(--cs))!important;height:var(--hcs,var(--cs))!important;border-radius:14px}
+.tlv-card:hover .tlv-meta>b,.tlv-card:hover .tlv-meta>i,.tlv-card:hover .tlv-meta>em{animation:none;transform:none}
+
+/* ——— Анімація таймлайну ——— */
+.tlv-card{transition:transform .5s cubic-bezier(.22,.9,.25,1),width .5s cubic-bezier(.22,.9,.25,1),box-shadow .35s ease,background .35s ease,border-color .35s ease,opacity .4s ease}
+.tlv-card:not(:hover){transition-delay:.06s}
+.tlv-card:hover,.tlv-card:focus-visible{width:var(--hw,auto)!important;transform:translateY(-10px) scale(1.02);transition-delay:0s}
+.tlv-in .tlv-meta{opacity:0;max-height:0;overflow:hidden;transform:translateY(-4px);transition:opacity .35s ease .05s,max-height .5s cubic-bezier(.22,.9,.25,1),transform .45s ease}
+.tlv-in.txt .tlv-meta,.tlv-card:hover .tlv-meta,.tlv-card:focus-visible .tlv-meta{opacity:1;max-height:90px;transform:none}
+.tlv-card:hover .tlv-meta{transition-delay:.12s}
+.tlv-cov{transition:transform .5s cubic-bezier(.22,.9,.25,1),box-shadow .4s ease}
+.tlv-card:hover .tlv-cov{transform:scale(1.02)}
+.tlv-in.enter .tlv-card{animation:tlRise .7s cubic-bezier(.22,.9,.25,1) both;animation-delay:calc(var(--i,0)*18ms)}
+@keyframes tlRise{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+.tlv-in.enter .tlv-row{animation:tlFade .6s ease both}
+@keyframes tlFade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.tlv-card,.tlv-cov,.tlv-in .tlv-meta,.tlv-in.enter .tlv-card,.tlv-in.enter .tlv-row{transition:none!important;animation:none!important}}
+@media (prefers-reduced-motion:reduce){.tlv-meta>b.mq,.tlv-meta>i.mq,.tlv-meta>em.mq{animation:none}}
+.tlv-meta{justify-content:center}
+.tlv-card{box-shadow:0 1px 0 rgba(255,255,255,.03) inset,0 10px 24px -18px rgba(0,0,0,.9)}
+.tlv-card.thin{box-shadow:none}
+.tlv-meta b{letter-spacing:-.005em}
+.tlv-meta em{letter-spacing:.02em}
+
+.tlv-meta i{font-style:normal;font-size:12px;color:var(--ink-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tlv-meta em{font-style:normal;font-size:11.5px;color:var(--ink-subtle);white-space:nowrap;font-variant-numeric:tabular-nums}
+.tlv-end{position:absolute;top:0;bottom:0;width:0;border-left:1.5px dashed rgba(255,255,255,.3);pointer-events:none;z-index:3}
+.tlv-end span{position:absolute;top:9px;left:6px;font-size:11px;color:var(--ink-muted);white-space:nowrap}
+.tlv-end.r span{left:auto;right:6px}
+.tlv-bare{min-height:34px;padding:7px 14px;font-size:12.5px}
+.tlv-bare[aria-pressed=true]{border-color:rgba(198,255,0,.55);background:rgba(198,255,0,.08)}
+.tlv-card{cursor:grab;touch-action:pan-y}
+.tl-dragging,.tl-dragging *{cursor:grabbing!important;user-select:none}
+.tlv-card.tl-src{opacity:.25}
+.tlv-ghost{box-shadow:0 24px 48px -16px rgba(0,0,0,.9),0 0 0 1px var(--c,#c6ff00);background:rgba(24,24,28,.96)!important;transition:none!important}
+.tlv-drop{position:fixed;z-index:199;width:4px;border-radius:4px;pointer-events:none;box-shadow:0 0 14px currentColor}
+@media (max-width:720px){.tlv-zoom{margin-left:0;width:100%}.tlv-zoom input{flex:1;width:auto}}
 .bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:16px}
 .search{position:relative}
 .search input{width:260px;background:rgba(255,255,255,.05);border:1px solid var(--divider);border-radius:var(--r-pill);padding:9px 14px 9px 38px;color:var(--ink);font:500 13.5px/1.2 var(--body)}
@@ -164,8 +245,8 @@ body::before{content:"";position:fixed;right:-240px;top:-260px;width:720px;heigh
 .col{min-width:0;display:flex;flex-direction:column;border:1px solid var(--hair);border-radius:var(--r-md);background:rgba(255,255,255,.015);overflow:hidden}
 .ch{padding:14px 14px 12px 16px;border-bottom:1px solid var(--hair)}
 .cn{display:flex;align-items:center;gap:10px;min-height:32px}
-.hp{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent)}
-.hp svg.i{width:16px;height:16px;stroke-width:1.9;filter:drop-shadow(0 0 5px var(--c))}
+.hp{flex:none;width:38.5px;height:38.5px;border-radius:50%;display:grid;place-items:center;color:var(--c);background:none}
+.hp svg.i{width:23.5px;height:23.5px;stroke-width:1.9;filter:drop-shadow(0 0 3px color-mix(in srgb,var(--c) 45%,transparent))}
 .led{flex:none;width:10px;height:10px;border-radius:50%;background:var(--c);box-shadow:0 0 12px var(--c),0 0 3px var(--c)}
 .lbl{font:700 10.5px/1 var(--display);letter-spacing:1.5px;color:var(--c)}
 .cn .lbl{font-size:14px;line-height:1.25;letter-spacing:.06em}
@@ -281,6 +362,12 @@ body.dragging{cursor:grabbing!important}body.dragging *{cursor:grabbing!importan
 .gl{display:block;font:600 10.5px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-subtle);margin-bottom:6px}
 .chips{display:flex;flex-wrap:wrap;gap:5px}
 .c{padding:6px 10px;border-radius:var(--r-pill);border:1px solid var(--divider);font:500 12px/1 var(--body);color:var(--ink-muted);transition:all .15s}
+@media (max-width:720px){
+  .chips{flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x proximity;margin:0 -16px;padding:4px 16px 8px;scroll-padding:0 16px;scrollbar-width:none;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+  .chips::-webkit-scrollbar{display:none}
+  .chips>*{flex:none;scroll-snap-align:start}
+  .c{min-height:40px;padding:10px 15px;font-size:13px}
+}
 .c:hover{color:var(--ink);border-color:rgba(255,255,255,.3)}
 .c[aria-pressed=true]{background:var(--accent-soft);border-color:rgba(198,255,0,.5);color:var(--accent)}
 .more summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:6px;font:600 12px/1 var(--body);color:var(--ink-muted)}
@@ -428,6 +515,7 @@ body.dragging{cursor:grabbing!important}body.dragging *{cursor:grabbing!importan
 @media (max-width:560px){
   .bar{gap:8px}
   .bar>.btn{flex:1 1 0;justify-content:center;padding:10px 12px;font-size:13px;min-height:44px}
+  .bar>.btn.round{flex:0 0 44px;width:44px;min-width:44px;height:44px;min-height:44px;padding:0}
   .saveas .btn .t{display:none}
   .legend{margin-top:0}
   .lg-t{font-size:11px}
@@ -488,6 +576,9 @@ body.knobbing,body.knobbing *{cursor:ns-resize!important;user-select:none}
 .shp[aria-pressed=true]{color:var(--accent);border-color:rgba(198,255,0,.55);background:rgba(198,255,0,.08)}
 .shp:disabled{cursor:default}
 .ms{width:28px;height:14px;flex:none}.ms polyline{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+.chsh{flex:none;display:inline-flex;align-items:center;gap:6px;min-height:30px;padding:6px 10px;border-radius:var(--r-pill);border:1px solid var(--divider);background:rgba(255,255,255,.03);font:600 11.5px/1 var(--body);color:var(--ink-muted);transition:color .2s,border-color .2s,background .2s}
+.chsh:hover{color:var(--ink);border-color:color-mix(in srgb,var(--c) 60%,transparent);background:color-mix(in srgb,var(--c) 10%,transparent)}
+.chsh .i{width:14px;height:14px}
 .cact{display:flex;align-items:center;gap:6px;margin-top:12px;flex-wrap:wrap}
 .lnk{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;min-height:34px;border-radius:var(--r-pill);border:1px solid var(--divider);font:600 12px/1 var(--body);color:var(--ink-muted);transition:color .15s,border-color .15s,background .15s}
 .lnk:hover{color:var(--ink);border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.04)}
@@ -815,7 +906,12 @@ const DEF_B=()=>({from:'energy',ch:PRESETS[1].ch.map(c=>({on:true,n:c.n,r:JSON.p
 /* state */
 const S=Object.assign({view:'presets',preset:'energy',seed:7,ov:{},hours:4,mch:0,bq:'',b:DEF_B(),mine:[],
   lib:{q:'',lang:[],dec:[],gen:[],e:[],flag:[]},sort:{k:'a',d:1}},store.get('state',{}));
-const save=()=>store.set('state',{curve:S.curve,chSeed:S.chSeed,onlyDl:S.onlyDl,ord:S.ord,ordN:S.ordN,howDone:S.howDone,view:S.view,preset:S.preset,seed:S.seed,ov:S.ov,hours:S.hours,b:S.b,mine:S.mine});
+/* Старі збереження можуть мати правило без окремих полів (наприклад, без gen): без цього Конструктор падає */
+const RULE_DEF=()=>({lang:'all',e:[],dec:[],gen:[],flag:[],src:[],ids:[]});
+const fixRule=r=>Object.assign(RULE_DEF(),r||{});
+(S.b&&S.b.ch||[]).forEach(c=>{c.r=fixRule(c.r)});
+(S.mine||[]).forEach(pr=>(pr.ch||[]).forEach(c=>{c.r=fixRule(c.r)}));
+const save=()=>store.set('state',{tlv:S.tlv,tlzv:S.tlzv,tlbare:S.tlbare,curve:S.curve,chSeed:S.chSeed,onlyDl:S.onlyDl,ord:S.ord,ordN:S.ordN,howDone:S.howDone,view:S.view,preset:S.preset,seed:S.seed,ov:S.ov,hours:S.hours,b:S.b,mine:S.mine});
 let undoStack=[];
 S.sel=new Set();S.focus=null;
 const pool=()=>S.onlyDl?T.filter(t=>t.dl):T;
@@ -999,11 +1095,188 @@ function notes(){
 }
 
 /* presets & builder share one board */
+/* Режим «Таймлайн»: усі канали на одній шкалі часу. Над картками треків — плавна крива енергії каналу.
+   Тривалість треку: справжня з локальної копії (LOCAL_DUR), інакше середня MIN хвилин. */
+const tlNorm=s=>String(s||'').normalize('NFC').toLowerCase().replace(/[^0-9a-zа-яіїєґ]+/g,' ').trim();
+function tlDur(t){try{if(typeof LOCAL_DUR!=='undefined'){const d=LOCAL_DUR[tlNorm(t.a)+'|'+tlNorm(t.t)];if(d)return d}}catch(e){}return MIN*60}
+function tlPath(P){let d=`M${P[0][0].toFixed(1)},${P[0][1].toFixed(1)}`;
+  for(let i=0;i<P.length-1;i++){const p0=P[i-1]||P[i],p1=P[i],p2=P[i+1],p3=P[i+2]||p2,k=.18;
+    d+=` C${(p1[0]+(p2[0]-p0[0])*k).toFixed(1)},${(p1[1]+(p2[1]-p0[1])*k).toFixed(1)} ${(p2[0]-(p3[0]-p1[0])*k).toFixed(1)},${(p2[1]-(p3[1]-p1[1])*k).toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}`}
+  return d}
+const tlFmt=s=>{const h=Math.floor(s/3600),m=Math.round(s%3600/60);return h?(m?`${h}:${String(m).padStart(2,'0')}`:`${h} год`):`${m} хв`};
+/* Таймлайн: верхня панель (повзунок) рендериться раз, під час масштабування перемальовується лише
+   вміст прокрутки — інакше повзунок знищувався б посеред перетягування. Дані беремо з останнього compute(). */
+/* Підписи, що не вміщаються в картку, повільно їздять туди-сюди; краї м'яко затемнені */
+function tlFit(){
+  document.querySelectorAll('.tlv-meta>b,.tlv-meta>i,.tlv-meta>em').forEach(el=>{
+    const box=el.parentElement.clientWidth, over=Math.max(0,el.scrollWidth-box);
+    el.style.setProperty('--mq',(-over).toFixed(1)+'px');
+    el.classList.toggle('mq',over>2);
+  });
+}
+document.addEventListener('tlv:render',()=>requestAnimationFrame(()=>{tlFit();tlSize()}));
+/* Висота таймлайну: доходить до нижнього краю екрана, але не нижче 300 px; сам масштаб її не змінює */
+function tlSize(){
+  const sc=document.querySelector('.tlv-sc'); if(!sc) return;
+  const top=sc.getBoundingClientRect().top;
+  sc.style.height=Math.max(300,Math.round(innerHeight-top-16))+'px';
+}
+addEventListener('resize',()=>requestAnimationFrame(tlSize));
+
+/* Наведення: ширина картки під текст, вимірюємо один раз на вхід, щоб CSS міг плавно її змінити */
+document.addEventListener('pointerover',e=>{
+  const card=e.target.closest&&e.target.closest('.tlv-card[data-id]'); if(!card||card.dataset.hw) return;
+  const m=card.querySelector('.tlv-meta'); if(!m) return;
+  const prev=m.style.cssText; m.style.cssText+=';display:flex;width:max-content;max-width:none';
+  const tw=m.getBoundingClientRect().width; m.style.cssText=prev;
+  const cs=parseFloat(getComputedStyle(card).getPropertyValue('--cs'))||0;
+  const cw=parseFloat(getComputedStyle(card).getPropertyValue('--cw'))||0;
+  /* широка картка лишається такою ж; розширюємо лише вузьку або ту, де не вміщається назва */
+  const hcs=Math.min(148,Math.max(cs,120));card.style.setProperty('--hcs',hcs+'px');
+  const hw=Math.max(cw,Math.min(300,Math.max(hcs+16,Math.ceil(tw)+14)));
+  card.style.setProperty('--hw',hw+'px'); card.dataset.hw='1';
+});
+document.addEventListener('pointerout',e=>{
+  const card=e.target.closest&&e.target.closest('.tlv-card[data-id]'); if(!card) return;
+  if(card.contains(e.relatedTarget)) return;
+  delete card.dataset.hw; card.style.removeProperty('--hw');
+});
+
+/* Плавне переміщення карток після перерахунку порядку (FLIP): запам'ятовуємо місця, перерисовуємо,
+   і кожна картка від старого місця плавно їде на нове. Працює для «Інший порядок» і перетягування. */
+function flipRender(fn){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return fn();
+  const snap=new Map();
+  const SEL='.tlv-card[data-id],.row[data-id]';
+  document.querySelectorAll(SEL).forEach(c=>snap.set(c.dataset.id,c.getBoundingClientRect()));
+  fn();
+  requestAnimationFrame(()=>{
+    document.querySelectorAll(SEL).forEach((c,i)=>{
+      const a=snap.get(c.dataset.id); if(!a) return;
+      const b=c.getBoundingClientRect(),dx=a.left-b.left,dy=a.top-b.top;
+      if(Math.abs(dx)<1&&Math.abs(dy)<1) return;
+      c.animate([{transform:`translate(${dx}px,${dy}px)`,zIndex:20},{transform:'translate(0,0)',zIndex:1}],{duration:820,delay:Math.min(i,40)*8,easing:'cubic-bezier(.22,.9,.25,1)',fill:'backwards'});
+    });
+  });
+}
+let tlC=null,tlRaf=0,tlEntered=false;
+function timelineHTML(c){
+  tlC=c;const v=S.tlzv??45;
+  return `<section class="tlv" aria-label="Таймлайн каналів">
+    <div class="tlv-top"><span class="tlv-hint">Усі канали на одній шкалі часу. Крива над треками — енергія каналу.</span>
+      <button class="btn tlv-bare" id="tlBare" aria-pressed="${!!S.tlbare}" title="Показати лише обкладинки, без назв">${S.tlbare?'Показати назви':'Лише обкладинки'}</button>
+      <label class="tlv-zoom"><span>Весь вечір</span><input type="range" id="tlZoom" min="0" max="100" step="1" value="${v}" aria-label="Масштаб часу"><span>Деталі</span></label></div>
+    <div class="tlv-sc">${tlBody(c)}</div></section>`;
+}
+function tlBody(c){
+  const lanes=[0,1,2].filter(i=>c.enabled[i]).map(i=>{let acc=0;const items=c.ids[i].map(id=>{const t=BY[id],d=tlDur(t),it={t,x:acc,d};acc+=d;return it});return{i,items,total:acc}});
+  const cut=S.hours*3600,TOTAL=Math.max(cut,...lanes.map(l=>l.total),1),LW=124;
+  const sc=document.querySelector('.tlv-sc'),avail=Math.max(320,(sc?sc.clientWidth-2:((document.getElementById('main')||{}).clientWidth||1200)-60)-LW);
+  const v=S.tlzv??45,fit=avail/TOTAL,maxPx=1.1,px=fit>=maxPx?fit:fit*Math.pow(maxPx/fit,v/100),W=Math.ceil(TOTAL*px);
+  const typW=MIN*60*px-6,CS=Math.round(Math.max(72,Math.min(112,typW-14))),TXT=!S.tlbare&&typW>=86,EH=66,CHT=112+92+8;
+  const steps=[300,600,900,1800,3600];const step=steps.find(st=>st*px>=96)||3600;
+  let ax='',grid='';for(let s2=step;s2<TOTAL;s2+=step){const x=(s2*px).toFixed(1);if(s2*px<W-28)ax+=`<span style="left:${x}px">${tlFmt(s2)}</span>`;grid+=`<i class="tlv-grid" style="left:${(LW+s2*px).toFixed(1)}px"></i>`}
+  const rows=lanes.map(({i,items,total})=>{
+    const col=CH[i].c,P=[];let cards='';
+    const es=items.map(it=>it.t.e),lo=Math.min(...es),hi=Math.max(...es),Y=e=>hi>lo?EH-10-(e-lo)/(hi-lo)*(EH-24):EH/2;
+    items.forEach((it,k)=>{const x0=it.x*px,x1=(it.x+it.d)*px,y=Y(it.t.e);
+      if(!k)P.push([0,y]);P.push([(x0+x1)/2,y]);
+      const w0=Math.max(6,x1-x0-6),late=it.x>=cut,cs=CS,w=Math.max(w0,cs+12),t=it.t;
+      const sub=[t.y,GEN[t.g]].filter(Boolean).join(' · ');
+      const meta=`<span class="tlv-meta"><b>${esc(t.t)}</b><i>${esc(t.a)}</i>${sub?`<em>${esc(sub)}</em>`:''}</span>`;
+      cards+=`<div class="tlv-card${late?' late':''}${w0<30?' thin':''}" data-id="${esc(t.id)}" style="left:${(x0+3).toFixed(1)}px;width:${w.toFixed(1)}px;--cw:${w.toFixed(1)}px;--cs:${cs}px;--i:${k}" title="${k+1}. ${esc(t.a)} — ${esc(t.t)}${sub?' · '+esc(sub):''} · ${Math.floor(it.d/60)}:${String(Math.round(it.d%60)).padStart(2,'0')}"><span class="cov tlv-cov" style="${covStyle(t)};width:${cs}px;height:${cs}px" aria-hidden="true"></span>${meta}</div>`});
+    if(!P.length)return'';
+    const xe=total*px;P.push([xe,P[P.length-1][1]]);const line=tlPath(P);
+    return `<div class="tlv-row" data-ch="${i}" style="--c:${col}"><div class="tlv-lab"><b>${CH[i].lbl}</b><small>${esc(c.meta[i].n)}</small><small>${items.length} ${pl(items.length,'трек','треки','треків')} · ${tlFmt(total)}</small><button class="tlv-shuf" data-chshuf="${i}" aria-label="Змінити порядок у каналі ${CH[i].lbl}" title="Змінити порядок лише в цьому каналі">${ic('shuffle')}<span>Перемішати</span></button></div>
+      <div class="tlv-lane" style="width:${W}px"><svg class="tlv-en" width="${W}" height="${EH}" role="img" aria-label="Енергія каналу ${CH[i].lbl} по ходу події"><path d="${line} L${xe.toFixed(1)},${EH} L0,${EH} Z" style="fill:${col};fill-opacity:.13"/><path d="${line}" style="fill:none;stroke:${col};stroke-width:2.2;stroke-linecap:round"/></svg>
+      <div class="tlv-cards" style="height:${CHT}px">${cards}</div></div></div>`}).join('');
+  const enter=!tlEntered;tlEntered=true;
+  return `<div class="tlv-in${TXT?' txt':''}${enter?' enter':''}" data-px="${px}" data-lw="${LW}" style="width:${W+LW}px">${grid}
+      <div class="tlv-row tlv-axr"><div class="tlv-lab tlv-axl">Час</div><div class="tlv-ax" style="width:${W}px"><span style="left:0;transform:none">0</span>${ax}</div></div>
+      ${rows}
+      <div class="tlv-end${cut*px>W-140?' r':''}" style="left:${(LW+cut*px).toFixed(1)}px"><span>кінець · ${S.hours} год</span></div></div>`;
+}
+document.addEventListener('input',e=>{
+  if(e.target.id!=='tlZoom')return;
+  S.tlzv=+e.target.value;
+  if(tlRaf)return;
+  tlRaf=requestAnimationFrame(()=>{tlRaf=0;
+    const sc=document.querySelector('.tlv-sc'),inn=sc&&sc.querySelector('.tlv-in');if(!sc||!tlC)return;
+    const oldPx=+inn.dataset.px,lw=+inn.dataset.lw,centerT=(sc.scrollLeft+sc.clientWidth/2-lw)/oldPx;
+    sc.innerHTML=tlBody(tlC);
+    const np=+sc.querySelector('.tlv-in').dataset.px;
+    sc.scrollLeft=Math.max(0,centerT*np+lw-sc.clientWidth/2);
+    document.dispatchEvent(new CustomEvent('tlv:render'));
+  });
+});
+document.addEventListener('change',e=>{if(e.target.id==='tlZoom')save()});
+/* Перетягування треків на таймлайні: між позиціями й між каналами. Тягнути можна за будь-яку частину картки;
+   короткий клік без руху лишається кліком (у локальній копії — відтворення). Слухачі в фазі захоплення,
+   щоб спрацювати раніше за обробники обкладинок плеєра. */
+const TLD={card:null,on:false};
+function tlMove(id,from,to,index){
+  const c=compute(),key=c.key,arrs=c.ids.map(a=>a.slice());
+  const prev={kind:'dnd',key,ov:JSON.parse(JSON.stringify(S.ov[key]||{})),ord:S.ord&&S.ord[key]?JSON.parse(JSON.stringify(S.ord[key])):null,n:(S.ordN||{})[key]||0};
+  const before=c.ids[from].indexOf(id);
+  arrs[from]=arrs[from].filter(x=>x!==id);
+  if(index==null||index>arrs[to].length)index=arrs[to].length;
+  if(to===from&&index===before){render();return}
+  arrs[to].splice(index,0,id);
+  const ov=S.ov[key]=S.ov[key]||{};if(to!==from)ov[id]=to;
+  S.ord=S.ord||{};S.ordN=S.ordN||{};S.ord[key]=arrs;S.ordN[key]=(S.ordN[key]||0)+(to===from?1:0);
+  undoStack.push(prev);save();flipRender(render);
+  const t=BY[id];toast(to===from?`«${t.t}» тепер №${index+1} у ${CH[to].lbl}`:`«${t.t}» перенесено в ${CH[to].lbl} на №${index+1}`,true);
+}
+function tlDragEnd(commit){
+  const {card,id,from,to,idx}=TLD;
+  TLD.ghost&&TLD.ghost.remove();TLD.mark&&TLD.mark.remove();
+  card&&card.classList.remove('tl-src');document.body.classList.remove('tl-dragging');
+  TLD.on=false;TLD.card=null;TLD.ghost=null;TLD.mark=null;
+  if(commit&&to!=null){
+    const kill=ev=>{ev.stopPropagation();ev.preventDefault()};
+    document.addEventListener('click',kill,true);setTimeout(()=>document.removeEventListener('click',kill,true),0);
+    tlMove(id,from,to,idx);
+  }
+}
+document.addEventListener('pointerdown',e=>{
+  if(e.button!==0||TLD.on)return;
+  const card=e.target.closest&&e.target.closest('.tlv-card[data-id]');if(!card)return;
+  const row=card.closest('.tlv-row[data-ch]');if(!row)return;
+  const r=card.getBoundingClientRect();
+  Object.assign(TLD,{card,id:card.dataset.id,from:+row.dataset.ch,x0:e.clientX,y0:e.clientY,dx:e.clientX-r.left,dy:e.clientY-r.top,to:null,idx:null,on:false});
+},true);
+document.addEventListener('pointermove',e=>{
+  if(!TLD.card)return;
+  if(!TLD.on){
+    if(Math.hypot(e.clientX-TLD.x0,e.clientY-TLD.y0)<7)return;
+    TLD.on=true;const r=TLD.card.getBoundingClientRect();
+    const g=TLD.card.cloneNode(true);g.classList.add('tlv-ghost');g.style.cssText+=`;position:fixed;left:0;top:0;width:${r.width}px;height:${r.height}px;bottom:auto;z-index:200;pointer-events:none`;
+    document.body.appendChild(g);TLD.ghost=g;TLD.card.classList.add('tl-src');document.body.classList.add('tl-dragging');
+    const m=document.createElement('div');m.className='tlv-drop';document.body.appendChild(m);TLD.mark=m;
+  }
+  e.preventDefault();
+  TLD.ghost.style.transform=`translate(${e.clientX-TLD.dx}px,${e.clientY-TLD.dy}px) rotate(-1.5deg)`;
+  const sc=document.querySelector('.tlv-sc');
+  if(sc){const b=sc.getBoundingClientRect(),lw=+(sc.querySelector('.tlv-in')||{dataset:{}}).dataset.lw||0;
+    if(e.clientX<b.left+lw+50)sc.scrollLeft-=14;else if(e.clientX>b.right-50)sc.scrollLeft+=14}
+  const lane=document.elementFromPoint(e.clientX,e.clientY)?.closest('.tlv-row[data-ch]');
+  if(!lane){TLD.to=null;TLD.mark.style.display='none';return}
+  const area=lane.querySelector('.tlv-cards').getBoundingClientRect();
+  const cards=[...lane.querySelectorAll('.tlv-card[data-id]')].filter(c=>c!==TLD.card);
+  let idx=0,x=area.left+4;
+  for(const c of cards){const r=c.getBoundingClientRect();if(r.left+r.width/2<e.clientX){idx++;x=r.right+3}else{x=r.left-3;break}}
+  TLD.to=+lane.dataset.ch;TLD.idx=idx;
+  Object.assign(TLD.mark.style,{display:'block',left:`${x-2}px`,top:`${area.top}px`,height:`${area.height}px`,background:getComputedStyle(lane).getPropertyValue('--c')||'#c6ff00'});
+},true);
+document.addEventListener('pointerup',()=>{if(!TLD.card)return;if(TLD.on)tlDragEnd(true);else TLD.card=null},true);
+document.addEventListener('pointercancel',()=>{if(TLD.on)tlDragEnd(false);TLD.card=null},true);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&TLD.on)tlDragEnd(false)});
+
 function boardHTML(c){
   const target=S.hours*60,q=S.bq.trim().toLowerCase(),isB=S.view==='builder';
   const cols=[0,1,2].map(i=>{
     const ch=CH[i],ids=c.ids[i],m=Math.round(ids.length*MIN);
-    const head=`<div class="cn"><span class="hp" style="--c:${ch.c}">${ic('hp')}</span><span class="lbl" style="--c:${ch.c}">${ch.lbl}</span><span class="sep" aria-hidden="true"></span><h3 title="${esc(c.meta[i].n)}"><span class="mq">${esc(c.meta[i].n)}</span></h3>
+    const head=`<div class="cn"><span class="hp" style="--c:${ch.c}">${ic('hp')}</span><span class="lbl" style="--c:${ch.c}">${ch.lbl}</span><span class="sep" aria-hidden="true"></span><h3 title="${esc(c.meta[i].n)}"><span class="mq">${esc(c.meta[i].n)}</span></h3><button class="chsh" data-chshuf="${i}" aria-label="Змінити порядок у каналі ${CH[i].lbl}" title="Змінити порядок лише в цьому каналі, драматургія лишається">${ic('shuffle')}<span>Змінити порядок</span></button>
       ${c.enabled[i]?`<button class="ibtn xp" data-focus="${i}" aria-pressed="${S.focus===i}" aria-label="${S.focus===i?'Згорнути':'Розгорнути'} канал ${ch.lbl}" title="${S.focus===i?'Повернути три рівні колонки':'Розгорнути канал ширше'}">${ic(S.focus===i?'shrink':'expand')}</button><button class="ibtn" data-copy="${i}" aria-label="Копіювати список ${ch.lbl}" title="Копіювати список">${ic('copy')}</button>`:''}</div>`;
     const rules=isB?rulesHTML(i):'',fc=S.focus==null?'':S.focus===i?'focus':'compact';
     if(!c.enabled[i]) return `<section class="col ${S.mch===i?'active':''} ${fc}" style="--chc:${ch.c}" aria-label="${ch.lbl}"><div class="ch">${head}${rules}</div><div class="off">Канал вимкнено. Увімкніть його в правилах вище.</div></section>`;
@@ -1030,6 +1303,7 @@ const dataBar=()=>`<div class="dsrc" role="status"><span class="dtxt">${USING_FA
 function toolbar(c,extra=''){
   return `<div class="bar"><label class="search">${ic('search')}<span class="sr">Знайти трек у каналах</span><input type="search" id="bq" placeholder="Знайти трек у каналах" value="${esc(S.bq)}"></label>
     <span class="grow"></span>${extra}
+    <button class="btn" id="tlView" aria-pressed="${!!S.tlv}" title="${S.tlv?'Повернутися до списків каналів':'Показати всі канали на шкалі часу'}">${ic('clock')}<span class="t">${S.tlv?'Списки':'Таймлайн'}</span></button>
     <button class="btn" id="shuffle" title="Перемішати порядок, зберігаючи хвилі енергії">${ic('shuffle')}<span class="t">Інший порядок</span></button>
     ${c.edits?`<button class="btn" id="reset">${ic('undo')}<span class="t">Скинути ${c.edits} ${pl(c.edits,'зміну','зміни','змін')}</span></button>`:''}
     <button class="btn round" id="dlAll" aria-label="Скачати всі канали текстовим файлом" title="Скачати всі канали текстовим файлом">${ic('download')}</button>
@@ -1041,8 +1315,8 @@ function renderPresets(){
   document.getElementById('main').innerHTML=`${mpick(allPresets(),S.preset,'mpreset')}
     <div class="head"><span class="ptile">${ic(p.icon||'star')}</span><div class="htxt"><h2>${esc(p.name)}</h2><p>${esc(p.sub||'Мій пресет.')}</p></div>
       <button class="btn" id="toBuilder" title="Скопіювати правила цього пресету в конструктор">${ic('edit')}<span class="t">Змінити в конструкторі</span></button></div>
-    ${S.howDone?'':`<ol class="how" aria-label="Як користуватися"><li><b>1</b><span><strong>Оберіть пресет</strong> — добірку під формат події. Зміни — у конструкторі.</span></li><li><b>2</b><span><strong>Перевірте канали.</strong> Смуга — енергія по ходу, позначка — кінець ${S.hours} год.</span></li><li><b>3</b><span><strong>Перетягніть трек</strong> — порядок або канал. Клік вибирає кілька треків (на телефоні — довге натискання).</span></li><li><b>4</b><span><strong>Коли все готово</strong> — натисніть «Копіювати всі три» і надішліть списки команді SILENT.</span></li><li class="how-en">${legend()}</li><li class="how-x"><button class="ibtn" id="howX" aria-label="Сховати підказку" title="Сховати підказку">${ic('x')}</button></li></ol>`}
-    ${fallbackBanner()}${toolbar(c)}${boardHTML(c)}`;
+    ${S.howDone?'':`<ol class="how" aria-label="Як користуватися"><li><b>1</b><span><strong>Оберіть готовий набір</strong>Виберіть треки під свій вечір. В конструкторі можна створити свій унікальний набір.</span></li><li><b>2</b><span><strong>Перевірте кожен канал</strong>Це окремий плейлист. Смуга показує, як росте й падає енергія. Позначка — кінець ${S.hours} год.</span></li><li><b>3</b><span><strong>Перетягніть трек</strong>Так міняється порядок або канал. Клікайте на трек, щоб вибрати декілька разом. На телефоні утримуйте палець і перетягуйте.</span></li><li><b>4</b><span><strong>Коли все готово</strong>Натисніть «Копіювати всі три» або скачайте файл і надішліть його команді SILENT.</span></li><li class="how-en">${legend()}</li><li class="how-x"><button class="ibtn" id="howX" aria-label="Сховати підказку" title="Сховати підказку">${ic('x')}</button></li></ol>`}
+    ${fallbackBanner()}${toolbar(c)}${S.tlv?timelineHTML(c):boardHTML(c)}`;
   renderRail(c);
 }
 function renderBuilder(){
@@ -1050,7 +1324,7 @@ function renderBuilder(){
   document.getElementById('main').innerHTML=`${mpick(allPresets(),S.b.from,'mfrom')}
     <div class="head"><span class="ptile">${ic('sliders')}</span><div class="htxt"><h2>Конструктор</h2><p>Задайте правила для кожного каналу. Трек, що підходить двом каналам, іде туди, де менше треків. Вимкніть два канали, щоб зібрати один окремий плейлист.</p></div></div>
     ${fallbackBanner()}${toolbar(c,`<form class="saveas" id="saveas"><label class="sr" for="pname">Назва пресету</label><input id="pname" placeholder="Назва нового пресету" maxlength="40"><button class="btn" type="submit">${ic('save')}<span class="t">Зберегти як пресет</span></button></form>`)}
-    ${boardHTML(c)}`;
+    ${S.tlv?timelineHTML(c):boardHTML(c)}`;
   renderRail(c);
 }
 function rulesHTML(i){
@@ -1063,7 +1337,7 @@ function rulesHTML(i){
     <div><span class="gl">Мова</span><div class="chips">${[['all','Уся'],['ua','Українське'],['int','Міжнародне']].map(([v,l])=>`<button class="c" data-ri="${i}" data-rk="lang" data-v="${v}" aria-pressed="${r.lang===v}">${l}</button>`).join('')}</div></div>
     <div><span class="gl">Енергія</span>${chip('e',[1,2,3,4,5].map(e=>[e,`${e} · ${EN[e]}`]))}</div>
     <div><span class="gl">Десятиліття</span>${chip('dec',DEC)}</div>
-    <details class="more" data-more="${i}" ${S.moreOpen?.[i]||moreN?'open':''}><summary>${ic('chev')}Ще умови${moreN?` <span class="cnt">· ${moreN}</span>`:''}</summary><div class="in">
+    <details class="more" data-more="${i}" ${S.moreOpen?.[i]||moreN?'open':''}><summary>${ic('chev')}Більше фільтрів${moreN?` <span class="cnt">· ${moreN}</span>`:''}</summary><div class="in">
       <div><span class="gl">Жанр</span>${chip('gen',Object.entries(GEN))}</div>
       <div><span class="gl">Позначки</span>${chip('flag',FLG)}</div>
       <div><span class="gl">Вихідний список</span>${chip('src',SRC)}</div></div></details>`:''}</div>`;
@@ -1196,6 +1470,7 @@ function playM(P){
 }
 function render(){
   const MP=snapM();
+  if(S.tlv) requestAnimationFrame(()=>{tlFit();tlSize()});
   /* Розмітка перебудовується повністю: на мить сторінка коротшає, і браузер скидає прокрутку вгору.
      Запам'ятовуємо позицію вікна й повертаємо її миттєво (scroll-behavior: smooth тут не можна). */
   const winY=window.scrollY;
@@ -1303,7 +1578,7 @@ document.addEventListener('click',e=>{
     if(S.focus!=null&&innerWidth>900){const col=document.querySelectorAll('.board .col')[i];col&&col.getBoundingClientRect().top<90&&window.scrollTo({top:col.getBoundingClientRect().top+scrollY-100,behavior:'instant'})}return}
   if(d.shape){const c=ctx(),i=+d.ci;setCurve(c.key,i,d.shape);toast(`${CH[i].lbl}: драматургія «${SHAPES[d.shape].n}»`,true);return}
   if(d.chshuf!=null){const c=ctx(),i=+d.chshuf;undoStack.push(chanSnap('chs',c.key,i));
-    S.chSeed=S.chSeed||{};const a=S.chSeed[c.key]=S.chSeed[c.key]||[0,0,0];a[i]=Math.floor(Math.random()*1e6);clearOrd(c.key,i);M.cascade=i;render();toast(`${CH[i].lbl}: новий порядок, драматургію збережено`,true);return}
+    S.chSeed=S.chSeed||{};const a=S.chSeed[c.key]=S.chSeed[c.key]||[0,0,0];a[i]=Math.floor(Math.random()*1e6);clearOrd(c.key,i);M.cascade=i;flipRender(render);toast(`${CH[i].lbl}: новий порядок, драматургію збережено`,true);return}
   if(d.selmv!=null){selMove(+d.selmv);return}
   if(t.id==='selClear'){S.sel.clear();syncSel();return}
   if(d.mch){S.mch=+d.mch;render();
@@ -1315,8 +1590,11 @@ document.addEventListener('click',e=>{
   if(d.lk){const k=d.lk;let v=d.v;if(k==='e')v=+v;const a=S.lib[k],j=a.indexOf(v);j<0?a.push(v):a.splice(j,1);render();return}
   if(d.pool!=null){const q=S.lib.q;S.lib=Object.assign({q,lang:[],dec:[],gen:[],e:[],flag:[]},JSON.parse(JSON.stringify(POOLS[+d.pool][1])));render();return}
   if(d.sort){const k=d.sort;S.sort=S.sort.k===k?{k,d:-S.sort.d}:{k,d:k==='a'?1:-1};render();return}
+  if(d.tlz){S.tlz=+d.tlz;save();render();return}
   switch(t.id){
-    case 'shuffle':S.seed=Math.floor(Math.random()*1e6);S.ord={};S.ordN={};M.cascade='all';render();toast('Порядок оновлено, хвилі енергії збережено');break;
+    case 'tlView':S.tlv=!S.tlv;S.focus=null;save();render();break;
+    case 'tlBare':{S.tlbare=!S.tlbare;save();const sc=document.querySelector('.tlv-sc');if(sc&&tlC){const l=sc.scrollLeft;sc.innerHTML=tlBody(tlC);sc.scrollLeft=l}t.setAttribute('aria-pressed',String(!!S.tlbare));t.textContent=S.tlbare?'Показати назви':'Лише обкладинки';document.dispatchEvent(new CustomEvent('tlv:render'));break}
+    case 'shuffle':S.seed=Math.floor(Math.random()*1e6);S.ord={};S.ordN={};M.cascade='all';flipRender(render);toast('Порядок оновлено, хвилі енергії збережено');break;
     case 'reset':{const c=ctx(),n=realEdits(S.ov[c.key])+((S.ordN||{})[c.key]||0);delete S.ov[c.key];if(S.ord)delete S.ord[c.key];if(S.ordN)delete S.ordN[c.key];undoStack=undoStack.filter(h=>h.key!==c.key);render();toast(`Скинуто ${n} ${pl(n,'ручну зміну','ручні зміни','ручних змін')}`);break}
     case 'dlAll':{const c=compute();const txt='\uFEFF'+[0,1,2].filter(i=>c.enabled[i]).map(i=>chText(i)).join('\n\n');const a=document.createElement('a');const url=URL.createObjectURL(new Blob([txt],{type:'text/plain;charset=utf-8'}));a.href=url;a.download='silent-playlists-'+new Date().toISOString().slice(0,10)+'.txt';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(url);a.remove()},1000);toast('Файл з плейлистами завантажено');break}
     case 'copyAll':{const c=compute();copy([0,1,2].filter(i=>c.enabled[i]).map(i=>chText(i)).join('\n\n'),'Канали скопійовано');break}
@@ -1398,7 +1676,7 @@ document.addEventListener('touchmove',e=>{if(D.active)e.preventDefault()},{passi
 /* довге натискання на треку — це початок перетягування, а не виділення тексту чи системне меню */
 document.addEventListener('selectstart',e=>{const t=e.target.nodeType===3?e.target.parentElement:e.target;if(D.cand||D.active||(t&&t.closest&&t.closest('.row[data-id]')))e.preventDefault()});
 document.addEventListener('contextmenu',e=>{if(e.target.closest&&e.target.closest('.row[data-id]')&&(D.cand||D.active||D.touch))e.preventDefault()});
-document.addEventListener('pointerup',e=>{if(D.active){endDrag(true);return}
+document.addEventListener('pointerup',e=>{if(D.active){flipRender(()=>endDrag(true));return}
   /* короткий клік / дотик без руху — вибрати трек (кілька вибраних тягнуться разом) */
   const r=D.cand;if(r&&Math.hypot(e.clientX-D.x,e.clientY-D.y)<(D.touch?8:5)){cancelCand();toggleSel(r);return}
   cancelCand()});
