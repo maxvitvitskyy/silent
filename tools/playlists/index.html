@@ -130,8 +130,15 @@ body::before{content:"";position:fixed;right:-240px;top:-260px;width:720px;heigh
 .head h2{font:700 22px/1.2 var(--display);letter-spacing:-.02em;color:var(--ink)}
 .head p{font-size:13.5px;color:var(--ink-muted);margin-top:4px;max-width:680px}
 .head .htxt{flex:1;min-width:0}
-.how{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:16px;align-items:start;margin:0 0 18px;padding:14px 16px;border:1px solid var(--hair);border-radius:var(--r-md);background:rgba(198,255,0,.04)}
+.how{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;align-items:start;margin:0 0 18px;padding:14px 16px;border:1px solid var(--hair);border-radius:var(--r-md);background:rgba(198,255,0,.04)}
 .how li{display:flex;gap:10px;font-size:12.5px;line-height:1.45;color:var(--ink-muted)}
+.how li.how-en{grid-column:1/-1;display:block;padding-top:12px;margin-top:2px;border-top:1px solid var(--hair)}
+.how{position:relative;padding-right:52px}
+.how li.how-x{position:absolute;right:12px;top:12px}
+.btn.round{width:40px;height:40px;padding:0;justify-content:center;border-radius:50%;flex:none}
+.how li>span{display:block;color:var(--ink-muted);min-width:0}
+.how li>span strong{color:var(--ink);font-weight:650}
+.how li.how-en .legend{margin:0}
 .how b{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:var(--ink-on-accent);font:700 11px/1 var(--display)}
 .bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:16px}
 .search{position:relative}
@@ -381,7 +388,7 @@ body.dragging{cursor:grabbing!important}body.dragging *{cursor:grabbing!importan
   .board{gap:10px}
   .list,.v-builder .list{max-height:70vh}
   .head{flex-wrap:wrap;align-items:center}.head .htxt{flex:1 1 320px}
-  .how{grid-template-columns:1fr;position:relative;padding-right:56px}.how li:last-child{position:absolute;right:12px;top:12px}
+  .how{grid-template-columns:1fr}
   .search{flex:1}.search input{width:100%}
   .reserve .list{columns:1}
   .lh{display:none}.lr{grid-template-columns:32px 36px minmax(0,1fr) 56px 76px;padding:10px 12px}.lr .hm{display:none}
@@ -627,6 +634,12 @@ body.barring,body.barring *{cursor:grabbing!important;user-select:none}
 .wp .wbars i.hv{filter:brightness(1.4)}
 @media (prefers-reduced-motion:reduce){.wcard{transform:translate(-50%,0)}.col:not(.focus) .wp.peek .wbars,.col:not(.focus) .wp.peek .wline{transform:none}}
 @media (prefers-reduced-motion:reduce){.wp.bdrag .wbars i{transition:none}}
+
+/* Таблиця бібліотеки: шапка вирівняна з рядками; текст у рядках — назва до 2 рядків, виконавець в один */
+.lh button{padding:0;margin:0;font:inherit}
+.lr .tt{min-width:0}
+.lr .tt .t{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.3}
+.lr .tt .a{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 </style>
 </head>
 <body>
@@ -668,7 +681,7 @@ body.barring,body.barring *{cursor:grabbing!important;user-select:none}
   <symbol id="i-grip" viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.3"/><circle cx="15" cy="6" r="1.3"/><circle cx="9" cy="12" r="1.3"/><circle cx="15" cy="12" r="1.3"/><circle cx="9" cy="18" r="1.3"/><circle cx="15" cy="18" r="1.3"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
   <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></symbol>
-  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M7.5 10.5 12 15l4.5-4.5"/><path d="M5 19.5h14"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
   <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
   <symbol id="i-ok" viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></symbol>
@@ -717,7 +730,9 @@ function buildTracks(text){
     const srcs=get(r,'src').split(',').map(s=>s.trim()[0]).filter(Boolean).map(s=>s.toUpperCase());
     lines+=Math.max(1,srcs.length);
     let id=normKey(a)+'|'+normKey(t);if(seen[id]){seen[id]++;id+='#'+seen[id]}else seen[id]=1;
-    out.push({id,n:out.length,a,t,y,g:GEN_KEY[get(r,'g')]||'pop',e:em?+em[0]:3,ua:lang==='UA',src:srcs.join(''),
+    const gs=[...new Set(get(r,'g').split(',').map(x=>GEN_KEY[x.trim()]).filter(Boolean))];
+    const gPrim=gs.find(x=>x!=='ua')||gs[0]||'pop';
+    out.push({id,n:out.length,a,t,y,g:gPrim,gs:gs.length?gs:['pop'],e:em?+em[0]:3,ua:lang==='UA',src:srcs.join(''),
       approx:yes(get(r,'chk'))||!y||!em||!lang,remix:yes(get(r,'rmx')),sing:yes(get(r,'sing')),kids:yes(get(r,'kids')),xmas:yes(get(r,'xmas')),dl:yes(get(r,'dl'))});
   }
   RAW_LINES=lines;return out;
@@ -751,7 +766,7 @@ async function loadData(){
 {const err=await loadData();if(err){showLoadError(err);return}}
 const GEN={pop:'Pop',disco:'Disco / Funk',rock:'Rock',dance:'Dance',soul:'Soul / R&B',jazz:'Jazz / Swing',ost:'Саундтрек',latin:'Latin / World',ballad:'Балада',ua:'Українське'};
 const DEC=[['60','до 70-х'],['70','70-ті'],['80','80-ті'],['90','90-ті'],['00','2000-ні'],['10','2010-ті'],['20','2020-ті']];
-const FLG=[['sing','Співають усі'],['kids','Сімейне']];
+const FLG=[['sing','Співають усі'],['kids','Сімейне'],['xmas','Різдвяне']];
 const SRC=[['R','Червоний'],['G','Зелений'],['B','Синій']];
 const dec=t=>t.y==null?null:t.y<1970?'60':String(Math.floor(t.y/10)*10).slice(2).padStart(2,'0');
 const CH=[{lbl:'RED',c:'var(--ch-red)'},{lbl:'GREEN',c:'var(--ch-green)'},{lbl:'BLUE',c:'var(--ch-blue)'}];
@@ -761,10 +776,8 @@ const ic=(n,cls='')=>`<svg class="i ${cls}" aria-hidden="true"><use href="#i-${n
 const store={get(k,d){try{const v=localStorage.getItem('silent4-'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('silent4-'+k,JSON.stringify(v))}catch(e){}}};
 
 /* One rule engine for presets and the builder. A rule: language, energy, decades, genres, marks, source list. */
-const R=(o)=>Object.assign({lang:'all',e:[],dec:[],gen:[],flag:[],src:[]},o);
+const R=(o)=>Object.assign({lang:'all',e:[],dec:[],gen:[],flag:[],src:[],ids:[]},o);
 const PRESETS=[
- {id:'lists',name:'Як у списках',icon:'lists',tag:'Три списки Алінки без дублів',sub:'Три вихідні списки без дублів. Трек, що стояв у двох списках, лишився в першому.',
-  ch:[{n:'Драйвовий',d:'Хіти, під які стрибають і співають.',r:R({src:['R']})},{n:'Вайбовий',d:'Груві, ретро, легкий танець.',r:R({src:['G']})},{n:'Романтичний',d:'Повільні, балади, меланхолія.',r:R({src:['B']})}]},
  {id:'energy',name:'За енергією',icon:'bolt',tag:'Драйв · вайб · повільні',sub:'Розподіл за енергією треку. Повільні гарантовано не потраплять у драйвовий канал.',
   ch:[{n:'Драйв',d:'Енергія 4–5.',r:R({e:[4,5]})},{n:'Вайб',d:'Енергія 3–4.',r:R({e:[3,4]})},{n:'Повільні',d:'Енергія 1–2.',r:R({e:[1,2]})}]},
  {id:'gen',name:'Битва поколінь',icon:'hourglass',tag:'Три покоління на трьох каналах',sub:'Кожне покоління на своєму каналі. Лише треки з енергією 3+, щоб усі канали танцювали.',
@@ -777,20 +790,30 @@ const PRESETS=[
   ch:[{n:'Класика',d:'Міжнародні хіти до 2000, енергія 3+.',r:R({lang:'int',dec:['60','70','80','90'],e:[3,4,5]})},{n:'Сучасне',d:'Міжнародні після 2000, енергія 3+.',r:R({lang:'int',dec:['00','10','20'],e:[3,4,5]})},{n:'Українське',d:'Українські треки, енергія 3+.',r:R({lang:'ua',e:[3,4,5]})}]},
  {id:'family',name:'Сімейне свято',icon:'balloon',tag:'Для подій з дітьми',sub:'Саундтреки й пісні, які знають усі; позитивний поп; українське. Повільні балади сюди не входять.',
   ch:[{n:'Для всіх',d:'Мультфільми і пісні, які знають усі.',r:R({lang:'int',flag:['kids','sing'],e:[3,4,5]})},{n:'Позитивний поп',d:'Міжнародні хіти, енергія 3+.',r:R({lang:'int',e:[3,4,5]})},{n:'Українське',d:'Українські треки, енергія 2+.',r:R({lang:'ua',e:[2,3,4,5]})}]},
+ {id:'xmas',name:'Різдвяна ніч',icon:'balloon',tag:'Різдво і Новий рік',sub:'Червоний канал — чисто різдвяний, поки порожній: новорічні й різдвяні треки додамо пізніше. Два інші канали — міжнародні й українські драйвові треки.',
+  ch:[{n:'Різдвяний',d:'Різдвяні треки. Поки порожньо.',r:R({flag:['xmas']})},{n:'Світ: драйв',d:'Міжнародні треки, енергія 4–5.',r:R({lang:'int',e:[4,5]})},{n:'Українське: драйв',d:'Українські треки, енергія 4–5.',r:R({lang:'ua',e:[4,5]})}]},
+ {id:'karaoke',name:'Караоке-вечір',icon:'balloon',tag:'Пісні, які співають усі',sub:'Треки, під які підспівують усі. Червоний — драйв, зелений — середні, синій — українські.',
+  ch:[{n:'Драйв',d:'Співають усі, енергія 4–5.',r:R({flag:['sing'],e:[4,5]})},{n:'Середні',d:'Співають усі, енергія 3.',r:R({flag:['sing'],e:[3]})},{n:'Українські',d:'Українські треки, енергія 3–5.',r:R({lang:'ua',e:[3,4,5]})}]},
+ {id:'rock',name:'Рок-гімни',icon:'bolt',tag:'Рок від драйву до балад',sub:'Рок-треки на три канали: від гімнів до повільних рокових балад.',
+  ch:[{n:'Драйв',d:'Рок, енергія 4–5.',r:R({gen:['rock'],e:[4,5]})},{n:'Середній',d:'Рок, енергія 3.',r:R({gen:['rock'],e:[3]})},{n:'Баладний рок',d:'Рок, енергія 1–2.',r:R({gen:['rock'],e:[1,2]})}]},
+ {id:'jazz',name:'Джаз і соул',icon:'vinyl',tag:'Для дорослого вечора',sub:'Джаз і соул на три канали: від груву до тихих вечірніх треків.',
+  ch:[{n:'Джаз',d:'Джаз і свінг.',r:R({gen:['jazz']})},{n:'Соул і R&B',d:'Соул і R&B.',r:R({gen:['soul']})},{n:'Тихий вечір',d:'Джаз і соул, енергія 1–2.',r:R({gen:['jazz','soul'],e:[1,2]})}]},
 ];
 const test=r=>t=>(r.lang==='all'||(r.lang==='ua')===t.ua)&&(!r.e.length||r.e.includes(t.e))&&(!r.dec.length||r.dec.includes(dec(t)))
-  &&(!r.gen.length||r.gen.includes(t.g))&&(!r.flag.length||r.flag.some(f=>t[f]))&&(!r.src.length||r.src.includes(t.src[0]));
+  &&(!r.gen.length||r.gen.some(x=>t.gs.includes(x)))&&(!r.flag.length||r.flag.some(f=>t[f]))&&(!r.src.length||r.src.includes(t.src[0]))
+  &&(!r.ids.length||r.ids.map(k=>k.split('|').map(normKey).join('|')).includes(t.id.replace(/#\d+$/,'')));
 const ruleDesc=r=>{const p=[r.lang==='ua'?'Українське':r.lang==='int'?'Міжнародне':'Уся музика'];
   if(r.e.length)p.push('енергія '+r.e.slice().sort().join(', '));
   if(r.dec.length)p.push(r.dec.map(d=>DEC.find(x=>x[0]===d)[1]).join(', '));
   if(r.gen.length)p.push(r.gen.map(g=>GEN[g]).join(', '));
   if(r.flag.length)p.push(r.flag.map(f=>FLG.find(x=>x[0]===f)[1].toLowerCase()).join(' або '));
   if(r.src.length)p.push('зі списку: '+r.src.map(s=>SRC.find(x=>x[0]===s)[1].toLowerCase()).join(', '));
+  if(r.ids.length)p.push('вибрані треки');
   return p.join(' · ')};
 const DEF_B=()=>({from:'energy',ch:PRESETS[1].ch.map(c=>({on:true,n:c.n,r:JSON.parse(JSON.stringify(c.r))}))});
 
 /* state */
-const S=Object.assign({view:'presets',preset:'lists',seed:7,ov:{},hours:4,mch:0,bq:'',b:DEF_B(),mine:[],
+const S=Object.assign({view:'presets',preset:'energy',seed:7,ov:{},hours:4,mch:0,bq:'',b:DEF_B(),mine:[],
   lib:{q:'',lang:[],dec:[],gen:[],e:[],flag:[]},sort:{k:'a',d:1}},store.get('state',{}));
 const save=()=>store.set('state',{curve:S.curve,chSeed:S.chSeed,onlyDl:S.onlyDl,ord:S.ord,ordN:S.ordN,howDone:S.howDone,view:S.view,preset:S.preset,seed:S.seed,ov:S.ov,hours:S.hours,b:S.b,mine:S.mine});
 let undoStack=[];
@@ -814,7 +837,7 @@ const WAVE=[.45,.6,.75,.85,1,1,.9,.7,.55,.8];
    решта — 7 опорних точок від початку до кінця події (0 — найспокійніші треки каналу, 1 — найенергійніші).
    Свою форму задають, перетягуючи точки на графіку (тоді вона зберігається як {p:[…]}). */
 const SHAPES={waves:{n:'Хвилі'},rise:{n:'Наростання',p:[.2,.35,.5,.65,.8,.95,1]},arc:{n:'Пік посередині',p:[.35,.6,.85,1,.85,.6,.4]},
-  twin:{n:'Два піки',p:[.45,.95,.55,.6,1,.7,.45]},drive:{n:'Рівний драйв',p:[.8,.9,.9,.9,.9,.9,.85]},calm:{n:'Спокійний вечір',p:[.65,.55,.45,.4,.3,.25,.2]}};
+  twin:{n:'Два піки',p:[.45,.95,.55,.6,1,.7,.45]},drive:{n:'Рівний драйв',p:[.8,.9,.9,.9,.9,.9,.85]},calm:{n:'Спокійний вечір',p:[.85,.7,.55,.42,.3,.2,.12]}};
 const curveOf=(key,i)=>((S.curve||{})[key]||[])[i]||'waves';
 const curvePts=cv=>cv&&typeof cv==='object'?cv.p:(SHAPES[cv]&&SHAPES[cv].p)||null;
 function cinterp(p,t){if(t<=0)return p[0];if(t>=1)return p[p.length-1];const x=t*(p.length-1),k=Math.floor(x),f=x-k,g=(1-Math.cos(f*Math.PI))/2;return p[k]*(1-g)+p[k+1]*g}
@@ -822,14 +845,39 @@ function targetAt(i,cv,L){const p=curvePts(cv);if(!p)return WAVE[i%WAVE.length];
 const cutN=()=>Math.floor(S.hours*60/MIN);
 const seedOf=(key,i)=>S.seed+i*101+(((S.chSeed||{})[key]||[])[i]||0);
 function order(ids,seed,cv,cut){
+  /* Порядок треків каналу за драматургією. Старий жадібний підбір («найближчий трек до цілі на кожному кроці»)
+     вичерпував крайні енергії: на початку забирав середні, а під кінець лишались лише ті, що не лягали на криву,
+     тож «спокійний вечір» закінчувався активними. Тепер це задача узгодження: з усіх треків каналу обираємо
+     рівно стільки, скільки слотів у події, так, щоб сумарне відхилення енергії від кривої було найменшим
+     (динамічне програмування за монотонним узгодженням, O(слоти × треки)). Слоти йдуть від найнижчої цілі
+     до найвищої, тож крива справді спадає/зростає, а треки кожного рівня є в каналі. Рівні цілі розставляємо
+     в часі випадково (зерно), щоб «рівний драйв» не мав сходинки. Решта треків іде в запас після події. */
   if(!ids.length)return[];
-  const r=rng(seed),rem=ids.map(id=>BY[id]).map(t=>({t,k:r()})).sort((a,b)=>a.k-b.k).map(x=>x.t);
-  const es=rem.map(t=>t.e),lo=Math.min(...es),hi=Math.max(...es),out=[];let i=0;
-  const L=Math.min(ids.length,cut||ids.length);
-  while(rem.length){const tg=lo+(hi-lo)*targetAt(i,cv,L),last=out[out.length-1];
-    let bi=0,bs=1e9;rem.forEach((t,j)=>{const s=Math.abs(t.e-tg)+(last&&t.a===last.a?2.5:0)+j*1e-4;if(s<bs){bs=s;bi=j}});
-    out.push(rem.splice(bi,1)[0]);i++}
-  return out.map(t=>t.id);
+  const r=rng(seed);
+  const trk=ids.map(id=>({id,e:BY[id].e,a:BY[id].a,k:r()})).sort((x,y)=>x.e-y.e||x.k-y.k);
+  const N=trk.length,L=Math.min(N,cut||N),lo=trk[0].e,hi=trk[N-1].e;
+  const slots=[...Array(L).keys()].map(i=>({i,v:lo+(hi-lo)*targetAt(i,cv,L)+(r()-.5)*1e-3})).sort((x,y)=>x.v-y.v);
+  const INF=1e18,dp=Array.from({length:L+1},()=>new Float64Array(N+1).fill(INF));
+  for(let j=0;j<=N;j++)dp[0][j]=0;
+  for(let k=1;k<=L;k++)for(let j=1;j<=N;j++){
+    const take=dp[k-1][j-1]+Math.abs(trk[j-1].e-slots[k-1].v);
+    dp[k][j]=Math.min(dp[k][j-1],take);
+  }
+  const chosen=[];let k=L,j=N;
+  while(k>0&&j>0){
+    const take=dp[k-1][j-1]+Math.abs(trk[j-1].e-slots[k-1].v);
+    if(dp[k][j]===take){chosen.push(j-1);k--}
+    j--;
+  }
+  chosen.reverse();
+  const picked=new Set(chosen),out=new Array(L);
+  chosen.forEach((tj,n)=>{out[slots[n].i]=trk[tj]});
+  /* той самий виконавець поруч — міняємо з найближчим треком тієї ж енергії, якщо є */
+  for(let i=1;i<L;i++)if(out[i].a&&out[i].a===out[i-1].a)
+    for(let d=2;d<=5&&i+d<L;d++){const c=out[i+d];
+      if(c.a!==out[i-1].a&&Math.abs(c.e-out[i].e)<=.5){[out[i],out[i+d]]=[out[i+d],out[i]];break}}
+  const rest=trk.filter((_,q)=>!picked.has(q)).sort((x,y)=>x.k-y.k);
+  return [...out,...rest].map(t=>t.id);
 }
 /* context = what the board shows: a preset, or the builder */
 function ctx(){
@@ -885,7 +933,7 @@ function dramHTML(ci,key){
 }
 const cactHTML=ci=>`<div class="cact"><button class="lnk" data-chshuf="${ci}" title="Новий порядок лише в цьому каналі, з тією ж драматургією">${ic('shuffle')}Перемішати<span class="lw2">канал</span></button><button class="lnk dopen" data-focus="${ci}">${ic('wave')}Драматургія</button></div>`;
 const yr=t=>t.y==null?'рік ?':t.y+(t.approx?' ≈':'');
-/*COVERS:START*/const COVER_FILES={"scatman john|scatman (ski ba bop ba dop bop)": "covers/e5b2e1951452.jpg", "jackson 5|i want you back": "covers/79e03885efeb.jpg", "europe|the final countdown": "covers/54fb19c4093f.jpg", "raye|where is my husband!": "covers/9ec93493038a.jpg", "michael jackson|beat it": "covers/b61efd8f2b3b.jpg", "walk the moon|shut up and dance": "covers/9f57e37fb2f5.jpg", "abba|gimme! gimme! gimme!": "covers/1feba4fdf513.jpg", "stevie wonder|sir duke": "covers/e272c3ead3bb.jpg", "black eyed peas|pump it": "covers/f1c5d6244beb.jpg", "kelly clarkson|stronger (what doesn't kill you)": "covers/705d948a1695.jpg", "michael jackson|black or white": "covers/46c1dadb6e95.jpg", "carly rae jepsen|call me maybe": "covers/e3dae168266f.jpg", "crazy frog|axel f": "covers/43af399ca25d.jpg", "sacha baron cohen|i like to move it": "covers/a12003ef65c9.jpg", "earth, wind & fire|september": "covers/7e3fc4e9b678.jpg", "whitney houston|i wanna dance with somebody": "covers/23e86d0a3b67.jpg", "opus|live is life": "covers/8ecc29a89df1.jpg", "pharrell williams|happy": "covers/817610d8f385.jpg", "queen|another one bites the dust": "covers/80582e18e5e6.jpg", "mariah carey|emotions": "covers/fb394a77ea0f.jpg", "bon jovi|livin' on a prayer": "covers/9a30ab5753cc.jpg", "michael jackson|don't stop 'til you get enough": "covers/07c671b173d1.jpg", "kelly clarkson|since u been gone": "covers/6508a26fe641.jpg", "atc|around the world (la la la la la)": "covers/196d9b406fe0.jpg", "pet shop boys|go west": "covers/d45767940398.jpg", "shakira|waka waka (this time for africa)": "covers/765645d3d9bd.jpg", "freddie mercury|living on my own": "covers/d6b0c2e8e807.jpg", "kenny loggins|footloose": "covers/c69cb285084c.jpg", "las ketchup|the ketchup song (aserejé)": "covers/997fae4c39cd.jpg", "the beatles|twist and shout": "covers/6887dfa63922.jpg", "survivor|eye of the tiger": "covers/57f39fdda60d.jpg", "cyndi lauper|girls just want to have fun": "covers/75c9c9a934d4.jpg", "smash mouth|all star": "covers/9e1111830c22.jpg", "justin timberlake|can't stop the feeling!": "covers/85675d6e1067.jpg", "dua lipa|dance the night": "covers/f67e9d965b98.jpg", "james brown|i got you (i feel good)": "covers/a7d572538318.jpg", "adele|rumour has it": "covers/62e46397a636.jpg", "o-zone|dragostea din tei": "covers/48c033bb6df3.jpg", "bonnie tyler|holding out for a hero": "covers/95abf3efc1d9.jpg", "rick astley|never gonna give you up": "covers/e14e0bca1b88.jpg", "tina turner|the best": "covers/ee46ad9b9231.jpg", "afric simone|hafanana": "covers/0c7770502a9a.jpg", "snap!|rhythm is a dancer": "covers/cb51cda70a1c.jpg", "queen|we will rock you": "covers/66652c6a0b59.jpg", "alexander rybak|fairytale": "covers/8e632175d1f4.jpg", "katy perry|hot n cold": "covers/65649125a7d0.jpg", "los del río|macarena": "covers/f001725d0fab.jpg", "village people|y.m.c.a.": "covers/bdb65190ac90.jpg", "taylor swift|shake it off": "covers/9fd22f0231c0.jpg", "wham!|wake me up before you go-go": "covers/8c3e8a0c1d1d.jpg", "michael jackson|they don't care about us": "covers/10de960a1019.jpg", "bee gees|stayin' alive": "covers/850a87d7715e.jpg", "adele|rolling in the deep": "covers/a5acdfcde2b7.jpg", "boney m.|sunny": "covers/486bb2a7820e.jpg", "queen|don't stop me now": "covers/683c1c6b9cad.jpg", "dua lipa|training season": "covers/bab2d7f63946.jpg", "elton john|i'm still standing": "covers/e031f1502215.jpg", "eiffel 65|blue (da ba dee)": "covers/26032c4cac18.jpg", "celine dion|i'm alive": "covers/31e5a4dc8003.jpg", "скрябін|танець пінгвіна": "covers/2c44d3dda922.jpg", "kolibri, zlata ko|червоний мак": "covers/3a62067cbab9.jpg", "yaktak × kola|порічка": "covers/8bab8e15d0e8.jpg", "борис сичевський|ти ж мене підманула": "covers/c95e3c0b4052.jpg", "михайло поплавський|юний орел": "covers/04655bb41245.jpg", "анна трінчер|зірочка палай": "covers/daeec4956701.jpg", "laud|lightkeeper": "covers/515e9b7bbd2e.jpg", "michael jackson|billie jean": "covers/b833a298209b.jpg", "shakira|try everything": "covers/900805ef8375.jpg", "londonbeat|i've been thinking about you": "covers/963ba8652ce7.jpg", "nat king cole|l-o-v-e": "covers/55f41182474e.jpg", "elton john & dua lipa|cold heart (pnau remix)": "covers/e1e03cffaadb.jpg", "teddy swims|bad dreams": "covers/6efe747ee067.jpg", "celine dion|it's all coming back to me now": "covers/78b61cdbc2df.jpg", "the beatles|here comes the sun": "covers/dae010245026.jpg", "sting|desert rose": "covers/bb171e7cc39b.jpg", "alicia keys|girl on fire": "covers/9ec161700895.jpg", "silent circle|touch in the night": "covers/68e36e7f939f.jpg"};/*COVERS:END*/
+/*COVERS:START*/const COVER_FILES={"scatman john|scatman (ski ba bop ba dop bop)": "covers/e5b2e1951452.jpg", "jackson 5|i want you back": "covers/79e03885efeb.jpg", "europe|the final countdown": "covers/54fb19c4093f.jpg", "raye|where is my husband!": "covers/9ec93493038a.jpg", "michael jackson|beat it": "covers/b61efd8f2b3b.jpg", "walk the moon|shut up and dance": "covers/9f57e37fb2f5.jpg", "abba|gimme! gimme! gimme!": "covers/1feba4fdf513.jpg", "stevie wonder|sir duke": "covers/e272c3ead3bb.jpg", "black eyed peas|pump it": "covers/f1c5d6244beb.jpg", "kelly clarkson|stronger (what doesn't kill you)": "covers/705d948a1695.jpg", "michael jackson|black or white": "covers/46c1dadb6e95.jpg", "carly rae jepsen|call me maybe": "covers/e3dae168266f.jpg", "crazy frog|axel f": "covers/43af399ca25d.jpg", "sacha baron cohen|i like to move it": "covers/a12003ef65c9.jpg", "earth, wind & fire|september": "covers/7e3fc4e9b678.jpg", "whitney houston|i wanna dance with somebody": "covers/23e86d0a3b67.jpg", "opus|live is life": "covers/8ecc29a89df1.jpg", "pharrell williams|happy": "covers/817610d8f385.jpg", "queen|another one bites the dust": "covers/80582e18e5e6.jpg", "mariah carey|emotions": "covers/fb394a77ea0f.jpg", "bon jovi|livin' on a prayer": "covers/9a30ab5753cc.jpg", "michael jackson|don't stop 'til you get enough": "covers/07c671b173d1.jpg", "kelly clarkson|since u been gone": "covers/6508a26fe641.jpg", "atc|around the world (la la la la la)": "covers/196d9b406fe0.jpg", "pet shop boys|go west": "covers/d45767940398.jpg", "shakira|waka waka (this time for africa)": "covers/765645d3d9bd.jpg", "freddie mercury|living on my own": "covers/d6b0c2e8e807.jpg", "kenny loggins|footloose": "covers/c69cb285084c.jpg", "las ketchup|the ketchup song (aserejé)": "covers/997fae4c39cd.jpg", "the beatles|twist and shout": "covers/6887dfa63922.jpg", "survivor|eye of the tiger": "covers/57f39fdda60d.jpg", "cyndi lauper|girls just want to have fun": "covers/75c9c9a934d4.jpg", "smash mouth|all star": "covers/9e1111830c22.jpg", "justin timberlake|can't stop the feeling!": "covers/85675d6e1067.jpg", "dua lipa|dance the night": "covers/f67e9d965b98.jpg", "james brown & the famous flames|i got you (i feel good)": "covers/31ae364965a2.jpg", "adele|rumour has it": "covers/62e46397a636.jpg", "o-zone|dragostea din tei": "covers/48c033bb6df3.jpg", "bonnie tyler|holding out for a hero": "covers/95abf3efc1d9.jpg", "rick astley|never gonna give you up": "covers/e14e0bca1b88.jpg", "tina turner|the best": "covers/ee46ad9b9231.jpg", "afric simone|hafanana": "covers/0c7770502a9a.jpg", "snap!|rhythm is a dancer": "covers/cb51cda70a1c.jpg", "queen|we will rock you": "covers/66652c6a0b59.jpg", "alexander rybak|fairytale": "covers/8e632175d1f4.jpg", "katy perry|hot n cold": "covers/65649125a7d0.jpg", "the second voice|let me be": "covers/95686a4aa9b9.jpg", "los del río|macarena": "covers/f001725d0fab.jpg", "village people|y.m.c.a.": "covers/bdb65190ac90.jpg", "taylor swift|shake it off": "covers/9fd22f0231c0.jpg", "wham!|wake me up before you go-go": "covers/8c3e8a0c1d1d.jpg", "michael jackson|they don't care about us": "covers/10de960a1019.jpg", "bee gees|stayin' alive": "covers/850a87d7715e.jpg", "adele|rolling in the deep": "covers/a5acdfcde2b7.jpg", "boney m.|sunny": "covers/486bb2a7820e.jpg", "queen|don't stop me now": "covers/683c1c6b9cad.jpg", "dua lipa|training season": "covers/bab2d7f63946.jpg", "elton john|i'm still standing": "covers/e031f1502215.jpg", "eiffel 65|blue (da ba dee)": "covers/26032c4cac18.jpg", "céline dion|i'm alive": "covers/a64481d5be42.jpg", "skryabin|танець пінгвіна": "covers/4fbb08ee73bb.jpg", "степан гіга|цей сон": "covers/cfe550d00811.jpg", "kolibri, zlata ko|червоний мак": "covers/3a62067cbab9.jpg", "yaktak × kola|порічка": "covers/8bab8e15d0e8.jpg", "борис сичевський|ти ж мене підманула": "covers/c95e3c0b4052.jpg", "dzidzio|василина": "covers/41d0178c75ea.jpg", "михайло поплавський|юний орел": "covers/04655bb41245.jpg", "анна трінчер|зірочка палай": "covers/daeec4956701.jpg", "go_a|шум": "covers/a4e104b22a1f.jpg", "laud|lightkeeper": "covers/515e9b7bbd2e.jpg", "michael jackson|billie jean": "covers/b833a298209b.jpg", "shakira|try everything": "covers/900805ef8375.jpg", "londonbeat|i've been thinking about you": "covers/963ba8652ce7.jpg", "nat king cole|l-o-v-e": "covers/55f41182474e.jpg", "elton john & dua lipa|cold heart (pnau remix)": "covers/e1e03cffaadb.jpg", "teddy swims|bad dreams": "covers/6efe747ee067.jpg", "céline dion|it's all coming back to me now": "covers/a9f55effc1a5.jpg", "the beatles|here comes the sun": "covers/dae010245026.jpg", "sting|desert rose": "covers/bb171e7cc39b.jpg", "alicia keys|girl on fire": "covers/9ec161700895.jpg", "silent circle|touch in the night": "covers/68e36e7f939f.jpg", "bronski beat|smalltown boy": "covers/6a478ebe6d36.jpg", "michael jackson|wanna be startin' somethin'": "covers/47932a410e17.jpg", "ella fitzgerald|blue skies": "covers/b7eb77f969a1.jpg", "u2|i still haven't found what i'm looking for": "covers/7e4529d19a19.jpg", "abba|dancing queen": "covers/0e4496e95aa5.jpg", "natasha bedingfield|unwritten": "covers/e1d2413414b8.jpg", "bob marley & the wailers|three little birds": "covers/cfde8ec566e3.jpg", "queen|a kind of magic": "covers/97c27c4a5a45.jpg", "mariah carey|fantasy": "covers/e3e55e19a9b6.jpg", "modjo|lady (hear me tonight)": "covers/7dc3017da980.jpg", "michael jackson|human nature": "covers/358e92dcbfdb.jpg", "ella fitzgerald & louis armstrong|cheek to cheek": "covers/ed4f28a770b1.jpg", "modern talking|brother louie": "covers/3b6155a0c667.jpg", "kool & the gang|celebration": "covers/601659fb1a55.jpg", "a-ha|take on me": "covers/d22812ac9f9f.jpg", "rag'n'bone man|human": "covers/6edf715f3897.jpg", "nelly furtado|say it right": "covers/2afb09423488.jpg", "desireless|voyage, voyage": "covers/4f8c009c9aa8.jpg", "stevie wonder|isn't she lovely": "covers/120a7798eeab.jpg", "tears for fears|everybody wants to rule the world": "covers/608d743f64c1.jpg", "miley cyrus|flowers": "covers/e57a1fc4af7b.jpg", "sade|smooth operator": "covers/00080d00f020.jpg", "rihanna|diamonds": "covers/289a482690a7.jpg", "tony esposito|kalimba de luna": "covers/49c4416c70e2.jpg", "taylor swift|love story": "covers/e886ab246665.jpg", "queen|radio ga ga": "covers/6de511f06015.jpg", "sting|englishman in new york": "covers/2ca6d09ede14.jpg", "ella fitzgerald|it's only a paper moon": "covers/ba54f45c35de.jpg", "toto|africa": "covers/2a08f53fc513.jpg", "eurythmics|sweet dreams (are made of this)": "covers/671a5d12cfc2.jpg", "black|wonderful life": "covers/a184348b7c3b.jpg", "manu chao|me gustas tú": "covers/fffd51d19c6f.jpg", "sade|the sweetest taboo": "covers/9e96b4fc8e42.jpg", "haddaway|what is love": "covers/b70800986ed1.jpg", "abba|super trouper": "covers/d3dfc31428b4.jpg", "modern talking|cheri cheri lady": "covers/7d5a979815dc.jpg", "boney m.|daddy cool": "covers/8acbefa4cbab.jpg", "the beatles|let it be": "covers/fa25b88a3e5d.jpg", "roxette|the look": "covers/07097b0abd80.jpg", "toto cutugno|l'italiano": "covers/3ac7d5c64e3b.jpg", "sandra|innocent love": "covers/980cc97b7275.jpg", "depeche mode|enjoy the silence": "covers/01e3f85e54ff.jpg", "paul mccartney & michael jackson|say say say": "covers/16437482e0ca.jpg", "john denver|take me home, country roads": "covers/4d27f8a50dcf.jpg", "phil collins|another day in paradise": "covers/3448dc059279.jpg", "lionel richie|all night long": "covers/9678b15e9d6a.jpg", "kola|ші": "covers/5443e22b31aa.jpg", "arsen mirzoyan|вінні пух": "covers/54061139ebcf.jpg", "злата огнєвіч|запали вогонь": "covers/c2f7e12fcf47.jpg", "tonya matvienko|ліхтарики": "covers/5c9c5a4bc044.jpg", "skryabin|місця щасливих людей": "covers/99846fb1ca2c.jpg", "iryna bilyk|так просто": "covers/adc986216c5e.jpg", "laud|2 дні": "covers/aef0c8435ef0.jpg", "bryan adams|(everything i do) i do it for you": "covers/6e0ce0347c4b.jpg", "skryabin|спи собі сама": "covers/3fd8eaa32819.jpg", "adele|hello": "covers/bccd2fcde2f7.jpg", "adam|повільно": "covers/318252ee13ea.jpg", "sting|fields of gold": "covers/e25df27c1f32.jpg", "khrystyna soloviy|тримай": "covers/86448f7b6c35.jpg", "alex warren|ordinary": "covers/6c4fb1b021a0.jpg", "okean elzy|на небі": "covers/752679113c87.jpg", "bonnie tyler|total eclipse of the heart": "covers/6b22b6293601.jpg", "zac efron & zendaya|rewrite the stars": "covers/da6713997dd0.jpg", "jamala|люблю": "covers/8ef1bc83057c.jpg", "chris isaak|wicked game": "covers/3c566eb44e25.jpg", "christina perri|a thousand years": "covers/779d5712674d.jpg", "beyoncé|halo": "covers/1219c9057676.jpg", "бумбокс|квіти в волоссі": "covers/caaaa62b1845.jpg", "billie eilish|birds of a feather": "covers/5dc897d8fedb.jpg", "céline dion|the power of love": "covers/dd1bf6820228.jpg", "okean elzy|вище неба": "covers/aba5fae68e58.jpg", "roxette|listen to your heart": "covers/ca784133fd67.jpg", "skryabin|старі фотографії": "covers/a7f670de12a6.jpg", "oleh skrypka|гуцулка ксеня": "covers/e2d9f7a38353.jpg", "stevie wonder|i just called to say i love you": "covers/892376408b09.jpg", "okean elzy|я так хочу...": "covers/01a73ff98b1a.jpg", "youssou n'dour & neneh cherry|7 seconds": "covers/e8825e229606.jpg", "roxette|it must have been love": "covers/bc646715b568.jpg", "kalush feat. skofka|додому": "covers/6ef8354cb174.jpg", "u2|with or without you": "covers/d710495aa0b5.jpg", "sade|by your side": "covers/6edafe3dd4b4.jpg", "skryabin|люди, як кораблі": "covers/b47222fd6b83.jpg", "christopher cross|sailing": "covers/72ed2f4f4f75.jpg", "okean elzy|911": "covers/6301f9b1c3d0.jpg", "no doubt|don't speak": "covers/d7c91a734525.jpg", "molodi|my sea": "covers/368fa6b0637f.jpg", "george michael|careless whisper": "covers/13849894ed1c.jpg", "sviatoslav vakarchuk|така, як ти": "covers/5c5063d74128.jpg", "joe dassin|salut": "covers/2aa17ef33566.jpg", "taylor swift|lover": "covers/97c5c9c7580c.jpg", "скрябін|шампанські очі": "covers/b91e05675952.jpg", "skryabin|маршрутка": "covers/f914f07a4fbd.jpg", "bryan adams|heaven": "covers/201b99ca48a0.jpg", "céline dion|my heart will go on": "covers/3d0a62f71da3.jpg", "richard marx|right here waiting": "covers/bee45b357496.jpg", "океан ельзи|там, де нас нема": "covers/cda28eab3ad9.jpg", "michael jackson|liberian girl": "covers/33a37a504bec.jpg", "scorpions|wind of change": "covers/8c261d3518bf.jpg", "elton john|can you feel the love tonight": "covers/9fb0eeea08f8.jpg", "adele|someone like you": "covers/326278f1f6bb.jpg", "the kingdom choir|stand by me": "covers/04ec6126cac6.jpg", "céline dion|because you loved me": "covers/0e1357785891.jpg", "jackson 5|i'll be there": "covers/406bc8752d9e.jpg", "whitney houston|i have nothing": "covers/31c33a72b1e0.jpg", "nat king cole|unforgettable": "covers/ddd1a78aa2aa.jpg", "lady gaga & bruno mars|die with a smile": "covers/9cf977061284.jpg", "céline dion|all by myself": "covers/b1c1b0f80a32.jpg", "foreigner|i want to know what love is": "covers/c063d2411d58.jpg", "dolly parton & kenny rogers|islands in the stream": "covers/fe3749b142ed.jpg", "lord huron|the night we met": "covers/956cd42bc100.jpg", "céline dion|where does my heart beat now": "covers/7f634746bbf0.jpg", "sixpence none the richer|kiss me": "covers/428474b37456.jpg", "louis armstrong|what a wonderful world": "covers/33971b6882a1.jpg", "ella fitzgerald & louis armstrong|dream a little dream of me": "covers/e031ccf2134e.jpg", "seal|kiss from a rose": "covers/dfe36e417354.jpg", "berlin|take my breath away": "covers/ef2fb6ef2539.jpg", "aretha franklin|you send me": "covers/8efcba32bb85.jpg", "george benson|nothing's gonna change my love for you": "covers/68d7f6598405.jpg", "chris de burgh|the lady in red": "covers/bdb4bfe9faa0.jpg", "ella fitzgerald & louis armstrong|they can't take that away from me": "covers/94a30d4d507d.jpg"};/*COVERS:END*/
 /* Місце під обкладинку: кольоровий градієнт, сталий для треку (з хешу ключа виконавець|назва).
    Якщо для треку є файл обкладинки (COVER_FILES, збирає build_covers.py), він лежить поверх градієнта. */
 function covStyle(t){let h=0;for(const ch of t.id)h=(h*31+ch.charCodeAt(0))>>>0;const a=h%360,b=(a+40+(h>>9)%100)%360;
@@ -934,8 +982,7 @@ function renderRail(c){
   const rail=document.getElementById('rail');
   if(S.view==='presets'){
     rail.innerHTML=`<div class="rh">Формат події</div><ul class="plist">${PRESETS.map(p=>presetItem(p,p.id===S.preset)).join('')}</ul>
-      ${S.mine.length?`<div class="rgap"></div><div class="rh">Мої пресети</div><ul class="plist">${S.mine.map(p=>presetItem(p,p.id===S.preset,true)).join('')}</ul>`:''}
-      <details class="notes" ${S.notesOpen?'open':''} id="notes"><summary>${ic('chev')}Що варто знати</summary><ul>${notes().map(([h,p])=>`<li><b>${h}</b>${p}</li>`).join('')}</ul></details>`;
+      ${S.mine.length?`<div class="rgap"></div><div class="rh">Мої пресети</div><ul class="plist">${S.mine.map(p=>presetItem(p,p.id===S.preset,true)).join('')}</ul>`:''}`;
   } else if(S.view==='builder'){
     rail.innerHTML=`<div class="rh">Почати з пресету</div><p class="hint" style="padding:0 10px 10px">Правила пресету скопіюються в конструктор, далі їх можна змінювати.</p>
       <ul class="plist">${allPresets().map(p=>presetItem(p,p.id===S.b.from).replace('data-preset=','data-from=')).join('')}</ul>`;
@@ -971,7 +1018,7 @@ function boardHTML(c){
         :`<li class="empty"><b>Канал порожній</b>${isB?'Жоден трек не підходить під ці правила. Зніміть частину умов.':'Жоден трек бібліотеки не підходить під цей канал.'}</li>`}</ul></section>`;
   }).join('');
   const resShown=(q?c.res.filter(id=>(BY[id].a+' '+BY[id].t).toLowerCase().includes(q)):c.res).map(id=>BY[id]).sort((a,b)=>a.a.localeCompare(b.a,'uk'));
-  return `${legend()}<div class="chtabs"><div class="seg" role="tablist" aria-label="Канал"><span class="chind" aria-hidden="true" style="--i:${chPrev};--c:${CH[chPrev].c}"></span>${CH.map((ch,i)=>`<button role="tab" data-mch="${i}" aria-selected="${S.mch===i}" style="--c:${ch.c}"><span class="chl"><span class="chn"><span class="chi">${ic('hp')}</span><b>${ch.lbl}</b></span> <small class="tn">${c.enabled[i]?c.ids[i].length+' '+pl(c.ids[i].length,'трек','треки','треків'):'вимкнено'}</small></span></button>`).join('')}</div></div>
+  return `<div class="chtabs"><div class="seg" role="tablist" aria-label="Канал"><span class="chind" aria-hidden="true" style="--i:${chPrev};--c:${CH[chPrev].c}"></span>${CH.map((ch,i)=>`<button role="tab" data-mch="${i}" aria-selected="${S.mch===i}" style="--c:${ch.c}"><span class="chl"><span class="chn"><span class="chi">${ic('hp')}</span><b>${ch.lbl}</b></span> <small class="tn">${c.enabled[i]?c.ids[i].length+' '+pl(c.ids[i].length,'трек','треки','треків'):'вимкнено'}</small></span></button>`).join('')}</div></div>
     <div class="board ${S.focus!=null?'focused f'+S.focus:'tlmode'}">${S.focus==null?`<div class="tlcol" aria-hidden="true"><div class="tlhead">${ic('clock')}<b>Час</b></div><div class="tlwin"><div class="tlin"></div></div></div>`:''}${cols}</div>
     <details class="reserve" id="reserve" ${S.resOpen?'open':''}><summary>${ic('chev')}<h3>Поза каналами</h3><span class="n tn">${c.res.length}</span>
       <p>${c.res.length?'Не підійшли під правила або прибрані вручну. Можна повернути в будь-який канал.':'Усі треки бібліотеки розподілені.'}</p></summary>
@@ -985,6 +1032,7 @@ function toolbar(c,extra=''){
     <span class="grow"></span>${extra}
     <button class="btn" id="shuffle" title="Перемішати порядок, зберігаючи хвилі енергії">${ic('shuffle')}<span class="t">Інший порядок</span></button>
     ${c.edits?`<button class="btn" id="reset">${ic('undo')}<span class="t">Скинути ${c.edits} ${pl(c.edits,'зміну','зміни','змін')}</span></button>`:''}
+    <button class="btn round" id="dlAll" aria-label="Скачати всі канали текстовим файлом" title="Скачати всі канали текстовим файлом">${ic('download')}</button>
     <button class="btn lime" id="copyAll">${ic('copy')}<span class="t">Копіювати ${c.enabled.every(Boolean)?'всі три':'канали'}</span></button></div>`;
 }
 const mpick=(opts,cur,id)=>`<div class="mpick" role="list" aria-label="Пресети">${opts.map(p=>`<button role="listitem" class="mchip" data-${id==='mfrom'?'from':'preset'}="${p.id}" aria-current="${p.id===cur}"><span class="ptile">${ic(p.icon||'star')}</span><span>${esc(p.name)}</span></button>`).join('')}</div>`;
@@ -993,7 +1041,7 @@ function renderPresets(){
   document.getElementById('main').innerHTML=`${mpick(allPresets(),S.preset,'mpreset')}
     <div class="head"><span class="ptile">${ic(p.icon||'star')}</span><div class="htxt"><h2>${esc(p.name)}</h2><p>${esc(p.sub||'Мій пресет.')}</p></div>
       <button class="btn" id="toBuilder" title="Скопіювати правила цього пресету в конструктор">${ic('edit')}<span class="t">Змінити в конструкторі</span></button></div>
-    ${S.howDone?'':`<ol class="how"><li><b>1</b>Оберіть пресет під формат події.</li><li><b>2</b>Перевірте канали: смуга показує енергію по ходу сету, позначка — чи вистачить музики на ${S.hours} год.</li><li><b>3</b>Перетягніть трек, щоб змінити порядок або канал (на телефоні — довге натискання). Клік чи дотик вибирає кілька треків — вони тягнуться разом. Потім скопіюйте списки для плеєрів.</li><li><button class="ibtn" id="howX" aria-label="Сховати підказку" title="Сховати підказку">${ic('x')}</button></li></ol>`}
+    ${S.howDone?'':`<ol class="how" aria-label="Як користуватися"><li><b>1</b><span><strong>Оберіть пресет</strong> — добірку під формат події. Зміни — у конструкторі.</span></li><li><b>2</b><span><strong>Перевірте канали.</strong> Смуга — енергія по ходу, позначка — кінець ${S.hours} год.</span></li><li><b>3</b><span><strong>Перетягніть трек</strong> — порядок або канал. Клік вибирає кілька треків (на телефоні — довге натискання).</span></li><li><b>4</b><span><strong>Коли все готово</strong> — натисніть «Копіювати всі три» і надішліть списки команді SILENT.</span></li><li class="how-en">${legend()}</li><li class="how-x"><button class="ibtn" id="howX" aria-label="Сховати підказку" title="Сховати підказку">${ic('x')}</button></li></ol>`}
     ${fallbackBanner()}${toolbar(c)}${boardHTML(c)}`;
   renderRail(c);
 }
@@ -1022,17 +1070,17 @@ function rulesHTML(i){
 }
 
 /* library */
-const POOLS=[['Українське',{lang:['ua']}],['80-ті',{dec:['80']}],['90-ті',{dec:['90']}],['2000-ні',{dec:['00']}],['2010+',{dec:['10','20']}],['Повільні',{e:[1,2]}],['Співають усі',{flag:['sing']}],['Сімейне',{flag:['kids']}],['Звірити',{flag:['approx']}]];
+const POOLS=[['Українське',{lang:['ua']}],['80-ті',{dec:['80']}],['90-ті',{dec:['90']}],['2000-ні',{dec:['00']}],['2010+',{dec:['10','20']}],['Повільні',{e:[1,2]}],['Співають усі',{flag:['sing']}],['Сімейне',{flag:['kids']}],['Звірити',{flag:['approx']}],['Скачані',{flag:['dl']}],['Різдвяні',{flag:['xmas']}],['Українські драйвові',{lang:['ua'],e:[4,5]}]];
 const LFLAGS=[['sing','Співають усі'],['kids','Сімейне'],['approx','Звірити рік / версію'],['multi','Було у 2 списках']];
 function libList(){
   const L=S.lib,q=L.q.trim().toLowerCase();
   const list=T.filter(t=>(!q||(t.a+' '+t.t).toLowerCase().includes(q))&&(!L.lang.length||L.lang.includes(t.ua?'ua':'int'))&&(!L.dec.length||L.dec.includes(dec(t)))
-    &&(!L.gen.length||L.gen.includes(t.g))&&(!L.e.length||L.e.includes(t.e))&&L.flag.every(f=>f==='sing'?t.sing:f==='kids'?t.kids:f==='approx'?(t.approx||t.remix):t.src.length>1));
+    &&(!L.gen.length||L.gen.some(x=>t.gs.includes(x)))&&(!L.e.length||L.e.includes(t.e))&&L.flag.every(f=>f==='sing'?t.sing:f==='kids'?t.kids:f==='approx'?(t.approx||t.remix):f==='dl'?t.dl:f==='xmas'?t.xmas:t.src.length>1));
   const {k,d}=S.sort;
   return list.sort((a,b)=>{let r;if(k==='y')r=(a.y??9999)-(b.y??9999);else if(k==='e')r=a.e-b.e;else r=a.a.localeCompare(b.a,'uk')||a.t.localeCompare(b.t,'uk');return r*d});
 }
 function renderLibrary(){
-  const sv=S.view;S.view='presets';const c=compute();S.view=sv;
+  const sv=S.view,sp=S.preset;S.view='presets';S.preset='energy';const c=compute();S.view=sv;S.preset=sp;
   const where={};c.ids.forEach((l,i)=>l.forEach(id=>where[id]=i));
   const list=libList(),active=Object.values(S.lib).some(v=>Array.isArray(v)?v.length:v);
   const sb=(k,l)=>`<button data-sort="${k}" aria-sort="${S.sort.k===k?(S.sort.d>0?'ascending':'descending'):'none'}">${l}${S.sort.k===k?(S.sort.d>0?' ↑':' ↓'):''}</button>`;
@@ -1044,11 +1092,11 @@ function renderLibrary(){
       <span class="hint tn">${list.length} з ${T.length}</span><span class="grow"></span>
       ${active?`<button class="btn" id="clearLib">${ic('x')}<span class="t">Скинути фільтри</span></button>`:''}
       <button class="btn lime" id="copyLib">${ic('copy')}<span class="t">Копіювати список</span></button></div>
-    <div class="lib"><div class="lh"><span>#</span><span aria-hidden="true"></span>${sb('a','Трек')}${sb('y','Рік')}<span class="hm">Жанр</span>${sb('e','Енергія')}<span class="hm">Списки</span><span>Канал</span></div>
+    <div class="lib"><div class="lh"><span>#</span><span aria-hidden="true"></span>${sb('a','Трек')}${sb('y','Рік')}<span class="hm">Жанр</span>${sb('e','Енергія')}<span class="hm" title="Вихідні списки з таблиці: кольорові крапки R / G / B">Вихідні списки</span><span>Канал за енергією</span></div>
     ${list.length?list.map((t,n)=>{const w=where[t.id];return `<div class="lr"><span class="num tn" style="font-size:11px;color:var(--ink-subtle)">${n+1}</span>
       <span class="cov lcov" style="${covStyle(t)}" aria-hidden="true"></span>
       <div class="tt"><div class="t">${esc(t.t)}</div><div class="a">${esc(t.a)}${t.remix?'<span class="flag">версія?</span>':''}</div></div>
-      <span class="cell tn">${yr(t)}</span><span class="cell hm">${GEN[t.g]}</span><span class="hm">${enW(t.e)}</span>
+      <span class="cell tn">${yr(t)}</span><span class="cell hm">${t.gs.map(x=>GEN[x]).join(', ')}</span><span class="hm">${enW(t.e)}</span>
       <span class="dots hm" aria-label="Вихідні списки">${[...t.src].map(s=>`<i class="dot" style="--c:${CH['RGB'.indexOf(s)].c}"></i>`).join('')}</span>
       ${w==null?'<span class="inch none">поза</span>':`<span class="inch" style="--c:${CH[w].c}">${ic('hp')}${CH[w].lbl}</span>`}</div>`}).join('')
       :'<div class="empty"><b>Нічого не знайдено</b>Приберіть частину фільтрів або змініть пошук.</div>'}</div>`;
@@ -1201,8 +1249,21 @@ function timeline(){
     const ref=lists.filter(l=>l.offsetParent).sort((a,b)=>b.querySelectorAll('.row').length-a.querySelectorAll('.row').length)[0];if(!ref)return;
     const {html,h}=ticksHTML(ref),tin=tl.querySelector('.tlin');tin.innerHTML=html;tin.style.height=h+'px';
     const win=tl.querySelector('.tlwin'),wt=ref.getBoundingClientRect().top-tl.getBoundingClientRect().top;win.style.top=wt+'px';win.style.height=ref.clientHeight+'px';tl.querySelector('.tlhead').style.top=Math.max(0,wt-26)+'px';
-    const top=ref.scrollTop;lists.forEach(l=>{if(l.scrollTop!==top)l.scrollTop=top});tin.style.transform=`translateY(${-top}px)`;
-    lists.forEach(l=>{if(l._tl)return;l._tl=1;l.addEventListener('scroll',()=>{if(tlSync)return;tlSync=true;const t=l.scrollTop;lists.forEach(o=>{if(o!==l&&Math.abs(o.scrollTop-t)>1)o.scrollTop=t});const ti=document.querySelector('.tlin');ti&&(ti.style.transform=`translateY(${-t}px)`);setTimeout(()=>tlSync=false,0)},{passive:true})});
+    const top=ref.scrollTop;lists.forEach(l=>{if(Math.abs(l.scrollTop-top)>0.5)l.scrollTo({top,behavior:'instant'})});tin.style.transform=`translateY(${-top}px)`;
+    /* Синхронне листання трьох списків: один кадр — одна синхронізація.
+       scroll-behavior:smooth з html робив програмні scrollTop плавними анімаціями, тож підлеглі списки
+       відставали на кадри і текст «тягнувся». Тому пишемо scrollTo з behavior:'instant' і збираємо
+       події скролу в один rAF; відлуння власних записів ігноруємо. */
+    if(!window._tlSync){ window._tlSync={raf:0,t:null,applied:null}; }
+    const TS=window._tlSync;
+    lists.forEach(l=>{if(l._tl)return;l._tl=1;l.addEventListener('scroll',()=>{
+      const t=l.scrollTop; if(TS.applied!==null && Math.abs(t-TS.applied)<0.5) return;
+      TS.t=t; if(TS.raf) return;
+      TS.raf=requestAnimationFrame(()=>{ TS.raf=0; const v=TS.t; TS.applied=v;
+        lists.forEach(o=>{ if(Math.abs(o.scrollTop-v)>0.5) o.scrollTo({top:v,behavior:'instant'}) });
+        const ti=document.querySelector('.tlin'); ti&&(ti.style.transform=`translateY(${-v}px)`);
+      });
+    },{passive:true})});
     return}
   /* розгорнутий канал або телефон: шкала всередині списку */
   const target=S.focus!=null?document.querySelector('.board .col.focus .list[data-ch]'):(innerWidth<=900?document.querySelector('.board .col.active .list[data-ch]'):null);
@@ -1220,7 +1281,7 @@ const fresh=()=>{document.getElementById('main').innerHTML=''};
 function go(v){S.view=v;undoStack=[];S.sel.clear();try{if(location.hash.slice(1)!==v)history.replaceState(null,'','#'+v)}catch(_){}fresh();render();window.scrollTo(0,0)}
 function loadFrom(id){const p=getPreset(id);S.b={from:p.id,ch:p.ch.map(c=>({on:true,n:c.n,r:JSON.parse(JSON.stringify(c.r))}))};delete S.ov.builder}
 
-const setStat=()=>{const ua=T.filter(t=>t.ua).length;document.getElementById('stat').innerHTML=`<li><b>${T.length}</b> ${pl(T.length,'трек','треки','треків')}</li><li><b>${ua}</b> <span class="lw">${pl(ua,'українське','українські','українських')}</span><span class="sw">укр.</span></li><li><b><span class="lg">≈ </span><span class="lw">${fmtH(T.length)}</span><span class="sw">${(m=>Math.floor(m/60)+':'+String(m%60).padStart(2,'0'))(Math.round(T.length*MIN))} год</span></b> <span class="lg">музики</span></li>`;};setStat();
+const setStat=()=>{const set=S.onlyDl?T.filter(t=>t.dl):T;const ua=set.filter(t=>t.ua).length;document.getElementById('stat').innerHTML=`<li><b>${set.length}</b> ${pl(set.length,'трек','треки','треків')}</li><li><b>${ua}</b> <span class="lw">${pl(ua,'українське','українські','українських')}</span><span class="sw">укр.</span></li><li><b><span class="lg">≈ </span><span class="lw">${fmtH(set.length)}</span><span class="sw">${(m=>Math.floor(m/60)+':'+String(m%60).padStart(2,'0'))(Math.round(set.length*MIN))} год</span></b> <span class="lg">музики</span></li>`;};setStat();
 document.getElementById('hours').onchange=e=>{S.hours=+e.target.value;render()};
 window.addEventListener('hashchange',()=>{const v=location.hash.slice(1);if(['presets','library','builder'].includes(v)&&v!==S.view)go(v)});
 
@@ -1233,7 +1294,7 @@ document.addEventListener('click',e=>{
   if(d.view){go(d.view);return}
   if(d.preset){S.preset=d.preset;undoStack=[];S.sel.clear();S.focus=null;fresh();render();return}
   if(d.from){const prev=JSON.parse(JSON.stringify(S.b));loadFrom(d.from);fresh();render();undoStack.push({kind:'b',prev});toast(`Правила «${getPreset(d.from).name}» завантажено`,true);return}
-  if(d.del){const i=S.mine.findIndex(p=>p.id===d.del),p=S.mine[i];S.mine.splice(i,1);if(S.preset===p.id)S.preset='lists';undoStack.push({kind:'del',p,i});render();toast(`Пресет «${p.name}» видалено`,true);return}
+  if(d.del){const i=S.mine.findIndex(p=>p.id===d.del),p=S.mine[i];S.mine.splice(i,1);if(S.preset===p.id)S.preset='energy';undoStack.push({kind:'del',p,i});render();toast(`Пресет «${p.name}» видалено`,true);return}
   if(d.mv){closeMenu();const c=ctx(),id=d.mv,to=+d.to,ov=S.ov[c.key]=S.ov[c.key]||{};
     undoStack.push({kind:'mv',key:c.key,id,had:id in ov,prev:ov[id]});ov[id]=to;M.drop=[id];render();
     toast(to<0?`«${BY[id].t}» прибрано з каналу`:`«${BY[id].t}» перенесено в ${CH[to].lbl}`,true);return}
@@ -1257,12 +1318,13 @@ document.addEventListener('click',e=>{
   switch(t.id){
     case 'shuffle':S.seed=Math.floor(Math.random()*1e6);S.ord={};S.ordN={};M.cascade='all';render();toast('Порядок оновлено, хвилі енергії збережено');break;
     case 'reset':{const c=ctx(),n=realEdits(S.ov[c.key])+((S.ordN||{})[c.key]||0);delete S.ov[c.key];if(S.ord)delete S.ord[c.key];if(S.ordN)delete S.ordN[c.key];undoStack=undoStack.filter(h=>h.key!==c.key);render();toast(`Скинуто ${n} ${pl(n,'ручну зміну','ручні зміни','ручних змін')}`);break}
+    case 'dlAll':{const c=compute();const txt='\uFEFF'+[0,1,2].filter(i=>c.enabled[i]).map(i=>chText(i)).join('\n\n');const a=document.createElement('a');const url=URL.createObjectURL(new Blob([txt],{type:'text/plain;charset=utf-8'}));a.href=url;a.download='silent-playlists-'+new Date().toISOString().slice(0,10)+'.txt';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(url);a.remove()},1000);toast('Файл з плейлистами завантажено');break}
     case 'copyAll':{const c=compute();copy([0,1,2].filter(i=>c.enabled[i]).map(i=>chText(i)).join('\n\n'),'Канали скопійовано');break}
     case 'copyLib':copy(libList().map((t,n)=>`${n+1}. ${t.a} — ${t.t}`).join('\n'),'Список скопійовано');break;
     case 'clearLib':S.lib={q:'',lang:[],dec:[],gen:[],e:[],flag:[]};render();break;
     case 'toBuilder':{const p=getPreset(S.preset);loadFrom(p.id);if(S.ov[p.id])S.ov.builder=JSON.parse(JSON.stringify(S.ov[p.id]));go('builder');toast(`Правила «${p.name}» відкрито в конструкторі`);break}
     case 'undo':undo();break;
-    case 'onlyDl':S.onlyDl=!S.onlyDl;undoStack=[];fresh();render();toast(S.onlyDl?`Лише скачані: ${T.filter(t=>t.dl).length} з ${T.length} треків`:'Усі треки бібліотеки');break;
+    case 'onlyDl':S.onlyDl=!S.onlyDl;undoStack=[];fresh();setStat();render();toast(S.onlyDl?`Лише скачані: ${T.filter(t=>t.dl).length} з ${T.length} треків`:'Усі треки бібліотеки');break;
     case 'reloadData':reloadData(t);break;
     case 'howX':S.howDone=true;render();break;
   }
@@ -1601,7 +1663,7 @@ function endDrag(commit){
 }
 
 const h0=location.hash.slice(1);if(['presets','library','builder'].includes(h0))S.view=h0;
-if(!allPresets().find(p=>p.id===S.preset))S.preset='lists';
+if(!allPresets().find(p=>p.id===S.preset))S.preset='energy';
 render();
 })();
 </script>
