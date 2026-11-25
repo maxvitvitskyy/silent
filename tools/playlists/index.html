@@ -225,6 +225,25 @@ body.tl-dragging .tlv-card:hover .tlv-cov{width:var(--cs)!important;height:var(-
 @media (prefers-reduced-motion:reduce){.tlv-card,.tlv-cov,.tlv-in .tlv-meta,.tlv-in.enter .tlv-card,.tlv-in.enter .tlv-row{transition:none!important;animation:none!important}}
 @media (prefers-reduced-motion:reduce){.tlv-meta>b.mq,.tlv-meta>i.mq,.tlv-meta>em.mq{animation:none}}
 .tlv-meta{justify-content:center}
+.tlv-meta>em.xs{display:none}
+/* MacBook: назва і виконавець в один рядок (див. tlBody, клас tl-mac) */
+body.tl-mac .tlv-meta{flex-direction:row;flex-wrap:nowrap;align-items:baseline;justify-content:center;gap:6px;white-space:nowrap}
+body.tl-mac .tlv-meta>b,body.tl-mac .tlv-meta>i,body.tl-mac .tlv-meta>em{display:inline-block;max-width:none}
+body.tl-mac .tlv-meta>em.xs{display:none}
+/* MacBook, наведення: картка розгортається і показує повний опис — назву, виконавця, рік і жанр */
+body.tl-mac .tlv-card:hover .tlv-meta,body.tl-mac .tlv-card:focus-visible .tlv-meta{flex-direction:column;flex-wrap:wrap;white-space:normal;align-items:center;gap:3px}
+body.tl-mac .tlv-card:hover .tlv-meta>b,body.tl-mac .tlv-card:hover .tlv-meta>i,body.tl-mac .tlv-card:hover .tlv-meta>em,body.tl-mac .tlv-card:hover .tlv-meta>em.xs{display:block;white-space:normal;max-width:100%}
+body.tl-mac .tlv-card:hover .tlv-meta>em,body.tl-mac .tlv-card:hover .tlv-meta>em.xs{display:block}
+/* MacBook: кнопки каналу — два значки поряд (без слів), більше повітря в підписі каналу */
+/* відступи підпису каналу: кнопки не впираються в край колонки, групи розділені рівно */
+body.tl-mac .tlv-lab{gap:6px;padding:8px 12px 8px 14px;justify-content:center}
+body.tl-mac .tlv-lab .tlv-hd{gap:8px}
+body.tl-mac .tlv-lab .tlv-en-s{margin:0;height:26px}
+body.tl-mac .tlv-acts{display:flex;gap:8px;align-self:stretch;margin-top:0}
+body.tl-mac .tlv-acts .tlv-shuf{flex:1 1 0;margin-top:0;padding:0;min-height:28px;min-width:0;border-radius:10px;justify-content:center}
+body.tl-mac .tlv-acts .tlv-shuf span{display:none}
+body.tl-mac .tlv-acts .tlv-shuf .i{width:15px;height:15px}
+body.tl-mac .tlv-acts .tlv-loop{margin-top:0}
 .tlv-card{box-shadow:0 1px 0 rgba(255,255,255,.03) inset,0 10px 24px -18px rgba(0,0,0,.9)}
 .tlv-card.thin{box-shadow:none}
 .tlv-meta b{letter-spacing:-.005em}
@@ -1017,6 +1036,57 @@ function compute(){
   return Object.assign(c,{ids,res,edits:realEdits(ov)+((S.ordN||{})[c.key]||0)});
 }
 
+/* Magic: баланс енергії між каналами. Працює з поточним порядком усіх увімкнених каналів: міняє треки
+   місцями лише всередині кожного каналу (канали не змішуються, тематика пресету лишається), щоб сумарна енергія на кожній позиції
+   повторювала сумарну драматургію (нема одночасних піків чи провалів), на кожній позиції хоча б один
+   танцювальний трек (енергія ≥ 4) і не було довгих серій піків або спадів в одному каналі.
+   Драматургія каналу (форма кривої) лишається: цілі беремо з тієї ж кривої, що й порядок. */
+function magicBalance(){
+  const c=compute(),en=[0,1,2].filter(i=>c.enabled[i]);
+  if(!en.length)return null;
+  const lanes=[0,1,2].map(i=>c.ids[i].slice());
+  const K=Math.min(cutN(),...en.map(i=>lanes[i].length));
+  if(K<2||en.length<1)return{lanes,changed:0};
+  const E=id=>BY[id].e||1, A=id=>BY[id].a||'';
+  /* Magic має сенс лише там, де в каналах є різні рівні енергії (наприклад, «Україна × Світ»).
+     Якщо в кожному каналі енергія однакова або майже однакова (як у «За енергією»), нічого не робимо. */
+  if(c.key==='energy')return{lanes,changed:0,en,skip:true};
+  const all=en.flatMap(i=>lanes[i].slice(0,K).map(E));
+  const lo=Math.min(...all),hi=Math.max(...all);
+  const NL=en.length;
+  const tgt=en.map(i=>Array.from({length:K},(_,k)=>lo+(hi-lo)*targetAt(k,curveOf(c.key,i),K)));
+  const g=en.map(i=>lanes[i].slice(0,K));
+  const total=()=>{
+    let s=0;
+    for(let k=0;k<K;k++){let sa=0,sd=0,mx=0,mn=9;
+      for(let m=0;m<NL;m++){const e=E(g[m][k]);sa+=(e-tgt[m][k])**2;sd+=e-tgt[m][k];if(e>mx)mx=e;if(e<mn)mn=e}
+      /* одночасні піки (усі ≥4) і провали (усі ≤2) — окремий штраф; нема танцювального треку — теж */
+      /* драматургія каналу важить менше, ніж баланс між каналами: Magic може трохи відійти від кривої */
+      s+=0.35*sa+1.5*sd*sd+(mx<4?(4-mx)*2:0)+(mn>=4?6:0)+(mx<=2?6:0)}
+    for(let m=0;m<NL;m++){
+      for(let k=1;k<K;k++)if(A(g[m][k])&&A(g[m][k])===A(g[m][k-1]))s+=2;
+      let up=0,dn=0;
+      for(let k=0;k<K;k++){const e=E(g[m][k]);up=e>=4?up+1:0;dn=e<=2?dn+1:0;if(up>2)s+=1.5;if(dn>2)s+=1.5}
+    }
+    return s};
+  let cur=total(),best=cur,bestG=g.map(r=>r.slice());
+  const ITER=60000,T0=3,T1=0.002;
+  for(let it=0;it<ITER;it++){
+    const T=T0*Math.pow(T1/T0,it/ITER);
+    const m1=Math.floor(Math.random()*NL),k1=Math.floor(Math.random()*K);
+    /* Тільки переставляємо треки всередині свого каналу (тематичні канали не змішуються між собою):
+       баланс досягається порядком треків у кожному каналі, а не переміщенням між каналами. */
+    const m2=m1;let k2=Math.floor(Math.random()*K);
+    if(m1===m2&&k1===k2)continue;
+    const a=g[m1][k1];g[m1][k1]=g[m2][k2];g[m2][k2]=a;
+    const nc=total();
+    if(nc<=cur||Math.random()<Math.exp((cur-nc)/T)){cur=nc;if(cur<best){best=cur;bestG=g.map(r=>r.slice())}}
+    else{const b=g[m1][k1];g[m1][k1]=g[m2][k2];g[m2][k2]=b}
+  }
+  let changed=0;
+  en.forEach((li,m)=>{for(let k=0;k<K;k++){if(lanes[li][k]!==bestG[m][k])changed++;lanes[li][k]=bestG[m][k]}});
+  return{lanes,changed,en};
+}
 /* rows */
 const EN=['','Повільно','Спокійно','Груві','Танцпол','Пік'];
 const EN_D=['','балада, повільний танець','лірично, гойдаються на місці','середній темп, легкий танець','танцювальний хіт','стрибають і співають хором'];
@@ -1274,7 +1344,11 @@ function tlBody(c){
   const nL=Math.max(1,lanes.length),G=tlGeom(nL),EH=G.EH,CHT=G.CHT;tlLastN=nL;tlLastCht=G.EH+':'+G.CHT;
   const big=EH===TL_EH,typW=MIN*60*px-6;
   /* під обкладинкою: назва й виконавець (≈36 px); у просторому режимі ще жанр і рік (≈62 px) */
-  const CS=Math.round(Math.max(40,Math.min(112,typW-14,big?CHT-98:CHT-75))),TXT=true;
+  /* Екран MacBook (≈1100–1600 px): назва й виконавець в один рядок, тому текст займає менше висоти
+     і обкладинки можна зробити більшими. На великих екранах (і на телефоні) — як було. */
+  const MAC=innerWidth>=1100&&innerWidth<=1600;
+  document.body.classList.toggle('tl-mac',MAC);
+  const CS=Math.round(Math.max(40,Math.min(MAC?150:112,typW-14,MAC?(big?CHT-72:CHT-54):(big?CHT-98:CHT-75)))),TXT=true;
   const steps=[300,600,900,1800,3600];const step=steps.find(st=>st*px>=96)||3600;
   let ax='',grid='';for(let s2=step;s2<TOTAL;s2+=step){const x=(s2*px).toFixed(1);if(s2*px<W-28)ax+=`<span style="left:${x}px">${tlFmt(s2)}</span>`;grid+=`<i class="tlv-grid" style="left:${(LW+s2*px).toFixed(1)}px"></i>`}
   const rows=lanes.map(({i,items,total,base})=>{
@@ -1284,12 +1358,12 @@ function tlBody(c){
       if(!k)P.push([0,y]);P.push([(x0+x1)/2,y]);
       const w0=Math.max(6,x1-x0-6),late=it.x>=cut,cs=CS,w=Math.max(w0,cs+12),t=it.t;
       const sub=[t.y,GEN[t.g]].filter(Boolean).join(' · ');
-      const meta=`<span class="tlv-meta"><b>${esc(t.t)}</b><i>${esc(t.a)}</i>${sub&&big?`<em>${esc(sub)}</em>`:''}</span>`;
+      const meta=`<span class="tlv-meta"><b>${esc(t.t)}</b><i>${esc(t.a)}</i>${sub?`<em${big?'':' class="xs"'}>${esc(sub)}</em>`:''}</span>`;
       cards+=`<div class="tlv-card${late?' late':''}${w0<30?' thin':''}${it.rep?' rep':''}" data-id="${esc(t.id)}" data-rep="${it.rep}" style="left:${(x0+3).toFixed(1)}px;width:${w.toFixed(1)}px;--cw:${w.toFixed(1)}px;--cs:${cs}px;--i:${k}" title="${k+1}. ${esc(t.a)} — ${esc(t.t)}${sub?' · '+esc(sub):''} · ${Math.floor(it.d/60)}:${String(Math.round(it.d%60)).padStart(2,'0')}"><span class="cov tlv-cov" style="${covStyle(t)};width:${cs}px;height:${cs}px" aria-hidden="true"></span>${meta}</div>`});
     if(!P.length)return'';
     const xe=total*px;P.push([xe,P[P.length-1][1]]);const line=tlPath(P);
     const on=!!(S.loop&&S.loop[i]);
-    return `<div class="tlv-row" data-ch="${i}" data-loop="${on?1:0}" style="--c:${col}"><div class="tlv-lab"><span class="tlv-hd"><span class="tlv-hpi">${ic('hp')}</span><b>${CH[i].lbl}</b></span><small class="tlv-desc${big?'':' sm'}">${esc(c.meta[i].n)}</small><small>${base} ${pl(base,'трек','треки','треків')} · ${tlFmt(total)}${on?' · по колу':''}</small>${enHTML(items.map(it=>it.t.e),col,big)}<button class="tlv-shuf" data-chshuf="${i}" aria-label="Змінити порядок у каналі ${CH[i].lbl}" title="Змінити порядок лише в цьому каналі">${ic('shuffle')}<span>Перемішати</span></button><button class="tlv-shuf tlv-loop${on?' on':''}" data-chloop="${i}" aria-pressed="${on}" title="${on?'Вимкнути зациклення каналу':'Зациклити: після кінця списку треки йдуть знову по колу, поки не заповниться вечір'}">${ic('repeat')}<span>Зациклити</span></button></div>
+    return `<div class="tlv-row" data-ch="${i}" data-loop="${on?1:0}" style="--c:${col}"><div class="tlv-lab"><span class="tlv-hd"><span class="tlv-hpi">${ic('hp')}</span><b>${CH[i].lbl}</b></span><small class="tlv-desc${big?'':' sm'}">${esc(c.meta[i].n)}</small><small>${base} ${pl(base,'трек','треки','треків')} · ${tlFmt(total)}${on?' · по колу':''}</small>${enHTML(items.map(it=>it.t.e),col,big)}<div class="tlv-acts"><button class="tlv-shuf" data-chshuf="${i}" aria-label="Змінити порядок у каналі ${CH[i].lbl}" title="Змінити порядок лише в цьому каналі">${ic('shuffle')}<span>Перемішати</span></button><button class="tlv-shuf tlv-loop${on?' on':''}" data-chloop="${i}" aria-pressed="${on}" title="${on?'Вимкнути зациклення каналу':'Зациклити: після кінця списку треки йдуть знову по колу, поки не заповниться вечір'}">${ic('repeat')}<span>Зациклити</span></button></div></div>
       <div class="tlv-lane" style="width:${W}px"><svg class="tlv-en" width="${W}" height="${EH}" role="img" aria-label="Енергія каналу ${CH[i].lbl} по ходу події"><path d="${line} L${xe.toFixed(1)},${EH} L0,${EH} Z" style="fill:${col};fill-opacity:.13"/><path d="${line}" style="fill:none;stroke:${col};stroke-width:2.2;stroke-linecap:round"/></svg>
       <div class="tlv-cards" style="height:${CHT}px">${cards}</div></div></div>`}).join('');
   const enter=!tlEntered;tlEntered=true;
@@ -1426,6 +1500,7 @@ function toolbar(c,extra=''){
   return `<div class="bar">
     <button class="btn" id="tlView" aria-pressed="${!!S.tlv}" title="${S.tlv?'Повернутися до списків каналів':'Показати всі канали на шкалі часу'}">${ic(S.tlv?'list':'clock')}<span class="t">${S.tlv?'Списки':'Таймлайн'}</span></button>
     <button class="btn" id="shuffle" title="Перемішати порядок, зберігаючи хвилі енергії">${ic('shuffle')}<span class="t">Інший порядок</span></button>
+    <button class="btn" id="magic" title="Magic: розподілити треки між каналами так, щоб енергія не провалювалась і не пікувала одночасно на всіх трьох">${ic('star')}<span class="t">Magic</span></button>
     ${c.edits?`<button class="btn" id="reset">${ic('undo')}<span class="t">Скинути ${c.edits} ${pl(c.edits,'зміну','зміни','змін')}</span></button>`:''}
     ${extra}
     <span class="grow"></span>
@@ -1720,6 +1795,19 @@ document.addEventListener('click',e=>{
   if(d.tlz){S.tlz=+d.tlz;save();render();return}
   switch(t.id){
     case 'tlView':S.tlv=!S.tlv;S.focus=null;save();render();break;
+    case 'magic':{
+      const r=magicBalance();
+      if(!r||!r.en){toast('Magic: немає увімкнених каналів');break}
+      if(r.skip){toast('У пресеті «За енергією» Magic не потрібен: енергія вже розподілена по каналах');break}
+      if(!r.changed){toast('Magic: порядок уже збалансований');break}
+      const c=ctx(),prev={kind:'dnd',key:c.key,ov:JSON.parse(JSON.stringify(S.ov[c.key]||{})),ord:S.ord&&S.ord[c.key]?JSON.parse(JSON.stringify(S.ord[c.key])):null,n:(S.ordN||{})[c.key]||0};
+      const ov=S.ov[c.key]=S.ov[c.key]||{};
+      r.en.forEach(i=>r.lanes[i].forEach(id=>{ov[id]=i}));
+      S.ord=S.ord||{};S.ord[c.key]=[0,1,2].map(i=>r.lanes[i]);
+      S.ordN=S.ordN||{};S.ordN[c.key]=(S.ordN[c.key]||0)+r.changed;
+      undoStack.push(prev);save();M.cascade='all';flipRender(render);
+      toast(`Magic: збалансовано, змінено ${r.changed} ${pl(r.changed,'позицію','позиції','позицій')}`);
+      break}
     case 'shuffle':S.seed=Math.floor(Math.random()*1e6);S.ord={};S.ordN={};M.cascade='all';flipRender(render);toast('Порядок оновлено, хвилі енергії збережено');break;
     case 'reset':{const c=ctx(),n=realEdits(S.ov[c.key])+((S.ordN||{})[c.key]||0);delete S.ov[c.key];if(S.ord)delete S.ord[c.key];if(S.ordN)delete S.ordN[c.key];undoStack=undoStack.filter(h=>h.key!==c.key);render();toast(`Скинуто ${n} ${pl(n,'ручну зміну','ручні зміни','ручних змін')}`);break}
     case 'dlAll':{const c=compute();const txt='\uFEFF'+[0,1,2].filter(i=>c.enabled[i]).map(i=>chText(i)).join('\n\n');const a=document.createElement('a');const url=URL.createObjectURL(new Blob([txt],{type:'text/plain;charset=utf-8'}));a.href=url;a.download='silent-playlists-'+new Date().toISOString().slice(0,10)+'.txt';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(url);a.remove()},1000);toast('Файл з плейлистами завантажено');break}
@@ -2571,8 +2659,8 @@ render();
     btn.innerHTML=`${svg('play',16)}<span>Слухати разом</span>`;
     btn.title='Запустити всі три канали синхронно з першого треку';
     btn.addEventListener('click',toggleAll);
-    // Поруч із «Інший порядок» (праворуч від нього); якщо такої кнопки немає — перед «Копіювати всі три»
-    const order=[...host.querySelectorAll('button')].find(x=>/Інший порядок/.test(x.textContent));
+    // Поруч із «Magic» (праворуч від неї), інакше — праворуч від «Інший порядок»; якщо такої кнопки немає — перед «Копіювати всі три»
+    const order=[...host.querySelectorAll('button')].find(x=>/Magic/.test(x.textContent))||[...host.querySelectorAll('button')].find(x=>/Інший порядок/.test(x.textContent));
     if(order && order.nextSibling) host.insertBefore(btn, order.nextSibling);
     else if(order) host.appendChild(btn);
     else host.insertBefore(btn, host.firstChild);
