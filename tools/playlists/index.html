@@ -159,7 +159,18 @@ body::before{content:"";position:fixed;right:-240px;top:-260px;width:720px;heigh
 .tlv-hpi .i{width:15px;height:15px}
 .tlv-lab b{font:700 13px/1.1 var(--display);letter-spacing:.06em;color:var(--c)}
 .tlv-lab small{font:500 11.5px/1.3 var(--body);color:var(--ink-subtle);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tlv-shuf{align-self:flex-start;box-sizing:border-box;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;margin-top:6px;min-height:28px;padding:5px 9px;border-radius:var(--r-pill);border:1px solid var(--divider);background:rgba(255,255,255,.03);font:600 11px/1 var(--body);letter-spacing:0;color:var(--ink-muted);transition:color .2s,border-color .2s,background .2s}
+.tlv-desc.sm{display:none}
+.tlv-loop{margin-top:4px}
+.tlv-card.tlv-out{pointer-events:none;z-index:1}
+.tlv-loop.on{color:var(--ink);border-color:color-mix(in srgb,var(--c) 70%,transparent);background:color-mix(in srgb,var(--c) 18%,transparent)}
+.tlv-loop.on .i{color:var(--c)}
+.tlv-en-s{display:flex;align-items:stretch;gap:4px;width:100%;height:44px;margin:4px 0 2px;color:var(--c)}
+.tlv-en-s.sm{height:30px}
+.tlv-en-b{flex:1;min-width:0;display:flex;flex-direction:column;align-items:stretch;gap:3px}
+.tlv-en-b .tr{flex:1;min-height:0;display:flex;align-items:flex-end;background:color-mix(in srgb,var(--c) 10%,transparent);border-radius:3px;overflow:hidden}
+.tlv-en-b i{display:block;width:100%;background:var(--c);border-radius:3px 3px 0 0;transition:height .4s cubic-bezier(.22,.9,.25,1)}
+.tlv-en-b b{font:600 9.5px/1 var(--body);text-align:center;color:var(--ink-subtle)}
+.tlv-shuf{align-self:stretch;justify-content:center;box-sizing:border-box;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;margin-top:6px;min-height:28px;padding:5px 9px;border-radius:var(--r-pill);border:1px solid var(--divider);background:rgba(255,255,255,.03);font:600 11px/1 var(--body);letter-spacing:0;color:var(--ink-muted);transition:color .2s,border-color .2s,background .2s}
 .tlv-shuf:hover{color:var(--ink);border-color:color-mix(in srgb,var(--c) 60%,transparent);background:color-mix(in srgb,var(--c) 10%,transparent)}
 .tlv-shuf .i{width:12px;height:12px}
 .tlv-axl{box-shadow:none;color:var(--ink-subtle);font:500 11px/1 var(--body)}
@@ -188,6 +199,14 @@ body::before{content:"";position:fixed;right:-240px;top:-260px;width:720px;heigh
 .tlv-card:hover,.tlv-card:focus-visible{z-index:30;width:auto!important;min-width:calc(var(--cs) + 14px)!important;max-width:300px!important;bottom:auto!important;height:auto;transform:translateY(-10px);background:rgba(30,30,34,.98);border-color:color-mix(in srgb,var(--c) 70%,transparent);box-shadow:0 0 0 1px color-mix(in srgb,var(--c) 40%,transparent),0 22px 40px -18px rgba(0,0,0,.95)}
 .tlv-card:hover .tlv-meta{display:flex;margin-top:2px}
 .tlv-card:hover .tlv-cov{width:var(--hcs,var(--cs))!important;height:var(--hcs,var(--cs))!important;border-radius:14px}
+/* Під час перетягування сусідні картки не піднімаються й не розширюються: вони лише роз'їжджаються, даючи місце */
+/* Під час перетягування картки роз'їжджаються по горизонталі (--sh): місце під треком, що несуть, звільняється */
+body.tl-dragging .tlv-card{transform:translateX(var(--sh,0px));transition:transform .32s cubic-bezier(.22,.9,.25,1),background .2s,border-color .2s}
+.tlv-lane{position:relative}
+.tlv-en-old{position:absolute;left:0;top:0;pointer-events:none}
+@media (prefers-reduced-motion:reduce){body.tl-dragging .tlv-card{transition:none}}
+body.tl-dragging .tlv-card:hover{z-index:1;width:var(--cw)!important;min-width:0!important;max-width:none!important;bottom:8px!important;height:auto;transform:translateX(var(--sh,0px))!important;background:rgba(20,20,23,.85);border-color:var(--divider);box-shadow:none}
+body.tl-dragging .tlv-card:hover .tlv-cov{width:var(--cs)!important;height:var(--cs)!important;border-radius:10px}
 .tlv-card:hover .tlv-meta>b,.tlv-card:hover .tlv-meta>i,.tlv-card:hover .tlv-meta>em{animation:none;transform:none}
 
 /* ——— Анімація таймлайну ——— */
@@ -218,7 +237,7 @@ body::before{content:"";position:fixed;right:-240px;top:-260px;width:720px;heigh
 .tlv-end.r span{left:auto;right:6px}
 .tlv-card{cursor:grab;touch-action:pan-y}
 .tl-dragging,.tl-dragging *{cursor:grabbing!important;user-select:none}
-.tlv-card.tl-src{opacity:.25}
+.tlv-card.tl-src{display:none}
 .tlv-ghost{box-shadow:0 24px 48px -16px rgba(0,0,0,.9),0 0 0 1px var(--c,#c6ff00);background:rgba(24,24,28,.96)!important;transition:none!important}
 .tlv-drop{position:fixed;z-index:199;width:4px;border-radius:4px;pointer-events:none;box-shadow:0 0 14px currentColor}
 @media (max-width:720px){.tlv-top{padding:10px 12px;gap:10px}.tlv-hint{display:none}.tlv-zoom{margin-left:0;width:100%;font-size:11px}.tlv-zoom input{flex:1;width:auto}.tlv-lab{width:96px;padding:0 6px 0 10px;gap:3px}.tlv-lab b{font-size:12px}.tlv-lab small{font-size:10.5px}.tlv-hpi{width:22px;height:22px}.tlv-hpi .i{width:13px;height:13px}.tlv-hd{gap:6px}.tlv-shuf{padding:4px 7px;font-size:10.5px}.tlv-shuf span{display:none}.tlv-meta>b{font-size:12px}.tlv-meta>i{font-size:11px}.tlv-meta>em{font-size:10.5px}}
@@ -648,7 +667,7 @@ body.has-sel .toast{bottom:84px}
 .row.cutline{border-top:1px dashed rgba(198,255,0,.55)}
 .tlcol{display:none}
 @media (min-width:901px){
-  .board.tlmode{grid-template-columns:repeat(3,minmax(0,1fr)) 50px;column-gap:12px;align-items:stretch}
+  .board.tlmode{grid-template-columns:repeat(3,minmax(0,1fr));column-gap:12px;align-items:stretch}
   .tlcol{display:block;position:relative;min-width:0;grid-column:4;grid-row:1}
   .tlhead{position:absolute;left:0;right:0;display:flex;justify-content:flex-start;align-items:center;gap:5px;padding-left:2px}
   .tlhead b{font:700 10.5px/1 var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted)}
@@ -772,6 +791,7 @@ body.barring,body.barring *{cursor:grabbing!important;user-select:none}
   <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
   <symbol id="i-grip" viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.3"/><circle cx="15" cy="6" r="1.3"/><circle cx="9" cy="12" r="1.3"/><circle cx="15" cy="12" r="1.3"/><circle cx="9" cy="18" r="1.3"/><circle cx="15" cy="18" r="1.3"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-repeat" viewBox="0 0 24 24"><path d="M17 2l4 4-4 4M3 11v-1a4 4 0 0 1 4-4h14M7 22l-4-4 4-4M21 13v1a4 4 0 0 1-4 4H3"/></symbol>
   <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></symbol>
   <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M7.5 10.5 12 15l4.5-4.5"/><path d="M5 19.5h14"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
@@ -906,14 +926,14 @@ const ruleDesc=r=>{const p=[r.lang==='ua'?'Українське':r.lang==='int'?
 const DEF_B=()=>({from:'energy',ch:PRESETS[1].ch.map(c=>({on:true,n:c.n,r:JSON.parse(JSON.stringify(c.r))}))});
 
 /* state */
-const S=Object.assign({view:'presets',preset:'energy',seed:7,ov:{},hours:4,mch:0,bq:'',b:DEF_B(),mine:[],
+const S=Object.assign({view:'presets',preset:'energy',seed:7,ov:{},hours:4,mch:0,bq:'',b:DEF_B(),mine:[],loop:[false,false,false],
   lib:{q:'',lang:[],dec:[],gen:[],e:[],flag:[]},sort:{k:'a',d:1}},store.get('state',{}));
 /* Старі збереження можуть мати правило без окремих полів (наприклад, без gen): без цього Конструктор падає */
 const RULE_DEF=()=>({lang:'all',e:[],dec:[],gen:[],flag:[],src:[],ids:[]});
 const fixRule=r=>Object.assign(RULE_DEF(),r||{});
 (S.b&&S.b.ch||[]).forEach(c=>{c.r=fixRule(c.r)});
 (S.mine||[]).forEach(pr=>(pr.ch||[]).forEach(c=>{c.r=fixRule(c.r)}));
-const save=()=>store.set('state',{tlv:S.tlv,tlzv:S.tlzv,curve:S.curve,chSeed:S.chSeed,onlyDl:S.onlyDl,ord:S.ord,ordN:S.ordN,howDone:S.howDone,view:S.view,preset:S.preset,seed:S.seed,ov:S.ov,hours:S.hours,b:S.b,mine:S.mine});
+const save=()=>store.set('state',{loop:S.loop,tlv:S.tlv,tlzv:S.tlzv,curve:S.curve,chSeed:S.chSeed,onlyDl:S.onlyDl,ord:S.ord,ordN:S.ordN,howDone:S.howDone,view:S.view,preset:S.preset,seed:S.seed,ov:S.ov,hours:S.hours,b:S.b,mine:S.mine});
 let undoStack=[];
 S.sel=new Set();S.focus=null;
 const pool=()=>S.onlyDl?T.filter(t=>t.dl):T;
@@ -1031,7 +1051,7 @@ function dramHTML(ci,key){
 }
 const cactHTML=ci=>`<div class="cact"><button class="lnk" data-chshuf="${ci}" title="Новий порядок лише в цьому каналі, з тією ж драматургією">${ic('shuffle')}Перемішати<span class="lw2">канал</span></button><button class="lnk dopen" data-focus="${ci}">${ic('wave')}Драматургія</button></div>`;
 const yr=t=>t.y==null?'рік ?':t.y+(t.approx?' ≈':'');
-/*COVERS:START*/const COVER_FILES={"scatman john|scatman (ski ba bop ba dop bop)": "covers/e5b2e1951452.jpg", "jackson 5|i want you back": "covers/79e03885efeb.jpg", "europe|the final countdown": "covers/54fb19c4093f.jpg", "raye|where is my husband!": "covers/9ec93493038a.jpg", "michael jackson|beat it": "covers/b61efd8f2b3b.jpg", "walk the moon|shut up and dance": "covers/9f57e37fb2f5.jpg", "abba|gimme! gimme! gimme!": "covers/1feba4fdf513.jpg", "stevie wonder|sir duke": "covers/e272c3ead3bb.jpg", "black eyed peas|pump it": "covers/f1c5d6244beb.jpg", "kelly clarkson|stronger (what doesn't kill you)": "covers/705d948a1695.jpg", "michael jackson|black or white": "covers/46c1dadb6e95.jpg", "carly rae jepsen|call me maybe": "covers/e3dae168266f.jpg", "crazy frog|axel f": "covers/43af399ca25d.jpg", "sacha baron cohen|i like to move it": "covers/a12003ef65c9.jpg", "earth, wind & fire|september": "covers/7e3fc4e9b678.jpg", "whitney houston|i wanna dance with somebody": "covers/23e86d0a3b67.jpg", "opus|live is life": "covers/8ecc29a89df1.jpg", "pharrell williams|happy": "covers/817610d8f385.jpg", "queen|another one bites the dust": "covers/80582e18e5e6.jpg", "mariah carey|emotions": "covers/fb394a77ea0f.jpg", "bon jovi|livin' on a prayer": "covers/9a30ab5753cc.jpg", "michael jackson|don't stop 'til you get enough": "covers/07c671b173d1.jpg", "kelly clarkson|since u been gone": "covers/6508a26fe641.jpg", "atc|around the world (la la la la la)": "covers/196d9b406fe0.jpg", "pet shop boys|go west": "covers/d45767940398.jpg", "shakira|waka waka (this time for africa)": "covers/765645d3d9bd.jpg", "freddie mercury|living on my own": "covers/d6b0c2e8e807.jpg", "kenny loggins|footloose": "covers/c69cb285084c.jpg", "las ketchup|the ketchup song (aserejé)": "covers/997fae4c39cd.jpg", "the beatles|twist and shout": "covers/6887dfa63922.jpg", "survivor|eye of the tiger": "covers/57f39fdda60d.jpg", "cyndi lauper|girls just want to have fun": "covers/75c9c9a934d4.jpg", "smash mouth|all star": "covers/9e1111830c22.jpg", "justin timberlake|can't stop the feeling!": "covers/85675d6e1067.jpg", "dua lipa|dance the night": "covers/f67e9d965b98.jpg", "james brown & the famous flames|i got you (i feel good)": "covers/31ae364965a2.jpg", "adele|rumour has it": "covers/62e46397a636.jpg", "o-zone|dragostea din tei": "covers/48c033bb6df3.jpg", "bonnie tyler|holding out for a hero": "covers/95abf3efc1d9.jpg", "rick astley|never gonna give you up": "covers/e14e0bca1b88.jpg", "tina turner|the best": "covers/ee46ad9b9231.jpg", "afric simone|hafanana": "covers/0c7770502a9a.jpg", "snap!|rhythm is a dancer": "covers/cb51cda70a1c.jpg", "queen|we will rock you": "covers/66652c6a0b59.jpg", "alexander rybak|fairytale": "covers/8e632175d1f4.jpg", "katy perry|hot n cold": "covers/65649125a7d0.jpg", "the second voice|let me be": "covers/95686a4aa9b9.jpg", "los del río|macarena": "covers/f001725d0fab.jpg", "village people|y.m.c.a.": "covers/bdb65190ac90.jpg", "taylor swift|shake it off": "covers/9fd22f0231c0.jpg", "wham!|wake me up before you go-go": "covers/8c3e8a0c1d1d.jpg", "michael jackson|they don't care about us": "covers/10de960a1019.jpg", "bee gees|stayin' alive": "covers/850a87d7715e.jpg", "adele|rolling in the deep": "covers/a5acdfcde2b7.jpg", "boney m.|sunny": "covers/486bb2a7820e.jpg", "queen|don't stop me now": "covers/683c1c6b9cad.jpg", "dua lipa|training season": "covers/bab2d7f63946.jpg", "elton john|i'm still standing": "covers/e031f1502215.jpg", "eiffel 65|blue (da ba dee)": "covers/26032c4cac18.jpg", "céline dion|i'm alive": "covers/a64481d5be42.jpg", "skryabin|танець пінгвіна": "covers/4fbb08ee73bb.jpg", "степан гіга|цей сон": "covers/cfe550d00811.jpg", "kolibri, zlata ko|червоний мак": "covers/3a62067cbab9.jpg", "yaktak × kola|порічка": "covers/8bab8e15d0e8.jpg", "борис сичевський|ти ж мене підманула": "covers/c95e3c0b4052.jpg", "dzidzio|василина": "covers/41d0178c75ea.jpg", "михайло поплавський|юний орел": "covers/04655bb41245.jpg", "анна трінчер|зірочка палай": "covers/daeec4956701.jpg", "go_a|шум": "covers/a4e104b22a1f.jpg", "laud|lightkeeper": "covers/515e9b7bbd2e.jpg", "michael jackson|billie jean": "covers/b833a298209b.jpg", "shakira|try everything": "covers/900805ef8375.jpg", "londonbeat|i've been thinking about you": "covers/963ba8652ce7.jpg", "nat king cole|l-o-v-e": "covers/55f41182474e.jpg", "elton john & dua lipa|cold heart (pnau remix)": "covers/e1e03cffaadb.jpg", "teddy swims|bad dreams": "covers/6efe747ee067.jpg", "céline dion|it's all coming back to me now": "covers/a9f55effc1a5.jpg", "the beatles|here comes the sun": "covers/dae010245026.jpg", "sting|desert rose": "covers/bb171e7cc39b.jpg", "alicia keys|girl on fire": "covers/9ec161700895.jpg", "silent circle|touch in the night": "covers/68e36e7f939f.jpg", "bronski beat|smalltown boy": "covers/6a478ebe6d36.jpg", "michael jackson|wanna be startin' somethin'": "covers/47932a410e17.jpg", "ella fitzgerald|blue skies": "covers/b7eb77f969a1.jpg", "u2|i still haven't found what i'm looking for": "covers/7e4529d19a19.jpg", "abba|dancing queen": "covers/0e4496e95aa5.jpg", "natasha bedingfield|unwritten": "covers/e1d2413414b8.jpg", "bob marley & the wailers|three little birds": "covers/cfde8ec566e3.jpg", "queen|a kind of magic": "covers/97c27c4a5a45.jpg", "mariah carey|fantasy": "covers/e3e55e19a9b6.jpg", "modjo|lady (hear me tonight)": "covers/7dc3017da980.jpg", "michael jackson|human nature": "covers/358e92dcbfdb.jpg", "ella fitzgerald & louis armstrong|cheek to cheek": "covers/ed4f28a770b1.jpg", "modern talking|brother louie": "covers/3b6155a0c667.jpg", "kool & the gang|celebration": "covers/601659fb1a55.jpg", "a-ha|take on me": "covers/d22812ac9f9f.jpg", "rag'n'bone man|human": "covers/6edf715f3897.jpg", "nelly furtado|say it right": "covers/2afb09423488.jpg", "desireless|voyage, voyage": "covers/4f8c009c9aa8.jpg", "stevie wonder|isn't she lovely": "covers/120a7798eeab.jpg", "tears for fears|everybody wants to rule the world": "covers/608d743f64c1.jpg", "miley cyrus|flowers": "covers/e57a1fc4af7b.jpg", "sade|smooth operator": "covers/00080d00f020.jpg", "rihanna|diamonds": "covers/289a482690a7.jpg", "tony esposito|kalimba de luna": "covers/49c4416c70e2.jpg", "taylor swift|love story": "covers/e886ab246665.jpg", "queen|radio ga ga": "covers/6de511f06015.jpg", "sting|englishman in new york": "covers/2ca6d09ede14.jpg", "ella fitzgerald|it's only a paper moon": "covers/ba54f45c35de.jpg", "toto|africa": "covers/2a08f53fc513.jpg", "eurythmics|sweet dreams (are made of this)": "covers/671a5d12cfc2.jpg", "black|wonderful life": "covers/a184348b7c3b.jpg", "manu chao|me gustas tú": "covers/fffd51d19c6f.jpg", "sade|the sweetest taboo": "covers/9e96b4fc8e42.jpg", "haddaway|what is love": "covers/b70800986ed1.jpg", "abba|super trouper": "covers/d3dfc31428b4.jpg", "modern talking|cheri cheri lady": "covers/7d5a979815dc.jpg", "boney m.|daddy cool": "covers/8acbefa4cbab.jpg", "the beatles|let it be": "covers/fa25b88a3e5d.jpg", "roxette|the look": "covers/07097b0abd80.jpg", "toto cutugno|l'italiano": "covers/3ac7d5c64e3b.jpg", "sandra|innocent love": "covers/980cc97b7275.jpg", "depeche mode|enjoy the silence": "covers/01e3f85e54ff.jpg", "paul mccartney & michael jackson|say say say": "covers/16437482e0ca.jpg", "john denver|take me home, country roads": "covers/4d27f8a50dcf.jpg", "phil collins|another day in paradise": "covers/3448dc059279.jpg", "lionel richie|all night long": "covers/9678b15e9d6a.jpg", "kola|ші": "covers/5443e22b31aa.jpg", "arsen mirzoyan|вінні пух": "covers/54061139ebcf.jpg", "злата огнєвіч|запали вогонь": "covers/c2f7e12fcf47.jpg", "tonya matvienko|ліхтарики": "covers/5c9c5a4bc044.jpg", "skryabin|місця щасливих людей": "covers/99846fb1ca2c.jpg", "iryna bilyk|так просто": "covers/adc986216c5e.jpg", "laud|2 дні": "covers/aef0c8435ef0.jpg", "bryan adams|(everything i do) i do it for you": "covers/6e0ce0347c4b.jpg", "skryabin|спи собі сама": "covers/3fd8eaa32819.jpg", "adele|hello": "covers/bccd2fcde2f7.jpg", "adam|повільно": "covers/318252ee13ea.jpg", "sting|fields of gold": "covers/e25df27c1f32.jpg", "khrystyna soloviy|тримай": "covers/86448f7b6c35.jpg", "alex warren|ordinary": "covers/6c4fb1b021a0.jpg", "okean elzy|на небі": "covers/752679113c87.jpg", "bonnie tyler|total eclipse of the heart": "covers/6b22b6293601.jpg", "zac efron & zendaya|rewrite the stars": "covers/da6713997dd0.jpg", "jamala|люблю": "covers/8ef1bc83057c.jpg", "chris isaak|wicked game": "covers/3c566eb44e25.jpg", "christina perri|a thousand years": "covers/779d5712674d.jpg", "beyoncé|halo": "covers/1219c9057676.jpg", "бумбокс|квіти в волоссі": "covers/caaaa62b1845.jpg", "billie eilish|birds of a feather": "covers/5dc897d8fedb.jpg", "céline dion|the power of love": "covers/dd1bf6820228.jpg", "okean elzy|вище неба": "covers/aba5fae68e58.jpg", "roxette|listen to your heart": "covers/ca784133fd67.jpg", "skryabin|старі фотографії": "covers/a7f670de12a6.jpg", "oleh skrypka|гуцулка ксеня": "covers/e2d9f7a38353.jpg", "stevie wonder|i just called to say i love you": "covers/892376408b09.jpg", "okean elzy|я так хочу...": "covers/01a73ff98b1a.jpg", "youssou n'dour & neneh cherry|7 seconds": "covers/e8825e229606.jpg", "roxette|it must have been love": "covers/bc646715b568.jpg", "kalush feat. skofka|додому": "covers/6ef8354cb174.jpg", "u2|with or without you": "covers/d710495aa0b5.jpg", "sade|by your side": "covers/6edafe3dd4b4.jpg", "skryabin|люди, як кораблі": "covers/b47222fd6b83.jpg", "christopher cross|sailing": "covers/72ed2f4f4f75.jpg", "okean elzy|911": "covers/6301f9b1c3d0.jpg", "no doubt|don't speak": "covers/d7c91a734525.jpg", "molodi|my sea": "covers/368fa6b0637f.jpg", "george michael|careless whisper": "covers/13849894ed1c.jpg", "sviatoslav vakarchuk|така, як ти": "covers/5c5063d74128.jpg", "joe dassin|salut": "covers/2aa17ef33566.jpg", "taylor swift|lover": "covers/97c5c9c7580c.jpg", "скрябін|шампанські очі": "covers/b91e05675952.jpg", "skryabin|маршрутка": "covers/f914f07a4fbd.jpg", "bryan adams|heaven": "covers/201b99ca48a0.jpg", "céline dion|my heart will go on": "covers/3d0a62f71da3.jpg", "richard marx|right here waiting": "covers/bee45b357496.jpg", "океан ельзи|там, де нас нема": "covers/cda28eab3ad9.jpg", "michael jackson|liberian girl": "covers/33a37a504bec.jpg", "scorpions|wind of change": "covers/8c261d3518bf.jpg", "elton john|can you feel the love tonight": "covers/9fb0eeea08f8.jpg", "adele|someone like you": "covers/326278f1f6bb.jpg", "the kingdom choir|stand by me": "covers/04ec6126cac6.jpg", "céline dion|because you loved me": "covers/0e1357785891.jpg", "jackson 5|i'll be there": "covers/406bc8752d9e.jpg", "whitney houston|i have nothing": "covers/31c33a72b1e0.jpg", "nat king cole|unforgettable": "covers/ddd1a78aa2aa.jpg", "lady gaga & bruno mars|die with a smile": "covers/9cf977061284.jpg", "céline dion|all by myself": "covers/b1c1b0f80a32.jpg", "foreigner|i want to know what love is": "covers/c063d2411d58.jpg", "dolly parton & kenny rogers|islands in the stream": "covers/fe3749b142ed.jpg", "lord huron|the night we met": "covers/956cd42bc100.jpg", "céline dion|where does my heart beat now": "covers/7f634746bbf0.jpg", "sixpence none the richer|kiss me": "covers/428474b37456.jpg", "louis armstrong|what a wonderful world": "covers/33971b6882a1.jpg", "ella fitzgerald & louis armstrong|dream a little dream of me": "covers/e031ccf2134e.jpg", "seal|kiss from a rose": "covers/dfe36e417354.jpg", "berlin|take my breath away": "covers/ef2fb6ef2539.jpg", "aretha franklin|you send me": "covers/8efcba32bb85.jpg", "george benson|nothing's gonna change my love for you": "covers/68d7f6598405.jpg", "chris de burgh|the lady in red": "covers/bdb4bfe9faa0.jpg", "ella fitzgerald & louis armstrong|they can't take that away from me": "covers/94a30d4d507d.jpg"};/*COVERS:END*/
+/*COVERS:START*/const COVER_FILES={"scatman john|scatman (ski ba bop ba dop bop)": "covers/e5b2e1951452.jpg", "jackson 5|i want you back": "covers/79e03885efeb.jpg", "europe|the final countdown": "covers/54fb19c4093f.jpg", "raye|where is my husband!": "covers/9ec93493038a.jpg", "michael jackson|beat it": "covers/b61efd8f2b3b.jpg", "walk the moon|shut up and dance": "covers/9f57e37fb2f5.jpg", "abba|gimme! gimme! gimme!": "covers/1feba4fdf513.jpg", "the greatest showman|the greatest show": "covers/510646cca109.jpg", "stevie wonder|sir duke": "covers/e272c3ead3bb.jpg", "black eyed peas|pump it": "covers/f1c5d6244beb.jpg", "kelly clarkson|stronger (what doesn't kill you)": "covers/705d948a1695.jpg", "michael jackson|black or white": "covers/46c1dadb6e95.jpg", "carly rae jepsen|call me maybe": "covers/e3dae168266f.jpg", "stromae (afro soul кавер)|papaoutai (afro soul)": "covers/47a30820fc6a.jpg", "crazy frog|axel f": "covers/43af399ca25d.jpg", "sacha baron cohen|i like to move it": "covers/a12003ef65c9.jpg", "earth, wind & fire|september": "covers/7e3fc4e9b678.jpg", "whitney houston|i wanna dance with somebody": "covers/23e86d0a3b67.jpg", "opus|live is life": "covers/8ecc29a89df1.jpg", "pharrell williams|happy": "covers/817610d8f385.jpg", "queen|another one bites the dust": "covers/80582e18e5e6.jpg", "mariah carey|emotions": "covers/fb394a77ea0f.jpg", "bon jovi|livin' on a prayer": "covers/9a30ab5753cc.jpg", "michael jackson|don't stop 'til you get enough": "covers/07c671b173d1.jpg", "kelly clarkson|since u been gone": "covers/6508a26fe641.jpg", "atc|around the world (la la la la la)": "covers/196d9b406fe0.jpg", "pet shop boys|go west": "covers/d45767940398.jpg", "shakira|waka waka (this time for africa)": "covers/765645d3d9bd.jpg", "freddie mercury|living on my own": "covers/d6b0c2e8e807.jpg", "kenny loggins|footloose": "covers/c69cb285084c.jpg", "las ketchup|the ketchup song (aserejé)": "covers/997fae4c39cd.jpg", "the beatles|twist and shout": "covers/6887dfa63922.jpg", "survivor|eye of the tiger": "covers/57f39fdda60d.jpg", "cyndi lauper|girls just want to have fun": "covers/75c9c9a934d4.jpg", "smash mouth|all star": "covers/9e1111830c22.jpg", "justin timberlake|can't stop the feeling!": "covers/85675d6e1067.jpg", "celine dion|river deep, mountain high": "covers/fe5b0adc2205.jpg", "dua lipa|dance the night": "covers/f67e9d965b98.jpg", "james brown & the famous flames|i got you (i feel good)": "covers/31ae364965a2.jpg", "adele|rumour has it": "covers/62e46397a636.jpg", "o-zone|dragostea din tei": "covers/48c033bb6df3.jpg", "bonnie tyler|holding out for a hero": "covers/95abf3efc1d9.jpg", "rick astley|never gonna give you up": "covers/e14e0bca1b88.jpg", "tina turner|the best": "covers/ee46ad9b9231.jpg", "afric simone|hafanana": "covers/0c7770502a9a.jpg", "snap!|rhythm is a dancer": "covers/cb51cda70a1c.jpg", "queen|we will rock you": "covers/66652c6a0b59.jpg", "alexander rybak|fairytale": "covers/8e632175d1f4.jpg", "katy perry|hot n cold": "covers/65649125a7d0.jpg", "sia|unstoppable": "covers/e359dfdffa52.jpg", "the second voice|let me be": "covers/95686a4aa9b9.jpg", "los del río|macarena": "covers/f001725d0fab.jpg", "village people|y.m.c.a.": "covers/bdb65190ac90.jpg", "taylor swift|shake it off": "covers/9fd22f0231c0.jpg", "wham!|wake me up before you go-go": "covers/8c3e8a0c1d1d.jpg", "michael jackson|they don't care about us": "covers/10de960a1019.jpg", "the greatest showman|from now on": "covers/4aeb002f069c.jpg", "bee gees|stayin' alive": "covers/850a87d7715e.jpg", "adele|rolling in the deep": "covers/a5acdfcde2b7.jpg", "boney m.|sunny": "covers/486bb2a7820e.jpg", "queen|don't stop me now": "covers/683c1c6b9cad.jpg", "dua lipa|training season": "covers/bab2d7f63946.jpg", "elton john|i'm still standing": "covers/e031f1502215.jpg", "eiffel 65|blue (da ba dee)": "covers/26032c4cac18.jpg", "céline dion|i'm alive": "covers/a64481d5be42.jpg", "skryabin|танець пінгвіна": "covers/4fbb08ee73bb.jpg", "степан гіга|цей сон": "covers/cfe550d00811.jpg", "kolibri, zlata ko|червоний мак": "covers/3a62067cbab9.jpg", "verka serduchka|dancing lasha tumbai": "covers/fa9d5250a116.jpg", "monatik|кружить": "covers/5fb801a7d07b.jpg", "океан ельзи|я не здамся без бою": "covers/3a32c5ff3a05.jpg", "злата огнєвіч|зозуля": "covers/f7101cf84f90.jpg", "yaktak × kola|порічка": "covers/8bab8e15d0e8.jpg", "борис сичевський|ти ж мене підманула": "covers/c95e3c0b4052.jpg", "dzidzio|василина": "covers/41d0178c75ea.jpg", "михайло поплавський|юний орел": "covers/04655bb41245.jpg", "анна трінчер|зірочка палай": "covers/daeec4956701.jpg", "go_a|шум": "covers/a4e104b22a1f.jpg", "laud|lightkeeper": "covers/515e9b7bbd2e.jpg", "michael jackson|billie jean": "covers/b833a298209b.jpg", "shakira|try everything": "covers/900805ef8375.jpg", "londonbeat|i've been thinking about you": "covers/963ba8652ce7.jpg", "nat king cole|l-o-v-e": "covers/55f41182474e.jpg", "elton john & dua lipa|cold heart (pnau remix)": "covers/e1e03cffaadb.jpg", "teddy swims|bad dreams": "covers/6efe747ee067.jpg", "céline dion|it's all coming back to me now": "covers/a9f55effc1a5.jpg", "the beatles|here comes the sun": "covers/dae010245026.jpg", "sting|desert rose": "covers/bb171e7cc39b.jpg", "alicia keys|girl on fire": "covers/9ec161700895.jpg", "silent circle|touch in the night": "covers/68e36e7f939f.jpg", "the little mermaid|under the sea": "covers/8caaa92a797c.jpg", "bronski beat|smalltown boy": "covers/6a478ebe6d36.jpg", "julio iglesias|con la misma piedra": "covers/6c93ed1721b2.jpg", "michael jackson|wanna be startin' somethin'": "covers/47932a410e17.jpg", "ella fitzgerald|blue skies": "covers/b7eb77f969a1.jpg", "the lion king|hakuna matata": "covers/2cbd23b56095.jpg", "grover washington jr. feat. bill withers|just the two of us": "covers/229a924fdf8d.jpg", "céline dion|dreamin' of you": "covers/41892d114b92.jpg", "u2|i still haven't found what i'm looking for": "covers/7e4529d19a19.jpg", "abba|dancing queen": "covers/0e4496e95aa5.jpg", "natasha bedingfield|unwritten": "covers/e1d2413414b8.jpg", "bob marley & the wailers|three little birds": "covers/cfde8ec566e3.jpg", "queen|a kind of magic": "covers/97c27c4a5a45.jpg", "mariah carey|fantasy": "covers/e3e55e19a9b6.jpg", "modjo|lady (hear me tonight)": "covers/7dc3017da980.jpg", "michael jackson|human nature": "covers/358e92dcbfdb.jpg", "ella fitzgerald & louis armstrong|cheek to cheek": "covers/ed4f28a770b1.jpg", "modern talking|brother louie": "covers/3b6155a0c667.jpg", "dolly parton|9 to 5": "covers/dfa6fd37f8f7.jpg", "kool & the gang|celebration": "covers/601659fb1a55.jpg", "a-ha|take on me": "covers/d22812ac9f9f.jpg", "rag'n'bone man|human": "covers/6edf715f3897.jpg", "nelly furtado|say it right": "covers/2afb09423488.jpg", "suzanne vega|tom's diner": "covers/b23f4fa9797f.jpg", "desireless|voyage, voyage": "covers/4f8c009c9aa8.jpg", "stevie wonder|isn't she lovely": "covers/120a7798eeab.jpg", "tears for fears|everybody wants to rule the world": "covers/608d743f64c1.jpg", "miley cyrus|flowers": "covers/e57a1fc4af7b.jpg", "sade|smooth operator": "covers/00080d00f020.jpg", "rihanna|diamonds": "covers/289a482690a7.jpg", "tony esposito|kalimba de luna": "covers/49c4416c70e2.jpg", "taylor swift|love story": "covers/e886ab246665.jpg", "queen|radio ga ga": "covers/6de511f06015.jpg", "sting|englishman in new york": "covers/2ca6d09ede14.jpg", "olivia dean|so easy (to fall in love)": "covers/b7350cba2304.jpg", "ella fitzgerald|it's only a paper moon": "covers/ba54f45c35de.jpg", "frank sinatra|fly me to the moon": "covers/5ccb535c05a0.jpg", "toto|africa": "covers/2a08f53fc513.jpg", "eurythmics|sweet dreams (are made of this)": "covers/671a5d12cfc2.jpg", "black|wonderful life": "covers/a184348b7c3b.jpg", "manu chao|me gustas tú": "covers/fffd51d19c6f.jpg", "sade|the sweetest taboo": "covers/9e96b4fc8e42.jpg", "modern talking|you're my heart, you're my soul": "covers/c388450650f0.jpg", "haddaway|what is love": "covers/b70800986ed1.jpg", "abba|super trouper": "covers/d3dfc31428b4.jpg", "modern talking|cheri cheri lady": "covers/7d5a979815dc.jpg", "boney m.|daddy cool": "covers/8acbefa4cbab.jpg", "mikis theodorakis|zorba's dance": "covers/25bfd884449e.jpg", "the beatles|let it be": "covers/fa25b88a3e5d.jpg", "roxette|the look": "covers/07097b0abd80.jpg", "toto cutugno|l'italiano": "covers/3ac7d5c64e3b.jpg", "sandra|innocent love": "covers/980cc97b7275.jpg", "depeche mode|enjoy the silence": "covers/01e3f85e54ff.jpg", "enrique iglesias|bailando": "covers/2c8b017dbc40.jpg", "paul mccartney & michael jackson|say say say": "covers/16437482e0ca.jpg", "john denver|take me home, country roads": "covers/4d27f8a50dcf.jpg", "kate bush|running up that hill": "covers/4e635d45fa55.jpg", "phil collins|another day in paradise": "covers/3448dc059279.jpg", "lionel richie|all night long": "covers/9678b15e9d6a.jpg", "celine dion|that's the way it is": "covers/65c48fa7f22d.jpg", "kola|ші": "covers/5443e22b31aa.jpg", "arsen mirzoyan|вінні пух": "covers/54061139ebcf.jpg", "злата огнєвіч|запали вогонь": "covers/c2f7e12fcf47.jpg", "jamala|крила": "covers/432d5a28bdd3.jpg", "назарій яремчук|гай, зелений гай": "covers/8d4d35cb4535.jpg", "tonya matvienko|ліхтарики": "covers/5c9c5a4bc044.jpg", "василь зінкевич|забудь печаль": "covers/9b4581b11ade.jpg", "gorim! & yuzvik|котики на сонці": "covers/9f6f70e4aa0f.jpg", "софія ротару|одна калина": "covers/512b0e18b104.jpg", "назарій яремчук|стожари": "covers/e5b1c7e84685.jpg", "skryabin|місця щасливих людей": "covers/99846fb1ca2c.jpg", "iryna bilyk|так просто": "covers/adc986216c5e.jpg", "laud|2 дні": "covers/aef0c8435ef0.jpg", "bryan adams|(everything i do) i do it for you": "covers/6e0ce0347c4b.jpg", "skryabin|спи собі сама": "covers/3fd8eaa32819.jpg", "adele|hello": "covers/bccd2fcde2f7.jpg", "adam|повільно": "covers/318252ee13ea.jpg", "sting|fields of gold": "covers/e25df27c1f32.jpg", "khrystyna soloviy|тримай": "covers/86448f7b6c35.jpg", "alex warren|ordinary": "covers/6c4fb1b021a0.jpg", "okean elzy|на небі": "covers/752679113c87.jpg", "bonnie tyler|total eclipse of the heart": "covers/6b22b6293601.jpg", "zac efron & zendaya|rewrite the stars": "covers/da6713997dd0.jpg", "jamala|люблю": "covers/8ef1bc83057c.jpg", "backstreet boys|i want it that way": "covers/2c95a75ccedd.jpg", "kazka|плакала": "covers/dc2da0200f9a.jpg", "chris isaak|wicked game": "covers/3c566eb44e25.jpg", "jamala|шлях додому": "covers/0707cd8800b6.jpg", "christina perri|a thousand years": "covers/779d5712674d.jpg", "квітка цісик|ніч така, господи, місячна, зоряна": "covers/3de0a25cff9d.jpg", "beyoncé|halo": "covers/1219c9057676.jpg", "бумбокс|квіти в волоссі": "covers/caaaa62b1845.jpg", "demis roussos|forever and ever": "covers/86f88cba1025.jpg", "billie eilish|birds of a feather": "covers/5dc897d8fedb.jpg", "назарій яремчук|запроси мене у сни свої": "covers/408f125ebedd.jpg", "céline dion|the power of love": "covers/dd1bf6820228.jpg", "okean elzy|вище неба": "covers/aba5fae68e58.jpg", "frank sinatra|strangers in the night": "covers/dc4c5bac90c0.jpg", "de sens|моя любов": "covers/8f6d46419896.jpg", "roxette|listen to your heart": "covers/ca784133fd67.jpg", "skryabin|старі фотографії": "covers/a7f670de12a6.jpg", "adele|love in the dark": "covers/c001256c0e17.jpg", "злата огнєвіч|за лісами, горами": "covers/ad1c42352fef.jpg", "whitney houston|run to you": "covers/7bf3cd0c82f9.jpg", "oleh skrypka|гуцулка ксеня": "covers/e2d9f7a38353.jpg", "stevie wonder|i just called to say i love you": "covers/892376408b09.jpg", "okean elzy|я так хочу...": "covers/01a73ff98b1a.jpg", "youssou n'dour & neneh cherry|7 seconds": "covers/e8825e229606.jpg", "квітка цісик|де ти тепер": "covers/1ac8b4932d98.jpg", "roxette|it must have been love": "covers/bc646715b568.jpg", "kalush feat. skofka|додому": "covers/6ef8354cb174.jpg", "u2|with or without you": "covers/d710495aa0b5.jpg", "sade|by your side": "covers/6edafe3dd4b4.jpg", "bee gees|too much heaven": "covers/7670df9048d3.jpg", "skryabin|люди, як кораблі": "covers/b47222fd6b83.jpg", "céline dion & peabo bryson|beauty and the beast": "covers/174afe6f40c6.jpg", "christopher cross|sailing": "covers/72ed2f4f4f75.jpg", "okean elzy|911": "covers/6301f9b1c3d0.jpg", "no doubt|don't speak": "covers/d7c91a734525.jpg", "molodi|my sea": "covers/368fa6b0637f.jpg", "george michael|careless whisper": "covers/13849894ed1c.jpg", "олег скрипка|весна": "covers/98241b752048.jpg", "moby|porcelain": "covers/10bdf73cd2a3.jpg", "sviatoslav vakarchuk|така, як ти": "covers/5c5063d74128.jpg", "joe dassin|salut": "covers/2aa17ef33566.jpg", "taylor swift|lover": "covers/97c5c9c7580c.jpg", "скрябін|шампанські очі": "covers/b91e05675952.jpg", "skryabin|маршрутка": "covers/f914f07a4fbd.jpg", "toni braxton|un-break my heart": "covers/9bf203c0d18b.jpg", "bryan adams|heaven": "covers/201b99ca48a0.jpg", "злата огнєвіч|gravity": "covers/3eaff26d77d7.jpg", "céline dion|my heart will go on": "covers/3d0a62f71da3.jpg", "richard marx|right here waiting": "covers/bee45b357496.jpg", "океан ельзи|там, де нас нема": "covers/cda28eab3ad9.jpg", "whitney houston|greatest love of all": "covers/75759cbed42d.jpg", "michael jackson|liberian girl": "covers/33a37a504bec.jpg", "scorpions|wind of change": "covers/8c261d3518bf.jpg", "eros ramazzotti & cher|più che puoi": "covers/b7aae6500e08.jpg", "elton john|can you feel the love tonight": "covers/9fb0eeea08f8.jpg", "adele|someone like you": "covers/326278f1f6bb.jpg", "fugees|killing me softly with his song": "covers/06c0e878e731.jpg", "the kingdom choir|stand by me": "covers/04ec6126cac6.jpg", "céline dion|because you loved me": "covers/0e1357785891.jpg", "ilene woods|so this is love": "covers/82b6e684bb71.jpg", "jackson 5|i'll be there": "covers/406bc8752d9e.jpg", "whitney houston|i have nothing": "covers/31c33a72b1e0.jpg", "nat king cole|unforgettable": "covers/ddd1a78aa2aa.jpg", "michael jackson|you are not alone": "covers/29908f2aa1f9.jpg", "lady gaga & bruno mars|die with a smile": "covers/9cf977061284.jpg", "céline dion|all by myself": "covers/b1c1b0f80a32.jpg", "любов чайковська|намалюй мені ніч": "covers/cc3f32222f50.jpg", "foreigner|i want to know what love is": "covers/c063d2411d58.jpg", "dolly parton & kenny rogers|islands in the stream": "covers/fe3749b142ed.jpg", "lord huron|the night we met": "covers/956cd42bc100.jpg", "céline dion|where does my heart beat now": "covers/7f634746bbf0.jpg", "sixpence none the richer|kiss me": "covers/428474b37456.jpg", "louis armstrong|what a wonderful world": "covers/33971b6882a1.jpg", "ella fitzgerald & louis armstrong|dream a little dream of me": "covers/e031ccf2134e.jpg", "seal|kiss from a rose": "covers/dfe36e417354.jpg", "berlin|take my breath away": "covers/ef2fb6ef2539.jpg", "peabo bryson & regina belle|a whole new world": "covers/b9d9ce767f22.jpg", "mariah carey|my all": "covers/3f6ea35b4905.jpg", "aretha franklin|you send me": "covers/8efcba32bb85.jpg", "george benson|nothing's gonna change my love for you": "covers/68d7f6598405.jpg", "chris de burgh|the lady in red": "covers/bdb4bfe9faa0.jpg", "ella fitzgerald & louis armstrong|they can't take that away from me": "covers/94a30d4d507d.jpg", "céline dion|i love you": "covers/765ab8158cbb.jpg", "barton|running up that hill (a deal with god)": "covers/df0065a27f89.jpg"};/*COVERS:END*/
 /* Місце під обкладинку: кольоровий градієнт, сталий для треку (з хешу ключа виконавець|назва).
    Якщо для треку є файл обкладинки (COVER_FILES, збирає build_covers.py), він лежить поверх градієнта. */
 function covStyle(t){let h=0;for(const ch of t.id)h=(h*31+ch.charCodeAt(0))>>>0;const a=h%360,b=(a+40+(h>>9)%100)%360;
@@ -1120,17 +1140,21 @@ document.addEventListener('tlv:render',()=>requestAnimationFrame(()=>{tlFit();tl
 /* Висота таймлайну: доходить до нижнього краю екрана, але не нижче 300 px; сам масштаб її не змінює */
 /* Геометрія рядків: висота картки-рядка = (вільна висота екрана − шкала часу) ÷ кількість каналів,
    з межами 84…212 px. Так на ноутбуці всі три канали видно без прокрутки, на великому екрані — повний розмір. */
-const TL_EH=66;let tlLastN=0,tlLastCht=0;
+const TL_EH=66;let tlLastN=0,tlLastCht='';
+/* Два режими: просторо — повна хвиля й картка з назвою, жанром і роком; тісно (ноутбук) — нижча хвиля,
+   картка з обкладинкою, назвою й виконавцем в один рядок під нею */
 function tlGeom(n){
   const sc=document.querySelector('.tlv-sc');
   const top=sc?sc.getBoundingClientRect().top:330;
   const h=Math.max(300,innerHeight-top-16);
-  return Math.max(84,Math.min(212,Math.floor((h-30)/n)-TL_EH-1));
+  const per=Math.floor((h-30)/n);
+  if(per-TL_EH-1>=150) return {EH:TL_EH,CHT:Math.min(212,per-TL_EH-1)};
+  return {EH:36,CHT:Math.max(96,Math.min(212,per-36-1))};
 }
 function tlSize(){
   const sc=document.querySelector('.tlv-sc'); if(!sc) return;
   /* висота екрана змінилась — перерисовуємо рядки під нову висоту (масштаб і позиція зберігаються) */
-  if(tlC&&tlLastN&&tlGeom(tlLastN)!==tlLastCht){
+  if(tlC&&tlLastN&&(()=>{const g=tlGeom(tlLastN);return g.EH+':'+g.CHT})()!==tlLastCht){
     const x=sc.scrollLeft; sc.innerHTML=tlBody(tlC); sc.scrollLeft=x;
     document.dispatchEvent(new CustomEvent('tlv:render')); return;
   }
@@ -1162,18 +1186,58 @@ document.addEventListener('pointerout',e=>{
 
 /* Плавне переміщення карток після перерахунку порядку (FLIP): запам'ятовуємо місця, перерисовуємо,
    і кожна картка від старого місця плавно їде на нове. Працює для «Інший порядок» і перетягування. */
-function flipRender(fn){
+function flipRender(fn,land){
   if(matchMedia('(prefers-reduced-motion: reduce)').matches) return fn();
   const snap=new Map();
   const SEL='.tlv-card[data-id],.row[data-id]';
-  document.querySelectorAll(SEL).forEach(c=>snap.set(c.dataset.id,c.getBoundingClientRect()));
+  /* ключ картки: id + номер кола «Зациклити» (повтори одного треку не плутаються між собою) */
+  const kf=c=>c.dataset.id+'#'+(c.dataset.rep||0);
+  document.querySelectorAll(SEL).forEach(c=>snap.set(kf(c),c.getBoundingClientRect()));
+  /* картки, яких зараз не буде (повтори «Зациклити» згорнули), запам'ятовуємо копіями, щоб доплисти донизу */
+  const gone=[...document.querySelectorAll('.tlv-card[data-id]')].map(c=>{const row=c.closest('.tlv-row[data-ch]');return {k:kf(c),ch:row?row.dataset.ch:null,el:c.cloneNode(true)}});
+  /* перетягнутий трек стартує з того місця, де його відпустили (макет), а не з початкової позиції */
+  if(land) snap.set(land.id+'#0',{left:land.left,top:land.top,width:land.width,height:land.height});
+  /* крива енергії кожного каналу: стара тихо гаснe, нова проявляється — лінія не стрибає */
+  const oldEn=new Map();
+  document.querySelectorAll('.tlv-row[data-ch] .tlv-en').forEach(s=>oldEn.set(s.closest('.tlv-row').dataset.ch,s.cloneNode(true)));
   fn();
   requestAnimationFrame(()=>{
-    document.querySelectorAll(SEL).forEach((c,i)=>{
-      const a=snap.get(c.dataset.id); if(!a) return;
+    const EASE='cubic-bezier(.22,.9,.25,1)',DUR=520;
+    /* затримка за відстанню від місця, куди лягає трек: найближчі їдуть першими, далекі трохи пізніше */
+    const L=land&&document.querySelector(`.tlv-card[data-id="${CSS.escape(land.id)}"]`);
+    const cx=L?(()=>{const r=L.getBoundingClientRect();return r.left+r.width/2})():0;
+    /* новые карты (повторы «Зациклити») з'являються по черзі, зліва направо, знизу вгору */
+    const entered=new Map();
+    document.querySelectorAll(SEL).forEach(c=>{
+      const a=snap.get(kf(c));
+      if(!a){
+        if(!c.classList.contains('tlv-card')) return;
+        const ch=c.closest('.tlv-row[data-ch]')?.dataset.ch, n=entered.get(ch)||0; entered.set(ch,n+1);
+        c.animate([{opacity:0,transform:'translateY(16px) scale(.9)'},{opacity:1,transform:'none'}],{duration:520,delay:Math.min(n,24)*22,easing:EASE,fill:'backwards'});
+        return;
+      }
       const b=c.getBoundingClientRect(),dx=a.left-b.left,dy=a.top-b.top;
       if(Math.abs(dx)<1&&Math.abs(dy)<1) return;
-      c.animate([{transform:`translate(${dx}px,${dy}px)`,zIndex:20},{transform:'translate(0,0)',zIndex:1}],{duration:820,delay:Math.min(i,40)*8,easing:'cubic-bezier(.22,.9,.25,1)',fill:'backwards'});
+      const isLand=!!land&&kf(c)===land.id+'#0';
+      const delay=isLand||!L?0:Math.min(Math.abs(b.left+b.width/2-cx)/160,6)*45;
+      c.animate([{transform:`translate(${dx}px,${dy}px)`},{transform:'translate(0,0)'}],{duration:isLand?DUR+80:DUR,delay,easing:EASE,fill:'backwards'});
+    });
+    /* згорнуті картки доплисти вниз і зникають — від нижніх до верхніх, у своєму каналі */
+    const nowKeys=new Set([...document.querySelectorAll(SEL)].map(kf));
+    const outOrder=new Map();
+    gone.forEach(g=>{
+      if(nowKeys.has(g.k)||!g.ch) return;
+      const lane=document.querySelector(`.tlv-row[data-ch="${g.ch}"] .tlv-cards`); if(!lane) return;
+      const n=outOrder.get(g.ch)||0; outOrder.set(g.ch,n+1);
+      const el=g.el; el.removeAttribute('data-id'); el.classList.add('tlv-out'); lane.appendChild(el);
+      el.animate([{opacity:1,transform:'none'},{opacity:0,transform:'translateY(18px) scale(.9)'}],{duration:440,delay:Math.min(n,24)*16,easing:'cubic-bezier(.4,0,.8,.4)',fill:'forwards'}).onfinish=()=>el.remove();
+    });
+    document.querySelectorAll('.tlv-row[data-ch]').forEach(r=>{
+      const s=r.querySelector('.tlv-en'),old=oldEn.get(r.dataset.ch),lane=r.querySelector('.tlv-lane');
+      if(!s||!old||!lane) return;
+      const g=old.cloneNode(true);g.classList.add('tlv-en-old');lane.insertBefore(g,lane.querySelector('.tlv-cards'));
+      g.animate([{opacity:1},{opacity:0}],{duration:420,easing:'ease-out',fill:'forwards'}).onfinish=()=>g.remove();
+      s.animate([{opacity:.35},{opacity:1}],{duration:420,easing:'ease-out'});
     });
   });
 }
@@ -1185,30 +1249,47 @@ function timelineHTML(c){
       <label class="tlv-zoom"><span>Весь вечір</span><input type="range" id="tlZoom" min="0" max="100" step="1" value="${v}" aria-label="Масштаб часу"><span>Деталі</span></label></div>
     <div class="tlv-sc">${tlBody(c)}</div></section>`;
 }
+/* Шкала енергії каналу: скільки треків на кожному рівні 1–5 (стовпчики кольором каналу) */
+function enHTML(es,col,big){
+  const cnt=[0,0,0,0,0];es.forEach(e=>{cnt[Math.min(4,Math.max(0,Math.round(e)-1))]++});
+  const mx=Math.max(1,...cnt),avg=es.length?es.reduce((a,b)=>a+b,0)/es.length:0;
+  return `<span class="tlv-en-s${big?'':' sm'}" role="img" aria-label="Енергія каналу: середня ${avg.toFixed(1)} з 5" title="Треків на кожному рівні енергії (1–5), середня ${avg.toFixed(1)}">${cnt.map((n,k)=>`<span class="tlv-en-b"><span class="tr"><i style="height:${n?Math.max(8,Math.round(n/mx*100)):0}%;opacity:${(.4+k*.15).toFixed(2)}"></i></span><b>${k+1}</b></span>`).join('')}</span>`;
+}
+/* «Зациклити»: коли канал закінчився раніше за подію, його треки йдуть знову з початку списку,
+   поки не заповнять весь таймлайн. rep — номер кола (0 — перше, основне); повтори не перетягуються */
+function loopSeq(i,ids,cut){
+  if(!(S.loop&&S.loop[i])||!ids.length||!(cut>0)) return ids.map(id=>({id,rep:0}));
+  const out=[];let acc=0;
+  for(let k=0;acc<cut&&k<500;k++){
+    for(const id of ids){out.push({id,rep:k});acc+=tlDur(BY[id]);if(acc>=cut)break}
+  }
+  return out;
+}
 function tlBody(c){
-  const lanes=[0,1,2].filter(i=>c.enabled[i]).map(i=>{let acc=0;const items=c.ids[i].map(id=>{const t=BY[id],d=tlDur(t),it={t,x:acc,d};acc+=d;return it});return{i,items,total:acc}});
+  const lanes=[0,1,2].filter(i=>c.enabled[i]).map(i=>{let acc=0;const items=loopSeq(i,c.ids[i],S.hours*3600).map(({id,rep})=>{const t=BY[id],d=tlDur(t),it={t,x:acc,d,rep};acc+=d;return it});return{i,items,total:acc,base:c.ids[i].length}});
   const cut=S.hours*3600,TOTAL=Math.max(cut,...lanes.map(l=>l.total),1),LW=innerWidth<=720?96:124;
   const sc=document.querySelector('.tlv-sc'),avail=Math.max(320,(sc?sc.clientWidth-2:((document.getElementById('main')||{}).clientWidth||1200)-60)-LW);
   const v=S.tlzv??45,fit=avail/TOTAL,maxPx=1.1,px=fit>=maxPx?fit:fit*Math.pow(maxPx/fit,v/100),W=Math.ceil(TOTAL*px);
   /* Висота картки-рядка залежить від висоти екрана: усі канали мають вміститися без прокрутки вниз */
-  const nL=Math.max(1,lanes.length),EH=TL_EH,CHT=tlGeom(nL);tlLastN=nL;tlLastCht=CHT;
-  const big=CHT>=150,typW=MIN*60*px-6;
-  /* картка з назвою (~96 px під обкладинку) або лише обкладинка, коли місця мало */
-  const CS=Math.round(Math.max(40,Math.min(112,typW-14,big?CHT-98:CHT-34))),TXT=big&&typW>=86;
+  const nL=Math.max(1,lanes.length),G=tlGeom(nL),EH=G.EH,CHT=G.CHT;tlLastN=nL;tlLastCht=G.EH+':'+G.CHT;
+  const big=EH===TL_EH,typW=MIN*60*px-6;
+  /* під обкладинкою: назва й виконавець (≈36 px); у просторому режимі ще жанр і рік (≈62 px) */
+  const CS=Math.round(Math.max(40,Math.min(112,typW-14,big?CHT-98:CHT-75))),TXT=true;
   const steps=[300,600,900,1800,3600];const step=steps.find(st=>st*px>=96)||3600;
   let ax='',grid='';for(let s2=step;s2<TOTAL;s2+=step){const x=(s2*px).toFixed(1);if(s2*px<W-28)ax+=`<span style="left:${x}px">${tlFmt(s2)}</span>`;grid+=`<i class="tlv-grid" style="left:${(LW+s2*px).toFixed(1)}px"></i>`}
-  const rows=lanes.map(({i,items,total})=>{
+  const rows=lanes.map(({i,items,total,base})=>{
     const col=CH[i].c,P=[];let cards='';
     const es=items.map(it=>it.t.e),lo=Math.min(...es),hi=Math.max(...es),Y=e=>hi>lo?EH-10-(e-lo)/(hi-lo)*(EH-24):EH/2;
     items.forEach((it,k)=>{const x0=it.x*px,x1=(it.x+it.d)*px,y=Y(it.t.e);
       if(!k)P.push([0,y]);P.push([(x0+x1)/2,y]);
       const w0=Math.max(6,x1-x0-6),late=it.x>=cut,cs=CS,w=Math.max(w0,cs+12),t=it.t;
       const sub=[t.y,GEN[t.g]].filter(Boolean).join(' · ');
-      const meta=`<span class="tlv-meta"><b>${esc(t.t)}</b><i>${esc(t.a)}</i>${sub?`<em>${esc(sub)}</em>`:''}</span>`;
-      cards+=`<div class="tlv-card${late?' late':''}${w0<30?' thin':''}" data-id="${esc(t.id)}" style="left:${(x0+3).toFixed(1)}px;width:${w.toFixed(1)}px;--cw:${w.toFixed(1)}px;--cs:${cs}px;--i:${k}" title="${k+1}. ${esc(t.a)} — ${esc(t.t)}${sub?' · '+esc(sub):''} · ${Math.floor(it.d/60)}:${String(Math.round(it.d%60)).padStart(2,'0')}"><span class="cov tlv-cov" style="${covStyle(t)};width:${cs}px;height:${cs}px" aria-hidden="true"></span>${meta}</div>`});
+      const meta=`<span class="tlv-meta"><b>${esc(t.t)}</b><i>${esc(t.a)}</i>${sub&&big?`<em>${esc(sub)}</em>`:''}</span>`;
+      cards+=`<div class="tlv-card${late?' late':''}${w0<30?' thin':''}${it.rep?' rep':''}" data-id="${esc(t.id)}" data-rep="${it.rep}" style="left:${(x0+3).toFixed(1)}px;width:${w.toFixed(1)}px;--cw:${w.toFixed(1)}px;--cs:${cs}px;--i:${k}" title="${k+1}. ${esc(t.a)} — ${esc(t.t)}${sub?' · '+esc(sub):''} · ${Math.floor(it.d/60)}:${String(Math.round(it.d%60)).padStart(2,'0')}"><span class="cov tlv-cov" style="${covStyle(t)};width:${cs}px;height:${cs}px" aria-hidden="true"></span>${meta}</div>`});
     if(!P.length)return'';
     const xe=total*px;P.push([xe,P[P.length-1][1]]);const line=tlPath(P);
-    return `<div class="tlv-row" data-ch="${i}" style="--c:${col}"><div class="tlv-lab"><span class="tlv-hd"><span class="tlv-hpi">${ic('hp')}</span><b>${CH[i].lbl}</b></span><small>${esc(c.meta[i].n)}</small><small>${items.length} ${pl(items.length,'трек','треки','треків')} · ${tlFmt(total)}</small><button class="tlv-shuf" data-chshuf="${i}" aria-label="Змінити порядок у каналі ${CH[i].lbl}" title="Змінити порядок лише в цьому каналі">${ic('shuffle')}<span>Перемішати</span></button></div>
+    const on=!!(S.loop&&S.loop[i]);
+    return `<div class="tlv-row" data-ch="${i}" data-loop="${on?1:0}" style="--c:${col}"><div class="tlv-lab"><span class="tlv-hd"><span class="tlv-hpi">${ic('hp')}</span><b>${CH[i].lbl}</b></span><small class="tlv-desc${big?'':' sm'}">${esc(c.meta[i].n)}</small><small>${base} ${pl(base,'трек','треки','треків')} · ${tlFmt(total)}${on?' · по колу':''}</small>${enHTML(items.map(it=>it.t.e),col,big)}<button class="tlv-shuf" data-chshuf="${i}" aria-label="Змінити порядок у каналі ${CH[i].lbl}" title="Змінити порядок лише в цьому каналі">${ic('shuffle')}<span>Перемішати</span></button><button class="tlv-shuf tlv-loop${on?' on':''}" data-chloop="${i}" aria-pressed="${on}" title="${on?'Вимкнути зациклення каналу':'Зациклити: після кінця списку треки йдуть знову по колу, поки не заповниться вечір'}">${ic('repeat')}<span>Зациклити</span></button></div>
       <div class="tlv-lane" style="width:${W}px"><svg class="tlv-en" width="${W}" height="${EH}" role="img" aria-label="Енергія каналу ${CH[i].lbl} по ходу події"><path d="${line} L${xe.toFixed(1)},${EH} L0,${EH} Z" style="fill:${col};fill-opacity:.13"/><path d="${line}" style="fill:none;stroke:${col};stroke-width:2.2;stroke-linecap:round"/></svg>
       <div class="tlv-cards" style="height:${CHT}px">${cards}</div></div></div>`}).join('');
   const enter=!tlEntered;tlEntered=true;
@@ -1235,7 +1316,7 @@ document.addEventListener('change',e=>{if(e.target.id==='tlZoom')save()});
    короткий клік без руху лишається кліком (у локальній копії — відтворення). Слухачі в фазі захоплення,
    щоб спрацювати раніше за обробники обкладинок плеєра. */
 const TLD={card:null,on:false};
-function tlMove(id,from,to,index){
+function tlMove(id,from,to,index,land){
   const c=compute(),key=c.key,arrs=c.ids.map(a=>a.slice());
   const prev={kind:'dnd',key,ov:JSON.parse(JSON.stringify(S.ov[key]||{})),ord:S.ord&&S.ord[key]?JSON.parse(JSON.stringify(S.ord[key])):null,n:(S.ordN||{})[key]||0};
   const before=c.ids[from].indexOf(id);
@@ -1245,23 +1326,37 @@ function tlMove(id,from,to,index){
   arrs[to].splice(index,0,id);
   const ov=S.ov[key]=S.ov[key]||{};if(to!==from)ov[id]=to;
   S.ord=S.ord||{};S.ordN=S.ordN||{};S.ord[key]=arrs;S.ordN[key]=(S.ordN[key]||0)+(to===from?1:0);
-  undoStack.push(prev);save();flipRender(render);
+  undoStack.push(prev);save();flipRender(render,land);
   const t=BY[id];toast(to===from?`«${t.t}» тепер №${index+1} у ${CH[to].lbl}`:`«${t.t}» перенесено в ${CH[to].lbl} на №${index+1}`,true);
+}
+/* Поки трек несуть, його місце в рядку не займає ніхто: картки, що стояли після нього, зсуваються назад
+   (закривають діру), а картки праворуч від місця вставки — вперед (роблять місце для нього) */
+function tlShift(lane,cards,idx){
+  const w=(TLD.gw||0)+6,m=new Map();
+  const sr=TLD.card&&TLD.card.closest('.tlv-row[data-ch]');
+  if(sr){const sc=[...sr.querySelectorAll('.tlv-card[data-id]')];sc.slice(sc.indexOf(TLD.card)+1).forEach(c=>m.set(c,-w))}
+  if(lane)cards.forEach((c,k)=>{if(k>=idx)m.set(c,(m.get(c)||0)+w)});
+  document.querySelectorAll('.tlv-card').forEach(c=>{if(c===TLD.card)return;const v=m.get(c)||0;v?c.style.setProperty('--sh',v+'px'):c.style.removeProperty('--sh')});
 }
 function tlDragEnd(commit){
   const {card,id,from,to,idx}=TLD;
+  /* де картка зараз (макет): звідси вона має доплисти на нове місце */
+  const land=commit&&to!=null&&TLD.gw?{id,left:TLD.gx,top:TLD.gy,width:TLD.gw,height:TLD.gh}:null;
   TLD.ghost&&TLD.ghost.remove();TLD.mark&&TLD.mark.remove();
-  card&&card.classList.remove('tl-src');document.body.classList.remove('tl-dragging');
-  TLD.on=false;TLD.card=null;TLD.ghost=null;TLD.mark=null;
+  card&&card.classList.remove('tl-src');
+  TLD.on=false;TLD.card=null;TLD.ghost=null;TLD.mark=null;TLD.shk=null;
+  /* класс tl-dragging знімаємо ПІСЛЯ перерисовки: інакше зсунуті картки на мить повернуться на місце */
   if(commit&&to!=null){
     const kill=ev=>{ev.stopPropagation();ev.preventDefault()};
     document.addEventListener('click',kill,true);setTimeout(()=>document.removeEventListener('click',kill,true),0);
-    tlMove(id,from,to,idx);
+    tlMove(id,from,to,idx,land);
   }
+  document.body.classList.remove('tl-dragging');
+  document.querySelectorAll('.tlv-card').forEach(c=>c.style.removeProperty('--sh'));
 }
 document.addEventListener('pointerdown',e=>{
   if(e.button!==0||TLD.on)return;
-  const card=e.target.closest&&e.target.closest('.tlv-card[data-id]');if(!card)return;
+  const card=e.target.closest&&e.target.closest('.tlv-card[data-id]');if(!card||+card.dataset.rep>0)return;
   const row=card.closest('.tlv-row[data-ch]');if(!row)return;
   const r=card.getBoundingClientRect();
   Object.assign(TLD,{card,id:card.dataset.id,from:+row.dataset.ch,x0:e.clientX,y0:e.clientY,dx:e.clientX-r.left,dy:e.clientY-r.top,to:null,idx:null,on:false});
@@ -1272,21 +1367,25 @@ document.addEventListener('pointermove',e=>{
     if(Math.hypot(e.clientX-TLD.x0,e.clientY-TLD.y0)<7)return;
     TLD.on=true;const r=TLD.card.getBoundingClientRect();
     const g=TLD.card.cloneNode(true);g.classList.add('tlv-ghost');g.style.cssText+=`;position:fixed;left:0;top:0;width:${r.width}px;height:${r.height}px;bottom:auto;z-index:200;pointer-events:none`;
-    document.body.appendChild(g);TLD.ghost=g;TLD.card.classList.add('tl-src');document.body.classList.add('tl-dragging');
+    document.body.appendChild(g);TLD.ghost=g;TLD.gw=r.width;TLD.gh=r.height;TLD.card.classList.add('tl-src');document.body.classList.add('tl-dragging');
     const m=document.createElement('div');m.className='tlv-drop';document.body.appendChild(m);TLD.mark=m;
   }
   e.preventDefault();
-  TLD.ghost.style.transform=`translate(${e.clientX-TLD.dx}px,${e.clientY-TLD.dy}px) rotate(-1.5deg)`;
+  TLD.gx=e.clientX-TLD.dx;TLD.gy=e.clientY-TLD.dy;
+  TLD.ghost.style.transform=`translate(${TLD.gx}px,${TLD.gy}px) rotate(-1.5deg)`;
   const sc=document.querySelector('.tlv-sc');
   if(sc){const b=sc.getBoundingClientRect(),lw=+(sc.querySelector('.tlv-in')||{dataset:{}}).dataset.lw||0;
     if(e.clientX<b.left+lw+50)sc.scrollLeft-=14;else if(e.clientX>b.right-50)sc.scrollLeft+=14}
   const lane=document.elementFromPoint(e.clientX,e.clientY)?.closest('.tlv-row[data-ch]');
-  if(!lane){TLD.to=null;TLD.mark.style.display='none';return}
+  if(!lane){TLD.to=null;TLD.mark.style.display='none';if(TLD.shk!=='x'){TLD.shk='x';tlShift(null,[],0)}return}
   const area=lane.querySelector('.tlv-cards').getBoundingClientRect();
   const cards=[...lane.querySelectorAll('.tlv-card[data-id]')].filter(c=>c!==TLD.card);
   let idx=0,x=area.left+4;
   for(const c of cards){const r=c.getBoundingClientRect();if(r.left+r.width/2<e.clientX){idx++;x=r.right+3}else{x=r.left-3;break}}
   TLD.to=+lane.dataset.ch;TLD.idx=idx;
+  /* картки праворуч від місця вставки роз'їжджаються, звільняючи місце під перетягнутий трек */
+  const shk=lane.dataset.ch+':'+idx;
+  if(TLD.shk!==shk){TLD.shk=shk;tlShift(lane,cards,idx)}
   Object.assign(TLD.mark.style,{display:'block',left:`${x-2}px`,top:`${area.top}px`,height:`${area.height}px`,background:getComputedStyle(lane).getPropertyValue('--c')||'#c6ff00'});
 },true);
 document.addEventListener('pointerup',()=>{if(!TLD.card)return;if(TLD.on)tlDragEnd(true);else TLD.card=null},true);
@@ -1313,7 +1412,7 @@ function boardHTML(c){
   }).join('');
   const resShown=(q?c.res.filter(id=>(BY[id].a+' '+BY[id].t).toLowerCase().includes(q)):c.res).map(id=>BY[id]).sort((a,b)=>a.a.localeCompare(b.a,'uk'));
   return `<div class="chtabs"><div class="seg" role="tablist" aria-label="Канал"><span class="chind" aria-hidden="true" style="--i:${chPrev};--c:${CH[chPrev].c}"></span>${CH.map((ch,i)=>`<button role="tab" data-mch="${i}" aria-selected="${S.mch===i}" style="--c:${ch.c}"><span class="chl"><span class="chn"><span class="chi">${ic('hp')}</span><b>${ch.lbl}</b></span> <small class="tn">${c.enabled[i]?c.ids[i].length+' '+pl(c.ids[i].length,'трек','треки','треків'):'вимкнено'}</small></span></button>`).join('')}</div></div>
-    <div class="board ${S.focus!=null?'focused f'+S.focus:'tlmode'}">${S.focus==null?`<div class="tlcol" aria-hidden="true"><div class="tlhead">${ic('clock')}<b>Час</b></div><div class="tlwin"><div class="tlin"></div></div></div>`:''}${cols}</div>
+    <div class="board ${S.focus!=null?'focused f'+S.focus:'tlmode'}">${cols}</div>
     <details class="reserve" id="reserve" ${S.resOpen?'open':''}><summary>${ic('chev')}<h3>Поза каналами</h3><span class="n tn">${c.res.length}</span>
       <p>${c.res.length?'Не підійшли під правила або прибрані вручну. Можна повернути в будь-який канал.':'Усі треки бібліотеки розподілені.'}</p></summary>
       <ul class="list" data-ch="-1">${resShown.length?resShown.map((t,n)=>row(t,n+1,-1,c.enabled)).join(''):'<li class="empty">Тут порожньо.</li>'}</ul></details>`;
@@ -1322,11 +1421,15 @@ const fmtTime=d=>d?String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes(
 const fallbackBanner=()=>USING_FALLBACK?`<div class="fbk" role="status">${ic('warn')}<span>Показано збережену копію бібліотеки, таблиця зараз недоступна.</span><button class="btn" id="reloadData">${ic('undo')}<span class="t">Спробувати знову</span></button></div>`:'';
 const dataBar=()=>`<div class="dsrc" role="status"><span class="dtxt">${USING_FALLBACK?'Збережена копія':'Дані з таблиці'} · оновлено ${fmtTime(LOADED_AT)}</span><button class="btn" id="reloadData">${ic('undo')}<span class="t">Оновити</span></button></div>`;
 function toolbar(c,extra=''){
-  return `<div class="bar"><label class="search">${ic('search')}<span class="sr">Знайти трек у каналах</span><input type="search" id="bq" placeholder="Знайти трек у каналах" value="${esc(S.bq)}"></label>
-    <span class="grow"></span>${extra}
+  /* ліворуч — режими й порядок (кнопка «Слухати разом» вставляється поруч із «Інший порядок»),
+     праворуч — пошук перед «Скачати» і «Копіювати» */
+  return `<div class="bar">
     <button class="btn" id="tlView" aria-pressed="${!!S.tlv}" title="${S.tlv?'Повернутися до списків каналів':'Показати всі канали на шкалі часу'}">${ic(S.tlv?'list':'clock')}<span class="t">${S.tlv?'Списки':'Таймлайн'}</span></button>
     <button class="btn" id="shuffle" title="Перемішати порядок, зберігаючи хвилі енергії">${ic('shuffle')}<span class="t">Інший порядок</span></button>
     ${c.edits?`<button class="btn" id="reset">${ic('undo')}<span class="t">Скинути ${c.edits} ${pl(c.edits,'зміну','зміни','змін')}</span></button>`:''}
+    ${extra}
+    <span class="grow"></span>
+    <label class="search">${ic('search')}<span class="sr">Знайти трек у каналах</span><input type="search" id="bq" placeholder="Знайти трек у каналах" value="${esc(S.bq)}"></label>
     <button class="btn round" id="dlAll" aria-label="Скачати всі канали текстовим файлом" title="Скачати всі канали текстовим файлом">${ic('download')}</button>
     <button class="btn lime" id="copyAll">${ic('copy')}<span class="t">Копіювати ${c.enabled.every(Boolean)?'всі три':'канали'}</span></button></div>`;
 }
@@ -1388,7 +1491,7 @@ function renderLibrary(){
       ${active?`<button class="btn" id="clearLib">${ic('x')}<span class="t">Скинути фільтри</span></button>`:''}
       <button class="btn lime" id="copyLib">${ic('copy')}<span class="t">Копіювати список</span></button></div>
     <div class="lib"><div class="lh"><span>#</span><span aria-hidden="true"></span>${sb('a','Трек')}${sb('y','Рік')}<span class="hm">Жанр</span>${sb('e','Енергія')}<span class="hm" title="Вихідні списки з таблиці: кольорові крапки R / G / B">Вихідні списки</span><span>Канал за енергією</span></div>
-    ${list.length?list.map((t,n)=>{const w=where[t.id];return `<div class="lr"><span class="num tn" style="font-size:11px;color:var(--ink-subtle)">${n+1}</span>
+    ${list.length?list.map((t,n)=>{const w=where[t.id];return `<div class="lr" data-id="${esc(t.id)}"${w==null?'':` data-ch="${w}"`}><span class="num tn" style="font-size:11px;color:var(--ink-subtle)">${n+1}</span>
       <span class="cov lcov" style="${covStyle(t)}" aria-hidden="true"></span>
       <div class="tt"><div class="t">${esc(t.t)}</div><div class="a">${esc(t.a)}${t.remix?'<span class="flag">версія?</span>':''}</div></div>
       <span class="cell tn">${yr(t)}</span><span class="cell hm">${t.gs.map(x=>GEN[x]).join(', ')}</span><span class="hm">${enW(t.e)}</span>
@@ -1495,7 +1598,7 @@ function render(){
   /* Розмітка перебудовується повністю: на мить сторінка коротшає, і браузер скидає прокрутку вгору.
      Запам'ятовуємо позицію вікна й повертаємо її миттєво (scroll-behavior: smooth тут не можна). */
   const winY=window.scrollY;
-  const keep={rail:document.getElementById('rail').scrollTop,lists:[...document.querySelectorAll('#main .list,#main .lib')].map(l=>l.scrollTop)};
+  const keep={rail:document.getElementById('rail').scrollTop,lists:[...document.querySelectorAll('#main .list,#main .lib')].map(l=>l.scrollTop),tl:document.querySelector('.tlv-sc')?.scrollLeft??null};
   document.querySelectorAll('.top [data-view]').forEach(b=>b.setAttribute('aria-selected',b.dataset.view===S.view));
   document.getElementById('hours').value=S.hours;document.getElementById('onlyDl').setAttribute('aria-checked',!!S.onlyDl);
   document.getElementById('main').className='main v-'+S.view;
@@ -1503,6 +1606,8 @@ function render(){
   document.getElementById('rail').scrollTop=keep.rail;
   [...document.querySelectorAll('#main .list,#main .lib')].forEach((l,i)=>{if(keep.lists[i]!=null)l.scrollTop=keep.lists[i]});
   animInd();marquee();syncSel();timeline();
+  /* таймлайн перебудовується в timeline(): горизонтальну прокрутку повертаємо вже після нього */
+  {const sc=document.querySelector('.tlv-sc');if(sc&&keep.tl!=null)sc.scrollLeft=keep.tl}
   if(Math.abs(window.scrollY-winY)>1)window.scrollTo({top:winY,left:0,behavior:'instant'});
   playM(MP);markBars();
   save();
@@ -1598,6 +1703,7 @@ document.addEventListener('click',e=>{
   if(d.focus!=null){const i=+d.focus;S.focus=S.focus===i?null:i;if(t.classList.contains('dopen'))S.focus=i;render();
     if(S.focus!=null&&innerWidth>900){const col=document.querySelectorAll('.board .col')[i];col&&col.getBoundingClientRect().top<90&&window.scrollTo({top:col.getBoundingClientRect().top+scrollY-100,behavior:'instant'})}return}
   if(d.shape){const c=ctx(),i=+d.ci;setCurve(c.key,i,d.shape);toast(`${CH[i].lbl}: драматургія «${SHAPES[d.shape].n}»`,true);return}
+  if(d.chloop!=null){const i=+d.chloop;S.loop=S.loop||[false,false,false];S.loop[i]=!S.loop[i];save();flipRender(render);toast(`${CH[i].lbl}: ${S.loop[i]?'зациклено — треки йдуть по колу до кінця вечора':'зациклення вимкнено'}`,true);return}
   if(d.chshuf!=null){const c=ctx(),i=+d.chshuf;undoStack.push(chanSnap('chs',c.key,i));
     S.chSeed=S.chSeed||{};const a=S.chSeed[c.key]=S.chSeed[c.key]||[0,0,0];a[i]=Math.floor(Math.random()*1e6);clearOrd(c.key,i);M.cascade=i;flipRender(render);toast(`${CH[i].lbl}: новий порядок, драматургію збережено`,true);return}
   if(d.selmv!=null){selMove(+d.selmv);return}
@@ -1965,5 +2071,554 @@ if(!allPresets().find(p=>p.id===S.preset))S.preset='energy';
 render();
 })();
 </script>
-</body>
+<script>/*LOCAL-PLAYER*/const LOCAL_AUDIO={};const LOCAL_DUR={"scatman john|scatman ski ba bop ba dop bop": 210.65, "jackson 5|i want you back": 179.61, "europe|the final countdown": 309.79, "raye|where is my husband": 196.83, "michael jackson|beat it": 257.25, "walk the moon|shut up and dance": 197.76, "abba|gimme gimme gimme": 289.18, "the greatest showman|the greatest show": 249.22, "stevie wonder|sir duke": 234.2, "black eyed peas|pump it": 213.07, "kelly clarkson|stronger what doesn t kill you": 220.37, "michael jackson|black or white": 199.44, "carly rae jepsen|call me maybe": 193.52, "stromae afro soul \u043a\u0430\u0432\u0435\u0440|papaoutai afro soul": 280.01, "crazy frog|axel f": 168.25, "sacha baron cohen|i like to move it": 374.83, "earth wind fire|september": 215.2, "whitney houston|i wanna dance with somebody": 178.51, "opus|live is life": 247.04, "pharrell williams|happy": 233.38, "queen|another one bites the dust": 214.78, "mariah carey|emotions": 250.67, "bon jovi|livin on a prayer": 250.16, "michael jackson|don t stop til you get enough": 365.22, "kelly clarkson|since u been gone": 189.02, "atc|around the world la la la la la": 218.33, "pet shop boys|go west": 501.13, "shakira|waka waka this time for africa": 185.16, "freddie mercury|living on my own": 221.4, "kenny loggins|footloose": 227.39, "las ketchup|the ketchup song aserej": 209.45, "the beatles|twist and shout": 153.29, "survivor|eye of the tiger": 240.33, "cyndi lauper|girls just want to have fun": 234.8, "smash mouth|all star": 200.67, "justin timberlake|can t stop the feeling": 236.02, "celine dion|river deep mountain high": 251.43, "dua lipa|dance the night": 176.67, "james brown the famous flames|i got you i feel good": 165.41, "adele|rumour has it": 223.37, "o zone|dragostea din tei": 211.96, "bonnie tyler|holding out for a hero": 284.92, "rick astley|never gonna give you up": 210.6, "tina turner|the best": 249.27, "afric simone|hafanana": 175.17, "snap|rhythm is a dancer": 314.27, "queen|we will rock you": 123.17, "alexander rybak|fairytale": 183.81, "katy perry|hot n cold": 220.23, "sia|unstoppable": 217.75, "the second voice|let me be": 189.85, "los del r o|macarena": 232.88, "village people|y m c a": 283.44, "taylor swift|shake it off": 219.27, "wham|wake me up before you go go": 230.71, "michael jackson|they don t care about us": 284.24, "the greatest showman|from now on": 351.34, "bee gees|stayin alive": 289.65, "adele|rolling in the deep": 229.34, "boney m|sunny": 243.71, "queen|don t stop me now": 212.69, "dua lipa|training season": 209.53, "elton john|i m still standing": 184.55, "eiffel 65|blue da ba dee": 283.77, "c line dion|i m alive": 211.36, "skryabin|\u0442\u0430\u043d\u0435\u0446\u044c \u043f\u0456\u043d\u0433\u0432\u0456\u043d\u0430": 185.21, "\u0441\u0442\u0435\u043f\u0430\u043d \u0433\u0456\u0433\u0430|\u0446\u0435\u0439 \u0441\u043e\u043d": 212.07, "kolibri zlata ko|\u0447\u0435\u0440\u0432\u043e\u043d\u0438\u0439 \u043c\u0430\u043a": 243.25, "verka serduchka|dancing lasha tumbai": 180.92, "monatik|\u043a\u0440\u0443\u0436\u0438\u0442\u044c": 198.18, "\u043e\u043a\u0435\u0430\u043d \u0435\u043b\u044c\u0437\u0438|\u044f \u043d\u0435 \u0437\u0434\u0430\u043c\u0441\u044f \u0431\u0435\u0437 \u0431\u043e\u044e": 260.1, "\u0437\u043b\u0430\u0442\u0430 \u043e\u0433\u043d\u0454\u0432\u0456\u0447|\u0437\u043e\u0437\u0443\u043b\u044f": 183.34, "yaktak kola|\u043f\u043e\u0440\u0456\u0447\u043a\u0430": 159.0, "\u0431\u043e\u0440\u0438\u0441 \u0441\u0438\u0447\u0435\u0432\u0441\u044c\u043a\u0438\u0439|\u0442\u0438 \u0436 \u043c\u0435\u043d\u0435 \u043f\u0456\u0434\u043c\u0430\u043d\u0443\u043b\u0430": 191.76, "dzidzio|\u0432\u0430\u0441\u0438\u043b\u0438\u043d\u0430": 200.68, "\u043c\u0438\u0445\u0430\u0439\u043b\u043e \u043f\u043e\u043f\u043b\u0430\u0432\u0441\u044c\u043a\u0438\u0439|\u044e\u043d\u0438\u0439 \u043e\u0440\u0435\u043b": 236.15, "\u0430\u043d\u043d\u0430 \u0442\u0440\u0456\u043d\u0447\u0435\u0440|\u0437\u0456\u0440\u043e\u0447\u043a\u0430 \u043f\u0430\u043b\u0430\u0439": 128.68, "go a|\u0448\u0443\u043c": 172.73, "laud|lightkeeper": 179.69, "michael jackson|billie jean": 293.33, "shakira|try everything": 196.8, "londonbeat|i ve been thinking about you": 228.31, "nat king cole|l o v e": 154.31, "elton john dua lipa|cold heart pnau remix": 202.74, "teddy swims|bad dreams": 184.61, "c line dion|it s all coming back to me now": 349.01, "the beatles|here comes the sun": 183.81, "sting|desert rose": 285.96, "alicia keys|girl on fire": 224.96, "silent circle|touch in the night": 319.4, "the little mermaid|under the sea": 190.26, "bronski beat|smalltown boy": 301.81, "julio iglesias|con la misma piedra": 240.58, "michael jackson|wanna be startin somethin": 259.83, "ella fitzgerald|blue skies": 225.48, "the lion king|hakuna matata": 212.4, "grover washington jr feat bill withers|just the two of us": 236.95, "c line dion|dreamin of you": 307.77, "u2|i still haven t found what i m looking for": 278.02, "abba|dancing queen": 231.31, "natasha bedingfield|unwritten": 259.33, "bob marley the wailers|three little birds": 180.11, "queen|a kind of magic": 263.86, "mariah carey|fantasy": 245.45, "modjo|lady hear me tonight": 307.15, "michael jackson|human nature": 245.91, "ella fitzgerald louis armstrong|cheek to cheek": 227.47, "modern talking|brother louie": 218.93, "dolly parton|9 to 5": 166.5, "kool the gang|celebration": 298.08, "a ha|take on me": 227.63, "rag n bone man|human": 199.44, "nelly furtado|say it right": 223.11, "suzanne vega|tom s diner": 219.73, "desireless|voyage voyage": 262.77, "stevie wonder|isn t she lovely": 394.37, "tears for fears|everybody wants to rule the world": 251.55, "miley cyrus|flowers": 200.45, "sade|smooth operator": 297.83, "rihanna|diamonds": 225.23, "tony esposito|kalimba de luna": 305.37, "taylor swift|love story": 234.16, "queen|radio ga ga": 349.26, "sting|englishman in new york": 268.23, "olivia dean|so easy to fall in love": 169.04, "ella fitzgerald|it s only a paper moon": 153.77, "frank sinatra|fly me to the moon": 147.52, "toto|africa": 295.35, "eurythmics|sweet dreams are made of this": 292.56, "black|wonderful life": 263.41, "manu chao|me gustas t": 229.54, "sade|the sweetest taboo": 259.76, "modern talking|you re my heart you re my soul": 336.14, "haddaway|what is love": 269.87, "abba|super trouper": 253.96, "modern talking|cheri cheri lady": 224.68, "boney m|daddy cool": 207.46, "mikis theodorakis|zorba s dance": 228.74, "the beatles|let it be": 243.33, "roxette|the look": 237.2, "toto cutugno|l italiano": 237.36, "sandra|innocent love": 257.83, "depeche mode|enjoy the silence": 213.9, "enrique iglesias|bailando": 243.46, "paul mccartney michael jackson|say say say": 235.13, "john denver|take me home country roads": 190.3, "kate bush|running up that hill": 300.85, "phil collins|another day in paradise": 322.13, "lionel richie|all night long": 258.3, "celine dion|that s the way it is": 242.94, "kola|\u0448\u0456": 171.55, "arsen mirzoyan|\u0432\u0456\u043d\u043d\u0456 \u043f\u0443\u0445": 189.73, "\u0437\u043b\u0430\u0442\u0430 \u043e\u0433\u043d\u0454\u0432\u0456\u0447|\u0437\u0430\u043f\u0430\u043b\u0438 \u0432\u043e\u0433\u043e\u043d\u044c": 151.98, "jamala|\u043a\u0440\u0438\u043b\u0430": 236.37, "\u043d\u0430\u0437\u0430\u0440\u0456\u0439 \u044f\u0440\u0435\u043c\u0447\u0443\u043a|\u0433\u0430\u0439 \u0437\u0435\u043b\u0435\u043d\u0438\u0439 \u0433\u0430\u0439": 248.24, "tonya matvienko|\u043b\u0456\u0445\u0442\u0430\u0440\u0438\u043a\u0438": 147.96, "\u0432\u0430\u0441\u0438\u043b\u044c \u0437\u0456\u043d\u043a\u0435\u0432\u0438\u0447|\u0437\u0430\u0431\u0443\u0434\u044c \u043f\u0435\u0447\u0430\u043b\u044c": 234.42, "gorim yuzvik|\u043a\u043e\u0442\u0438\u043a\u0438 \u043d\u0430 \u0441\u043e\u043d\u0446\u0456": 208.74, "\u0441\u043e\u0444\u0456\u044f \u0440\u043e\u0442\u0430\u0440\u0443|\u043e\u0434\u043d\u0430 \u043a\u0430\u043b\u0438\u043d\u0430": 238.63, "\u043d\u0430\u0437\u0430\u0440\u0456\u0439 \u044f\u0440\u0435\u043c\u0447\u0443\u043a|\u0441\u0442\u043e\u0436\u0430\u0440\u0438": 223.58, "skryabin|\u043c\u0456\u0441\u0446\u044f \u0449\u0430\u0441\u043b\u0438\u0432\u0438\u0445 \u043b\u044e\u0434\u0435\u0439": 331.12, "iryna bilyk|\u0442\u0430\u043a \u043f\u0440\u043e\u0441\u0442\u043e": 173.0, "laud|2 \u0434\u043d\u0456": 170.5, "bryan adams|everything i do i do it for you": 385.45, "skryabin|\u0441\u043f\u0438 \u0441\u043e\u0431\u0456 \u0441\u0430\u043c\u0430": 229.98, "adele|hello": 295.5, "adam|\u043f\u043e\u0432\u0456\u043b\u044c\u043d\u043e": 166.5, "sting|fields of gold": 219.07, "khrystyna soloviy|\u0442\u0440\u0438\u043c\u0430\u0439": 208.64, "alex warren|ordinary": 187.01, "okean elzy|\u043d\u0430 \u043d\u0435\u0431\u0456": 222.2, "bonnie tyler|total eclipse of the heart": 421.88, "zac efron zendaya|rewrite the stars": 217.44, "jamala|\u043b\u044e\u0431\u043b\u044e": 168.21, "backstreet boys|i want it that way": 215.17, "kazka|\u043f\u043b\u0430\u043a\u0430\u043b\u0430": 224.95, "chris isaak|wicked game": 286.81, "jamala|\u0448\u043b\u044f\u0445 \u0434\u043e\u0434\u043e\u043c\u0443": 266.81, "christina perri|a thousand years": 287.9, "\u043a\u0432\u0456\u0442\u043a\u0430 \u0446\u0456\u0441\u0438\u043a|\u043d\u0456\u0447 \u0442\u0430\u043a\u0430 \u0433\u043e\u0441\u043f\u043e\u0434\u0438 \u043c\u0456\u0441\u044f\u0447\u043d\u0430 \u0437\u043e\u0440\u044f\u043d\u0430": 194.8, "beyonc|halo": 261.67, "\u0431\u0443\u043c\u0431\u043e\u043a\u0441|\u043a\u0432\u0456\u0442\u0438 \u0432 \u0432\u043e\u043b\u043e\u0441\u0441\u0456": 237.89, "demis roussos|forever and ever": 217.72, "billie eilish|birds of a feather": 210.4, "\u043d\u0430\u0437\u0430\u0440\u0456\u0439 \u044f\u0440\u0435\u043c\u0447\u0443\u043a|\u0437\u0430\u043f\u0440\u043e\u0441\u0438 \u043c\u0435\u043d\u0435 \u0443 \u0441\u043d\u0438 \u0441\u0432\u043e\u0457": 241.67, "c line dion|the power of love": 343.75, "okean elzy|\u0432\u0438\u0449\u0435 \u043d\u0435\u0431\u0430": 240.04, "frank sinatra|strangers in the night": 150.57, "de sens|\u043c\u043e\u044f \u043b\u044e\u0431\u043e\u0432": 180.53, "roxette|listen to your heart": 330.91, "skryabin|\u0441\u0442\u0430\u0440\u0456 \u0444\u043e\u0442\u043e\u0433\u0440\u0430\u0444\u0456\u0457": 186.85, "adele|love in the dark": 285.94, "\u0437\u043b\u0430\u0442\u0430 \u043e\u0433\u043d\u0454\u0432\u0456\u0447|\u0437\u0430 \u043b\u0456\u0441\u0430\u043c\u0438 \u0433\u043e\u0440\u0430\u043c\u0438": 200.96, "whitney houston|run to you": 286.98, "oleh skrypka|\u0433\u0443\u0446\u0443\u043b\u043a\u0430 \u043a\u0441\u0435\u043d\u044f": 216.79, "stevie wonder|i just called to say i love you": 262.45, "okean elzy|\u044f \u0442\u0430\u043a \u0445\u043e\u0447\u0443": 281.71, "youssou n dour neneh cherry|7 seconds": 299.64, "\u043a\u0432\u0456\u0442\u043a\u0430 \u0446\u0456\u0441\u0438\u043a|\u0434\u0435 \u0442\u0438 \u0442\u0435\u043f\u0435\u0440": 219.44, "roxette|it must have been love": 260.65, "kalush feat skofka|\u0434\u043e\u0434\u043e\u043c\u0443": 216.03, "u2|with or without you": 299.0, "sade|by your side": 274.68, "bee gees|too much heaven": 296.49, "skryabin|\u043b\u044e\u0434\u0438 \u044f\u043a \u043a\u043e\u0440\u0430\u0431\u043b\u0456": 253.96, "c line dion peabo bryson|beauty and the beast": 245.81, "christopher cross|sailing": 256.37, "okean elzy|911": 209.08, "no doubt|don t speak": 263.52, "molodi|my sea": 174.29, "george michael|careless whisper": 304.5, "\u043e\u043b\u0435\u0433 \u0441\u043a\u0440\u0438\u043f\u043a\u0430|\u0432\u0435\u0441\u043d\u0430": 317.92, "moby|porcelain": 243.16, "sviatoslav vakarchuk|\u0442\u0430\u043a\u0430 \u044f\u043a \u0442\u0438": 228.72, "joe dassin|salut": 197.83, "taylor swift|lover": 221.31, "\u0441\u043a\u0440\u044f\u0431\u0456\u043d|\u0448\u0430\u043c\u043f\u0430\u043d\u0441\u044c\u043a\u0456 \u043e\u0447\u0456": 223.47, "skryabin|\u043c\u0430\u0440\u0448\u0440\u0443\u0442\u043a\u0430": 182.05, "toni braxton|un break my heart": 269.9, "bryan adams|heaven": 245.93, "\u0437\u043b\u0430\u0442\u0430 \u043e\u0433\u043d\u0454\u0432\u0456\u0447|gravity": 179.76, "c line dion|my heart will go on": 280.33, "richard marx|right here waiting": 263.16, "\u043e\u043a\u0435\u0430\u043d \u0435\u043b\u044c\u0437\u0438|\u0442\u0430\u043c \u0434\u0435 \u043d\u0430\u0441 \u043d\u0435\u043c\u0430": 212.96, "whitney houston|greatest love of all": 290.04, "michael jackson|liberian girl": 230.93, "scorpions|wind of change": 314.6, "eros ramazzotti cher|pi che puoi": 252.71, "elton john|can you feel the love tonight": 243.04, "adele|someone like you": 281.18, "fugees|killing me softly with his song": 239.89, "the kingdom choir|stand by me": 217.21, "c line dion|because you loved me": 274.65, "ilene woods|so this is love": 90.03, "jackson 5|i ll be there": 236.45, "whitney houston|i have nothing": 289.24, "nat king cole|unforgettable": 191.97, "michael jackson|you are not alone": 297.04, "lady gaga bruno mars|die with a smile": 251.72, "c line dion|all by myself": 315.09, "\u043b\u044e\u0431\u043e\u0432 \u0447\u0430\u0439\u043a\u043e\u0432\u0441\u044c\u043a\u0430|\u043d\u0430\u043c\u0430\u043b\u044e\u0439 \u043c\u0435\u043d\u0456 \u043d\u0456\u0447": 209.52, "foreigner|i want to know what love is": 300.96, "dolly parton kenny rogers|islands in the stream": 250.33, "lord huron|the night we met": 208.3, "c line dion|where does my heart beat now": 274.12, "sixpence none the richer|kiss me": 206.16, "louis armstrong|what a wonderful world": 140.46, "ella fitzgerald louis armstrong|dream a little dream of me": 186.95, "seal|kiss from a rose": 287.93, "berlin|take my breath away": 250.2, "peabo bryson regina belle|a whole new world": 245.0, "mariah carey|my all": 230.06, "aretha franklin|you send me": 146.77, "george benson|nothing s gonna change my love for you": 242.7, "chris de burgh|the lady in red": 251.72, "ella fitzgerald louis armstrong|they can t take that away from me": 276.72, "c line dion|i love you": 330.2, "barton|running up that hill a deal with god": 184.01};
+/* ЛОКАЛЬНИЙ ПЛЕЄР (не в репозиторії). Три канали (RED, GREEN, BLUE) грають одночасно, кожен зі своєю позицією.
+   Один канал чутно (вибирається чіпом або кнопкою), інші тихо йдуть далі. Клік по обкладинці — запуск треку в його каналі.
+   «Слухати разом» — запускає всі три синхронно з початку, або ставить на паузу/продовжує. */
+(function(){
+  const norm=s=>String(s||'').normalize('NFC').toLowerCase().replace(/[^0-9a-zа-яіїєґ]+/g,' ').trim();
+  const NAMES=['RED','GREEN','BLUE'];
+  const LCH=NAMES.map((name,i)=>({name,i,audio:new Audio(),queue:[],idx:-1}));
+  LCH.forEach(c=>{
+    c.audio.preload='auto';
+    c.audio.addEventListener('ended',()=>advance(c.i));
+    c.audio.addEventListener('play',refresh);
+    c.audio.addEventListener('pause',refresh);
+    c.audio.addEventListener('loadedmetadata',()=>{ if(c.i===audible) tick(); });
+    c.audio.addEventListener('timeupdate',()=>{ if(c.i===audible && !seeking) tick(); });
+  });
+  let audible=0, vol=1, seeking=false;
+  window.__lpAudio=LCH[0].audio; window.__lpCH=LCH; // для діагностики
+  const A=()=>LCH[audible].audio;
+
+  const ICON={
+    play:'<path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/>',
+    pause:'<rect x="6.5" y="5" width="4" height="14" rx="1.2"/><rect x="13.5" y="5" width="4" height="14" rx="1.2"/>',
+    prev:'<path d="M6 5.5a1 1 0 0 1 2 0v13a1 1 0 0 1-2 0v-13zm13.1.36a1 1 0 0 0-1.5-.86L9.2 11.14a1 1 0 0 0 0 1.72l8.4 6.14a1 1 0 0 0 1.5-.86v-12.7z"/>',
+    next:'<path d="M16 5.5a1 1 0 0 0-2 0v13a1 1 0 0 0 2 0v-13zM4.9 4.64a1 1 0 0 0-1.5.86v12.99a1 1 0 0 0 1.5.86l8.4-6.14a1 1 0 0 0 0-1.72L4.9 4.64z"/>',
+    vol:'<path d="M4 9.5v5a1 1 0 0 0 1 1h3l4.3 3.6a.8.8 0 0 0 1.3-.6V5.5a.8.8 0 0 0-1.3-.6L8 8.5H5a1 1 0 0 0-1 1z"/><path d="M16.2 8.8a4.6 4.6 0 0 1 0 6.4M18.8 6.2a8.2 8.2 0 0 1 0 11.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+    sync:'<path d="M4 7h11M12 4l3 3-3 3M20 17H9M12 14l-3 3 3 3" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>'
+  };
+  const svg=(k,s=18)=>`<svg viewBox="0 0 24 24" width="${s}" height="${s}" aria-hidden="true" fill="currentColor">${ICON[k]}</svg>`;
+  const chColor=i=>(typeof CH!=='undefined'&&CH[i]&&CH[i].c)||['#ff4d6d','#3dff8f','#3da5ff'][i];
+
+  const css=document.createElement('style');
+  css.textContent=`
+  #lp{--lime:#d4ff3a;--ink:#eef0f2;--mute:#8b9199;--line:rgba(255,255,255,.08);
+      position:fixed;left:12px;bottom:12px;z-index:9999;width:min(620px,calc(100vw - 24px - 460px));min-width:300px;
+      display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);grid-template-areas:"chips chips chips" "info ctl vol" "prog prog prog";align-items:center;gap:10px 16px;
+      padding:12px 16px 12px 12px;border-radius:20px;background:rgba(18,20,24,.46);-webkit-backdrop-filter:blur(20px) saturate(1.35);backdrop-filter:blur(20px) saturate(1.35);color:var(--ink);
+      border:1px solid rgba(255,255,255,.12);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 18px 40px -18px rgba(0,0,0,.7),0 2px 6px rgba(0,0,0,.35);
+      font:13px/1.25 "Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;font-variant-numeric:tabular-nums}
+  #lp *{box-sizing:border-box}
+  #lp .chips{grid-area:chips;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  #lp .chip{all:unset;cursor:pointer;display:flex;align-items:center;gap:7px;min-width:0;padding:7px 9px;border-radius:12px;background:#181b20;border:1px solid var(--line);transition:background .15s,border-color .15s}
+  #lp .chip:hover{background:#1f2328}
+  #lp .chip i{width:8px;height:8px;border-radius:50%;flex:none;background:var(--c);box-shadow:0 0 10px var(--c)}
+  #lp .chip b{font-size:11px;letter-spacing:.06em;color:var(--c);flex:none}
+  #lp .chip span{font-size:11.5px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+  #lp .chip.on{background:#1d2318;border-color:color-mix(in srgb,var(--c) 55%,transparent)}
+  #lp .chip.on span{color:var(--ink)}
+  #lp .chip:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+  #lp .info{grid-area:info;display:flex;align-items:center;gap:12px;min-width:0;max-width:270px;height:46px}
+  #lp .art{width:46px;height:46px;border-radius:12px;background:#1d2024 center/cover no-repeat;flex:none;box-shadow:0 6px 16px -8px rgba(0,0,0,.8)}
+  #lp .meta{min-width:0;height:40px;display:flex;flex-direction:column;justify-content:center}
+  #lpTitle{display:block;font-weight:700;font-size:13.5px;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #lpArtist{display:block;margin-top:2px;color:var(--mute);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #lp .ctl{grid-area:ctl;display:flex;align-items:center;justify-content:center;gap:6px;height:46px}
+  #lp .ctl button{display:grid;place-items:center;border:0;background:none;color:var(--ink);cursor:pointer;width:34px;height:34px;border-radius:50%;transition:background .15s,transform .15s}
+  #lp .ctl button:hover{background:rgba(255,255,255,.07)}
+  #lp .ctl button:active{transform:scale(.94)}
+  #lpPlay svg{transform:translateX(-1.5px)}
+  #lpPlay{width:44px!important;height:44px!important;background:var(--lime)!important;color:#0b0d0a!important;box-shadow:0 8px 20px -8px rgba(212,255,58,.55)}
+  #lpPlay:hover{background:#e3ff70!important}
+  #lp button:focus-visible,#lp input:focus-visible,#lpBar:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+  #lp .vol{grid-area:vol;display:flex;align-items:center;gap:6px;color:var(--mute);justify-self:end}
+  #lp .prog{grid-area:prog;display:flex;align-items:center;gap:10px;color:var(--mute);font-size:11.5px}
+  #lpBar{position:relative;flex:1;height:18px;cursor:pointer;display:flex;align-items:center;touch-action:none}
+  #lpBar::before{content:"";position:absolute;left:0;right:0;height:4px;border-radius:4px;background:#2a2e34}
+  #lpFill{position:absolute;left:0;height:4px;border-radius:4px;background:linear-gradient(90deg,#a9ff3a,var(--lime));width:0;box-shadow:0 0 12px rgba(212,255,58,.35)}
+  #lpKnob{position:absolute;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:#fff;left:0;box-shadow:0 0 0 3px rgba(212,255,58,.25);opacity:0;transition:opacity .15s}
+  #lpBar:hover #lpKnob,#lpBar.on #lpKnob{opacity:1}
+  #lpTime{flex:none;white-space:nowrap;min-width:84px;text-align:right}
+  #lpTime b{color:var(--ink);font-weight:600}
+  #lpVol{-webkit-appearance:none;appearance:none;width:80px;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--lime) var(--v,100%),#2a2e34 var(--v,100%));cursor:pointer}
+  #lpVol::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:#fff;border:0;box-shadow:0 0 0 3px rgba(212,255,58,.2)}
+  #lpVol::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:#fff;border:0}
+  .cov.lp-can{position:relative;cursor:pointer}
+  .lr[data-ch]{cursor:pointer}
+  .cov.lp-can::after{content:"";position:absolute;left:50%;top:50%;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;background:rgba(10,12,10,.62) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23d4ff3a'%3E%3Cpath d='M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z'/%3E%3C/svg%3E") center/13px no-repeat;opacity:0;transition:opacity .15s;pointer-events:none}
+  .cov.lp-can:hover::after{opacity:1}
+  .tlv-cov.lp-can::after{width:48px;height:48px;margin:-24px 0 0 -24px;background-size:20px;box-shadow:0 8px 22px -6px rgba(0,0,0,.7);backdrop-filter:blur(8px) saturate(1.2);-webkit-backdrop-filter:blur(8px) saturate(1.2)}
+  /* матове розмиття під кнопкою: поверх обкладинки кнопка «розсвічується» лаймовим світінням */
+  .tlv-cov.lp-now::after{box-shadow:0 0 20px 6px rgba(212,255,58,.32),0 8px 22px -6px rgba(0,0,0,.7)}
+  .tlv-cov.lp-can:hover::after{transform:scale(1.04)}
+  .cov.lp-now::after{opacity:1;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23d4ff3a'%3E%3Crect x='6.5' y='5' width='4' height='14' rx='1.2'/%3E%3Crect x='13.5' y='5' width='4' height='14' rx='1.2'/%3E%3C/svg%3E")}
+  .lp-ch{box-shadow:inset 0 0 0 1.5px var(--hc)!important;border-radius:10px}
+  .cov.lp-ch-now{box-shadow:0 0 14px color-mix(in srgb,var(--hc) 60%,transparent)!important}
+  #lp.in-rail{position:sticky;top:12px;bottom:auto;left:auto;transform:none;width:auto;min-width:0;max-width:none;margin:0;
+      grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"chips chips" "info ctl" "prog prog";padding:12px}
+  #lp.in-rail .info{max-width:none}
+  #lp.in-rail + .rh{margin-top:44px!important}
+  #lp.in-rail .vol{display:none}
+  #lp.in-rail .chip span{display:none}
+  @media(max-width:600px){#lp:not(.in-rail){left:8px;right:8px;width:auto;min-width:0;bottom:8px}#lp:not(.in-rail) .vol{display:none}}
+  #lpPlay{flex:none;aspect-ratio:1/1}
+  #lpFold{display:none;position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;border:0;background:rgba(255,255,255,.06);color:var(--mute);place-items:center;cursor:pointer}
+  #lpFold:hover{color:var(--ink);background:rgba(255,255,255,.1)}
+  #lpMin{display:none;position:fixed;left:14px;bottom:14px;z-index:60;width:56px;height:56px;padding:0;border:0;border-radius:50%;place-items:center;cursor:pointer;color:var(--lime);background:radial-gradient(circle at 35% 25%,rgba(70,78,88,.5),rgba(14,16,19,.72));-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 10px 24px -12px rgba(0,0,0,.8);transition:box-shadow .3s ease,transform .2s ease}
+  #lpMin.playing{box-shadow:inset 0 0 0 1px rgba(212,255,58,.22),0 10px 24px -12px rgba(0,0,0,.8)}
+  #lpMin:active{transform:scale(.94)}
+  #lpMin .mm-play{display:grid;place-items:center;line-height:0}
+  #lpMin .mm-play svg{transform:translateX(-1.6px)}
+  #lpMin .mm-eq{display:none;align-items:flex-end;gap:3px;height:20px}
+  #lpMin.playing .mm-eq{display:flex}
+  #lpMin.playing .mm-play{display:none}
+  #lpMin .mm-eq i{display:block;width:3.5px;height:8px;border-radius:2px;background:currentColor;animation:mmEq .9s ease-in-out infinite alternate}
+  #lpMin .mm-eq i:nth-child(2){animation-delay:-.3s}
+  #lpMin .mm-eq i:nth-child(3){animation-delay:-.6s}
+  @keyframes mmEq{from{height:5px}to{height:18px}}
+  #lpMin .mm-dots{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);display:flex;gap:3px}
+  #lpMin .mm-dots i{width:4px;height:4px;border-radius:50%;background:var(--c);opacity:.3;transition:opacity .25s}
+  #lpMin .mm-dots i.on{opacity:1}
+  #lpMin .mm-dots{display:none}
+  #lpMin.playing .mm-dots{display:flex}
+  #lpMin.playing .mm-eq{margin-bottom:12px}
+  @media(max-width:600px){#lpMin{display:grid}}
+  @media(prefers-reduced-motion:reduce){#lpMin .mm-eq i{animation:none}#lp:not(.in-rail),#lpMin{transition:none!important}}
+  #lpMin:active{transform:scale(.94)}
+  @media(max-width:600px){#lp:not(.in-rail){transition:transform .55s cubic-bezier(.2,.9,.25,1.08),opacity .35s ease,visibility 0s linear 0s;transform-origin:0% 100%;will-change:transform,opacity}#lp:not(.in-rail).lp-min{transition:transform .42s cubic-bezier(.5,0,.75,0),opacity .25s ease,visibility 0s linear .42s}#lpMin{transition:opacity .3s ease,transform .45s cubic-bezier(.2,.9,.25,1.2)}#lpMin.gone{opacity:0;transform:scale(.4) rotate(-40deg);pointer-events:none}}
+  @media(max-width:600px){#lp:not(.in-rail){grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"chips chips" "info ctl" "prog prog"}#lp:not(.in-rail) #lpFold{display:grid}#lp:not(.in-rail) .chips{grid-template-columns:repeat(3,minmax(0,1fr)) 32px;align-items:center}#lp:not(.in-rail) #lpFold{position:static;width:32px;height:32px;align-self:center}#lp.lp-min{opacity:0;transform:translateY(calc(100% + 28px)) scale(.94);pointer-events:none;visibility:hidden}}
+  #lpMin.gone{visibility:hidden;transition:opacity .25s ease,transform .3s ease,visibility 0s linear .3s}
+  #lpAll{display:inline-flex;align-items:center;gap:7px}
+  .lp-prog{position:absolute;bottom:-9px;width:0;height:0;pointer-events:none;z-index:6;transition:left .25s linear}
+  .lp-prog::before{content:'';position:absolute;left:-4px;top:-4px;width:8px;height:8px;border-radius:50%;background:var(--hc,#d4ff3a);box-shadow:0 0 0 2px rgba(10,12,10,.55),0 0 10px var(--hc,#d4ff3a)}
+  .lp-prog::after{content:'';position:absolute;left:-1px;top:-22px;width:2px;height:18px;border-radius:2px;background:linear-gradient(to bottom,transparent,var(--hc,#d4ff3a))}
+  #lpTlHead{position:absolute;top:0;bottom:0;width:2px;margin-left:-1px;background:#d4ff3a;box-shadow:0 0 10px rgba(212,255,58,.55);z-index:5;cursor:ew-resize;touch-action:none}
+  #lpTlHead::before{content:'';position:absolute;top:0;bottom:0;left:-8px;width:18px}
+  #lpTlHead b{cursor:ew-resize}
+  #lpTlHead.idle{opacity:.35}
+  #lpTlHead b{position:absolute;top:5px;left:6px;background:#d4ff3a;color:#0b0d0a;font:700 11px/1 "Manrope",system-ui,sans-serif;font-variant-numeric:tabular-nums;padding:4px 8px;border-radius:999px;white-space:nowrap}
+  #lpNow{position:absolute;z-index:40;pointer-events:none;height:0;border-top:2px solid var(--lime,#d4ff3a);box-shadow:0 0 12px rgba(212,255,58,.8)}
+  #lpNowTag{position:absolute;z-index:41;pointer-events:none;transform:translate(-100%,-50%);background:var(--lime,#d4ff3a);color:#0b0d0a;font:700 11px/1 "Manrope",system-ui,sans-serif;font-variant-numeric:tabular-nums;padding:5px 8px;border-radius:999px;white-space:nowrap;box-shadow:0 6px 16px -6px rgba(212,255,58,.7)}
+  .wbars i{position:relative}
+  .wbars i.lp-dot::after{content:"";position:absolute;left:50%;bottom:-9px;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:var(--lime,#d4ff3a);box-shadow:0 0 8px rgba(212,255,58,.9);pointer-events:none}
+  #lpAll.on{background:#1d2318!important;border-color:rgba(212,255,58,.55)!important}
+  `;
+  document.head.appendChild(css);
+
+  const bar=document.createElement('div'); bar.id='lp';
+  bar.innerHTML=`
+    <div class="chips" role="group" aria-label="Канали">
+      ${NAMES.map((n,i)=>`<button class="chip" data-ch="${i}" style="--c:${chColor(i)}" aria-label="Слухати канал ${n}"><i></i><b>${n}</b><span>—</span></button>`).join('')}
+    </div>
+    <div class="info"><span class="art" id="lpArt"></span><span class="meta"><span id="lpTitle"></span><span id="lpArtist">Натисніть обкладинку треку</span></span></div>
+    <div class="ctl">
+      <button id="lpPrev" aria-label="Попередній у каналі">${svg('prev')}</button>
+      <button id="lpPlay" aria-label="Грати або пауза">${svg('play')}</button>
+      <button id="lpNext" aria-label="Наступний у каналі">${svg('next')}</button>
+    </div>
+    <div class="vol" title="Гучність">${svg('vol')}<input id="lpVol" type="range" min="0" max="100" value="100" aria-label="Гучність"></div>
+    <div class="prog"><span id="lpCur">0:00</span><div id="lpBar" role="slider" aria-label="Перемотка" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0"><div id="lpFill"></div><div id="lpKnob"></div></div><span id="lpTime">0:00 / 0:00</span></div>`;
+
+  const $=id=>document.getElementById(id);
+  const fmt=s=>{s=Math.floor(s||0);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');};
+
+  function placeBar(){
+    const rail=document.querySelector('.rail');
+    const railShown=rail && getComputedStyle(rail).display!=='none';
+    if(railShown){ if(bar.parentNode!==rail||rail.firstChild!==bar){ rail.insertBefore(bar,rail.firstChild); } bar.classList.add('in-rail'); }
+    else { if(bar.parentNode!==document.body){ document.body.appendChild(bar); } bar.classList.remove('in-rail'); }
+  }
+  document.body.appendChild(bar); placeBar();
+  window.addEventListener('resize',placeBar);
+  new MutationObserver(()=>{ placeBar(); ensureAllBtn(); markCovers(); }).observe(document.body,{childList:true,subtree:true});
+
+  // Гучність — тільки для чутного каналу; інші тихо грають
+  try{ const v=parseFloat(localStorage.getItem('lpVol')); if(!isNaN(v)) vol=Math.min(1,Math.max(0,v)); }catch(_){}
+  $('lpVol').value=Math.round(vol*100); $('lpVol').style.setProperty('--v',Math.round(vol*100)+'%');
+  $('lpVol').addEventListener('input',e=>{ vol=e.target.value/100; e.target.style.setProperty('--v',e.target.value+'%'); applyVolumes(); try{ localStorage.setItem('lpVol',String(vol)); }catch(_){} });
+
+  function infoOf(row){
+    if(row.dataset && row.dataset.id && typeof BY!=='undefined' && BY[row.dataset.id]){const t=BY[row.dataset.id];return {a:t.a,t:t.t};}
+    const a=(row.querySelector('.a')||{}).textContent||'', t=(row.querySelector('.t')||{}).textContent||'';
+    return {a:a.replace('версія?','').trim(),t:t.trim()};
+  }
+  const srcOf=row=>{ const i=infoOf(row); return LOCAL_AUDIO[norm(i.a)+'|'+norm(i.t)]; };
+  // Канали на сторінці: секції з треками, назву каналу беремо з тексту заголовка
+  function lanes(){
+    // Режим «Таймлайн»: канали — рядки .tlv-row, треки — картки .tlv-card
+    const tl=[...document.querySelectorAll('.tlv-row[data-ch]')];
+    if(tl.length) return tl.map(r=>({ci:+r.dataset.ch, rows:[...r.querySelectorAll('.tlv-card[data-id]')]}));
+    return [...document.querySelectorAll('section.col')].filter(s=>s.querySelector('li.row[data-id]')).map(sec=>{
+      const t=sec.textContent; let best=-1,bp=1e9;
+      NAMES.forEach((n,i)=>{ const p=t.indexOf(n); if(p>=0&&p<bp){bp=p;best=i;} });
+      return {ci:best, rows:[...sec.querySelectorAll('li.row[data-id]')]};
+    }).filter(l=>l.ci>=0);
+  }
+  function rowOfCover(cov){return cov.closest('li.row[data-id], .lr, .tlv-card[data-id]');}
+  function markCovers(){ document.querySelectorAll('li.row[data-id] .cov, .lr .cov, .tlv-card .cov').forEach(c=>c.classList.add('lp-can')); }
+  markCovers();
+
+  function applyVolumes(){ LCH.forEach(c=>{ c.audio.volume = c.i===audible ? vol : 0; }); }
+
+  // Завантажити канал і (за потреби) почати; пропускає треки без файлу
+  function loadChannel(i, rows, idx, autoplay){
+    const c=LCH[i]; c.queue=rows;
+    while(idx<rows.length && !srcOf(rows[idx])) idx++;
+    c.idx = idx<rows.length ? idx : -1;
+    if(c.idx<0){ c.audio.pause(); c.audio.removeAttribute('src'); c.audio.load(); refresh(); return; }
+    const src=encodeURI(srcOf(rows[c.idx]));
+    c.audio.src=src;
+    if(autoplay) c.audio.play().catch(()=>{});
+    applyVolumes(); refresh();
+  }
+  function advance(i){
+    const c=LCH[i];
+    if(c.idx<0) return;
+    if(c.idx+1<c.queue.length) loadChannel(i,c.queue,c.idx+1,true); else if(loopOn(i)) loadChannel(i,c.queue,0,true); else { c.idx=-1; refresh(); }
+  }
+  /* «Зациклити» в таймлайні: після кінця черги канал починає її знову */
+  function loopOn(i){ const r=document.querySelector('.tlv-row[data-ch="'+i+'"]'); return !!r && r.dataset.loop==='1'; }
+  function setAudible(i){ audible=i; applyVolumes(); refresh(); }
+
+  // Час від старту «разом»: зростає, поки хоч один канал грає (кожен канал іде своїм темпом)
+  let elapsed=0;
+  const fmtHMS=sec=>{sec=Math.floor(sec);const h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),s2=sec%60;return h>0?`${h}:${String(m).padStart(2,'0')}:${String(s2).padStart(2,'0')}`:`${m}:${String(s2).padStart(2,'0')}`;};
+  // Позначки шкали кешуються: пошук по всіх .tk на кожному кадрі давав підвисання під час прокрутки
+  const tickCache={};
+  function axisTick(label){
+    const c=tickCache[label];
+    if(c&&c.isConnected) return c;
+    const f=[...document.querySelectorAll('.tk')].find(e=>e.textContent.trim()===label);
+    if(f) tickCache[label]=f; return f;
+  }
+  // Геометрія шкали: y для 0:00 і масштаб px/сек за позначками «0:00» і «1 год»
+  // Геометрія беремо з поточних rect шкали (вони враховують прокрутку та transform стрічки часу),
+  // а позначку оновлюємо в кожному кадрі — тоді вона рухається разом зі шкалою і не відстає.
+  function geom(){
+    const t0=axisTick('0:00'), t1=axisTick('1 год'); if(!t0||!t1) return null;
+    const r0=t0.getBoundingClientRect(), r1=t1.getBoundingClientRect();
+    const y0=r0.top+scrollY, y1=r1.top+scrollY;
+    if(!(y1>y0)) return null;
+    return {x:r0.left+scrollX, y0, pxPerSec:(y1-y0)/3600};
+  }
+  let dragging=false;
+  const MAX_T=4*3600;
+  // Позначка живе всередині вікна стрічки часу (.tlwin, overflow:hidden): коли стрічка ховається або
+  // виїжджає за межі вікна, позначка обрізається разом з нею і не лізе на сторінку.
+  function placeMarker(){
+    const t0=axisTick('0:00'), t1=axisTick('1 год');
+    let line=document.getElementById('lpNow'), tag=document.getElementById('lpNowTag');
+    const hide=()=>{ if(line) line.style.display='none'; if(tag) tag.style.display='none'; };
+    /* у режимі «Таймлайн» позначку веде placeTlHead (вона всередині вікна стрічки й обрізається разом з ним),
+       тож стару позначку зі шкали списків тут гасимо — інакше вона пливе поверх сторінки */
+    /* шкала-линійка в списках прибрана: стара позначка більше не потрібна. Її елементи видаляємо,
+       щоб не лишилося нічого, що може плисти поверх сторінки */
+    document.getElementById('lpNow')?.remove(); document.getElementById('lpNowTag')?.remove();
+    return;
+    const host=t0.closest('.tlwin')||document.body;
+    if(!line){ line=document.createElement('div'); line.id='lpNow'; bindMarkerDrag(line); }
+    if(!tag){ tag=document.createElement('div'); tag.id='lpNowTag'; bindMarkerDrag(tag); }
+    if(line.parentNode!==host) host.appendChild(line);
+    // Бабл з часом — поза вікном стрічки (інакше обрізається overflow:hidden), але видимий лише
+    // поки його точка на шкалі всередині вікна
+    if(tag.parentNode!==document.body) document.body.appendChild(tag);
+    const r0=t0.getBoundingClientRect(), r1=t1.getBoundingClientRect();
+    const pxPerSec=(r1.top-r0.top)/3600;
+    if(!(pxPerSec>0)||!(r0.height||r0.width)){ hide(); return; }
+    const hr=host===document.body?{left:-scrollX,top:-scrollY}:host.getBoundingClientRect();
+    const x=r0.left-hr.left, y=r0.top-hr.top+elapsed*pxPerSec;
+    line.style.display='';
+    const T=y+'px';
+    if(line.style.top!==T){ line.style.left=(x-12)+'px'; line.style.top=T; }
+    line.style.width='24px';
+    const hb=host.getBoundingClientRect(), ty=r0.top+elapsed*pxPerSec;
+    const inside = host===document.body || (ty>=hb.top && ty<=hb.bottom);
+    tag.style.display=inside?'':'none';
+    if(inside){
+      const TT=(ty+scrollY)+'px', TL=(r0.left+scrollX+18)+'px';
+      if(tag.style.top!==TT){ tag.style.top=TT; tag.style.left=TL; }
+    }
+    tag.style.transform='translate(0,-50%)';
+    const txt='▶ '+fmtHMS(elapsed); if(tag.textContent!==txt) tag.textContent=txt;
+    placeProgress();
+  }
+  // Лінія відтворення в режимі «Таймлайн»: одна вертикаль через усі канали, з часом від старту
+  function placeTlHead(){
+    const inn=document.querySelector('.tlv-in'); let h=document.getElementById('lpTlHead');
+    if(!inn){ if(h) h.remove(); return; }
+    if(!h||h.parentNode!==inn){ if(h) h.remove(); h=document.createElement('div'); h.id='lpTlHead'; h.innerHTML='<b></b>'; inn.appendChild(h); }
+    const px=+inn.dataset.px||0, lw=+inn.dataset.lw||0;
+    h.style.left=(lw+elapsed*px).toFixed(1)+'px';
+    const txt=fmtHMS(elapsed); const b=h.firstChild; if(b.textContent!==txt) b.textContent=txt;
+    h.classList.toggle('idle', !CH_ANY_PLAYING() && elapsed===0);
+  }
+  // Перетягування лінії відтворення: під час руху лише лінія, після відпускання — перемотка всіх каналів
+  let headDrag=false;
+  const tlTimeAt=x=>{ const inn=document.querySelector('.tlv-in'), ax=inn&&inn.querySelector('.tlv-ax'); const px=inn?+inn.dataset.px:0; return (ax&&px)?Math.max(0,(x-ax.getBoundingClientRect().left)/px):null; };
+  document.addEventListener('pointerdown',e=>{
+    const h=e.target.closest&&e.target.closest('#lpTlHead'); if(!h) return;
+    headDrag=true; try{ h.setPointerCapture(e.pointerId); }catch(_){} e.preventDefault(); e.stopPropagation();
+  },true);
+  document.addEventListener('pointermove',e=>{ if(!headDrag) return; const T=tlTimeAt(e.clientX); if(T==null) return; elapsed=Math.min(MAX_T,T); placeTlHead(); });
+  document.addEventListener('pointerup',e=>{ if(!headDrag) return; headDrag=false; const T=tlTimeAt(e.clientX); seekTimeline(T==null?elapsed:Math.min(MAX_T,T)); });
+  document.addEventListener('pointerdown',e=>{
+    const ax=e.target.closest&&e.target.closest('.tlv-ax'); if(!ax) return;
+    const inn=ax.closest('.tlv-in'); const px=+inn.dataset.px||0; if(!px) return;
+    const T=Math.max(0,(e.clientX-ax.getBoundingClientRect().left)/px);
+    seekTimeline(T);
+  });
+  document.addEventListener('tlv:render',()=>{ markCovers(); dirty=true; refresh(); });
+  // Маленька позначка під шкалою енергії кожного плейлиста: поточний трек каналу з урахуванням прогресу в ньому
+  const wpCache={};
+  function placeProgress(){
+    LCH.forEach(c=>{
+      let wc=wpCache[c.i];
+      if(!wc||!wc.wp.isConnected){
+        const wp=document.querySelector('.wp[data-ci="'+c.i+'"]'); if(!wp){ wpCache[c.i]=null; return; }
+        wc=wpCache[c.i]={wp,bars:[],idx:new Map()};
+      }
+      if(!wc) return;
+      const wp=wc.wp;
+      if(!wc.bars.length || !wc.bars[0].isConnected){
+        wc.bars=[...wp.querySelectorAll('.wbars i[data-id]')]; wc.idx=new Map(wc.bars.map((b,i)=>[b.dataset.id,i]));
+      }
+      let m=wp.querySelector('.lp-prog');
+      const row=c.idx>=0?c.queue[c.idx]:null;
+      const bars=wc.bars;
+      const k=row&&row.dataset&&wc.idx.has(row.dataset.id)?wc.idx.get(row.dataset.id):-1;
+      if(k<0||!bars.length){ if(m) m.style.display='none'; return; }
+      if(!m){ m=document.createElement('div'); m.className='lp-prog'; if(getComputedStyle(wp).position==='static') wp.style.position='relative'; wp.appendChild(m); }
+      const d=c.audio.duration||0, frac=d?Math.min(1,(c.audio.currentTime||0)/d):0;
+      m.style.display='';
+      m.style.left=((k+frac)/bars.length*100).toFixed(3)+'%';
+      m.style.setProperty('--hc',chColor(c.i));
+    });
+  }
+  // Перетягування позначки по шкалі: під час руху — лише позначка, після відпускання — переставити канали
+  function bindMarkerDrag(el){
+    el.style.pointerEvents='auto'; el.style.cursor='ns-resize'; el.style.touchAction='none';
+    el.addEventListener('pointerdown',e=>{ dragging=true; try{ el.setPointerCapture(e.pointerId); }catch(_){} e.preventDefault(); e.stopPropagation(); });
+    el.addEventListener('pointermove',e=>{
+      if(!dragging) return; const g=geom(); if(!g) return;
+      const yDoc=e.clientY+scrollY; elapsed=Math.min(MAX_T,Math.max(0,(yDoc-g.y0)/g.pxPerSec)); placeMarker();
+    });
+    el.addEventListener('pointercancel',()=>{ dragging=false; });
+  }
+  // Переставити кожен канал на трек, що мав би грати на вибраній хвилині (за тривалістю треків)
+  function seekTimeline(T){
+    const wasPlaying=CH_ANY_PLAYING();
+    elapsed=T;
+    lanes().forEach(l=>{
+      const c=LCH[l.ci]; let acc=0, found=-1, off=0;
+      for(const row of l.rows){
+        const info=infoOf(row), key=norm(info.a)+'|'+norm(info.t);
+        if(!LOCAL_AUDIO[key]) continue;
+        const d=LOCAL_DUR[key]||0;
+        if(T<acc+d){ found=l.rows.indexOf(row); off=T-acc; break; }
+        acc+=d;
+      }
+      if(found<0){ c.audio.pause(); c.audio.removeAttribute('src'); c.audio.load(); c.queue=l.rows; c.idx=-1; return; }
+      loadChannel(l.ci,l.rows,found,false);
+      const seekHere=()=>{ try{ c.audio.currentTime=off; }catch(_){} tick(); };
+      if(c.audio.readyState>=1) seekHere(); else c.audio.addEventListener('loadedmetadata',seekHere,{once:true});
+    });
+    LCH.forEach(c=>{ if(wasPlaying && c.audio.src) c.audio.play().catch(()=>{}); });
+    placeMarker(); refresh();
+  }
+  document.addEventListener('pointermove',e=>{
+    if(!dragging) return; const g=geom(); if(!g) return;
+    const yDoc=e.clientY+scrollY; elapsed=Math.min(MAX_T,Math.max(0,(yDoc-g.y0)/g.pxPerSec)); placeMarker();
+  });
+  document.addEventListener('pointerup',()=>{ if(dragging){ dragging=false; seekTimeline(elapsed); } });
+  setInterval(()=>{ if(!dragging && CH_ANY_PLAYING()) elapsed+=1; placeMarker(); },1000);
+  window.addEventListener('resize',placeMarker);
+  // Постійне стеження за шкалою: стрічка часу може зсуватись без скролу сторінки (transform) — тримаємо позначку в кадрі
+    // Оновлення по кадрах — лише коли є що оновлювати: грає звук, тягнуть позначку або прокручують сторінку/стрічку
+  let dirty=true;
+  const markDirty=()=>{ dirty=true; };
+  window.addEventListener('scroll',markDirty,{passive:true});
+  document.addEventListener('scroll',markDirty,{passive:true,capture:true});
+  (function follow(){
+    const needHead=!!document.querySelector('.tlv-in')&&!document.getElementById('lpTlHead');
+    if(dirty||dragging||needHead||CH_ANY_PLAYING()){ dirty=false; placeMarker(); placeProgress(); placeTlHead(); }
+    requestAnimationFrame(follow);
+  })();
+  window.addEventListener('scroll',placeMarker,{passive:true});
+
+  // Клік по обкладинці: трек у своєму каналі; якщо він уже грає — пауза/продовження
+  document.addEventListener('pointerdown',e=>{ const cov=e.target.closest&&e.target.closest('.cov'); if(cov&&rowOfCover(cov)) e.stopPropagation(); },true);
+  document.addEventListener('click',e=>{
+    /* Бібліотека: рядок треку грає на своєму каналі; черга — треки цього каналу в порядку списку */
+    const lr=e.target.closest('.lr[data-id][data-ch]');
+    if(lr && !e.target.closest('a,button,input')){
+      e.preventDefault(); e.stopPropagation();
+      const ci=+lr.dataset.ch, c=LCH[ci];
+      if(c.idx>=0 && c.queue[c.idx]===lr){ c.audio.paused?c.audio.play():c.audio.pause(); setAudible(ci); return; }
+      const rows=[...document.querySelectorAll('.lr[data-id][data-ch="'+ci+'"]')];
+      loadChannel(ci, rows, rows.indexOf(lr), true);
+      setAudible(ci);
+      return;
+    }
+    const cov=e.target.closest('.cov'); if(!cov) return;
+    const row=rowOfCover(cov); if(!row) return;
+    e.preventDefault(); e.stopPropagation();
+    const lane=lanes().find(l=>l.rows.includes(row)); if(!lane) return;
+    const c=LCH[lane.ci];
+    if(c.idx>=0 && c.queue[c.idx]===row){ c.audio.paused?c.audio.play():c.audio.pause(); setAudible(lane.ci); return; }
+    loadChannel(lane.ci, lane.rows, lane.rows.indexOf(row), true);
+    setAudible(lane.ci);
+  },true);
+
+  // Підсвітка: кожен трек, що грає в каналі, — кольором свого каналу
+  function refresh(){
+    // Після перемикання пресета рядки в DOM перемальовуються: переприв'язуємо чергу до актуальних рядків,
+    // щоб підсвітка й міні-плеєр бачили поточні обкладинки, а не відʼєднані вузли
+    LCH.forEach(c=>{ c.queue=c.queue.map(r=>{ if(!r||!r.dataset||r.isConnected) return r;
+      const q=CSS.escape(r.dataset.id); const rp=r.dataset.rep; const n=(rp!=null&&document.querySelector('.tlv-card[data-id="'+q+'"][data-rep="'+rp+'"]'))||document.querySelector('.row[data-id="'+q+'"],.tlv-card[data-id="'+q+'"],.lr[data-id="'+q+'"]'); return n||r; }); });
+    document.querySelectorAll('.lp-ch').forEach(r=>{ r.classList.remove('lp-ch','lp-ch-act'); r.style.removeProperty('--hc'); });
+    document.querySelectorAll('.lp-ch-now').forEach(r=>r.classList.remove('lp-ch-now'));
+    document.querySelectorAll('.cov.lp-now').forEach(r=>r.classList.remove('lp-now'));
+    document.querySelectorAll('.wbars i.lp-dot').forEach(b=>b.classList.remove('lp-dot'));
+    LCH.forEach(c=>{
+      const row=c.idx>=0?c.queue[c.idx]:null; if(!row||!row.dataset.id) return;
+      document.querySelectorAll('.wbars i').forEach(b=>{ if(b.dataset.id===row.dataset.id && !c.audio.paused) b.classList.add('lp-dot'); });
+    });
+    const lanesNow=lanes();
+    LCH.forEach(c=>{
+      const row=c.idx>=0 ? c.queue[c.idx] : null;
+      if(!row) return;
+      const playing=!c.audio.paused;
+      if(!playing && c.audio.currentTime===0) { /* не виділяємо незапущене */ }
+      const cov=row.querySelector('.cov');
+      if(cov){ const bg=getComputedStyle(cov).backgroundImage; if(bg&&bg!=='none') c.cov=bg; }
+      // Обводка — на всіх треках, що грають; фон і світіння — лише на активному каналі
+      row.classList.add('lp-ch'); row.style.setProperty('--hc',chColor(c.i));
+      const act=playing&&c.i===audible; row.classList.toggle('lp-ch-act',act);
+      if(cov){ cov.classList.toggle('lp-ch-now', act); cov.classList.toggle('lp-now', playing); } /* значок «стоп», поки трек грає */
+    });
+    // Чіпи і міні-плеєр
+    document.querySelectorAll('#lp .chip').forEach(btn=>{
+      const i=+btn.dataset.ch, c=LCH[i];
+      const row=c.idx>=0?c.queue[c.idx]:null;
+      btn.classList.toggle('on', i===audible);
+      btn.querySelector('span').textContent= row ? infoOf(row).t : '—';
+      btn.title= row ? `${c.name}: ${infoOf(row).a} — ${infoOf(row).t}` : `${c.name}: порожньо`;
+    });
+    const cur=LCH[audible], row=cur.idx>=0?cur.queue[cur.idx]:null;
+    if(row){
+      const info=infoOf(row); const covEl=row.querySelector('.cov'); const bg=covEl?getComputedStyle(covEl).backgroundImage:'none';
+      if(bg&&bg!=='none') cur.cov=bg;
+      $('lpArt').style.backgroundImage=(bg&&bg!=='none')?bg:(cur.cov||'none');
+      $('lpTitle').textContent=info.t; $('lpArtist').textContent=info.a+' · '+cur.name;
+    } else {
+      $('lpArt').style.backgroundImage='none'; $('lpTitle').textContent=''; $('lpArtist').textContent='Натисніть обкладинку треку';
+    }
+    const anyPlaying=LCH.some(c=>!c.audio.paused);
+    $('lpPlay').innerHTML=svg(cur.audio.paused?'play':'pause');
+    renderMini();
+    const ab=$('lpAll'); if(ab){ ab.classList.toggle('on',anyPlaying); ab.querySelector('span').textContent='Слухати разом'; ab.querySelector('svg').innerHTML=ICON[anyPlaying?'pause':'play']; }
+    tick();
+  }
+
+  // Кнопки міні-плеєра — для чутного каналу
+  $('lpPlay').onclick=()=>{
+    const cur=LCH[audible];
+    if(!cur.audio.src){ startAll(); return; }
+    cur.audio.paused?cur.audio.play():cur.audio.pause();
+  };
+  // Перемикання треку — одразу у всіх трьох каналах; грають, якщо вже грають
+  function advanceAll(){
+    const play=CH_ANY_PLAYING();
+    LCH.forEach(c=>{ if(c.idx<0) return; if(c.idx+1<c.queue.length) loadChannel(c.i,c.queue,c.idx+1,play); else if(loopOn(c.i)) loadChannel(c.i,c.queue,0,play); else { c.audio.pause(); c.idx=-1; } });
+    refresh();
+  }
+  function prevAll(){
+    const play=CH_ANY_PLAYING();
+    const a=LCH[audible].audio;
+    if(a.currentTime>3){ LCH.forEach(c=>{ if(c.audio.src) c.audio.currentTime=0; }); refresh(); return; }
+    LCH.forEach(c=>{ if(c.idx>0) loadChannel(c.i,c.queue,c.idx-1,play); });
+    refresh();
+  }
+  $('lpNext').onclick=advanceAll;
+  $('lpPrev').onclick=prevAll;
+  bar.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>setAudible(+b.dataset.ch)));
+
+  // «Слухати разом»: синхронний старт з початку усіх каналів; повторно — пауза/продовження
+  function startAll(){
+    elapsed=0;
+    lanes().forEach(l=>loadChannel(l.ci,l.rows,0,false));
+    LCH.forEach(c=>{ if(c.audio.src) c.audio.play().catch(()=>{}); });
+    refresh();
+  }
+  // Пауза / продовження всіх каналів (пробіл)
+  function togglePause(){
+    const anyPlaying=CH_ANY_PLAYING();
+    if(anyPlaying){ LCH.forEach(c=>c.audio.pause()); }
+    else { LCH.forEach(c=>{ if(c.audio.src) c.audio.play().catch(()=>{}); }); }
+    refresh();
+  }
+  const CH_ANY_PLAYING=()=>LCH.some(c=>!c.audio.paused);
+  // «Слухати разом»: одразу запускає всі три канали синхронно, з першого треку
+  // Перший клік — старт усіх трьох з першого треку; далі значок перемикає паузу і продовження
+  function toggleAll(){ startAll(); }
+  function ensureAllBtn(){
+    if($('lpAll')) return;
+    const bars=[...document.querySelectorAll('.bar')]; const host=bars.find(b=>[...b.querySelectorAll('button')].some(x=>/Копіювати всі/.test(x.textContent)));
+    if(!host) return;
+    const btn=document.createElement('button'); btn.id='lpAll'; btn.className='btn';
+    btn.innerHTML=`${svg('play',16)}<span>Слухати разом</span>`;
+    btn.title='Запустити всі три канали синхронно з першого треку';
+    btn.addEventListener('click',toggleAll);
+    // Поруч із «Інший порядок» (праворуч від нього); якщо такої кнопки немає — перед «Копіювати всі три»
+    const order=[...host.querySelectorAll('button')].find(x=>/Інший порядок/.test(x.textContent));
+    if(order && order.nextSibling) host.insertBefore(btn, order.nextSibling);
+    else if(order) host.appendChild(btn);
+    else host.insertBefore(btn, host.firstChild);
+    refresh();
+  }
+  ensureAllBtn();
+
+  // Таймлайн і перемотка — для чутного каналу, інші канали не зупиняються
+  function tick(){
+    const a=A(); const d=a.duration||0, c=a.currentTime||0, p=d?c/d*100:0;
+    $('lpFill').style.width=p+'%'; $('lpKnob').style.left=p+'%';
+    $('lpBar').setAttribute('aria-valuenow',Math.round(p));
+    $('lpCur').textContent=fmt(c); $('lpTime').innerHTML='<b>'+fmt(c)+'</b> / '+fmt(d);
+  }
+  ['click','mousedown','mouseup','touchstart','touchend','pointerup','dblclick'].forEach(ev=>bar.addEventListener(ev,e=>{ e.stopPropagation(); },false));
+  function seekTo(clientX){
+    const r=$('lpBar').getBoundingClientRect(); const a=A();
+    const p=Math.min(1,Math.max(0,(clientX-r.left)/r.width));
+    if(a.duration){ a.currentTime=p*a.duration; $('lpFill').style.width=(p*100)+'%'; $('lpKnob').style.left=(p*100)+'%'; tick(); }
+  }
+  $('lpBar').addEventListener('pointerdown',e=>{ seeking=true; $('lpBar').classList.add('on'); try{ $('lpBar').setPointerCapture(e.pointerId); }catch(_){} seekTo(e.clientX); });
+  $('lpBar').addEventListener('pointermove',e=>{ if(seeking) seekTo(e.clientX); });
+  $('lpBar').addEventListener('pointerup',e=>{ seeking=false; $('lpBar').classList.remove('on'); seekTo(e.clientX); });
+  $('lpBar').addEventListener('pointercancel',()=>{ seeking=false; $('lpBar').classList.remove('on'); });
+  $('lpBar').addEventListener('keydown',e=>{ const a=A(); if(!a.duration) return; if(e.key==='ArrowRight') a.currentTime=Math.min(a.duration,a.currentTime+5); if(e.key==='ArrowLeft') a.currentTime=Math.max(0,a.currentTime-5); tick(); });
+  document.addEventListener('keydown',e=>{ if(e.code==='Space'&&!e.target.closest('input,textarea,button')&&A().src){ e.preventDefault(); togglePause(); } });
+  // Кнопка-плеєр: еквалайзер, коли грає; крапки — канали, що звучать зараз
+  function renderMini(){
+    const mn=document.getElementById('lpMin'); if(!mn) return;
+    mn.classList.toggle('playing', LCH.some(c=>!c.audio.paused));
+    mn.querySelectorAll('.mm-dots i').forEach((d,i)=>{ const c=LCH[i]; d.classList.toggle('on', !!c && c.idx>=0 && !c.audio.paused); });
+  }
+  // Мобільний режим: плеєр згорнуто в круглу кнопку внизу зліва, розкривається й згортається
+  const mobileQ=window.matchMedia('(max-width:600px)');
+  const mini=document.createElement('button'); mini.id='lpMin'; mini.setAttribute('aria-label','Відкрити плеєр'); mini.title='Плеєр';
+  mini.innerHTML='<span class="mm-play">'+svg('play',20)+'</span><span class="mm-eq"><i></i><i></i><i></i></span><span class="mm-dots"><i style="--c:#ff4d6d"></i><i style="--c:#3dff8f"></i><i style="--c:#3da5ff"></i></span>'; document.body.appendChild(mini);
+  const fold=document.createElement('button'); fold.id='lpFold'; fold.setAttribute('aria-label','Згорнути плеєр'); fold.title='Згорнути';
+  fold.innerHTML='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+  (bar.querySelector('.chips')||bar).appendChild(fold);
+  const setMin=v=>{ const on=!!v&&mobileQ.matches; bar.classList.toggle('lp-min',on); mini.classList.toggle('gone',!on); };
+  mini.onclick=()=>setMin(false);
+  fold.onclick=()=>setMin(true);
+  mobileQ.addEventListener('change',()=>setMin(true));
+  setMin(true); renderMini();
+  applyVolumes(); refresh();
+})();
+
+</script></body>
 </html>
