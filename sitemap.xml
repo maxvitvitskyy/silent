@@ -632,6 +632,20 @@
     <lastmod>2026-11-18</lastmod>
   </url>
   <url>
+    <loc>https://silent.org.ua/experiences/hotels/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/hotels/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/hotels/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/hotels/"/>
+    <lastmod>2026-11-25</lastmod>
+  </url>
+  <url>
+    <loc>https://silent.org.ua/en/experiences/hotels/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/hotels/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/hotels/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/hotels/"/>
+    <lastmod>2026-11-25</lastmod>
+  </url>
+  <url>
     <loc>https://silent.org.ua/experiences/chamber-concerts/</loc>
     <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/chamber-concerts/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/chamber-concerts/"/>
