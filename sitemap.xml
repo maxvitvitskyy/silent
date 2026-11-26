@@ -646,6 +646,20 @@
     <lastmod>2026-11-25</lastmod>
   </url>
   <url>
+    <loc>https://silent.org.ua/experiences/expo/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/expo/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/expo/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/expo/"/>
+    <lastmod>2026-11-26</lastmod>
+  </url>
+  <url>
+    <loc>https://silent.org.ua/en/experiences/expo/</loc>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/expo/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/expo/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://silent.org.ua/experiences/expo/"/>
+    <lastmod>2026-11-26</lastmod>
+  </url>
+  <url>
     <loc>https://silent.org.ua/experiences/chamber-concerts/</loc>
     <xhtml:link rel="alternate" hreflang="uk" href="https://silent.org.ua/experiences/chamber-concerts/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://silent.org.ua/en/experiences/chamber-concerts/"/>
